@@ -1,0 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+
+namespace BuildingBlock.Persistence.Ef.Inbox;
+
+/// <summary>
+/// Marker interface for DbContext implementations that provide access to the Inbox table.
+/// Used by EfInboxStore to remain generic across all service DbContext types.
+/// </summary>
+public interface IInboxDbContext
+{
+    DbSet<InboxMessage> InboxMessages { get; }
+}

@@ -1,0 +1,31 @@
+using BuildingBlock.Search.Abstractions;
+
+using Product.Application.Abstractions.Search;
+using Product.Persistence.Elasticsearch.Mappings;
+
+namespace Product.Persistence.Elasticsearch.Search;
+
+/// <summary>
+/// IProductSearchIndexer impl - fixes the Product index name/mapping on top of
+/// BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;.
+/// </summary>
+public sealed class ProductSearchIndexer(IElasticsearchIndexer<ProductSearchDocument> indexer) : IProductSearchIndexer
+{
+    public Task EnsureIndexAsync(CancellationToken ct = default) =>
+        indexer.EnsureIndexAsync(ProductSearchIndexNames.Default, ProductSearchIndexMapping.Configure, ct);
+
+    public Task RecreateIndexAsync(CancellationToken ct = default) =>
+        indexer.RecreateIndexAsync(ProductSearchIndexNames.Default, ProductSearchIndexMapping.Configure, ct);
+
+    public Task IndexAsync(ProductSearchDocument document, CancellationToken ct = default) =>
+        indexer.IndexAsync(ProductSearchIndexNames.Default, document.ProductId.ToString(), document, ct);
+
+    public Task DeleteAsync(Guid productId, CancellationToken ct = default) =>
+        indexer.DeleteAsync(ProductSearchIndexNames.Default, productId.ToString(), ct);
+
+    public Task BulkIndexAsync(IEnumerable<ProductSearchDocument> documents, CancellationToken ct = default) =>
+        indexer.BulkIndexAsync(
+            ProductSearchIndexNames.Default,
+            documents.Select(d => (d.ProductId.ToString(), d)),
+            ct);
+}

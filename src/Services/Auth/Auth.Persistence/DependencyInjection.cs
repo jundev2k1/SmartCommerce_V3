@@ -1,0 +1,121 @@
+using Auth.Domain.Entities;
+using Auth.Persistence.Inbox;
+using Auth.Persistence.Outbox;
+using Auth.Persistence.Seeders;
+using Auth.Persistence.UnitOfWork;
+
+using BuildingBlock.Application.Abstractions.Outbox;
+using BuildingBlock.Application.Abstractions.Persistence;
+using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Application.Extensions;
+using BuildingBlock.Persistence.Audit;
+using BuildingBlock.Persistence.Ef.DependencyInjection;
+using BuildingBlock.Persistence.Ef.Inbox;
+using BuildingBlock.Persistence.Ef.Outbox;
+using BuildingBlock.Persistence.Repository;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Auth.Persistence;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddDatabaseContext(configuration)
+            .AddIdentityService()
+            .AddApplicationServices()
+            .AddRepositories()
+            .AddUnitOfWork()
+            .AddOutboxAndInbox()
+            .AddSeeding()
+            .AddAuditHierarchy();
+
+        return services;
+    }
+
+    // Account and Role are independent aggregates (many-to-many via AccountRole, which isn't
+    // itself audited - a join row has no single owning parent this model can express).
+    private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
+    {
+        services.ConfigureAuditHierarchy(builder =>
+        {
+            builder.Entity<Account>().IsRoot(x => x.Id);
+            builder.Entity<Role>().IsRoot(x => x.Id);
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("DefaultConnection")
+            ?? throw new ArgumentException("ConnectionString was not configured.");
+
+        services.AddPersistenceDbContext<AuthDbContext>(connectionString);
+
+        return services;
+    }
+
+    private static IServiceCollection AddIdentityService(this IServiceCollection services)
+    {
+        services.AddIdentityCore<Account>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
+            options.SignIn.RequireConfirmedEmail = false;
+        })
+        .AddRoles<Role>()
+        .AddEntityFrameworkStores<AuthDbContext>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScopedByInterface<IAppService>(typeof(AuthDbContext));
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScopedByInterface(typeof(IRepository<>), typeof(AuthDbContext));
+        return services;
+    }
+
+    private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, AuthUnitOfWork>();
+        return services;
+    }
+
+    private static IServiceCollection AddSeeding(this IServiceCollection services)
+    {
+        services.AddScoped<DatabaseSeeder>();
+        return services;
+    }
+
+    // Manually registered (not Scrutor-scanned) because the adapter needs a literal
+    // serviceName - must match the string passed to AddKafkaMessaging so relayed
+    // messages land on the topic other services actually listen on.
+    private static IServiceCollection AddOutboxAndInbox(this IServiceCollection services)
+    {
+        services
+            .AddEfOutboxStore<AuthDbContext>()
+            .AddEfInboxStore<AuthDbContext>();
+
+        services.AddScoped<IOutboxStore>(sp => new OutboxStore(
+            sp.GetRequiredService<BuildingBlock.Persistence.Outbox.IOutboxStore>(),
+            "auth-service"));
+        services.AddScoped<IInboxStore>(sp => new InboxStore(
+            sp.GetRequiredService<BuildingBlock.Persistence.Inbox.IInboxStore>()));
+
+        return services;
+    }
+}

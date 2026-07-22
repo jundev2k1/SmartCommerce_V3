@@ -1,0 +1,34 @@
+using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
+
+namespace BuildingBlock.Domain.Exceptions;
+
+/// <summary>
+/// Exception thrown when an operation cannot be completed due to insufficient amount/stock/balance.
+/// Use for domain-level constraints (inventory, balance, quota, etc.).
+/// </summary>
+public class InsufficientAmountException : DomainException
+{
+    public InsufficientAmountException(string? systemMessage = null)
+        : base(MessageCodeEnum.InsufficientStock, systemMessage) { }
+
+    public InsufficientAmountException(
+        string resourceName,
+        decimal available,
+        decimal required,
+        string? systemMessage = null)
+        : base(
+            MessageCodeEnum.InsufficientStock,
+            systemMessage ?? $"Insufficient {resourceName}: available {available}, required {required}")
+    {
+        ResourceName = resourceName;
+        AvailableAmount = available;
+        RequiredAmount = required;
+    }
+
+    public InsufficientAmountException(MessageCodeEnum messageCode, string? systemMessage = null)
+        : base(messageCode, systemMessage) { }
+
+    public string? ResourceName { get; }
+    public decimal AvailableAmount { get; }
+    public decimal RequiredAmount { get; }
+}

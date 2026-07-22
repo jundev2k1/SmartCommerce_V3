@@ -1,0 +1,54 @@
+using BuildingBlock.Application.Abstractions.Outbox;
+using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Contract.Events.Order;
+using BuildingBlock.Saga.Abstractions;
+
+using Order.Application.Abstractions.Repositories;
+
+namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+
+/// <summary>
+/// Saga Step 2 - moves the order Pending -> Confirmed and enqueues OrderConfirmedIntegrationEvent
+/// in the same transaction/SaveChanges as the status change. Notification Service reacts to that
+/// event asynchronously (persist UserNotification + realtime push) - see
+/// docs/reference/create-order-saga.md for why notification/realtime aren't synchronous saga
+/// steps here.
+/// </summary>
+public sealed class ConfirmOrderStep(
+    IOrderRepository orderRepo,
+    IOutboxStore outboxStore,
+    IUnitOfWork uow,
+    IAppLogger<ConfirmOrderStep> logger) : ISagaStep
+{
+    public const string Name = "ConfirmOrder";
+    public string StepName => Name;
+
+    public async Task ExecuteAsync(ISagaContext context, CancellationToken ct = default)
+    {
+        var orderId = context.Get<Guid>(CreateOrderSagaContextKeys.OrderId);
+        var customerId = context.Get<Guid>(CreateOrderSagaContextKeys.CustomerId);
+        var totalAmount = 0m;
+
+        await uow.ExecuteTransactionAsync(async () =>
+        {
+            await orderRepo.UpdateAsync(orderId, async (order) =>
+            {
+                order.Confirm();
+                totalAmount = order.TotalAmount;
+                await Task.CompletedTask;
+            }, ct);
+
+            await outboxStore.EnqueueAsync(new OrderConfirmedIntegrationEvent(orderId, customerId, totalAmount), ct);
+        },
+        ct: ct);
+
+        logger.Information("Order {OrderId} confirmed", orderId);
+    }
+
+    /// <summary>
+    /// This is the saga's last step - SagaOrchestrator only compensates already-*completed*
+    /// steps when a later one fails, and there is no step after this one, so this never actually
+    /// runs. Kept only to satisfy ISagaStep.
+    /// </summary>
+    public Task CompensateAsync(ISagaContext context, CancellationToken ct = default) => Task.CompletedTask;
+}

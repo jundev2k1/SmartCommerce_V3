@@ -1,0 +1,33 @@
+using BuildingBlock.Domain.Attributes;
+using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
+
+namespace BuildingBlock.Application.Exceptions;
+
+public abstract class ApplicationException : Exception
+{
+    protected ApplicationException(
+        MessageCodeEnum messageCode,
+        string? systemMessage = null,
+        int statusCode = 400)
+        : base(systemMessage ?? MessageCodeAttribute.GetMessage(messageCode))
+    {
+        MessageCode = messageCode;
+        SystemMessage = systemMessage;
+        StatusCode = statusCode;
+    }
+
+    /// <summary>
+    /// Message code for client response (enum value for translation).
+    /// </summary>
+    public MessageCodeEnum MessageCode { get; }
+
+    /// <summary>
+    /// System message for server logging (detailed error info).
+    /// </summary>
+    public string? SystemMessage { get; }
+
+    /// <summary>
+    /// HTTP status code.
+    /// </summary>
+    public int StatusCode { get; }
+}

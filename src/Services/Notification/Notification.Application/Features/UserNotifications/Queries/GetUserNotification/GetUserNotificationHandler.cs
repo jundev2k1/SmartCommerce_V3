@@ -1,0 +1,37 @@
+using Notification.Application.Abstractions.Repositories;
+
+using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Application.Exceptions;
+
+namespace Notification.Application.Features.UserNotifications.Queries.GetUserNotification;
+
+public sealed class GetUserNotificationHandler(
+    ICurrentUserService currentUser,
+    IUserNotificationRepository userNotificationRepo) : IQueryHandler<GetUserNotificationQuery, GetUserNotificationResponse>
+{
+    public async Task<GetUserNotificationResponse> Handle(GetUserNotificationQuery request, CancellationToken ct = default)
+    {
+        var userId = currentUser.GetUserId()
+            ?? throw new UnauthorizedException();
+
+        var entity = await userNotificationRepo.GetByIdAsync(request.NotificationId, ct)
+            ?? throw new NotFoundException("UserNotification", request.NotificationId);
+
+        if (entity.UserId != userId)
+            throw new ForbiddenException();
+
+        return new GetUserNotificationResponse(
+            entity.Id,
+            entity.UserId,
+            entity.Category.Value,
+            entity.Type.Value,
+            entity.Content.Title,
+            entity.Content.Body,
+            entity.Priority,
+            entity.Status,
+            entity.ReadAt,
+            entity.ExpiredAt,
+            entity.CampaignId,
+            entity.CreatedAt);
+    }
+}

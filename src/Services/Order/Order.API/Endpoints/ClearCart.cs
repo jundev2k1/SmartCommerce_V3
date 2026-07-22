@@ -1,0 +1,35 @@
+using BuildingBlock.Application.Abstractions.Common;
+using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.SharedKernel.Extensions;
+
+using Order.Application.Features.Cart.Commands.ClearCart;
+
+namespace Order.API.Endpoints;
+
+public sealed class ClearCartEndpoint : ICarterModule
+{
+    private readonly string[] API_DESC = [
+        "## Clear Cart",
+        "",
+        "Empties the current user's cart entirely.",
+    ];
+
+    public void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapDelete("/cart", Handle)
+            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .WithName("ClearCart")
+            .WithDisplayName("Clear Cart API")
+            .WithDescription(API_DESC.JoinToString("\n"))
+            .Produces<ApiResponse<object>>(StatusCodes.Status200OK);
+    }
+
+    private static async Task<IResult> Handle(
+        [FromServices] ISender sender,
+        CancellationToken ct = default)
+    {
+        await sender.Send(new ClearCartCommand(), ct);
+
+        return Results.Ok(ApiResponse<object>.Ok());
+    }
+}

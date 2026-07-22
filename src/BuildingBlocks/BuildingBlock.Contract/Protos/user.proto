@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "BuildingBlock.Contract.Protos.User";
+
+package simpleshop.user;
+
+service UserGrpcService {
+  rpc CreateUserProfile (CreateUserProfileRequest) returns (CreateUserProfileResponse);
+}
+
+message CreateUserProfileRequest {
+  string user_id = 1;
+  string email = 2;
+  string user_name = 3;
+  string first_name = 4;
+  string last_name = 5;
+  string phone_number = 6;
+  string correlation_id = 7;
+}
+
+message CreateUserProfileResponse {
+  bool success = 1;
+  string user_id = 2;
+  string error_code = 3;
+  string message = 4;
+}

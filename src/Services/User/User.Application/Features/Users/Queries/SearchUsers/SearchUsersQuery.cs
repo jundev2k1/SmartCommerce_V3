@@ -1,0 +1,17 @@
+using BuildingBlock.Application.Abstractions.Common;
+using BuildingBlock.Criteria.Requests;
+
+namespace User.Application.Features.Users.Queries.SearchUsers;
+
+public sealed record SearchUsersQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<SearchUsersItemResponse>>;
+
+public sealed record SearchUsersItemResponse(
+    Guid Id,
+    string Email,
+    string UserName,
+    string PhoneNumber,
+    string FirstName,
+    string LastName,
+    UserStatus Status,
+    DateTime CreatedAt,
+    DateTime UpdatedAt);

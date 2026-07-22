@@ -1,0 +1,23 @@
+namespace BuildingBlock.Contract.Events.Product;
+
+/// <summary>
+/// Fired once per ProductVariation - both for each initial variation at Product creation and
+/// for a later standalone AddVariation call. This is the event stock-keeping actually reacts
+/// to (Inventory creates one zero-stock row per variation), replacing the pre-redesign
+/// ProductCreatedIntegrationEvent's single VariantId field now that a Product always has N
+/// variations. ProductName is carried so Order can build its OrderProductCatalog row without a
+/// second lookup back to Product Service.
+/// </summary>
+public sealed record ProductVariationCreatedIntegrationEvent(
+    Guid ProductId,
+    Guid ProductVariationId,
+    string Sku,
+    string ProductName,
+    decimal Price,
+    string Status,
+    string? CorrelationId = null) : IIntegrationEvent
+{
+    public string CorrelationId { get; } = CorrelationId ?? Guid.NewGuid().ToString();
+    public string EventType { get; init; } = nameof(ProductVariationCreatedIntegrationEvent);
+    public DateTime PublishedAt { get; init; } = DateTime.UtcNow;
+}

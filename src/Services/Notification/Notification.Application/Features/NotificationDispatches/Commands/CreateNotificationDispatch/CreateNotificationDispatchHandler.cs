@@ -1,0 +1,25 @@
+using Notification.Application.Abstractions.Repositories;
+
+namespace Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
+
+public sealed class CreateNotificationDispatchHandler(
+    IUnitOfWork uow,
+    INotificationDispatchRepository dispatchRepo) : ICommandHandler<CreateNotificationDispatchCommand>
+{
+    public async Task Handle(CreateNotificationDispatchCommand request, CancellationToken ct = default)
+    {
+        foreach (var channel in request.Types)
+        {
+            var dispatch = NotificationDispatch.Create(
+                Guid.CreateVersion7(),
+                request.Reference,
+                channel,
+                request.Payload,
+                request.TemplateId);
+
+            await dispatchRepo.AddAsync(dispatch, ct);
+        }
+
+        await uow.SaveChangesAsync(ct);
+    }
+}
