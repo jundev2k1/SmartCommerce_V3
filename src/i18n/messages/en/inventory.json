@@ -1,0 +1,144 @@
+{
+  "warehouses": {
+    "title": "Warehouses",
+    "createButton": "Create warehouse",
+    "listLimitationNote": "The Inventory service has no warehouse list endpoint — this shows warehouses created from this browser. Use \"Open by ID\" to view any other warehouse.",
+    "searchPlaceholder": "Search by code or name...",
+    "emptyTitle": "No warehouses yet",
+    "emptyDescription": "Create one, or open an existing warehouse by ID.",
+    "updateNotAvailable": "Not available — the backend doesn't support updating warehouses yet.",
+    "deleteNotAvailable": "Not available — the backend doesn't support deleting warehouses yet.",
+    "table": {
+      "code": "Code",
+      "name": "Name",
+      "address": "Address",
+      "status": "Status"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "createDialog": {
+      "title": "Create warehouse",
+      "fields": {
+        "code": "Code",
+        "name": "Name",
+        "address": "Address"
+      }
+    },
+    "toast": {
+      "createSuccess": "Warehouse created.",
+      "createError": "Couldn't create the warehouse."
+    },
+    "detail": {
+      "untitled": "Warehouse",
+      "notFound": "Warehouse not found.",
+      "stockScopeNote": "Scoped to inventory records known to this browser — see docs/modules/inventory-management.md.",
+      "noLocalStock": "No locally-known stock records for this warehouse yet.",
+      "tabs": {
+        "summary": "Summary",
+        "stock": "Stock",
+        "transactions": "Transactions",
+        "metadata": "Metadata"
+      },
+      "metadata": {
+        "id": "ID",
+        "code": "Code",
+        "address": "Address",
+        "status": "Status",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at"
+      },
+      "stockTable": {
+        "inventoryId": "Inventory ID",
+        "productId": "Product ID",
+        "variationId": "Variation ID",
+        "quantity": "Quantity"
+      },
+      "actions": {
+        "view": "View"
+      }
+    }
+  },
+  "stock": {
+    "title": "Stock",
+    "description": "Look up real-time stock for a product, or browse inventory records known to this browser.",
+    "lookup": {
+      "title": "Stock lookup",
+      "searchPlaceholder": "Search products...",
+      "allVariations": "All variations (total)",
+      "totalQuantity": "Total quantity",
+      "rollupNote": "Rolled up across every warehouse (or narrowed to the selected variation) — the backend doesn't expose a per-warehouse breakdown."
+    },
+    "records": {
+      "title": "Inventory records",
+      "limitationNote": "No inventory list endpoint exists — this shows records known to this browser (opened by ID, or acted on via stock-in/out/adjust).",
+      "searchPlaceholder": "Search by id, product, or variation...",
+      "emptyTitle": "No inventory records yet",
+      "emptyDescription": "Open one by ID to get started."
+    },
+    "table": {
+      "inventoryId": "Inventory ID",
+      "productId": "Product ID",
+      "variationId": "Variation ID",
+      "warehouseId": "Warehouse ID",
+      "quantity": "Quantity"
+    },
+    "actions": {
+      "view": "View"
+    }
+  },
+  "stockDetail": {
+    "title": "Inventory record",
+    "notFound": "Inventory record not found.",
+    "tabs": {
+      "actions": "Actions",
+      "transactions": "Transactions",
+      "metadata": "Metadata"
+    },
+    "actions": {
+      "stockIn": "Stock in",
+      "stockOut": "Stock out",
+      "adjust": "Adjust",
+      "transfer": "Transfer",
+      "transferNotAvailable": "Not available — the backend has no stock transfer endpoint yet.",
+      "stockInTitle": "Stock in",
+      "stockOutTitle": "Stock out",
+      "adjustTitle": "Adjust stock",
+      "quantity": "Quantity",
+      "newQuantity": "New quantity",
+      "reason": "Reason",
+      "stockInSuccess": "Stock added.",
+      "stockOutSuccess": "Stock removed.",
+      "adjustSuccess": "Stock adjusted.",
+      "actionError": "Couldn't complete the action."
+    },
+    "metadata": {
+      "id": "ID",
+      "productId": "Product ID",
+      "variationId": "Variation ID",
+      "warehouseId": "Warehouse ID",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at"
+    }
+  },
+  "transactions": {
+    "title": "Stock Transactions",
+    "description": "Aggregated transaction history across every inventory record known to this browser.",
+    "emptyTitle": "No transactions yet",
+    "emptyDescription": "Transactions appear here once a stock-in/out/adjust action is recorded on a known inventory record.",
+    "typeOption": "Type {value}",
+    "table": {
+      "type": "Type",
+      "inventoryId": "Inventory ID",
+      "quantityChanged": "Quantity changed",
+      "quantityAfter": "Quantity after",
+      "reason": "Reason",
+      "createdAt": "Created at"
+    },
+    "actions": {
+      "viewRecord": "View record"
+    }
+  }
+}

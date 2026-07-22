@@ -1,0 +1,8 @@
+{
+  "users": { "title": "Users", "description": "Manage admin and customer accounts." },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Realtime in-app notification center."
+  },
+  "audit": { "title": "Audit", "description": "Read-only audit log of system activity." }
+}

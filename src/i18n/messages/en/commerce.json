@@ -1,0 +1,56 @@
+{
+  "variantSelector": {
+    "placeholder": "Select a variant",
+    "unavailable": "No purchasable variants available."
+  },
+  "quantitySelector": {
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "cartSummary": {
+    "title": "Order summary",
+    "items": "Items",
+    "subtotal": "Subtotal"
+  },
+  "checkoutSummary": {
+    "title": "Review your order",
+    "total": "Total"
+  },
+  "orderStatus": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "unknown": "Status {value}"
+  },
+  "orderTimeline": {
+    "placeholder": "No status changes observed yet during this session — the backend doesn't expose historical status changes, only realtime ones seen while a page is open.",
+    "currentStatus": "Current status",
+    "operator": "Operator"
+  },
+  "orderSummaryCard": {
+    "title": "Order {id}",
+    "status": "Status",
+    "total": "Total",
+    "createdAt": "Created at"
+  },
+  "orderItems": {
+    "product": "Product",
+    "unitPrice": "Unit price",
+    "quantity": "Quantity",
+    "lineTotal": "Line total"
+  },
+  "orderCustomer": {
+    "title": "Customer",
+    "idOnlyNote": "The Order contract only provides a customer id — no name/email lookup is available across services."
+  },
+  "orderActions": {
+    "cancelOrder": "Cancel order"
+  },
+  "orderMetadata": {
+    "orderId": "Order ID",
+    "customerId": "Customer ID",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at"
+  }
+}

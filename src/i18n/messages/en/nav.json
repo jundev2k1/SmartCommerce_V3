@@ -1,0 +1,33 @@
+{
+  "groups": {
+    "iam": "IAM",
+    "catalog": "Catalog",
+    "sales": "Sales",
+    "inventory": "Inventory",
+    "notification": "Notification",
+    "system": "System"
+  },
+  "items": {
+    "users": "Users",
+    "products": "Products",
+    "categories": "Categories",
+    "tags": "Tags",
+    "productSearch": "Product Search",
+    "shop": "Shop",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "orders": "Orders",
+    "ordersApprove": "Approve Orders",
+    "orderHistory": "Order History",
+    "inventory": "Inventory",
+    "warehouses": "Warehouses",
+    "stockTransactions": "Stock Transactions",
+    "notifications": "Notifications",
+    "notificationCampaigns": "Campaigns",
+    "notificationRules": "Rules",
+    "notificationGroups": "Groups",
+    "notificationChannels": "Channels",
+    "audit": "Audit"
+  },
+  "dashboard": "Dashboard"
+}

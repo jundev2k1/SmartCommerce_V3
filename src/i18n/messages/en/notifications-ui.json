@@ -1,0 +1,22 @@
+{
+  "timestamp": {
+    "justNow": "Just now",
+    "minutes": "{count}m ago",
+    "hours": "{count}h ago",
+    "days": "{count}d ago"
+  },
+  "item": {
+    "untitled": "Untitled notification",
+    "markRead": "Mark as read"
+  },
+  "emptyState": {
+    "emptyTitle": "No notifications",
+    "emptyDescription": "You're all caught up.",
+    "errorTitle": "Couldn't load notifications",
+    "errorDescription": "Something went wrong. Try again.",
+    "retry": "Retry"
+  },
+  "actions": {
+    "markAllRead": "Mark all as read"
+  }
+}

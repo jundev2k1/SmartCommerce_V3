@@ -1,0 +1,31 @@
+{
+  "stockQuantity": {
+    "inStock": "In stock",
+    "outOfStock": "Out of stock"
+  },
+  "stockStatusBadge": {
+    "code": "Code {value}"
+  },
+  "summaryCard": {
+    "variant": "Variant",
+    "warehouse": "Warehouse",
+    "quantity": "Quantity"
+  },
+  "transactionTimeline": {
+    "empty": "No transactions recorded for this inventory record.",
+    "quantityChanged": "Quantity changed",
+    "quantityAfter": "Quantity after"
+  },
+  "warehouseSelector": {
+    "placeholder": "Select a warehouse"
+  },
+  "filters": {
+    "warehouse": "Warehouse",
+    "type": "Type",
+    "anyType": "Any type"
+  },
+  "toolbar": {
+    "openByIdPlaceholder": "Open by ID...",
+    "open": "Open"
+  }
+}

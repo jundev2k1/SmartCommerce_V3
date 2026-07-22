@@ -1,0 +1,23 @@
+{
+  "title": "Tags",
+  "createButton": "Create tag",
+  "searchPlaceholder": "Search tags…",
+  "table": {
+    "code": "Code",
+    "name": "Name"
+  },
+  "formDialog": {
+    "createTitle": "Create tag",
+    "editTitle": "Edit tag",
+    "code": "Code",
+    "name": "Name"
+  },
+  "toast": {
+    "createSuccess": "Tag created.",
+    "createError": "Couldn't create the tag.",
+    "updateSuccess": "Tag updated.",
+    "updateError": "Couldn't update the tag.",
+    "deleteSuccess": "Tag deleted.",
+    "deleteError": "Couldn't delete — it may still be assigned to products."
+  }
+}

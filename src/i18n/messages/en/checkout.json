@@ -1,0 +1,18 @@
+{
+  "title": "Checkout",
+  "emptyTitle": "Nothing to check out",
+  "emptyDescription": "Your cart is empty — add products before checking out.",
+  "errorTitle": "Couldn't load your cart",
+  "errorDescription": "Something went wrong fetching your cart. Try again.",
+  "browseProducts": "Browse products",
+  "placeOrder": "Place order",
+  "successTitle": "Order placed",
+  "successDescription": "Order {orderId} was created — total {total}.",
+  "viewOrder": "View order",
+  "continueShopping": "Continue shopping",
+  "toast": {
+    "success": "Order placed successfully.",
+    "error": "Couldn't place the order.",
+    "conflict": "Your cart changed — please review it before placing the order again."
+  }
+}

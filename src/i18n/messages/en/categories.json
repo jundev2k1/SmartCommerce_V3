@@ -1,0 +1,24 @@
+{
+  "title": "Categories",
+  "createButton": "Create category",
+  "searchPlaceholder": "Search categories…",
+  "empty": "No categories yet.",
+  "addChild": "Add subcategory",
+  "formDialog": {
+    "createTitle": "Create category",
+    "editTitle": "Edit category",
+    "code": "Code",
+    "name": "Name",
+    "description": "Description",
+    "parent": "Parent category",
+    "noParent": "None (root category)"
+  },
+  "toast": {
+    "createSuccess": "Category created.",
+    "createError": "Couldn't create the category.",
+    "updateSuccess": "Category updated.",
+    "updateError": "Couldn't update the category — moving it here may create a cycle.",
+    "deleteSuccess": "Category deleted.",
+    "deleteError": "Couldn't delete — it may have subcategories or still be assigned to products."
+  }
+}

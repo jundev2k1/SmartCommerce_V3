@@ -1,0 +1,76 @@
+{
+  "title": "Orders",
+  "refresh": "Refresh",
+  "searchPlaceholder": "Search by order id...",
+  "anyStatus": "Any status",
+  "statusOption": "Status {value}",
+  "noLocalOrdersTitle": "No orders yet",
+  "noLocalOrdersDescription": "Orders placed from this browser will appear here — the Order service has no list endpoint, so orders placed elsewhere won't show up.",
+  "browseProducts": "Browse products",
+  "table": {
+    "orderId": "Order ID",
+    "customerId": "Customer ID",
+    "status": "Status",
+    "total": "Total",
+    "createdAt": "Created"
+  },
+  "filters": {
+    "status": "Status",
+    "customerId": "Customer ID",
+    "customerIdPlaceholder": "Filter by customer id...",
+    "dateFrom": "From",
+    "dateTo": "To",
+    "sort": "Sort by"
+  },
+  "sortOptions": {
+    "createdAtDesc": "Newest first",
+    "createdAtAsc": "Oldest first",
+    "totalDesc": "Total (high to low)",
+    "totalAsc": "Total (low to high)"
+  },
+  "detail": {
+    "title": "Order {id}",
+    "notFound": "Order not found.",
+    "cancelSuccess": "Order cancelled.",
+    "cancelError": "Couldn't cancel the order — it may already be cancelled or completed.",
+    "cancelConfirmTitle": "Cancel this order?",
+    "cancelConfirmDescription": "This asks the backend to cancel the order. It will be rejected if the order is already cancelled or completed.",
+    "cancelConfirmDismiss": "Keep order",
+    "cancelConfirmConfirm": "Cancel order",
+    "tabs": {
+      "products": "Products",
+      "customer": "Customer",
+      "timeline": "Timeline",
+      "metadata": "Metadata"
+    }
+  },
+  "approve": {
+    "title": "Approve Orders",
+    "refresh": "Refresh",
+    "emptyTitle": "Nothing to approve",
+    "emptyDescription": "Confirmed orders awaiting fulfillment will appear here.",
+    "approveAction": "Approve",
+    "approveSuccess": "Order marked as completed.",
+    "approveError": "Couldn't complete the order — it may no longer be in Confirmed status.",
+    "cancelAction": "Cancel",
+    "cancelSuccess": "Order cancelled.",
+    "cancelError": "Couldn't cancel the order — it may already be cancelled or completed.",
+    "cancelConfirmTitle": "Cancel this order?",
+    "cancelConfirmDescription": "This asks the backend to cancel the order. It will be rejected if the order is already cancelled or completed.",
+    "cancelConfirmDismiss": "Keep order",
+    "cancelConfirmConfirm": "Cancel order",
+    "table": {
+      "orderId": "Order ID",
+      "customerId": "Customer ID",
+      "status": "Status",
+      "total": "Total",
+      "createdAt": "Created"
+    }
+  },
+  "history": {
+    "title": "Order History",
+    "emptyTitle": "No orders yet",
+    "emptyDescription": "Orders placed from this browser will appear here — the Order service has no list endpoint, so orders placed elsewhere won't show up.",
+    "browseProducts": "Browse products"
+  }
+}

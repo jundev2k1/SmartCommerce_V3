@@ -1,0 +1,36 @@
+{
+  "actions": {
+    "create": "Create",
+    "cancel": "Cancel",
+    "back": "Back",
+    "refresh": "Refresh",
+    "submit": "Submit",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "userMenu": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "connected": "Realtime connected"
+  },
+  "comingSoon": "Coming soon",
+  "emptyState": {
+    "title": "Nothing here yet",
+    "description": "This module hasn't been implemented yet."
+  }
+}

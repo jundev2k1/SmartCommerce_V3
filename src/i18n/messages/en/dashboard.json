@@ -1,0 +1,9 @@
+{
+  "welcome": "Welcome back",
+  "subtitle": "Here's what's happening across your store today.",
+  "stats": {
+    "totalOrders": "Total Orders",
+    "pendingOrders": "Pending Orders",
+    "lowStockItems": "Low Stock Items"
+  }
+}

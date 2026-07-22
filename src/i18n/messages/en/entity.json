@@ -1,0 +1,35 @@
+{
+  "selection": {
+    "selectedCount": "{count} selected",
+    "clear": "Clear",
+    "bulkDelete": "Bulk delete",
+    "bulkActionsUnavailable": "Bulk actions aren't available yet — no bulk endpoint exists on the backend."
+  },
+  "confirmDelete": {
+    "title": "Delete {name}?",
+    "description": "This action cannot be undone.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "filters": {
+    "title": "Filters",
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+  "columns": {
+    "toggle": "Columns"
+  },
+  "auditTrail": {
+    "title": "Audit trail",
+    "description": "Recorded changes for this record.",
+    "empty": "No audit entries found in the fetched range.",
+    "emptyTruncated": "No audit entries found for this record in the most recent history searched — older entries may exist but weren't checked.",
+    "button": "Audit trail"
+  },
+  "refresh": "Refresh",
+  "imageUrlListField": {
+    "moveUp": "Move up",
+    "removeImage": "Remove image",
+    "urlPlaceholder": "https://…"
+  }
+}

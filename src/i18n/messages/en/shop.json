@@ -1,0 +1,21 @@
+{
+  "title": "Shop",
+  "description": "Browse the catalog as a customer would — the primary place to validate Product search/filter behavior end to end.",
+  "searchPlaceholder": "Search products...",
+  "addToCart": "Add to cart",
+  "addedToCart": "Added to cart.",
+  "addToCartError": "Couldn't add to cart.",
+  "emptyTitle": "No products found",
+  "emptyDescription": "Try a different search or filter.",
+  "errorTitle": "Couldn't load products",
+  "errorDescription": "Something went wrong fetching the catalog. Try again.",
+  "detail": {
+    "untitled": "Product",
+    "notFound": "Product not found.",
+    "variant": "Variant",
+    "quantity": "Quantity",
+    "addToCart": "Add to cart",
+    "addedToCart": "Added to cart.",
+    "addToCartError": "Couldn't add to cart."
+  }
+}

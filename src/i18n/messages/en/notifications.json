@@ -1,0 +1,14 @@
+{
+  "title": "Notifications",
+  "detail": {
+    "title": "Notification",
+    "notFound": "Notification not found.",
+    "metadata": {
+      "category": "Category",
+      "type": "Type",
+      "priority": "Priority",
+      "campaignId": "Campaign ID",
+      "expiredAt": "Expires at"
+    }
+  }
+}

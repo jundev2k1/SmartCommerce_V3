@@ -1,0 +1,44 @@
+{
+  "title": "Users",
+  "listLimitationNote": "Showing your own profile only — a full user directory requires a backend list endpoint (not available yet).",
+  "table": {
+    "name": "Name",
+    "email": "Email",
+    "username": "Username",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "createDialog": {
+    "title": "Create user",
+    "description": "Add a new user account."
+  },
+  "editDialog": {
+    "title": "Edit user",
+    "description": "Update this user's profile information."
+  },
+  "fields": {
+    "email": "Email",
+    "userName": "Username",
+    "phoneNumber": "Phone number",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "tempPassword": "Temporary password"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "auditTrail": "Audit trail"
+  },
+  "deleteNotAvailable": "Not available — the backend doesn't support deleting users yet.",
+  "toast": {
+    "createSuccess": "User created. Note: they won't appear in this list yet — see the note above.",
+    "createError": "Couldn't create the user.",
+    "updateSuccess": "User updated.",
+    "updateError": "Couldn't update the user."
+  },
+  "auditTrail": {
+    "title": "Audit trail",
+    "description": "Recorded changes for this user (User service events only).",
+    "empty": "No audit entries found for this user in the fetched range."
+  }
+}

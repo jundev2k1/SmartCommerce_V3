@@ -1,0 +1,109 @@
+{
+  "title": "Products",
+  "createButton": "Create product",
+  "table": {
+    "name": "Name",
+    "code": "Code",
+    "price": "Price",
+    "status": "Status",
+    "categories": "Categories",
+    "tags": "Tags",
+    "updatedAt": "Updated"
+  },
+  "filters": {
+    "category": "Category",
+    "tag": "Tag",
+    "status": "Status",
+    "sortBy": "Sort by",
+    "sortByOptions": {
+      "name": "Name",
+      "price": "Price",
+      "updatedAt": "Last updated"
+    },
+    "sortDescending": "Descending",
+    "allCategories": "All categories",
+    "allTags": "All tags",
+    "anyStatus": "Any status"
+  },
+  "createDialog": {
+    "title": "Create product",
+    "description": "Products are created together with at least one variation.",
+    "fields": {
+      "code": "Code",
+      "name": "Name",
+      "slug": "Slug",
+      "description": "Description",
+      "variationSku": "Initial SKU",
+      "variationPrice": "Initial price"
+    }
+  },
+  "detail": {
+    "untitled": "Product",
+    "tabs": {
+      "general": "General",
+      "variants": "Variants",
+      "categories": "Categories",
+      "tags": "Tags",
+      "metadata": "Metadata"
+    },
+    "generalForm": {
+      "name": "Name",
+      "description": "Description",
+      "slug": "Slug",
+      "save": "Save changes"
+    },
+    "metadata": {
+      "id": "ID",
+      "code": "Code",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at"
+    },
+    "notFound": "Product not found."
+  },
+  "variants": {
+    "addButton": "Add variation",
+    "table": {
+      "sku": "SKU",
+      "price": "Price",
+      "status": "Status",
+      "default": "Default"
+    },
+    "setDefault": "Set as default",
+    "lastVariantNotice": "A product must always have at least one variation — this is the last one and can't be removed.",
+    "formDialog": {
+      "createTitle": "Add variation",
+      "editTitle": "Edit variation",
+      "sku": "SKU",
+      "price": "Price",
+      "barcode": "Barcode",
+      "cost": "Cost",
+      "status": "Status",
+      "images": "Images"
+    }
+  },
+  "categoriesTab": {
+    "description": "Assign this product to one or more categories.",
+    "none": "No categories assigned."
+  },
+  "tagsTab": {
+    "description": "Assign one or more tags to this product.",
+    "none": "No tags assigned."
+  },
+  "toast": {
+    "createSuccess": "Product created.",
+    "createError": "Couldn't create the product.",
+    "updateSuccess": "Product updated.",
+    "updateError": "Couldn't update the product.",
+    "deleteSuccess": "Product deleted.",
+    "deleteError": "Couldn't delete the product — it may still be referenced elsewhere.",
+    "variationAdded": "Variation added.",
+    "variationUpdated": "Variation updated.",
+    "variationDeleted": "Variation deleted.",
+    "variationReordered": "Variation order updated.",
+    "defaultVariationSet": "Default variation updated.",
+    "categoryAssigned": "Category assigned.",
+    "categoryRemoved": "Category removed.",
+    "tagAssigned": "Tag assigned.",
+    "tagRemoved": "Tag removed."
+  }
+}

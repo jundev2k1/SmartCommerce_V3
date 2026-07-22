@@ -1,0 +1,11 @@
+{
+  "title": "Cart",
+  "emptyTitle": "Your cart is empty",
+  "emptyDescription": "Add products from the shop to get started.",
+  "errorTitle": "Couldn't load your cart",
+  "errorDescription": "Something went wrong fetching your cart. Try again.",
+  "browseProducts": "Browse products",
+  "clearCart": "Clear cart",
+  "remove": "Remove",
+  "proceedToCheckout": "Proceed to checkout"
+}
