@@ -1,6 +1,14 @@
+using Auth.Application.Abstractions.Persistence.Accounts;
+using Auth.Application.Abstractions.Persistence.RefreshTokens;
 using Auth.Domain.Entities;
+using Auth.Persistence.Accounts.Read;
+using Auth.Persistence.Accounts.Repositories;
+using Auth.Persistence.Accounts.Write;
 using Auth.Persistence.Inbox;
 using Auth.Persistence.Outbox;
+using Auth.Persistence.RefreshTokens.Read;
+using Auth.Persistence.RefreshTokens.Repositories;
+using Auth.Persistence.RefreshTokens.Write;
 using Auth.Persistence.Seeders;
 using Auth.Persistence.UnitOfWork;
 
@@ -12,7 +20,6 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
-using BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -85,7 +92,14 @@ public static class DependencyInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScopedByInterface(typeof(IRepository<>), typeof(AuthDbContext));
+        services.AddScoped<IAccountRepository, AccountRepo>();
+        services.AddScoped<IAccountReadService, AccountReadService>();
+        services.AddScoped<IAccountWriteService, AccountWriteService>();
+
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepo>();
+        services.AddScoped<IRefreshTokenReadService, RefreshTokenReadService>();
+        services.AddScoped<IRefreshTokenWriteService, RefreshTokenWriteService>();
+
         return services;
     }
 

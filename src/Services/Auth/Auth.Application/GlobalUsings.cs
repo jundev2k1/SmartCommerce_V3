@@ -1,4 +1,5 @@
-global using Auth.Application.Abstractions.Repositories;
+global using Auth.Application.Abstractions.Persistence.Accounts;
+global using Auth.Application.Abstractions.Persistence.RefreshTokens;
 global using Auth.Domain.Entities;
 
 global using BuildingBlock.Application.Abstractions.CQRS;

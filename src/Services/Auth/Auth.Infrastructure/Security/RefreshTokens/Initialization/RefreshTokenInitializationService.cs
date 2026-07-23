@@ -1,4 +1,4 @@
-using Auth.Application.Abstractions.Repositories;
+using Auth.Application.Abstractions.Persistence.RefreshTokens;
 using Auth.Application.Abstractions.Services;
 using Auth.Infrastructure.Caching;
 
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace Auth.Infrastructure.Security.RefreshTokens.Initialization;
 
 public sealed class RefreshTokenInitializationService(
-    IRefreshTokenRepository refreshTokenRepository,
+    IRefreshTokenReadService refreshTokenReadService,
     RefreshTokenCacheService cacheService,
     ILogger<RefreshTokenInitializationService> logger) : IRefreshTokenInitializationService
 {
@@ -18,7 +18,7 @@ public sealed class RefreshTokenInitializationService(
             logger.LogInformation("Initializing refresh token cache from database");
 
             var now = DateTime.UtcNow;
-            var allTokens = await refreshTokenRepository.GetByUserIdAsync(Guid.Empty, ct);
+            var allTokens = await refreshTokenReadService.GetByUserIdAsync(Guid.Empty, ct);
 
             var activeTokens = allTokens
                 .Where(t => t.ExpiryDate > now && !t.IsRevoked)

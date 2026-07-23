@@ -1,4 +1,4 @@
-using Auth.Application.Abstractions.Repositories;
+using Auth.Application.Abstractions.Persistence.RefreshTokens;
 using Auth.Infrastructure.Caching;
 
 using BuildingBlock.Application.Abstractions.Jobs;
@@ -15,7 +15,7 @@ namespace Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
 /// remaining refresh_token:{token} payloads in configurable batches.
 /// </summary>
 public sealed class RefreshTokenSyncService(
-    IRefreshTokenRepository refreshTokenRepository,
+    IRefreshTokenWriteService refreshTokenWriteService,
     RefreshTokenCacheService cacheService,
     IUnitOfWork unitOfWork,
     IAppLogger<RefreshTokenSyncService> logger,
@@ -173,7 +173,7 @@ public sealed class RefreshTokenSyncService(
         switch (cached.SyncStatus)
         {
             case RefreshTokenCacheService.TokenSyncStatus.New:
-                if (await TryPersistAsync(() => refreshTokenRepository.AddAsync(
+                if (await TryPersistAsync(() => refreshTokenWriteService.AddAsync(
                         RefreshToken.Create(cached.JwtId, token, cached.ExpiryDate, cached.UserId), ct),
                     cached.JwtId, "create"))
                 {
@@ -183,7 +183,7 @@ public sealed class RefreshTokenSyncService(
                 break;
 
             case RefreshTokenCacheService.TokenSyncStatus.Modified:
-                if (await TryPersistAsync(() => refreshTokenRepository.UpdateAsync(cached.Id, rt =>
+                if (await TryPersistAsync(() => refreshTokenWriteService.UpdateAsync(cached.Id, rt =>
                     {
                         if (cached.IsRevoked && !rt.IsRevoked)
                             rt.Revoke();
@@ -198,7 +198,7 @@ public sealed class RefreshTokenSyncService(
             case RefreshTokenCacheService.TokenSyncStatus.Revoked:
                 // Only reaches Revoked once it was already Synced/Modified in cache (see
                 // RefreshTokenCacheService.RevokeCachedAsync), so the DB row is guaranteed to exist.
-                if (await TryPersistAsync(() => refreshTokenRepository.UpdateAsync(cached.Id, rt =>
+                if (await TryPersistAsync(() => refreshTokenWriteService.UpdateAsync(cached.Id, rt =>
                     {
                         if (!rt.IsRevoked)
                             rt.Revoke();

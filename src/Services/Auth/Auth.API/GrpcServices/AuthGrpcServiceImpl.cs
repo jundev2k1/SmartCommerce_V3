@@ -1,5 +1,5 @@
 using Auth.Application.Abstractions.Auth;
-using Auth.Application.Abstractions.Repositories;
+using Auth.Application.Abstractions.Persistence.Accounts;
 
 using BuildingBlock.Contract.Protos.Auth;
 
@@ -13,7 +13,7 @@ namespace Auth.API.GrpcServices;
 /// Exceptions are left to propagate to BuildingBlock.Grpc's ErrorHandlingInterceptor.
 /// </summary>
 public sealed class AuthGrpcServiceImpl(
-    IAccountRepository accountRepo,
+    IAccountReadService accountReadService,
     IAuthService authService) : AuthGrpcService.AuthGrpcServiceBase
 {
     public override async Task<GetUserRolesResponse> GetUserRoles(
@@ -35,7 +35,7 @@ public sealed class AuthGrpcServiceImpl(
         CheckEmailExistsRequest request,
         ServerCallContext context)
     {
-        var account = await accountRepo.GetByEmailAsync(request.Email.Trim(), context.CancellationToken);
+        var account = await accountReadService.GetByEmailAsync(request.Email.Trim(), context.CancellationToken);
 
         return new CheckEmailExistsResponse
         {
