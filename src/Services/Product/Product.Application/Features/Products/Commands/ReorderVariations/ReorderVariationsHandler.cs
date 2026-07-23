@@ -1,37 +1,33 @@
 using BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.Products;
 
 namespace Product.Application.Features.Products.Commands.ReorderVariations;
 
 public sealed class ReorderVariationsHandler(
-    IProductRepository productRepo,
-    IUnitOfWork unitOfWork) : ICommandHandler<ReorderVariationsCommand, ReorderVariationsResponse>
+    IProductWriteService productWriteService) : ICommandHandler<ReorderVariationsCommand, ReorderVariationsResponse>
 {
     public async Task<ReorderVariationsResponse> Handle(ReorderVariationsCommand request, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
+        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
         {
-            await productRepo.UpdateAsync(request.ProductId, async (product) =>
+            var currentIds = product.Variations.Select(v => v.Id).ToHashSet();
+            var requestedIds = request.OrderedVariationIds.ToHashSet();
+
+            if (requestedIds.Count != request.OrderedVariationIds.Count || !currentIds.SetEquals(requestedIds))
             {
-                var currentIds = product.Variations.Select(v => v.Id).ToHashSet();
-                var requestedIds = request.OrderedVariationIds.ToHashSet();
+                throw new BadRequestException(
+                    "OrderedVariationIds must contain exactly every existing variation id, each exactly once.");
+            }
 
-                if (requestedIds.Count != request.OrderedVariationIds.Count || !currentIds.SetEquals(requestedIds))
-                {
-                    throw new BadRequestException(
-                        "OrderedVariationIds must contain exactly every existing variation id, each exactly once.");
-                }
+            for (var i = 0; i < request.OrderedVariationIds.Count; i++)
+            {
+                var variation = product.Variations.First(v => v.Id == request.OrderedVariationIds[i]);
+                variation.ChangeDisplayOrder(i);
+            }
 
-                for (var i = 0; i < request.OrderedVariationIds.Count; i++)
-                {
-                    var variation = product.Variations.First(v => v.Id == request.OrderedVariationIds[i]);
-                    variation.ChangeDisplayOrder(i);
-                }
-
-                await Task.CompletedTask;
-            }, ct);
-        }, ct: ct);
+            await Task.CompletedTask;
+        }, ct);
 
         return new ReorderVariationsResponse();
     }

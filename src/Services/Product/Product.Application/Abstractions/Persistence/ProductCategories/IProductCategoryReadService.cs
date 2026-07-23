@@ -1,17 +1,8 @@
-namespace Product.Application.Abstractions.Repositories;
+namespace Product.Application.Abstractions.Persistence.ProductCategories;
 
-public interface IProductCategoryRepository
+public interface IProductCategoryReadService
 {
     Task<ProductCategory?> GetByIdAsync(Guid id, CancellationToken ct = default);
-
-    Task AddAsync(ProductCategory entity, CancellationToken ct = default);
-
-    Task UpdateAsync<TId>(
-        TId id,
-        Func<ProductCategory, Task> updateAction,
-        CancellationToken ct = default);
-
-    Task DeleteAsync(Guid id, CancellationToken ct = default);
 
     Task<bool> CodeExistsAsync(string code, CancellationToken ct = default);
 

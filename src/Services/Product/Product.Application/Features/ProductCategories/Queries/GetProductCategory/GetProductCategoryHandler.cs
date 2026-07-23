@@ -2,21 +2,21 @@ using BuildingBlock.Application.Exceptions;
 
 using Mapster;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.ProductCategories;
 
 namespace Product.Application.Features.ProductCategories.Queries.GetProductCategory;
 
-public sealed class GetProductCategoryHandler(IProductCategoryRepository categoryRepo)
+public sealed class GetProductCategoryHandler(IProductCategoryReadService categoryReadService)
     : IQueryHandler<GetProductCategoryQuery, GetProductCategoryResponse>
 {
     public async Task<GetProductCategoryResponse> Handle(GetProductCategoryQuery request, CancellationToken ct = default)
     {
-        var category = await categoryRepo.GetByIdAsync(request.ProductCategoryId, ct)
+        var category = await categoryReadService.GetByIdAsync(request.ProductCategoryId, ct)
             ?? throw new NotFoundException(nameof(ProductCategory), request.ProductCategoryId);
 
         // ChildCategoryIds comes from a separate repository call, not the entity itself - map the
         // entity fields, then splice in the composed field via `with` (record non-destructive mutation).
-        var childIds = await categoryRepo.GetChildIdsAsync(request.ProductCategoryId, ct);
+        var childIds = await categoryReadService.GetChildIdsAsync(request.ProductCategoryId, ct);
 
         return category.Adapt<GetProductCategoryResponse>() with { ChildCategoryIds = childIds };
     }

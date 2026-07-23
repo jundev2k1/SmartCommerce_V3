@@ -1,27 +1,27 @@
 using BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.ProductCategories;
+using Product.Application.Abstractions.Persistence.Products;
 
 namespace Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
 
 public sealed class DeleteProductCategoryHandler(
-    IProductCategoryRepository categoryRepo,
-    IProductRepository productRepo,
-    IUnitOfWork unitOfWork) : ICommandHandler<DeleteProductCategoryCommand, DeleteProductCategoryResponse>
+    IProductCategoryReadService categoryReadService,
+    IProductCategoryWriteService categoryWriteService,
+    IProductReadService productReadService) : ICommandHandler<DeleteProductCategoryCommand, DeleteProductCategoryResponse>
 {
     public async Task<DeleteProductCategoryResponse> Handle(DeleteProductCategoryCommand request, CancellationToken ct = default)
     {
-        _ = await categoryRepo.GetByIdAsync(request.ProductCategoryId, ct)
+        _ = await categoryReadService.GetByIdAsync(request.ProductCategoryId, ct)
             ?? throw new NotFoundException(nameof(ProductCategory), request.ProductCategoryId);
 
-        if (await categoryRepo.HasChildrenAsync(request.ProductCategoryId, ct))
+        if (await categoryReadService.HasChildrenAsync(request.ProductCategoryId, ct))
             throw new ConflictException("Cannot delete a category that has child categories.");
 
-        if (await productRepo.ExistsWithCategoryAsync(request.ProductCategoryId, ct))
+        if (await productReadService.ExistsWithCategoryAsync(request.ProductCategoryId, ct))
             throw new ConflictException("Cannot delete a category that is still assigned to products.");
 
-        await categoryRepo.DeleteAsync(request.ProductCategoryId, ct);
-        await unitOfWork.SaveChangesAsync(ct);
+        await categoryWriteService.DeleteAsync(request.ProductCategoryId, ct);
 
         return new DeleteProductCategoryResponse();
     }

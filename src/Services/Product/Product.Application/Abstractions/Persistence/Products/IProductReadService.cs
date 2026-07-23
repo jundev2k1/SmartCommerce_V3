@@ -1,26 +1,8 @@
-namespace Product.Application.Abstractions.Repositories;
+namespace Product.Application.Abstractions.Persistence.Products;
 
-/// <summary>
-/// Product owns its ProductVariation collection (EF owned type - always loaded with the
-/// aggregate, see Product.Persistence/Configs/ProductConfig.cs), so unlike the pre-redesign
-/// version this repository no longer needs a conditional-include overload. The shape no longer
-/// matches BuildingBlock.Persistence.Repository.IRepository&lt;T&gt; (custom Search/Exists methods,
-/// no includes overload), so ProductRepo is registered manually in DI instead of being picked up
-/// by the generic IRepository&lt;&gt; Scrutor scan - same reasoning as Inventory's
-/// IInventoryTransactionRepository / Audit's IAuditLogRepository.
-/// </summary>
-public interface IProductRepository
+public interface IProductReadService
 {
     Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default);
-
-    Task AddAsync(ProductEntity entity, CancellationToken ct = default);
-
-    Task UpdateAsync<TId>(
-        TId id,
-        Func<ProductEntity, Task> updateAction,
-        CancellationToken ct = default);
-
-    Task DeleteAsync(Guid id, CancellationToken ct = default);
 
     Task<bool> CodeExistsAsync(string code, CancellationToken ct = default);
 

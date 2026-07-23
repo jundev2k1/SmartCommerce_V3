@@ -1,31 +1,28 @@
 using BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.ProductCategories;
 
 namespace Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
 
 public sealed class UpdateProductCategoryHandler(
-    IProductCategoryRepository categoryRepo,
-    IUnitOfWork unitOfWork) : ICommandHandler<UpdateProductCategoryCommand, UpdateProductCategoryResponse>
+    IProductCategoryReadService categoryReadService,
+    IProductCategoryWriteService categoryWriteService) : ICommandHandler<UpdateProductCategoryCommand, UpdateProductCategoryResponse>
 {
     public async Task<UpdateProductCategoryResponse> Handle(UpdateProductCategoryCommand request, CancellationToken ct = default)
     {
         if (request.ParentCategoryId is not null)
         {
-            _ = await categoryRepo.GetByIdAsync(request.ParentCategoryId.Value, ct)
+            _ = await categoryReadService.GetByIdAsync(request.ParentCategoryId.Value, ct)
                 ?? throw new NotFoundException(nameof(ProductCategory), request.ParentCategoryId.Value);
 
             await EnsureNoCycleAsync(request.ProductCategoryId, request.ParentCategoryId.Value, ct);
         }
 
-        await unitOfWork.ExecuteTransactionAsync(async () =>
+        await categoryWriteService.UpdateAsync(request.ProductCategoryId, async (category) =>
         {
-            await categoryRepo.UpdateAsync(request.ProductCategoryId, async (category) =>
-            {
-                category.UpdateDetails(request.Name.Trim(), request.Description.Trim());
-                category.ChangeParent(request.ParentCategoryId);
-            }, ct);
-        }, ct: ct);
+            category.UpdateDetails(request.Name.Trim(), request.Description.Trim());
+            category.ChangeParent(request.ParentCategoryId);
+        }, ct);
 
         return new UpdateProductCategoryResponse();
     }
@@ -44,7 +41,7 @@ public sealed class UpdateProductCategoryHandler(
             if (currentId == categoryId)
                 throw new ConflictException("Cannot move a category under one of its own descendants.");
 
-            var current = await categoryRepo.GetByIdAsync(currentId.Value, ct);
+            var current = await categoryReadService.GetByIdAsync(currentId.Value, ct);
             currentId = current?.ParentCategoryId;
         }
     }

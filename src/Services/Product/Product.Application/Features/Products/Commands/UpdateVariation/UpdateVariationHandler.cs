@@ -3,14 +3,14 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Product;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.Products;
 using Product.Domain.ValueObjects;
 
 namespace Product.Application.Features.Products.Commands.UpdateVariation;
 
 public sealed class UpdateVariationHandler(
-    IProductRepository productRepo,
-    IUnitOfWork unitOfWork,
+    IProductReadService productReadService,
+    IProductWriteService productWriteService,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<UpdateVariationCommand, UpdateVariationResponse>
 {
@@ -19,7 +19,7 @@ public sealed class UpdateVariationHandler(
         if (!Enum.TryParse<ProductVariationStatus>(request.Status, ignoreCase: true, out var status))
             throw new BadRequestException($"Invalid variation status: {request.Status}");
 
-        if (await productRepo.SkuExistsAsync(request.Sku, request.VariationId, ct))
+        if (await productReadService.SkuExistsAsync(request.Sku, request.VariationId, ct))
             throw new ConflictException($"Variation with SKU ({request.Sku}) already exists");
 
         var dimensions = request.DimensionsLength is not null && request.DimensionsWidth is not null && request.DimensionsHeight is not null
@@ -29,39 +29,36 @@ public sealed class UpdateVariationHandler(
         var sku = Sku.Create(request.Sku);
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await unitOfWork.ExecuteTransactionAsync(async () =>
+        await outboxStore.EnqueueAsync(
+            new ProductVariationUpdatedIntegrationEvent(
+                request.ProductId, request.VariationId, request.Sku, request.Price, status.ToString(), correlationId),
+            ct);
+
+        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
         {
-            await productRepo.UpdateAsync(request.ProductId, async (product) =>
+            var variation = product.Variations.FirstOrDefault(v => v.Id == request.VariationId)
+                ?? throw new NotFoundException(nameof(ProductVariation), request.VariationId);
+
+            variation.UpdateIdentifiers(sku, barcode);
+            variation.UpdatePricing(request.Price, request.Cost);
+            variation.UpdatePhysicalAttributes(request.Weight, dimensions);
+            variation.ReplaceImages(request.Images ?? []);
+
+            switch (status)
             {
-                var variation = product.Variations.FirstOrDefault(v => v.Id == request.VariationId)
-                    ?? throw new NotFoundException(nameof(ProductVariation), request.VariationId);
+                case ProductVariationStatus.Active:
+                    variation.Activate();
+                    break;
+                case ProductVariationStatus.Inactive:
+                    variation.Deactivate();
+                    break;
+                case ProductVariationStatus.Discontinued:
+                    variation.Discontinue();
+                    break;
+            }
 
-                variation.UpdateIdentifiers(sku, barcode);
-                variation.UpdatePricing(request.Price, request.Cost);
-                variation.UpdatePhysicalAttributes(request.Weight, dimensions);
-                variation.ReplaceImages(request.Images ?? []);
-
-                switch (status)
-                {
-                    case ProductVariationStatus.Active:
-                        variation.Activate();
-                        break;
-                    case ProductVariationStatus.Inactive:
-                        variation.Deactivate();
-                        break;
-                    case ProductVariationStatus.Discontinued:
-                        variation.Discontinue();
-                        break;
-                }
-
-                await Task.CompletedTask;
-            }, ct);
-
-            await outboxStore.EnqueueAsync(
-                new ProductVariationUpdatedIntegrationEvent(
-                    request.ProductId, request.VariationId, request.Sku, request.Price, status.ToString(), correlationId),
-                ct);
-        }, ct: ct);
+            await Task.CompletedTask;
+        }, ct);
 
         return new UpdateVariationResponse();
     }

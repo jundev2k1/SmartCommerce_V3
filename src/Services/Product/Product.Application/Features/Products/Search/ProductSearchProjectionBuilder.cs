@@ -1,4 +1,5 @@
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.ProductCategories;
+using Product.Application.Abstractions.Persistence.ProductTags;
 using Product.Application.Abstractions.Search;
 
 namespace Product.Application.Features.Products.Search;
@@ -10,21 +11,21 @@ namespace Product.Application.Features.Products.Search;
 /// docs/reference/search.md.
 /// </summary>
 public sealed class ProductSearchProjectionBuilder(
-    IProductCategoryRepository categoryRepo,
-    IProductTagRepository tagRepo)
+    IProductCategoryReadService categoryReadService,
+    IProductTagReadService tagReadService)
 {
     public async Task<ProductSearchDocument> BuildAsync(ProductEntity product, CancellationToken ct = default)
     {
-        var categories = await categoryRepo.GetAllAsync(ct);
-        var tags = await tagRepo.GetAllAsync(ct);
+        var categories = await categoryReadService.GetAllAsync(ct);
+        var tags = await tagReadService.GetAllAsync(ct);
         return Build(product, categories, tags);
     }
 
     public async Task<IReadOnlyList<ProductSearchDocument>> BuildManyAsync(
         IReadOnlyList<ProductEntity> products, CancellationToken ct = default)
     {
-        var categories = await categoryRepo.GetAllAsync(ct);
-        var tags = await tagRepo.GetAllAsync(ct);
+        var categories = await categoryReadService.GetAllAsync(ct);
+        var tags = await tagReadService.GetAllAsync(ct);
         return [.. products.Select(p => Build(p, categories, tags))];
     }
 

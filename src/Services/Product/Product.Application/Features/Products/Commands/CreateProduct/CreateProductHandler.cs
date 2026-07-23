@@ -3,16 +3,18 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Product;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.ProductCategories;
+using Product.Application.Abstractions.Persistence.Products;
+using Product.Application.Abstractions.Persistence.ProductTags;
 using Product.Domain.ValueObjects;
 
 namespace Product.Application.Features.Products.Commands.CreateProduct;
 
 public sealed class CreateProductHandler(
-    IProductRepository productRepo,
-    IProductCategoryRepository categoryRepo,
-    IProductTagRepository tagRepo,
-    IUnitOfWork uow,
+    IProductReadService productReadService,
+    IProductWriteService productWriteService,
+    IProductCategoryReadService categoryReadService,
+    IProductTagReadService tagReadService,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<CreateProductCommand, CreateProductResponse>
 {
@@ -44,15 +46,15 @@ public sealed class CreateProductHandler(
         if (request.Variations.Count == 0)
             throw new BadRequestException("A product must be created with at least one variation.");
 
-        if (await productRepo.CodeExistsAsync(request.Code, ct))
+        if (await productReadService.CodeExistsAsync(request.Code, ct))
             throw new ConflictException($"Product with code ({request.Code}) already exists");
 
-        if (await productRepo.SlugExistsAsync(request.Slug, ct: ct))
+        if (await productReadService.SlugExistsAsync(request.Slug, ct: ct))
             throw new ConflictException($"Product with slug ({request.Slug}) already exists");
 
         foreach (var variation in request.Variations)
         {
-            if (await productRepo.SkuExistsAsync(variation.Sku, ct: ct))
+            if (await productReadService.SkuExistsAsync(variation.Sku, ct: ct))
                 throw new ConflictException($"Variation with SKU ({variation.Sku}) already exists");
         }
     }
@@ -61,7 +63,7 @@ public sealed class CreateProductHandler(
     {
         foreach (var categoryId in categoryIds)
         {
-            _ = await categoryRepo.GetByIdAsync(categoryId, ct)
+            _ = await categoryReadService.GetByIdAsync(categoryId, ct)
                 ?? throw new NotFoundException(nameof(ProductCategory), categoryId);
         }
     }
@@ -70,7 +72,7 @@ public sealed class CreateProductHandler(
     {
         foreach (var tagId in tagIds)
         {
-            _ = await tagRepo.GetByIdAsync(tagId, ct)
+            _ = await tagReadService.GetByIdAsync(tagId, ct)
                 ?? throw new NotFoundException(nameof(ProductTag), tagId);
         }
     }
@@ -118,11 +120,10 @@ public sealed class CreateProductHandler(
     #region Persistence
     private async Task SaveProductAsync(ProductEntity product, string correlationId, CancellationToken ct)
     {
-        await uow.ExecuteTransactionAsync(async () =>
-        {
-            await productRepo.AddAsync(product, ct);
-            await PublishIntegrationEventsAsync(product, correlationId, ct);
-        }, ct: ct);
+        // EnqueueAsync only stages the outbox rows on the DbContext's change tracker (no commit),
+        // so calling it before CreateAsync still lands every write in CreateAsync's one transaction.
+        await PublishIntegrationEventsAsync(product, correlationId, ct);
+        await productWriteService.CreateAsync(product, ct);
     }
 
     private async Task PublishIntegrationEventsAsync(ProductEntity product, string correlationId, CancellationToken ct)

@@ -1,21 +1,17 @@
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.Products;
 
 namespace Product.Application.Features.Products.Commands.SetDefaultVariation;
 
 public sealed class SetDefaultVariationHandler(
-    IProductRepository productRepo,
-    IUnitOfWork unitOfWork) : ICommandHandler<SetDefaultVariationCommand, SetDefaultVariationResponse>
+    IProductWriteService productWriteService) : ICommandHandler<SetDefaultVariationCommand, SetDefaultVariationResponse>
 {
     public async Task<SetDefaultVariationResponse> Handle(SetDefaultVariationCommand request, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
+        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
         {
-            await productRepo.UpdateAsync(request.ProductId, async (product) =>
-            {
-                product.SetDefaultVariation(request.VariationId);
-                await Task.CompletedTask;
-            }, ct);
-        }, ct: ct);
+            product.SetDefaultVariation(request.VariationId);
+            await Task.CompletedTask;
+        }, ct);
 
         return new SetDefaultVariationResponse();
     }

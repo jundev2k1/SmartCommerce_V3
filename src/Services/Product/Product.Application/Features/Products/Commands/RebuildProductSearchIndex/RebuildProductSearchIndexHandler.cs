@@ -1,4 +1,4 @@
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.Products;
 using Product.Application.Abstractions.Search;
 using Product.Application.Features.Products.Search;
 
@@ -11,7 +11,7 @@ namespace Product.Application.Features.Products.Commands.RebuildProductSearchInd
 /// Builder, not this orchestration. See docs/reference/search.md.
 /// </summary>
 public sealed class RebuildProductSearchIndexHandler(
-    IProductRepository productRepo,
+    IProductReadService productReadService,
     ProductSearchProjectionBuilder projectionBuilder,
     IProductSearchIndexer searchIndexer) : ICommandHandler<RebuildProductSearchIndexCommand, RebuildProductSearchIndexResponse>
 {
@@ -28,7 +28,7 @@ public sealed class RebuildProductSearchIndexHandler(
 
         do
         {
-            batch = await productRepo.GetAllAsync(skip, BatchSize, ct);
+            batch = await productReadService.GetAllAsync(skip, BatchSize, ct);
             if (batch.Count == 0)
                 break;
 

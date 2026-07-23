@@ -10,8 +10,19 @@ using BuildingBlock.Persistence.Ef.Outbox;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.ProductCategories;
+using Product.Application.Abstractions.Persistence.Products;
+using Product.Application.Abstractions.Persistence.ProductTags;
 using Product.Persistence.Outbox;
+using Product.Persistence.ProductCategories.Read;
+using Product.Persistence.ProductCategories.Repositories;
+using Product.Persistence.ProductCategories.Write;
+using Product.Persistence.Products.Read;
+using Product.Persistence.Products.Repositories;
+using Product.Persistence.Products.Write;
+using Product.Persistence.ProductTags.Read;
+using Product.Persistence.ProductTags.Repositories;
+using Product.Persistence.ProductTags.Write;
 
 namespace Product.Persistence;
 
@@ -70,9 +81,18 @@ public static class DependencyInjection
     // reasoning as Inventory's IInventoryTransactionRepository / Audit's IAuditLogRepository.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IProductRepository, Repository.ProductRepo>();
-        services.AddScoped<IProductCategoryRepository, Repository.ProductCategoryRepo>();
-        services.AddScoped<IProductTagRepository, Repository.ProductTagRepo>();
+        services.AddScoped<IProductRepository, ProductRepo>();
+        services.AddScoped<IProductReadService, ProductReadService>();
+        services.AddScoped<IProductWriteService, ProductWriteService>();
+
+        services.AddScoped<IProductCategoryRepository, ProductCategoryRepo>();
+        services.AddScoped<IProductCategoryReadService, ProductCategoryReadService>();
+        services.AddScoped<IProductCategoryWriteService, ProductCategoryWriteService>();
+
+        services.AddScoped<IProductTagRepository, ProductTagRepo>();
+        services.AddScoped<IProductTagReadService, ProductTagReadService>();
+        services.AddScoped<IProductTagWriteService, ProductTagWriteService>();
+
         return services;
     }
 

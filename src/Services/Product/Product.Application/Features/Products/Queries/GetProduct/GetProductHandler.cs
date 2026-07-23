@@ -1,15 +1,15 @@
 using BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.Products;
 
 namespace Product.Application.Features.Products.Queries.GetProduct;
 
-public sealed class GetProductHandler(IProductRepository productRepo)
+public sealed class GetProductHandler(IProductReadService productReadService)
     : IQueryHandler<GetProductQuery, GetProductResponse>
 {
     public async Task<GetProductResponse> Handle(GetProductQuery request, CancellationToken ct = default)
     {
-        var product = await productRepo.GetByIdAsync(request.ProductId, ct)
+        var product = await productReadService.GetByIdAsync(request.ProductId, ct)
             ?? throw new NotFoundException("Product", request.ProductId);
 
         return new GetProductResponse(

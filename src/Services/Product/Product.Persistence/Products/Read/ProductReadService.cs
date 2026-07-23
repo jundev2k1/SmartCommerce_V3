@@ -1,43 +1,15 @@
-using BuildingBlock.Application.Exceptions;
-
-using Product.Application.Abstractions.Repositories;
+using Product.Application.Abstractions.Persistence.Products;
 using Product.Domain.ValueObjects;
 
-namespace Product.Persistence.Repository;
+namespace Product.Persistence.Products.Read;
 
-public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository
+public sealed class ProductReadService(ProductDbContext dbContext) : IProductReadService
 {
     public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await dbContext.Products
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id, ct);
-    }
-
-    public async Task AddAsync(ProductEntity entity, CancellationToken ct = default)
-    {
-        await dbContext.Products.AddAsync(entity, ct);
-    }
-
-    public async Task UpdateAsync<TId>(
-        TId id,
-        Func<ProductEntity, Task> updateAction,
-        CancellationToken ct = default)
-    {
-        var product = await dbContext.Products
-            .FirstOrDefaultAsync(p => p.Id!.Equals(id), ct)
-            ?? throw new NotFoundException(nameof(ProductEntity), id!);
-
-        await updateAction(product);
-    }
-
-    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
-    {
-        var product = await dbContext.Products
-            .FirstOrDefaultAsync(p => p.Id == id, ct);
-
-        if (product is not null)
-            dbContext.Products.Remove(product);
     }
 
     public async Task<bool> CodeExistsAsync(string code, CancellationToken ct = default)
