@@ -11,6 +11,7 @@ namespace Product.Application.Features.Products.Commands.AssignProductTag;
 public sealed class AssignProductTagHandler(
     IProductWriteService productWriteService,
     IProductTagReadService tagReadService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<AssignProductTagCommand, AssignProductTagResponse>
 {
@@ -21,14 +22,13 @@ public sealed class AssignProductTagHandler(
 
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductTagAssignedIntegrationEvent(request.ProductId, request.TagId, correlationId), ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.AssignTag(request.TagId);
-            await Task.CompletedTask;
-        }, ct);
+            await productWriteService.AssignTagAsync(request.ProductId, request.TagId, ct);
+
+            await outboxStore.EnqueueAsync(
+                new ProductTagAssignedIntegrationEvent(request.ProductId, request.TagId, correlationId), ct);
+        }, ct: ct);
 
         return new AssignProductTagResponse();
     }

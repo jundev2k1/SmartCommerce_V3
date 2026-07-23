@@ -8,6 +8,7 @@ namespace Product.Application.Features.Products.Commands.RemoveProductCategory;
 
 public sealed class RemoveProductCategoryHandler(
     IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<RemoveProductCategoryCommand, RemoveProductCategoryResponse>
 {
@@ -15,14 +16,13 @@ public sealed class RemoveProductCategoryHandler(
     {
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductCategoryRemovedIntegrationEvent(request.ProductId, request.CategoryId, correlationId), ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.RemoveCategory(request.CategoryId);
-            await Task.CompletedTask;
-        }, ct);
+            await productWriteService.RemoveCategoryAsync(request.ProductId, request.CategoryId, ct);
+
+            await outboxStore.EnqueueAsync(
+                new ProductCategoryRemovedIntegrationEvent(request.ProductId, request.CategoryId, correlationId), ct);
+        }, ct: ct);
 
         return new RemoveProductCategoryResponse();
     }

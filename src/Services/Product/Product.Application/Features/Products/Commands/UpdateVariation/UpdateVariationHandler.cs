@@ -11,6 +11,7 @@ namespace Product.Application.Features.Products.Commands.UpdateVariation;
 public sealed class UpdateVariationHandler(
     IProductReadService productReadService,
     IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<UpdateVariationCommand, UpdateVariationResponse>
 {
@@ -29,36 +30,17 @@ public sealed class UpdateVariationHandler(
         var sku = Sku.Create(request.Sku);
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductVariationUpdatedIntegrationEvent(
-                request.ProductId, request.VariationId, request.Sku, request.Price, status.ToString(), correlationId),
-            ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            var variation = product.Variations.FirstOrDefault(v => v.Id == request.VariationId)
-                ?? throw new NotFoundException(nameof(ProductVariation), request.VariationId);
+            await productWriteService.UpdateVariationAsync(
+                request.ProductId, request.VariationId, sku, request.Price, barcode, request.Cost, request.Weight,
+                dimensions, request.Images, status, ct);
 
-            variation.UpdateIdentifiers(sku, barcode);
-            variation.UpdatePricing(request.Price, request.Cost);
-            variation.UpdatePhysicalAttributes(request.Weight, dimensions);
-            variation.ReplaceImages(request.Images ?? []);
-
-            switch (status)
-            {
-                case ProductVariationStatus.Active:
-                    variation.Activate();
-                    break;
-                case ProductVariationStatus.Inactive:
-                    variation.Deactivate();
-                    break;
-                case ProductVariationStatus.Discontinued:
-                    variation.Discontinue();
-                    break;
-            }
-
-            await Task.CompletedTask;
-        }, ct);
+            await outboxStore.EnqueueAsync(
+                new ProductVariationUpdatedIntegrationEvent(
+                    request.ProductId, request.VariationId, request.Sku, request.Price, status.ToString(), correlationId),
+                ct);
+        }, ct: ct);
 
         return new UpdateVariationResponse();
     }

@@ -8,12 +8,14 @@ public abstract class ApplicationException : Exception
     protected ApplicationException(
         MessageCodeEnum messageCode,
         string? systemMessage = null,
-        int statusCode = 400)
+        int statusCode = 400,
+        object? errorDetails = null)
         : base(systemMessage ?? MessageCodeAttribute.GetMessage(messageCode))
     {
         MessageCode = messageCode;
         SystemMessage = systemMessage;
         StatusCode = statusCode;
+        ErrorDetails = errorDetails;
     }
 
     /// <summary>
@@ -30,4 +32,6 @@ public abstract class ApplicationException : Exception
     /// HTTP status code.
     /// </summary>
     public int StatusCode { get; }
+
+    public object? ErrorDetails { get; }
 }

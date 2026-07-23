@@ -9,6 +9,7 @@ using Product.Application.Abstractions.Search;
 using Product.Infrastructure;
 using Product.Persistence;
 using Product.Persistence.Elasticsearch;
+using Product.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
 var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";

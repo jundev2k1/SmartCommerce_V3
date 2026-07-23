@@ -15,6 +15,7 @@ public sealed class CreateProductHandler(
     IProductWriteService productWriteService,
     IProductCategoryReadService categoryReadService,
     IProductTagReadService tagReadService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<CreateProductCommand, CreateProductResponse>
 {
@@ -120,10 +121,11 @@ public sealed class CreateProductHandler(
     #region Persistence
     private async Task SaveProductAsync(ProductEntity product, string correlationId, CancellationToken ct)
     {
-        // EnqueueAsync only stages the outbox rows on the DbContext's change tracker (no commit),
-        // so calling it before CreateAsync still lands every write in CreateAsync's one transaction.
-        await PublishIntegrationEventsAsync(product, correlationId, ct);
-        await productWriteService.CreateAsync(product, ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await productWriteService.CreateAsync(product, ct);
+            await PublishIntegrationEventsAsync(product, correlationId, ct);
+        }, ct: ct);
     }
 
     private async Task PublishIntegrationEventsAsync(ProductEntity product, string correlationId, CancellationToken ct)

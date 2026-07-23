@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Domain.Attributes;
 using BuildingBlock.Domain.Exceptions;
@@ -85,13 +87,14 @@ public static class ExceptionHandlerHelper
             ApiResponse = ApiResponse<object?>.Fail(
                 clientMessage,
                 ex.MessageCode,
-                details: null
+                details: ex.ErrorDetails
             ),
             LogMessage = BuildLogMessage(
                 clientMessage,
                 ex.SystemMessage,
                 ex.StackTrace,
-                ex.InnerException)
+                ex.InnerException,
+                ex.ErrorDetails)
         };
     }
 
@@ -149,13 +152,14 @@ public static class ExceptionHandlerHelper
             ApiResponse = ApiResponse<object?>.Fail(
                 clientMessage,
                 ex.MessageCode,
-                details: null
+                details: ex.ErrorDetails
             ),
             LogMessage = BuildLogMessage(
                 clientMessage,
                 ex.SystemMessage,
                 ex.StackTrace,
-                ex.InnerException)
+                ex.InnerException,
+                ex.ErrorDetails)
         };
     }
 
@@ -186,7 +190,8 @@ public static class ExceptionHandlerHelper
                 systemMessage,
                 ex.Message,
                 ex.StackTrace,
-                ex.InnerException)
+                ex.InnerException,
+                null)
         };
     }
 
@@ -194,7 +199,8 @@ public static class ExceptionHandlerHelper
         string clientMessage,
         string? systemMessage,
         string? stackTrace,
-        Exception? innerException)
+        Exception? innerException,
+        object? detail)
     {
         var logParts = new List<string>
         {
@@ -209,6 +215,16 @@ public static class ExceptionHandlerHelper
 
         if (!string.IsNullOrEmpty(stackTrace))
             logParts.Add($"[Stack Trace] {stackTrace}");
+
+        if (detail is not null)
+        {
+            if (detail is string || detail.GetType().IsPrimitive)
+                logParts.Add($"[Error Detail] {detail}");
+            else if (detail.GetType().IsClass)
+                logParts.Add($"[Error Detail] {JsonSerializer.Serialize(detail)}");
+            else
+                logParts.Add($"[Error Detail] {detail}");
+        }
 
         return string.Join(Environment.NewLine, logParts);
     }

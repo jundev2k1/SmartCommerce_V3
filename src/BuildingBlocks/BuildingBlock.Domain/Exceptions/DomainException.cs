@@ -12,11 +12,13 @@ public abstract class DomainException : Exception
 {
     protected DomainException(
         MessageCodeEnum messageCode,
-        string? systemMessage = null)
+        string? systemMessage = null,
+        object? detail = null)
         : base(systemMessage ?? MessageCodeAttribute.GetMessage(messageCode))
     {
         MessageCode = messageCode;
         SystemMessage = systemMessage;
+        ErrorDetails = detail;
     }
 
     /// <summary>
@@ -28,4 +30,6 @@ public abstract class DomainException : Exception
     /// System message for server logging (detailed error info).
     /// </summary>
     public string? SystemMessage { get; }
+
+    public object? ErrorDetails { get; }
 }

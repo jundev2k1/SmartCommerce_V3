@@ -3,15 +3,15 @@ using Product.Application.Abstractions.Persistence.Products;
 namespace Product.Application.Features.Products.Commands.SetDefaultVariation;
 
 public sealed class SetDefaultVariationHandler(
-    IProductWriteService productWriteService) : ICommandHandler<SetDefaultVariationCommand, SetDefaultVariationResponse>
+    IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork) : ICommandHandler<SetDefaultVariationCommand, SetDefaultVariationResponse>
 {
     public async Task<SetDefaultVariationResponse> Handle(SetDefaultVariationCommand request, CancellationToken ct = default)
     {
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.SetDefaultVariation(request.VariationId);
-            await Task.CompletedTask;
-        }, ct);
+            await productWriteService.SetDefaultVariationAsync(request.ProductId, request.VariationId, ct);
+        }, ct: ct);
 
         return new SetDefaultVariationResponse();
     }

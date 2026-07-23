@@ -11,6 +11,7 @@ namespace Product.Application.Features.Products.Commands.DeleteProduct;
 public sealed class DeleteProductHandler(
     IProductReadService productReadService,
     IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<DeleteProductCommand, DeleteProductResponse>
 {
@@ -21,11 +22,14 @@ public sealed class DeleteProductHandler(
 
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductDeletedIntegrationEvent(request.ProductId, correlationId),
-            ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await productWriteService.DeleteAsync(request.ProductId, ct);
 
-        await productWriteService.DeleteAsync(request.ProductId, ct);
+            await outboxStore.EnqueueAsync(
+                new ProductDeletedIntegrationEvent(request.ProductId, correlationId),
+                ct);
+        }, ct: ct);
 
         return new DeleteProductResponse();
     }

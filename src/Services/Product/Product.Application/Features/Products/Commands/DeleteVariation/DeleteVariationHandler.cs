@@ -9,6 +9,7 @@ namespace Product.Application.Features.Products.Commands.DeleteVariation;
 /// <summary>Aggregate enforces "cannot remove the last variation" and auto-promotes a new Default if needed - see Product.RemoveVariation.</summary>
 public sealed class DeleteVariationHandler(
     IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<DeleteVariationCommand, DeleteVariationResponse>
 {
@@ -16,15 +17,14 @@ public sealed class DeleteVariationHandler(
     {
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductVariationDeletedIntegrationEvent(request.ProductId, request.VariationId, correlationId),
-            ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.RemoveVariation(request.VariationId);
-            await Task.CompletedTask;
-        }, ct);
+            await productWriteService.DeleteVariationAsync(request.ProductId, request.VariationId, ct);
+
+            await outboxStore.EnqueueAsync(
+                new ProductVariationDeletedIntegrationEvent(request.ProductId, request.VariationId, correlationId),
+                ct);
+        }, ct: ct);
 
         return new DeleteVariationResponse();
     }

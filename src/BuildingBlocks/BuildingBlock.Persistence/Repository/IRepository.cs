@@ -11,6 +11,8 @@ public interface IRepository<T> where T : class
 
     Task AddAsync(T entity, CancellationToken ct = default);
 
+    Task AddRangeAsync(IEnumerable<T> entities, CancellationToken ct = default);
+
     Task UpdateAsync<TId>(
         TId id,
         Func<T, Task> updateAction,
@@ -22,5 +24,7 @@ public interface IRepository<T> where T : class
         Func<T, Task> updateAction,
         CancellationToken ct = default);
 
-    Task DeleteAsync(Guid id, CancellationToken ct = default);
+    Task DeleteAsync<TId>(TId id, CancellationToken ct = default);
+
+    Task DeleteRangeAsync<TId>(TId[] ids, CancellationToken ct = default);
 }

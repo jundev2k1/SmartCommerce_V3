@@ -11,6 +11,7 @@ namespace Product.Application.Features.Products.Commands.UpdateProduct;
 public sealed class UpdateProductHandler(
     IProductReadService productReadService,
     IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<UpdateProductCommand, UpdateProductResponse>
 {
@@ -23,15 +24,14 @@ public sealed class UpdateProductHandler(
         string slugValue = Slug.Create(request.Slug).Value;
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductUpdatedIntegrationEvent(request.ProductId, name, slugValue, correlationId),
-            ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.UpdateDetails(name, request.Description.Trim());
-            product.ChangeSlug(Slug.Create(request.Slug));
-        }, ct);
+            await productWriteService.UpdateDetailsAsync(request.ProductId, name, request.Description.Trim(), request.Slug, ct);
+
+            await outboxStore.EnqueueAsync(
+                new ProductUpdatedIntegrationEvent(request.ProductId, name, slugValue, correlationId),
+                ct);
+        }, ct: ct);
 
         return new UpdateProductResponse();
     }

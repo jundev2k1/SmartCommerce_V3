@@ -6,6 +6,7 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
+using BuildingBlock.Persistence.Repository;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,16 +14,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Product.Application.Abstractions.Persistence.ProductCategories;
 using Product.Application.Abstractions.Persistence.Products;
 using Product.Application.Abstractions.Persistence.ProductTags;
+using Product.Persistence.Contexts.ProductCategories.Read;
+using Product.Persistence.Contexts.ProductCategories.Write;
+using Product.Persistence.Contexts.Products.Read;
+using Product.Persistence.Contexts.Products.Write;
+using Product.Persistence.Contexts.ProductTags.Read;
+using Product.Persistence.Contexts.ProductTags.Write;
+using Product.Persistence.Engine;
+using Product.Persistence.Engine.UnitOfWork;
+using Product.Persistence.Inbox;
 using Product.Persistence.Outbox;
-using Product.Persistence.ProductCategories.Read;
-using Product.Persistence.ProductCategories.Repositories;
-using Product.Persistence.ProductCategories.Write;
-using Product.Persistence.Products.Read;
-using Product.Persistence.Products.Repositories;
-using Product.Persistence.Products.Write;
-using Product.Persistence.ProductTags.Read;
-using Product.Persistence.ProductTags.Repositories;
-using Product.Persistence.ProductTags.Write;
 
 namespace Product.Persistence;
 
@@ -75,21 +76,20 @@ public static class DependencyInjection
         return services;
     }
 
-    // Product/ProductCategory/ProductTag repositories no longer match the generic
-    // IRepository<T> shape (custom Search/Exists methods, owned-collection aggregate), so they
-    // are registered explicitly rather than picked up by the Scrutor IRepository<> scan - same
-    // reasoning as Inventory's IInventoryTransactionRepository / Audit's IAuditLogRepository.
+    // ProductRepo/ProductCategoryRepo/ProductTagRepo all implement the generic IRepository<T> -
+    // Scrutor's AsImplementedInterfaces() registers each concrete class against every interface
+    // it implements (including the empty per-aggregate marker interfaces), so this one scan call
+    // covers both. Read/Write services are registered explicitly since they're one-per-aggregate.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IProductRepository, ProductRepo>();
+        services.AddScopedByInterface(typeof(IRepository<>), typeof(ProductDbContext));
+
         services.AddScoped<IProductReadService, ProductReadService>();
         services.AddScoped<IProductWriteService, ProductWriteService>();
 
-        services.AddScoped<IProductCategoryRepository, ProductCategoryRepo>();
         services.AddScoped<IProductCategoryReadService, ProductCategoryReadService>();
         services.AddScoped<IProductCategoryWriteService, ProductCategoryWriteService>();
 
-        services.AddScoped<IProductTagRepository, ProductTagRepo>();
         services.AddScoped<IProductTagReadService, ProductTagReadService>();
         services.AddScoped<IProductTagWriteService, ProductTagWriteService>();
 
@@ -98,7 +98,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 
@@ -115,7 +115,7 @@ public static class DependencyInjection
     private static IServiceCollection AddInbox(this IServiceCollection services)
     {
         services.AddEfInboxStore<ProductDbContext>();
-        services.AddScoped<IInboxStore, Inbox.InboxStore>();
+        services.AddScoped<IInboxStore, InboxStore>();
 
         return services;
     }

@@ -12,11 +12,16 @@ public sealed class DeleteProductTagHandler(
 {
     public async Task<DeleteProductTagResponse> Handle(DeleteProductTagCommand request, CancellationToken ct = default)
     {
-        _ = await tagReadService.GetByIdAsync(request.ProductTagId, ct)
-            ?? throw new NotFoundException(nameof(ProductTag), request.ProductTagId);
+        var isExist = await tagReadService.IsExistAsync(request.ProductTagId, ct);
+        if (!isExist)
+            throw new NotFoundException(nameof(ProductTag), request.ProductTagId);
 
-        if (await productReadService.ExistsWithTagAsync(request.ProductTagId, ct))
-            throw new ConflictException("Cannot delete a tag that is still assigned to products.");
+        // TODO: Add detail prop
+        var existingProductIds = await productReadService.GetProductsByTagIdAsync(request.ProductTagId, ct);
+        if (existingProductIds.Length > 0)
+            throw new ConflictException(
+                systemMessage: "Cannot delete a tag that is still assigned to products.",
+                detail: new { existingProductIds });
 
         await tagWriteService.DeleteAsync(request.ProductTagId, ct);
 

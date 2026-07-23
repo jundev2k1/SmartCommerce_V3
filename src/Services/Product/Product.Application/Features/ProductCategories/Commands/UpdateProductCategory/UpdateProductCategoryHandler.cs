@@ -6,7 +6,8 @@ namespace Product.Application.Features.ProductCategories.Commands.UpdateProductC
 
 public sealed class UpdateProductCategoryHandler(
     IProductCategoryReadService categoryReadService,
-    IProductCategoryWriteService categoryWriteService) : ICommandHandler<UpdateProductCategoryCommand, UpdateProductCategoryResponse>
+    IProductCategoryWriteService categoryWriteService,
+    IUnitOfWork unitOfWork) : ICommandHandler<UpdateProductCategoryCommand, UpdateProductCategoryResponse>
 {
     public async Task<UpdateProductCategoryResponse> Handle(UpdateProductCategoryCommand request, CancellationToken ct = default)
     {
@@ -18,11 +19,11 @@ public sealed class UpdateProductCategoryHandler(
             await EnsureNoCycleAsync(request.ProductCategoryId, request.ParentCategoryId.Value, ct);
         }
 
-        await categoryWriteService.UpdateAsync(request.ProductCategoryId, async (category) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            category.UpdateDetails(request.Name.Trim(), request.Description.Trim());
-            category.ChangeParent(request.ParentCategoryId);
-        }, ct);
+            await categoryWriteService.UpdateDetailsAsync(
+                request.ProductCategoryId, request.Name.Trim(), request.Description.Trim(), request.ParentCategoryId, ct);
+        }, ct: ct);
 
         return new UpdateProductCategoryResponse();
     }

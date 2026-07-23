@@ -80,4 +80,29 @@ public sealed class OrderRepo(OrderDbContext dbContext) : IOrderRepository, IRep
         if (order is not null)
             dbContext.Orders.Remove(order);
     }
+
+    // Generic IRepository<T> shape (extended alongside AddRangeAsync/DeleteRangeAsync below) -
+    // kept as separate overloads from the non-generic DeleteAsync above, which IOrderRepository's
+    // own contract still expects; not yet consumed here, added only to satisfy the interface
+    // ahead of Order's own persistence-refactor phase (see docs/refactoring/persistence-refactor-plan.md).
+    public async Task AddRangeAsync(IEnumerable<OrderEntity> entities, CancellationToken ct = default)
+    {
+        await dbContext.Orders.AddRangeAsync(entities, ct);
+    }
+
+    public async Task DeleteAsync<TId>(TId id, CancellationToken ct = default)
+    {
+        var order = await dbContext.Orders
+            .FirstOrDefaultAsync(o => o.Id!.Equals(id), ct);
+
+        if (order is not null)
+            dbContext.Orders.Remove(order);
+    }
+
+    public async Task DeleteRangeAsync<TId>(TId[] ids, CancellationToken ct = default)
+    {
+        await dbContext.Orders
+            .Where(o => ids.Any(id => id!.Equals(o.Id)))
+            .ExecuteDeleteAsync(ct);
+    }
 }

@@ -39,18 +39,11 @@ public sealed class AddVariationHandler(
         ProductVariation variation = null!;
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        // The outbox event needs the newly-generated variation's Id/Sku/etc, which only exist
-        // after AddVariation runs - so unlike every other Product handler, the enqueue can't be
-        // staged before the write call and this handler must own the transaction itself.
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.StageUpdateAsync(request.ProductId, async (p) =>
-            {
-                variation = p.AddVariation(
-                    sku, request.Price, barcode, request.Cost, request.Weight, dimensions, request.Images,
-                    makeDefault: request.MakeDefault);
-                await Task.CompletedTask;
-            }, ct);
+            variation = await productWriteService.AddVariationAsync(
+                request.ProductId, sku, request.Price, barcode, request.Cost, request.Weight, dimensions, request.Images,
+                makeDefault: request.MakeDefault, ct);
 
             await outboxStore.EnqueueAsync(
                 new ProductVariationCreatedIntegrationEvent(

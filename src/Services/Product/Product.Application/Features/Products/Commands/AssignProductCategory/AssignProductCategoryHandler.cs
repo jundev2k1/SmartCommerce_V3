@@ -11,6 +11,7 @@ namespace Product.Application.Features.Products.Commands.AssignProductCategory;
 public sealed class AssignProductCategoryHandler(
     IProductWriteService productWriteService,
     IProductCategoryReadService categoryReadService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<AssignProductCategoryCommand, AssignProductCategoryResponse>
 {
@@ -21,14 +22,13 @@ public sealed class AssignProductCategoryHandler(
 
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductCategoryAssignedIntegrationEvent(request.ProductId, request.CategoryId, correlationId), ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.AssignCategory(request.CategoryId);
-            await Task.CompletedTask;
-        }, ct);
+            await productWriteService.AssignCategoryAsync(request.ProductId, request.CategoryId, ct);
+
+            await outboxStore.EnqueueAsync(
+                new ProductCategoryAssignedIntegrationEvent(request.ProductId, request.CategoryId, correlationId), ct);
+        }, ct: ct);
 
         return new AssignProductCategoryResponse();
     }

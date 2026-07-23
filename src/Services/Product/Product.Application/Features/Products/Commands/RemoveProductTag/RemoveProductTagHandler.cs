@@ -8,6 +8,7 @@ namespace Product.Application.Features.Products.Commands.RemoveProductTag;
 
 public sealed class RemoveProductTagHandler(
     IProductWriteService productWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser) : ICommandHandler<RemoveProductTagCommand, RemoveProductTagResponse>
 {
@@ -15,14 +16,13 @@ public sealed class RemoveProductTagHandler(
     {
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await outboxStore.EnqueueAsync(
-            new ProductTagRemovedIntegrationEvent(request.ProductId, request.TagId, correlationId), ct);
-
-        await productWriteService.UpdateAsync(request.ProductId, async (product) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            product.RemoveTag(request.TagId);
-            await Task.CompletedTask;
-        }, ct);
+            await productWriteService.RemoveTagAsync(request.ProductId, request.TagId, ct);
+
+            await outboxStore.EnqueueAsync(
+                new ProductTagRemovedIntegrationEvent(request.ProductId, request.TagId, correlationId), ct);
+        }, ct: ct);
 
         return new RemoveProductTagResponse();
     }
