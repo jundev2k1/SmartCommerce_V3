@@ -33,6 +33,16 @@ public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository
         await dbContext.Products.AddRangeAsync(entities, ct);
     }
 
+    public async Task AddVariationAsync(ProductVariation variation, CancellationToken ct = default)
+    {
+        await dbContext.ProductVariations.AddAsync(variation, ct);
+    }
+
+    public async Task AddVariationRangeAsync(IEnumerable<ProductVariation> variations, CancellationToken ct = default)
+    {
+        await dbContext.ProductVariations.AddRangeAsync(variations, ct);
+    }
+
     public async Task UpdateAsync<TId>(TId id, Func<ProductEntity, Task> updateAction, CancellationToken ct = default)
     {
         var product = await dbContext.Products
@@ -55,6 +65,19 @@ public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository
         await updateAction(product);
     }
 
+    public async Task UpdateVariationAsync(
+        Guid id,
+        Func<IQueryable<ProductVariation>, IQueryable<ProductVariation>> includes,
+        Func<ProductVariation, Task> updateAction,
+        CancellationToken ct = default)
+    {
+        var query = includes(dbContext.ProductVariations);
+        var variation = await query.FirstOrDefaultAsync(p => p.Id!.Equals(id), ct)
+            ?? throw new NotFoundException(nameof(ProductVariation), id!);
+
+        await updateAction(variation);
+    }
+
     public async Task DeleteAsync<TId>(TId id, CancellationToken ct = default)
     {
         var product = await dbContext.Products
@@ -69,5 +92,14 @@ public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository
         await dbContext.Products
             .Where(p => ids.Any(id => id!.Equals(p.Id)))
             .ExecuteDeleteAsync(ct);
+    }
+
+    public async Task RemoveVariationAsync(Guid id, CancellationToken ct = default)
+    {
+        var variation = await dbContext.ProductVariations
+            .FirstOrDefaultAsync(v => v.Id == id, ct)
+            ?? throw new NotFoundException(nameof(ProductVariation), id!);
+
+        dbContext.Remove(variation);
     }
 }

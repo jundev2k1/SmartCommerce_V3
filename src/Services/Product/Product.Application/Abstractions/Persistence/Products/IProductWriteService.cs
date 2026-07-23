@@ -20,7 +20,7 @@ public interface IProductWriteService
         bool makeDefault,
         CancellationToken ct = default);
 
-    Task UpdateVariationAsync(
+    Task UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -33,7 +33,7 @@ public interface IProductWriteService
         ProductVariationStatus status,
         CancellationToken ct = default);
 
-    Task DeleteVariationAsync(Guid productId, Guid variationId, CancellationToken ct = default);
+    Task DeleteVariationAsync(Guid variationId, CancellationToken ct = default);
 
     Task ReorderVariationsAsync(Guid productId, IReadOnlyList<Guid> orderedVariationIds, CancellationToken ct = default);
 

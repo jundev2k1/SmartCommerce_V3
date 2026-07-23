@@ -22,7 +22,7 @@ public sealed class ProductVariation : BaseEntity<Guid>
     /// ever being bypassed by code outside the aggregate. Flat parameters (no Spec/DTO object)
     /// so call sites stay explicit and adding/removing a field never breaks every caller.
     /// </summary>
-    internal static ProductVariation Create(
+    public static ProductVariation Create(
         Guid id,
         Guid productId,
         Sku sku,

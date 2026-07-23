@@ -4,6 +4,7 @@ using BuildingBlock.Persistence.Repository;
 using Product.Application.Abstractions.Persistence.Products;
 using Product.Domain.Enums;
 using Product.Domain.ValueObjects;
+using Product.Persistence.Contexts.Products.Repositories;
 
 namespace Product.Persistence.Contexts.Products.Write;
 
@@ -14,7 +15,8 @@ namespace Product.Persistence.Contexts.Products.Write;
 /// automatically enlists this service's repo calls in whatever transaction the caller opened.
 /// </summary>
 public sealed class ProductWriteService(
-    IRepository<ProductEntity> repo) : IProductWriteService
+    IRepository<ProductEntity> repo,
+    IProductRepository productRepo) : IProductWriteService
 {
     public async Task CreateAsync(ProductEntity product, CancellationToken ct = default)
     {
@@ -44,16 +46,28 @@ public sealed class ProductWriteService(
     {
         ProductVariation variation = null!;
 
-        await repo.UpdateAsync(productId, async product =>
-        {
-            variation = product.AddVariation(sku, price, barcode, cost, weight, dimensions, images, makeDefault: makeDefault);
-            await Task.CompletedTask;
-        }, ct);
+        await repo.UpdateAsync(
+            productId,
+            query => query.Include(q => q.Variations),
+            async product =>
+            {
+                variation = product.AddVariation(
+                    sku,
+                    price,
+                    barcode,
+                    cost,
+                    weight,
+                    dimensions,
+                    images,
+                    makeDefault: makeDefault);
+                await Task.CompletedTask;
+            },
+            ct);
 
         return variation;
     }
 
-    public async Task UpdateVariationAsync(
+    public async Task UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -66,99 +80,111 @@ public sealed class ProductWriteService(
         ProductVariationStatus status,
         CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            var variation = product.Variations.FirstOrDefault(v => v.Id == variationId)
-                ?? throw new NotFoundException(nameof(ProductVariation), variationId);
-
-            variation.UpdateIdentifiers(sku, barcode);
-            variation.UpdatePricing(price, cost);
-            variation.UpdatePhysicalAttributes(weight, dimensions);
-            variation.ReplaceImages(images ?? []);
-
-            switch (status)
+        await productRepo.UpdateVariationAsync(
+            variationId,
+            query => query,
+            async variation =>
             {
-                case ProductVariationStatus.Active:
-                    variation.Activate();
-                    break;
-                case ProductVariationStatus.Inactive:
-                    variation.Deactivate();
-                    break;
-                case ProductVariationStatus.Discontinued:
-                    variation.Discontinue();
-                    break;
-            }
+                variation.UpdateIdentifiers(sku, barcode);
+                variation.UpdatePricing(price, cost);
+                variation.UpdatePhysicalAttributes(weight, dimensions);
+                variation.ReplaceImages(images ?? []);
 
-            await Task.CompletedTask;
-        }, ct);
+                switch (status)
+                {
+                    case ProductVariationStatus.Active:
+                        variation.Activate();
+                        break;
+                    case ProductVariationStatus.Inactive:
+                        variation.Deactivate();
+                        break;
+                    case ProductVariationStatus.Discontinued:
+                        variation.Discontinue();
+                        break;
+                }
+
+                await Task.CompletedTask;
+            },
+            ct);
     }
 
-    public async Task DeleteVariationAsync(Guid productId, Guid variationId, CancellationToken ct = default)
+    public async Task DeleteVariationAsync(Guid variationId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            product.RemoveVariation(variationId);
-            await Task.CompletedTask;
-        }, ct);
+        await productRepo.RemoveVariationAsync(variationId, ct);
     }
 
     public async Task ReorderVariationsAsync(Guid productId, IReadOnlyList<Guid> orderedVariationIds, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            var currentIds = product.Variations.Select(v => v.Id).ToHashSet();
-            var requestedIds = orderedVariationIds.ToHashSet();
-
-            if (requestedIds.Count != orderedVariationIds.Count || !currentIds.SetEquals(requestedIds))
+        await repo.UpdateAsync(
+            productId,
+            query => query.Include(q => q.Variations),
+            async product =>
             {
-                throw new BadRequestException(
-                    "OrderedVariationIds must contain exactly every existing variation id, each exactly once.");
-            }
+                var currentIds = product.Variations.Select(v => v.Id).ToHashSet();
+                var requestedIds = orderedVariationIds.ToHashSet();
 
-            for (var i = 0; i < orderedVariationIds.Count; i++)
-            {
-                var variation = product.Variations.First(v => v.Id == orderedVariationIds[i]);
-                variation.ChangeDisplayOrder(i);
-            }
+                if (requestedIds.Count != orderedVariationIds.Count || !currentIds.SetEquals(requestedIds))
+                {
+                    throw new BadRequestException(
+                        "OrderedVariationIds must contain exactly every existing variation id, each exactly once.");
+                }
 
-            await Task.CompletedTask;
-        }, ct);
+                for (var i = 0; i < orderedVariationIds.Count; i++)
+                {
+                    var variation = product.Variations.First(v => v.Id == orderedVariationIds[i]);
+                    variation.ChangeDisplayOrder(i);
+                }
+
+                await Task.CompletedTask;
+            }, ct);
     }
 
     public async Task SetDefaultVariationAsync(Guid productId, Guid variationId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            product.SetDefaultVariation(variationId);
-            await Task.CompletedTask;
-        }, ct);
+        await repo.UpdateAsync(
+            productId,
+            query => query.Include(q => q.Variations),
+            async product =>
+            {
+                product.SetDefaultVariation(variationId);
+                await Task.CompletedTask;
+            }, ct);
     }
 
     public async Task AssignCategoryAsync(Guid productId, Guid categoryId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            product.AssignCategory(categoryId);
-            await Task.CompletedTask;
-        }, ct);
+        await repo.UpdateAsync(
+            productId,
+            query => query.Include(q => q.CategoryMappings),
+            async product =>
+            {
+                product.AssignCategory(categoryId);
+                await Task.CompletedTask;
+            }, ct);
     }
 
     public async Task AssignTagAsync(Guid productId, Guid tagId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            product.AssignTag(tagId);
-            await Task.CompletedTask;
-        }, ct);
+        await repo.UpdateAsync(
+            productId,
+            query => query.Include(q => q.TagMappings),
+            async product =>
+            {
+                product.AssignTag(tagId);
+                await Task.CompletedTask;
+            }, ct);
     }
 
     public async Task RemoveCategoryAsync(Guid productId, Guid categoryId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            product.RemoveCategory(categoryId);
-            await Task.CompletedTask;
-        }, ct);
+        await repo.UpdateAsync(
+            productId,
+            query => query.Include(q => q.CategoryMappings),
+            async product =>
+            {
+                product.RemoveCategory(categoryId);
+                await Task.CompletedTask;
+            }, ct);
     }
 
     public async Task RemoveTagAsync(Guid productId, Guid tagId, CancellationToken ct = default)

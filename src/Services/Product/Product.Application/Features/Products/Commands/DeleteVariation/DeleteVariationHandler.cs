@@ -19,7 +19,7 @@ public sealed class DeleteVariationHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.DeleteVariationAsync(request.ProductId, request.VariationId, ct);
+            await productWriteService.DeleteVariationAsync(request.VariationId, ct);
 
             await outboxStore.EnqueueAsync(
                 new ProductVariationDeletedIntegrationEvent(request.ProductId, request.VariationId, correlationId),

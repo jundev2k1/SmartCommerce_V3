@@ -32,7 +32,7 @@ public sealed class UpdateVariationHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.UpdateVariationAsync(
+            await productWriteService.UpdateVariationInformationAsync(
                 request.ProductId, request.VariationId, sku, request.Price, barcode, request.Cost, request.Weight,
                 dimensions, request.Images, status, ct);
 

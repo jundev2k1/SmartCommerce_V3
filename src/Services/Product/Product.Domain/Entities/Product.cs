@@ -95,7 +95,18 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
         var displayOrder = Variations.Count == 0 ? 0 : Variations.Max(v => v.DisplayOrder) + 1;
 
         var variation = ProductVariation.Create(
-            Guid.CreateVersion7(), Id, sku, price, displayOrder, barcode, cost, weight, dimensions, images, status, metadata);
+            Guid.CreateVersion7(),
+            Id,
+            sku,
+            price,
+            displayOrder,
+            barcode,
+            cost,
+            weight,
+            dimensions,
+            images,
+            status,
+            metadata);
         Variations.Add(variation);
 
         if (makeDefault)
@@ -151,7 +162,10 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
         if (CategoryMappings.Any(m => m.CategoryId == categoryId))
             return;
 
-        CategoryMappings.Add(ProductCategoryMapping.Create(Guid.CreateVersion7(), Id, categoryId));
+        CategoryMappings.Add(ProductCategoryMapping.Create(
+            Guid.CreateVersion7(),
+            Id,
+            categoryId));
         Tourch();
     }
 
@@ -170,7 +184,11 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
         if (TagMappings.Any(m => m.TagId == tagId))
             return;
 
-        TagMappings.Add(ProductTagMapping.Create(Guid.CreateVersion7(), Id, tagId));
+        TagMappings.Add(
+            ProductTagMapping.Create(
+                Guid.CreateVersion7(),
+                Id,
+                tagId));
         Tourch();
     }
 
