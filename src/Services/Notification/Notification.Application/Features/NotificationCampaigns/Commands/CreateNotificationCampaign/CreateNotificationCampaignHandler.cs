@@ -1,10 +1,9 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
 namespace Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
 
 public sealed class CreateNotificationCampaignHandler(
-    INotificationCampaignRepository notificationCampaignRepo,
-    IUnitOfWork uow) : ICommandHandler<CreateNotificationCampaignCommand, CreateNotificationCampaignResponse>
+    INotificationCampaignWriteService notificationCampaignWriteService) : ICommandHandler<CreateNotificationCampaignCommand, CreateNotificationCampaignResponse>
 {
     public async Task<CreateNotificationCampaignResponse> Handle(CreateNotificationCampaignCommand request, CancellationToken ct = default)
     {
@@ -14,8 +13,7 @@ public sealed class CreateNotificationCampaignHandler(
         var entity = NotificationCampaign.Create(
             Guid.CreateVersion7(), request.Name, request.Description, request.GroupId, schedule, targets);
 
-        await notificationCampaignRepo.AddAsync(entity, ct);
-        await uow.SaveChangesAsync(ct);
+        await notificationCampaignWriteService.CreateAsync(entity, ct);
 
         return new CreateNotificationCampaignResponse(entity.Id);
     }

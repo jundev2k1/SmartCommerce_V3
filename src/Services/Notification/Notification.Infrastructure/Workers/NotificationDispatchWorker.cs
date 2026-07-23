@@ -3,7 +3,7 @@ using BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.Options;
 
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationDispatches;
 using Notification.Application.Abstractions.Services;
 using Notification.Domain.Entities;
 using Notification.Domain.Enums;
@@ -19,7 +19,8 @@ namespace Notification.Infrastructure.Workers;
 /// exhausted, mirroring Inbox's retry/backoff shape (see Inbox:Retry in appsettings.json).
 /// </summary>
 public sealed class NotificationDispatchWorker(
-    INotificationDispatchRepository dispatchRepo,
+    INotificationDispatchReadService dispatchReadService,
+    INotificationDispatchWriteService dispatchWriteService,
     INotificationChannelCache channelCache,
     IChannelSenderResolver senderResolver,
     IOptions<NotificationDispatchWorkerOptions> options,
@@ -40,7 +41,7 @@ public sealed class NotificationDispatchWorker(
             return;
         }
 
-        var due = await dispatchRepo.GetDueForProcessingAsync(_options.BatchSize, ct);
+        var due = await dispatchReadService.GetDueForProcessingAsync(_options.BatchSize, ct);
         if (due.Count == 0)
             return;
 
@@ -55,7 +56,7 @@ public sealed class NotificationDispatchWorker(
     private async Task ProcessAsync(NotificationDispatch dispatch, CancellationToken ct)
     {
         dispatch.MarkProcessing();
-        await dispatchRepo.UpdateAsync(dispatch, ct);
+        await dispatchWriteService.UpdateAsync(dispatch, ct);
 
         try
         {
@@ -79,7 +80,7 @@ public sealed class NotificationDispatchWorker(
             logger.Error(ex, "Dispatch {DispatchId} on channel {Channel} failed", dispatch.Id, dispatch.Channel);
         }
 
-        await dispatchRepo.UpdateAsync(dispatch, ct);
+        await dispatchWriteService.UpdateAsync(dispatch, ct);
     }
 
     private TimeSpan ComputeBackoff(int retryCount)

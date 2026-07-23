@@ -1,10 +1,9 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
 namespace Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
 
 public sealed class CreateNotificationTemplateHandler(
-    INotificationTemplateRepository notificationTemplateRepo,
-    IUnitOfWork uow) : ICommandHandler<CreateNotificationTemplateCommand, CreateNotificationTemplateResponse>
+    INotificationTemplateWriteService notificationTemplateWriteService) : ICommandHandler<CreateNotificationTemplateCommand, CreateNotificationTemplateResponse>
 {
     public async Task<CreateNotificationTemplateResponse> Handle(CreateNotificationTemplateCommand request, CancellationToken ct = default)
     {
@@ -13,8 +12,7 @@ public sealed class CreateNotificationTemplateHandler(
         var entity = NotificationTemplate.Create(
             Guid.CreateVersion7(), request.Name, request.Channel, content);
 
-        await notificationTemplateRepo.AddAsync(entity, ct);
-        await uow.SaveChangesAsync(ct);
+        await notificationTemplateWriteService.CreateAsync(entity, ct);
 
         return new CreateNotificationTemplateResponse(entity.Id);
     }

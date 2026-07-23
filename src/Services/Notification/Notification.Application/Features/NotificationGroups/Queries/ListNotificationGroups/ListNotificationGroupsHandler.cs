@@ -1,15 +1,15 @@
 using BuildingBlock.Application.Abstractions.Common;
 
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationGroups;
 
 namespace Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
 
-public sealed class ListNotificationGroupsHandler(INotificationGroupRepository notificationGroupRepo)
+public sealed class ListNotificationGroupsHandler(INotificationGroupReadService notificationGroupReadService)
     : IQueryHandler<ListNotificationGroupsQuery, PaginatedResult<NotificationGroupSummaryResponse>>
 {
     public async Task<PaginatedResult<NotificationGroupSummaryResponse>> Handle(ListNotificationGroupsQuery request, CancellationToken ct = default)
     {
-        var (items, totalCount) = await notificationGroupRepo.SearchAsync(request.Search, request.Page, request.PageSize, ct);
+        var (items, totalCount) = await notificationGroupReadService.SearchAsync(request.Search, request.Page, request.PageSize, ct);
 
         var mapped = items
             .Select(x => new NotificationGroupSummaryResponse(x.Id, x.Name, x.Status, x.Audience.Type, x.CreatedAt))

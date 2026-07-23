@@ -1,15 +1,15 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
 using BuildingBlock.Application.Exceptions;
 
 namespace Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
 
-public sealed class GetNotificationCampaignHandler(INotificationCampaignRepository notificationCampaignRepo)
+public sealed class GetNotificationCampaignHandler(INotificationCampaignReadService notificationCampaignReadService)
     : IQueryHandler<GetNotificationCampaignQuery, GetNotificationCampaignResponse>
 {
     public async Task<GetNotificationCampaignResponse> Handle(GetNotificationCampaignQuery request, CancellationToken ct = default)
     {
-        var entity = await notificationCampaignRepo.GetByIdAsync(request.CampaignId, ct)
+        var entity = await notificationCampaignReadService.GetByIdAsync(request.CampaignId, ct)
             ?? throw new NotFoundException("NotificationCampaign", request.CampaignId);
 
         var targets = entity.Targets

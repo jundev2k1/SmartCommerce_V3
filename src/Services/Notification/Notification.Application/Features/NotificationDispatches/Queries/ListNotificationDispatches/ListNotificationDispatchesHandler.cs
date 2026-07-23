@@ -1,15 +1,15 @@
 using BuildingBlock.Application.Abstractions.Common;
 
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationDispatches;
 
 namespace Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
 
-public sealed class ListNotificationDispatchesHandler(INotificationDispatchRepository notificationDispatchRepo)
+public sealed class ListNotificationDispatchesHandler(INotificationDispatchReadService notificationDispatchReadService)
     : IQueryHandler<ListNotificationDispatchesQuery, PaginatedResult<NotificationDispatchSummaryResponse>>
 {
     public async Task<PaginatedResult<NotificationDispatchSummaryResponse>> Handle(ListNotificationDispatchesQuery request, CancellationToken ct = default)
     {
-        var (items, totalCount) = await notificationDispatchRepo.SearchAsync(request.Status, request.Page, request.PageSize, ct);
+        var (items, totalCount) = await notificationDispatchReadService.SearchAsync(request.Status, request.Page, request.PageSize, ct);
 
         var mapped = items
             .Select(x => new NotificationDispatchSummaryResponse(

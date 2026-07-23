@@ -1,15 +1,15 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
 using BuildingBlock.Application.Exceptions;
 
 namespace Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
 
-public sealed class GetNotificationTemplateHandler(INotificationTemplateRepository notificationTemplateRepo)
+public sealed class GetNotificationTemplateHandler(INotificationTemplateReadService notificationTemplateReadService)
     : IQueryHandler<GetNotificationTemplateQuery, GetNotificationTemplateResponse>
 {
     public async Task<GetNotificationTemplateResponse> Handle(GetNotificationTemplateQuery request, CancellationToken ct = default)
     {
-        var entity = await notificationTemplateRepo.GetByIdAsync(request.TemplateId, ct)
+        var entity = await notificationTemplateReadService.GetByIdAsync(request.TemplateId, ct)
             ?? throw new NotFoundException("NotificationTemplate", request.TemplateId);
 
         return new GetNotificationTemplateResponse(

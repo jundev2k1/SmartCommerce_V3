@@ -2,13 +2,13 @@ using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.UserNotifications;
 
 namespace Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
 public sealed class ListMyUserNotificationsHandler(
     ICurrentUserService currentUser,
-    IUserNotificationRepository userNotificationRepo) : IQueryHandler<ListMyUserNotificationsQuery, CursorPaginatedResult<UserNotificationSummaryResponse>>
+    IUserNotificationReadService userNotificationReadService) : IQueryHandler<ListMyUserNotificationsQuery, CursorPaginatedResult<UserNotificationSummaryResponse>>
 {
     public async Task<CursorPaginatedResult<UserNotificationSummaryResponse>> Handle(ListMyUserNotificationsQuery request, CancellationToken ct = default)
     {
@@ -18,7 +18,7 @@ public sealed class ListMyUserNotificationsHandler(
         var cursor = UserNotificationCursor.Decode(request.Cursor);
 
         // Fetch one extra row to know whether a next page exists without a second round trip.
-        var items = await userNotificationRepo.GetMineAsync(
+        var items = await userNotificationReadService.GetMineAsync(
             userId, request.Status, cursor?.CreatedAt, cursor?.Id, request.Limit + 1, ct);
 
         var hasMore = items.Count > request.Limit;

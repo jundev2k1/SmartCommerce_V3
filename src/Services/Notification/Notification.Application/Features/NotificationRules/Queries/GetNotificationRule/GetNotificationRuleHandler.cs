@@ -1,15 +1,15 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationRules;
 
 using BuildingBlock.Application.Exceptions;
 
 namespace Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
 
-public sealed class GetNotificationRuleHandler(INotificationRuleRepository notificationRuleRepo)
+public sealed class GetNotificationRuleHandler(INotificationRuleReadService notificationRuleReadService)
     : IQueryHandler<GetNotificationRuleQuery, GetNotificationRuleResponse>
 {
     public async Task<GetNotificationRuleResponse> Handle(GetNotificationRuleQuery request, CancellationToken ct = default)
     {
-        var entity = await notificationRuleRepo.GetByIdAsync(request.RuleId, ct)
+        var entity = await notificationRuleReadService.GetByIdAsync(request.RuleId, ct)
             ?? throw new NotFoundException("NotificationRule", request.RuleId);
 
         var targets = entity.Targets

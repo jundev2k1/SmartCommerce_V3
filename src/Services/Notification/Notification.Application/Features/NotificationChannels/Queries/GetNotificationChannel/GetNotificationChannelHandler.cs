@@ -1,15 +1,15 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationChannels;
 
 using BuildingBlock.Application.Exceptions;
 
 namespace Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
 
-public sealed class GetNotificationChannelHandler(INotificationChannelRepository notificationChannelRepo)
+public sealed class GetNotificationChannelHandler(INotificationChannelReadService notificationChannelReadService)
     : IQueryHandler<GetNotificationChannelQuery, GetNotificationChannelResponse>
 {
     public async Task<GetNotificationChannelResponse> Handle(GetNotificationChannelQuery request, CancellationToken ct = default)
     {
-        var entity = await notificationChannelRepo.GetByIdAsync(request.ChannelId, ct)
+        var entity = await notificationChannelReadService.GetByIdAsync(request.ChannelId, ct)
             ?? throw new NotFoundException("NotificationChannel", request.ChannelId);
 
         return new GetNotificationChannelResponse(

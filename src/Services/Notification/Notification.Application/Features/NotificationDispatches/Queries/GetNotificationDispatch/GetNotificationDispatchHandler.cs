@@ -1,15 +1,15 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationDispatches;
 
 using BuildingBlock.Application.Exceptions;
 
 namespace Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
 
-public sealed class GetNotificationDispatchHandler(INotificationDispatchRepository notificationDispatchRepo)
+public sealed class GetNotificationDispatchHandler(INotificationDispatchReadService notificationDispatchReadService)
     : IQueryHandler<GetNotificationDispatchQuery, GetNotificationDispatchResponse>
 {
     public async Task<GetNotificationDispatchResponse> Handle(GetNotificationDispatchQuery request, CancellationToken ct = default)
     {
-        var entity = await notificationDispatchRepo.GetByIdAsync(request.DispatchId, ct)
+        var entity = await notificationDispatchReadService.GetByIdAsync(request.DispatchId, ct)
             ?? throw new NotFoundException("NotificationDispatch", request.DispatchId);
 
         return new GetNotificationDispatchResponse(

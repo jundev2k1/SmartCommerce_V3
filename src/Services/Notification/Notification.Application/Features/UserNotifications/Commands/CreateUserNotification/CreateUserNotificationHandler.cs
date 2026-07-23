@@ -1,12 +1,11 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.UserNotifications;
 using Notification.Application.Abstractions.Services;
 using Notification.Application.Features.UserNotifications.DTOs;
 
 namespace Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
 public sealed class CreateUserNotificationHandler(
-    IUserNotificationRepository userNotificationRepo,
-    IUnitOfWork uow,
+    IUserNotificationWriteService userNotificationWriteService,
     IRealtimeNotifier realtimeNotifier) : ICommandHandler<CreateUserNotificationCommand, CreateUserNotificationResponse>
 {
     public async Task<CreateUserNotificationResponse> Handle(CreateUserNotificationCommand request, CancellationToken ct = default)
@@ -26,8 +25,7 @@ public sealed class CreateUserNotificationHandler(
             request.ExpiredAt,
             request.CampaignId);
 
-        await userNotificationRepo.AddAsync(entity, ct);
-        await uow.SaveChangesAsync(ct);
+        await userNotificationWriteService.CreateAsync(entity, ct);
 
         // Best-effort realtime push on top of the durable Notification Center row just persisted -
         // every creation path (this command is shared by direct API calls and event-triggered

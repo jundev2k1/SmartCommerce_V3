@@ -3,7 +3,7 @@ using BuildingBlock.SharedKernel.Constants;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationChannels;
 using Notification.Application.Abstractions.Services;
 using Notification.Domain.Entities;
 using Notification.Domain.Enums;
@@ -15,12 +15,12 @@ namespace Notification.Infrastructure.Caching;
 /// through the shared ICacheService/Redis - the dataset is a handful of admin-edited rows (one
 /// per NotificationChannelType), so per-instance staleness within a short TTL is a non-issue, and
 /// this service has no other reason to depend on Redis. Populated on miss from
-/// INotificationChannelRepository; invalidated explicitly by the three handlers that mutate a
+/// INotificationChannelReadService; invalidated explicitly by the three handlers that mutate a
 /// channel (Enable/Disable/UpdateConfiguration) rather than relying on TTL alone.
 /// </summary>
 public sealed class NotificationChannelCache(
     IMemoryCache cache,
-    INotificationChannelRepository channelRepo,
+    INotificationChannelReadService channelReadService,
     IConfiguration configuration) : INotificationChannelCache
 {
     private readonly TimeSpan _ttl = TimeSpan.FromMinutes(
@@ -33,7 +33,7 @@ public sealed class NotificationChannelCache(
         if (cache.TryGetValue(key, out NotificationChannel? cached))
             return cached;
 
-        var channel = await channelRepo.GetByChannelTypeAsync(channelType, ct);
+        var channel = await channelReadService.GetByChannelTypeAsync(channelType, ct);
         cache.Set(key, channel, _ttl);
         return channel;
     }

@@ -1,4 +1,4 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationChannels;
 using Notification.Application.Abstractions.Services;
 
 using BuildingBlock.Application.Exceptions;
@@ -6,20 +6,19 @@ using BuildingBlock.Application.Exceptions;
 namespace Notification.Application.Features.NotificationChannels.Commands.UpdateNotificationChannelConfiguration;
 
 public sealed class UpdateNotificationChannelConfigurationHandler(
-    INotificationChannelRepository notificationChannelRepo,
-    INotificationChannelCache channelCache,
-    IUnitOfWork uow) : ICommandHandler<UpdateNotificationChannelConfigurationCommand>
+    INotificationChannelReadService notificationChannelReadService,
+    INotificationChannelWriteService notificationChannelWriteService,
+    INotificationChannelCache channelCache) : ICommandHandler<UpdateNotificationChannelConfigurationCommand>
 {
     public async Task Handle(UpdateNotificationChannelConfigurationCommand request, CancellationToken ct = default)
     {
-        var entity = await notificationChannelRepo.GetByIdAsync(request.ChannelId, ct)
+        var entity = await notificationChannelReadService.GetByIdAsync(request.ChannelId, ct)
             ?? throw new NotFoundException("NotificationChannel", request.ChannelId);
 
         var configuration = ChannelConfiguration.Create(request.ConfigJson);
         entity.UpdateConfiguration(configuration);
 
-        await notificationChannelRepo.UpdateAsync(entity, ct);
-        await uow.SaveChangesAsync(ct);
+        await notificationChannelWriteService.UpdateAsync(entity, ct);
         await channelCache.InvalidateAsync(entity.ChannelType, ct);
     }
 }

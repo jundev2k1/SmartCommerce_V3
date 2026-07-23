@@ -1,10 +1,9 @@
-using Notification.Application.Abstractions.Repositories;
+using Notification.Application.Abstractions.Persistence.NotificationRules;
 
 namespace Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
 
 public sealed class CreateNotificationRuleHandler(
-    INotificationRuleRepository notificationRuleRepo,
-    IUnitOfWork uow) : ICommandHandler<CreateNotificationRuleCommand, CreateNotificationRuleResponse>
+    INotificationRuleWriteService notificationRuleWriteService) : ICommandHandler<CreateNotificationRuleCommand, CreateNotificationRuleResponse>
 {
     public async Task<CreateNotificationRuleResponse> Handle(CreateNotificationRuleCommand request, CancellationToken ct = default)
     {
@@ -13,8 +12,7 @@ public sealed class CreateNotificationRuleHandler(
         var entity = NotificationRule.Create(
             Guid.CreateVersion7(), request.Name, request.Description, request.EventType, targets);
 
-        await notificationRuleRepo.AddAsync(entity, ct);
-        await uow.SaveChangesAsync(ct);
+        await notificationRuleWriteService.CreateAsync(entity, ct);
 
         return new CreateNotificationRuleResponse(entity.Id);
     }
