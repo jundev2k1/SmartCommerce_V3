@@ -9,7 +9,7 @@ This is the entry point. Docs are organized so a task only requires reading a **
 | If you are... | Read |
 |---|---|
 | New to this repo | [01-architecture-map.md](01-architecture-map.md) → [02-architecture-rules.md](02-architecture-rules.md) → [04-coding-rules.md](04-coding-rules.md) |
-| About to write Domain/Application code | [conventions/domain-coding-conventions.md](conventions/domain-coding-conventions.md) / [conventions/application-coding-conventions.md](conventions/application-coding-conventions.md) |
+| About to write Domain/Application/Persistence code | [conventions/domain-coding-conventions.md](conventions/domain-coding-conventions.md) / [conventions/application-coding-conventions.md](conventions/application-coding-conventions.md) / [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md) |
 | About to implement a task | [05-context-loading-map.md](05-context-loading-map.md) — tells you exactly which files to read for your task type, nothing else |
 | Looking for a copy-paste starting point | [06-implementation-templates.md](06-implementation-templates.md) |
 
@@ -32,6 +32,7 @@ Every document below belongs to exactly one of four responsibilities. Don't mix 
 |---|---|
 | [conventions/domain-coding-conventions.md](conventions/domain-coding-conventions.md) | Domain-layer style rules — aggregate creation shape, no Spec objects, plain navigation collections, many-to-many via mapping entities, reusable Value Object validation. Binding for every `*.Domain` project. |
 | [conventions/application-coding-conventions.md](conventions/application-coding-conventions.md) | Application-layer style rules — Feature-First folder shape, Handler Philosophy, responsibility-based extraction, Mapster policy, validation/constants/regex placement. Binding for every `*.Application` project. |
+| [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md) | Persistence-layer style rules — the Read/Write persistence-service pattern (repository vs. Read Service vs. Write Service responsibilities, transaction ownership, naming). Binding for every `*.Persistence` project. |
 | [04-coding-rules.md](04-coding-rules.md) | Naming, CQRS shape, endpoints, DI registration, caching decorator pattern, exceptions, async — cross-layer conventions not owned by either doc above |
 
 ### Implementation Guidelines — how to build a feature end to end

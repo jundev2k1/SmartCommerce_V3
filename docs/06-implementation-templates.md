@@ -18,15 +18,16 @@ public record {Verb}Result(/* outputs */);
 namespace {Service}.Application.Features.{Feature}.Commands.{Verb};
 
 public sealed class {Verb}Handler(
-    I{Entity}Repository repository,   // or IRepository<{Entity}> if no specific interface needed
+    I{Entity}WriteService {entity}WriteService,
     IUnitOfWork unitOfWork) : ICommandHandler<{Verb}Command, {Verb}Result>
 {
     public async Task<{Verb}Result> Handle({Verb}Command request, CancellationToken ct = default)
     {
         // 1. Load/validate against current state (throw Application/Domain exceptions on failure)
-        // 2. Mutate/create entity
-        // 3. Persist (repository call + unitOfWork.SaveChangesAsync(ct) if not auto-saved)
-        // 4. Return result
+        // 2. Wrap the mutation (+ any outbox enqueue) in unitOfWork.ExecuteTransactionAsync -
+        //    the Write Service method itself never opens a transaction, see
+        //    conventions/persistence-coding-conventions.md
+        // 3. Return result
         throw new NotImplementedException();
     }
 }
@@ -61,11 +62,11 @@ public record {Verb}Result(/* outputs */);
 ```csharp
 namespace {Service}.Application.Features.{Feature}.Queries.{Verb};
 
-public sealed class {Verb}Handler(I{Entity}Repository repository) : IQueryHandler<{Verb}Query, {Verb}Result>
+public sealed class {Verb}Handler(I{Entity}ReadService {entity}ReadService) : IQueryHandler<{Verb}Query, {Verb}Result>
 {
     public async Task<{Verb}Result> Handle({Verb}Query request, CancellationToken ct = default)
     {
-        var entity = await repository.GetByIdAsync(request.Id, ct)
+        var entity = await {entity}ReadService.GetByIdAsync(request.Id, ct)
             ?? throw new NotFoundException("{Entity}", request.Id);
 
         return new {Verb}Result(/* map fields by hand — Mapster is registered but unused, see coding-rules */);
@@ -110,34 +111,93 @@ public record {Verb}Request(/* HTTP-facing shape, may differ from the command */
 ```
 Reference: `Auth.API/Endpoints/Register.cs`, `User.API/Endpoints/CreateUser.cs`. Full endpoint-adding checklist: [workflows/add-new-api.md](workflows/add-new-api.md).
 
-## Repository interface + implementation
+## Repository + Read/Write persistence service
 
-`{Service}.Application/Abstractions/Repositories/I{Entity}Repository.cs` (only if you need queries beyond generic CRUD — otherwise inject `IRepository<{Entity}>` directly)
+Full rationale and rules: [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md). Application never references the repository interface directly — only `I{Entity}ReadService`/`I{Entity}WriteService`.
+
+`{Service}.Application/Abstractions/Persistence/{Entities}/I{Entity}ReadService.cs`
 ```csharp
-namespace {Service}.Application.Abstractions.Repositories;
+namespace {Service}.Application.Abstractions.Persistence.{Entities};
 
-public interface I{Entity}Repository : IRepository<{Entity}>
+public interface I{Entity}ReadService
 {
+    Task<{Entity}?> GetByIdAsync(Guid id, CancellationToken ct = default);
     Task<{Entity}?> GetBySomeFieldAsync(string value, CancellationToken ct = default);
 }
 ```
 
-`{Service}.Persistence/Repositories/{Entity}Repo.cs`
+`{Service}.Application/Abstractions/Persistence/{Entities}/I{Entity}WriteService.cs`
 ```csharp
-namespace {Service}.Persistence.Repositories;
+namespace {Service}.Application.Abstractions.Persistence.{Entities};
 
-public sealed class {Entity}Repo({Service}DbContext dbContext) : IRepository<{Entity}>, I{Entity}Repository
+public interface I{Entity}WriteService
 {
-    public async Task<{Entity}?> GetByIdAsync(object id, CancellationToken ct = default)
-        => await dbContext.Set<{Entity}>().FirstOrDefaultAsync(x => x.Id.Equals(id), ct);
-
-    public async Task<{Entity}?> GetBySomeFieldAsync(string value, CancellationToken ct = default)
-        => await dbContext.Set<{Entity}>().FirstOrDefaultAsync(x => x.SomeField == value, ct);
-
-    // AddAsync / UpdateAsync / DeleteAsync — see BuildingBlock.Application.Abstractions.Persistence.IRepository<T>
+    Task CreateAsync({Entity} entity, CancellationToken ct = default);
+    Task UpdateSomeFieldAsync(Guid id, string value, CancellationToken ct = default);   // intent-named, not a Func<T, Task> delegate
+    Task DeleteAsync(Guid id, CancellationToken ct = default);
 }
 ```
-No manual DI registration needed — `AddScopedByInterface(typeof(IRepository<>), typeof({Service}DbContext))` in `{Service}.Persistence/DependencyInjection.cs` picks it up by Scrutor scan. Full checklist: [workflows/add-new-repository.md](workflows/add-new-repository.md).
+
+`{Service}.Persistence/{Entities}/Repositories/I{Entity}Repository.cs` (empty marker unless you need a bulk-by-foreign-key method — see the workflow doc)
+```csharp
+namespace {Service}.Persistence.{Entities}.Repositories;
+
+public interface I{Entity}Repository
+{
+    // Leave empty for now... Reserved for future scaling if the repository requires specific functions
+}
+```
+
+`{Service}.Persistence/{Entities}/Repositories/{Entity}Repo.cs`
+```csharp
+namespace {Service}.Persistence.{Entities}.Repositories;
+
+public sealed class {Entity}Repo({Service}DbContext dbContext) : I{Entity}Repository, IRepository<{Entity}>
+{
+    public async Task<{Entity}?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        => await dbContext.{Entities}.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, ct);
+
+    // GetByIdAsync(includes) / AddAsync / AddRangeAsync / UpdateAsync ±includes / DeleteAsync<TId> / DeleteRangeAsync<TId>
+    // — see BuildingBlock.Persistence.Repository.IRepository<T>
+}
+```
+
+`{Service}.Persistence/{Entities}/Read/{Entity}ReadService.cs` — injects `{Service}DbContext` directly, independent of the repo
+```csharp
+namespace {Service}.Persistence.{Entities}.Read;
+
+public sealed class {Entity}ReadService({Service}DbContext dbContext) : I{Entity}ReadService
+{
+    public async Task<{Entity}?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        => await dbContext.{Entities}.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, ct);
+
+    public async Task<{Entity}?> GetBySomeFieldAsync(string value, CancellationToken ct = default)
+        => await dbContext.{Entities}.AsNoTracking().FirstOrDefaultAsync(x => x.SomeField == value, ct);
+}
+```
+
+`{Service}.Persistence/{Entities}/Write/{Entity}WriteService.cs` — never calls `unitOfWork.ExecuteTransactionAsync` itself
+```csharp
+namespace {Service}.Persistence.{Entities}.Write;
+
+public sealed class {Entity}WriteService(IRepository<{Entity}> repo) : I{Entity}WriteService
+{
+    public async Task CreateAsync({Entity} entity, CancellationToken ct = default)
+        => await repo.AddAsync(entity, ct);
+
+    public async Task UpdateSomeFieldAsync(Guid id, string value, CancellationToken ct = default)
+        => await repo.UpdateAsync(id, async entity =>
+        {
+            entity.UpdateSomeField(value);
+            await Task.CompletedTask;
+        }, ct);
+
+    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
+        => await repo.DeleteAsync(id, ct);
+}
+```
+
+No manual DI registration needed for the repo — `AddScopedByInterface(typeof(IRepository<>), typeof({Service}DbContext))` in `{Service}.Persistence/DependencyInjection.cs` picks it up by Scrutor scan; the Read/Write services are registered explicitly (`services.AddScoped<I{Entity}ReadService, {Entity}ReadService>()`, same for Write). Full checklist: [workflows/add-new-repository.md](workflows/add-new-repository.md).
 
 ## Domain entity
 

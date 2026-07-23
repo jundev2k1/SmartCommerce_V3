@@ -72,6 +72,14 @@ Pre-redesign, `ProductCreatedIntegrationEvent` carried a single `Sku`/`Price` (v
 - **No Redis / `ICacheService` usage** — no cache keys reserved for Order yet.
 - **No database seeding** — unlike Product's `ProductSeeder` (reference data), Order has nothing to seed; `Order.API/ApplicationPipeline.cs` skips the `SeedDatabase()` step Product/User have.
 
+## Persistence: Read/Write services
+
+Per [conventions/persistence-coding-conventions.md](../conventions/persistence-coding-conventions.md) — Order was the last service migrated (Phase 7), both aggregates built to the settled shape from the start. `Order.Application/Abstractions/Persistence/{Orders,OrderProductCatalogs}/` hold the two aggregates' Read/Write service ports; handlers, the Saga step (`ConfirmOrderStep`), and `Order.Infrastructure/Caching/CartService.cs` (a non-MediatR consumer, easy to miss with a `*Handler.cs`-only search) all inject these instead of a repository.
+
+- **`IOrderRepository` is an empty marker** — `OrderRepo` implements the generic `IRepository<OrderEntity>` in full, and `Order`+`OrderItem` (an owned collection, see below) has no bulk-by-foreign-key need beyond that. `IOrderProductCatalogRepository` isn't empty: it keeps `UpdateProductNameByProductIdAsync`/`DeleteByProductIdAsync`, since a Product's name change or deletion fans out to every catalog row for that `ProductId`, not a single tracked entity — the same shape as Inventory's `DeleteByProductIdAsync`/`DeleteByVariationIdAsync`.
+- **`IOrderWriteService.CancelAsync`/`CompleteAsync` absorb the status guard their callers used to run separately** (`BadRequestException` if the order isn't in a cancellable/completable status) — the guard now lives inside the `repo.UpdateAsync` mutation lambda, same precedent as Product's `ReorderVariationsAsync`. Both methods are shared verbatim by their obvious caller (`CancelOrderHandler`/`CompleteOrderHandler`) and by `RunCreateOrderSagaHandler`'s saga-driven cancel path — the guard is a strict match for `Order.Cancel`'s own domain invariant, so reusing it doesn't change that path's behavior.
+- **`OrderProductCatalogReadService.GetByVariantionIdsAsync`/`ExistsAsync`** are read-only and live entirely off the repo, querying `OrderDbContext` directly — including the pre-existing `Variantion` typo in the method name, kept as-is (out of scope for this migration, not silently renamed).
+
 ## Naming note: the `Order` entity vs. the `Order` root namespace
 
 Same C# namespace-vs-type collision as [Product Service](product-service.md#naming-note-the-product-entity-vs-the-product-root-namespace)/[Inventory Service](inventory-service.md#naming-note-the-inventory-entity-vs-the-inventory-root-namespace). `Order.Application` and `Order.Persistence` both alias it in `GlobalUsings.cs`:

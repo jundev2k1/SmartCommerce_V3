@@ -8,7 +8,7 @@ Full shape, including `Common/`, `DTOs/`, `Mapping/`, `Utilities/` and the respo
 
 ```
 {Service}.Application/
-  Abstractions/{Auth,Repositories,Security,Services}/     interfaces only
+  Abstractions/{Auth,Persistence,Security,Services}/     interfaces only — Persistence/ holds I{Aggregate}ReadService/I{Aggregate}WriteService per aggregate, not repository interfaces (those live in Persistence now, see conventions/persistence-coding-conventions.md)
   Features/{FeatureArea}/
     Commands/{CommandName}/
       {CommandName}Command.cs
@@ -32,12 +32,15 @@ Example: `Auth.Application/Features/Auth/Commands/Register/{RegisterCommand,Regi
   DependencyInjection.cs
 
 {Service}.Persistence/
-  Config/            IEntityTypeConfiguration<T> per entity
+  Configs/            IEntityTypeConfiguration<T> per entity
   Migrations/
-  Repositories/       {Entity}Repo.cs  (implementation, abbreviated name)
   Seeders/
   Services/            concrete app-facing services backed by EF/Identity
   UnitOfWork/
+  {Aggregates}/         one folder per aggregate root (plural, matches the DbSet name)
+    Read/{Aggregate}ReadService.cs
+    Write/{Aggregate}WriteService.cs
+    Repositories/{Aggregate}Repo.cs, I{Aggregate}Repository.cs
   {Service}DbContext.cs
   DependencyInjection.cs
 
@@ -53,7 +56,7 @@ Example: `Auth.Application/Features/Auth/Commands/Register/{RegisterCommand,Regi
 
 - Commands/Queries: `{Verb}Command` / `{Verb}Query`, handler `{Verb}Handler`, validator `{Verb}Validator`, result `{Verb}Result` (record).
 - Events: `On{Trigger}Event` / `On{Trigger}Handler` (e.g. `OnUserRegisteredEvent`, `OnUserRegisteredHandler`).
-- Repository **interfaces**: `I{Entity}Repository` (full word). Repository **implementations**: `{Entity}Repo` (abbreviated). This asymmetry is intentional house style — keep it.
+- Repository **interfaces**: `I{Entity}Repository` (full word, Persistence-internal). Repository **implementations**: `{Entity}Repo` (abbreviated). This asymmetry is intentional house style — keep it. Read/Write persistence services (the Application-owned ports) use the full word both sides: `I{Entity}ReadService`/`{Entity}ReadService`, `I{Entity}WriteService`/`{Entity}WriteService` — see [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md).
 - Namespaces mirror folder paths exactly (`Auth.Application.Features.Auth.Commands.Register`).
 - `GlobalUsings.cs` per project centralizes cross-cutting `global using`s (e.g. CQRS abstractions, Carter, MediatR).
 - `ct` is the standard `CancellationToken` parameter name, always trailing, **always defaulted** (`CancellationToken ct = default`) — including on handler/interface method signatures, not just leaf calls. This is atypical MediatR style but is the consistent house convention; follow it everywhere, including new interfaces.
@@ -64,9 +67,9 @@ Example: `Auth.Application/Features/Auth/Commands/Register/{RegisterCommand,Regi
 public record RegisterCommand(...) : ICommand<RegisterResult>;
 public record RegisterResult(...);
 
-public sealed class RegisterHandler(IAccountRepository accounts, IUnitOfWork uow, ...) : ICommandHandler<RegisterCommand, RegisterResult>
+public sealed class {Verb}Handler(I{Entity}WriteService {entity}WriteService, IUnitOfWork uow, ...) : ICommandHandler<{Verb}Command, {Verb}Result>
 {
-    public async Task<RegisterResult> Handle(RegisterCommand request, CancellationToken ct = default) { ... }
+    public async Task<{Verb}Result> Handle({Verb}Command request, CancellationToken ct = default) { ... }
 }
 ```
 
@@ -82,12 +85,16 @@ Primary-constructor DI. `ICommand`/`ICommandHandler`/`IQuery`/`IQueryHandler` co
 
 Mapster is registered (`TypeAdapterConfig.GlobalSettings` + `services.AddScoped<IMapper, ServiceMapper>()`) in every service's `Application/DependencyInjection.cs`. **New features use it** for straightforward mapping; existing hand-mapped handlers (Auth/User, and Product/Inventory/Order's first pass) are grandfathered, not retrofitted. Full policy and the reasoning behind it: [conventions/application-coding-conventions.md#mapping](conventions/application-coding-conventions.md#mapping).
 
-## Repository & Unit of Work
+## Repository & Read/Write Persistence Services
 
-- Generic `IRepository<T>` (`BuildingBlock.Application.Abstractions.Persistence.IRepository<T>`) is always available. Auth additionally defines per-aggregate interfaces (`IAccountRepository`) in `Application/Abstractions/Repositories/` when the aggregate needs queries beyond the generic CRUD surface — **follow Auth's pattern**: define a specific interface only when you need methods the generic one doesn't have; otherwise inject `IRepository<T>` directly (User Service's accepted alternative — see [services/user-service.md](services/user-service.md)).
-- **An established third option: a standalone repository interface that doesn't implement `IRepository<T>` at all**, for an aggregate whose real query shape (search/filter/rollup/exists-checks, no conditional-include overload) has drifted far enough from generic CRUD that forcing it to still satisfy `IRepository<T>` would add nothing. Product (`IProductRepository`/`IProductCategoryRepository`/`IProductTagRepository`), Inventory (`IInventoryTransactionRepository`), and Audit (`IAuditLogRepository`) all do this — each is registered manually in that service's `Persistence/DependencyInjection.cs` instead of being picked up by the Scrutor scan, since the scan matches `IRepository<T>` implementations specifically. Reach for this only once a repository's real usage looks like this, not preemptively.
-- Implementations live in `{Service}.Persistence/Repositories/{Entity}Repo.cs` and implement both the generic and (if present) the specific interface (or, for the standalone case above, just the standalone interface). Registration is automatic via Scrutor scan (`AddScopedByInterface(typeof(IRepository<>), typeof({Service}DbContext))`) for anything implementing `IRepository<T>` — **do not manually register a repository that does**.
-- Repositories never call `SaveChanges`. Simple single-write flows rely on the underlying persistence mechanism (e.g. ASP.NET Identity's `UserManager` auto-saves). Everything else follows the Transaction Management rule below.
+Application handlers never inject a repository interface directly — they inject `I{Aggregate}ReadService` (queries) or `I{Aggregate}WriteService` (mutations), both owned by Application and implemented in `{Service}.Persistence`. The repository interface (`I{Aggregate}Repository`) is Persistence-internal, injected only by that aggregate's own Write Service (and occasionally its Read Service, though the Read Service more commonly queries `{Service}DbContext` directly). Full rules, worked examples, and the transaction-ownership contract: [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md). Short version:
+
+- `{Entity}Repo` implements the generic `IRepository<T>` (`BuildingBlock.Persistence.Repository.IRepository<T>`) in full wherever the aggregate has a genuine tracked-load-and-mutate need. Its own `I{Entity}Repository` is an empty marker unless it needs a bulk workflow keyed by something other than the primary key (e.g. delete-by-product-id) — reach for that only once a repository's real usage looks like that, not preemptively.
+- Mongo-backed aggregates (Audit, Notification) skip `IRepository<T>` entirely — their repos are thin, hand-written, manually registered in DI.
+- `{Entity}ReadService` injects `{Service}DbContext`/`{Service}MongoContext` directly and is independent of the repository — this is where `Include`/projection/pagination/search/exists-checks live.
+- `{Entity}WriteService` injects the repo (and `IUnitOfWork` only for the bare-`SaveChangesAsync` self-commit case) and exposes one intent-named method per mutation — never a `Func<TEntity, Task>` parameter crossing into Application.
+- **`{Entity}WriteService` never calls `unitOfWork.ExecuteTransactionAsync(...)` itself** — see Transaction Management below; that boundary always belongs to the caller.
+- Registration: the Scrutor scan (`AddScopedByInterface(typeof(IRepository<>), typeof({Service}DbContext))`) picks up any EF repo implementing `IRepository<T>` automatically — **do not manually register one that does**. Read/Write services are registered explicitly, one per aggregate.
 
 ## Transaction Management
 
@@ -100,22 +107,22 @@ public async Task<Result> Handle(SomeCommand request, CancellationToken ct = def
 {
     await unitOfWork.ExecuteTransactionAsync(async () =>
     {
-        await repository.UpdateAsync(request.Id, entity => entity.DoSomething(...), ct);
+        await entityWriteService.DoSomethingAsync(request.Id, ..., ct);  // never self-commits, see below
 
         await outboxStore.EnqueueAsync(new SomeIntegrationEvent(...), ct);
-
-        await unitOfWork.SaveChangesAsync(ct);   // flushes pending changes — does not own the transaction
     }, ct: ct);
 
     return new Result(...);
 }
 ```
 
+The Write Service method itself (`entityWriteService.DoSomethingAsync`) only calls `repo.UpdateAsync(...)` and returns — it never calls `SaveChangesAsync` or `ExecuteTransactionAsync` on its own when the caller already owns a transaction. See [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md#write-service-responsibility) for the one exception (a Write Service method may self-commit via a bare `SaveChangesAsync` when its caller never wraps it in an explicit transaction at all).
+
 `ExecuteTransactionAsync` opens the real database transaction (via `Database.BeginTransactionAsync`, wrapped in EF's execution strategy for retry-on-transient-failure), runs `action`, calls `SaveChangesAsync` once more itself after `action` returns, commits, and — on any exception — runs `rollbackAction` (if provided), rolls back, clears the change tracker (so entities touched inside `action` don't stay stuck `Added`/`Modified` after a rollback), and rethrows. **The transaction's lifetime is owned by `ExecuteTransactionAsync`, not by any `SaveChangesAsync` call inside it.**
 
 **Multiple `SaveChangesAsync()` calls inside one `action` are fine** — they're just flushes against the same open transaction, not separate commits — as long as they all happen inside the same `ExecuteTransactionAsync` scope and the workflow commits exactly once, at the end, on success. What's not fine is calling `SaveChangesAsync()` **outside** `ExecuteTransactionAsync`, either instead of it or as a follow-up call after it returns — each bare `SaveChangesAsync()` gets its own implicit, separate transaction, so a crash between two such calls can commit one write and lose the other.
 
-Reference for the correct shape: `StockInHandler`/`StockOutHandler`/`AdjustStockHandler` (`Inventory.Application/Features/Inventories/Commands/`) — the entire aggregate mutation + transaction-log write happens inside one `ExecuteTransactionAsync` call. **Known gap, not yet fixed:** `Product.Application`'s `CreateProductHandler` calls `uow.SaveChangesAsync(ct)` directly, twice, with no `ExecuteTransactionAsync` wrapper at all; `UpdateProductHandler`/the variation update/delete handlers wrap the aggregate mutation in `ExecuteTransactionAsync` but then call `outboxStore.EnqueueAsync` + a second, unwrapped `unitOfWork.SaveChangesAsync(ct)` *after* it returns — the Outbox enqueue is not atomic with the aggregate change in either case. This is documented in [services/product-service.md#known-issues](services/product-service.md#known-issues); fixing it is a code change, not something this convention doc does on its own — don't copy either shape into new handlers.
+Reference for the correct shape: `StockInHandler`/`StockOutHandler`/`AdjustStockHandler` (`Inventory.Application/Features/Inventories/Commands/`) — the entire aggregate mutation + transaction-log write happens inside one `ExecuteTransactionAsync` call. `Product.Application`'s handlers (`CreateProductHandler`, `UpdateProductHandler`, the variation update/delete handlers) follow the same shape today — the aggregate mutation and the Outbox enqueue are wrapped in one `ExecuteTransactionAsync` the handler owns, per [conventions/persistence-coding-conventions.md](conventions/persistence-coding-conventions.md). An earlier version of this doc flagged a double-`SaveChangesAsync`/non-atomic-Outbox gap in these handlers — that was fixed as part of the persistence-service migration, not left as a known issue.
 
 ## Exceptions
 
