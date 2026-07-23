@@ -1,16 +1,16 @@
-using Audit.Application.Abstractions.Repositories;
+using Audit.Application.Abstractions.Persistence.AuditLogs;
 
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Audit;
 
 namespace Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
-public sealed class GetAuditLogHandler(IAuditLogRepository auditLogRepo)
+public sealed class GetAuditLogHandler(IAuditLogReadService auditLogReadService)
     : IQueryHandler<GetAuditLogQuery, GetAuditLogResponse>
 {
     public async Task<GetAuditLogResponse> Handle(GetAuditLogQuery request, CancellationToken ct = default)
     {
-        var entry = await auditLogRepo.GetByIdAsync(request.AuditLogId, ct)
+        var entry = await auditLogReadService.GetByIdAsync(request.AuditLogId, ct)
             ?? throw new NotFoundException("AuditLog", request.AuditLogId);
 
         return new GetAuditLogResponse(

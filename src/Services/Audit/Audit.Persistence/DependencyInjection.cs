@@ -1,7 +1,9 @@
-using Audit.Application.Abstractions.Repositories;
+using Audit.Application.Abstractions.Persistence.AuditLogs;
+using Audit.Persistence.AuditLogs.Read;
+using Audit.Persistence.AuditLogs.Repositories;
+using Audit.Persistence.AuditLogs.Write;
 using Audit.Persistence.Inbox;
 using Audit.Persistence.Outbox;
-using Audit.Persistence.Repository;
 
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Application.Abstractions.Persistence;
@@ -47,6 +49,8 @@ public static class DependencyInjection
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IAuditLogRepository, AuditLogRepo>();
+        services.AddScoped<IAuditLogReadService, AuditLogReadService>();
+        services.AddScoped<IAuditLogWriteService, AuditLogWriteService>();
         return services;
     }
 

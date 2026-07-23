@@ -1,12 +1,11 @@
-using Audit.Application.Abstractions.Repositories;
+using Audit.Application.Abstractions.Persistence.AuditLogs;
 
 using BuildingBlock.Contract.Events.Audit;
 
 namespace Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
 
 public sealed class RecordAuditLogHandler(
-    IAuditLogRepository auditLogRepo,
-    IUnitOfWork uow) : ICommandHandler<RecordAuditLogCommand, RecordAuditLogResponse>
+    IAuditLogWriteService auditLogWriteService) : ICommandHandler<RecordAuditLogCommand, RecordAuditLogResponse>
 {
     public async Task<RecordAuditLogResponse> Handle(RecordAuditLogCommand request, CancellationToken ct = default)
     {
@@ -20,8 +19,7 @@ public sealed class RecordAuditLogHandler(
             MapMetadata(request.Metadata),
             request.OccurredAt);
 
-        await auditLogRepo.AddAsync(entry, ct);
-        await uow.SaveChangesAsync(ct);
+        await auditLogWriteService.AddAsync(entry, ct);
 
         return new RecordAuditLogResponse(entry.Id);
     }

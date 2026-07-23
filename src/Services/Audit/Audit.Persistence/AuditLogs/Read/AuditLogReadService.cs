@@ -1,17 +1,12 @@
-using Audit.Application.Abstractions.Repositories;
+using Audit.Application.Abstractions.Persistence.AuditLogs;
 
-namespace Audit.Persistence.Repository;
+namespace Audit.Persistence.AuditLogs.Read;
 
-public sealed class AuditLogRepo(AuditMongoContext context) : IAuditLogRepository
+public sealed class AuditLogReadService(AuditMongoContext context) : IAuditLogReadService
 {
     public async Task<AuditLogEntry?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await context.AuditLogs.Find(x => x.Id == id).FirstOrDefaultAsync(ct);
-    }
-
-    public async Task AddAsync(AuditLogEntry entity, CancellationToken ct = default)
-    {
-        await context.AuditLogs.InsertOneAsync(entity, cancellationToken: ct);
     }
 
     public async Task<(IReadOnlyList<AuditLogEntry> Items, int TotalCount)> SearchAsync(
