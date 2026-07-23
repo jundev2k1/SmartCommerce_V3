@@ -15,6 +15,7 @@ public sealed class OnProductVariationCreatedHandler(
     IInventoryReadService inventoryReadService,
     IInventoryWriteService inventoryWriteService,
     IWarehouseReadService warehouseReadService,
+    IUnitOfWork unitOfWork,
     IAppLogger<OnProductVariationCreatedHandler> logger) : IInternalEventHandler<OnProductVariationCreatedEvent>
 {
     private const string DefaultWarehouseCode = "MAIN";
@@ -42,6 +43,10 @@ public sealed class OnProductVariationCreatedHandler(
             @event.ProductId,
             @event.ProductVariationId,
             warehouse.Id);
-        await inventoryWriteService.AddAsync(inventory, ct);
+
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await inventoryWriteService.AddAsync(inventory, ct);
+        }, ct: ct);
     }
 }

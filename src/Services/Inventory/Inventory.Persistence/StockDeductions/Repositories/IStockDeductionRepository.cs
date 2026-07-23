@@ -2,5 +2,5 @@ namespace Inventory.Persistence.StockDeductions.Repositories;
 
 public interface IStockDeductionRepository
 {
-    Task AddAsync(StockDeduction entity, CancellationToken ct = default);
+    // Leave empty for now... Reserved for future scaling if the repository requires specific functions
 }

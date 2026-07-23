@@ -1,12 +1,12 @@
 using BuildingBlock.Application.Abstractions.Persistence;
+using BuildingBlock.Persistence.Repository;
 
 using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Persistence.Warehouses.Repositories;
 
 namespace Inventory.Persistence.Warehouses.Write;
 
 public sealed class WarehouseWriteService(
-    IWarehouseRepository repo,
+    IRepository<Warehouse> repo,
     IUnitOfWork unitOfWork) : IWarehouseWriteService
 {
     public async Task CreateAsync(Warehouse warehouse, CancellationToken ct = default)

@@ -1,13 +1,12 @@
-using BuildingBlock.Application.Exceptions;
+using BuildingBlock.Persistence.Repository;
 
 using Inventory.Application.Abstractions.Persistence.StockDeductions;
-using Inventory.Persistence.StockDeductions.Repositories;
 
 namespace Inventory.Persistence.StockDeductions.Write;
 
+/// <summary>Both methods are non-committing - see Correction 2 in the persistence refactor tracker.</summary>
 public sealed class StockDeductionWriteService(
-    InventoryDbContext dbContext,
-    IStockDeductionRepository repo) : IStockDeductionWriteService
+    IRepository<StockDeduction> repo) : IStockDeductionWriteService
 {
     public async Task StageAddAsync(StockDeduction entity, CancellationToken ct = default)
     {
@@ -16,10 +15,6 @@ public sealed class StockDeductionWriteService(
 
     public async Task StageUpdateAsync(Guid deductionId, Func<StockDeduction, Task> updateAction, CancellationToken ct = default)
     {
-        var deduction = await dbContext.StockDeductions
-            .FirstOrDefaultAsync(d => d.Id == deductionId, ct)
-            ?? throw new NotFoundException(nameof(StockDeduction), deductionId);
-
-        await updateAction(deduction);
+        await repo.UpdateAsync(deductionId, updateAction, ct);
     }
 }

@@ -11,10 +11,14 @@ namespace Inventory.Application.Features.Inventories.Events.OnProductDeleted;
 /// product in one pass.
 /// </summary>
 public sealed class OnProductDeletedHandler(
-    IInventoryWriteService inventoryWriteService) : IInternalEventHandler<OnProductDeletedEvent>
+    IInventoryWriteService inventoryWriteService,
+    IUnitOfWork unitOfWork) : IInternalEventHandler<OnProductDeletedEvent>
 {
     public async Task Handle(OnProductDeletedEvent @event, CancellationToken ct = default)
     {
-        await inventoryWriteService.DeleteByProductIdAsync(@event.ProductId, ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await inventoryWriteService.DeleteByProductIdAsync(@event.ProductId, ct);
+        }, ct: ct);
     }
 }

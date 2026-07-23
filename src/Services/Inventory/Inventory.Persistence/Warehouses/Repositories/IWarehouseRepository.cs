@@ -2,5 +2,5 @@ namespace Inventory.Persistence.Warehouses.Repositories;
 
 public interface IWarehouseRepository
 {
-    Task AddAsync(Warehouse entity, CancellationToken ct = default);
+    // Leave empty for now... Reserved for future scaling if the repository requires specific functions
 }

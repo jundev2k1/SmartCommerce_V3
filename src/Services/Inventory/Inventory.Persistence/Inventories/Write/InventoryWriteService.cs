@@ -1,46 +1,39 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Exceptions;
+using BuildingBlock.Persistence.Repository;
 
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Persistence.Inventories.Repositories;
 
 namespace Inventory.Persistence.Inventories.Write;
 
+/// <summary>
+/// Never calls IUnitOfWork itself. AddAsync/DeleteByProductIdAsync/DeleteByVariationIdAsync are
+/// each the sole write in their caller's transaction (OnProductVariationCreated/OnProductDeleted/
+/// OnProductVariationDeleted own ExecuteTransactionAsync themselves). StageUpdateAsync is used
+/// only by the cross-aggregate stock-mutation handlers (AdjustStock/DeductStock/RestockStock/
+/// StockIn/StockOut), which own IUnitOfWork directly and batch this with InventoryTransaction/
+/// StockDeduction writes - see Correction 2 in the persistence refactor tracker.
+/// </summary>
 public sealed class InventoryWriteService(
-    InventoryDbContext dbContext,
-    IInventoryRepository repo,
-    IUnitOfWork unitOfWork) : IInventoryWriteService
+    IRepository<InventoryEntity> repo,
+    IInventoryRepository inventoryRepo) : IInventoryWriteService
 {
     public async Task AddAsync(InventoryEntity entity, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.AddAsync(entity, ct);
-        }, ct: ct);
+        await repo.AddAsync(entity, ct);
     }
 
     public async Task DeleteByProductIdAsync(Guid productId, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.DeleteByProductIdAsync(productId, ct);
-        }, ct: ct);
+        await inventoryRepo.DeleteByProductIdAsync(productId, ct);
     }
 
     public async Task DeleteByVariationIdAsync(Guid productVariationId, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.DeleteByVariationIdAsync(productVariationId, ct);
-        }, ct: ct);
+        await inventoryRepo.DeleteByVariationIdAsync(productVariationId, ct);
     }
 
     public async Task StageUpdateAsync(Guid id, Func<InventoryEntity, Task> updateAction, CancellationToken ct = default)
     {
-        var inventory = await dbContext.Inventories
-            .FirstOrDefaultAsync(i => i.Id == id, ct)
-            ?? throw new NotFoundException(nameof(InventoryEntity), id);
-
-        await updateAction(inventory);
+        await repo.UpdateAsync(id, updateAction, ct);
     }
 }

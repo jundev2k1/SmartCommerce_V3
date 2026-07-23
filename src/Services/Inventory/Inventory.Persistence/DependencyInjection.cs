@@ -6,6 +6,7 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
+using BuildingBlock.Persistence.Repository;
 
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
@@ -63,17 +64,18 @@ public static class DependencyInjection
         return services;
     }
 
-    // None of these repos implement the generic IRepository<T> - each aggregate's Read/Write
-    // Service (see docs/refactoring/persistence-refactor-plan.md) owns workflow/query composition
-    // instead, so the repos themselves are pure Add/Delete-by-filter primitives with no shape a
-    // generic Scrutor scan could match. All three tiers are registered explicitly per aggregate.
+    // InventoryRepo/WarehouseRepo/StockDeductionRepo implement the generic IRepository<T> again
+    // (restored per the persistence refactor's Course Correction - see the tracker) and are
+    // Scrutor-scanned. InventoryTransactionRepo doesn't (append-only - AddAsync is its only real
+    // operation, never updated/deleted/tracked-loaded), so it stays manually registered, same
+    // reasoning as Audit's AuditLogRepo.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IInventoryRepository, InventoryRepo>();
+        services.AddScopedByInterface(typeof(IRepository<>), typeof(InventoryDbContext));
+
         services.AddScoped<IInventoryReadService, InventoryReadService>();
         services.AddScoped<IInventoryWriteService, InventoryWriteService>();
 
-        services.AddScoped<IWarehouseRepository, WarehouseRepo>();
         services.AddScoped<IWarehouseReadService, WarehouseReadService>();
         services.AddScoped<IWarehouseWriteService, WarehouseWriteService>();
 
@@ -81,7 +83,6 @@ public static class DependencyInjection
         services.AddScoped<IInventoryTransactionReadService, InventoryTransactionReadService>();
         services.AddScoped<IInventoryTransactionWriteService, InventoryTransactionWriteService>();
 
-        services.AddScoped<IStockDeductionRepository, StockDeductionRepo>();
         services.AddScoped<IStockDeductionReadService, StockDeductionReadService>();
         services.AddScoped<IStockDeductionWriteService, StockDeductionWriteService>();
 
