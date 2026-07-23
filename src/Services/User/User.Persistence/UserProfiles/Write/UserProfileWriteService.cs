@@ -1,22 +1,25 @@
 using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Exceptions;
+using BuildingBlock.Persistence.Repository;
 
 using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Persistence.UserProfiles.Repositories;
 
 namespace User.Persistence.UserProfiles.Write;
 
+/// <summary>
+/// CreateAsync/UpdateProfileDetailsAsync never call IUnitOfWork themselves - the caller
+/// (CreateUserHandler/UpdateUserHandler) owns ExecuteTransactionAsync. SyncFromAccountInitiationAsync
+/// and DeleteAsync commit via bare SaveChangesAsync themselves, matching their original handlers'
+/// shape (OnUserInitiatedHandler/DeleteUserHandler never used ExecuteTransactionAsync).
+/// </summary>
 public sealed class UserProfileWriteService(
-    UserDbContext dbContext,
-    IUserProfileRepository repo,
+    IRepository<UserProfile> repo,
+    IUserProfileRepository userProfileRepo,
     IUnitOfWork unitOfWork) : IUserProfileWriteService
 {
     public async Task CreateAsync(UserProfile user, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.AddAsync(user, ct);
-        }, ct: ct);
+        await repo.AddAsync(user, ct);
     }
 
     public async Task SyncFromAccountInitiationAsync(UserProfile user, CancellationToken ct = default)
@@ -25,31 +28,23 @@ public sealed class UserProfileWriteService(
         await unitOfWork.SaveChangesAsync(ct);
     }
 
-    public async Task UpdateProfileAsync(Guid id, Func<UserProfile, Task> updateAction, CancellationToken ct = default)
+    public async Task UpdateProfileDetailsAsync(Guid id, string firstName, string lastName, string phoneNumber, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
+        await repo.UpdateAsync(id, async user =>
         {
-            var user = await dbContext.UserProfiles
-                .FirstOrDefaultAsync(u => u.Id == id, ct)
-                ?? throw new NotFoundException(nameof(id), id);
-
-            await updateAction(user);
-        }, ct: ct);
+            user.UpdateProfile(firstName, lastName, phoneNumber);
+            await Task.CompletedTask;
+        }, ct);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken ct = default)
     {
-        var user = await dbContext.UserProfiles
-            .FirstOrDefaultAsync(u => u.Id == id, ct);
-
-        if (user is not null)
-            repo.Remove(user);
-
+        await repo.DeleteAsync(id, ct);
         await unitOfWork.SaveChangesAsync(ct);
     }
 
     public async Task<int> DeleteWithNoTrackingAsync(Guid id, CancellationToken ct = default)
     {
-        return await repo.DeleteWithNoTrackingAsync(id, ct);
+        return await userProfileRepo.DeleteWithNoTrackingAsync(id, ct);
     }
 }

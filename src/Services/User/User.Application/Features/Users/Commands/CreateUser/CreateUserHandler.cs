@@ -11,6 +11,7 @@ namespace User.Application.Features.Users.Commands.CreateUser;
 
 public sealed class CreateUserHandler(
     IUserProfileWriteService userWriteService,
+    IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     IAuthClientService authClient,
     ICurrentUserService currentUser) : ICommandHandler<CreateUserCommand, CreateUserResponse>
@@ -36,10 +37,11 @@ public sealed class CreateUserHandler(
 
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        // EnqueueAsync only stages the outbox row on the DbContext's change tracker (no commit),
-        // so calling it before CreateAsync still lands both writes in CreateAsync's one transaction.
-        await PublishProfileCreatedEventAsync(user, request.Roles, request.TempPassword.Trim(), correlationId, ct);
-        await userWriteService.CreateAsync(user, ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await userWriteService.CreateAsync(user, ct);
+            await PublishProfileCreatedEventAsync(user, request.Roles, request.TempPassword.Trim(), correlationId, ct);
+        }, ct: ct);
 
         return new CreateUserResponse(user.Id);
     }

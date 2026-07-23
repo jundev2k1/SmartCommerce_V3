@@ -6,6 +6,7 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
+using BuildingBlock.Persistence.Repository;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,9 +61,13 @@ public static class DependencyInjection
         return services;
     }
 
+    // UserProfileRepo implements the generic IRepository<T> again - AsImplementedInterfaces()
+    // registers it against both IRepository<UserProfile> and the specific IUserProfileRepository
+    // in one scan call.
     private static IServiceCollection AddUserProfilePersistence(this IServiceCollection services)
     {
-        services.AddScoped<IUserProfileRepository, UserProfileRepo>();
+        services.AddScopedByInterface(typeof(IRepository<>), typeof(UserDbContext));
+
         services.AddScoped<IUserProfileReadService, UserProfileReadService>();
         services.AddScoped<IUserProfileWriteService, UserProfileWriteService>();
         return services;

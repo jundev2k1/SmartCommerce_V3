@@ -3,17 +3,16 @@ using User.Application.Abstractions.Persistence.UserProfiles;
 namespace User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserHandler(
-    IUserProfileWriteService userWriteService) : ICommandHandler<UpdateUserCommand, UpdateUserResponse>
+    IUserProfileWriteService userWriteService,
+    IUnitOfWork unitOfWork) : ICommandHandler<UpdateUserCommand, UpdateUserResponse>
 {
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken ct = default)
     {
-        await userWriteService.UpdateProfileAsync(request.UserId, async (user) =>
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            user.UpdateProfile(
-                request.FirstName.Trim(),
-                request.LastName.Trim(),
-                request.PhoneNumber.Trim());
-        }, ct);
+            await userWriteService.UpdateProfileDetailsAsync(
+                request.UserId, request.FirstName.Trim(), request.LastName.Trim(), request.PhoneNumber.Trim(), ct);
+        }, ct: ct);
 
         return new UpdateUserResponse();
     }
