@@ -2,6 +2,9 @@ namespace Product.Application.Abstractions.Persistence.Products;
 
 public interface IProductReadService
 {
+    /// <summary>Full-catalog enumeration (no filters), used only by RebuildProductSearchIndexHandler to page the whole Postgres catalog into Elasticsearch.</summary>
+    Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default);
+
     Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default);
 
     Task<Guid[]> GetProductsByTagIdAsync(Guid tagId, CancellationToken ct = default);
@@ -16,7 +19,4 @@ public interface IProductReadService
     Task<string?> GetProductNameBySkuAsync(string sku, CancellationToken ct = default);
 
     Task<bool> ExistsWithCategoryAsync(Guid categoryId, CancellationToken ct = default);
-
-    /// <summary>Full-catalog enumeration (no filters), used only by RebuildProductSearchIndexHandler to page the whole Postgres catalog into Elasticsearch.</summary>
-    Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default);
 }

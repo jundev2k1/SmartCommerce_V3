@@ -6,6 +6,16 @@ namespace Product.Persistence.Contexts.Products.Read;
 
 public sealed class ProductReadService(ProductDbContext dbContext) : IProductReadService
 {
+    public async Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default)
+    {
+        return await dbContext.Products
+            .AsNoTracking()
+            .OrderBy(p => p.Id)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync(ct);
+    }
+
     public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await dbContext.Products
@@ -63,15 +73,5 @@ public sealed class ProductReadService(ProductDbContext dbContext) : IProductRea
         return await dbContext.Products
             .AsNoTracking()
             .AnyAsync(p => p.CategoryMappings.Any(m => m.CategoryId == categoryId), ct);
-    }
-
-    public async Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default)
-    {
-        return await dbContext.Products
-            .AsNoTracking()
-            .OrderBy(p => p.Id)
-            .Skip(skip)
-            .Take(take)
-            .ToListAsync(ct);
     }
 }
