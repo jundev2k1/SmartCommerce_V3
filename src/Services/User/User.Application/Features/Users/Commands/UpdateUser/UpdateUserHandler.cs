@@ -1,23 +1,19 @@
-using User.Application.Abstractions.Repositories;
+using User.Application.Abstractions.Persistence.UserProfiles;
 
 namespace User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserHandler(
-    IUserRepository userRepo,
-    IUnitOfWork unitOfWork) : ICommandHandler<UpdateUserCommand, UpdateUserResponse>
+    IUserProfileWriteService userWriteService) : ICommandHandler<UpdateUserCommand, UpdateUserResponse>
 {
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
+        await userWriteService.UpdateProfileAsync(request.UserId, async (user) =>
         {
-            await userRepo.UpdateAsync(request.UserId, async (user) =>
-            {
-                user.UpdateProfile(
-                    request.FirstName.Trim(),
-                    request.LastName.Trim(),
-                    request.PhoneNumber.Trim());
-            }, ct);
-        }, ct: ct);
+            user.UpdateProfile(
+                request.FirstName.Trim(),
+                request.LastName.Trim(),
+                request.PhoneNumber.Trim());
+        }, ct);
 
         return new UpdateUserResponse();
     }

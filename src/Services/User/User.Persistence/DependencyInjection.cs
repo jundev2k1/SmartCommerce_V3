@@ -6,13 +6,16 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
-using BuildingBlock.Persistence.Repository;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Persistence.Inbox;
 using User.Persistence.Outbox;
+using User.Persistence.UserProfiles.Read;
+using User.Persistence.UserProfiles.Repositories;
+using User.Persistence.UserProfiles.Write;
 
 namespace User.Persistence;
 
@@ -25,7 +28,7 @@ public static class DependencyInjection
         services
             .AddDatabaseContext(configuration)
             .AddApplicationServices()
-            .AddRepositories()
+            .AddUserProfilePersistence()
             .AddUnitOfWork()
             .AddOutboxAndInbox()
             .AddAuditHierarchy();
@@ -57,9 +60,11 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    private static IServiceCollection AddUserProfilePersistence(this IServiceCollection services)
     {
-        services.AddScopedByInterface(typeof(IRepository<>), typeof(UserDbContext));
+        services.AddScoped<IUserProfileRepository, UserProfileRepo>();
+        services.AddScoped<IUserProfileReadService, UserProfileReadService>();
+        services.AddScoped<IUserProfileWriteService, UserProfileWriteService>();
         return services;
     }
 

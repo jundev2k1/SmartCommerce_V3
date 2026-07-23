@@ -1,18 +1,18 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using User.Application.Abstractions.Repositories;
+using User.Application.Abstractions.Persistence.UserProfiles;
 
 namespace User.Application.Features.Users.Commands.DeleteUser;
 
 public sealed class DeleteUserHandler(
-    IUserRepository userRepo,
-    IUnitOfWork unitOfWork,
+    IUserProfileReadService userReadService,
+    IUserProfileWriteService userWriteService,
     IAppLogger<DeleteUserHandler> logger)
     : ICommandHandler<DeleteUserCommand, DeleteUserProfileResponse>
 {
     public async Task<DeleteUserProfileResponse> Handle(DeleteUserCommand request, CancellationToken ct)
     {
-        var existing = await userRepo.GetByIdAsync(request.UserId, ct);
+        var existing = await userReadService.GetByIdAsync(request.UserId, ct);
         if (existing is null)
         {
             logger.Information(
@@ -21,8 +21,7 @@ public sealed class DeleteUserHandler(
             return new DeleteUserProfileResponse(Deleted: false);
         }
 
-        await userRepo.DeleteAsync(request.UserId, ct);
-        await unitOfWork.SaveChangesAsync(ct);
+        await userWriteService.DeleteAsync(request.UserId, ct);
 
         logger.Warning(
             "Deleted UserProfile {UserId} due to compensating rollback. Reason: {Reason}. CorrelationId: {CorrelationId}",

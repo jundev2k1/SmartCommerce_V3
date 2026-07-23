@@ -29,11 +29,11 @@ This migration introduces explicit `I<Aggregate>ReadService`/`I<Aggregate>WriteS
 
 ## Target Architecture
 
-Per aggregate root, inside `<Service>.Persistence/`:
+Per aggregate root, inside `<Service>.Persistence/`, using the plural form of the aggregate name (see Naming below):
 
 ```
 <Service>.Persistence/
-├── <Aggregate>/
+├── <Aggregates>/
 │   ├── Read/<Aggregate>ReadService.cs      — implements I<Aggregate>ReadService; owns Include/ThenInclude/AsNoTracking/projection/pagination
 │   ├── Write/<Aggregate>WriteService.cs    — implements I<Aggregate>WriteService; owns load-modify-save workflow + commit
 │   └── Repositories/
@@ -70,8 +70,13 @@ These were surfaced by stress-testing the naive "Write Service always calls `Sav
 
 **Rule:** for these handlers only, the handler keeps injecting `IUnitOfWork` directly plus the relevant `WriteService`s. Each affected `WriteService` additionally exposes a non-committing `Stage*` method (repo mutation only, no commit), used solely by these handlers. The handler wraps multiple `Stage*` calls in one `ExecuteTransactionAsync`. This is a **permanent, documented pattern** for any future ledger/journal-shaped aggregate — not tech debt to clean up later.
 
+### Correction 1a — outbox enqueue vs. a self-committing Write Service (discovered Phase 1)
+
+Several create/update handlers (`CreateUserHandler`, and the same shape will recur in Product/Order/Auth) enqueue an integration event via `IOutboxStore.EnqueueAsync` in the *same* transaction as the aggregate write — required for the transactional-outbox guarantee. Once a `WriteService` owns its own commit (Correction 1), the handler can no longer wrap both calls in one `ExecuteTransactionAsync` block itself. This is safe without any new API: `IOutboxStore.EnqueueAsync` (and every `EfOutboxStore`/service adapter beneath it) only stages an `Add` on the shared scoped `DbContext`'s change tracker — it never calls `SaveChangesAsync` itself. So the handler just calls `outboxStore.EnqueueAsync(...)` *before* `writeService.CreateAsync(...)`; the Write Service's internal `ExecuteTransactionAsync` → `Context.SaveChangesAsync()` persists everything currently tracked (the staged outbox row plus the entity added inside the Write Service's own lambda) in one commit, regardless of which call staged which change. Order matters (enqueue before, not after, the Write Service call) — commit-then-enqueue would split them into two transactions and break the atomicity guarantee. No interface changed to support this; it's a call-ordering rule, not a new method.
+
 ### Naming
 
+- **Per-aggregate folder/namespace segments use the plural form** (`UserProfiles/`, `Products/`, `ProductCategories/`, `Orders/`, `Inventories/`, ...), matching each service's own existing `DbSet<T>` property name. Discovered during Phase 1: a singular segment (e.g. `namespace User.Persistence.UserProfile`) collides with the `UserProfile` entity type itself — C# resolves the nested namespace before the `using`-imported type, producing a `CS0118` ("X is a namespace but is used like a type") error the moment the aggregate type is referenced unqualified inside its own namespace. Pluralizing sidesteps this entirely and happens to match the codebase's existing `DbSet` naming, so it's adopted everywhere, not just where the collision bites.
 - Keep the existing abbreviated convention: `<Aggregate>Repo` (class), `I<Aggregate>Repository` (interface) — not `<Aggregate>Repository` as a class name. `<Aggregate>ReadService`/`<Aggregate>WriteService` use full words (new concept, no prior abbreviation to match).
 - `IUserRepository` → renamed to `IUserProfileRepository` while moving (fixes a pre-existing repo/interface name mismatch: the class was already `UserProfileRepo`).
 - Product's `ProductCategory`/`ProductTag` keep their full existing prefix (`ProductCategoryRepo`, `IProductCategoryRepository`, folder `ProductCategory/`) — not shortened to `Category`/`Tag`, to avoid mismatching the actual Domain entity names.
@@ -95,7 +100,7 @@ Order: **User → Audit → Auth → Inventory → Product → Notification → 
 Each phase: create new files → move/delete old files → update DI → swap handler constructors → scoped build (only that service's `.csproj` chain, per [[ai_execution_strategy]]) → run affected tests → docker-verify that one service → update `docs/services/<name>-service.md` → update the checklist below → commit (Conventional Commits).
 
 - [ ] **Phase 0 — Docs scaffolding.** This file + `refactoring/README.md` + `docs/README.md` index update. Commit: `docs(refactoring): add persistence refactor plan`.
-- [ ] **Phase 1 — User** (`UserProfile`). New `UserProfile/{Read,Write,Repositories}`. Rename `IUserRepository`→`IUserProfileRepository`. 8 handlers (`Features/Users/**`) swap constructors.
+- [x] **Phase 1 — User** (`UserProfile`). New `UserProfiles/{Read,Write,Repositories}`. Renamed `IUserRepository`→`IUserProfileRepository` (and concrete class `UserRepository`→`UserProfileRepo`, fixing a pre-existing name mismatch). All 8 handlers (`Features/Users/**`) swapped constructors; `UserProfileRepo` dropped `IRepository<T>` (its shape no longer fits — no more `GetByIdAsync`/`UpdateAsync` on the repo), so it's now manually registered in DI instead of Scrutor-scanned. Scoped build (`User.API` chain) green. Surfaced Correction 1a (outbox-enqueue ordering) — see above.
 - [ ] **Phase 2 — Audit** (`AuditLogEntry`, Mongo). New `AuditLog/{Read,Write,Repositories}`. 3 handlers swap. `SaveChangesAsync()` stays a documented no-op.
 - [ ] **Phase 3 — Auth** (`Account`, `RefreshToken`). Verify `AccountRepo`'s `GetByIdAsync`/`UpdateAsync`/`GetActiveUsersAsync` have zero callers before porting. Real consumers: `OnAccountDeletionInitiatedHandler`, `Auth.API/GrpcServices/AuthGrpcServiceImpl.cs` (gRPC, not a handler), 2 `Auth.Infrastructure` services for RefreshToken.
 - [ ] **Phase 4 — Inventory** (`Inventory`, `Warehouse`, `InventoryTransaction`, `StockDeduction`). Apply Correction 2. Verify `RestockStock`/`StockIn`/`StockOut` + the 3 `OnProduct*` event handlers individually before assuming transaction shape.

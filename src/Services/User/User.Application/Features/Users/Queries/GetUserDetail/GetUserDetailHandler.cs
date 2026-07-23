@@ -1,14 +1,14 @@
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 
-using User.Application.Abstractions.Repositories;
+using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Application.Abstractions.Services;
 
 namespace User.Application.Features.Users.Queries.GetUserDetail;
 
 public sealed class GetUserDetailHandler(
     ICurrentUserService currentUser,
-    IUserRepository userRepo,
+    IUserProfileReadService userReadService,
     IRoleCacheReader roleCacheReader) : IQueryHandler<GetUserDetailQuery, GetUserDetailResponse>
 {
     public async Task<GetUserDetailResponse> Handle(GetUserDetailQuery request, CancellationToken ct = default)
@@ -16,7 +16,7 @@ public sealed class GetUserDetailHandler(
         var userId = currentUser.GetUserId()
             ?? throw new UnauthorizedException();
 
-        var user = await userRepo.GetByIdAsync(userId, ct)
+        var user = await userReadService.GetByIdAsync(userId, ct)
             ?? throw new NotFoundException("UserProfile", userId);
 
         var roles = await roleCacheReader.GetUserRolesAsync(userId, ct);

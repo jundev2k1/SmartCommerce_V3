@@ -4,14 +4,13 @@ using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.User;
 using BuildingBlock.SharedKernel.Constants;
 
-using User.Application.Abstractions.Repositories;
+using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Application.Abstractions.Services;
 
 namespace User.Application.Features.Users.Commands.CreateUser;
 
 public sealed class CreateUserHandler(
-    IUserRepository userRepo,
-    IUnitOfWork uow,
+    IUserProfileWriteService userWriteService,
     IOutboxStore outboxStore,
     IAuthClientService authClient,
     ICurrentUserService currentUser) : ICommandHandler<CreateUserCommand, CreateUserResponse>
@@ -37,13 +36,10 @@ public sealed class CreateUserHandler(
 
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
-        await uow.ExecuteTransactionAsync(async () =>
-        {
-            await userRepo.AddAsync(user, ct);
-
-            // Enqueue the UserProfileCreatedIntegrationEvent onto the same transaction as the profile write
-            await PublishProfileCreatedEventAsync(user, request.Roles, request.TempPassword.Trim(), correlationId, ct);
-        }, ct: ct);
+        // EnqueueAsync only stages the outbox row on the DbContext's change tracker (no commit),
+        // so calling it before CreateAsync still lands both writes in CreateAsync's one transaction.
+        await PublishProfileCreatedEventAsync(user, request.Roles, request.TempPassword.Trim(), correlationId, ct);
+        await userWriteService.CreateAsync(user, ct);
 
         return new CreateUserResponse(user.Id);
     }
