@@ -20,7 +20,12 @@ public sealed class OrderProductCatalogWriteService(
     }
 
     public async Task UpdateVariationSnapshotAsync(
-        Guid id, string productName, string sku, decimal price, string status, CancellationToken ct = default)
+        Guid id,
+        string productName,
+        string sku,
+        decimal price,
+        string status,
+        CancellationToken ct = default)
     {
         await repo.UpdateAsync(id, async entry =>
         {
@@ -30,7 +35,12 @@ public sealed class OrderProductCatalogWriteService(
         }, ct);
     }
 
-    public async Task UpdatePricingAsync(Guid id, string sku, decimal price, string status, CancellationToken ct = default)
+    public async Task UpdatePricingAsync(
+        Guid id,
+        string sku,
+        decimal price,
+        string status,
+        CancellationToken ct = default)
     {
         await repo.UpdateAsync(id, async entry =>
         {
@@ -39,9 +49,15 @@ public sealed class OrderProductCatalogWriteService(
         }, ct);
     }
 
-    public async Task UpdateProductNameByProductIdAsync(Guid productId, string productName, CancellationToken ct = default)
+    public async Task UpdateProductNameByProductIdAsync(
+        Guid productId,
+        string productName,
+        CancellationToken ct = default)
     {
-        await catalogRepo.UpdateProductNameByProductIdAsync(productId, productName, ct);
+        await catalogRepo.UpdateProductNameByProductIdAsync(
+            productId,
+            productName,
+            ct);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken ct = default)
@@ -49,7 +65,9 @@ public sealed class OrderProductCatalogWriteService(
         await repo.DeleteAsync(id, ct);
     }
 
-    public async Task DeleteByProductIdAsync(Guid productId, CancellationToken ct = default)
+    public async Task DeleteByProductIdAsync(
+        Guid productId,
+        CancellationToken ct = default)
     {
         await catalogRepo.DeleteByProductIdAsync(productId, ct);
     }

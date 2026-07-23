@@ -1,5 +1,3 @@
-using BuildingBlock.Application.Abstractions.Events;
-
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductDeleted;
@@ -10,7 +8,11 @@ public sealed class OnProductDeletedHandler(
 {
     public async Task Handle(OnProductDeletedEvent @event, CancellationToken ct = default)
     {
-        await catalogWriteService.DeleteByProductIdAsync(@event.ProductId, ct);
-        await uow.SaveChangesAsync(ct);
+        await uow.ExecuteTransactionAsync(
+            action: async () =>
+            {
+                await catalogWriteService.DeleteByProductIdAsync(@event.ProductId, ct);
+            },
+            ct: ct);
     }
 }

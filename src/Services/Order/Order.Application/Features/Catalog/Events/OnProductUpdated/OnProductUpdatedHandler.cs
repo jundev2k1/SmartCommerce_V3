@@ -1,5 +1,3 @@
-using BuildingBlock.Application.Abstractions.Events;
-
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductUpdated;
@@ -11,7 +9,14 @@ public sealed class OnProductUpdatedHandler(
 {
     public async Task Handle(OnProductUpdatedEvent @event, CancellationToken ct = default)
     {
-        await catalogWriteService.UpdateProductNameByProductIdAsync(@event.ProductId, @event.Name, ct);
-        await uow.SaveChangesAsync(ct);
+        await uow.ExecuteTransactionAsync(
+            action: async () =>
+            {
+                await catalogWriteService.UpdateProductNameByProductIdAsync(
+                    @event.ProductId,
+                    @event.Name,
+                    ct);
+            },
+            ct: ct);
     }
 }

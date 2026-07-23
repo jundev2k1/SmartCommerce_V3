@@ -1,5 +1,3 @@
-using BuildingBlock.Application.Abstractions.Events;
-
 namespace Order.Application.Features.Catalog.Events.OnProductVariationUpdated;
 
 public sealed record OnProductVariationUpdatedEvent(

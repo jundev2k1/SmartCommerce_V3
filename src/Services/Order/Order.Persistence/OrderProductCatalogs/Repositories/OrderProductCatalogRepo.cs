@@ -74,7 +74,7 @@ public sealed class OrderProductCatalogRepo(OrderDbContext dbContext)
     {
         var rows = await dbContext.OrderProductCatalogs
             .Where(p => p.ProductId == productId)
-            .ToListAsync(ct);
+            .ToArrayAsync(ct);
 
         foreach (var row in rows)
             row.UpdateProductName(productName);
@@ -84,7 +84,7 @@ public sealed class OrderProductCatalogRepo(OrderDbContext dbContext)
     {
         var rows = await dbContext.OrderProductCatalogs
             .Where(p => p.ProductId == productId)
-            .ToListAsync(ct);
+            .ToArrayAsync(ct);
 
         dbContext.OrderProductCatalogs.RemoveRange(rows);
     }

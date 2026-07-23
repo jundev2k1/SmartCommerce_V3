@@ -1,5 +1,3 @@
-using BuildingBlock.Application.Abstractions.Events;
-
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductVariationCreated;
@@ -12,18 +10,35 @@ public sealed class OnProductVariationCreatedHandler(
 {
     public async Task Handle(OnProductVariationCreatedEvent @event, CancellationToken ct = default)
     {
-        var exists = await catalogReadService.ExistsAsync(@event.ProductVariationId, ct);
-        if (exists)
-        {
-            await catalogWriteService.UpdateVariationSnapshotAsync(
-                @event.ProductVariationId, @event.ProductName, @event.Sku, @event.Price, @event.Status, ct);
-        }
-        else
-        {
-            var entry = OrderProductCatalog.Create(@event.ProductVariationId, @event.ProductId, @event.ProductName, @event.Sku, @event.Price, @event.Status);
-            await catalogWriteService.CreateAsync(entry, ct);
-        }
+        // Check if exists product variation
+        var isExist = await catalogReadService.ExistsAsync(@event.ProductVariationId, ct);
 
-        await uow.SaveChangesAsync(ct);
+        // Handle upsert product variation snapshot
+        await uow.ExecuteTransactionAsync(
+            action: async () =>
+            {
+                if (isExist)
+                {
+                    await catalogWriteService.UpdateVariationSnapshotAsync(
+                        @event.ProductVariationId,
+                        @event.ProductName,
+                        @event.Sku,
+                        @event.Price,
+                        @event.Status,
+                        ct);
+                }
+                else
+                {
+                    var entry = OrderProductCatalog.Create(
+                        @event.ProductVariationId,
+                        @event.ProductId,
+                        @event.ProductName,
+                        @event.Sku,
+                        @event.Price,
+                        @event.Status);
+                    await catalogWriteService.CreateAsync(entry, ct);
+                }
+            },
+            ct: ct);
     }
 }

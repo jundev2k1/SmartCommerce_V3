@@ -5,6 +5,7 @@ global using System.Threading;
 global using System.Threading.Tasks;
 
 global using BuildingBlock.Application.Abstractions.CQRS;
+global using BuildingBlock.Application.Abstractions.Events;
 global using BuildingBlock.Application.Abstractions.Persistence;
 global using BuildingBlock.Domain.Enums;
 global using BuildingBlock.Domain.Exceptions;

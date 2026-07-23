@@ -1,4 +1,3 @@
-using BuildingBlock.Application.Abstractions.Events;
 using BuildingBlock.Application.Abstractions.Services;
 
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
@@ -22,8 +21,16 @@ public sealed class OnProductVariationUpdatedHandler(
             return;
         }
 
-        await catalogWriteService.UpdatePricingAsync(@event.ProductVariationId, @event.Sku, @event.Price, @event.Status, ct);
-
-        await uow.SaveChangesAsync(ct);
+        await uow.ExecuteTransactionAsync(
+            action: async () =>
+            {
+                await catalogWriteService.UpdatePricingAsync(
+                    @event.ProductVariationId,
+                    @event.Sku,
+                    @event.Price,
+                    @event.Status,
+                    ct);
+            },
+            ct: ct);
     }
 }
