@@ -1,17 +1,17 @@
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.Orders;
 
 namespace Order.Application.Features.Orders.Queries.GetOrder;
 
 public sealed class GetOrderHandler(
     ICurrentUserService currentUser,
-    IOrderRepository orderRepo) : IQueryHandler<GetOrderQuery, GetOrderResponse>
+    IOrderReadService orderReadService) : IQueryHandler<GetOrderQuery, GetOrderResponse>
 {
     public async Task<GetOrderResponse> Handle(GetOrderQuery request, CancellationToken ct = default)
     {
-        var order = await orderRepo.GetByIdAsync(request.OrderId, ct)
+        var order = await orderReadService.GetByIdAsync(request.OrderId, ct)
             ?? throw new NotFoundException("Order", request.OrderId);
 
         // Endpoint only requires RequireAuthenticated (any logged-in user), not RequireAdmin, so

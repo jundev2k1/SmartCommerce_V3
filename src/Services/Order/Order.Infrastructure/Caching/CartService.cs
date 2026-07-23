@@ -3,7 +3,7 @@ using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.SharedKernel.Constants;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 using Order.Application.Abstractions.Services;
 
 namespace Order.Infrastructure.Caching;
@@ -18,7 +18,7 @@ namespace Order.Infrastructure.Caching;
 /// </summary>
 public sealed class CartService(
     ICacheService cacheService,
-    IOrderProductCatalogRepository catalogRepo) : ICartService
+    IOrderProductCatalogReadService catalogReadService) : ICartService
 {
     private static readonly TimeSpan Ttl = TimeSpan.FromMinutes(CacheKeys.Cart.DefaultTtlMinutes);
 
@@ -80,7 +80,7 @@ public sealed class CartService(
 
     private async Task EnsureOrderableAsync(Guid variationId, CancellationToken ct)
     {
-        var variations = await catalogRepo.GetByVariantionIdsAsync([variationId], ct);
+        var variations = await catalogReadService.GetByVariantionIdsAsync([variationId], ct);
         var variation = variations.FirstOrDefault()
             ?? throw new NotFoundException("Variation", variationId);
 
@@ -106,7 +106,7 @@ public sealed class CartService(
             return new CartResponse([]);
 
         var variationIds = data.Items.Select(i => i.VariationId).ToArray();
-        var catalogEntries = await catalogRepo.GetByVariantionIdsAsync(variationIds, ct);
+        var catalogEntries = await catalogReadService.GetByVariantionIdsAsync(variationIds, ct);
         var catalogById = catalogEntries.ToDictionary(c => c.Id);
 
         var validItems = data.Items

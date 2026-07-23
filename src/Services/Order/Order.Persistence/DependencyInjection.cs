@@ -16,7 +16,13 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
+using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.Orders;
 using Order.Persistence.Inbox;
+using Order.Persistence.OrderProductCatalogs.Read;
+using Order.Persistence.OrderProductCatalogs.Write;
+using Order.Persistence.Orders.Read;
+using Order.Persistence.Orders.Write;
 using Order.Persistence.Outbox;
 using Order.Persistence.Saga;
 
@@ -84,9 +90,20 @@ public static class DependencyInjection
         return services;
     }
 
+    // OrderRepo/OrderProductCatalogRepo both implement the generic IRepository<T> - Scrutor's
+    // AsImplementedInterfaces() registers each concrete class against every interface it
+    // implements (including the empty per-aggregate marker interfaces), so this one scan call
+    // covers both. Read/Write services are registered explicitly since they're one-per-aggregate.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScopedByInterface(typeof(IRepository<>), typeof(OrderDbContext));
+
+        services.AddScoped<IOrderReadService, OrderReadService>();
+        services.AddScoped<IOrderWriteService, OrderWriteService>();
+
+        services.AddScoped<IOrderProductCatalogReadService, OrderProductCatalogReadService>();
+        services.AddScoped<IOrderProductCatalogWriteService, OrderProductCatalogWriteService>();
+
         return services;
     }
 

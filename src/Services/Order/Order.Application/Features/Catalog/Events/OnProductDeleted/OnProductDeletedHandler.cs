@@ -1,16 +1,16 @@
 using BuildingBlock.Application.Abstractions.Events;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductDeleted;
 
 public sealed class OnProductDeletedHandler(
     IUnitOfWork uow,
-    IOrderProductCatalogRepository catalogRepo) : IInternalEventHandler<OnProductDeletedEvent>
+    IOrderProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductDeletedEvent>
 {
     public async Task Handle(OnProductDeletedEvent @event, CancellationToken ct = default)
     {
-        await catalogRepo.DeleteByProductIdAsync(@event.ProductId, ct);
+        await catalogWriteService.DeleteByProductIdAsync(@event.ProductId, ct);
         await uow.SaveChangesAsync(ct);
     }
 }

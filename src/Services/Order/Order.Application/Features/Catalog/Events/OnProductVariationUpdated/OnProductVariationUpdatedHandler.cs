@@ -1,19 +1,20 @@
 using BuildingBlock.Application.Abstractions.Events;
 using BuildingBlock.Application.Abstractions.Services;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductVariationUpdated;
 
 public sealed class OnProductVariationUpdatedHandler(
     IUnitOfWork uow,
-    IOrderProductCatalogRepository catalogRepo,
+    IOrderProductCatalogReadService catalogReadService,
+    IOrderProductCatalogWriteService catalogWriteService,
     IAppLogger<OnProductVariationUpdatedHandler> logger) : IInternalEventHandler<OnProductVariationUpdatedEvent>
 {
     public async Task Handle(OnProductVariationUpdatedEvent @event, CancellationToken ct = default)
     {
-        var existing = await catalogRepo.GetByIdAsync(@event.ProductVariationId, ct);
-        if (existing is null)
+        var exists = await catalogReadService.ExistsAsync(@event.ProductVariationId, ct);
+        if (!exists)
         {
             logger.Warning(
                 "OrderProductCatalog entry not found for ProductVariationId {ProductVariationId}, skipping update",
@@ -21,10 +22,7 @@ public sealed class OnProductVariationUpdatedHandler(
             return;
         }
 
-        await catalogRepo.UpdateAsync(@event.ProductVariationId, async (entry) =>
-        {
-            entry.UpdatePricing(@event.Sku, @event.Price, @event.Status);
-        }, ct);
+        await catalogWriteService.UpdatePricingAsync(@event.ProductVariationId, @event.Sku, @event.Price, @event.Status, ct);
 
         await uow.SaveChangesAsync(ct);
     }

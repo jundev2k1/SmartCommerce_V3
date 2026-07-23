@@ -1,12 +1,12 @@
 using BuildingBlock.Application.Exceptions;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 using Order.Application.Abstractions.Services;
 
 namespace Order.Application.Features.Orders.Common;
 
 public sealed class OrderItemPreparationService(
-    IOrderProductCatalogRepository catalogRepo,
+    IOrderProductCatalogReadService catalogReadService,
     IInventoryClientService inventoryClient) : IOrderItemPreparationService
 {
     /// <summary>Stock is checked first (cheapest gate, one batched gRPC call) so an insufficient-stock order fails fast before spending a query on catalog validation/pricing - applies uniformly to both CreateOrder (client) and AdminCreateOrder, since both funnel through here.</summary>
@@ -27,7 +27,7 @@ public sealed class OrderItemPreparationService(
         IReadOnlyCollection<OrderItemRequest> items, CancellationToken ct)
     {
         var variationIds = items.Select(i => i.VariationId).ToArray();
-        var variations = await catalogRepo.GetByVariantionIdsAsync(variationIds, ct);
+        var variations = await catalogReadService.GetByVariantionIdsAsync(variationIds, ct);
 
         var exceptVariations = variations.ExceptBy(variationIds, v => v.Id).ToArray();
         if (exceptVariations.Length > 0)

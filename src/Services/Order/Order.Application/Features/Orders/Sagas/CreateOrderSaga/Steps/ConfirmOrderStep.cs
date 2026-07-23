@@ -3,7 +3,7 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Contract.Events.Order;
 using BuildingBlock.Saga.Abstractions;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.Orders;
 
 namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
@@ -15,7 +15,7 @@ namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 /// steps here.
 /// </summary>
 public sealed class ConfirmOrderStep(
-    IOrderRepository orderRepo,
+    IOrderWriteService orderWriteService,
     IOutboxStore outboxStore,
     IUnitOfWork uow,
     IAppLogger<ConfirmOrderStep> logger) : ISagaStep
@@ -27,16 +27,10 @@ public sealed class ConfirmOrderStep(
     {
         var orderId = context.Get<Guid>(CreateOrderSagaContextKeys.OrderId);
         var customerId = context.Get<Guid>(CreateOrderSagaContextKeys.CustomerId);
-        var totalAmount = 0m;
 
         await uow.ExecuteTransactionAsync(async () =>
         {
-            await orderRepo.UpdateAsync(orderId, async (order) =>
-            {
-                order.Confirm();
-                totalAmount = order.TotalAmount;
-                await Task.CompletedTask;
-            }, ct);
+            var totalAmount = await orderWriteService.ConfirmAsync(orderId, ct);
 
             await outboxStore.EnqueueAsync(new OrderConfirmedIntegrationEvent(orderId, customerId, totalAmount), ct);
         },

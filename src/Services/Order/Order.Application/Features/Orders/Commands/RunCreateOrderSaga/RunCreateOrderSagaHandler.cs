@@ -5,7 +5,7 @@ using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Saga.Abstractions;
 using BuildingBlock.Saga.Core;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Features.Orders.Sagas.CreateOrderSaga;
 using Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
@@ -24,7 +24,7 @@ public sealed class RunCreateOrderSagaHandler(
     ISagaOrchestrator orchestrator,
     DeductInventoryStep deductInventoryStep,
     ConfirmOrderStep confirmOrderStep,
-    IOrderRepository orderRepo,
+    IOrderWriteService orderWriteService,
     IOutboxStore outboxStore,
     IUnitOfWork uow,
     IAppLogger<RunCreateOrderSagaHandler> logger) : ICommandHandler<RunCreateOrderSagaCommand>
@@ -76,11 +76,7 @@ public sealed class RunCreateOrderSagaHandler(
 
     private async Task CancelOrderAsync(Guid orderId, Guid customerId, string reason, CancellationToken ct)
     {
-        await orderRepo.UpdateAsync(orderId, async (order) =>
-        {
-            order.Cancel(reason);
-            await Task.CompletedTask;
-        }, ct);
+        await orderWriteService.CancelAsync(orderId, reason, ct);
 
         await outboxStore.EnqueueAsync(new OrderCancelledIntegrationEvent(orderId, customerId, reason), ct);
 

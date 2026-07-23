@@ -3,7 +3,7 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Order;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
 
 namespace Order.Application.Features.Orders.Common;
@@ -17,7 +17,8 @@ namespace Order.Application.Features.Orders.Common;
 /// </summary>
 public sealed class OrderCreationService(
     ICurrentUserService currentUser,
-    IOrderRepository orderRepo,
+    IOrderReadService orderReadService,
+    IOrderWriteService orderWriteService,
     IOrderItemPreparationService itemPreparation,
     IOutboxStore outboxStore,
     IUnitOfWork uow) : IOrderCreationService
@@ -35,7 +36,7 @@ public sealed class OrderCreationService(
 
         if (!string.IsNullOrWhiteSpace(idempotencyKey))
         {
-            var duplicate = await orderRepo.GetByIdempotencyKeyAsync(customerId, idempotencyKey, ct);
+            var duplicate = await orderReadService.GetByIdempotencyKeyAsync(customerId, idempotencyKey, ct);
             if (duplicate is not null)
                 return new CreateOrderResponse(duplicate.Id, duplicate.TotalAmount, duplicate.Status);
         }
@@ -53,7 +54,7 @@ public sealed class OrderCreationService(
 
         await uow.ExecuteTransactionAsync(async () =>
         {
-            await orderRepo.AddAsync(order, ct);
+            await orderWriteService.CreateAsync(order, ct);
 
             await outboxStore.EnqueueAsync(
                 new OrderCreatedIntegrationEvent(

@@ -1,7 +1,7 @@
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Contract.Events.Order;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
 
 namespace Order.Application.Features.Orders.Commands.UpdateOrder;
@@ -12,7 +12,7 @@ namespace Order.Application.Features.Orders.Commands.UpdateOrder;
 /// changed since the order was first created. Order.UpdateItems enforces the Pending-only guard.
 /// </summary>
 public sealed class UpdateOrderHandler(
-    IOrderRepository orderRepo,
+    IOrderWriteService orderWriteService,
     IOrderItemPreparationService itemPreparation,
     IOutboxStore outboxStore,
     IUnitOfWork uow) : ICommandHandler<UpdateOrderCommand, UpdateOrderResponse>
@@ -21,21 +21,15 @@ public sealed class UpdateOrderHandler(
     {
         var itemModels = await itemPreparation.PrepareAsync(request.Items, ct);
 
-        var customerId = Guid.Empty;
         var totalAmount = 0m;
 
         await uow.ExecuteTransactionAsync(async () =>
         {
-            await orderRepo.UpdateAsync(request.OrderId, async (order) =>
-            {
-                order.UpdateItems(itemModels);
-                customerId = order.CustomerId;
-                totalAmount = order.TotalAmount;
-                await Task.CompletedTask;
-            }, ct);
+            var result = await orderWriteService.UpdateItemsAsync(request.OrderId, itemModels, ct);
+            totalAmount = result.TotalAmount;
 
             await outboxStore.EnqueueAsync(
-                new OrderUpdatedIntegrationEvent(request.OrderId, customerId, totalAmount), ct);
+                new OrderUpdatedIntegrationEvent(request.OrderId, result.CustomerId, result.TotalAmount), ct);
         }, ct: ct);
 
         return new UpdateOrderResponse(request.OrderId, totalAmount, OrderStatus.Pending);

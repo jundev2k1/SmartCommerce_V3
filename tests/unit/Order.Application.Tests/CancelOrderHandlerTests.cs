@@ -1,6 +1,6 @@
 using NSubstitute;
 
-using Order.Application.Abstractions.Repositories;
+using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
 using Order.Application.Features.Orders.Commands.CancelOrder;
 using Order.Domain.Entities;
@@ -12,7 +12,10 @@ namespace Order.Application.Tests;
 /// <summary>
 /// Regression coverage for B2: cancelling a Confirmed order (stock already deducted by
 /// CreateOrderSaga's DeductInventoryStep) must restock, or the deduction leaks with no
-/// corresponding active order.
+/// corresponding active order. The Pending/Confirmed-only guard now lives inside
+/// IOrderWriteService.CancelAsync (see the Course Correction in the persistence refactor tracker),
+/// so the "invalid status" tests configure the substitute to throw the way the real
+/// implementation would, rather than re-deriving that guard here.
 /// </summary>
 public sealed class CancelOrderHandlerTests
 {
@@ -21,12 +24,16 @@ public sealed class CancelOrderHandlerTests
             Guid.NewGuid(), Guid.NewGuid(), "Jane Doe", "0123456789", "123 Main St",
             [new OrderItemCreateModel(Guid.NewGuid(), "Widget", 10m, 1)]);
 
-    private static (IOrderRepository Repo, IOutboxStore Outbox, IInventoryClientService Inventory, IUnitOfWork Uow)
+    private static (IOrderWriteService WriteService, IOutboxStore Outbox, IInventoryClientService Inventory, IUnitOfWork Uow)
         CreateSubstitutes(OrderEntity order)
     {
-        var repo = Substitute.For<IOrderRepository>();
-        repo.UpdateAsync(order.Id, Arg.Any<Func<OrderEntity, Task>>(), Arg.Any<CancellationToken>())
-            .Returns(ci => ci.Arg<Func<OrderEntity, Task>>()!(order));
+        var writeService = Substitute.For<IOrderWriteService>();
+        writeService.CancelAsync(order.Id, Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(ci =>
+            {
+                order.Cancel(ci.ArgAt<string>(1));
+                return Task.FromResult(order.CustomerId);
+            });
 
         var uow = Substitute.For<IUnitOfWork>();
         uow.ExecuteTransactionAsync(Arg.Any<Func<Task>>(), Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
@@ -36,7 +43,7 @@ public sealed class CancelOrderHandlerTests
                 return true;
             });
 
-        return (repo, Substitute.For<IOutboxStore>(), Substitute.For<IInventoryClientService>(), uow);
+        return (writeService, Substitute.For<IOutboxStore>(), Substitute.For<IInventoryClientService>(), uow);
     }
 
     [Theory]
@@ -48,8 +55,8 @@ public sealed class CancelOrderHandlerTests
         if (confirmed)
             order.Confirm();
 
-        var (repo, outbox, inventory, uow) = CreateSubstitutes(order);
-        var handler = new CancelOrderHandler(repo, outbox, inventory, uow);
+        var (writeService, outbox, inventory, uow) = CreateSubstitutes(order);
+        var handler = new CancelOrderHandler(writeService, outbox, inventory, uow);
 
         await handler.Handle(new CancelOrderCommand(order.Id, "Changed my mind"));
 
@@ -71,8 +78,11 @@ public sealed class CancelOrderHandlerTests
         var order = CreateOrder();
         order.Cancel("First cancellation");
 
-        var (repo, outbox, inventory, uow) = CreateSubstitutes(order);
-        var handler = new CancelOrderHandler(repo, outbox, inventory, uow);
+        var (writeService, outbox, inventory, uow) = CreateSubstitutes(order);
+        writeService.CancelAsync(order.Id, Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromException<Guid>(new BadRequestException("Order is already cancelled.")));
+
+        var handler = new CancelOrderHandler(writeService, outbox, inventory, uow);
 
         await Should.ThrowAsync<BadRequestException>(() => handler.Handle(new CancelOrderCommand(order.Id)));
 
@@ -86,8 +96,11 @@ public sealed class CancelOrderHandlerTests
         order.Confirm();
         order.Complete();
 
-        var (repo, outbox, inventory, uow) = CreateSubstitutes(order);
-        var handler = new CancelOrderHandler(repo, outbox, inventory, uow);
+        var (writeService, outbox, inventory, uow) = CreateSubstitutes(order);
+        writeService.CancelAsync(order.Id, Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromException<Guid>(new BadRequestException("Cannot cancel a completed order.")));
+
+        var handler = new CancelOrderHandler(writeService, outbox, inventory, uow);
 
         await Should.ThrowAsync<BadRequestException>(() => handler.Handle(new CancelOrderCommand(order.Id)));
 
