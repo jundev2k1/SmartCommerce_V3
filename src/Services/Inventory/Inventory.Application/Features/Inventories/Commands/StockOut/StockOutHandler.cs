@@ -1,10 +1,11 @@
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 
 namespace Inventory.Application.Features.Inventories.Commands.StockOut;
 
 public sealed class StockOutHandler(
-    IInventoryRepository inventoryRepo,
-    IInventoryTransactionRepository transactionRepo,
+    IInventoryWriteService inventoryWriteService,
+    IInventoryTransactionWriteService transactionWriteService,
     IUnitOfWork unitOfWork) : ICommandHandler<StockOutCommand, StockOutResponse>
 {
     public async Task<StockOutResponse> Handle(StockOutCommand request, CancellationToken ct = default)
@@ -13,14 +14,14 @@ public sealed class StockOutHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await inventoryRepo.UpdateAsync(request.InventoryId, async (inv) =>
+            await inventoryWriteService.StageUpdateAsync(request.InventoryId, async (inv) =>
             {
                 inv.Decrease(request.Quantity);
                 inventory = inv;
                 await Task.CompletedTask;
             }, ct);
 
-            await transactionRepo.AddAsync(
+            await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
                     Guid.CreateVersion7(),
                     inventory!.Id,

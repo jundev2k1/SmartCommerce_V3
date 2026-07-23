@@ -1,10 +1,11 @@
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 
 namespace Inventory.Application.Features.Inventories.Commands.AdjustStock;
 
 public sealed class AdjustStockHandler(
-    IInventoryRepository inventoryRepo,
-    IInventoryTransactionRepository transactionRepo,
+    IInventoryWriteService inventoryWriteService,
+    IInventoryTransactionWriteService transactionWriteService,
     IUnitOfWork unitOfWork) : ICommandHandler<AdjustStockCommand, AdjustStockResponse>
 {
     public async Task<AdjustStockResponse> Handle(AdjustStockCommand request, CancellationToken ct = default)
@@ -14,7 +15,7 @@ public sealed class AdjustStockHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await inventoryRepo.UpdateAsync(request.InventoryId, async (inv) =>
+            await inventoryWriteService.StageUpdateAsync(request.InventoryId, async (inv) =>
             {
                 delta = request.NewQuantity - inv.Quantity;
                 inv.Adjust(request.NewQuantity);
@@ -22,7 +23,7 @@ public sealed class AdjustStockHandler(
                 await Task.CompletedTask;
             }, ct);
 
-            await transactionRepo.AddAsync(
+            await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
                     Guid.CreateVersion7(),
                     inventory!.Id,

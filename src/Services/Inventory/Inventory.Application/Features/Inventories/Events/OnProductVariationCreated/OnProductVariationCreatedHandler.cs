@@ -1,7 +1,8 @@
 using BuildingBlock.Application.Abstractions.Events;
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
 
 namespace Inventory.Application.Features.Inventories.Events.OnProductVariationCreated;
 
@@ -11,16 +12,16 @@ namespace Inventory.Application.Features.Inventories.Events.OnProductVariationCr
 /// real warehouse assignment happens later via StockIn.
 /// </summary>
 public sealed class OnProductVariationCreatedHandler(
-    IUnitOfWork uow,
-    IInventoryRepository inventoryRepo,
-    IWarehouseRepository warehouseRepo,
+    IInventoryReadService inventoryReadService,
+    IInventoryWriteService inventoryWriteService,
+    IWarehouseReadService warehouseReadService,
     IAppLogger<OnProductVariationCreatedHandler> logger) : IInternalEventHandler<OnProductVariationCreatedEvent>
 {
     private const string DefaultWarehouseCode = "MAIN";
 
     public async Task Handle(OnProductVariationCreatedEvent @event, CancellationToken ct = default)
     {
-        var warehouse = await warehouseRepo.GetByCodeAsync(DefaultWarehouseCode, ct);
+        var warehouse = await warehouseReadService.GetByCodeAsync(DefaultWarehouseCode, ct);
         if (warehouse is null)
         {
             logger.Warning(
@@ -32,18 +33,15 @@ public sealed class OnProductVariationCreatedHandler(
 
         // Idempotency safety net beyond the Inbox dedup - a redelivered/replayed message must
         // never create a second zero-stock row for the same (variation, warehouse) pair.
-        var existing = await inventoryRepo.GetByVariationAndWarehouseAsync(@event.ProductVariationId, warehouse.Id, ct);
+        var existing = await inventoryReadService.GetByVariationAndWarehouseAsync(@event.ProductVariationId, warehouse.Id, ct);
         if (existing is not null)
             return;
 
-        await uow.ExecuteTransactionAsync(async () =>
-        {
-            var inventory = InventoryEntity.Create(
-                Guid.CreateVersion7(),
-                @event.ProductId,
-                @event.ProductVariationId,
-                warehouse.Id);
-            await inventoryRepo.AddAsync(inventory, ct);
-        }, ct: ct);
+        var inventory = InventoryEntity.Create(
+            Guid.CreateVersion7(),
+            @event.ProductId,
+            @event.ProductVariationId,
+            warehouse.Id);
+        await inventoryWriteService.AddAsync(inventory, ct);
     }
 }

@@ -1,13 +1,13 @@
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 
 namespace Inventory.Application.Features.Inventories.Queries.GetProductsStock;
 
-public sealed class GetProductsStockHandler(IInventoryRepository inventoryRepo)
+public sealed class GetProductsStockHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetProductsStockQuery, IReadOnlyCollection<ProductVariationStockResult>>
 {
     public async Task<IReadOnlyCollection<ProductVariationStockResult>> Handle(GetProductsStockQuery request, CancellationToken ct = default)
     {
-        var stockByVariation = await inventoryRepo.GetTotalStockByVariationIdsAsync(request.ProductVariationIds, ct);
+        var stockByVariation = await inventoryReadService.GetTotalStockByVariationIdsAsync(request.ProductVariationIds, ct);
 
         return [.. request.ProductVariationIds
             .Select(id => new ProductVariationStockResult(id, stockByVariation.GetValueOrDefault(id)))];

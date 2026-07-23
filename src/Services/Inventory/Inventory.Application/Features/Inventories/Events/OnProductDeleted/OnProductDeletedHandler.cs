@@ -1,6 +1,6 @@
 using BuildingBlock.Application.Abstractions.Events;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 
 namespace Inventory.Application.Features.Inventories.Events.OnProductDeleted;
 
@@ -11,14 +11,10 @@ namespace Inventory.Application.Features.Inventories.Events.OnProductDeleted;
 /// product in one pass.
 /// </summary>
 public sealed class OnProductDeletedHandler(
-    IUnitOfWork uow,
-    IInventoryRepository inventoryRepo) : IInternalEventHandler<OnProductDeletedEvent>
+    IInventoryWriteService inventoryWriteService) : IInternalEventHandler<OnProductDeletedEvent>
 {
     public async Task Handle(OnProductDeletedEvent @event, CancellationToken ct = default)
     {
-        await uow.ExecuteTransactionAsync(async () =>
-        {
-            await inventoryRepo.DeleteByProductIdAsync(@event.ProductId, ct);
-        }, ct: ct);
+        await inventoryWriteService.DeleteByProductIdAsync(@event.ProductId, ct);
     }
 }

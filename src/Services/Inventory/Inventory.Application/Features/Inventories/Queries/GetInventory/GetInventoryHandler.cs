@@ -1,17 +1,17 @@
 using BuildingBlock.Application.Exceptions;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 
 using Mapster;
 
 namespace Inventory.Application.Features.Inventories.Queries.GetInventory;
 
-public sealed class GetInventoryHandler(IInventoryRepository inventoryRepo)
+public sealed class GetInventoryHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetInventoryQuery, GetInventoryResponse>
 {
     public async Task<GetInventoryResponse> Handle(GetInventoryQuery request, CancellationToken ct = default)
     {
-        var inventory = await inventoryRepo.GetByIdAsync(request.InventoryId, ct)
+        var inventory = await inventoryReadService.GetByIdAsync(request.InventoryId, ct)
             ?? throw new NotFoundException("Inventory", request.InventoryId);
 
         return inventory.Adapt<GetInventoryResponse>();

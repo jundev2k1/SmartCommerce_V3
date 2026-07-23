@@ -4,7 +4,10 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.StockDeductions;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
 
 namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
 
@@ -17,10 +20,12 @@ namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
 /// read and must re-validate against fresh quantities, not blindly retry the same numbers.
 /// </summary>
 public sealed class DeductStockHandler(
-    IStockDeductionRepository deductionRepo,
-    IInventoryRepository inventoryRepo,
-    IInventoryTransactionRepository transactionRepo,
-    IWarehouseRepository warehouseRepo,
+    IStockDeductionReadService deductionReadService,
+    IStockDeductionWriteService deductionWriteService,
+    IInventoryReadService inventoryReadService,
+    IInventoryWriteService inventoryWriteService,
+    IInventoryTransactionWriteService transactionWriteService,
+    IWarehouseReadService warehouseReadService,
     IUnitOfWork unitOfWork,
     IAppLogger<DeductStockHandler> logger) : ICommandHandler<DeductStockCommand, DeductStockResult>
 {
@@ -29,14 +34,14 @@ public sealed class DeductStockHandler(
 
     public async Task<DeductStockResult> Handle(DeductStockCommand request, CancellationToken ct = default)
     {
-        var existing = await deductionRepo.GetByIdAsync(request.DeductionId, ct);
+        var existing = await deductionReadService.GetByIdAsync(request.DeductionId, ct);
         if (existing is not null)
         {
             logger.Information("DeductStock {DeductionId} already processed ({Status}), replaying stored result", request.DeductionId, existing.Status);
             return ToResult(existing);
         }
 
-        var warehouse = await warehouseRepo.GetByCodeAsync(MainWarehouseCode, ct)
+        var warehouse = await warehouseReadService.GetByCodeAsync(MainWarehouseCode, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Warehouse '{MainWarehouseCode}' is not configured.");
 
         for (var attempt = 1; attempt <= MaxConcurrencyRetries; attempt++)
@@ -67,7 +72,7 @@ public sealed class DeductStockHandler(
 
             foreach (var item in request.Items)
             {
-                var inventory = await inventoryRepo.GetByVariationAndWarehouseAsync(item.ProductVariationId, warehouseId, ct);
+                var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(item.ProductVariationId, warehouseId, ct);
 
                 if (inventory is null)
                 {
@@ -86,7 +91,7 @@ public sealed class DeductStockHandler(
 
             if (insufficient.Count > 0)
             {
-                await deductionRepo.AddAsync(
+                await deductionWriteService.StageAddAsync(
                     StockDeduction.CreateFailed(request.DeductionId, "InsufficientStock", request.Reason), ct);
 
                 result = new DeductStockResult(false, "InsufficientStock", insufficient);
@@ -97,11 +102,11 @@ public sealed class DeductStockHandler(
 
             foreach (var (item, inventoryId) in validated)
             {
-                await inventoryRepo.UpdateAsync(inventoryId, async inv =>
+                await inventoryWriteService.StageUpdateAsync(inventoryId, async inv =>
                 {
                     inv.Decrease(item.Quantity);
 
-                    await transactionRepo.AddAsync(
+                    await transactionWriteService.StageAddAsync(
                         InventoryTransaction.Create(
                             Guid.CreateVersion7(),
                             inv.Id,
@@ -117,7 +122,7 @@ public sealed class DeductStockHandler(
             }
 
             var itemsJson = JsonSerializer.Serialize(request.Items);
-            await deductionRepo.AddAsync(
+            await deductionWriteService.StageAddAsync(
                 StockDeduction.CreateSucceeded(request.DeductionId, itemsJson, request.Reason), ct);
 
             result = new DeductStockResult(true, null, []);

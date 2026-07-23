@@ -1,21 +1,22 @@
 using BuildingBlock.Application.Exceptions;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 
 using Mapster;
 
 namespace Inventory.Application.Features.Inventories.Queries.GetInventoryHistory;
 
 public sealed class GetInventoryHistoryHandler(
-    IInventoryRepository inventoryRepo,
-    IInventoryTransactionRepository transactionRepo) : IQueryHandler<GetInventoryHistoryQuery, GetInventoryHistoryResponse>
+    IInventoryReadService inventoryReadService,
+    IInventoryTransactionReadService transactionReadService) : IQueryHandler<GetInventoryHistoryQuery, GetInventoryHistoryResponse>
 {
     public async Task<GetInventoryHistoryResponse> Handle(GetInventoryHistoryQuery request, CancellationToken ct = default)
     {
-        _ = await inventoryRepo.GetByIdAsync(request.InventoryId, ct)
+        _ = await inventoryReadService.GetByIdAsync(request.InventoryId, ct)
             ?? throw new NotFoundException("Inventory", request.InventoryId);
 
-        var transactions = await transactionRepo.GetHistoryAsync(request.InventoryId, ct);
+        var transactions = await transactionReadService.GetHistoryAsync(request.InventoryId, ct);
 
         return new GetInventoryHistoryResponse(transactions.Adapt<List<InventoryTransactionDto>>());
     }

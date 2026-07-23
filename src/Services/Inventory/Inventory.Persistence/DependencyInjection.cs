@@ -6,12 +6,25 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
-using BuildingBlock.Persistence.Repository;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.StockDeductions;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Persistence.Inbox;
+using Inventory.Persistence.InventoryTransactions.Read;
+using Inventory.Persistence.InventoryTransactions.Repositories;
+using Inventory.Persistence.InventoryTransactions.Write;
+using Inventory.Persistence.Inventories.Read;
+using Inventory.Persistence.Inventories.Repositories;
+using Inventory.Persistence.Inventories.Write;
 using Inventory.Persistence.Outbox;
-using Inventory.Persistence.Repository;
+using Inventory.Persistence.StockDeductions.Read;
+using Inventory.Persistence.StockDeductions.Repositories;
+using Inventory.Persistence.StockDeductions.Write;
+using Inventory.Persistence.Warehouses.Read;
+using Inventory.Persistence.Warehouses.Repositories;
+using Inventory.Persistence.Warehouses.Write;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,16 +63,27 @@ public static class DependencyInjection
         return services;
     }
 
+    // None of these repos implement the generic IRepository<T> - each aggregate's Read/Write
+    // Service (see docs/refactoring/persistence-refactor-plan.md) owns workflow/query composition
+    // instead, so the repos themselves are pure Add/Delete-by-filter primitives with no shape a
+    // generic Scrutor scan could match. All three tiers are registered explicitly per aggregate.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScopedByInterface(typeof(IRepository<>), typeof(InventoryDbContext));
-
-        // InventoryRepo gained Search/rollup methods beyond generic CRUD (GetTotalStockBy...,
-        // DeleteByProductIdAsync) and no longer implements IRepository<T>, so the Scrutor scan
-        // above never finds it either - same reasoning as InventoryTransactionRepo below.
         services.AddScoped<IInventoryRepository, InventoryRepo>();
+        services.AddScoped<IInventoryReadService, InventoryReadService>();
+        services.AddScoped<IInventoryWriteService, InventoryWriteService>();
+
+        services.AddScoped<IWarehouseRepository, WarehouseRepo>();
+        services.AddScoped<IWarehouseReadService, WarehouseReadService>();
+        services.AddScoped<IWarehouseWriteService, WarehouseWriteService>();
+
         services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepo>();
+        services.AddScoped<IInventoryTransactionReadService, InventoryTransactionReadService>();
+        services.AddScoped<IInventoryTransactionWriteService, InventoryTransactionWriteService>();
+
         services.AddScoped<IStockDeductionRepository, StockDeductionRepo>();
+        services.AddScoped<IStockDeductionReadService, StockDeductionReadService>();
+        services.AddScoped<IStockDeductionWriteService, StockDeductionWriteService>();
 
         return services;
     }

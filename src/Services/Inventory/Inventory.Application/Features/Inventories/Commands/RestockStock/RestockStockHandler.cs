@@ -4,16 +4,21 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Repositories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.StockDeductions;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 namespace Inventory.Application.Features.Inventories.Commands.RestockStock;
 
 public sealed class RestockStockHandler(
-    IStockDeductionRepository deductionRepo,
-    IInventoryRepository inventoryRepo,
-    IInventoryTransactionRepository transactionRepo,
-    IWarehouseRepository warehouseRepo,
+    IStockDeductionReadService deductionReadService,
+    IStockDeductionWriteService deductionWriteService,
+    IInventoryReadService inventoryReadService,
+    IInventoryWriteService inventoryWriteService,
+    IInventoryTransactionWriteService transactionWriteService,
+    IWarehouseReadService warehouseReadService,
     IUnitOfWork unitOfWork,
     IAppLogger<RestockStockHandler> logger) : ICommandHandler<RestockStockCommand, RestockStockResult>
 {
@@ -22,7 +27,7 @@ public sealed class RestockStockHandler(
 
     public async Task<RestockStockResult> Handle(RestockStockCommand request, CancellationToken ct = default)
     {
-        var deduction = await deductionRepo.GetByIdAsync(request.DeductionId, ct);
+        var deduction = await deductionReadService.GetByIdAsync(request.DeductionId, ct);
 
         // Nothing to reverse: never deducted, already reversed, or the original attempt failed.
         // A compensating action must never itself become a blocking failure - see
@@ -35,7 +40,7 @@ public sealed class RestockStockHandler(
             return new RestockStockResult(true);
         }
 
-        var warehouse = await warehouseRepo.GetByCodeAsync(MainWarehouseCode, ct)
+        var warehouse = await warehouseReadService.GetByCodeAsync(MainWarehouseCode, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Warehouse '{MainWarehouseCode}' is not configured.");
 
         var items = JsonSerializer.Deserialize<List<DeductStockItem>>(deduction.ItemsJson) ?? [];
@@ -49,7 +54,7 @@ public sealed class RestockStockHandler(
                 {
                     foreach (var item in items)
                     {
-                        var inventory = await inventoryRepo.GetByVariationAndWarehouseAsync(item.ProductVariationId, warehouse.Id, ct);
+                        var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(item.ProductVariationId, warehouse.Id, ct);
                         if (inventory is null)
                         {
                             logger.Warning(
@@ -58,11 +63,11 @@ public sealed class RestockStockHandler(
                             continue;
                         }
 
-                        await inventoryRepo.UpdateAsync(inventory.Id, async inv =>
+                        await inventoryWriteService.StageUpdateAsync(inventory.Id, async inv =>
                         {
                             inv.Increase(item.Quantity);
 
-                            await transactionRepo.AddAsync(
+                            await transactionWriteService.StageAddAsync(
                                 InventoryTransaction.Create(
                                     Guid.CreateVersion7(),
                                     inv.Id,
@@ -77,7 +82,7 @@ public sealed class RestockStockHandler(
                         }, ct);
                     }
 
-                    await deductionRepo.UpdateAsync(request.DeductionId, async d =>
+                    await deductionWriteService.StageUpdateAsync(request.DeductionId, async d =>
                     {
                         d.MarkReversed();
                         await Task.CompletedTask;
