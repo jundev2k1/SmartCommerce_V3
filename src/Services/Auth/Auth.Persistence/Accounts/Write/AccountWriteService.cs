@@ -1,19 +1,17 @@
 using Auth.Application.Abstractions.Persistence.Accounts;
 using Auth.Persistence.Accounts.Repositories;
 
-using BuildingBlock.Application.Abstractions.Persistence;
-
 namespace Auth.Persistence.Accounts.Write;
 
+/// <summary>
+/// Non-committing - OnAccountDeletionInitiatedHandler owns IUnitOfWork.ExecuteTransactionAsync
+/// itself, matching its original (pre-migration) commit shape.
+/// </summary>
 public sealed class AccountWriteService(
-    IAccountRepository repo,
-    IUnitOfWork unitOfWork) : IAccountWriteService
+    IAccountRepository repo) : IAccountWriteService
 {
     public async Task DeleteIfExistAsync(Guid id, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.DeleteIfExistAsync(id, ct);
-        }, ct: ct);
+        await repo.DeleteIfExistAsync(id, ct);
     }
 }

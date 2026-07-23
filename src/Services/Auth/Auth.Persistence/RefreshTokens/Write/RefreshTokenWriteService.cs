@@ -1,16 +1,17 @@
 using Auth.Application.Abstractions.Persistence.RefreshTokens;
 using Auth.Domain.Entities;
-using Auth.Persistence.RefreshTokens.Repositories;
 
-using BuildingBlock.Application.Exceptions;
-
-using Microsoft.EntityFrameworkCore;
+using BuildingBlock.Persistence.Repository;
 
 namespace Auth.Persistence.RefreshTokens.Write;
 
+/// <summary>
+/// Both methods are non-committing - the one caller (RefreshTokenSyncService) batches many
+/// Add/Update calls across a whole user-batch into one IUnitOfWork.ExecuteTransactionAsync it
+/// owns itself. See the persistence refactor tracker's extension of Correction 2 to Auth.
+/// </summary>
 public sealed class RefreshTokenWriteService(
-    AuthDbContext dbContext,
-    IRefreshTokenRepository repo) : IRefreshTokenWriteService
+    IRepository<RefreshToken> repo) : IRefreshTokenWriteService
 {
     public async Task AddAsync(RefreshToken token, CancellationToken ct = default)
     {
@@ -19,10 +20,6 @@ public sealed class RefreshTokenWriteService(
 
     public async Task UpdateAsync(Guid id, Func<RefreshToken, Task> updateAction, CancellationToken ct = default)
     {
-        var token = await dbContext.RefreshTokens
-            .FirstOrDefaultAsync(rt => rt.Id == id, ct)
-            ?? throw new NotFoundException(nameof(id), id);
-
-        await updateAction(token);
+        await repo.UpdateAsync(id, updateAction, ct);
     }
 }

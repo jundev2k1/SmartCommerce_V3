@@ -1,8 +1,6 @@
-using Auth.Domain.Entities;
-
 namespace Auth.Persistence.RefreshTokens.Repositories;
 
 public interface IRefreshTokenRepository
 {
-    Task AddAsync(RefreshToken token, CancellationToken ct = default);
+    // Leave empty for now... Reserved for future scaling if the repository requires specific functions
 }

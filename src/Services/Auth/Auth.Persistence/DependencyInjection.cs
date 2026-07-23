@@ -20,6 +20,7 @@ using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
+using BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -90,13 +91,19 @@ public static class DependencyInjection
         return services;
     }
 
+    // RefreshTokenRepo implements the generic IRepository<T> (restored - it genuinely needs the
+    // tracked-load-and-mutate UpdateAsync), so it's Scrutor-scanned; AccountRepo doesn't (its only
+    // real operation, DeleteIfExistAsync, is a bulk ExecuteDeleteAsync that doesn't fit the
+    // generic shape - Account mutation itself goes through ASP.NET Identity's UserManager, not
+    // this repository at all), so it stays manually registered.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
+        services.AddScopedByInterface(typeof(IRepository<>), typeof(AuthDbContext));
+
         services.AddScoped<IAccountRepository, AccountRepo>();
         services.AddScoped<IAccountReadService, AccountReadService>();
         services.AddScoped<IAccountWriteService, AccountWriteService>();
 
-        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepo>();
         services.AddScoped<IRefreshTokenReadService, RefreshTokenReadService>();
         services.AddScoped<IRefreshTokenWriteService, RefreshTokenWriteService>();
 
