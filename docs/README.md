@@ -77,6 +77,12 @@ project-initialization, add-new-api, add-new-domain-entity, add-new-repository, 
 - [reference/authorization.md](reference/authorization.md) — role/claims-based authorization
 - [reference/audit-trail.md](reference/audit-trail.md) — opt-in audit tracking: `IAuditable`, `[AuditIgnore]`, `AuditInterceptor`
 
+## Refactoring
+
+Living trackers for framework-level, multi-phase migrations spanning multiple services — see [refactoring/README.md](refactoring/README.md) for the convention.
+
+- [refactoring/persistence-refactor-plan.md](refactoring/persistence-refactor-plan.md) — Read/Write persistence-service layer migration across all 7 services (in progress).
+
 ## Tasks
 
 Dated, per-task bug/gap tracking (not architecture, not workflows) — see [tasks/README.md](tasks/README.md) for the convention. Check [tasks/PROGRESS.md](tasks/PROGRESS.md) for what's currently open before starting unrelated work that might overlap.
@@ -106,5 +112,5 @@ Dated, per-task bug/gap tracking (not architecture, not workflows) — see [task
 
 1. **Don't duplicate.** If a fact belongs in one doc, link to it from others — never restate it.
 2. **Don't let docs drift.** When you change a DI registration, endpoint route, config key, or shared pattern, update the doc that owns that fact (check [05-context-loading-map.md](05-context-loading-map.md) to find it) in the same change.
-3. **New workflow docs go in `workflows/`.** New deep-reference docs go in `reference/`. New layer-wide style rules go in `conventions/`. Nothing new goes directly under `docs/` root except the numbered core docs above — if you think you need a new root-level doc, you probably need a workflow, reference, or convention doc instead.
+3. **New workflow docs go in `workflows/`.** New deep-reference docs go in `reference/`. New layer-wide style rules go in `conventions/`. New multi-phase migration trackers go in `refactoring/`. Nothing new goes directly under `docs/` root except the numbered core docs above — if you think you need a new root-level doc, you probably need a workflow, reference, convention, or refactoring doc instead.
 4. **Every doc states its own scope in the first paragraph** so a reader (human or AI) can decide in one sentence whether to keep reading.
