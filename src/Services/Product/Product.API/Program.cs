@@ -8,7 +8,6 @@ using Product.Application;
 using Product.Application.Abstractions.Search;
 using Product.Infrastructure;
 using Product.Persistence;
-using Product.Persistence.Elasticsearch;
 using Product.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +31,6 @@ builder.WebHost.ConfigureKestrel(options =>
 
 builder.Services
     .AddPersistence(builder.Configuration)
-    .AddElasticsearchPersistence(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddPresentation(builder.Configuration);

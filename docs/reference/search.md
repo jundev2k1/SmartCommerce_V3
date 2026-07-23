@@ -1,6 +1,6 @@
 # Reference: Search (Elasticsearch)
 
-**Scope:** the reusable Search read-model infrastructure introduced by the Product Search feature, and the Product-specific implementation built on top of it. Read this before touching `BuildingBlock.Search`, `Product.Persistence.Elasticsearch`, or any future service's search integration.
+**Scope:** the reusable Search read-model infrastructure introduced by the Product Search feature, and the Product-specific implementation built on top of it. Read this before touching `BuildingBlock.Search`, `Product.Persistence/Contexts/Products/Search`, or any future service's search integration.
 
 ## Responsibility
 
@@ -13,14 +13,16 @@ Elasticsearch is a **read model, never a source of truth**. PostgreSQL remains a
 
 ## Architecture: reusable vs. Product-specific
 
-Search is **not** a new microservice. Each service that adopts Search owns its own index and its own sync pipeline, reusing only the technology-agnostic 20% via `BuildingBlock.Search`. Product Search (the only full implementation today) demonstrates the pattern; Customer Search and Order Search would each repeat it independently, inside their own service.
+Search is **not** a new microservice, nor a separate technology-specific project. Each bounded context that adopts Search owns its own index and its own sync pipeline as part of its own `<Service>.Persistence` project, reusing only the technology-agnostic 20% via `BuildingBlock.Search`. Product Search (the only full implementation today) demonstrates the pattern; Customer Search and Order Search would each repeat it independently, inside their own service's Persistence project.
 
 ```
 BuildingBlock.Search (reusable — client, generic indexer, config, retry policy)
-  ├── used by → Product.Persistence.Elasticsearch (Product-specific: document, mapping, repository, indexer wrapper)
-  ├── used by → (future) Customer.Persistence.Elasticsearch
-  └── used by → (future) Order.Persistence.Elasticsearch
+  ├── used by → Product.Persistence/Contexts/Products/Search (Product-specific: document, mapping, repository, indexer wrapper)
+  ├── used by → (future) Customer.Persistence/Contexts/Customers/Search
+  └── used by → (future) Order.Persistence/Contexts/Orders/Search
 ```
+
+There is deliberately no `*.Persistence.Elasticsearch` project for any service — search is a persistence capability belonging to a bounded context, not an implementation technology, so it lives beside that context's `Read`/`Write`/`Repositories` folders inside the owning `<Service>.Persistence` project. Dependency injection for search is registered from the Persistence composition root (`AddPersistence` → `AddProductSearchServices`), the same place every other persistence capability is registered — never a standalone `Add{Technology}Persistence()` call in `Program.cs`.
 
 ### `BuildingBlock.Search` (reusable)
 
@@ -36,7 +38,7 @@ Zero project references (root-level BuildingBlock, like `SharedKernel`), one pac
 - No OpenTelemetry/metrics/tracing — `ElasticsearchClientSettings` supports `OnRequestCompleted`/instrumentation hooks natively when needed.
 - No generic query/search abstraction — every service's search criteria and result shape differ enough that a shared interface would be premature; each service's Search Repository talks to `ElasticsearchClient` directly.
 
-### Product-specific (Product.Application + Product.Persistence.Elasticsearch)
+### Product-specific (Product.Application + Product.Persistence)
 
 Everything below lives inside Product's own projects, never in a BuildingBlock — per the task's explicit instruction that `ProductSearchDocument`/`ProductProjectionBuilder`/`ProductSearchRepository` remain Product-specific.
 
@@ -50,12 +52,13 @@ Everything below lives inside Product's own projects, never in a BuildingBlock �
 
 **`Product.Application/Features/Products/Search/ProductSearchProjectionBuilder.cs`** — the Projection Builder: **Integration Event → Search Document**. `BuildAsync(ProductEntity, ct)` (single) and `BuildManyAsync(IReadOnlyList<ProductEntity>, ct)` (batched, preloads all categories/tags once instead of N+1). This is the **only** place `ProductSearchDocument` is assembled — both the live sync path and the rebuild path call into it, so a future schema change touches exactly one class.
 
-**`Product.Persistence.Elasticsearch`** (peer project to `Product.Persistence`, not nested inside it — mirrors how `Persistence`/`Persistence.Ef`/`Persistence.Mongo` are independent peers):
-- `Search/ProductSearchIndexNames.cs` — the literal index name (`product-search`), the only place it's hardcoded.
-- `Mappings/ProductSearchIndexMapping.cs` — the ES field mapping (keyword fields for ids/codes/status, text+keyword-subfield for `Name`, double for price, date for `UpdatedAt`).
-- `Search/ProductSearchIndexer.cs` — `IProductSearchIndexer` impl, delegates to `IElasticsearchIndexer<ProductSearchDocument>` with the fixed index name/mapping.
-- `Search/ProductSearchRepository.cs` — `IProductSearchRepository` impl. Builds a `bool` query directly against `ElasticsearchClient`: `must` multi-match on `Keyword` across `name`/`categoryNames`/`tagNames` when present, `filter` terms on `categoryIds`/`tagIds`/`status` when present, `sort` on `name.keyword`/`defaultPrice`/`updatedAt`, `from`/`size` for paging.
-- `DependencyInjection.cs` — `AddElasticsearchPersistence(configuration)`: calls `BuildingBlock.Search`'s `AddElasticsearchClient`, then registers the Product-specific indexer/repository.
+**`Product.Persistence/Contexts/Products/Search/`** (the Product context's Search implementation, living beside its `Read`/`Write`/`Repositories` siblings — not a separate technology-specific project):
+- `ProductSearchIndexNames.cs` — the literal index name (`product-search`), the only place it's hardcoded.
+- `Mapping/ProductSearchIndexMapping.cs` — the ES field mapping (keyword fields for ids/codes/status, text+keyword-subfield for `Name`, double for price, date for `UpdatedAt`).
+- `Indexers/ProductSearchIndexer.cs` — `IProductSearchIndexer` impl, delegates to `IElasticsearchIndexer<ProductSearchDocument>` with the fixed index name/mapping.
+- `Repositories/ProductSearchRepository.cs` — `IProductSearchRepository` impl. Builds a `bool` query directly against `ElasticsearchClient`: `must` multi-match on `Keyword` across `name`/`categoryNames`/`tagNames` when present, `filter` terms on `categoryIds`/`tagIds`/`status` when present, `sort` on `name.keyword`/`defaultPrice`/`updatedAt`, `from`/`size` for paging.
+
+Registration lives in `Product.Persistence/DependencyInjection.cs`'s private `AddProductSearchServices(configuration)`, called from the public `AddPersistence(configuration)` alongside `AddRepositories`/`AddUnitOfWork`/`AddOutbox`/etc. It calls `BuildingBlock.Search`'s `AddElasticsearchClient`, then registers the Product-specific indexer/repository — a business-capability name (`AddProductSearchServices`), not a technology-oriented one (`AddElasticsearchPersistence`). `Program.cs` therefore only calls `.AddPersistence(configuration)`; there is no separate `.AddElasticsearchPersistence(...)` step.
 
 ## Synchronization flow
 
@@ -105,7 +108,7 @@ Runs synchronously in the command handler today (no background job) — appropri
 
 ## Future extension points
 
-- **Customer Search / Order Search**: repeat the Product pattern — a `{Service}.Persistence.Elasticsearch` project referencing `BuildingBlock.Search` + that service's own `Application` project, a document/criteria/repository/indexer/mapping quartet, a self-consuming (or cross-service-consuming, if the read model naturally lives in a different service) Kafka sync pipeline, and a rebuild command. Nothing in `BuildingBlock.Search` needs to change.
+- **Customer Search / Order Search**: repeat the Product pattern — a `Contexts/<Aggregate>/Search/` folder inside that service's own `<Service>.Persistence` project (referencing `BuildingBlock.Search`), a document/criteria/repository/indexer/mapping quartet, a self-consuming (or cross-service-consuming, if the read model naturally lives in a different service) Kafka sync pipeline, and a rebuild command. Nothing in `BuildingBlock.Search` needs to change, and no new `*.Persistence.Elasticsearch` project should be created.
 - **Kibana dashboards**: Kibana is already provisioned in `docker-compose.yml`/`.override.yml` pointing at the shared `elasticsearch` container — any index created here (`product-search`, and future `customer-search`/`order-search`) is visible in Kibana with zero additional plumbing.
 - **Audit Analytics**: Audit Service could adopt the same `BuildingBlock.Search` indexer for an analytics-oriented index over `AuditLogEntry` data, independent of this feature.
 - **Health checks / OpenTelemetry / metrics**: see "Deliberately not included yet" above — the extension points are documented, not implemented.

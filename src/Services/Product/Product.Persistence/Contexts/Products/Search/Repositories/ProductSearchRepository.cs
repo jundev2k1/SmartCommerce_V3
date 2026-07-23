@@ -3,7 +3,7 @@ using Elastic.Clients.Elasticsearch.QueryDsl;
 
 using Product.Application.Abstractions.Search;
 
-namespace Product.Persistence.Elasticsearch.Search;
+namespace Product.Persistence.Contexts.Products.Search.Repositories;
 
 /// <summary>
 /// IProductSearchRepository impl - query-only against Elasticsearch, never Postgres. Builds the

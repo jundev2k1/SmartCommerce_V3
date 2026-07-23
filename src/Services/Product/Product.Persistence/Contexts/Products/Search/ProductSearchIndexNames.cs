@@ -1,4 +1,4 @@
-namespace Product.Persistence.Elasticsearch.Search;
+namespace Product.Persistence.Contexts.Products.Search;
 
 /// <summary>The only place the literal Product Search index name lives.</summary>
 public static class ProductSearchIndexNames

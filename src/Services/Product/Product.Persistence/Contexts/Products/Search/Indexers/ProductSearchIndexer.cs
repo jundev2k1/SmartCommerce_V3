@@ -1,9 +1,9 @@
 using BuildingBlock.Search.Abstractions;
 
 using Product.Application.Abstractions.Search;
-using Product.Persistence.Elasticsearch.Mappings;
+using Product.Persistence.Contexts.Products.Search.Mapping;
 
-namespace Product.Persistence.Elasticsearch.Search;
+namespace Product.Persistence.Contexts.Products.Search.Indexers;
 
 /// <summary>
 /// IProductSearchIndexer impl - fixes the Product index name/mapping on top of

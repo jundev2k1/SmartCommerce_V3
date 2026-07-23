@@ -4,7 +4,7 @@
 
 ## Projects
 
-`Product.Domain`, `Product.Application`, `Product.Infrastructure`, `Product.Persistence`, `Product.API` — same 5-layer split as User. Plus `Product.Persistence.Elasticsearch` — a peer of `Product.Persistence` (not nested inside it), the Product-specific half of the Search read-model integration. See [reference/search.md](../reference/search.md).
+`Product.Domain`, `Product.Application`, `Product.Infrastructure`, `Product.Persistence`, `Product.API` — same 5-layer split as User. The Product-specific half of the Search read-model integration lives inside `Product.Persistence/Contexts/Products/Search/`, beside that context's `Read`/`Write`/`Repositories` — there is no separate `Product.Persistence.Elasticsearch` project. See [reference/search.md](../reference/search.md).
 
 ## Aggregate model (redesigned, then style-refactored)
 
@@ -78,11 +78,11 @@ Every service publishes integration events directly from the command handler via
 
 ## Search (Elasticsearch read model)
 
-Product Search (`GET /products`, `POST /products/search/rebuild`) is served entirely from Elasticsearch, never Postgres. Full architecture — reusable `BuildingBlock.Search` vs. Product-specific `Product.Persistence.Elasticsearch`, sync flow, rebuild strategy, projection pattern: [reference/search.md](../reference/search.md).
+Product Search (`GET /products`, `POST /products/search/rebuild`) is served entirely from Elasticsearch, never Postgres. Full architecture — reusable `BuildingBlock.Search` vs. Product-specific `Product.Persistence/Contexts/Products/Search`, sync flow, rebuild strategy, projection pattern: [reference/search.md](../reference/search.md).
 
-Two composition-root deviations from the standard order (documented, intentional):
-- `Product.API/Program.cs` calls `.AddPersistence(...).AddElasticsearchPersistence(...).AddApplication()...` — an explicit extra step for the Elasticsearch client/indexer/repository registration, between the Postgres Persistence and Application layers.
-- After `dbContext.Database.MigrateAsync()`, `Program.cs` also calls `IProductSearchIndexer.EnsureIndexAsync()` — idempotent index/mapping bootstrap on every startup, the Elasticsearch equivalent of running EF migrations.
+Search registration (`AddProductSearchServices`) is just one more call inside `Product.Persistence`'s own `AddPersistence(configuration)`, alongside `AddRepositories`/`AddUnitOfWork`/`AddOutbox`/etc. — `Program.cs` calls only `.AddPersistence(...).AddApplication()...`, no separate composition-root step for search.
+
+One documented deviation: after `dbContext.Database.MigrateAsync()`, `Program.cs` also calls `IProductSearchIndexer.EnsureIndexAsync()` — idempotent index/mapping bootstrap on every startup, the Elasticsearch equivalent of running EF migrations.
 
 ## Persistence: Read/Write services
 

@@ -7,6 +7,7 @@ using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
 using BuildingBlock.Persistence.Repository;
+using BuildingBlock.Search.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Product.Application.Abstractions.Persistence.ProductCategories;
 using Product.Application.Abstractions.Persistence.Products;
 using Product.Application.Abstractions.Persistence.ProductTags;
+using Product.Application.Abstractions.Search;
 using Product.Persistence.Contexts.ProductCategories.Read;
 using Product.Persistence.Contexts.ProductCategories.Write;
 using Product.Persistence.Contexts.Products.Read;
+using Product.Persistence.Contexts.Products.Search.Indexers;
+using Product.Persistence.Contexts.Products.Search.Repositories;
 using Product.Persistence.Contexts.Products.Write;
 using Product.Persistence.Contexts.ProductTags.Read;
 using Product.Persistence.Contexts.ProductTags.Write;
@@ -40,7 +44,8 @@ public static class DependencyInjection
             .AddUnitOfWork()
             .AddOutbox()
             .AddInbox()
-            .AddAuditHierarchy();
+            .AddAuditHierarchy()
+            .AddProductSearchServices(configuration);
 
         return services;
     }
@@ -116,6 +121,15 @@ public static class DependencyInjection
     {
         services.AddEfInboxStore<ProductDbContext>();
         services.AddScoped<IInboxStore, InboxStore>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddProductSearchServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddElasticsearchClient(configuration);
+        services.AddScoped<IProductSearchIndexer, ProductSearchIndexer>();
+        services.AddScoped<IProductSearchRepository, ProductSearchRepository>();
 
         return services;
     }

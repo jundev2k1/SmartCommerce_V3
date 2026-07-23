@@ -21,7 +21,6 @@
     <ProjectReference Include="../Product.Application/Product.Application.csproj" />
     <ProjectReference Include="../Product.Infrastructure/Product.Infrastructure.csproj" />
     <ProjectReference Include="../Product.Persistence/Product.Persistence.csproj" />
-    <ProjectReference Include="../Product.Persistence.Elasticsearch/Product.Persistence.Elasticsearch.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Web/BuildingBlock.Web.csproj" />
   </ItemGroup>
 
