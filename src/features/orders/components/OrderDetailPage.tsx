@@ -107,7 +107,11 @@ export function OrderDetailPage({ orderId }: { orderId: string }) {
         </AppTabsContent>
 
         <AppTabsContent value="customer">
-          <OrderCustomer customerId={order.customerId} />
+          <OrderCustomer
+            customerId={order.customerId}
+            customerName={order.customerName}
+            customerPhone={order.customerPhone}
+          />
         </AppTabsContent>
 
         <AppTabsContent value="timeline">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   AppLoading,
@@ -16,7 +16,6 @@ import {
 import { EntityDetailHeader, EntityMetadata, AuditTrailButton } from '@/shared/entity';
 import { InventorySummaryCard, TransactionTimeline } from '@/shared/inventory';
 import { useProductQuery } from '@/features/products';
-import { useLocalInventoryIdsStore } from '@/shared/stores/local-inventory-ids.store';
 import {
   useInventoryQuery,
   useInventoryHistoryQuery,
@@ -32,12 +31,6 @@ export function InventoryDetailPage({ inventoryId }: { inventoryId: string }) {
   const { data: product } = useProductQuery(record?.productId ?? '');
   const { data: warehouse } = useWarehouseQuery(record?.warehouseId ?? '');
   const [actionMode, setActionMode] = useState<StockActionMode | null>(null);
-
-  useEffect(() => {
-    if (record) {
-      useLocalInventoryIdsStore.getState().addInventoryId(record.id);
-    }
-  }, [record]);
 
   if (isLoading) {
     return <AppLoading />;

@@ -1,10 +1,16 @@
 {
   "title": "Users",
-  "listLimitationNote": "Showing your own profile only — a full user directory requires a backend list endpoint (not available yet).",
+  "rolesSnapshotNote": "Roles shown here are a snapshot taken when each account was created — a role change elsewhere won't retroactively update this list yet.",
+  "searchPlaceholder": "Search by name, email, or username…",
+  "tabs": {
+    "admin": "Admin",
+    "user": "Normal User"
+  },
   "table": {
     "name": "Name",
     "email": "Email",
     "username": "Username",
+    "roles": "Roles",
     "status": "Status",
     "actions": "Actions"
   },

@@ -1,9 +1,27 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
+import { Eye } from 'lucide-react';
 import { listAuditLogs, type AuditLogSummaryResponse } from '@/services/audit';
-import { AppModal, AppEmpty, AppLoading } from '@/shared/ui';
+import {
+  AppDrawer,
+  AppDrawerContent,
+  AppDrawerHeader,
+  AppDrawerTitle,
+  AppDrawerDescription,
+  AppEmpty,
+  AppLoading,
+  AppTable,
+  AppTableHeader,
+  AppTableBody,
+  AppTableRow,
+  AppTableHead,
+  AppTableCell,
+  IconButton,
+} from '@/shared/ui';
+import { AuditLogDetailDialog } from './AuditLogDetailDialog';
 
 export interface AuditTrailDialogProps {
   /** Backend "service" name filter (e.g. "Product", "User") — see docs/backend/audit/README.md. */
@@ -29,20 +47,23 @@ async function fetchEntityAuditEntries(
   service: string,
   entityId: string,
 ): Promise<EntityAuditResult> {
+  const entries: AuditLogSummaryResponse[] = [];
   for (let page = 1; page <= MAX_PAGES_SEARCHED; page++) {
     const result = await listAuditLogs({ service, page, pageSize: PAGE_SIZE });
-    const entries = result.items.filter((entry) => entry.rootEntityId === entityId);
-    if (entries.length > 0) return { entries, truncated: false };
-    if (!result.hasNextPage) return { entries: [], truncated: false };
+    entries.push(...result.items.filter((entry) => entry.rootEntityId === entityId));
+    if (!result.hasNextPage) return { entries, truncated: false };
   }
-  return { entries: [], truncated: true };
+  return { entries, truncated: true };
 }
 
 /**
  * Generic audit-trail viewer — reused by every entity type (Users, Products,
- * Categories, Tags, ...). ListAuditLogs has no server-side entity-id filter,
- * so this walks pages for `service` (bounded by MAX_PAGES_SEARCHED) and filters
- * client-side by rootEntityId. See docs/backend/audit/README.md.
+ * Categories, Tags, ...). Lists summary entries for the entity (ListAuditLogs
+ * has no server-side entity-id filter, so this walks pages for `service`,
+ * bounded by MAX_PAGES_SEARCHED, and filters client-side by rootEntityId —
+ * see docs/backend/audit/README.md). Each row's "view detail" action fetches
+ * the full before/after change tree on demand via AuditLogDetailDialog
+ * (GET /audit-logs/{id}), which the list endpoint doesn't include.
  */
 export function AuditTrailDialog({ service, entityId, open, onOpenChange }: AuditTrailDialogProps) {
   const t = useTranslations('entity.auditTrail');
@@ -51,30 +72,68 @@ export function AuditTrailDialog({ service, entityId, open, onOpenChange }: Audi
     queryFn: () => fetchEntityAuditEntries(service, entityId),
     enabled: open,
   });
+  const [detailId, setDetailId] = useState<string | null>(null);
 
   const entries = data?.entries ?? [];
 
   return (
-    <AppModal
-      open={open}
-      onOpenChange={onOpenChange}
-      title={t('title')}
-      description={t('description')}
-    >
-      {isLoading ? (
-        <AppLoading />
-      ) : entries.length === 0 ? (
-        <AppEmpty description={data?.truncated ? t('emptyTruncated') : t('empty')} />
-      ) : (
-        <ul className="max-h-80 space-y-2 overflow-y-auto">
-          {entries.map((entry) => (
-            <li key={entry.id} className="rounded-md border p-2 text-sm">
-              <p className="font-medium">{entry.rootEntityType ?? entry.service ?? 'Unknown'}</p>
-              <p className="text-muted-foreground">{new Date(entry.timestamp).toLocaleString()}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </AppModal>
+    <>
+      <AppDrawer
+        open={open}
+        onOpenChange={(next) => {
+          onOpenChange(next);
+          if (!next) setDetailId(null);
+        }}
+      >
+        <AppDrawerContent className="data-[side=right]:sm:max-w-xl">
+          <AppDrawerHeader>
+            <AppDrawerTitle>{t('title')}</AppDrawerTitle>
+            <AppDrawerDescription>{t('description')}</AppDrawerDescription>
+          </AppDrawerHeader>
+          <div className="flex-1 overflow-y-auto px-4 pb-4">
+            {isLoading ? (
+              <AppLoading />
+            ) : entries.length === 0 ? (
+              <AppEmpty description={data?.truncated ? t('emptyTruncated') : t('empty')} />
+            ) : (
+              <AppTable>
+                <AppTableHeader>
+                  <AppTableRow>
+                    <AppTableHead>{t('columns.timestamp')}</AppTableHead>
+                    <AppTableHead>{t('columns.entityType')}</AppTableHead>
+                    <AppTableHead className="text-right">{t('columns.detail')}</AppTableHead>
+                  </AppTableRow>
+                </AppTableHeader>
+                <AppTableBody>
+                  {entries.map((entry) => (
+                    <AppTableRow key={entry.id}>
+                      <AppTableCell className="text-muted-foreground text-xs whitespace-nowrap">
+                        {new Date(entry.timestamp).toLocaleString()}
+                      </AppTableCell>
+                      <AppTableCell className="text-sm font-medium">
+                        {entry.rootEntityType ?? entry.service ?? '—'}
+                      </AppTableCell>
+                      <AppTableCell className="text-right">
+                        <IconButton
+                          aria-label={t('viewDetail')}
+                          onClick={() => setDetailId(entry.id)}
+                        >
+                          <Eye />
+                        </IconButton>
+                      </AppTableCell>
+                    </AppTableRow>
+                  ))}
+                </AppTableBody>
+              </AppTable>
+            )}
+          </div>
+        </AppDrawerContent>
+      </AppDrawer>
+      <AuditLogDetailDialog
+        auditLogId={detailId}
+        open={detailId !== null}
+        onOpenChange={(next) => !next && setDetailId(null)}
+      />
+    </>
   );
 }

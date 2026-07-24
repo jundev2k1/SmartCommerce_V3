@@ -58,15 +58,21 @@ CartResponse { items: CartItemResponse[], totalAmount } // clear cart returns no
 
 // Orders — no `customerId` on the client-facing request; the caller's own
 // session is always the identity placing the order.
-CreateOrderRequest { customerName, customerPhone, items: CreateOrderItemRequestDto[] }
+CreateOrderRequest { customerName, customerPhone, shippingAddress, items: CreateOrderItemRequestDto[] }
 CreateOrderItemRequestDto { productId, variationId, quantity, discount? }
 CreateOrderResponse { orderId, totalAmount, status } // identical shape for both POST /orders and POST /orders/admin
 
 // Admin-only — customerId required, since there's no cart to source it from
-AdminCreateOrderRequest { customerId, customerName, customerPhone, items: CreateOrderItemRequestDto[] }
+AdminCreateOrderRequest { customerId, customerName, customerPhone, shippingAddress, items: CreateOrderItemRequestDto[] }
+
+// Order responses
+GetOrderResponse { id, customerId, customerName, customerPhone, status, totalAmount, items: GetOrderItemResponse[], shippingAddress?, cancellationReason?, createdAt, updatedAt }
+GetOrderItemResponse { productId, productName, unitPrice, quantity, lineTotal, discount? }
+CancelOrderResponse { orderId, status }
+CompleteOrderResponse { orderId, status }
 ```
 
-`GetOrderResponse` (includes `items: GetOrderItemResponse[]`), `CancelOrderResponse { orderId, status }`, `CompleteOrderResponse { orderId, status }` are unchanged. See `src/services/order/`.
+See `src/services/order/` for the TypeScript type definitions.
 
 ## Pagination style
 
@@ -90,3 +96,4 @@ Item validation now checks stock availability _before_ the catalog lookup (previ
 - [ ] **No list/search endpoint for orders.** "Order History" (a named module in [modules/overview.md](../../modules/overview.md)) has no backing `GET /orders` list endpoint in this contract — only get-by-id. Phase 8 will need to either wait for that endpoint or clarify with the backend how an order list is meant to be sourced.
 - [x] `OrderStatus` (1–4) mapping is now confirmed from backend source (`Order.Domain/Enums/OrderStatus.cs`): `Pending=1, Confirmed=2, Cancelled=3, Completed=4`. Rendered by `types/order-status.ts`/`OrderStatusBadge`.
 - [x] Cart previously didn't exist on any backend service — now a real Redis-backed contract (see "Cart" above). `CreateOrderItemRequestDto` previously had no variation-level field — it now carries `variationId`.
+- [ ] `shippingAddress` is now a required field on `CreateOrderRequest`/`AdminCreateOrderRequest` (free text, max 500 chars, no structured street/city/zip breakdown — same snapshot convention as `customerName`/`customerPhone`), added 2026-07-22 alongside checkout's multi-step redesign (Task 6). The backend migration (`AddOrderShippingAddress`) was not yet applied to a live DB as of that date — confirm with backend before relying on a running environment.

@@ -1,6 +1,6 @@
 # Task 7: Inventory, Warehouses, Stock Transactions, Notification pages not integrated
 
-**Status:** Not started. Mixed causes — not a single bug.
+**Status:** All three items fixed. Item 2's backend blocker was resolved 2026-07-24 (SimpleShop `docs/tasks/2026-07-22/Task5_warehouse-inventory-list-search-endpoints.md`) and the frontend switch-over to the real search endpoints is now done too — see "Item 2" below.
 
 ## Ask
 
@@ -39,6 +39,19 @@ These pages reportedly can't show, search, or create data via the APIs.
 2. **Warehouse/Inventory/Stock-Transaction lists:** the lasting fix needs backend list/search endpoints (removes the local-tracking workaround entirely) — flag as a backend request if the local-tracking limitation is unacceptable; otherwise this is expected/documented behavior, not a bug.
 3. **Env vars:** fix `.env.local` immediately regardless of the above — zero risk, currently silently breaking SignalR and forcing every dev-mode request through the network instead of mocks.
 
-## Status
+## Implementation
 
-Not started. Item 1 (notifications page) and item 3 (env vars) are unblocked frontend-only fixes. Item 2 (real lists) needs a backend decision — no corresponding backend task exists yet for this; consider adding one if the local-tracking workaround is deemed insufficient.
+**Item 3 (env vars) — fixed.** Deleted `.env.local` (it's gitignored, not tracked, only had the three empty-string overrides) so `src/shared/lib/env.ts`'s coded defaults apply: `signalrHubUrl` → `/hubs/global`, `useMockApi` → `true` in dev, `apiBaseUrl` → `''` (unchanged, relies on the dev rewrite either way).
+
+**Item 1 (notifications history page) — fixed.**
+
+1. Added an optional `className` prop to `NotificationList.tsx` (merged via `cn`) so callers can override the dropdown's `max-h-96 overflow-y-auto` — needed for a full-page list that should scroll with the page, not a fixed box.
+2. Built `NotificationsHistoryPage.tsx` (`src/features/notifications/components/`), mirroring `NotificationDropdown.tsx`'s structure (same `useNotificationsListQuery`/`useMarkAsReadMutation`/`NotificationDetailDialog`) but wrapped in `EntityHeader` with a "mark all read" action, `groupByCategory` on, and `className="max-h-none overflow-visible"`.
+3. Replaced `(admin)/notifications/page.tsx`'s `PlaceholderModulePage` with the real component.
+4. Updated `docs/backlog.md` §5 and `docs/modules/notification-center.md` to remove the now-resolved "still a placeholder" notes.
+
+No new realtime subscription needed — `NotificationBell`'s `useNotificationRealtimeUpdates()` already runs globally in the admin layout.
+
+Verified: `tsc --noEmit` and `eslint` both clean.
+
+**Item 2 (real Warehouse/Inventory/Stock-Transaction lists) — fixed.** `Inventory.API` has `POST /warehouses/search`, `POST /inventories/search`, `POST /inventory-transactions/search` (all `RequireAdmin`, same `BuildingBlock.Criteria` keyword/filters/sorts/page/pageSize shape as `/users/search`). Frontend switch-over: added `searchWarehouses`/`searchInventories`/`searchInventoryTransactions` client functions under `src/services/inventory/`; `inventory.queries.ts` gained `useWarehousesSearchQuery`/`useInventoriesSearchQuery`/`useInventoryTransactionsSearchQuery`, all real paginated queries against the new endpoints; `WarehousesListPage.tsx`/`StockPage.tsx`/`StockTransactionsPage.tsx` now consume these instead of the local-id fan-out. `local-warehouses.store.ts`/`local-inventory-ids.store.ts` deleted since nothing reads from them anymore. Searchable fields: warehouses (`code`, `name`, `address`, `status`, `createdAt`); inventories (`productId`, `productVariationId`, `warehouseId`, `quantity`, `createdAt` — no keyword search); inventory-transactions (`inventoryId`, `productId`, `productVariationId`, `warehouseId`, `type`, `quantity`, `quantityAfter`, `reason`, `createdAt`). Verified: `tsc --noEmit`/`eslint` clean. Full detail: SimpleShop `docs/tasks/2026-07-22/Task5_warehouse-inventory-list-search-endpoints.md`.

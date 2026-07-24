@@ -1,12 +1,5 @@
-import { getTranslations } from 'next-intl/server';
-import { PlaceholderModulePage } from '@/shared/layout';
+import { NotificationsHistoryPage } from '@/features/notifications';
 
-export default async function NotificationsPage() {
-  const t = await getTranslations('modules');
-  return (
-    <PlaceholderModulePage
-      title={t('notifications.title')}
-      description={t('notifications.description')}
-    />
-  );
+export default function Page() {
+  return <NotificationsHistoryPage />;
 }

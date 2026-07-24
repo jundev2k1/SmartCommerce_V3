@@ -6,6 +6,9 @@
     "code": "Code",
     "price": "Price",
     "status": "Status",
+    "stock": "Stock",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
     "categories": "Categories",
     "tags": "Tags",
     "updatedAt": "Updated"

@@ -2,7 +2,6 @@
   "warehouses": {
     "title": "Warehouses",
     "createButton": "Create warehouse",
-    "listLimitationNote": "The Inventory service has no warehouse list endpoint — this shows warehouses created from this browser. Use \"Open by ID\" to view any other warehouse.",
     "searchPlaceholder": "Search by code or name...",
     "emptyTitle": "No warehouses yet",
     "emptyDescription": "Create one, or open an existing warehouse by ID.",
@@ -34,8 +33,7 @@
     "detail": {
       "untitled": "Warehouse",
       "notFound": "Warehouse not found.",
-      "stockScopeNote": "Scoped to inventory records known to this browser — see docs/modules/inventory-management.md.",
-      "noLocalStock": "No locally-known stock records for this warehouse yet.",
+      "noStock": "No stock records for this warehouse yet.",
       "tabs": {
         "summary": "Summary",
         "stock": "Stock",
@@ -63,7 +61,7 @@
   },
   "stock": {
     "title": "Stock",
-    "description": "Look up real-time stock for a product, or browse inventory records known to this browser.",
+    "description": "Look up real-time stock for a product, or browse inventory records.",
     "lookup": {
       "title": "Stock lookup",
       "searchPlaceholder": "Search products...",
@@ -73,10 +71,8 @@
     },
     "records": {
       "title": "Inventory records",
-      "limitationNote": "No inventory list endpoint exists — this shows records known to this browser (opened by ID, or acted on via stock-in/out/adjust).",
-      "searchPlaceholder": "Search by id, product, or variation...",
       "emptyTitle": "No inventory records yet",
-      "emptyDescription": "Open one by ID to get started."
+      "emptyDescription": "Records appear here once a stock-in/out/adjust action is recorded, or open one directly by ID."
     },
     "table": {
       "inventoryId": "Inventory ID",
@@ -125,9 +121,9 @@
   },
   "transactions": {
     "title": "Stock Transactions",
-    "description": "Aggregated transaction history across every inventory record known to this browser.",
+    "description": "Every stock movement across all inventory records, filterable by warehouse and type.",
     "emptyTitle": "No transactions yet",
-    "emptyDescription": "Transactions appear here once a stock-in/out/adjust action is recorded on a known inventory record.",
+    "emptyDescription": "Transactions appear here once a stock-in/out/adjust action is recorded.",
     "typeOption": "Type {value}",
     "table": {
       "type": "Type",

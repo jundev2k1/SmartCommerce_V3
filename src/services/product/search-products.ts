@@ -30,6 +30,8 @@ export interface SearchProductsItemResponse {
   /** Free-text status (e.g. "Active"/"Inactive"/"Discontinued"). */
   status: string | null;
   updatedAt: string;
+  /** Null when there's no default variation, or Inventory Service couldn't be reached for this page (fail-open). */
+  isInStock: boolean | null;
 }
 
 /** GET /products — paginated, searchable, filterable list, served from Elasticsearch. */

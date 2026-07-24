@@ -2,25 +2,52 @@
 
 import { useTranslations } from 'next-intl';
 import { useAppForm, Form, FormField } from '@/shared/forms';
-import { SubmitButton, CancelButton, toast } from '@/shared/ui';
+import { SubmitButton, CancelButton, toast, AppLoading, AppEmpty } from '@/shared/ui';
 import type { AppSelectOption } from '@/shared/ui';
 import { updateCategorySchema, type UpdateCategoryFormValues } from '../categories.schema';
-import { useUpdateCategoryMutation } from '../api/categories.queries';
+import { useCategoryQuery, useUpdateCategoryMutation } from '../api/categories.queries';
 
 export interface EditCategoryFormProps {
   categoryId: string;
-  defaultValues: UpdateCategoryFormValues;
   /** Excludes the category itself and its own descendants — see categories.utils.ts. */
   categoryOptions: AppSelectOption[];
   onDone: () => void;
 }
 
-export function EditCategoryForm({
+export function EditCategoryForm({ categoryId, categoryOptions, onDone }: EditCategoryFormProps) {
+  const t = useTranslations('categories');
+  const { data: category, isLoading } = useCategoryQuery(categoryId);
+
+  if (isLoading) return <AppLoading />;
+  if (!category) return <AppEmpty description={t('formDialog.notFound')} />;
+
+  return (
+    <EditCategoryFormFields
+      categoryId={categoryId}
+      defaultValues={{
+        name: category.name ?? '',
+        description: category.description ?? '',
+        parentCategoryId: category.parentCategoryId ?? '',
+      }}
+      categoryOptions={categoryOptions}
+      onDone={onDone}
+    />
+  );
+}
+
+interface EditCategoryFormFieldsProps {
+  categoryId: string;
+  defaultValues: UpdateCategoryFormValues;
+  categoryOptions: AppSelectOption[];
+  onDone: () => void;
+}
+
+function EditCategoryFormFields({
   categoryId,
   defaultValues,
   categoryOptions,
   onDone,
-}: EditCategoryFormProps) {
+}: EditCategoryFormFieldsProps) {
   const t = useTranslations('categories');
   const tCommon = useTranslations('common.actions');
   const updateMutation = useUpdateCategoryMutation();

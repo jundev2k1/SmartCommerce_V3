@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronRight, ChevronDown, Pencil, Trash2, Plus } from 'lucide-react';
+import { ChevronRight, ChevronDown, Eye, Pencil, Trash2, Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { IconButton } from '@/shared/ui';
 import type { CategoryTreeNode as TreeNode } from '../categories.utils';
@@ -9,6 +9,7 @@ import type { CategoryTreeNode as TreeNode } from '../categories.utils';
 export interface CategoryTreeNodeProps {
   node: TreeNode;
   depth: number;
+  onView: (node: TreeNode) => void;
   onEdit: (node: TreeNode) => void;
   onDelete: (node: TreeNode) => void;
   onAddChild: (node: TreeNode) => void;
@@ -18,6 +19,7 @@ export interface CategoryTreeNodeProps {
 export function CategoryTreeNode({
   node,
   depth,
+  onView,
   onEdit,
   onDelete,
   onAddChild,
@@ -42,6 +44,9 @@ export function CategoryTreeNode({
         </IconButton>
         <span className="flex-1 text-sm font-medium">{node.name}</span>
         <span className="text-muted-foreground text-xs">{node.code}</span>
+        <IconButton aria-label={tCommon('view')} onClick={() => onView(node)}>
+          <Eye />
+        </IconButton>
         <IconButton aria-label={t('addChild')} onClick={() => onAddChild(node)}>
           <Plus />
         </IconButton>
@@ -59,6 +64,7 @@ export function CategoryTreeNode({
               key={child.id}
               node={child}
               depth={depth + 1}
+              onView={onView}
               onEdit={onEdit}
               onDelete={onDelete}
               onAddChild={onAddChild}

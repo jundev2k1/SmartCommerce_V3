@@ -73,7 +73,7 @@ export function ShopSearchPage() {
                 actions={
                   <PrimaryButton
                     className="w-full"
-                    disabled={!product.defaultVariationId}
+                    disabled={!product.defaultVariationId || product.isInStock === false}
                     onClick={() => handleAddToCart(product)}
                   >
                     {t('addToCart')}

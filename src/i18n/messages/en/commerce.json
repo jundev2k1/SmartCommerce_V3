@@ -1,4 +1,7 @@
 {
+  "productCard": {
+    "outOfStock": "Out of stock"
+  },
   "variantSelector": {
     "placeholder": "Select a variant",
     "unavailable": "No purchasable variants available."
@@ -42,7 +45,9 @@
   },
   "orderCustomer": {
     "title": "Customer",
-    "idOnlyNote": "The Order contract only provides a customer id — no name/email lookup is available across services."
+    "name": "Name",
+    "phone": "Phone",
+    "id": "Customer ID"
   },
   "orderActions": {
     "cancelOrder": "Cancel order"

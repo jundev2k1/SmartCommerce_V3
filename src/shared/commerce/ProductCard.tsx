@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { AppCard, AppCardHeader, AppCardTitle, AppCardContent, AppBadge } from '@/shared/ui';
 import { ProductPrice } from './ProductPrice';
 import type { SearchProductsItemResponse } from '@/services/product';
@@ -17,6 +18,8 @@ export interface ProductCardProps {
  * and docs/modules/client-mock.md.
  */
 export function ProductCard({ product, href, actions }: ProductCardProps) {
+  const t = useTranslations('commerce.productCard');
+
   return (
     <AppCard className="overflow-hidden">
       <Link href={href}>
@@ -38,6 +41,9 @@ export function ProductCard({ product, href, actions }: ProductCardProps) {
             <ProductPrice value={product.defaultPrice} />
           </p>
           <div className="flex flex-wrap gap-1">
+            {product.isInStock === false ? (
+              <AppBadge variant="destructive">{t('outOfStock')}</AppBadge>
+            ) : null}
             {product.tagNames?.map((name) => (
               <AppBadge key={name} variant="outline">
                 {name}

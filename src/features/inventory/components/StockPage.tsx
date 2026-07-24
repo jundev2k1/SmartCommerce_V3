@@ -1,12 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   AppDataTable,
-  AppEmpty,
   AppLoading,
   AppSearchBox,
   AppSelect,
@@ -23,10 +22,15 @@ import { useSearchProductsQuery } from '@/features/products';
 import type { GetInventoryResponse } from '@/services/inventory';
 import { useProductQuery } from '@/features/products';
 import {
-  useLocalInventoryQuery,
-  useLocalWarehousesQuery,
+  useInventoriesSearchQuery,
+  useWarehousesSearchQuery,
   useProductStockQuery,
 } from '../api/inventory.queries';
+
+// Reasonable bound for populating the warehouse filter dropdown — warehouses
+// are low-cardinality reference data (see WarehousesListPage for the fully
+// paginated warehouse view).
+const WAREHOUSE_OPTIONS_PAGE_SIZE = 100;
 
 const PAGE_SIZE = 20;
 
@@ -54,34 +58,23 @@ export function StockPage() {
     label: v.sku ?? v.id,
   }));
 
-  // --- Section 2: locally-known inventory records ---
-  const { records, isLoading: recordsLoading, hasAny } = useLocalInventoryQuery();
-  const { warehouses } = useLocalWarehousesQuery();
-  const warehouseOptions = warehouses.map((w) => ({ id: w.id, label: w.name ?? w.code ?? w.id }));
+  // --- Section 2: paginated, warehouse-filterable inventory records ---
+  const { data: warehousesResult } = useWarehousesSearchQuery({
+    pageSize: WAREHOUSE_OPTIONS_PAGE_SIZE,
+  });
+  const warehouseOptions = (warehousesResult?.items ?? []).map((w) => ({
+    id: w.id,
+    label: w.name ?? w.code ?? w.id,
+  }));
 
-  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<{ warehouseId?: string }>({});
   const [page, setPage] = useState(1);
 
-  const filtered = useMemo(() => {
-    let result = records;
-    if (filters.warehouseId) {
-      result = result.filter((r) => r.warehouseId === filters.warehouseId);
-    }
-    if (search.trim()) {
-      const query = search.trim().toLowerCase();
-      result = result.filter(
-        (r) =>
-          r.id.toLowerCase().includes(query) ||
-          r.productId.toLowerCase().includes(query) ||
-          r.productVariationId.toLowerCase().includes(query),
-      );
-    }
-    return result;
-  }, [records, search, filters]);
-
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const { data: recordsResult, isLoading: recordsLoading } = useInventoriesSearchQuery({
+    warehouseId: filters.warehouseId,
+    page,
+    pageSize: PAGE_SIZE,
+  });
 
   const columns: ColumnDef<GetInventoryResponse>[] = [
     { accessorKey: 'id', header: t('table.inventoryId') },
@@ -154,14 +147,8 @@ export function StockPage() {
 
       <div className="space-y-3">
         <h2 className="text-lg font-medium">{t('records.title')}</h2>
-        <p className="text-muted-foreground text-sm">{t('records.limitationNote')}</p>
 
         <InventoryToolbar
-          onSearchChange={(value) => {
-            setSearch(value);
-            setPage(1);
-          }}
-          searchPlaceholder={t('records.searchPlaceholder')}
           filters={
             <InventoryFilters
               value={filters}
@@ -175,26 +162,24 @@ export function StockPage() {
           onOpenById={(id) => router.push(`/inventory/${id}`)}
         />
 
-        {!hasAny ? (
-          <AppEmpty title={t('records.emptyTitle')} description={t('records.emptyDescription')} />
-        ) : (
-          <AppDataTable<GetInventoryResponse>
-            columns={columns}
-            data={pageItems}
-            page={page}
-            pageCount={pageCount}
-            onPageChange={setPage}
-            isLoading={recordsLoading}
-            rowActions={(record) => (
-              <IconButton
-                aria-label={t('actions.view')}
-                onClick={() => router.push(`/inventory/${record.id}`)}
-              >
-                <Eye />
-              </IconButton>
-            )}
-          />
-        )}
+        <AppDataTable<GetInventoryResponse>
+          columns={columns}
+          data={recordsResult?.items ?? []}
+          page={page}
+          pageCount={recordsResult?.totalPages ?? 1}
+          onPageChange={setPage}
+          isLoading={recordsLoading}
+          emptyTitle={t('records.emptyTitle')}
+          emptyDescription={t('records.emptyDescription')}
+          rowActions={(record) => (
+            <IconButton
+              aria-label={t('actions.view')}
+              onClick={() => router.push(`/inventory/${record.id}`)}
+            >
+              <Eye />
+            </IconButton>
+          )}
+        />
       </div>
     </div>
   );

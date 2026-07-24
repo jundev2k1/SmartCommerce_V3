@@ -1,6 +1,6 @@
 # Task 9: No "Clear filters" control on Product search
 
-**Status:** Not started. Migrated from the former flat `docs/tasks/product-search-clear-filter.md` (same content, relocated into the dated-folder convention — see [../README.md](../README.md)). Not part of the 2026-07-22 numbered task list given by the user; carried over as an existing open item from the same date.
+**Status:** Done. The "Reset" button was already implemented in FilterPanel but wasn't being shown for sort filters. Updated active check to include sortBy/sortDescending, verified via typecheck + eslint.
 
 **Reported from a SimpleShop backend session, 2026-07-22.** Pure frontend gap, no backend work implied — confirmed by reading the actual component tree in this repo.
 
@@ -19,6 +19,19 @@ Add a visible "Clear filters" control that resets all active filter selections (
 1. **Product-scoped:** add a clear button inside `ProductFilters.tsx`, calling `onChange` with a reset `SearchProductsParams`.
 2. **Shared, benefits every entity list:** add an optional `onClear`/`showClear` prop to `FilterPanel.tsx` itself (only render the button when `active` is true), and wire it from `ProductsListPage.tsx`. Worth considering since `FilterPanel` is already shared infrastructure — if Product needs this, other entity lists (Users, Orders, Inventory, etc.) likely will too. Not prescribing this over option 1 since it's a slightly bigger change; frontend session's call.
 
+## Implementation
+
+The "Reset" button already existed in `FilterPanel.tsx` (option 2 from the implementation options) — it's only shown when `active` is true and `onClear` is provided.
+
+The issue was that `ProductsListPage.tsx` was only checking `active={Boolean(params.categoryId || params.tagId || params.status)}` on line 95, which didn't include sort filters. The fix:
+
+- Updated the active check to `Boolean(params.categoryId || params.tagId || params.status || params.sortBy || params.sortDescending)` so the Reset button now shows whenever _any_ filter (including sort order) is active.
+- The `onClear` handler was already correct: it resets to just `{ search, page: 1, pageSize }`, which effectively clears all filters and sort fields, and resets pagination.
+
+This automatically benefits all other entity lists that use `FilterPanel`, since they already have the infrastructure in place — they just need to update their active checks to include their respective sort/filter fields.
+
+Verified: `tsc --noEmit` and `eslint` both clean.
+
 ## Definition of done
 
-A visible clear/reset action exists on the Product search filters and resets all active filter state + results (page back to 1).
+A visible clear/reset action exists on the Product search filters and resets all active filter state + results (page back to 1). ✓

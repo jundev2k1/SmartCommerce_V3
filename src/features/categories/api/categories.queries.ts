@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   listProductCategories,
+  getProductCategory,
   createProductCategory,
   updateProductCategory,
   deleteProductCategory,
@@ -13,6 +14,8 @@ import type { CreateCategoryFormValues, UpdateCategoryFormValues } from '../cate
 export const categoryKeys = {
   all: ['categories'] as const,
   list: () => [...categoryKeys.all, 'list'] as const,
+  details: () => [...categoryKeys.all, 'detail'] as const,
+  detail: (id: string) => [...categoryKeys.details(), id] as const,
 };
 
 /** ListProductCategories is flat + unpaginated ("small reference data") — this assembles the tree client-side. */
@@ -21,6 +24,15 @@ export function useCategoriesTreeQuery() {
     queryKey: categoryKeys.list(),
     queryFn: listProductCategories,
     select: (response) => buildCategoryTree(response.categories ?? []),
+  });
+}
+
+/** ListProductCategories omits fields like `description` — the edit form needs the full detail response. */
+export function useCategoryQuery(categoryId: string) {
+  return useQuery({
+    queryKey: categoryKeys.detail(categoryId),
+    queryFn: () => getProductCategory(categoryId),
+    enabled: Boolean(categoryId),
   });
 }
 
@@ -42,7 +54,10 @@ export function useUpdateCategoryMutation() {
       categoryId: string;
       values: UpdateCategoryFormValues;
     }) => updateProductCategory(categoryId, values),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: categoryKeys.list() }),
+    onSuccess: (_data, { categoryId }) => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.list() });
+      queryClient.invalidateQueries({ queryKey: categoryKeys.detail(categoryId) });
+    },
   });
 }
 

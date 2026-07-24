@@ -6,6 +6,8 @@ import type { OrderStatus } from './types/order-status';
 export interface CreateOrderRequest {
   customerName: string;
   customerPhone: string;
+  /** Free-text snapshot, max 500 chars — same convention as customerName/customerPhone (see docs/backend/order/README.md). */
+  shippingAddress: string;
   items: CreateOrderItemRequestDto[];
 }
 

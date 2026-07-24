@@ -12,6 +12,12 @@
     "code": "Code",
     "name": "Name"
   },
+  "detailDrawer": {
+    "title": "Tag",
+    "description": "Tag details and audit history.",
+    "code": "Code",
+    "id": "ID"
+  },
   "toast": {
     "createSuccess": "Tag created.",
     "createError": "Couldn't create the tag.",

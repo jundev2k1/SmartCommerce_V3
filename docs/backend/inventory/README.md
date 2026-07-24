@@ -14,7 +14,7 @@
 
 ## Purpose
 
-Stock quantity tracking per product-variation-per-warehouse, warehouse management, and the stock-movement transaction log (stock in / stock out / adjustment). Also backs the gRPC stock lookup the Order Service consumes internally (irrelevant to the frontend — noted here only because `GetProductStock`'s description mentions it).
+Stock quantity tracking per product-variation-per-warehouse, warehouse management, and the stock-movement transaction log (stock in / stock out / adjustment). Also backs the gRPC stock lookup both the Order Service and the Product Service consume internally (irrelevant to this frontend's direct calls — noted here only because `GetProductStock`'s description mentions it, and because it's why Product Search's `isInStock` field can go stale-but-fail-open if Inventory is unreachable, per `docs/backend/product/README.md`).
 
 ## Base path
 

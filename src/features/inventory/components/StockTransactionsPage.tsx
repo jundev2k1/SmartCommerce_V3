@@ -1,58 +1,55 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { ColumnDef } from '@tanstack/react-table';
-import { AppDataTable, AppEmpty, IconButton } from '@/shared/ui';
+import { AppDataTable, IconButton } from '@/shared/ui';
 import { EntityHeader, EntityToolbar } from '@/shared/entity';
 import { InventoryFilters, StockStatusBadge } from '@/shared/inventory';
 import { Eye } from 'lucide-react';
+import type { SearchInventoryTransactionsItemResponse } from '@/services/inventory';
 import {
-  useLocalInventoryQuery,
-  useLocalWarehousesQuery,
-  useTransactionsForInventoryIds,
-  type InventoryTransactionWithSource,
+  useWarehousesSearchQuery,
+  useInventoryTransactionsSearchQuery,
 } from '../api/inventory.queries';
 
 const PAGE_SIZE = 20;
+const WAREHOUSE_OPTIONS_PAGE_SIZE = 100;
 
-/**
- * Aggregates GetInventoryHistory across every inventory id known to this
- * browser — no "list all transactions" endpoint exists. See
- * docs/modules/inventory-management.md.
- */
+// InventoryTransactionType is a documented-but-unmapped 3-value enum
+// (see services/inventory/types/inventory-transaction-type.ts) — the filter
+// options are these opaque values, not derived from loaded data, since a
+// single search page can no longer stand in for "every type seen so far".
+const TRANSACTION_TYPE_VALUES = ['1', '2', '3'];
+
 export function StockTransactionsPage() {
   const t = useTranslations('inventory.transactions');
   const router = useRouter();
-  const { records, hasAny } = useLocalInventoryQuery();
-  const { warehouses } = useLocalWarehousesQuery();
-  const warehouseOptions = warehouses.map((w) => ({ id: w.id, label: w.name ?? w.code ?? w.id }));
+  const { data: warehousesResult } = useWarehousesSearchQuery({
+    pageSize: WAREHOUSE_OPTIONS_PAGE_SIZE,
+  });
+  const warehouseOptions = (warehousesResult?.items ?? []).map((w) => ({
+    id: w.id,
+    label: w.name ?? w.code ?? w.id,
+  }));
 
   const [filters, setFilters] = useState<{ warehouseId?: string; type?: string }>({});
   const [page, setPage] = useState(1);
 
-  const scopedIds = useMemo(() => {
-    if (!filters.warehouseId) return records.map((r) => r.id);
-    return records.filter((r) => r.warehouseId === filters.warehouseId).map((r) => r.id);
-  }, [records, filters.warehouseId]);
+  const { data: transactionsResult, isLoading } = useInventoryTransactionsSearchQuery({
+    warehouseId: filters.warehouseId,
+    type: filters.type,
+    page,
+    pageSize: PAGE_SIZE,
+  });
 
-  const { transactions, isLoading } = useTransactionsForInventoryIds(scopedIds);
+  const typeOptions = TRANSACTION_TYPE_VALUES.map((value) => ({
+    value,
+    label: t('typeOption', { value }),
+  }));
 
-  const filteredTransactions = useMemo(() => {
-    if (!filters.type) return transactions;
-    return transactions.filter((tx) => String(tx.type) === filters.type);
-  }, [transactions, filters.type]);
-
-  const typeOptions = useMemo(() => {
-    const values = new Set(transactions.map((tx) => String(tx.type)));
-    return Array.from(values).map((value) => ({ value, label: t('typeOption', { value }) }));
-  }, [transactions, t]);
-
-  const pageCount = Math.max(1, Math.ceil(filteredTransactions.length / PAGE_SIZE));
-  const pageItems = filteredTransactions.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  const columns: ColumnDef<InventoryTransactionWithSource>[] = [
+  const columns: ColumnDef<SearchInventoryTransactionsItemResponse>[] = [
     {
       id: 'type',
       header: t('table.type'),
@@ -68,15 +65,6 @@ export function StockTransactionsPage() {
       cell: ({ row }) => new Date(row.original.createdAt).toLocaleString(),
     },
   ];
-
-  if (!hasAny) {
-    return (
-      <div className="space-y-4">
-        <EntityHeader title={t('title')} />
-        <AppEmpty title={t('emptyTitle')} description={t('emptyDescription')} />
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-4">
@@ -96,13 +84,15 @@ export function StockTransactionsPage() {
         }
       />
 
-      <AppDataTable<InventoryTransactionWithSource>
+      <AppDataTable<SearchInventoryTransactionsItemResponse>
         columns={columns}
-        data={pageItems}
+        data={transactionsResult?.items ?? []}
         page={page}
-        pageCount={pageCount}
+        pageCount={transactionsResult?.totalPages ?? 1}
         onPageChange={setPage}
         isLoading={isLoading}
+        emptyTitle={t('emptyTitle')}
+        emptyDescription={t('emptyDescription')}
         rowActions={(tx) => (
           <IconButton
             aria-label={t('actions.viewRecord')}

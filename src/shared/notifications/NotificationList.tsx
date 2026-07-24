@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { cn } from '@/shared/lib/utils';
 import { NotificationItem } from './NotificationItem';
 import { NotificationSkeleton } from './NotificationSkeleton';
 import { NotificationEmptyState } from './NotificationEmptyState';
@@ -19,6 +20,8 @@ export interface NotificationListProps {
   onRetry: () => void;
   /** Group rows by `category` (real field, see docs/modules/notification-center.md) — off by default. */
   groupByCategory?: boolean;
+  /** Merged with the default `max-h-96 overflow-y-auto` container (sized for the dropdown) via `cn` — e.g. pass `"max-h-none overflow-visible"` for a full-page list that scrolls with the page itself. */
+  className?: string;
 }
 
 /**
@@ -38,6 +41,7 @@ export function NotificationList({
   onLoadMore,
   onRetry,
   groupByCategory = false,
+  className,
 }: NotificationListProps) {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +84,7 @@ export function NotificationList({
     : [['', items] as [string, UserNotificationSummaryResponse[]]];
 
   return (
-    <div className="max-h-96 space-y-3 overflow-y-auto">
+    <div className={cn('max-h-96 space-y-3 overflow-y-auto', className)}>
       {groups.map(([category, groupItems]) => (
         <div key={category || 'uncategorized'} className="space-y-1">
           {groupByCategory ? (

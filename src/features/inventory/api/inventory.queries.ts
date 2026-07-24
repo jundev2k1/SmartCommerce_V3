@@ -1,19 +1,21 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient, useQueries } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getWarehouse,
   createWarehouse,
   getInventory,
   getInventoryHistory,
   getProductStock,
+  searchWarehouses,
+  searchInventories,
+  searchInventoryTransactions,
   stockIn,
   stockOut,
   adjustStock,
   type GetProductStockParams,
 } from '@/services/inventory';
-import { useLocalWarehousesStore } from '@/shared/stores/local-warehouses.store';
-import { useLocalInventoryIdsStore } from '@/shared/stores/local-inventory-ids.store';
+import type { CriteriaFilter } from '@/services/shared/criteria-request';
 import type {
   CreateWarehouseFormValues,
   StockInFormValues,
@@ -25,6 +27,8 @@ export const warehouseKeys = {
   all: ['warehouses'] as const,
   details: () => [...warehouseKeys.all, 'detail'] as const,
   detail: (id: string) => [...warehouseKeys.details(), id] as const,
+  searches: () => [...warehouseKeys.all, 'search'] as const,
+  search: (params: WarehousesSearchParams) => [...warehouseKeys.searches(), params] as const,
 };
 
 export const inventoryKeys = {
@@ -34,6 +38,11 @@ export const inventoryKeys = {
   history: (id: string) => [...inventoryKeys.all, 'history', id] as const,
   productStock: (productId: string, params: GetProductStockParams) =>
     [...inventoryKeys.all, 'product-stock', productId, params] as const,
+  searches: () => [...inventoryKeys.all, 'search'] as const,
+  search: (params: InventoriesSearchParams) => [...inventoryKeys.searches(), params] as const,
+  transactionSearches: () => [...inventoryKeys.all, 'transaction-search'] as const,
+  transactionSearch: (params: InventoryTransactionsSearchParams) =>
+    [...inventoryKeys.transactionSearches(), params] as const,
 };
 
 export function useWarehouseQuery(warehouseId: string) {
@@ -44,30 +53,29 @@ export function useWarehouseQuery(warehouseId: string) {
   });
 }
 
-/**
- * No warehouse list endpoint exists (see docs/backend/inventory/README.md) —
- * fetches the real GetWarehouse for each id created from this browser.
- */
-export function useLocalWarehousesQuery() {
-  const warehouseIds = useLocalWarehousesStore((s) => s.warehouseIds);
-  const results = useQueries({
-    queries: warehouseIds.map((id) => ({
-      queryKey: warehouseKeys.detail(id),
-      queryFn: () => getWarehouse(id),
-    })),
-  });
+export interface WarehousesSearchParams {
+  search?: string;
+  page?: number;
+  pageSize?: number;
+}
 
-  return {
-    warehouses: results.map((r) => r.data).filter((w) => w !== undefined),
-    isLoading: results.some((r) => r.isLoading),
-    hasAny: warehouseIds.length > 0,
-  };
+export function useWarehousesSearchQuery(params: WarehousesSearchParams = {}) {
+  return useQuery({
+    queryKey: warehouseKeys.search(params),
+    queryFn: () =>
+      searchWarehouses({
+        keyword: params.search || undefined,
+        page: params.page,
+        pageSize: params.pageSize,
+      }),
+  });
 }
 
 export function useCreateWarehouseMutation() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (values: CreateWarehouseFormValues) => createWarehouse(values),
-    onSuccess: (data) => useLocalWarehousesStore.getState().addWarehouseId(data.warehouseId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: warehouseKeys.searches() }),
   });
 }
 
@@ -87,58 +95,49 @@ export function useInventoryHistoryQuery(inventoryId: string) {
   });
 }
 
-/**
- * No inventory list/search endpoint exists, and no endpoint ever returns an
- * inventoryId starting from a product/warehouse — every id here came from a
- * manual "open by id" lookup or a stock-in/out/adjust action. Fetches the
- * real GetInventory for each.
- */
-export function useLocalInventoryQuery() {
-  const inventoryIds = useLocalInventoryIdsStore((s) => s.inventoryIds);
-  const results = useQueries({
-    queries: inventoryIds.map((id) => ({
-      queryKey: inventoryKeys.detail(id),
-      queryFn: () => getInventory(id),
-    })),
-  });
-
-  return {
-    records: results.map((r) => r.data).filter((record) => record !== undefined),
-    isLoading: results.some((r) => r.isLoading),
-    hasAny: inventoryIds.length > 0,
-  };
+export interface InventoriesSearchParams {
+  warehouseId?: string;
+  page?: number;
+  pageSize?: number;
 }
 
-export interface InventoryTransactionWithSource {
-  id: string;
-  type: number;
-  quantity: number;
-  quantityAfter: number;
-  reason: string | null;
-  createdAt: string;
-  inventoryId: string;
+export function useInventoriesSearchQuery(params: InventoriesSearchParams = {}) {
+  return useQuery({
+    queryKey: inventoryKeys.search(params),
+    queryFn: () => {
+      const filters: CriteriaFilter[] = [];
+      if (params.warehouseId) {
+        filters.push({ field: 'warehouseId', operator: 'eq', value: params.warehouseId });
+      }
+      return searchInventories({ filters, page: params.page, pageSize: params.pageSize });
+    },
+  });
 }
 
-/**
- * Merges GetInventoryHistory across a set of inventory ids (e.g. all ids
- * known to this browser, or just the ones belonging to one warehouse) since
- * there's no single "list all transactions" endpoint. Sorted newest-first.
- */
-export function useTransactionsForInventoryIds(inventoryIds: string[]) {
-  const results = useQueries({
-    queries: inventoryIds.map((id) => ({
-      queryKey: inventoryKeys.history(id),
-      queryFn: () => getInventoryHistory(id),
-    })),
+export interface InventoryTransactionsSearchParams {
+  warehouseId?: string;
+  /** Opaque numeric InventoryTransactionType as a string (see types/inventory-transaction-type.ts). */
+  type?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export function useInventoryTransactionsSearchQuery(
+  params: InventoryTransactionsSearchParams = {},
+) {
+  return useQuery({
+    queryKey: inventoryKeys.transactionSearch(params),
+    queryFn: () => {
+      const filters: CriteriaFilter[] = [];
+      if (params.warehouseId) {
+        filters.push({ field: 'warehouseId', operator: 'eq', value: params.warehouseId });
+      }
+      if (params.type) {
+        filters.push({ field: 'type', operator: 'eq', value: Number(params.type) });
+      }
+      return searchInventoryTransactions({ filters, page: params.page, pageSize: params.pageSize });
+    },
   });
-
-  const transactions: InventoryTransactionWithSource[] = results
-    .flatMap((r, index) =>
-      (r.data?.transactions ?? []).map((tx) => ({ ...tx, inventoryId: inventoryIds[index] })),
-    )
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-  return { transactions, isLoading: results.some((r) => r.isLoading) };
 }
 
 export function useProductStockQuery(productId: string, params: GetProductStockParams = {}) {
@@ -152,6 +151,8 @@ export function useProductStockQuery(productId: string, params: GetProductStockP
 function invalidateInventory(queryClient: ReturnType<typeof useQueryClient>, inventoryId: string) {
   queryClient.invalidateQueries({ queryKey: inventoryKeys.detail(inventoryId) });
   queryClient.invalidateQueries({ queryKey: inventoryKeys.history(inventoryId) });
+  queryClient.invalidateQueries({ queryKey: inventoryKeys.searches() });
+  queryClient.invalidateQueries({ queryKey: inventoryKeys.transactionSearches() });
 }
 
 export function useStockInMutation() {
@@ -159,10 +160,7 @@ export function useStockInMutation() {
   return useMutation({
     mutationFn: ({ inventoryId, values }: { inventoryId: string; values: StockInFormValues }) =>
       stockIn(inventoryId, { quantity: Number(values.quantity), reason: values.reason }),
-    onSuccess: (_data, { inventoryId }) => {
-      useLocalInventoryIdsStore.getState().addInventoryId(inventoryId);
-      invalidateInventory(queryClient, inventoryId);
-    },
+    onSuccess: (_data, { inventoryId }) => invalidateInventory(queryClient, inventoryId),
   });
 }
 
@@ -171,10 +169,7 @@ export function useStockOutMutation() {
   return useMutation({
     mutationFn: ({ inventoryId, values }: { inventoryId: string; values: StockOutFormValues }) =>
       stockOut(inventoryId, { quantity: Number(values.quantity), reason: values.reason }),
-    onSuccess: (_data, { inventoryId }) => {
-      useLocalInventoryIdsStore.getState().addInventoryId(inventoryId);
-      invalidateInventory(queryClient, inventoryId);
-    },
+    onSuccess: (_data, { inventoryId }) => invalidateInventory(queryClient, inventoryId),
   });
 }
 
@@ -183,9 +178,6 @@ export function useAdjustStockMutation() {
   return useMutation({
     mutationFn: ({ inventoryId, values }: { inventoryId: string; values: AdjustStockFormValues }) =>
       adjustStock(inventoryId, { newQuantity: Number(values.newQuantity), reason: values.reason }),
-    onSuccess: (_data, { inventoryId }) => {
-      useLocalInventoryIdsStore.getState().addInventoryId(inventoryId);
-      invalidateInventory(queryClient, inventoryId);
-    },
+    onSuccess: (_data, { inventoryId }) => invalidateInventory(queryClient, inventoryId),
   });
 }

@@ -40,6 +40,8 @@ See `src/services/product/index.ts` for the full function list — one file per 
 
 `CreateProductRequest` embeds `CreateProductVariationRequest[]` for aggregate creation; `VariationInput` is a shared base type between `AddVariationRequest` and `CreateProductVariationRequest` (both have identical sku/price/barcode/cost/weight/dimensions/images fields — declared once in `add-variation.ts` and imported type-only by `create-product.ts` rather than duplicated, per [decisions/0012-backend-service-client-layer.md](../../decisions/0012-backend-service-client-layer.md)). Each endpoint file in `src/services/product/` otherwise declares its own request/response DTOs inline; enum-like types live in `.../types/`.
 
+`SearchProductsItemResponse.isInStock` (`boolean | null`) is merged in from a batched Inventory Service gRPC call (`GetProductsStock`) keyed by each item's `defaultVariationId` — not read from Product's own Postgres/Elasticsearch data. `null` means either there's no default variation to check, or Inventory Service was unreachable for that page (fail-open: search itself never fails just because stock can't be confirmed). No quantities are exposed, only the boolean. See [backend/inventory/README.md](../inventory/README.md).
+
 ## Pagination style
 
 `SearchProducts` is page-based, wrapped in `BackendPaginatedResult<SearchProductsItemResponse>`. Categories and Tags "list" endpoints are **not paginated** — they return the full flat set (`ListProductCategoriesResponse.categories`, `ListProductTagsResponse.tags`), per their own prose: "not paginated - category/tag counts are small reference data."

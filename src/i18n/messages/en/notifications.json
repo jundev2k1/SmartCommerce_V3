@@ -1,5 +1,6 @@
 {
   "title": "Notifications",
+  "historyDescription": "Your full notification history.",
   "detail": {
     "title": "Notification",
     "notFound": "Notification not found.",

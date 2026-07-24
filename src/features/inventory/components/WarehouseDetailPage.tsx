@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import {
@@ -23,24 +22,29 @@ import { StockQuantity, TransactionTimeline } from '@/shared/inventory';
 import { Eye } from 'lucide-react';
 import {
   useWarehouseQuery,
-  useLocalInventoryQuery,
-  useTransactionsForInventoryIds,
+  useInventoriesSearchQuery,
+  useInventoryTransactionsSearchQuery,
 } from '../api/inventory.queries';
+
+// Detail tabs show one page of records rather than adding pagination UI to a
+// tab view — a warehouse with more than this many rows/transactions only
+// shows the first page here (see the Stock / Stock Transactions pages for
+// the fully paginated views).
+const DETAIL_TAB_PAGE_SIZE = 50;
 
 export function WarehouseDetailPage({ warehouseId }: { warehouseId: string }) {
   const t = useTranslations('inventory.warehouses.detail');
   const tNav = useTranslations('nav');
   const router = useRouter();
   const { data: warehouse, isLoading } = useWarehouseQuery(warehouseId);
-  const { records } = useLocalInventoryQuery();
-
-  const warehouseRecords = useMemo(
-    () => records.filter((record) => record.warehouseId === warehouseId),
-    [records, warehouseId],
-  );
-  const { transactions, isLoading: transactionsLoading } = useTransactionsForInventoryIds(
-    warehouseRecords.map((r) => r.id),
-  );
+  const { data: inventoriesResult } = useInventoriesSearchQuery({
+    warehouseId,
+    pageSize: DETAIL_TAB_PAGE_SIZE,
+  });
+  const warehouseRecords = inventoriesResult?.items ?? [];
+  const { data: transactionsResult, isLoading: transactionsLoading } =
+    useInventoryTransactionsSearchQuery({ warehouseId, pageSize: DETAIL_TAB_PAGE_SIZE });
+  const transactions = transactionsResult?.items ?? [];
 
   if (isLoading) {
     return <AppLoading />;
@@ -81,9 +85,8 @@ export function WarehouseDetailPage({ warehouseId }: { warehouseId: string }) {
         </AppTabsContent>
 
         <AppTabsContent value="stock">
-          <p className="text-muted-foreground mb-3 text-sm">{t('stockScopeNote')}</p>
           {warehouseRecords.length === 0 ? (
-            <AppEmpty description={t('noLocalStock')} />
+            <AppEmpty description={t('noStock')} />
           ) : (
             <div className="rounded-md border">
               <AppTable>
@@ -124,7 +127,6 @@ export function WarehouseDetailPage({ warehouseId }: { warehouseId: string }) {
         </AppTabsContent>
 
         <AppTabsContent value="transactions">
-          <p className="text-muted-foreground mb-3 text-sm">{t('stockScopeNote')}</p>
           {transactionsLoading ? (
             <AppLoading />
           ) : (

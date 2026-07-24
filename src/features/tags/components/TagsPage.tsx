@@ -5,10 +5,11 @@ import { useTranslations } from 'next-intl';
 import type { ColumnDef } from '@tanstack/react-table';
 import { AppDataTable, CreateButton, IconButton, DeleteButton, toast } from '@/shared/ui';
 import { EntityHeader, EntityToolbar, ConfirmDeleteDialog } from '@/shared/entity';
-import { Pencil } from 'lucide-react';
+import { Eye, Pencil } from 'lucide-react';
 import type { ProductTagItemResponse } from '@/services/product';
 import { useTagsQuery, useDeleteTagMutation } from '../api/tags.queries';
 import { TagFormDialog, type TagFormDialogState } from './TagFormDialog';
+import { TagDetailDrawer } from './TagDetailDrawer';
 
 const PAGE_SIZE = 20;
 
@@ -23,6 +24,7 @@ export function TagsPage() {
   const [page, setPage] = useState(1);
   const [formState, setFormState] = useState<TagFormDialogState | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<ProductTagItemResponse | null>(null);
+  const [viewTarget, setViewTarget] = useState<ProductTagItemResponse | null>(null);
 
   const filtered = useMemo(() => {
     const all = tags ?? [];
@@ -80,6 +82,9 @@ export function TagsPage() {
         isLoading={isLoading}
         rowActions={(tag) => (
           <div className="flex items-center justify-end gap-1">
+            <IconButton aria-label={tCommon('view')} onClick={() => setViewTarget(tag)}>
+              <Eye />
+            </IconButton>
             <IconButton
               aria-label={tCommon('edit')}
               onClick={() =>
@@ -110,6 +115,8 @@ export function TagsPage() {
         isPending={deleteMutation.isPending}
         title={tConfirmDelete('title', { name: deleteTarget?.name ?? deleteTarget?.code ?? '' })}
       />
+
+      <TagDetailDrawer tag={viewTarget} onOpenChange={(open) => !open && setViewTarget(null)} />
     </div>
   );
 }

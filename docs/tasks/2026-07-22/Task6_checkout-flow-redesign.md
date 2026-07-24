@@ -1,6 +1,6 @@
 # Task 6: Redesign checkout into an explicit multi-step order flow with an editable order owner
 
-**Status:** Not started. Backend now unblocks Phase A + address; only payment (Phase B's other half) remains blocked — see update below.
+**Status:** Phase A done — verified 2026-07-23. Payment (Phase B) remains blocked — see update below.
 
 ## Ask
 
@@ -48,6 +48,16 @@ No address field is collected anywhere in this flow today.
 
 ## Status
 
-Not started. Phase A (now including the address field) has no backend blocker and can start immediately; payment remains blocked pending a fresh backend scoping task (see cross-ref).
+Phase A implemented 2026-07-23:
+
+- `CheckoutPage.tsx` is now an explicit 4-step wizard (`cart` → `owner` → `confirm` → `complete`, tracked in local state, no new routes) with a `CheckoutStepper` header showing progress.
+- **Cart step** — unchanged `CheckoutSummary`, plus a new "Edit cart" button back to `/cart`.
+- **Owner info step** — real form (`checkout.schema.ts`'s `checkoutOwnerSchema` + `shared/forms`) for `customerName`/`customerPhone`/`shippingAddress`. Prefilled from `useCurrentUserQuery()` (`customerName`/`customerPhone`) with `shippingAddress` blank (no prefill source on the account, as expected); all three fields are editable and no longer forced equal to the session. Going back from Confirm preserves the last-entered values (form defaults come from the step's own local state, not re-derived from the profile every time).
+- **Confirm step** — read-only recap of the owner fields (`EntityMetadata`) + `CheckoutSummary`, then "Place order".
+- **Complete step** — the existing success view (Order ID, message, View Order/Continue Shopping), now reachable as its own step in the stepper rather than a bare conditional render.
+- `CreateOrderRequest`/`AdminCreateOrderRequest` (`src/services/order/`) gained the required `shippingAddress: string` field to match the backend contract; `docs/backend/order/README.md` updated to match, including the not-yet-applied-migration caveat from the paired backend session.
+- Verified: `tsc --noEmit` and `eslint` clean on all touched files. Browser check limited to confirming the route compiles and mounts cleanly (redirects to `/login` via `AuthGuard`, no console errors) — this sandbox has no live backend (or wired mock) for Auth/Cart/Order, so the actual step-to-step interaction (prefill, back-navigation, place-order, success) could not be exercised end-to-end here and should get a real click-through against a live backend before shipping.
+
+Payment (Phase B) remains blocked pending a fresh backend scoping task (see cross-ref) — no payment-method UI was added, per the suggested phased approach.
 
 **Cross-ref:** SimpleShop `docs/tasks/2026-07-22/Task3_order-owner-checkout-flow-review.md`.

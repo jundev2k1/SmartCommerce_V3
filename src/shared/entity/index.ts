@@ -8,4 +8,5 @@ export * from './FilterPanel';
 export * from './SelectionPanel';
 export * from './AuditTrailButton';
 export * from './AuditTrailDialog';
+export * from './AuditLogDetailDialog';
 export * from './ImageUrlListField';

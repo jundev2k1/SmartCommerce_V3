@@ -10,9 +10,32 @@
   "successDescription": "Order {orderId} was created — total {total}.",
   "viewOrder": "View order",
   "continueShopping": "Continue shopping",
+  "back": "Back",
+  "continueButton": "Continue",
   "toast": {
     "success": "Order placed successfully.",
     "error": "Couldn't place the order.",
     "conflict": "Your cart changed — please review it before placing the order again."
+  },
+  "steps": {
+    "cart": "Cart",
+    "owner": "Owner info",
+    "confirm": "Confirm",
+    "complete": "Complete"
+  },
+  "cartStep": {
+    "editCart": "Edit cart"
+  },
+  "ownerStep": {
+    "title": "Who is this order for?",
+    "description": "Prefilled from your account — edit any field, the order owner doesn't have to match your login.",
+    "customerName": "Full name",
+    "customerPhone": "Phone number",
+    "shippingAddress": "Shipping address"
+  },
+  "confirmStep": {
+    "title": "Review your order",
+    "description": "Check the details below before placing your order.",
+    "orderOwner": "Order owner"
   }
 }

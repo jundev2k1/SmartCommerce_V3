@@ -4,11 +4,9 @@ import { useTranslations } from 'next-intl';
 import { AppModal, type AppSelectOption } from '@/shared/ui';
 import { CreateCategoryForm } from './CreateCategoryForm';
 import { EditCategoryForm } from './EditCategoryForm';
-import type { UpdateCategoryFormValues } from '../categories.schema';
 
 export type CategoryFormDialogState =
-  | { mode: 'create'; defaultParentId?: string }
-  | { mode: 'edit'; categoryId: string; defaultValues: UpdateCategoryFormValues };
+  { mode: 'create'; defaultParentId?: string } | { mode: 'edit'; categoryId: string };
 
 export interface CategoryFormDialogProps {
   state: CategoryFormDialogState | null;
@@ -39,7 +37,6 @@ export function CategoryFormDialog({
       ) : state?.mode === 'edit' ? (
         <EditCategoryForm
           categoryId={state.categoryId}
-          defaultValues={state.defaultValues}
           categoryOptions={categoryOptions}
           onDone={() => onOpenChange(false)}
         />

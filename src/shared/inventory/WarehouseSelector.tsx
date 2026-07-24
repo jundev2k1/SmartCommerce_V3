@@ -16,8 +16,7 @@ export interface WarehouseSelectorProps {
 
 /**
  * Prop-driven, not self-fetching — `warehouses` comes from
- * features/inventory's `useLocalWarehousesQuery` (the set known to this
- * browser, since there's no list endpoint). Keeps this layer purely
+ * features/inventory's `useWarehousesSearchQuery`. Keeps this layer purely
  * presentational, same as shared/commerce.
  */
 export function WarehouseSelector({ warehouses, value, onChange }: WarehouseSelectorProps) {

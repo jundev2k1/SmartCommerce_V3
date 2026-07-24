@@ -12,6 +12,7 @@ import {
 } from '../categories.utils';
 import { CategoryTree } from './CategoryTree';
 import { CategoryFormDialog, type CategoryFormDialogState } from './CategoryFormDialog';
+import { CategoryDetailDrawer } from './CategoryDetailDrawer';
 
 export function CategoriesPage() {
   const t = useTranslations('categories');
@@ -22,6 +23,7 @@ export function CategoriesPage() {
   const [search, setSearch] = useState('');
   const [formState, setFormState] = useState<CategoryFormDialogState | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<TreeNode | null>(null);
+  const [viewTarget, setViewTarget] = useState<TreeNode | null>(null);
 
   const allNodes = useMemo(() => flattenTree(tree ?? []), [tree]);
 
@@ -84,17 +86,8 @@ export function CategoriesPage() {
       ) : (
         <CategoryTree
           nodes={visibleNodes}
-          onEdit={(node) =>
-            setFormState({
-              mode: 'edit',
-              categoryId: node.id,
-              defaultValues: {
-                name: node.name ?? '',
-                description: '',
-                parentCategoryId: node.parentCategoryId ?? '',
-              },
-            })
-          }
+          onView={setViewTarget}
+          onEdit={(node) => setFormState({ mode: 'edit', categoryId: node.id })}
           onDelete={setDeleteTarget}
           onAddChild={(node) => setFormState({ mode: 'create', defaultParentId: node.id })}
         />
@@ -114,6 +107,11 @@ export function CategoriesPage() {
         onConfirm={handleDeleteConfirm}
         isPending={deleteMutation.isPending}
         title={tConfirmDelete('title', { name: deleteTarget?.name ?? deleteTarget?.code ?? '' })}
+      />
+
+      <CategoryDetailDrawer
+        node={viewTarget}
+        onOpenChange={(open) => !open && setViewTarget(null)}
       />
     </div>
   );

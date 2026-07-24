@@ -11,7 +11,15 @@
     "name": "Name",
     "description": "Description",
     "parent": "Parent category",
-    "noParent": "None (root category)"
+    "noParent": "None (root category)",
+    "notFound": "Couldn't load this category."
+  },
+  "detailDrawer": {
+    "title": "Category",
+    "description": "Category details and audit history.",
+    "code": "Code",
+    "status": "Status",
+    "id": "ID"
   },
   "toast": {
     "createSuccess": "Category created.",

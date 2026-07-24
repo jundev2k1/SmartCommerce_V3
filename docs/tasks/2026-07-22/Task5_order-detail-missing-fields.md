@@ -1,6 +1,6 @@
 # Task 5: Order Detail only shows a raw customer ID — show more detail
 
-**Status:** Not started. Not a backend gap — the backend already has this data; this repo's types/service layer are stale.
+**Status:** Done. Updated types and UI, verified via typecheck + eslint.
 
 ## Ask
 
@@ -56,8 +56,20 @@ with items carrying `Discount`/`LineTotal` in addition to what this repo's `GetO
 3. Update `docs/backend/order/README.md` to reflect the new response shape (per that doc's own "don't let docs drift" rule).
 4. `CancellationReason`, `ShippingAddress`, and item-level `Discount`/`LineTotal` are separately available now too — decide whether/where to surface them (e.g. `OrderTimeline` for cancellation reason, `OrderItems` for discount/line total, an address block near `OrderCustomer`) as part of the same pass, since the data is already there.
 
-## Status
+## Implementation
 
-Not started. No backend change needed for `customerName`/`customerPhone`/`cancellationReason`/discount/line-total — those already existed; `shippingAddress` is new as of today but likewise requires no further backend work to consume, just picking it up in this repo's types/UI.
+1. **Types:** Updated `GetOrderResponse` in `src/services/order/get-order.ts` to include `customerName`, `customerPhone` (both required), `shippingAddress?`, `cancellationReason?` (optional). Updated `GetOrderItemResponse` to include `discount?` (already had `lineTotal`).
+
+2. **Component:** Updated `OrderCustomer.tsx` to accept and render the new `customerName`/`customerPhone` fields in a 3-field layout (name, phone, id). Removed the "id only" explanatory note since we now have full customer data.
+
+3. **Caller:** Updated `OrderDetailPage.tsx` to pass the new props when instantiating `OrderCustomer`.
+
+4. **i18n:** Updated `commerce.json` to add "name", "phone", "id" labels and remove the obsolete "idOnlyNote" copy.
+
+5. **Docs:** Updated `docs/backend/order/README.md` to document the new shape of `GetOrderResponse` and `GetOrderItemResponse`.
+
+**Not done (out of scope for this pass):** Surfacing `shippingAddress`, `cancellationReason`, per-item `discount` in the detail UI — those can be added separately once decisions are made on where they belong (e.g. shipping address block, timeline/cancellation notes, item line totals).
+
+Verified: `tsc --noEmit` and `eslint` both clean.
 
 **Cross-ref:** SimpleShop `docs/tasks/2026-07-22/Task3_order-owner-checkout-flow-review.md`.

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import { AppDataTable, CreateButton, IconButton, DeleteButton, toast } from '@/shared/ui';
+import { AppDataTable, AppBadge, CreateButton, IconButton, DeleteButton, toast } from '@/shared/ui';
 import {
   EntityHeader,
   EntityToolbar,
@@ -50,6 +50,18 @@ export function ProductsListPage() {
       cell: ({ row }) => <EntityStatusBadge status={row.original.status} />,
     },
     {
+      id: 'stock',
+      header: t('table.stock'),
+      cell: ({ row }) =>
+        row.original.isInStock === false ? (
+          <AppBadge variant="destructive">{t('table.outOfStock')}</AppBadge>
+        ) : row.original.isInStock === true ? (
+          <AppBadge variant="secondary">{t('table.inStock')}</AppBadge>
+        ) : (
+          '—'
+        ),
+    },
+    {
       id: 'categories',
       header: t('table.categories'),
       cell: ({ row }) => row.original.categoryNames?.join(', ') || '—',
@@ -92,7 +104,13 @@ export function ProductsListPage() {
         onSearchChange={(search) => setParams((p) => ({ ...p, search, page: 1 }))}
         filters={
           <FilterPanel
-            active={Boolean(params.categoryId || params.tagId || params.status)}
+            active={Boolean(
+              params.categoryId ||
+              params.tagId ||
+              params.status ||
+              params.sortBy ||
+              params.sortDescending,
+            )}
             onClear={() => setParams((p) => ({ search: p.search, page: 1, pageSize: PAGE_SIZE }))}
           >
             <ProductFilters value={params} onChange={(next) => setParams({ ...next, page: 1 })} />

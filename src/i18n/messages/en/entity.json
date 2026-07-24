@@ -24,7 +24,39 @@
     "description": "Recorded changes for this record.",
     "empty": "No audit entries found in the fetched range.",
     "emptyTruncated": "No audit entries found for this record in the most recent history searched — older entries may exist but weren't checked.",
-    "button": "Audit trail"
+    "button": "Audit trail",
+    "columns": {
+      "timestamp": "When",
+      "entityType": "Entity",
+      "detail": "Detail"
+    },
+    "viewDetail": "View change detail"
+  },
+  "auditDetail": {
+    "title": "Change detail",
+    "description": "Full before/after change record for this audit entry.",
+    "notFound": "Audit entry not found.",
+    "unknownEntity": "Unknown entity",
+    "metadata": {
+      "actor": "Actor",
+      "businessAction": "Action",
+      "reason": "Reason",
+      "service": "Service",
+      "timestamp": "Timestamp",
+      "correlationId": "Correlation ID",
+      "clientIp": "Client IP",
+      "requestPath": "Request path",
+      "traceId": "Trace ID",
+      "userAgent": "User agent"
+    },
+    "changes": {
+      "title": "Changes",
+      "field": "Field",
+      "oldValue": "Old value",
+      "newValue": "New value",
+      "none": "No field-level changes recorded for this entity.",
+      "action": "Action"
+    }
   },
   "refresh": "Refresh",
   "imageUrlListField": {

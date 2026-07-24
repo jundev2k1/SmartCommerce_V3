@@ -6,7 +6,7 @@
 
 **Related documents:** [modules/overview.md](./overview.md), [roadmap.md](../roadmap.md), [backend/user/README.md](../backend/user/README.md), [backend/coverage-report.md](../backend/coverage-report.md), [backend/audit/README.md](../backend/audit/README.md)
 
-**When to read:** Touching user CRUD, or wondering why the Users page doesn't have a real list/search/delete.
+**When to read:** Touching user CRUD, the Admin/Normal-User tabs, or wondering why Delete isn't wired up.
 
 **When to ignore:** Any other module.
 
@@ -18,25 +18,19 @@
 
 ## Data model (real backend contract)
 
-`CreateUserRequest{email,userName,phoneNumber,firstName,lastName,roles?,tempPassword?}`, `UpdateUserRequest{firstName,lastName,phoneNumber}`, `GetUserDetailResponse` (includes `status: UserStatus` — the one enum in this whole integration with a **confirmed** value mapping: Active=1/Inactive=2/Suspended=3). See `src/services/user/`.
+`CreateUserRequest{email,userName,phoneNumber,firstName,lastName,roles?,tempPassword?}`, `UpdateUserRequest{firstName,lastName,phoneNumber}`, `GetUserDetailResponse`/`SearchUsersItemResponse` (both include `status: UserStatus` — the one enum in this whole integration with a **confirmed** value mapping: Active=1/Inactive=2/Suspended=3 — and `roles: string[] | null`). See `src/services/user/`.
 
 ## Key flows
 
-- **Create**: toolbar `CreateButton` → `UserFormDialog` (create mode) → `CreateUserForm` → real `POST /profiles`. Success toast explicitly notes the new user won't appear in the table (see limitation below).
+- **List**: `UsersPage` renders two `AppTabs` (Admin / Normal User), each backed by its own `useUsersSearchQuery` call against real `POST /users/search` — independent search box and pagination per tab. Admin tab filters `role != 'User'` (so Root shows there too, matching the ask); Normal User tab filters `role == 'User'`.
+- **Create**: toolbar `CreateButton` → `UserFormDialog` (create mode) → `CreateUserForm` → real `POST /profiles`.
 - **Edit**: table row's pencil action → `UserFormDialog` (edit mode), pre-filled from the row data already in hand → real `PUT /profiles/{userId}`.
-- **Audit trail**: table row's shield action → `UserAuditTrailDialog` → `listAuditLogs({ service: 'User', pageSize: 50 })` from `@/services/audit`, filtered client-side to `rootEntityId === userId`.
-- **Delete**: rendered as a disabled button with an explanatory tooltip — see the limitation below, this is not wired to anything.
+- **Audit trail**: table row's shield action → `AuditTrailDialog` → `listAuditLogs({ service: 'User', pageSize: 50 })` from `@/services/audit`, filtered client-side to `rootEntityId === userId`.
+- **Delete**: rendered as a disabled button with an explanatory tooltip — no `DELETE /profiles/{userId}` endpoint exists, this is not wired to anything.
 
-## ⚠️ Known constraint: the table has exactly one real row
+## `roles` is a write-once snapshot, not live
 
-**The User backend contract has no list, search, filter, or delete endpoint** — only Create, Get-by-id, Get-current-detail, and Update (confirmed in [backend/coverage-report.md](../backend/coverage-report.md); this doc previously missed calling that gap out explicitly, corrected in this phase). Given that, and per the explicit direction to placeholder rather than invent behavior:
-
-- The `AppDataTable` on the Users page is fed exactly one row: the current authenticated user, from the same `useCurrentUserQuery` result the Auth module already fetches for session restoration (no extra call). This is real data, not a mock — it's simply the only user this contract lets us enumerate.
-- Search, pagination, and filter controls are **not rendered at all** — a non-functional search box would be more misleading than omitting one. A one-line note above the table states the limitation plainly.
-- Delete renders disabled with a tooltip ("Not available — the backend doesn't support deleting users yet") rather than being hidden, so it's a visible TODO, not a silent gap.
-- A newly created user has no way to appear anywhere in this UI (there's no way to look it up without knowing its id) — the create-success toast says so directly.
-
-**When the backend adds a list (and ideally delete/search) endpoint**, this module should be revisited to build a real paginated table, remove the limitation note, enable Delete, and add search/filter controls — none of the surrounding architecture (dialogs, forms, mutations) needs to change, only the data-fetching side.
+`SearchUsersItemResponse.roles` is denormalized onto the user profile at creation time (SimpleShop `docs/tasks/2026-07-22/Task4_search-users-endpoint-already-exists.md`, option 2). There is no role-change endpoint anywhere in the backend yet, so this is a non-issue today — but a future role-change elsewhere would **not** retroactively update rows already indexed this way. The Users page shows a one-line note above the tabs saying so.
 
 ## Roles are not exposed in the create form
 

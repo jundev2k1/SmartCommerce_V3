@@ -7,6 +7,8 @@ export interface AdminCreateOrderRequest {
   customerId: string;
   customerName: string;
   customerPhone: string;
+  /** Free-text snapshot, max 500 chars — same convention as customerName/customerPhone (see docs/backend/order/README.md). */
+  shippingAddress: string;
   items: CreateOrderItemRequestDto[];
 }
 

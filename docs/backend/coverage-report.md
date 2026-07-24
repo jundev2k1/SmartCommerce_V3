@@ -70,7 +70,8 @@
 
 ## Unsupported / missing endpoints (needed by a planned frontend module, not present in the contract)
 
-- **User list/search/delete** — no `GET /profiles` (list) and no `DELETE /profiles/{userId}` exist; only Create, Get-by-id, Get-current-detail, and Update. Confirmed blocking in Phase 2: the Users page can only ever show one real row (the current user) and Delete is permanently disabled until these land. _(This gap existed since Phase 1.5 but wasn't listed here until Phase 2 actually hit it in practice — see [modules/user-management.md](../modules/user-management.md).)_
+- **User delete** — no `DELETE /profiles/{userId}` exists; Delete is permanently disabled until it lands. _(This gap existed since Phase 1.5 but wasn't listed here until Phase 2 actually hit it in practice — see [modules/user-management.md](../modules/user-management.md).)_
+- ~~User list/search~~ — **resolved, not yet consumed.** `POST /users/search` exists server-side (admin-only, paginated/filterable/sortable — confirmed from backend source, not Swagger; see `docs/backend/user/README.md`), it just predates this doc and has no `src/services/user/` client wrapper yet. The one real remaining gap for the Users-page role-tabs ask (`docs/tasks/2026-07-22/Task8_users-page-role-tabs.md`) is that the search response has no `Roles` field — tracked backend-side in SimpleShop `docs/tasks/2026-07-22/Task4_search-users-endpoint-already-exists.md`.
 - **Order list/search** — no `GET /orders` exists; only `GetOrder(orderId)`. Blocks a real Order History table (Phase 8).
 - **Warehouse list/search** — no `GET /warehouses` exists; only `GetWarehouse(warehouseId)`. Blocks a real Warehouses table (Phase 9).
 - **Inventory list/search** — no `GET /inventories` exists; only `GetInventory(inventoryId)`. An Inventory table (Phase 9) would need to be driven by product/variation instead, or this endpoint needs to be added.
