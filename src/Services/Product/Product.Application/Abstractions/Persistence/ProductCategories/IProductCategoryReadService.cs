@@ -4,6 +4,8 @@ public interface IProductCategoryReadService
 {
     Task<ProductCategory?> GetByIdAsync(Guid id, CancellationToken ct = default);
 
+    Task<Guid[]> GetExistingIdsAsync(IEnumerable<Guid> ids, CancellationToken ct = default);
+
     Task<bool> CodeExistsAsync(string code, CancellationToken ct = default);
 
     Task<bool> HasChildrenAsync(Guid categoryId, CancellationToken ct = default);

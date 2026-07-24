@@ -9,7 +9,9 @@ namespace Product.Domain.Entities;
 public sealed class ProductCategoryMapping : BaseEntity<Guid>
 {
     public Guid ProductId { get; private set; }
+    public Product Product { get; private set; } = default!;
     public Guid CategoryId { get; private set; }
+    public ProductCategory Category { get; private set; } = default!;
 
     private ProductCategoryMapping() { }
 

@@ -7,20 +7,20 @@ namespace Product.Persistence.Contexts.ProductTags.Repositories;
 
 public sealed class ProductTagRepo(ProductDbContext dbContext) : IProductTagRepository, IRepository<ProductTag>
 {
-    public async Task<ProductTag?> GetByIdAsync(Guid id, Func<IQueryable<ProductTag>, IQueryable<ProductTag>> includes, CancellationToken ct = default)
+    public async Task<ProductTag?> GetByIdAsync<TId>(TId id, Func<IQueryable<ProductTag>, IQueryable<ProductTag>> includes, CancellationToken ct = default)
     {
         var query = dbContext.ProductTags
             .AsNoTracking()
             .AsQueryable();
         query = includes(query);
-        return await query.FirstOrDefaultAsync(q => q.Id == id, ct);
+        return await query.FirstOrDefaultAsync(q => q.Id.Equals(id), ct);
     }
 
-    public async Task<ProductTag?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<ProductTag?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.ProductTags
             .AsNoTracking()
-            .FirstOrDefaultAsync(pt => pt.Id == id, ct);
+            .FirstOrDefaultAsync(pt => pt.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(ProductTag entity, CancellationToken ct = default)

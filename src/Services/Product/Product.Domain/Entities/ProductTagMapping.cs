@@ -7,7 +7,9 @@ namespace Product.Domain.Entities;
 public sealed class ProductTagMapping : BaseEntity<Guid>
 {
     public Guid ProductId { get; private set; }
+    public Product Product { get; private set; } = default!;
     public Guid TagId { get; private set; }
+    public ProductTag Tag { get; private set; } = default!;
 
     private ProductTagMapping() { }
 

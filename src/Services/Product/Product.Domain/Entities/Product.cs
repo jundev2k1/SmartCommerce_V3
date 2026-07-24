@@ -28,92 +28,44 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
     /// enforced and initialized here rather than split across the caller.
     /// </summary>
     public static Product Create(
-        Guid id,
         ProductCode code,
         string name,
         string description,
         Slug slug,
-        IEnumerable<ProductVariationCreateModel> variations,
-        ProductMetadata? metadata = null)
+        ProductMetadata? metadata,
+        IEnumerable<ProductVariation> variations,
+        IEnumerable<Guid> categoryIds,
+        IEnumerable<Guid> tagIds)
     {
         ValidateName(name);
 
-        var models = variations.ToList();
-        if (models.Count == 0)
+        if (!variations.Any())
             throw ExceptionFactory.EmptyCollection("A product must be created with at least one variation.");
 
+        if (categoryIds.Distinct().Count() != categoryIds.Count())
+            throw ExceptionFactory.Duplicate($"One or more categories are dupplicated.");
+        if (tagIds.Distinct().Count() != tagIds.Count())
+            throw ExceptionFactory.Duplicate($"One or more tags are dupplicated.");
+
+        var categoryMappings = categoryIds
+            .Select(id => ProductCategoryMapping.Create(Guid.CreateVersion7(), default, id))
+            .ToArray();
+        var tagMappings = tagIds
+            .Select(id => ProductTagMapping.Create(Guid.CreateVersion7(), default, id))
+            .ToArray();
         var product = new Product
         {
-            Id = id,
+            Id = Guid.CreateVersion7(),
             Code = code,
             Name = name,
             Description = description,
             Slug = slug,
             Metadata = metadata ?? new ProductMetadata(),
+            Variations = [.. variations],
+            CategoryMappings = categoryMappings,
         };
 
-        for (var i = 0; i < models.Count; i++)
-        {
-            var model = models[i];
-            var variation = ProductVariation.Create(
-                Guid.CreateVersion7(),
-                id,
-                model.Sku,
-                model.Price,
-                i,
-                model.Barcode,
-                model.Cost,
-                model.Weight,
-                model.Dimensions,
-                model.Images,
-                model.Status,
-                model.Metadata);
-
-            product.Variations.Add(variation);
-        }
-
-        var defaultIndex = models.FindIndex(m => m.IsDefault);
-        var defaultVariation = defaultIndex >= 0 ? product.Variations.ElementAt(defaultIndex) : product.Variations.First();
-        defaultVariation.MarkAsDefault();
-
         return product;
-    }
-
-    /// <summary>Adds a new variation. Flat parameters (no Spec/DTO object) - see ProductVariation.Create remarks.</summary>
-    public ProductVariation AddVariation(
-        Sku sku,
-        decimal price,
-        Barcode? barcode = null,
-        decimal? cost = null,
-        decimal? weight = null,
-        Dimensions? dimensions = null,
-        IEnumerable<string>? images = null,
-        ProductVariationStatus status = ProductVariationStatus.Active,
-        ProductVariationMetadata? metadata = null,
-        bool makeDefault = false)
-    {
-        var displayOrder = Variations.Count == 0 ? 0 : Variations.Max(v => v.DisplayOrder) + 1;
-
-        var variation = ProductVariation.Create(
-            Guid.CreateVersion7(),
-            Id,
-            sku,
-            price,
-            displayOrder,
-            barcode,
-            cost,
-            weight,
-            dimensions,
-            images,
-            status,
-            metadata);
-        Variations.Add(variation);
-
-        if (makeDefault)
-            SetDefaultVariation(variation.Id);
-
-        Tourch();
-        return variation;
     }
 
     /// <summary>

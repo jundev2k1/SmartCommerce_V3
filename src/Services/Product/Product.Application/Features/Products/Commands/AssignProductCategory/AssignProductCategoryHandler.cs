@@ -24,10 +24,17 @@ public sealed class AssignProductCategoryHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.AssignCategoryAsync(request.ProductId, request.CategoryId, ct);
+            await productWriteService.AssignCategoryAsync(
+                request.ProductId,
+                request.CategoryId,
+                ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductCategoryAssignedIntegrationEvent(request.ProductId, request.CategoryId, correlationId), ct);
+                new ProductCategoryAssignedIntegrationEvent(
+                    request.ProductId,
+                    request.CategoryId,
+                    correlationId),
+                ct);
         }, ct: ct);
 
         return new AssignProductCategoryResponse();

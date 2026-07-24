@@ -11,7 +11,9 @@ public sealed class ProductTagConfig : IEntityTypeConfiguration<ProductTag>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Code)
-            .HasConversion(x => x.Value, x => TagCode.Create(x))
+            .HasConversion(
+                x => x.Value,
+                x => TagCode.Create(x))
             .HasMaxLength(50)
             .IsRequired();
 
@@ -19,9 +21,12 @@ public sealed class ProductTagConfig : IEntityTypeConfiguration<ProductTag>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
-        builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");
+        builder.Property(x => x.CreatedAt)
+            .HasDefaultValueSql("now()");
+        builder.Property(x => x.UpdatedAt)
+            .HasDefaultValueSql("now()");
 
-        builder.HasIndex(x => x.Code).IsUnique();
+        builder.HasIndex(x => x.Code)
+            .IsUnique();
     }
 }

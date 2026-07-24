@@ -2,10 +2,10 @@ namespace BuildingBlock.Persistence.Repository;
 
 public interface IRepository<T> where T : class
 {
-    Task<T?> GetByIdAsync(Guid id, CancellationToken ct = default);
+    Task<T?> GetByIdAsync<TId>(TId id, CancellationToken ct = default);
 
-    Task<T?> GetByIdAsync(
-        Guid id,
+    Task<T?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<T>, IQueryable<T>> includes,
         CancellationToken ct = default);
 

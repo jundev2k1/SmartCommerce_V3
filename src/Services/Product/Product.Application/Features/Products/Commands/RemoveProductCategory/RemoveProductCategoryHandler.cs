@@ -18,10 +18,17 @@ public sealed class RemoveProductCategoryHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.RemoveCategoryAsync(request.ProductId, request.CategoryId, ct);
+            await productWriteService.RemoveCategoryAsync(
+                request.ProductId,
+                request.CategoryId,
+                ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductCategoryRemovedIntegrationEvent(request.ProductId, request.CategoryId, correlationId), ct);
+                new ProductCategoryRemovedIntegrationEvent(
+                    request.ProductId,
+                    request.CategoryId,
+                    correlationId),
+                ct);
         }, ct: ct);
 
         return new RemoveProductCategoryResponse();

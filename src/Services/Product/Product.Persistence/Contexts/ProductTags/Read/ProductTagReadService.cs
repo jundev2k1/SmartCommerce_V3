@@ -6,9 +6,12 @@ namespace Product.Persistence.Contexts.ProductTags.Read;
 
 public sealed class ProductTagReadService(ProductDbContext dbContext) : IProductTagReadService
 {
-    public async Task<IReadOnlyList<ProductTag>> GetAllAsync(CancellationToken ct = default)
+    public async Task<ProductTag[]> GetAllAsync(CancellationToken ct = default)
     {
-        return await dbContext.ProductTags.AsNoTracking().OrderBy(t => t.Name).ToListAsync(ct);
+        return await dbContext.ProductTags
+            .AsNoTracking()
+            .OrderBy(t => t.Name)
+            .ToArrayAsync(ct);
     }
 
     public async Task<ProductTag?> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -16,6 +19,17 @@ public sealed class ProductTagReadService(ProductDbContext dbContext) : IProduct
         return await dbContext.ProductTags
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.Id == id, ct);
+    }
+
+    public async Task<Guid[]> GetExistingTagIdsAsync(
+        IEnumerable<Guid> tagIds,
+        CancellationToken ct = default)
+    {
+        return await dbContext.ProductTags
+            .AsNoTracking()
+            .Where(pt => tagIds.Contains(pt.Id))
+            .Select(pt => pt.Id)
+            .ToArrayAsync(ct);
     }
 
     public async Task<bool> IsExistAsync(Guid id, CancellationToken ct = default)

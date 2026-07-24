@@ -1,9 +1,10 @@
+using BuildingBlock.Application.Abstractions.Persistence;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Persistence.Repository;
 
 using Product.Application.Abstractions.Persistence.Products;
-using Product.Domain.Enums;
-using Product.Domain.ValueObjects;
+using Product.Application.Features.Products.DTOs;
+using Product.Application.Features.Products.Mapping;
 using Product.Persistence.Contexts.Products.Repositories;
 
 namespace Product.Persistence.Contexts.Products.Write;
@@ -16,55 +17,56 @@ namespace Product.Persistence.Contexts.Products.Write;
 /// </summary>
 public sealed class ProductWriteService(
     IRepository<ProductEntity> repo,
-    IProductRepository productRepo) : IProductWriteService
+    IProductRepository productRepo,
+    IUnitOfWork uow) : IProductWriteService
 {
-    public async Task CreateAsync(ProductEntity product, CancellationToken ct = default)
+    public async Task CreateAsync(
+        ProductEntity product,
+        CancellationToken ct = default)
     {
         await repo.AddAsync(product, ct);
+        await uow.SaveChangesAsync(ct);
     }
 
-    public async Task UpdateDetailsAsync(Guid id, string name, string description, string slug, CancellationToken ct = default)
+    public async Task UpdateDetailsAsync(
+        Guid id,
+        string name,
+        string description,
+        Slug slug,
+        CancellationToken ct = default)
     {
         await repo.UpdateAsync(id, async product =>
         {
             product.UpdateDetails(name, description);
-            product.ChangeSlug(Slug.Create(slug));
+            product.ChangeSlug(slug);
         }, ct);
+        await uow.SaveChangesAsync(ct);
     }
 
     public async Task<ProductVariation> AddVariationAsync(
         Guid productId,
-        Sku sku,
-        decimal price,
-        Barcode? barcode,
-        decimal? cost,
-        decimal? weight,
-        Dimensions? dimensions,
-        IEnumerable<string>? images,
-        bool makeDefault,
+        ProductVariationInputDto variation,
         CancellationToken ct = default)
     {
-        ProductVariation variation = null!;
+        var displayOrder = await productRepo.GetNextVariationDisplayOrderAsync(productId, ct);
+        var entity = variation.MapInputToEntity(productId, displayOrder);
+        await productRepo.AddVariationAsync(entity, ct);
+        await uow.SaveChangesAsync(ct);
 
-        await repo.UpdateAsync(
-            productId,
-            query => query.Include(q => q.Variations),
-            async product =>
-            {
-                variation = product.AddVariation(
-                    sku,
-                    price,
-                    barcode,
-                    cost,
-                    weight,
-                    dimensions,
-                    images,
-                    makeDefault: makeDefault);
-                await Task.CompletedTask;
-            },
-            ct);
+        return entity;
+    }
 
-        return variation;
+    public async Task<ProductVariation[]> AddVariationsAsync(
+        Guid productId,
+        IEnumerable<ProductVariationInputDto> variations,
+        CancellationToken ct = default)
+    {
+        var displayOrder = await productRepo.GetNextVariationDisplayOrderAsync(productId, ct);
+        var entities = variations.MapInputToEntities(productId, displayOrder);
+        await productRepo.AddVariationRangeAsync(entities, ct);
+        await uow.SaveChangesAsync(ct);
+
+        return [.. entities];
     }
 
     public async Task UpdateVariationInformationAsync(
@@ -103,7 +105,7 @@ public sealed class ProductWriteService(
                         break;
                 }
 
-                await Task.CompletedTask;
+                await uow.SaveChangesAsync(ct);
             },
             ct);
     }
@@ -111,6 +113,7 @@ public sealed class ProductWriteService(
     public async Task DeleteVariationAsync(Guid variationId, CancellationToken ct = default)
     {
         await productRepo.RemoveVariationAsync(variationId, ct);
+        await uow.SaveChangesAsync(ct);
     }
 
     public async Task ReorderVariationsAsync(Guid productId, IReadOnlyList<Guid> orderedVariationIds, CancellationToken ct = default)
@@ -135,7 +138,7 @@ public sealed class ProductWriteService(
                     variation.ChangeDisplayOrder(i);
                 }
 
-                await Task.CompletedTask;
+                await uow.SaveChangesAsync(ct);
             }, ct);
     }
 
@@ -147,7 +150,8 @@ public sealed class ProductWriteService(
             async product =>
             {
                 product.SetDefaultVariation(variationId);
-                await Task.CompletedTask;
+
+                await uow.SaveChangesAsync(ct);
             }, ct);
     }
 
@@ -159,7 +163,8 @@ public sealed class ProductWriteService(
             async product =>
             {
                 product.AssignCategory(categoryId);
-                await Task.CompletedTask;
+
+                await uow.SaveChangesAsync(ct);
             }, ct);
     }
 
@@ -171,7 +176,8 @@ public sealed class ProductWriteService(
             async product =>
             {
                 product.AssignTag(tagId);
-                await Task.CompletedTask;
+
+                await uow.SaveChangesAsync(ct);
             }, ct);
     }
 
@@ -183,21 +189,28 @@ public sealed class ProductWriteService(
             async product =>
             {
                 product.RemoveCategory(categoryId);
-                await Task.CompletedTask;
+
+                await uow.SaveChangesAsync(ct);
             }, ct);
     }
 
     public async Task RemoveTagAsync(Guid productId, Guid tagId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(productId, async product =>
-        {
-            product.RemoveTag(tagId);
-            await Task.CompletedTask;
-        }, ct);
+        await repo.UpdateAsync(
+            id: productId,
+            includes: query => query.Include(q => q.TagMappings),
+            updateAction: async product =>
+            {
+                product.RemoveTag(tagId);
+
+                await uow.SaveChangesAsync(ct);
+            },
+            ct: ct);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken ct = default)
     {
         await repo.DeleteAsync(id, ct);
+        await uow.SaveChangesAsync(ct);
     }
 }

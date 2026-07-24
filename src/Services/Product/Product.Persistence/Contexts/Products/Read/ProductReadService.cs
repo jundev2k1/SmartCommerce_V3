@@ -1,10 +1,13 @@
+using BuildingBlock.Persistence.Repository;
+
 using Product.Application.Abstractions.Persistence.Products;
-using Product.Domain.ValueObjects;
 using Product.Persistence.Engine;
 
 namespace Product.Persistence.Contexts.Products.Read;
 
-public sealed class ProductReadService(ProductDbContext dbContext) : IProductReadService
+public sealed class ProductReadService(
+    ProductDbContext dbContext,
+    IRepository<ProductEntity> repo) : IProductReadService
 {
     public async Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default)
     {
@@ -18,9 +21,7 @@ public sealed class ProductReadService(ProductDbContext dbContext) : IProductRea
 
     public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
-        return await dbContext.Products
-            .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == id, ct);
+        return await repo.GetByIdAsync(id, ct);
     }
 
     public async Task<Guid[]> GetProductsByTagIdAsync(Guid tagId, CancellationToken ct = default)

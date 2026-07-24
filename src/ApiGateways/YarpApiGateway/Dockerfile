@@ -22,10 +22,10 @@ RUN dotnet restore "src/ApiGateways/YarpApiGateway/YarpApiGateway.csproj" \
 COPY . .
 
 WORKDIR "/app/src/ApiGateways/YarpApiGateway"
-RUN dotnet build "YarpApiGateway.csproj" -c Release -o /app/build
+RUN dotnet build "YarpApiGateway.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "YarpApiGateway.csproj" -c Release -o /app/publish
+RUN dotnet publish "YarpApiGateway.csproj" -c Debug -o /app/publish
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime

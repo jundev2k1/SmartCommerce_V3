@@ -1,4 +1,4 @@
-using Product.Domain.ValueObjects;
+using Product.Application.Features.Products.DTOs;
 
 namespace Product.Application.Abstractions.Persistence.Products;
 
@@ -6,18 +6,21 @@ public interface IProductWriteService
 {
     Task CreateAsync(ProductEntity product, CancellationToken ct = default);
 
-    Task UpdateDetailsAsync(Guid id, string name, string description, string slug, CancellationToken ct = default);
+    Task UpdateDetailsAsync(
+        Guid id,
+        string name,
+        string description,
+        Slug slug,
+        CancellationToken ct = default);
 
     Task<ProductVariation> AddVariationAsync(
         Guid productId,
-        Sku sku,
-        decimal price,
-        Barcode? barcode,
-        decimal? cost,
-        decimal? weight,
-        Dimensions? dimensions,
-        IEnumerable<string>? images,
-        bool makeDefault,
+        ProductVariationInputDto variation,
+        CancellationToken ct = default);
+
+    Task<ProductVariation[]> AddVariationsAsync(
+        Guid productId,
+        IEnumerable<ProductVariationInputDto> variations,
         CancellationToken ct = default);
 
     Task UpdateVariationInformationAsync(

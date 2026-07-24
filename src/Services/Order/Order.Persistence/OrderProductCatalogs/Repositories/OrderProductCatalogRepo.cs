@@ -6,20 +6,20 @@ namespace Order.Persistence.OrderProductCatalogs.Repositories;
 public sealed class OrderProductCatalogRepo(OrderDbContext dbContext)
     : IOrderProductCatalogRepository, IRepository<OrderProductCatalog>
 {
-    public async Task<OrderProductCatalog?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<OrderProductCatalog?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.OrderProductCatalogs
             .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == id, ct);
+            .FirstOrDefaultAsync(p => p.Id.Equals(id), ct);
     }
 
-    public async Task<OrderProductCatalog?> GetByIdAsync(
-        Guid id,
+    public async Task<OrderProductCatalog?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<OrderProductCatalog>, IQueryable<OrderProductCatalog>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.OrderProductCatalogs);
-        return await query.FirstOrDefaultAsync(p => p.Id == id, ct);
+        return await query.FirstOrDefaultAsync(p => p.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(OrderProductCatalog entity, CancellationToken ct = default)

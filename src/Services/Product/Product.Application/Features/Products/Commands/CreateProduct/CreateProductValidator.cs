@@ -1,7 +1,5 @@
 using FluentValidation;
 
-using Product.Domain.ValueObjects;
-
 namespace Product.Application.Features.Products.Commands.CreateProduct;
 
 public sealed class CreateProductValidator : AbstractValidator<CreateProductCommand>

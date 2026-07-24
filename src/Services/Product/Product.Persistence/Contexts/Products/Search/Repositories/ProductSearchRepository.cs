@@ -13,7 +13,8 @@ namespace Product.Persistence.Contexts.Products.Search.Repositories;
 public sealed class ProductSearchRepository(ElasticsearchClient client) : IProductSearchRepository
 {
     public async Task<(IReadOnlyList<ProductSearchDocument> Items, long TotalCount)> SearchAsync(
-        ProductSearchCriteria criteria, CancellationToken ct = default)
+        ProductSearchCriteria criteria,
+        CancellationToken ct = default)
     {
         var pageSize = Math.Max(criteria.PageSize, 1);
         var from = (Math.Max(criteria.Page, 1) - 1) * pageSize;

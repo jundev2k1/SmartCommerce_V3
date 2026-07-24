@@ -2,11 +2,12 @@ using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Product;
+using BuildingBlock.SharedKernel.Extensions;
 
 using Product.Application.Abstractions.Persistence.ProductCategories;
 using Product.Application.Abstractions.Persistence.Products;
 using Product.Application.Abstractions.Persistence.ProductTags;
-using Product.Domain.ValueObjects;
+using Product.Application.Features.Products.Mapping;
 
 namespace Product.Application.Features.Products.Commands.CreateProduct;
 
@@ -62,64 +63,51 @@ public sealed class CreateProductHandler(
 
     private async Task ValidateCategoriesAsync(IReadOnlyCollection<Guid> categoryIds, CancellationToken ct)
     {
-        foreach (var categoryId in categoryIds)
-        {
-            _ = await categoryReadService.GetByIdAsync(categoryId, ct)
-                ?? throw new NotFoundException(nameof(ProductCategory), categoryId);
-        }
+        var existingCategoryIds = await categoryReadService.GetExistingIdsAsync(categoryIds, ct);
+        var nonExistIds = categoryIds.Except(existingCategoryIds)
+            .Select(t => t.ToString())
+            .ToArray();
+        if (nonExistIds.Length > 0)
+            throw new NotFoundException(nameof(ProductCategories), nonExistIds.JoinToString(","));
     }
 
     private async Task ValidateTagsAsync(IReadOnlyCollection<Guid> tagIds, CancellationToken ct)
     {
-        foreach (var tagId in tagIds)
-        {
-            _ = await tagReadService.GetByIdAsync(tagId, ct)
-                ?? throw new NotFoundException(nameof(ProductTag), tagId);
-        }
+        var existingTagIds = await tagReadService.GetExistingTagIdsAsync(tagIds, ct);
+        var nonExistIds = tagIds.Except(existingTagIds)
+            .Select(t => t.ToString())
+            .ToArray();
+        if (nonExistIds.Length > 0)
+            throw new NotFoundException(nameof(ProductTag), nonExistIds.JoinToString(","));
     }
     #endregion
 
     #region Product Creation
     private static ProductEntity CreateNewProduct(
-        CreateProductCommand request, IReadOnlyCollection<Guid> categoryIds, IReadOnlyCollection<Guid> tagIds)
+        CreateProductCommand request,
+        IReadOnlyCollection<Guid> categoryIds,
+        IReadOnlyCollection<Guid> tagIds)
     {
-        var variationModels = request.Variations.Select(ToCreateModel);
-
+        var variations = request.Variations.MapInputToEntities(default);
         var product = ProductEntity.Create(
-            Guid.CreateVersion7(),
             ProductCode.Create(request.Code),
-            request.Name.Trim(),
-            request.Description?.Trim() ?? string.Empty,
+            request.Name,
+            request.Description,
             Slug.Create(request.Slug),
-            variationModels);
-
-        foreach (var categoryId in categoryIds)
-            product.AssignCategory(categoryId);
-
-        foreach (var tagId in tagIds)
-            product.AssignTag(tagId);
+            null,
+            variations,
+            categoryIds,
+            tagIds);
 
         return product;
-    }
-
-    private static ProductVariationCreateModel ToCreateModel(CreateProductVariationInput input)
-    {
-        return new ProductVariationCreateModel(
-            Sku.Create(input.Sku),
-            input.Price,
-            input.IsDefault,
-            input.Barcode is null ? null : Barcode.Create(input.Barcode),
-            input.Cost,
-            input.Weight,
-            input.DimensionsLength is not null && input.DimensionsWidth is not null && input.DimensionsHeight is not null
-                ? Dimensions.Create(input.DimensionsLength.Value, input.DimensionsWidth.Value, input.DimensionsHeight.Value)
-                : null,
-            input.Images);
     }
     #endregion
 
     #region Persistence
-    private async Task SaveProductAsync(ProductEntity product, string correlationId, CancellationToken ct)
+    private async Task SaveProductAsync(
+        ProductEntity product,
+        string correlationId,
+        CancellationToken ct)
     {
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
@@ -128,17 +116,31 @@ public sealed class CreateProductHandler(
         }, ct: ct);
     }
 
-    private async Task PublishIntegrationEventsAsync(ProductEntity product, string correlationId, CancellationToken ct)
+    private async Task PublishIntegrationEventsAsync(
+        ProductEntity product,
+        string correlationId,
+        CancellationToken ct)
     {
         await outboxStore.EnqueueAsync(
-            new ProductCreatedIntegrationEvent(product.Id, product.Code.Value, product.Name, product.Slug.Value, correlationId),
+            new ProductCreatedIntegrationEvent(
+                product.Id,
+                product.Code.Value,
+                product.Name,
+                product.Slug.Value,
+                correlationId),
             ct);
 
         foreach (var variation in product.Variations)
         {
             await outboxStore.EnqueueAsync(
                 new ProductVariationCreatedIntegrationEvent(
-                    product.Id, variation.Id, variation.Sku.Value, product.Name, variation.Price, variation.Status.ToString(), correlationId),
+                    product.Id,
+                    variation.Id,
+                    variation.Sku.Value,
+                    product.Name,
+                    variation.Price,
+                    variation.Status.ToString(),
+                    correlationId),
                 ct);
         }
     }

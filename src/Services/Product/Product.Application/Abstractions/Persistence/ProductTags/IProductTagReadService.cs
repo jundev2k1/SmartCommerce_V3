@@ -2,9 +2,13 @@ namespace Product.Application.Abstractions.Persistence.ProductTags;
 
 public interface IProductTagReadService
 {
-    Task<IReadOnlyList<ProductTag>> GetAllAsync(CancellationToken ct = default);
+    Task<ProductTag[]> GetAllAsync(CancellationToken ct = default);
 
     Task<ProductTag?> GetByIdAsync(Guid id, CancellationToken ct = default);
+
+    Task<Guid[]> GetExistingTagIdsAsync(
+        IEnumerable<Guid> tagIds,
+        CancellationToken ct = default);
 
     Task<bool> IsExistAsync(Guid id, CancellationToken ct = default);
 

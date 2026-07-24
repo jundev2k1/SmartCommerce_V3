@@ -18,10 +18,17 @@ public sealed class RemoveProductTagHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.RemoveTagAsync(request.ProductId, request.TagId, ct);
+            await productWriteService.RemoveTagAsync(
+                request.ProductId,
+                request.TagId,
+                ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductTagRemovedIntegrationEvent(request.ProductId, request.TagId, correlationId), ct);
+                new ProductTagRemovedIntegrationEvent(
+                    request.ProductId,
+                    request.TagId,
+                    correlationId),
+                ct);
         }, ct: ct);
 
         return new RemoveProductTagResponse();

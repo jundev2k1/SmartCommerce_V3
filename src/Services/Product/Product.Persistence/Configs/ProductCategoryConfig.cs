@@ -38,7 +38,8 @@ public sealed class ProductCategoryConfig : IEntityTypeConfiguration<ProductCate
             .HasForeignKey(x => x.ParentCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(x => x.Code).IsUnique();
+        builder.HasIndex(x => x.Code)
+            .IsUnique();
         builder.HasIndex(x => x.Status);
         builder.HasIndex(x => x.ParentCategoryId);
     }

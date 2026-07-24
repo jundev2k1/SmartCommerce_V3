@@ -5,20 +5,20 @@ namespace User.Persistence.UserProfiles.Repositories;
 
 public sealed class UserProfileRepo(UserDbContext dbContext) : IUserProfileRepository, IRepository<UserProfile>
 {
-    public async Task<UserProfile?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<UserProfile?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.UserProfiles
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == id, ct);
+            .FirstOrDefaultAsync(u => u.Id.Equals(id), ct);
     }
 
-    public async Task<UserProfile?> GetByIdAsync(
-        Guid id,
+    public async Task<UserProfile?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<UserProfile>, IQueryable<UserProfile>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.UserProfiles);
-        return await query.FirstOrDefaultAsync(u => u.Id == id, ct);
+        return await query.FirstOrDefaultAsync(u => u.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(UserProfile entity, CancellationToken ct = default)

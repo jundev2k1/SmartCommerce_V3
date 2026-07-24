@@ -7,4 +7,6 @@ global using System.Threading.Tasks;
 global using Microsoft.EntityFrameworkCore;
 
 global using Product.Domain.Entities;
+global using Product.Domain.Enums;
+global using Product.Domain.ValueObjects;
 global using ProductEntity = Product.Domain.Entities.Product;

@@ -3,6 +3,7 @@ namespace Product.Domain.Entities;
 public sealed class ProductVariation : BaseEntity<Guid>
 {
     public Guid ProductId { get; private set; }
+    public Product Product { get; private set; } = default!;
     public Sku Sku { get; private set; } = null!;
     public Barcode? Barcode { get; private set; }
     public decimal Price { get; private set; }
@@ -23,7 +24,6 @@ public sealed class ProductVariation : BaseEntity<Guid>
     /// so call sites stay explicit and adding/removing a field never breaks every caller.
     /// </summary>
     public static ProductVariation Create(
-        Guid id,
         Guid productId,
         Sku sku,
         decimal price,
@@ -42,7 +42,7 @@ public sealed class ProductVariation : BaseEntity<Guid>
 
         var variation = new ProductVariation
         {
-            Id = id,
+            Id = Guid.CreateVersion7(),
             ProductId = productId,
             Sku = sku,
             Barcode = barcode,
@@ -64,13 +64,13 @@ public sealed class ProductVariation : BaseEntity<Guid>
         return variation;
     }
 
-    internal void MarkAsDefault()
+    public void MarkAsDefault()
     {
         IsDefault = true;
         Tourch();
     }
 
-    internal void UnmarkAsDefault()
+    public void UnmarkAsDefault()
     {
         IsDefault = false;
         Tourch();

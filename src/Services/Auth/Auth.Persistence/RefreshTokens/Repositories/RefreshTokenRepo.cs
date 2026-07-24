@@ -9,20 +9,20 @@ namespace Auth.Persistence.RefreshTokens.Repositories;
 
 public sealed class RefreshTokenRepo(AuthDbContext dbContext) : IRefreshTokenRepository, IRepository<RefreshToken>
 {
-    public async Task<RefreshToken?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<RefreshToken?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.RefreshTokens
             .AsNoTracking()
-            .FirstOrDefaultAsync(rt => rt.Id == id, ct);
+            .FirstOrDefaultAsync(rt => rt.Id.Equals(id), ct);
     }
 
-    public async Task<RefreshToken?> GetByIdAsync(
-        Guid id,
+    public async Task<RefreshToken?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<RefreshToken>, IQueryable<RefreshToken>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.RefreshTokens);
-        return await query.FirstOrDefaultAsync(rt => rt.Id == id, ct);
+        return await query.FirstOrDefaultAsync(rt => rt.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(RefreshToken entity, CancellationToken ct = default)

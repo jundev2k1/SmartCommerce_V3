@@ -4,7 +4,6 @@ using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Product;
 
 using Product.Application.Abstractions.Persistence.Products;
-using Product.Domain.ValueObjects;
 
 namespace Product.Application.Features.Products.Commands.UpdateVariation;
 
@@ -26,19 +25,31 @@ public sealed class UpdateVariationHandler(
         var dimensions = request.DimensionsLength is not null && request.DimensionsWidth is not null && request.DimensionsHeight is not null
             ? Dimensions.Create(request.DimensionsLength.Value, request.DimensionsWidth.Value, request.DimensionsHeight.Value)
             : null;
-        var barcode = request.Barcode is null ? null : Barcode.Create(request.Barcode);
-        var sku = Sku.Create(request.Sku);
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             await productWriteService.UpdateVariationInformationAsync(
-                request.ProductId, request.VariationId, sku, request.Price, barcode, request.Cost, request.Weight,
-                dimensions, request.Images, status, ct);
+                request.ProductId,
+                request.VariationId,
+                Sku.Create(request.Sku),
+                request.Price,
+                request.Barcode is null ? null : Barcode.Create(request.Barcode),
+                request.Cost,
+                request.Weight,
+                dimensions,
+                request.Images,
+                status,
+                ct);
 
             await outboxStore.EnqueueAsync(
                 new ProductVariationUpdatedIntegrationEvent(
-                    request.ProductId, request.VariationId, request.Sku, request.Price, status.ToString(), correlationId),
+                    request.ProductId,
+                    request.VariationId,
+                    request.Sku,
+                    request.Price,
+                    status.ToString(),
+                    correlationId),
                 ct);
         }, ct: ct);
 

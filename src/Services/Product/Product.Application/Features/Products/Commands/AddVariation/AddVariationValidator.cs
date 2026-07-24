@@ -1,7 +1,5 @@
 using FluentValidation;
 
-using Product.Domain.ValueObjects;
-
 namespace Product.Application.Features.Products.Commands.AddVariation;
 
 public sealed class AddVariationValidator : AbstractValidator<AddVariationCommand>
@@ -10,23 +8,23 @@ public sealed class AddVariationValidator : AbstractValidator<AddVariationComman
     {
         RuleFor(x => x.ProductId).NotEmpty().WithMessage("ProductId is required");
 
-        RuleFor(x => x.Sku)
+        RuleFor(x => x.VariationInput.Sku)
             .Must(Sku.IsValid)
             .WithMessage("Sku must be 1-50 characters and contain only letters, digits, and hyphens");
 
-        RuleFor(x => x.Price)
+        RuleFor(x => x.VariationInput.Price)
             .Must(ProductVariation.IsValidPrice)
             .WithMessage("Price cannot be negative");
 
-        RuleFor(x => x.Cost)
+        RuleFor(x => x.VariationInput.Cost)
             .Must(ProductVariation.IsValidCost)
             .WithMessage("Cost cannot be negative");
 
-        RuleFor(x => x.Weight)
+        RuleFor(x => x.VariationInput.Weight)
             .Must(ProductVariation.IsValidWeight)
             .WithMessage("Weight must be greater than zero when specified");
 
-        RuleFor(x => x.Barcode)
+        RuleFor(x => x.VariationInput.Barcode)
             .Must(b => b is null || Barcode.IsValid(b))
             .WithMessage("Barcode must be 8-14 numeric digits (EAN/UPC/GTIN)");
     }

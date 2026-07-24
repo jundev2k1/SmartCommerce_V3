@@ -4,7 +4,6 @@ using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Product;
 
 using Product.Application.Abstractions.Persistence.Products;
-using Product.Domain.ValueObjects;
 
 namespace Product.Application.Features.Products.Commands.AddVariation;
 
@@ -17,62 +16,42 @@ public sealed class AddVariationHandler(
 {
     public async Task<AddVariationResponse> Handle(AddVariationCommand request, CancellationToken ct = default)
     {
+        var variationInput = request.VariationInput;
+
         // Check if exists product SKU
-        if (await productReadService.SkuExistsAsync(request.Sku, ct: ct))
+        if (await productReadService.SkuExistsAsync(variationInput.Sku, ct: ct))
         {
-            var owningProductName = await productReadService.GetProductNameBySkuAsync(request.Sku, ct);
+            var owningProductName = await productReadService.GetProductNameBySkuAsync(variationInput.Sku, ct);
             var ownerSuffix = owningProductName is null
                 ? string.Empty
                 : $" (used by product \"{owningProductName}\")";
             throw new ConflictException(
-                systemMessage: $"Variation with SKU ({request.Sku}) already exists{ownerSuffix}",
+                systemMessage: $"Variation with SKU ({variationInput.Sku}) already exists{ownerSuffix}",
                 detail: new { owningProductName });
         }
 
-        // Get product information
-        var product = await productReadService.GetByIdAsync(request.ProductId, ct)
-            ?? throw new NotFoundException(nameof(ProductEntity), request.ProductId);
+        // Get and check if product exists by ID
+        var targetProduct = await productReadService.GetByIdAsync(request.ProductId, ct)
+            ?? throw new NotFoundException(nameof(request.ProductId), request.ProductId);
 
-        // Initialize value objects
-        var sku = Sku.Create(request.Sku);
-        var barcode = request.Barcode is null
-            ? null
-            : Barcode.Create(request.Barcode);
-        // Create new dimensions if providing
-        var dimensions = request.DimensionsLength is not null
-            && request.DimensionsWidth is not null
-            && request.DimensionsHeight is not null
-                ? Dimensions.Create(
-                    request.DimensionsLength.Value,
-                    request.DimensionsWidth.Value,
-                    request.DimensionsHeight.Value)
-                : null;
-
-        ProductVariation variation = null!;
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 
+        ProductVariation variation = null!;
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             // Create product variation from DB
             variation = await productWriteService.AddVariationAsync(
                 request.ProductId,
-                sku,
-                request.Price,
-                barcode,
-                request.Cost,
-                request.Weight,
-                dimensions,
-                request.Images,
-                makeDefault: request.MakeDefault,
+                variationInput,
                 ct);
 
             // Publish variation created event bus
             await outboxStore.EnqueueAsync(
                 new ProductVariationCreatedIntegrationEvent(
-                    product.Id,
+                    variation.ProductId,
                     variation.Id,
                     variation.Sku.Value,
-                    product.Name,
+                    targetProduct.Name,
                     variation.Price,
                     variation.Status.ToString(),
                     correlationId),

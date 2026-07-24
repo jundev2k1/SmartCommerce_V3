@@ -5,20 +5,20 @@ namespace Order.Persistence.Orders.Repositories;
 
 public sealed class OrderRepo(OrderDbContext dbContext) : IOrderRepository, IRepository<OrderEntity>
 {
-    public async Task<OrderEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<OrderEntity?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.Orders
             .AsNoTracking()
-            .FirstOrDefaultAsync(o => o.Id == id, ct);
+            .FirstOrDefaultAsync(o => o.Id.Equals(id), ct);
     }
 
-    public async Task<OrderEntity?> GetByIdAsync(
-        Guid id,
+    public async Task<OrderEntity?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<OrderEntity>, IQueryable<OrderEntity>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.Orders);
-        return await query.FirstOrDefaultAsync(o => o.Id == id, ct);
+        return await query.FirstOrDefaultAsync(o => o.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(OrderEntity entity, CancellationToken ct = default)

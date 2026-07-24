@@ -7,20 +7,30 @@ namespace Product.Persistence.Contexts.Products.Repositories;
 
 public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository, IRepository<ProductEntity>
 {
-    public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<ProductEntity?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.Products
             .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == id, ct);
+            .FirstOrDefaultAsync(p => p.Id.Equals(id), ct);
     }
 
-    public async Task<ProductEntity?> GetByIdAsync(
-        Guid id,
+    public async Task<ProductEntity?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<ProductEntity>, IQueryable<ProductEntity>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.Products);
-        return await query.FirstOrDefaultAsync(p => p.Id == id, ct);
+        return await query.FirstOrDefaultAsync(p => p.Id.Equals(id), ct);
+    }
+
+    public async Task<int> GetNextVariationDisplayOrderAsync(
+        Guid productId,
+        CancellationToken ct = default)
+    {
+        return await dbContext.ProductVariations
+            .AsNoTracking()
+            .Where(pv => pv.ProductId == productId)
+            .MaxAsync(pv => pv.DisplayOrder, ct) + 1;
     }
 
     public async Task AddAsync(ProductEntity entity, CancellationToken ct = default)

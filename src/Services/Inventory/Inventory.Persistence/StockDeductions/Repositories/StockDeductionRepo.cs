@@ -5,20 +5,20 @@ namespace Inventory.Persistence.StockDeductions.Repositories;
 
 public sealed class StockDeductionRepo(InventoryDbContext dbContext) : IStockDeductionRepository, IRepository<StockDeduction>
 {
-    public async Task<StockDeduction?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<StockDeduction?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.StockDeductions
             .AsNoTracking()
-            .FirstOrDefaultAsync(d => d.Id == id, ct);
+            .FirstOrDefaultAsync(d => d.Id.Equals(id), ct);
     }
 
-    public async Task<StockDeduction?> GetByIdAsync(
-        Guid id,
+    public async Task<StockDeduction?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<StockDeduction>, IQueryable<StockDeduction>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.StockDeductions);
-        return await query.FirstOrDefaultAsync(d => d.Id == id, ct);
+        return await query.FirstOrDefaultAsync(d => d.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(StockDeduction entity, CancellationToken ct = default)

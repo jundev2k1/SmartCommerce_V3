@@ -24,10 +24,17 @@ public sealed class AssignProductTagHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.AssignTagAsync(request.ProductId, request.TagId, ct);
+            await productWriteService.AssignTagAsync(
+                request.ProductId,
+                request.TagId,
+                ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductTagAssignedIntegrationEvent(request.ProductId, request.TagId, correlationId), ct);
+                new ProductTagAssignedIntegrationEvent(
+                    request.ProductId,
+                    request.TagId,
+                    correlationId),
+                ct);
         }, ct: ct);
 
         return new AssignProductTagResponse();

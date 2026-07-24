@@ -40,11 +40,15 @@ public sealed class ProductConfig : IEntityTypeConfiguration<ProductEntity>
         ConfigureCategoryMappings(builder);
         ConfigureTagMappings(builder);
 
-        builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
-        builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");
+        builder.Property(x => x.CreatedAt)
+            .HasDefaultValueSql("now()");
+        builder.Property(x => x.UpdatedAt)
+            .HasDefaultValueSql("now()");
 
-        builder.HasIndex(x => x.Code).IsUnique();
-        builder.HasIndex(x => x.Slug).IsUnique();
+        builder.HasIndex(x => x.Code)
+            .IsUnique();
+        builder.HasIndex(x => x.Slug)
+            .IsUnique();
     }
 
     // ProductVariation has no independent identity outside its Product (no repository, no
@@ -55,7 +59,10 @@ public sealed class ProductConfig : IEntityTypeConfiguration<ProductEntity>
         builder.OwnsMany(x => x.Variations, variation =>
         {
             variation.ToTable("product_variations");
-            variation.WithOwner().HasForeignKey(v => v.ProductId);
+            variation
+                .WithOwner(v => v.Product)
+                .HasForeignKey(v => v.ProductId);
+
             variation.HasKey(v => v.Id);
 
             variation.Property(v => v.Sku)
@@ -69,25 +76,39 @@ public sealed class ProductConfig : IEntityTypeConfiguration<ProductEntity>
                     x => x == null ? null : Barcode.Create(x))
                 .HasMaxLength(14);
 
-            variation.Property(v => v.Price).HasColumnType("numeric(18,2)").IsRequired();
-            variation.Property(v => v.Cost).HasColumnType("numeric(18,2)");
-            variation.Property(v => v.Weight).HasColumnType("numeric(10,3)");
+            variation.Property(v => v.Price)
+                .HasColumnType("numeric(18,2)")
+                .IsRequired();
+            variation.Property(v => v.Cost)
+                .HasColumnType("numeric(18,2)");
+            variation.Property(v => v.Weight)
+                .HasColumnType("numeric(10,3)");
 
             // Dimensions is a nested owned type of the owned ProductVariation - EF's
             // ComplexProperty builder isn't available from an OwnedNavigationBuilder, so this
             // uses nested OwnsOne (mapped to the same product_variations table) instead.
             variation.OwnsOne(v => v.Dimensions, dim =>
             {
-                dim.Property(d => d.Length).HasColumnName("dimensions_length").HasColumnType("numeric(10,2)");
-                dim.Property(d => d.Width).HasColumnName("dimensions_width").HasColumnType("numeric(10,2)");
-                dim.Property(d => d.Height).HasColumnName("dimensions_height").HasColumnType("numeric(10,2)");
+                dim.Property(d => d.Length)
+                    .HasColumnName("dimensions_length")
+                    .HasColumnType("numeric(10,2)");
+                dim.Property(d => d.Width)
+                    .HasColumnName("dimensions_width")
+                    .HasColumnType("numeric(10,2)");
+                dim.Property(d => d.Height)
+                    .HasColumnName("dimensions_height")
+                    .HasColumnType("numeric(10,2)");
             });
 
-            variation.Property(v => v.Images).HasColumnType("jsonb");
+            variation.Property(v => v.Images)
+                .HasColumnType("jsonb");
 
-            variation.Property(v => v.Status).HasConversion<int>();
-            variation.Property(v => v.IsDefault).IsRequired();
-            variation.Property(v => v.DisplayOrder).IsRequired();
+            variation.Property(v => v.Status)
+                .HasConversion<int>();
+            variation.Property(v => v.IsDefault)
+                .IsRequired();
+            variation.Property(v => v.DisplayOrder)
+                .IsRequired();
 
             variation.Property(v => v.Metadata)
                 .HasConversion(
@@ -95,10 +116,13 @@ public sealed class ProductConfig : IEntityTypeConfiguration<ProductEntity>
                     x => MetadataBase.FromJson<ProductVariationMetadata>(x))
                 .HasColumnType("jsonb");
 
-            variation.Property(v => v.CreatedAt).HasDefaultValueSql("now()");
-            variation.Property(v => v.UpdatedAt).HasDefaultValueSql("now()");
+            variation.Property(v => v.CreatedAt)
+                .HasDefaultValueSql("now()");
+            variation.Property(v => v.UpdatedAt)
+                .HasDefaultValueSql("now()");
 
-            variation.HasIndex(v => v.Sku).IsUnique();
+            variation.HasIndex(v => v.Sku)
+                .IsUnique();
             variation.HasIndex(v => v.ProductId);
         });
     }
@@ -112,15 +136,20 @@ public sealed class ProductConfig : IEntityTypeConfiguration<ProductEntity>
         builder.OwnsMany(x => x.CategoryMappings, mapping =>
         {
             mapping.ToTable("product_category_mappings");
-            mapping.WithOwner().HasForeignKey(m => m.ProductId);
+            mapping.WithOwner(m => m.Product)
+                .HasForeignKey(m => m.ProductId);
             mapping.HasKey(m => m.Id);
 
-            mapping.Property(m => m.CategoryId).IsRequired();
+            mapping.Property(m => m.CategoryId)
+                .IsRequired();
 
-            mapping.Property(m => m.CreatedAt).HasDefaultValueSql("now()");
-            mapping.Property(m => m.UpdatedAt).HasDefaultValueSql("now()");
+            mapping.Property(m => m.CreatedAt)
+                .HasDefaultValueSql("now()");
+            mapping.Property(m => m.UpdatedAt)
+                .HasDefaultValueSql("now()");
 
-            mapping.HasIndex(m => new { m.ProductId, m.CategoryId }).IsUnique();
+            mapping.HasIndex(m => new { m.ProductId, m.CategoryId })
+                .IsUnique();
         });
     }
 
@@ -129,15 +158,20 @@ public sealed class ProductConfig : IEntityTypeConfiguration<ProductEntity>
         builder.OwnsMany(x => x.TagMappings, mapping =>
         {
             mapping.ToTable("product_tag_mappings");
-            mapping.WithOwner().HasForeignKey(m => m.ProductId);
+            mapping.WithOwner(m => m.Product)
+                .HasForeignKey(m => m.ProductId);
             mapping.HasKey(m => m.Id);
 
-            mapping.Property(m => m.TagId).IsRequired();
+            mapping.Property(m => m.TagId)
+                .IsRequired();
 
-            mapping.Property(m => m.CreatedAt).HasDefaultValueSql("now()");
-            mapping.Property(m => m.UpdatedAt).HasDefaultValueSql("now()");
+            mapping.Property(m => m.CreatedAt)
+                .HasDefaultValueSql("now()");
+            mapping.Property(m => m.UpdatedAt)
+                .HasDefaultValueSql("now()");
 
-            mapping.HasIndex(m => new { m.ProductId, m.TagId }).IsUnique();
+            mapping.HasIndex(m => new { m.ProductId, m.TagId })
+                .IsUnique();
         });
     }
 }

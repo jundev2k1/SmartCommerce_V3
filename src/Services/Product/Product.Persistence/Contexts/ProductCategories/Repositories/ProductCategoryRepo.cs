@@ -7,20 +7,20 @@ namespace Product.Persistence.Contexts.ProductCategories.Repositories;
 
 public sealed class ProductCategoryRepo(ProductDbContext dbContext) : IProductCategoryRepository, IRepository<ProductCategory>
 {
-    public async Task<ProductCategory?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<ProductCategory?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.ProductCategories
             .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.Id == id, ct);
+            .FirstOrDefaultAsync(c => c.Id.Equals(id), ct);
     }
 
-    public async Task<ProductCategory?> GetByIdAsync(
-        Guid id,
+    public async Task<ProductCategory?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<ProductCategory>, IQueryable<ProductCategory>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.ProductCategories);
-        return await query.FirstOrDefaultAsync(c => c.Id == id, ct);
+        return await query.FirstOrDefaultAsync(c => c.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(ProductCategory entity, CancellationToken ct = default)

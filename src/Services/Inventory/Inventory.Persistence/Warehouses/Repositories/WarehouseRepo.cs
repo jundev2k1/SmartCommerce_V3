@@ -5,20 +5,20 @@ namespace Inventory.Persistence.Warehouses.Repositories;
 
 public sealed class WarehouseRepo(InventoryDbContext dbContext) : IWarehouseRepository, IRepository<Warehouse>
 {
-    public async Task<Warehouse?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<Warehouse?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.Warehouses
             .AsNoTracking()
-            .FirstOrDefaultAsync(w => w.Id == id, ct);
+            .FirstOrDefaultAsync(w => w.Id.Equals(id), ct);
     }
 
-    public async Task<Warehouse?> GetByIdAsync(
-        Guid id,
+    public async Task<Warehouse?> GetByIdAsync<TId>(
+        TId id,
         Func<IQueryable<Warehouse>, IQueryable<Warehouse>> includes,
         CancellationToken ct = default)
     {
         var query = includes(dbContext.Warehouses);
-        return await query.FirstOrDefaultAsync(w => w.Id == id, ct);
+        return await query.FirstOrDefaultAsync(w => w.Id.Equals(id), ct);
     }
 
     public async Task AddAsync(Warehouse entity, CancellationToken ct = default)
