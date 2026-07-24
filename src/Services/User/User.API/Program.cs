@@ -7,6 +7,7 @@ using User.API;
 using User.Application;
 using User.Infrastructure;
 using User.Persistence;
+using User.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
 var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";

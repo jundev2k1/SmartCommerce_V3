@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using User.Persistence;
+using User.Persistence.Engine;
 
 namespace User.API;
 

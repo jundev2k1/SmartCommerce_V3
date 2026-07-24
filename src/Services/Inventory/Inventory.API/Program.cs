@@ -7,6 +7,7 @@ using Inventory.API;
 using Inventory.Application;
 using Inventory.Infrastructure;
 using Inventory.Persistence;
+using Inventory.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
 var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";

@@ -6,29 +6,31 @@ using Notification.Application.Abstractions.Persistence.NotificationRules;
 using Notification.Application.Abstractions.Persistence.NotificationTemplates;
 using Notification.Application.Abstractions.Persistence.UserNotifications;
 using Notification.Domain.ValueObjects;
+using Notification.Persistence.Engine;
+using Notification.Persistence.Engine.UnitOfWork;
 using Notification.Persistence.Inbox;
-using Notification.Persistence.NotificationCampaigns.Read;
-using Notification.Persistence.NotificationCampaigns.Repositories;
-using Notification.Persistence.NotificationCampaigns.Write;
-using Notification.Persistence.NotificationChannels.Read;
-using Notification.Persistence.NotificationChannels.Repositories;
-using Notification.Persistence.NotificationChannels.Write;
-using Notification.Persistence.NotificationDispatches.Read;
-using Notification.Persistence.NotificationDispatches.Repositories;
-using Notification.Persistence.NotificationDispatches.Write;
-using Notification.Persistence.NotificationGroups.Read;
-using Notification.Persistence.NotificationGroups.Repositories;
-using Notification.Persistence.NotificationGroups.Write;
-using Notification.Persistence.NotificationRules.Read;
-using Notification.Persistence.NotificationRules.Repositories;
-using Notification.Persistence.NotificationRules.Write;
-using Notification.Persistence.NotificationTemplates.Read;
-using Notification.Persistence.NotificationTemplates.Repositories;
-using Notification.Persistence.NotificationTemplates.Write;
+using Notification.Persistence.Contexts.NotificationCampaigns.Read;
+using Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
+using Notification.Persistence.Contexts.NotificationCampaigns.Write;
+using Notification.Persistence.Contexts.NotificationChannels.Read;
+using Notification.Persistence.Contexts.NotificationChannels.Repositories;
+using Notification.Persistence.Contexts.NotificationChannels.Write;
+using Notification.Persistence.Contexts.NotificationDispatches.Read;
+using Notification.Persistence.Contexts.NotificationDispatches.Repositories;
+using Notification.Persistence.Contexts.NotificationDispatches.Write;
+using Notification.Persistence.Contexts.NotificationGroups.Read;
+using Notification.Persistence.Contexts.NotificationGroups.Repositories;
+using Notification.Persistence.Contexts.NotificationGroups.Write;
+using Notification.Persistence.Contexts.NotificationRules.Read;
+using Notification.Persistence.Contexts.NotificationRules.Repositories;
+using Notification.Persistence.Contexts.NotificationRules.Write;
+using Notification.Persistence.Contexts.NotificationTemplates.Read;
+using Notification.Persistence.Contexts.NotificationTemplates.Repositories;
+using Notification.Persistence.Contexts.NotificationTemplates.Write;
 using Notification.Persistence.Outbox;
-using Notification.Persistence.UserNotifications.Read;
-using Notification.Persistence.UserNotifications.Repositories;
-using Notification.Persistence.UserNotifications.Write;
+using Notification.Persistence.Contexts.UserNotifications.Read;
+using Notification.Persistence.Contexts.UserNotifications.Repositories;
+using Notification.Persistence.Contexts.UserNotifications.Write;
 
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Application.Abstractions.Persistence;
@@ -127,7 +129,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

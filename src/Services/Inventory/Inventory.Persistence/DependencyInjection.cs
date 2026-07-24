@@ -8,24 +8,26 @@ using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
 using BuildingBlock.Persistence.Repository;
 
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.StockDeductions;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
+using Inventory.Persistence.Contexts.Inventories.Read;
+using Inventory.Persistence.Contexts.Inventories.Repositories;
+using Inventory.Persistence.Contexts.Inventories.Write;
+using Inventory.Persistence.Contexts.InventoryTransactions.Read;
+using Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
+using Inventory.Persistence.Contexts.InventoryTransactions.Write;
+using Inventory.Persistence.Contexts.StockDeductions.Read;
+using Inventory.Persistence.Contexts.StockDeductions.Repositories;
+using Inventory.Persistence.Contexts.StockDeductions.Write;
+using Inventory.Persistence.Contexts.Warehouses.Read;
+using Inventory.Persistence.Contexts.Warehouses.Repositories;
+using Inventory.Persistence.Contexts.Warehouses.Write;
+using Inventory.Persistence.Engine;
+using Inventory.Persistence.Engine.UnitOfWork;
 using Inventory.Persistence.Inbox;
-using Inventory.Persistence.InventoryTransactions.Read;
-using Inventory.Persistence.InventoryTransactions.Repositories;
-using Inventory.Persistence.InventoryTransactions.Write;
-using Inventory.Persistence.Inventories.Read;
-using Inventory.Persistence.Inventories.Repositories;
-using Inventory.Persistence.Inventories.Write;
 using Inventory.Persistence.Outbox;
-using Inventory.Persistence.StockDeductions.Read;
-using Inventory.Persistence.StockDeductions.Repositories;
-using Inventory.Persistence.StockDeductions.Write;
-using Inventory.Persistence.Warehouses.Read;
-using Inventory.Persistence.Warehouses.Repositories;
-using Inventory.Persistence.Warehouses.Write;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,7 +93,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

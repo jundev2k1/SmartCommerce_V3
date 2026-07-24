@@ -10,6 +10,7 @@ using Order.API;
 using Order.Application;
 using Order.Infrastructure;
 using Order.Persistence;
+using Order.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "order-api"));

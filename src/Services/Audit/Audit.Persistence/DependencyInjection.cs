@@ -1,7 +1,9 @@
 using Audit.Application.Abstractions.Persistence.AuditLogs;
-using Audit.Persistence.AuditLogs.Read;
-using Audit.Persistence.AuditLogs.Repositories;
-using Audit.Persistence.AuditLogs.Write;
+using Audit.Persistence.Contexts.AuditLogs.Read;
+using Audit.Persistence.Contexts.AuditLogs.Repositories;
+using Audit.Persistence.Contexts.AuditLogs.Write;
+using Audit.Persistence.Engine;
+using Audit.Persistence.Engine.UnitOfWork;
 using Audit.Persistence.Inbox;
 using Audit.Persistence.Outbox;
 
@@ -56,7 +58,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

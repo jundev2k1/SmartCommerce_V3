@@ -18,11 +18,13 @@ using OpenTelemetry.Trace;
 
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 using Order.Application.Abstractions.Persistence.Orders;
+using Order.Persistence.Engine;
+using Order.Persistence.Engine.UnitOfWork;
 using Order.Persistence.Inbox;
-using Order.Persistence.OrderProductCatalogs.Read;
-using Order.Persistence.OrderProductCatalogs.Write;
-using Order.Persistence.Orders.Read;
-using Order.Persistence.Orders.Write;
+using Order.Persistence.Contexts.OrderProductCatalogs.Read;
+using Order.Persistence.Contexts.OrderProductCatalogs.Write;
+using Order.Persistence.Contexts.Orders.Read;
+using Order.Persistence.Contexts.Orders.Write;
 using Order.Persistence.Outbox;
 using Order.Persistence.Saga;
 
@@ -109,7 +111,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

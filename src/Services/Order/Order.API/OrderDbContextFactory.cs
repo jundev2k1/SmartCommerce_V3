@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using Order.Persistence;
+using Order.Persistence.Engine;
 
 namespace Order.API;
 

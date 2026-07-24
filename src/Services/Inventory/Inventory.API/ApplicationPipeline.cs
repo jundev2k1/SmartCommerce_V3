@@ -6,6 +6,7 @@ using Inventory.API.ExceptionHandling;
 using Inventory.API.GrpcServices;
 using Inventory.Infrastructure.BackgroundJobs;
 using Inventory.Persistence;
+using Inventory.Persistence.Engine;
 using Inventory.Persistence.Seeders;
 
 namespace Inventory.API;

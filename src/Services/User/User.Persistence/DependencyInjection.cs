@@ -12,11 +12,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using User.Application.Abstractions.Persistence.UserProfiles;
+using User.Persistence.Engine;
+using User.Persistence.Engine.UnitOfWork;
 using User.Persistence.Inbox;
 using User.Persistence.Outbox;
-using User.Persistence.UserProfiles.Read;
-using User.Persistence.UserProfiles.Repositories;
-using User.Persistence.UserProfiles.Write;
+using User.Persistence.Contexts.UserProfiles.Read;
+using User.Persistence.Contexts.UserProfiles.Repositories;
+using User.Persistence.Contexts.UserProfiles.Write;
 
 namespace User.Persistence;
 
@@ -75,7 +77,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
-        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 

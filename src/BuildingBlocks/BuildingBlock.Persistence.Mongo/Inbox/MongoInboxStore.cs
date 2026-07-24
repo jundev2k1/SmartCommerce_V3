@@ -10,7 +10,7 @@ namespace BuildingBlock.Persistence.Mongo.Inbox;
 /// Derived contexts must implement IInboxMongoContext to provide access to InboxMessages.
 ///
 /// Unlike EfInboxStore, there is no shared change tracker to stage an optimistic completion
-/// marker into: Audit.Persistence.UnitOfWork already documents that Mongo writes commit
+/// marker into: Audit.Persistence.Engine.UnitOfWork already documents that Mongo writes commit
 /// immediately per call, with no SaveChanges to flush. CompleteAttemptAsync therefore writes the
 /// Processed status directly once the handler returns, the same small window that existed before
 /// this change - InboxFailureOutcome.AlreadyCommitted (the EF provider's atomic-commit detection)

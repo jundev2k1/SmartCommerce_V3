@@ -2,6 +2,7 @@ using Auth.API;
 using Auth.Application;
 using Auth.Infrastructure;
 using Auth.Persistence;
+using Auth.Persistence.Engine;
 
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
