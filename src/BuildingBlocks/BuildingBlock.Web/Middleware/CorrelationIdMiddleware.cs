@@ -13,10 +13,14 @@ public sealed class CorrelationIdMiddleware(RequestDelegate next)
 
     public async Task InvokeAsync(HttpContext context, ILogger<CorrelationIdMiddleware> logger)
     {
-        var correlationId = context.Request.Headers.TryGetValue(HeaderKeys.CorrelationId, out var value)
-            && !string.IsNullOrWhiteSpace(value)
-                ? value.ToString()
-                : Guid.NewGuid().ToString();
+        var hasCorrelationId = context.Request.Headers.TryGetValue(HeaderKeys.CorrelationId, out var value)
+            && !string.IsNullOrWhiteSpace(value);
+        var correlationId = hasCorrelationId ? value.ToString() : Guid.NewGuid().ToString();
+
+        // Write the (possibly-generated) id back onto the request so it's available to any
+        // outbound call this service makes further downstream, not just to this request's own logs.
+        if (!hasCorrelationId)
+            context.Request.Headers[HeaderKeys.CorrelationId] = correlationId;
 
         Activity.Current?.SetTag("correlationId", correlationId);
 

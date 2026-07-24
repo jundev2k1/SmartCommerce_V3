@@ -26,6 +26,7 @@ public sealed class SearchUsersEndpoint : ICarterModule
         "- **status**: eq/ne/in/nin, sortable",
         "- **phone**: eq/ne/sw/ew/in/nin (indexed prefix/suffix search - `c` is intentionally not supported)",
         "- **createdAt**: eq/ne/gt/gte/lt/lte/between, sortable",
+        "- **role**: eq/ne against each row's role snapshot (GIN-indexed array-containment, not sortable)",
         "",
         "### Error Responses",
         "- **400**: Unknown field, operator not allowed for the field, or malformed value",

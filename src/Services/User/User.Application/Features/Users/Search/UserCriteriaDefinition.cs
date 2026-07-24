@@ -1,4 +1,5 @@
 using BuildingBlock.Criteria.Definition;
+using BuildingBlock.Criteria.Enums;
 using BuildingBlock.Criteria.Strategies;
 
 namespace User.Application.Features.Users.Search;
@@ -14,5 +15,8 @@ public static class UserCriteriaDefinition
         .Field(x => x.Status).Enum().Sortable()
         .Field(x => x.PhoneNumber, name: "phone").UsePhoneSearch(x => x.PhoneSearch, x => x.PhoneReverse)
         .Field(x => x.CreatedAt).DateTime().Sortable()
+        // Not Sortable() - Roles is multi-valued, sorting by an array column isn't a coherent request.
+        .Field(x => x.Roles, name: "role").UseStrategy(
+            new StringCollectionContainsStrategy<UserProfile>(x => x.Roles), CriteriaOperator.Eq, CriteriaOperator.Ne)
         .Build();
 }

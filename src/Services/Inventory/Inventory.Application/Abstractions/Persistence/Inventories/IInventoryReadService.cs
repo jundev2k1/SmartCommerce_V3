@@ -1,8 +1,13 @@
+using BuildingBlock.Application.Abstractions.Common;
+using BuildingBlock.Criteria.Requests;
+
 namespace Inventory.Application.Abstractions.Persistence.Inventories;
 
 public interface IInventoryReadService
 {
     Task<InventoryEntity?> GetByIdAsync(Guid id, CancellationToken ct = default);
+
+    Task<PaginatedResult<InventoryEntity>> SearchAsync(CriteriaRequest request, CancellationToken ct = default);
 
     /// <summary>Stock is keyed at (ProductVariationId, WarehouseId) - see InventoryEntity remarks.</summary>
     Task<InventoryEntity?> GetByVariationAndWarehouseAsync(

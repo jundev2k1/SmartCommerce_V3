@@ -18,6 +18,7 @@ Internal `8080` (REST) / `5002` (gRPC server — User is the gRPC *server* here,
 | GET | `/profiles/{userId}` | `GetUser.cs` | Fetch a profile by id |
 | GET | `/profiles/current/detail` | `GetUserDetail.cs` | Fetch the current authenticated user's detail |
 | PUT | `/profiles/{userId}` | `UpdateUser.cs` | Update a profile |
+| POST | `/users/search` | `SearchUsers.cs` | Admin/Root only. Paginated, filterable, sortable search over user profiles (`BuildingBlock.Criteria`, `UserCriteriaDefinition`), including a `role` filter (`Eq`/`Ne` against the denormalized `Roles` column, GIN-indexed) and a `Roles` field on each result row |
 
 ## User-specific building blocks (not present in Auth)
 
@@ -30,6 +31,10 @@ Internal `8080` (REST) / `5002` (gRPC server — User is the gRPC *server* here,
 ## Persistence: Read/Write services
 
 User was the reference implementation (Phase 1) for the [persistence Read/Write migration](../refactoring/persistence-refactor-plan.md) — see [conventions/persistence-coding-conventions.md](../conventions/persistence-coding-conventions.md) for the binding standard. Handlers inject `IUserProfileReadService`/`IUserProfileWriteService` (`User.Application/Abstractions/Persistence/UserProfiles/`), never a repository interface. `UserProfileRepo` (`User.Persistence/UserProfiles/Repositories/`) implements the generic `BuildingBlock.Persistence.Repository.IRepository<UserProfile>` in full plus the specific `IUserProfileRepository` (one real member: `DeleteWithNoTrackingAsync`, a bulk `ExecuteDeleteAsync` that doesn't fit the generic shape) — `UserProfileWriteService` depends on the generic interface for standard mutations. Per the tracker's Course Correction: `CreateUserHandler`/`UpdateUserHandler` own `IUnitOfWork.ExecuteTransactionAsync` themselves and call `IUserProfileWriteService.CreateAsync`/`UpdateProfileDetailsAsync` (intent-named, not a delegate), which just stage the repo mutation; `DeleteUserHandler`/`OnUserInitiatedHandler`'s methods commit via bare `SaveChangesAsync` inside the `WriteService` itself, matching each handler's pre-migration commit shape exactly.
+
+## Denormalized Roles
+
+`UserProfile.Roles` (`string[]`, GIN-indexed) is a write-once snapshot of the roles assigned at account-creation time, even though User doesn't own roles (Auth does — see `RoleCacheReader` above). It exists purely so `/users/search` can filter by role without a per-row cache/gRPC fan-out to Auth. Populated by both profile-creation paths (`CreateUserHandler` from the caller's `Roles` input, `OnUserInitiatedHandler` hardcoded to `[AppRole.User]` since Auth's self-registration flow never grants anything else) and never touched afterward — there is no role-change endpoint anywhere in the codebase yet, so this can safely stay a creation-time snapshot instead of needing an ongoing sync event. If that changes, this column needs an update path too. See `docs/tasks/2026-07-22/Task4_search-users-endpoint-already-exists.md`.
 
 ## Known issues
 

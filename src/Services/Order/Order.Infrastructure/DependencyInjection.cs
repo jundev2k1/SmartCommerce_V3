@@ -29,6 +29,7 @@ public static class DependencyInjection
     {
         services.AddAppLogger()
             .AddRedisCache(configuration)
+            .AddIdempotency(configuration)
             .AddScoped<ICartService, CartService>()
             .AddBackgroundJobs(configuration)
             .AddInboxOutboxCleanupJobs(configuration)

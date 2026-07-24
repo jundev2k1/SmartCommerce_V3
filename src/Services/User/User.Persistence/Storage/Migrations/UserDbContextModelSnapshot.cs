@@ -210,6 +210,11 @@ namespace User.Persistence.Storage.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("phone_search");
 
+                    b.PrimitiveCollection<string[]>("Roles")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("roles");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
@@ -238,6 +243,11 @@ namespace User.Persistence.Storage.Migrations
 
                     b.HasIndex("PhoneSearch")
                         .HasDatabaseName("ix_user_profiles_phone_search");
+
+                    b.HasIndex("Roles")
+                        .HasDatabaseName("ix_user_profiles_roles");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Roles"), "gin");
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_user_profiles_status");

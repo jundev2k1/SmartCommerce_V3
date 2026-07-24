@@ -1,6 +1,9 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.Infrastructure.Idempotency;
+using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
+using BuildingBlock.Web.Swagger.EndpointHeader;
 
 using Order.Application.Features.Orders.Commands.CreateOrder;
 using Order.Application.Features.Orders.Common;
@@ -49,6 +52,10 @@ public sealed class CreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders", Handle)
             .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .Headers([
+                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this order is only created once, even if the request is retried")
+            ])
+            .RequireIdempotency()
             .WithName("CreateOrder")
             .WithDisplayName("Create Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -13,5 +13,6 @@ public sealed record SearchUsersItemResponse(
     string FirstName,
     string LastName,
     UserStatus Status,
+    string[] Roles,
     DateTime CreatedAt,
     DateTime UpdatedAt);

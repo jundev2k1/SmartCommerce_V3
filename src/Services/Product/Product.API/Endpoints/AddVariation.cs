@@ -3,6 +3,7 @@ using BuildingBlock.Infrastructure.Authorization;
 using BuildingBlock.SharedKernel.Extensions;
 
 using Product.Application.Features.Products.Commands.AddVariation;
+using Product.Application.Features.Products.DTOs;
 
 namespace Product.API.Endpoints;
 
@@ -53,16 +54,17 @@ public sealed class AddVariationEndpoint : ICarterModule
     {
         var command = new AddVariationCommand(
             productId,
-            request.Sku.Trim(),
-            request.Price,
-            request.MakeDefault,
-            request.Barcode?.Trim(),
-            request.Cost,
-            request.Weight,
-            request.DimensionsLength,
-            request.DimensionsWidth,
-            request.DimensionsHeight,
-            request.Images);
+            new ProductVariationInputDto(
+                request.Sku.Trim(),
+                request.Price,
+                request.MakeDefault,
+                request.Barcode?.Trim(),
+                request.Cost,
+                request.Weight,
+                request.DimensionsLength,
+                request.DimensionsWidth,
+                request.DimensionsHeight,
+                request.Images));
 
         var response = await sender.Send(command, ct);
 

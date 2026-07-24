@@ -39,6 +39,9 @@ public sealed class UserProfileConfig : IEntityTypeConfiguration<UserProfile>
         builder.Property(x => x.Status)
             .HasConversion<int>();
 
+        builder.Property(x => x.Roles)
+            .IsRequired();
+
         builder.Property(x => x.CreatedAt)
             .HasDefaultValueSql("now()");
 
@@ -50,5 +53,9 @@ public sealed class UserProfileConfig : IEntityTypeConfiguration<UserProfile>
         builder.HasIndex(x => x.Status);
         builder.HasIndex(x => x.PhoneSearch);
         builder.HasIndex(x => x.PhoneReverse);
+
+        // GIN index for array-containment queries (role filter uses `Roles.Contains(x)`, which
+        // Npgsql translates to `@>`/`= ANY`) - a btree index (the default) can't serve those.
+        builder.HasIndex(x => x.Roles).HasMethod("gin");
     }
 }

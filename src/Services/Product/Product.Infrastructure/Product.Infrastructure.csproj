@@ -7,12 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.Net.Client" Version="2.70.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../Product.Application/Product.Application.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Infrastructure/BuildingBlock.Infrastructure.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Contract/BuildingBlock.Contract.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Messaging/BuildingBlock.Messaging.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Messaging.Kafka/BuildingBlock.Messaging.Kafka.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.SharedKernel/BuildingBlock.SharedKernel.csproj" />
+    <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Grpc/BuildingBlock.Grpc.csproj" />
   </ItemGroup>
 
 </Project>

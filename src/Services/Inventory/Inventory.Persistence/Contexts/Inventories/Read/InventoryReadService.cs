@@ -1,4 +1,9 @@
+using BuildingBlock.Application.Abstractions.Common;
+using BuildingBlock.Criteria.Requests;
+using BuildingBlock.Persistence.Ef.Criteria;
+
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Features.Inventories.Search;
 using Inventory.Persistence.Engine;
 
 namespace Inventory.Persistence.Contexts.Inventories.Read;
@@ -10,6 +15,14 @@ public sealed class InventoryReadService(InventoryDbContext dbContext) : IInvent
         return await dbContext.Inventories
             .AsNoTracking()
             .FirstOrDefaultAsync(i => i.Id == id, ct);
+    }
+
+    public async Task<PaginatedResult<InventoryEntity>> SearchAsync(CriteriaRequest request, CancellationToken ct = default)
+    {
+        return await dbContext.Inventories
+            .AsNoTracking()
+            .ApplyCriteria(InventoryCriteriaDefinition.Instance, request)
+            .ToCriteriaPagedResultAsync(request, ct);
     }
 
     public async Task<InventoryEntity?> GetByVariationAndWarehouseAsync(

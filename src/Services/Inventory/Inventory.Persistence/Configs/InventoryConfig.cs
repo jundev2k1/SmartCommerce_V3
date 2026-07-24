@@ -33,6 +33,10 @@ public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryEntity>
         builder.HasIndex(x => new { x.ProductVariationId, x.WarehouseId }).IsUnique();
         builder.HasIndex(x => x.ProductId);
 
+        // Supports filtering search results by warehouse alone - the composite unique index above
+        // can't serve that (WarehouseId isn't its leading column).
+        builder.HasIndex(x => x.WarehouseId);
+
         // Postgres system column, not a domain field - guards concurrent Decrease/Increase/Adjust
         // calls against the same row (StockOut vs DeductStock vs Adjust racing) so the loser gets
         // a conflict to retry against instead of silently overwriting the winner's write. See

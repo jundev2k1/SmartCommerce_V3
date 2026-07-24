@@ -39,5 +39,12 @@ public sealed class InventoryTransactionConfig : IEntityTypeConfiguration<Invent
             .HasDefaultValueSql("now()");
 
         builder.HasIndex(x => x.InventoryId);
+
+        // Supports the transaction search's equality filters (see Task 5) - movements are
+        // typically queried by product, variation, warehouse, or type, not just their own inventory row.
+        builder.HasIndex(x => x.ProductId);
+        builder.HasIndex(x => x.ProductVariationId);
+        builder.HasIndex(x => x.WarehouseId);
+        builder.HasIndex(x => x.Type);
     }
 }

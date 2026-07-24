@@ -1,8 +1,12 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.Infrastructure.Idempotency;
+using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
+using BuildingBlock.Web.Swagger.EndpointHeader;
 
 using Product.Application.Features.Products.Commands.CreateProduct;
+using Product.Application.Features.Products.DTOs;
 
 namespace Product.API.Endpoints;
 
@@ -55,6 +59,10 @@ public sealed class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", Handle)
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .Headers([
+                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this product is only created once, even if the request is retried")
+            ])
+            .RequireIdempotency()
             .WithName("CreateProduct")
             .WithDisplayName("Create Product API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -71,7 +79,7 @@ public sealed class CreateProductEndpoint : ICarterModule
             request.Name.Trim(),
             request.Description?.Trim() ?? string.Empty,
             request.Slug.Trim(),
-            [.. request.Variations.Select(v => new CreateProductVariationInput(
+            [.. request.Variations.Select(v => new ProductVariationInputDto(
                 v.Sku.Trim(),
                 v.Price,
                 v.IsDefault,

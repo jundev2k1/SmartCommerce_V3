@@ -16,6 +16,13 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
     public string LastName { get; private set; } = string.Empty;
     public UserStatus Status { get; private set; }
 
+    /// <summary>
+    /// Denormalized snapshot of the roles Auth assigned at account-creation time - the only point
+    /// roles are ever set today (no role-change endpoint exists yet). Lets search filter by role
+    /// without a per-row cache/gRPC fan-out to Auth. See docs/tasks/2026-07-22/Task4_search-users-endpoint-already-exists.md.
+    /// </summary>
+    public string[] Roles { get; private set; } = [];
+
     private UserProfile() { }
 
     public static UserProfile Create(
@@ -25,6 +32,7 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
         string phoneNumber,
         string firstName,
         string lastName,
+        string[] roles,
         UserStatus status = UserStatus.Active)
     {
         var user = new UserProfile
@@ -35,6 +43,7 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
             PhoneNumber = phoneNumber,
             FirstName = firstName,
             LastName = lastName,
+            Roles = roles,
             Status = status,
         };
         user.SyncPhoneSearchFields();

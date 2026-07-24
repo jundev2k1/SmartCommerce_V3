@@ -1,4 +1,5 @@
 using BuildingBlock.Application.Abstractions.Events;
+using BuildingBlock.SharedKernel.Constants;
 
 using User.Application.Abstractions.Persistence.UserProfiles;
 
@@ -9,14 +10,16 @@ public sealed class OnUserInitiatedHandler(
 {
     public async Task Handle(OnUserInitiatedEvent @event, CancellationToken ct = default)
     {
-        // Create user profile
+        // Create user profile. This flow is only reached via Auth's self-registration path
+        // (RegisterHandler), which always assigns exactly AppRole.User - never Admin.
         var user = UserProfile.Create(
             @event.AccountId,
             @event.Email,
             @event.UserName,
             @event.PhoneNumber,
             @event.FirstName,
-            @event.LastName);
+            @event.LastName,
+            [AppRole.User]);
         await userWriteService.SyncFromAccountInitiationAsync(user, ct);
     }
 }

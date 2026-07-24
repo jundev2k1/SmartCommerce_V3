@@ -9,6 +9,7 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseCorrelationId();
 app.UseAuthentication();
 app.UseRefreshTokenFilter();
 app.UseGatewayAuthorization();

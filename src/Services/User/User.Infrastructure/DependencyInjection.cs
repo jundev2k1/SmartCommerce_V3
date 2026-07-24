@@ -26,6 +26,7 @@ public static class DependencyInjection
     {
         services.AddAppLogger()
             .AddRedisCache(configuration)
+            .AddIdempotency(configuration)
             .AddScoped<IRoleCacheReader, RoleCacheReader>()
             .AddBackgroundJobs(configuration)
             .AddInboxOutboxCleanupJobs(configuration)

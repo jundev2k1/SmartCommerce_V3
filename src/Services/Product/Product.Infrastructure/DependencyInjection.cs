@@ -1,3 +1,5 @@
+using BuildingBlock.Contract.Protos.Inventory;
+using BuildingBlock.Grpc.Client;
 using BuildingBlock.Infrastructure.Audit;
 using BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 using BuildingBlock.Infrastructure.Extensions;
@@ -9,7 +11,9 @@ using BuildingBlock.Messaging.Kafka.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Product.Application.Abstractions.Services;
 using Product.Infrastructure.BackgroundJobs;
+using Product.Infrastructure.GrpcClients;
 using Product.Infrastructure.Messaging.Consumers;
 
 namespace Product.Infrastructure;
@@ -21,11 +25,14 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddAppLogger()
+            .AddRedisCache(configuration)
+            .AddIdempotency(configuration)
             .AddBackgroundJobs(configuration)
             .AddInboxOutboxCleanupJobs(configuration)
             .AddHttpAuditMetadataProvider("Product");
 
         services.AddApplicationEventDispatcher();
+        services.AddGrpcClients(configuration);
 
         // Consumers must be registered before AddKafkaMessaging - their Topics are discovered
         // eagerly to configure the KafkaFlow consumer pipeline. The Outbox relay/Inbox delegates
@@ -33,6 +40,18 @@ public static class DependencyInjection
         services.AddMessagingConsumers();
         services.AddInboxOutboxInfrastructure(configuration);
         services.AddKafkaMessaging(configuration, "product-service");
+
+        return services;
+    }
+
+    private static IServiceCollection AddGrpcClients(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var inventoryServiceUrl = configuration["Grpc:InventoryService:Url"] ?? "http://inventory-api:5002";
+
+        services.AddGrpcClient<InventoryGrpcService.InventoryGrpcServiceClient>(new Uri(inventoryServiceUrl));
+        services.AddScoped<IInventoryClientService, InventoryClientService>();
 
         return services;
     }

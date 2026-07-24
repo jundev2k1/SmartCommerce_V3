@@ -1,3 +1,4 @@
+using BuildingBlock.Infrastructure.Extensions;
 using BuildingBlock.Web.Cors;
 using BuildingBlock.Web.Middleware;
 using BuildingBlock.Web.Swagger;
@@ -35,6 +36,7 @@ public static class ApplicationPipeline
     {
         app.UseMiddleware<CorrelationIdMiddleware>();
         app.UseMiddleware<RequiredHeadersMiddleware>();
+        app.UseIdempotency();
         return app;
     }
 }

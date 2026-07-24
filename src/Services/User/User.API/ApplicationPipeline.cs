@@ -1,3 +1,4 @@
+using BuildingBlock.Infrastructure.Extensions;
 using BuildingBlock.Web.Cors;
 using BuildingBlock.Web.Middleware;
 using BuildingBlock.Web.Swagger;
@@ -57,6 +58,7 @@ public static class ApplicationPipeline
     private static WebApplication UseMiddlewares(this WebApplication app)
     {
         app.UseMiddleware<RequiredHeadersMiddleware>();
+        app.UseIdempotency();
         return app;
     }
 }

@@ -114,6 +114,12 @@ services:
       - Cache__DefaultExpirationMinutes=${USER_REDIS_EXPIRATION_MINUTES}
       - Cache__KeyPrefix=${USER_REDIS_KEY_PREFIX}
       - Cache__ConnectionTimeout=${USER_REDIS_CONNECTION_TIMEOUT}
+      # Idempotency (shared framework config - see docs/reference/idempotency.md)
+      - Idempotency__HeaderName=${IDEMPOTENCY_HEADER_NAME}
+      - Idempotency__LockTimeoutSeconds=${IDEMPOTENCY_LOCK_TIMEOUT_SECONDS}
+      - Idempotency__LockExpirationSeconds=${IDEMPOTENCY_LOCK_EXPIRATION_SECONDS}
+      - Idempotency__RecordExpirationMinutes=${IDEMPOTENCY_RECORD_EXPIRATION_MINUTES}
+      - Idempotency__MaxCachedResponseSizeBytes=${IDEMPOTENCY_MAX_CACHED_RESPONSE_SIZE_BYTES}
       # Inbox/Outbox cleanup
       - Jobs__OutboxCleanup__JobId=${USER_OUTBOX_CLEANUP_JOB_ID}
       - Jobs__OutboxCleanup__CronExpression=${USER_OUTBOX_CLEANUP_CRON}
@@ -159,6 +165,17 @@ services:
       - Jwt__Audience=${AUTH_JWT_AUDIENCE}
       - Jwt__AccessTokenExpirationMinutes=${AUTH_JWT_ACCESS_TOKEN_EXPIRATION_MINUTES}
       - Jwt__RefreshTokenExpirationDays=${AUTH_JWT_REFRESH_TOKEN_EXPIRATION_DAYS}
+      # Cache (Redis) - backs the Idempotency framework (see BuildingBlock.Infrastructure/Idempotency)
+      - Cache__ConnectionString=${PRODUCT_REDIS_CONNECTION_STRING}
+      - Cache__DefaultExpirationMinutes=${PRODUCT_REDIS_EXPIRATION_MINUTES}
+      - Cache__KeyPrefix=${PRODUCT_REDIS_KEY_PREFIX}
+      - Cache__ConnectionTimeout=${PRODUCT_REDIS_CONNECTION_TIMEOUT}
+      # Idempotency (shared framework config - see docs/reference/idempotency.md)
+      - Idempotency__HeaderName=${IDEMPOTENCY_HEADER_NAME}
+      - Idempotency__LockTimeoutSeconds=${IDEMPOTENCY_LOCK_TIMEOUT_SECONDS}
+      - Idempotency__LockExpirationSeconds=${IDEMPOTENCY_LOCK_EXPIRATION_SECONDS}
+      - Idempotency__RecordExpirationMinutes=${IDEMPOTENCY_RECORD_EXPIRATION_MINUTES}
+      - Idempotency__MaxCachedResponseSizeBytes=${IDEMPOTENCY_MAX_CACHED_RESPONSE_SIZE_BYTES}
       # Outbox/Inbox cleanup (Product now also self-consumes for Search sync - see docs/reference/search.md)
       - Jobs__OutboxCleanup__JobId=${PRODUCT_OUTBOX_CLEANUP_JOB_ID}
       - Jobs__OutboxCleanup__CronExpression=${PRODUCT_OUTBOX_CLEANUP_CRON}
@@ -178,6 +195,8 @@ services:
       - Kafka__BootstrapServers=${PRODUCT_KAFKA_BROKERS}
       # Elasticsearch (Search read model - see docs/reference/search.md)
       - Elasticsearch__Url=${PRODUCT_ELASTICSEARCH_URL}
+      # gRPC (stock availability lookup for Search Products - see docs/services/inventory-service.md)
+      - Grpc__InventoryService__Url=${INVENTORY_GRPC_URL}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
@@ -276,6 +295,12 @@ services:
       - Cache__DefaultExpirationMinutes=${ORDER_REDIS_EXPIRATION_MINUTES}
       - Cache__KeyPrefix=${ORDER_REDIS_KEY_PREFIX}
       - Cache__ConnectionTimeout=${ORDER_REDIS_CONNECTION_TIMEOUT}
+      # Idempotency (shared framework config - see docs/reference/idempotency.md)
+      - Idempotency__HeaderName=${IDEMPOTENCY_HEADER_NAME}
+      - Idempotency__LockTimeoutSeconds=${IDEMPOTENCY_LOCK_TIMEOUT_SECONDS}
+      - Idempotency__LockExpirationSeconds=${IDEMPOTENCY_LOCK_EXPIRATION_SECONDS}
+      - Idempotency__RecordExpirationMinutes=${IDEMPOTENCY_RECORD_EXPIRATION_MINUTES}
+      - Idempotency__MaxCachedResponseSizeBytes=${IDEMPOTENCY_MAX_CACHED_RESPONSE_SIZE_BYTES}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s

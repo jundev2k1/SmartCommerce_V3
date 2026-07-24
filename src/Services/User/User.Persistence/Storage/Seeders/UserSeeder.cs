@@ -18,7 +18,8 @@ public sealed class UserSeeder(UserDbContext context)
                 account.Username,
                 "1234567890",
                 account.Username,
-                account.Username))
+                account.Username,
+                account.Roles))
             .ToArray();
 
         context.UserProfiles.AddRange(users);

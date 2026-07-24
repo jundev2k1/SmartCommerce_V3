@@ -208,6 +208,9 @@ namespace Inventory.Persistence.Storage.Migrations
                     b.HasIndex("ProductId")
                         .HasDatabaseName("ix_inventories_product_id");
 
+                    b.HasIndex("WarehouseId")
+                        .HasDatabaseName("ix_inventories_warehouse_id");
+
                     b.HasIndex("ProductVariationId", "WarehouseId")
                         .IsUnique()
                         .HasDatabaseName("ix_inventories_product_variation_id_warehouse_id");
@@ -273,6 +276,18 @@ namespace Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("InventoryId")
                         .HasDatabaseName("ix_inventory_transactions_inventory_id");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_inventory_transactions_product_id");
+
+                    b.HasIndex("ProductVariationId")
+                        .HasDatabaseName("ix_inventory_transactions_product_variation_id");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_inventory_transactions_type");
+
+                    b.HasIndex("WarehouseId")
+                        .HasDatabaseName("ix_inventory_transactions_warehouse_id");
 
                     b.ToTable("inventory_transactions", (string)null);
                 });

@@ -33,7 +33,8 @@ public sealed class CreateUserHandler(
             request.UserName.Trim(),
             request.PhoneNumber.Trim(),
             request.FirstName.Trim(),
-            request.LastName.Trim());
+            request.LastName.Trim(),
+            request.Roles);
 
         var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
 

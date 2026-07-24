@@ -1,5 +1,6 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.Infrastructure.Idempotency;
 using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
 using BuildingBlock.Web.Swagger.EndpointHeader;
@@ -55,8 +56,10 @@ public sealed class CreateUserEndpoint : ICarterModule
         app.MapPost("/profiles", Handle)
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .Headers([
-                new HeaderDefinition(HeaderKeys.CorrelationId, true)
+                new HeaderDefinition(HeaderKeys.CorrelationId, true),
+                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this user is only created once, even if the request is retried")
             ])
+            .RequireIdempotency()
             .WithName("CreateUser")
             .WithDisplayName("Create User API")
             .WithDescription(API_DESC.JoinToString("\n"))

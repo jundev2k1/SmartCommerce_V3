@@ -30,4 +30,7 @@ public sealed record SearchProductsItemResponse(
     IReadOnlyList<Guid> TagIds,
     IReadOnlyList<string> TagNames,
     string Status,
-    DateTime UpdatedAt);
+    DateTime UpdatedAt,
+    // Null when DefaultVariationId is absent, or when Inventory Service couldn't be reached for
+    // this page (fail-open - a transient Inventory outage must not break product search).
+    bool? IsInStock);
