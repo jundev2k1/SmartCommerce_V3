@@ -284,6 +284,37 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_categories", (string)null);
                 });
 
+            modelBuilder.Entity("Product.Domain.Entities.ProductCategoryMapping", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("ProductId", "CategoryId")
+                        .HasName("pk_product_category_mappings");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("ix_product_category_mappings_category_id");
+
+                    b.ToTable("product_category_mappings", (string)null);
+                });
+
             modelBuilder.Entity("Product.Domain.Entities.ProductTag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -325,239 +356,126 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_tags", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Product.Domain.Entities.ProductTagMapping", b =>
                 {
-                    b.OwnsMany("Product.Domain.Entities.ProductCategoryMapping", "CategoryMappings", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
 
-                            b1.Property<Guid>("CategoryId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("category_id");
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tag_id");
 
-                            b1.Property<DateTime>("CreatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("created_at")
-                                .HasDefaultValueSql("now()");
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
-                            b1.Property<Guid>("ProductId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("product_id");
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
-                            b1.Property<DateTime>("UpdatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("updated_at")
-                                .HasDefaultValueSql("now()");
+                    b.HasKey("ProductId", "TagId")
+                        .HasName("pk_product_tag_mappings");
 
-                            b1.HasKey("Id")
-                                .HasName("pk_product_category_mappings");
+                    b.HasIndex("TagId")
+                        .HasDatabaseName("ix_product_tag_mappings_tag_id");
 
-                            b1.HasIndex("CategoryId")
-                                .HasDatabaseName("ix_product_category_mappings_category_id");
+                    b.ToTable("product_tag_mappings", (string)null);
+                });
 
-                            b1.HasIndex("ProductId", "CategoryId")
-                                .IsUnique()
-                                .HasDatabaseName("ix_product_category_mappings_product_id_category_id");
+            modelBuilder.Entity("Product.Domain.Entities.ProductVariation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                            b1.ToTable("product_category_mappings", (string)null);
+                    b.Property<string>("Barcode")
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("barcode");
 
-                            b1.HasOne("Product.Domain.Entities.ProductCategory", "Category")
-                                .WithMany()
-                                .HasForeignKey("CategoryId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired()
-                                .HasConstraintName("fk_product_category_mappings_product_categories_category_id");
+                    b.Property<decimal?>("Cost")
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("cost");
 
-                            b1.WithOwner("Product")
-                                .HasForeignKey("ProductId")
-                                .HasConstraintName("fk_product_category_mappings_products_product_id");
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
-                            b1.Navigation("Category");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
-                            b1.Navigation("Product");
-                        });
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("display_order");
 
-                    b.OwnsMany("Product.Domain.Entities.ProductTagMapping", "TagMappings", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
+                    b.PrimitiveCollection<string>("Images")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("images");
 
-                            b1.Property<DateTime>("CreatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("created_at")
-                                .HasDefaultValueSql("now()");
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_default");
 
-                            b1.Property<Guid>("ProductId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("product_id");
+                    b.Property<string>("Metadata")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("metadata");
 
-                            b1.Property<Guid>("TagId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("tag_id");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                            b1.Property<DateTime>("UpdatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("updated_at")
-                                .HasDefaultValueSql("now()");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("price");
 
-                            b1.HasKey("Id")
-                                .HasName("pk_product_tag_mappings");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
 
-                            b1.HasIndex("TagId")
-                                .HasDatabaseName("ix_product_tag_mappings_tag_id");
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("sku");
 
-                            b1.HasIndex("ProductId", "TagId")
-                                .IsUnique()
-                                .HasDatabaseName("ix_product_tag_mappings_product_id_tag_id");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
-                            b1.ToTable("product_tag_mappings", (string)null);
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
-                            b1.WithOwner("Product")
-                                .HasForeignKey("ProductId")
-                                .HasConstraintName("fk_product_tag_mappings_products_product_id");
+                    b.Property<decimal?>("Weight")
+                        .HasColumnType("numeric(10,3)")
+                        .HasColumnName("weight");
 
-                            b1.HasOne("Product.Domain.Entities.ProductTag", "Tag")
-                                .WithMany()
-                                .HasForeignKey("TagId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired()
-                                .HasConstraintName("fk_product_tag_mappings_product_tags_tag_id");
+                    b.HasKey("Id")
+                        .HasName("pk_product_variations");
 
-                            b1.Navigation("Product");
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_product_variations_product_id");
 
-                            b1.Navigation("Tag");
-                        });
+                    b.HasIndex("Sku")
+                        .IsUnique()
+                        .HasDatabaseName("ix_product_variations_sku");
 
-                    b.OwnsMany("Product.Domain.Entities.ProductVariation", "Variations", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<string>("Barcode")
-                                .HasMaxLength(14)
-                                .HasColumnType("character varying(14)")
-                                .HasColumnName("barcode");
-
-                            b1.Property<decimal?>("Cost")
-                                .HasColumnType("numeric(18,2)")
-                                .HasColumnName("cost");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("created_at")
-                                .HasDefaultValueSql("now()");
-
-                            b1.Property<int>("DisplayOrder")
-                                .HasColumnType("integer")
-                                .HasColumnName("display_order");
-
-                            b1.PrimitiveCollection<string>("Images")
-                                .IsRequired()
-                                .HasColumnType("jsonb")
-                                .HasColumnName("images");
-
-                            b1.Property<bool>("IsDefault")
-                                .HasColumnType("boolean")
-                                .HasColumnName("is_default");
-
-                            b1.Property<string>("Metadata")
-                                .IsRequired()
-                                .HasColumnType("jsonb")
-                                .HasColumnName("metadata");
-
-                            b1.Property<decimal>("Price")
-                                .HasColumnType("numeric(18,2)")
-                                .HasColumnName("price");
-
-                            b1.Property<Guid>("ProductId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("product_id");
-
-                            b1.Property<string>("Sku")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("sku");
-
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer")
-                                .HasColumnName("status");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("updated_at")
-                                .HasDefaultValueSql("now()");
-
-                            b1.Property<decimal?>("Weight")
-                                .HasColumnType("numeric(10,3)")
-                                .HasColumnName("weight");
-
-                            b1.HasKey("Id")
-                                .HasName("pk_product_variations");
-
-                            b1.HasIndex("ProductId")
-                                .HasDatabaseName("ix_product_variations_product_id");
-
-                            b1.HasIndex("Sku")
-                                .IsUnique()
-                                .HasDatabaseName("ix_product_variations_sku");
-
-                            b1.ToTable("product_variations", (string)null);
-
-                            b1.WithOwner("Product")
-                                .HasForeignKey("ProductId")
-                                .HasConstraintName("fk_product_variations_products_product_id");
-
-                            b1.OwnsOne("Product.Domain.ValueObjects.Dimensions", "Dimensions", b2 =>
-                                {
-                                    b2.Property<Guid>("ProductVariationId")
-                                        .HasColumnType("uuid")
-                                        .HasColumnName("id");
-
-                                    b2.Property<decimal>("Height")
-                                        .HasColumnType("numeric(10,2)")
-                                        .HasColumnName("dimensions_height");
-
-                                    b2.Property<decimal>("Length")
-                                        .HasColumnType("numeric(10,2)")
-                                        .HasColumnName("dimensions_length");
-
-                                    b2.Property<decimal>("Width")
-                                        .HasColumnType("numeric(10,2)")
-                                        .HasColumnName("dimensions_width");
-
-                                    b2.HasKey("ProductVariationId");
-
-                                    b2.ToTable("product_variations");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("ProductVariationId")
-                                        .HasConstraintName("fk_product_variations_product_variations_id");
-                                });
-
-                            b1.Navigation("Dimensions");
-
-                            b1.Navigation("Product");
-                        });
-
-                    b.Navigation("CategoryMappings");
-
-                    b.Navigation("TagMappings");
-
-                    b.Navigation("Variations");
+                    b.ToTable("product_variations", (string)null);
                 });
 
             modelBuilder.Entity("Product.Domain.Entities.ProductCategory", b =>
@@ -567,6 +485,98 @@ namespace Product.Persistence.Storage.Migrations
                         .HasForeignKey("ParentCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_product_categories_product_categories_parent_category_id");
+                });
+
+            modelBuilder.Entity("Product.Domain.Entities.ProductCategoryMapping", b =>
+                {
+                    b.HasOne("Product.Domain.Entities.ProductCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_category_mappings_product_categories_category_id");
+
+                    b.HasOne("Product.Domain.Entities.Product", "Product")
+                        .WithMany("CategoryMappings")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_category_mappings_products_product_id");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Product.Domain.Entities.ProductTagMapping", b =>
+                {
+                    b.HasOne("Product.Domain.Entities.Product", "Product")
+                        .WithMany("TagMappings")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_tag_mappings_products_product_id");
+
+                    b.HasOne("Product.Domain.Entities.ProductTag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_tag_mappings_product_tags_tag_id");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("Product.Domain.Entities.ProductVariation", b =>
+                {
+                    b.HasOne("Product.Domain.Entities.Product", "Product")
+                        .WithMany("Variations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_variations_products_product_id");
+
+                    b.OwnsOne("Product.Domain.ValueObjects.Dimensions", "Dimensions", b1 =>
+                        {
+                            b1.Property<Guid>("ProductVariationId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Height")
+                                .HasColumnType("numeric(10,2)")
+                                .HasColumnName("dimensions_height");
+
+                            b1.Property<decimal>("Length")
+                                .HasColumnType("numeric(10,2)")
+                                .HasColumnName("dimensions_length");
+
+                            b1.Property<decimal>("Width")
+                                .HasColumnType("numeric(10,2)")
+                                .HasColumnName("dimensions_width");
+
+                            b1.HasKey("ProductVariationId");
+
+                            b1.ToTable("product_variations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductVariationId")
+                                .HasConstraintName("fk_product_variations_product_variations_id");
+                        });
+
+                    b.Navigation("Dimensions");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Product.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("CategoryMappings");
+
+                    b.Navigation("TagMappings");
+
+                    b.Navigation("Variations");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,7 @@ namespace Product.Domain.Entities;
 /// how Product references a category without holding an object reference to another root.
 /// Owned by Product (no independent identity, no repository of its own).
 /// </summary>
-public sealed class ProductCategoryMapping : BaseEntity<Guid>
+public sealed class ProductCategoryMapping : BaseEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
@@ -15,11 +15,10 @@ public sealed class ProductCategoryMapping : BaseEntity<Guid>
 
     private ProductCategoryMapping() { }
 
-    internal static ProductCategoryMapping Create(Guid id, Guid productId, Guid categoryId)
+    internal static ProductCategoryMapping Create(Guid productId, Guid categoryId)
     {
         return new ProductCategoryMapping
         {
-            Id = id,
             ProductId = productId,
             CategoryId = categoryId,
         };

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
 #nullable disable
 
 namespace Product.Persistence.Storage.Migrations
@@ -10,6 +12,29 @@ namespace Product.Persistence.Storage.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "inbox_messages",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    message_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    consumer_name = table.Column<string>(type: "text", nullable: false),
+                    topic = table.Column<string>(type: "text", nullable: false),
+                    payload = table.Column<string>(type: "text", nullable: false),
+                    headers_json = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
+                    retry_count = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    processed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    next_retry_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    last_retry_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    last_error = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_inbox_messages", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "outbox_messages",
                 columns: table => new
                 {
@@ -18,6 +43,8 @@ namespace Product.Persistence.Storage.Migrations
                     topic = table.Column<string>(type: "text", nullable: false),
                     payload = table.Column<string>(type: "text", nullable: false),
                     correlation_id = table.Column<string>(type: "text", nullable: false),
+                    actor_id = table.Column<string>(type: "text", nullable: true),
+                    actor_type = table.Column<string>(type: "text", nullable: false, defaultValue: "system"),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     processed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     error = table.Column<string>(type: "text", nullable: true),
@@ -89,7 +116,6 @@ namespace Product.Persistence.Storage.Migrations
                 name: "product_category_mappings",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     category_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
@@ -97,7 +123,13 @@ namespace Product.Persistence.Storage.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_product_category_mappings", x => x.id);
+                    table.PrimaryKey("pk_product_category_mappings", x => new { x.product_id, x.category_id });
+                    table.ForeignKey(
+                        name: "fk_product_category_mappings_product_categories_category_id",
+                        column: x => x.category_id,
+                        principalTable: "product_categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_product_category_mappings_products_product_id",
                         column: x => x.product_id,
@@ -110,7 +142,6 @@ namespace Product.Persistence.Storage.Migrations
                 name: "product_tag_mappings",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     tag_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
@@ -118,7 +149,13 @@ namespace Product.Persistence.Storage.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_product_tag_mappings", x => x.id);
+                    table.PrimaryKey("pk_product_tag_mappings", x => new { x.product_id, x.tag_id });
+                    table.ForeignKey(
+                        name: "fk_product_tag_mappings_product_tags_tag_id",
+                        column: x => x.tag_id,
+                        principalTable: "product_tags",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_product_tag_mappings_products_product_id",
                         column: x => x.product_id,
@@ -133,6 +170,8 @@ namespace Product.Persistence.Storage.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: false),
                     sku = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     barcode = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: true),
                     price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
@@ -161,6 +200,22 @@ namespace Product.Persistence.Storage.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "idx_inbox_message_consumer_unique",
+                table: "inbox_messages",
+                columns: new[] { "message_id", "consumer_name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_inbox_processed_at",
+                table: "inbox_messages",
+                column: "processed_at");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_inbox_status_next_retry_at",
+                table: "inbox_messages",
+                columns: new[] { "status", "next_retry_at" });
+
+            migrationBuilder.CreateIndex(
                 name: "idx_outbox_processed_at",
                 table: "outbox_messages",
                 column: "processed_at");
@@ -182,16 +237,14 @@ namespace Product.Persistence.Storage.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
-                name: "ix_product_category_mappings_product_id_category_id",
+                name: "ix_product_category_mappings_category_id",
                 table: "product_category_mappings",
-                columns: new[] { "product_id", "category_id" },
-                unique: true);
+                column: "category_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_product_tag_mappings_product_id_tag_id",
+                name: "ix_product_tag_mappings_tag_id",
                 table: "product_tag_mappings",
-                columns: new[] { "product_id", "tag_id" },
-                unique: true);
+                column: "tag_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_product_tags_code",
@@ -227,10 +280,10 @@ namespace Product.Persistence.Storage.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "outbox_messages");
+                name: "inbox_messages");
 
             migrationBuilder.DropTable(
-                name: "product_categories");
+                name: "outbox_messages");
 
             migrationBuilder.DropTable(
                 name: "product_category_mappings");
@@ -239,10 +292,13 @@ namespace Product.Persistence.Storage.Migrations
                 name: "product_tag_mappings");
 
             migrationBuilder.DropTable(
-                name: "product_tags");
+                name: "product_variations");
 
             migrationBuilder.DropTable(
-                name: "product_variations");
+                name: "product_categories");
+
+            migrationBuilder.DropTable(
+                name: "product_tags");
 
             migrationBuilder.DropTable(
                 name: "products");

@@ -11,8 +11,13 @@ public sealed class ProductReadService(
 {
     public async Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default)
     {
+        // Same "always loaded" reasoning as ProductRepo.GetByIdAsync - RebuildProductSearchIndexHandler
+        // consumes this batch via ProductSearchProjectionBuilder, which needs these collections.
         return await dbContext.Products
             .AsNoTracking()
+            .Include(p => p.Variations)
+            .Include(p => p.CategoryMappings)
+            .Include(p => p.TagMappings)
             .OrderBy(p => p.Id)
             .Skip(skip)
             .Take(take)

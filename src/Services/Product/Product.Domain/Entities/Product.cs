@@ -48,10 +48,10 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.Duplicate($"One or more tags are dupplicated.");
 
         var categoryMappings = categoryIds
-            .Select(id => ProductCategoryMapping.Create(Guid.CreateVersion7(), default, id))
+            .Select(id => ProductCategoryMapping.Create(default, id))
             .ToArray();
         var tagMappings = tagIds
-            .Select(id => ProductTagMapping.Create(Guid.CreateVersion7(), default, id))
+            .Select(id => ProductTagMapping.Create(default, id))
             .ToArray();
         var product = new Product
         {
@@ -114,10 +114,9 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
         if (CategoryMappings.Any(m => m.CategoryId == categoryId))
             return;
 
-        CategoryMappings.Add(ProductCategoryMapping.Create(
-            Guid.CreateVersion7(),
-            Id,
-            categoryId));
+        CategoryMappings.Add(
+            ProductCategoryMapping.Create(Id, categoryId));
+
         Tourch();
     }
 
@@ -137,10 +136,8 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             return;
 
         TagMappings.Add(
-            ProductTagMapping.Create(
-                Guid.CreateVersion7(),
-                Id,
-                tagId));
+            ProductTagMapping.Create(Id, tagId));
+
         Tourch();
     }
 

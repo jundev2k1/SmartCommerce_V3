@@ -7,10 +7,17 @@ namespace Product.Persistence.Contexts.Products.Repositories;
 
 public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository, IRepository<ProductEntity>
 {
+    // Variations/CategoryMappings/TagMappings are now real (non-owned) relationships, so unlike
+    // before they need an explicit Include - callers of this no-includes overload previously got
+    // them for free. Always including them here keeps that same "always loaded" behavior for
+    // every caller (GetProduct, search projection, ...) without each one repeating the Include.
     public async Task<ProductEntity?> GetByIdAsync<TId>(TId id, CancellationToken ct = default)
     {
         return await dbContext.Products
             .AsNoTracking()
+            .Include(p => p.Variations)
+            .Include(p => p.CategoryMappings)
+            .Include(p => p.TagMappings)
             .FirstOrDefaultAsync(p => p.Id.Equals(id), ct);
     }
 

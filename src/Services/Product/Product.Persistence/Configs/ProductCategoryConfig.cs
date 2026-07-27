@@ -1,13 +1,15 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Product.Domain.ValueObjects;
-
 namespace Product.Persistence.Configs;
 
 public sealed class ProductCategoryConfig : IEntityTypeConfiguration<ProductCategory>
 {
     public void Configure(EntityTypeBuilder<ProductCategory> builder)
     {
+        // Table
+        builder.ToTable("product_categories");
+
+        // Properties
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Code)
@@ -31,6 +33,7 @@ public sealed class ProductCategoryConfig : IEntityTypeConfiguration<ProductCate
         builder.Property(x => x.UpdatedAt)
             .HasDefaultValueSql("now()");
 
+        // Relationships
         // Self-referencing hierarchy - no Domain-level Parent/Children navigation (see
         // ProductCategory.ChangeParent remarks), so this is a shadow-navigation FK only.
         builder.HasOne<ProductCategory>()
@@ -38,6 +41,7 @@ public sealed class ProductCategoryConfig : IEntityTypeConfiguration<ProductCate
             .HasForeignKey(x => x.ParentCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // Indexes
         builder.HasIndex(x => x.Code)
             .IsUnique();
         builder.HasIndex(x => x.Status);

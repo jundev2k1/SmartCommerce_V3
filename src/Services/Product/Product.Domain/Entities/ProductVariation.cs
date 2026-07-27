@@ -4,6 +4,8 @@ public sealed class ProductVariation : BaseEntity<Guid>
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
+    public string Name { get; private set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
     public Sku Sku { get; private set; } = null!;
     public Barcode? Barcode { get; private set; }
     public decimal Price { get; private set; }

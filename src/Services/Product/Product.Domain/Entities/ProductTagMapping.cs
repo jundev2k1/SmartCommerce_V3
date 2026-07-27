@@ -4,7 +4,7 @@ namespace Product.Domain.Entities;
 /// Explicit many-to-many join entity between Product and ProductTag - see
 /// ProductCategoryMapping remarks for why this exists instead of a raw id collection.
 /// </summary>
-public sealed class ProductTagMapping : BaseEntity<Guid>
+public sealed class ProductTagMapping : BaseEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
@@ -13,11 +13,10 @@ public sealed class ProductTagMapping : BaseEntity<Guid>
 
     private ProductTagMapping() { }
 
-    internal static ProductTagMapping Create(Guid id, Guid productId, Guid tagId)
+    internal static ProductTagMapping Create(Guid productId, Guid tagId)
     {
         return new ProductTagMapping
         {
-            Id = id,
             ProductId = productId,
             TagId = tagId,
         };
