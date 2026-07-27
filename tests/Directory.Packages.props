@@ -18,6 +18,9 @@
     <!-- Persistence component tests -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.10" />
     <PackageVersion Include="MongoDB.Driver" Version="3.10.0" />
+
+    <!-- Integration tests (Phase 5 - real Postgres via Testcontainers, see docs/testing/TestingArchitecture.md) -->
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.13.0" />
   </ItemGroup>
 
 </Project>

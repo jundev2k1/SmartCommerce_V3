@@ -30,6 +30,10 @@ Source: full-system business-requirements audit covering Product, Customer, Orde
 - [x] **Task 21 — Product Search's `isInStock` reflects only the default variation**, not "any variation in stock." Resolved via direct gRPC (user-confirmed approach): `VariationIds` added to the search document, `IsInStock` now ORs stock across every Active variation.
 - [x] **Task 22 — GetProduct response has no per-variation stock data** at all. Resolved: `ProductVariationResponse.AvailableStock` populated per-variation via the same fail-open Inventory batch pattern as Search.
 
+### Race condition diagnostics (ad-hoc request, same date)
+
+- [ ] **Task 23 — UpdateOrder fails unconditionally, not just under concurrency** (`2026-07-27/Task23_updateorder-always-fails-not-a-race-condition.md`). Discovered building `tests/integration/Order.IntegrationTests/Concurrency/UpdateOrderRaceConditionTests.cs`: new `OrderItem`s added via collection-navigation mutation (not explicit `Add()`) get misclassified `Modified` instead of `Added` once their client-generated Guid key is non-default, so every UpdateOrder call throws `DbUpdateConcurrencyException`/409 - even with zero concurrent requests. Deliberately not fixed (test-writing task, "don't touch production code").
+
 ## Cross-repo dependencies
 
 - Frontend Task 4 (order concurrency conflict UI) is blocked on this folder's Task 2.

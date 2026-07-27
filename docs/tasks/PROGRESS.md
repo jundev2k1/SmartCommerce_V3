@@ -28,6 +28,7 @@ Source: full-system business-requirements audit (Product, Customer, Order+concur
 - [x] Task 20 — Create Order's insufficient-stock error has no structured per-item detail (`2026-07-27/Task20_create-order-insufficient-stock-error-not-structured.md`) — resolved as part of Task 17's change.
 - [x] Task 21 — Product Search's `isInStock` reflects only the default variation (`2026-07-27/Task21_product-list-add-cart-checks-default-variation-only.md`) — resolved via direct gRPC (user-confirmed approach).
 - [x] Task 22 — GetProduct response has no per-variation stock data (`2026-07-27/Task22_get-product-no-per-variation-stock.md`) — resolved.
+- [ ] Task 23 — UpdateOrder fails unconditionally, not just under concurrency (`2026-07-27/Task23_updateorder-always-fails-not-a-race-condition.md`) — discovered while building `Order.IntegrationTests`; new OrderItems get misclassified Modified instead of Added, causing every UpdateOrder call to 409. Not fixed (out of scope for a test-writing task).
 
 ## 2026-07-22
 
