@@ -1,8 +1,9 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient, useQueries } from '@tanstack/react-query';
-import { getOrder, cancelOrder, completeOrder } from '@/services/order';
+import { getOrder, cancelOrder, completeOrder, updateOrderOwnerInfo } from '@/services/order';
 import { useLocalOrdersStore } from '@/shared/stores/local-orders.store';
+import type { UpdateOrderOwnerInfoFormValues } from '../orders.schema';
 
 export const orderKeys = {
   all: ['orders'] as const,
@@ -55,6 +56,22 @@ export function useCompleteOrderMutation() {
   return useMutation({
     mutationFn: (orderId: string) => completeOrder(orderId),
     onSuccess: (_data, orderId) =>
+      queryClient.invalidateQueries({ queryKey: orderKeys.detail(orderId) }),
+  });
+}
+
+/** PATCH /orders/{orderId}/owner-info — only valid while the order is Pending or Confirmed. */
+export function useUpdateOrderOwnerInfoMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      orderId,
+      values,
+    }: {
+      orderId: string;
+      values: UpdateOrderOwnerInfoFormValues;
+    }) => updateOrderOwnerInfo(orderId, values),
+    onSuccess: (_data, { orderId }) =>
       queryClient.invalidateQueries({ queryKey: orderKeys.detail(orderId) }),
   });
 }

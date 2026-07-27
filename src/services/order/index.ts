@@ -1,5 +1,6 @@
 export * from './create-order';
 export * from './admin-create-order';
+export * from './update-order-owner-info';
 export * from './get-order';
 export * from './cancel-order';
 export * from './complete-order';

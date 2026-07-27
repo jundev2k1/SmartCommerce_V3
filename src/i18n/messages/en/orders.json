@@ -42,6 +42,14 @@
       "customer": "Customer",
       "timeline": "Timeline",
       "metadata": "Metadata"
+    },
+    "editOwnerInfo": {
+      "trigger": "Edit shipping info",
+      "title": "Edit shipping info",
+      "phone": "Phone number",
+      "shippingAddress": "Shipping address",
+      "success": "Shipping info updated.",
+      "error": "Couldn't update shipping info — the order may no longer be editable."
     }
   },
   "approve": {

@@ -12,6 +12,7 @@ import {
   AppTabsContent,
   CancelButton,
   DeleteButton,
+  SecondaryButton,
   toast,
 } from '@/shared/ui';
 import { EntityDetailHeader, AuditTrailButton } from '@/shared/entity';
@@ -24,11 +25,13 @@ import {
   OrderMetadata,
   type OrderTimelineEvent,
 } from '@/shared/commerce';
+import { OrderStatus } from '@/services/order';
 import { useOrderQuery, useCancelOrderMutation } from '../api/orders.queries';
 import {
   useOrderRealtimeUpdates,
   type OrderStatusChangedEvent,
 } from '../hooks/useOrderRealtimeUpdates';
+import { EditOrderOwnerInfoForm } from './EditOrderOwnerInfoForm';
 
 export function OrderDetailPage({ orderId }: { orderId: string }) {
   const t = useTranslations('orders.detail');
@@ -36,6 +39,7 @@ export function OrderDetailPage({ orderId }: { orderId: string }) {
   const { data: order, isLoading } = useOrderQuery(orderId);
   const cancelMutation = useCancelOrderMutation();
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [editOwnerInfoOpen, setEditOwnerInfoOpen] = useState(false);
   const [liveEvents, setLiveEvents] = useState<OrderTimelineEvent[]>([]);
 
   const handleRealtimeEvent = useCallback(
@@ -106,12 +110,17 @@ export function OrderDetailPage({ orderId }: { orderId: string }) {
           <OrderItems items={order.items ?? []} />
         </AppTabsContent>
 
-        <AppTabsContent value="customer">
+        <AppTabsContent value="customer" className="space-y-3">
           <OrderCustomer
             customerId={order.customerId}
             customerName={order.customerName}
             customerPhone={order.customerPhone}
           />
+          {order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed ? (
+            <SecondaryButton onClick={() => setEditOwnerInfoOpen(true)}>
+              {t('editOwnerInfo.trigger')}
+            </SecondaryButton>
+          ) : null}
         </AppTabsContent>
 
         <AppTabsContent value="timeline">
@@ -139,6 +148,21 @@ export function OrderDetailPage({ orderId }: { orderId: string }) {
           </>
         }
       />
+
+      <AppModal
+        open={editOwnerInfoOpen}
+        onOpenChange={setEditOwnerInfoOpen}
+        title={t('editOwnerInfo.title')}
+      >
+        <EditOrderOwnerInfoForm
+          orderId={order.id}
+          defaultValues={{
+            customerPhone: order.customerPhone,
+            shippingAddress: order.shippingAddress ?? '',
+          }}
+          onDone={() => setEditOwnerInfoOpen(false)}
+        />
+      </AppModal>
     </div>
   );
 }
