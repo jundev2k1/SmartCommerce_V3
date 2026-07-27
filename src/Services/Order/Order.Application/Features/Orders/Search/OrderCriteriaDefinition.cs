@@ -7,8 +7,8 @@ namespace Order.Application.Features.Orders.Search;
 public static class OrderCriteriaDefinition
 {
     public static readonly CriteriaDefinition<OrderEntity> Instance = CriteriaDefinition<OrderEntity>.Create()
-        .Field(x => x.CustomerName).String().Sortable().KeywordSearchable()
-        .Field(x => x.CustomerPhone, name: "phone").UsePhoneSearch(x => x.CustomerPhoneSearch, x => x.CustomerPhoneReverse)
+        .Field(x => x.Owner.CustomerName).String().Sortable().KeywordSearchable()
+        .Field(x => x.Owner.CustomerPhone, name: "phone").UsePhoneSearch(x => x.Owner.CustomerPhoneSearch, x => x.Owner.CustomerPhoneReverse)
         .Field(x => x.Status).Enum().Sortable()
         .Field(x => x.CreatedAt).DateTime().Sortable()
         .Build();

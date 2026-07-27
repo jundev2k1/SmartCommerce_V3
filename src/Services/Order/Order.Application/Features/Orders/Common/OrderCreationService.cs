@@ -59,7 +59,7 @@ public sealed class OrderCreationService(
             await outboxStore.EnqueueAsync(
                 new OrderCreatedIntegrationEvent(
                     order.Id,
-                    order.CustomerId,
+                    order.Owner.CustomerId,
                     [.. order.Items.Select(i => new OrderCreatedItem(i.ProductId, i.ProductName, i.Quantity, i.UnitPrice))],
                     order.TotalAmount),
                 ct);

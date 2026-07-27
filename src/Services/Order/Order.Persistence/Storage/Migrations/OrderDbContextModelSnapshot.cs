@@ -179,6 +179,99 @@ namespace Order.Persistence.Storage.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_orders");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("ix_orders_status");
+
+                    b.ToTable("orders", (string)null);
+                });
+
+            modelBuilder.Entity("Order.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<decimal>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("discount");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("product_name");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("unit_price");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("Id")
+                        .HasName("pk_order_items");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_order_items_order_id");
+
+                    b.ToTable("order_items", (string)null);
+                });
+
+            modelBuilder.Entity("Order.Domain.Entities.OrderOwner", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
@@ -218,43 +311,30 @@ namespace Order.Persistence.Storage.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("shipping_address");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
-
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
-
-                    b.HasKey("Id")
-                        .HasName("pk_orders");
+                    b.HasKey("OrderId")
+                        .HasName("pk_order_owners");
 
                     b.HasIndex("CustomerId")
-                        .HasDatabaseName("ix_orders_customer_id");
+                        .HasDatabaseName("ix_order_owners_customer_id");
 
                     b.HasIndex("CustomerPhoneReverse")
-                        .HasDatabaseName("ix_orders_customer_phone_reverse");
+                        .HasDatabaseName("ix_order_owners_customer_phone_reverse");
 
                     b.HasIndex("CustomerPhoneSearch")
-                        .HasDatabaseName("ix_orders_customer_phone_search");
-
-                    b.HasIndex("Status")
-                        .HasDatabaseName("ix_orders_status");
+                        .HasDatabaseName("ix_order_owners_customer_phone_search");
 
                     b.HasIndex("CustomerId", "IdempotencyKey")
                         .IsUnique()
-                        .HasDatabaseName("ix_orders_customer_id_idempotency_key")
+                        .HasDatabaseName("ix_order_owners_customer_id_idempotency_key")
                         .HasFilter("\"idempotency_key\" IS NOT NULL");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("order_owners", (string)null);
                 });
 
             modelBuilder.Entity("Order.Domain.Entities.OrderProductCatalog", b =>
@@ -372,69 +452,32 @@ namespace Order.Persistence.Storage.Migrations
                     b.ToTable("saga_execution_records", (string)null);
                 });
 
+            modelBuilder.Entity("Order.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("Order.Domain.Entities.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_items_orders_order_id");
+                });
+
+            modelBuilder.Entity("Order.Domain.Entities.OrderOwner", b =>
+                {
+                    b.HasOne("Order.Domain.Entities.Order", null)
+                        .WithOne("Owner")
+                        .HasForeignKey("Order.Domain.Entities.OrderOwner", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_owners_orders_order_id");
+                });
+
             modelBuilder.Entity("Order.Domain.Entities.Order", b =>
                 {
-                    b.OwnsMany("Order.Domain.Entities.OrderItem", "Items", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("created_at")
-                                .HasDefaultValueSql("now()");
-
-                            b1.Property<decimal>("Discount")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("numeric(18,2)")
-                                .HasDefaultValue(0m)
-                                .HasColumnName("discount");
-
-                            b1.Property<Guid>("OrderId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("order_id");
-
-                            b1.Property<Guid>("ProductId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("product_id");
-
-                            b1.Property<string>("ProductName")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("character varying(200)")
-                                .HasColumnName("product_name");
-
-                            b1.Property<int>("Quantity")
-                                .HasColumnType("integer")
-                                .HasColumnName("quantity");
-
-                            b1.Property<decimal>("UnitPrice")
-                                .HasColumnType("numeric(18,2)")
-                                .HasColumnName("unit_price");
-
-                            b1.Property<DateTime>("UpdatedAt")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("updated_at")
-                                .HasDefaultValueSql("now()");
-
-                            b1.HasKey("Id")
-                                .HasName("pk_order_items");
-
-                            b1.HasIndex("OrderId")
-                                .HasDatabaseName("ix_order_items_order_id");
-
-                            b1.ToTable("order_items", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId")
-                                .HasConstraintName("fk_order_items_orders_order_id");
-                        });
-
                     b.Navigation("Items");
+
+                    b.Navigation("Owner")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

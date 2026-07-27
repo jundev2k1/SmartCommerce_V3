@@ -12,6 +12,8 @@ public sealed class OrderDbContext(DbContextOptions<OrderDbContext> options)
     IInboxDbContext
 {
     public DbSet<OrderEntity> Orders { get; set; } = null!;
+    public DbSet<OrderItem> OrderItems { get; set; } = null!;
+    public DbSet<OrderOwner> OrderOwners { get; set; } = null!;
     public DbSet<OrderProductCatalog> OrderProductCatalogs { get; set; } = null!;
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
     public DbSet<InboxMessage> InboxMessages { get; set; } = null!;

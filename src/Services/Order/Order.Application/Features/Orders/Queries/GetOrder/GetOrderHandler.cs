@@ -18,15 +18,15 @@ public sealed class GetOrderHandler(
         // the owner-vs-admin distinction has to happen here: an admin dashboard needs to view any
         // order, but a regular customer may only view their own.
         var isAdmin = currentUser.IsInRole(AppRole.Admin) || currentUser.IsInRole(AppRole.Root);
-        if (!isAdmin && order.CustomerId != currentUser.GetUserId())
+        if (!isAdmin && order.Owner.CustomerId != currentUser.GetUserId())
             throw new ForbiddenException();
 
         return new GetOrderResponse(
             order.Id,
-            order.CustomerId,
-            order.CustomerName,
-            order.CustomerPhone,
-            order.ShippingAddress,
+            order.Owner.CustomerId,
+            order.Owner.CustomerName,
+            order.Owner.CustomerPhone,
+            order.Owner.ShippingAddress,
             order.Status,
             order.TotalAmount,
             [.. order.Items.Select(i => new GetOrderItemResponse(i.ProductId, i.ProductName, i.UnitPrice, i.Quantity, i.Discount, i.LineTotal))],

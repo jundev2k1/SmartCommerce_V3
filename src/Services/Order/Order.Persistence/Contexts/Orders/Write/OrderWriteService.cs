@@ -31,12 +31,28 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
         await repo.UpdateAsync(orderId, async order =>
         {
             order.UpdateItems(items);
-            customerId = order.CustomerId;
+            customerId = order.Owner.CustomerId;
             totalAmount = order.TotalAmount;
             await Task.CompletedTask;
         }, ct);
 
         return (customerId, totalAmount);
+    }
+
+    public async Task UpdateOwnerInfoAsync(
+        Guid orderId,
+        string customerPhone,
+        string shippingAddress,
+        CancellationToken ct = default)
+    {
+        await repo.UpdateAsync(orderId, async order =>
+        {
+            if (order.Status is not OrderStatus.Confirmed)
+                throw new BadRequestException(MessageCode.InvalidOrderStatus);
+
+            order.UpdateOwnerInfo(customerPhone, shippingAddress);
+            await Task.CompletedTask;
+        }, ct);
     }
 
     public async Task<decimal> ConfirmAsync(Guid orderId, CancellationToken ct = default)
@@ -63,7 +79,7 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
                 throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
             order.Cancel(reason);
-            customerId = order.CustomerId;
+            customerId = order.Owner.CustomerId;
             await Task.CompletedTask;
         }, ct);
 
@@ -80,7 +96,7 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
                 throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
             order.Complete();
-            customerId = order.CustomerId;
+            customerId = order.Owner.CustomerId;
             await Task.CompletedTask;
         }, ct);
 

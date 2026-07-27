@@ -10,10 +10,16 @@ namespace Order.Persistence.Contexts.Orders.Read;
 
 public sealed class OrderReadService(OrderDbContext dbContext) : IOrderReadService
 {
+    // Items/Owner are now real (non-owned) relationships, so unlike before they need an explicit
+    // Include - every call site below previously got both for free. Including them here keeps
+    // that same "always loaded" behavior (TotalAmount, customer/shipping snapshot, ...) for every
+    // caller.
     public async Task<OrderEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await dbContext.Orders
             .AsNoTracking()
+            .Include(o => o.Items)
+            .Include(o => o.Owner)
             .FirstOrDefaultAsync(o => o.Id == id, ct);
     }
 
@@ -21,6 +27,8 @@ public sealed class OrderReadService(OrderDbContext dbContext) : IOrderReadServi
     {
         return await dbContext.Orders
             .AsNoTracking()
+            .Include(o => o.Items)
+            .Include(o => o.Owner)
             .ApplyCriteria(OrderCriteriaDefinition.Instance, request)
             .ToCriteriaPagedResultAsync(request, ct);
     }
@@ -29,6 +37,8 @@ public sealed class OrderReadService(OrderDbContext dbContext) : IOrderReadServi
     {
         return await dbContext.Orders
             .AsNoTracking()
-            .FirstOrDefaultAsync(o => o.CustomerId == customerId && o.IdempotencyKey == idempotencyKey, ct);
+            .Include(o => o.Items)
+            .Include(o => o.Owner)
+            .FirstOrDefaultAsync(o => o.Owner.CustomerId == customerId && o.Owner.IdempotencyKey == idempotencyKey, ct);
     }
 }

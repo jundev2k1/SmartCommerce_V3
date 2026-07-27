@@ -10,6 +10,13 @@ public interface IOrderWriteService
         IReadOnlyCollection<OrderItemCreateModel> items,
         CancellationToken ct = default);
 
+    /// <summary>Updates the customer-editable shipping/contact snapshot (Order.UpdateOwnerInfo enforces the non-terminal-status guard).</summary>
+    Task UpdateOwnerInfoAsync(
+        Guid orderId,
+        string customerPhone,
+        string shippingAddress,
+        CancellationToken ct = default);
+
     Task<decimal> ConfirmAsync(Guid orderId, CancellationToken ct = default);
 
     Task<Guid> CancelAsync(Guid orderId, string reason, CancellationToken ct = default);

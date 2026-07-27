@@ -1,6 +1,5 @@
 using BuildingBlock.Domain.Abstractions;
 using BuildingBlock.Domain.Exceptions;
-using BuildingBlock.SharedKernel.Text;
 
 using Order.Domain.Enums;
 
@@ -8,23 +7,12 @@ namespace Order.Domain.Entities;
 
 public sealed class Order : AggregateRoot<Guid>, IAuditable
 {
-    public Guid CustomerId { get; private set; }
-
-    /// <summary>Point-in-time snapshot captured at Create time - like OrderItem.ProductName/UnitPrice, never resynced from the User service afterward.</summary>
-    public string CustomerName { get; private set; } = string.Empty;
-    public string CustomerPhone { get; private set; } = string.Empty;
-    public string CustomerPhoneSearch { get; private set; } = string.Empty;
-    public string CustomerPhoneReverse { get; private set; } = string.Empty;
-
-    /// <summary>Free-text shipping address, same snapshot convention as CustomerName/CustomerPhone - captured once at Create time, never resynced or normalized into structured fields.</summary>
-    public string ShippingAddress { get; private set; } = string.Empty;
+    /// <summary>Who placed this order and where it ships - see OrderOwner remarks.</summary>
+    public OrderOwner Owner { get; private set; } = default!;
 
     public OrderStatus Status { get; private set; }
     public decimal TotalAmount => Items.Sum(i => i.LineTotal);
     public ICollection<OrderItem> Items { get; private set; } = [];
-
-    /// <summary>Client-supplied dedup key (scoped per CustomerId - see OrderConfig's unique index) so a retried/double-submitted CreateOrder request doesn't create a second order.</summary>
-    public string? IdempotencyKey { get; private set; }
 
     /// <summary>Set only when Status is Cancelled - e.g. "OutOfStock" (CreateOrderSaga compensation) or "CancelledByCustomer" (manual CancelOrder).</summary>
     public string? CancellationReason { get; private set; }
@@ -42,14 +30,9 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
         var order = new Order
         {
             Id = id,
-            CustomerId = customerId,
-            CustomerName = customerName,
-            CustomerPhone = customerPhone,
-            ShippingAddress = shippingAddress,
             Status = OrderStatus.Pending,
-            IdempotencyKey = idempotencyKey,
         };
-        order.SyncCustomerSearchFields();
+        order.Owner = OrderOwner.Create(id, customerId, customerName, customerPhone, shippingAddress, idempotencyKey);
 
         foreach (var model in models)
         {
@@ -80,10 +63,14 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
         Tourch();
     }
 
-    private void SyncCustomerSearchFields()
+    /// <summary>Updates the customer-editable contact/shipping snapshot - allowed in the same non-terminal window as Cancel(), since a Cancelled/Completed order no longer ships.</summary>
+    public void UpdateOwnerInfo(string customerPhone, string shippingAddress)
     {
-        CustomerPhoneSearch = PhoneNormalizer.Normalize(CustomerPhone);
-        CustomerPhoneReverse = PhoneNormalizer.Reverse(CustomerPhoneSearch);
+        if (Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
+            throw ExceptionFactory.InvalidStatus($"Cannot update owner information on an order in {Status} status.");
+
+        Owner.UpdateContact(customerPhone, shippingAddress);
+        Tourch();
     }
 
     public void Confirm()

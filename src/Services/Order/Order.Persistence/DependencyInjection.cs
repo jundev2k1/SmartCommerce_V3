@@ -71,15 +71,17 @@ public static class DependencyInjection
         return services;
     }
 
-    // Order aggregate: Order is the root, OrderItem belongs to it via OrderId. OrderProductCatalog
-    // is a separate local read-model (kept in sync from Product's events), not part of this
-    // aggregate, so it isn't registered here.
+    // Order aggregate: Order is the root, OrderItem/OrderOwner belong to it via OrderId.
+    // OrderProductCatalog is a separate local read-model (kept in sync from Product's events),
+    // not part of this aggregate, so it isn't registered here.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
         {
             builder.Entity<OrderEntity>().IsRoot(x => x.Id);
             builder.Entity<OrderItem>()
+                .BelongsTo<OrderEntity>(x => x.OrderId);
+            builder.Entity<OrderOwner>()
                 .BelongsTo<OrderEntity>(x => x.OrderId);
         });
 
