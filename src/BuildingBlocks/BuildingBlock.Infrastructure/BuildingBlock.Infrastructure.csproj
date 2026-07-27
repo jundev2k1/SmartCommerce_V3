@@ -14,6 +14,7 @@
     <ProjectReference Include="../BuildingBlock.Application/BuildingBlock.Application.csproj" />
     <ProjectReference Include="../BuildingBlock.Messaging/BuildingBlock.Messaging.csproj" />
     <ProjectReference Include="../BuildingBlock.SharedKernel/BuildingBlock.SharedKernel.csproj" />
+    <ProjectReference Include="../BuildingBlock.Observability/BuildingBlock.Observability.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
     <PackageReference Include="Hangfire.Core" Version="1.8.14" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
     <PackageReference Include="Hangfire.PostgreSql" Version="1.20.13" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.17.0-beta.1" />
   </ItemGroup>
 
 </Project>

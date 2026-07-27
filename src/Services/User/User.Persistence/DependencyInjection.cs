@@ -11,6 +11,10 @@ using BuildingBlock.Persistence.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Npgsql;
+
+using OpenTelemetry.Trace;
+
 using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Persistence.Engine;
 using User.Persistence.Engine.UnitOfWork;
@@ -24,6 +28,11 @@ namespace User.Persistence;
 
 public static class DependencyInjection
 {
+    public static TracerProviderBuilder AddPersistenceTracing(this TracerProviderBuilder builder)
+    {
+        return builder.AddNpgsql();
+    }
+
     public static IServiceCollection AddPersistence(
         this IServiceCollection services,
         IConfiguration configuration)

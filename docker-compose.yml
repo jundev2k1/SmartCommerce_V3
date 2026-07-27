@@ -7,6 +7,10 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      apm-server:
+        condition: service_healthy
     networks:
       - default
     volumes:
@@ -27,6 +31,10 @@ services:
         condition: service_started
       seq:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      apm-server:
+        condition: service_healthy
     networks:
       - default
 
@@ -43,6 +51,10 @@ services:
       kafka:
         condition: service_started
       seq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      apm-server:
         condition: service_healthy
     networks:
       - default
@@ -61,6 +73,8 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+      apm-server:
+        condition: service_healthy
     networks:
       - default
 
@@ -75,6 +89,10 @@ services:
       kafka:
         condition: service_started
       seq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      apm-server:
         condition: service_healthy
     networks:
       - default
@@ -131,6 +149,10 @@ services:
         condition: service_started
       seq:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      apm-server:
+        condition: service_healthy
     networks:
       - default
 
@@ -138,6 +160,11 @@ services:
   pg:
     image: ${POSTGRES_IMAGE}
     container_name: ${PG_CONTAINER_NAME}
+    # Default max_connections=100 is exhausted once every service (each with its own EF Core
+    # pool + a separate Hangfire.PostgreSql storage pool) connects to this single shared instance -
+    # confirmed via "sorry, too many clients already" once Auth/User/Product/Inventory/Order/Audit
+    # were all running together instead of just the original Order-only vertical slice.
+    command: ["postgres", "-c", "max_connections=300"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql

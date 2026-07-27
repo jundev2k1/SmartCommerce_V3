@@ -6,7 +6,14 @@
 # this script only needs to create the policy itself - no index template here, to avoid
 # colliding with Elasticsearch's own built-in system templates on broad wildcard patterns.
 #
-# Runs once via the `es-init` one-shot container after Elasticsearch is healthy.
+# Also resets kibana_system's real password to match Kibana's configured credentials -
+# ELASTIC_PASSWORD (set on the elasticsearch container) only bootstraps the `elastic`
+# superuser, nothing provisions kibana_system's password otherwise, so Kibana would be
+# stuck authenticating with a password ES never actually assigned to that user.
+#
+# Runs once via the `es-init` one-shot container after Elasticsearch is healthy, authenticated
+# as elastic (ELASTICSEARCH_USERNAME/PASSWORD here are the elastic superuser's credentials,
+# see docker-compose.override.yml's es-init service).
 #
 # No rollover action: services write directly to date-suffixed indices
 # ({service}-logs-yyyy.MM.dd), not a rollover alias/data stream, so `min_age` for the
@@ -14,8 +21,10 @@
 set -eu
 
 ES_URL="${ELASTICSEARCH_URL:-http://elasticsearch:9200}"
+ES_AUTH="${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"
 
 curl -sf -X PUT "$ES_URL/_ilm/policy/logs-ilm-policy" \
+  -u "$ES_AUTH" \
   -H 'Content-Type: application/json' \
   -d '{
     "policy": {
@@ -29,3 +38,10 @@ curl -sf -X PUT "$ES_URL/_ilm/policy/logs-ilm-policy" \
   }'
 
 echo "Elasticsearch logs-ilm-policy applied."
+
+curl -sf -X POST "$ES_URL/_security/user/kibana_system/_password" \
+  -u "$ES_AUTH" \
+  -H 'Content-Type: application/json' \
+  -d "{\"password\":\"${ELASTICSEARCH_PASSWORD}\"}"
+
+echo "kibana_system password reset."

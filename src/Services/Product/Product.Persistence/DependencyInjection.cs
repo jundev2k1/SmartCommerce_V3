@@ -12,6 +12,10 @@ using BuildingBlock.Search.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Npgsql;
+
+using OpenTelemetry.Trace;
+
 using Product.Application.Abstractions.Persistence.ProductCategories;
 using Product.Application.Abstractions.Persistence.Products;
 using Product.Application.Abstractions.Persistence.ProductTags;
@@ -33,6 +37,11 @@ namespace Product.Persistence;
 
 public static class DependencyInjection
 {
+    public static TracerProviderBuilder AddPersistenceTracing(this TracerProviderBuilder builder)
+    {
+        return builder.AddNpgsql();
+    }
+
     public static IServiceCollection AddPersistence(
         this IServiceCollection services,
         IConfiguration configuration)

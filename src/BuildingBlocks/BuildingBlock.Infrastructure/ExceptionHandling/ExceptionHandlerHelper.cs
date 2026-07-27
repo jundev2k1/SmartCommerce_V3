@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 
 using BuildingBlock.Application.Abstractions.Common;
@@ -56,6 +57,13 @@ public static class ExceptionHandlerHelper
     /// <returns>ExceptionHandlingResult with all information for response and logging</returns>
     public static ExceptionHandlingResult HandleException(Exception exception)
     {
+        // IExceptionHandler middleware swallows the exception here rather than letting it
+        // propagate to the hosting layer, so OTel's AddAspNetCoreInstrumentation never sees it
+        // and its automatic exception recording never fires. Record onto the request's Activity
+        // explicitly so it still shows up as an APM error linked to the right trace/transaction.
+        Activity.Current?.AddException(exception);
+        Activity.Current?.SetStatus(ActivityStatusCode.Error, exception.Message);
+
         return exception switch
         {
             AppException appEx => HandleApplicationException(appEx),

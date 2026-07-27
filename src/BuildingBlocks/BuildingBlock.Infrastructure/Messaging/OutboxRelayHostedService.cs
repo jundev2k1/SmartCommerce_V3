@@ -1,4 +1,7 @@
+using System.Diagnostics;
+
 using BuildingBlock.Application.Abstractions.Outbox;
+using BuildingBlock.Infrastructure.Observability;
 using BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +48,12 @@ public sealed class OutboxRelayHostedService(
 
     private async Task ProcessOutboxMessagesAsync(CancellationToken ct)
     {
+        // No parent HTTP request exists here, so this is a root span - it's what makes the
+        // relay's periodic poll show up as its own named transaction in APM instead of an
+        // unnamed/DB-named one.
+        using var activity = InfrastructureActivitySource.Instance.StartActivity(
+            "OutboxRelay.Poll", ActivityKind.Internal);
+
         try
         {
             using var scope = _serviceProvider.CreateAsyncScope();
@@ -52,6 +61,7 @@ public sealed class OutboxRelayHostedService(
             var outboxPublisher = scope.ServiceProvider.GetRequiredService<IOutboxPublisher>();
 
             var messages = await outboxStore.GetUnprocessedAsync(_options.BatchSize, ct);
+            activity?.SetTag("outbox.messages.count", messages.Count);
 
             if (messages.Count == 0)
                 return;
@@ -65,6 +75,8 @@ public sealed class OutboxRelayHostedService(
         }
         catch (Exception ex)
         {
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            activity?.AddException(ex);
             _logger.LogError(ex, "Error processing outbox messages");
         }
     }
@@ -75,6 +87,11 @@ public sealed class OutboxRelayHostedService(
         IOutboxPublisher outboxPublisher,
         CancellationToken ct)
     {
+        using var activity = InfrastructureActivitySource.Instance.StartActivity(
+            "OutboxRelay.PublishMessage", ActivityKind.Internal);
+        activity?.SetTag("messaging.message.id", message.Id);
+        activity?.SetTag("messaging.destination.name", message.Topic);
+
         try
         {
             await outboxPublisher.PublishOutboxMessageAsync(
@@ -92,6 +109,8 @@ public sealed class OutboxRelayHostedService(
         }
         catch (Exception ex)
         {
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            activity?.AddException(ex);
             _logger.LogError(ex, "Error publishing outbox message {MessageId}", message.Id);
 
             if (message.RetryCount < _options.MaxRetries)

@@ -4,6 +4,8 @@ using Auth.Infrastructure;
 using Auth.Persistence;
 using Auth.Persistence.Engine;
 
+using BuildingBlock.Infrastructure.Observability;
+using BuildingBlock.Messaging.Kafka.Tracing;
 using BuildingBlock.Observability.Logging;
 using BuildingBlock.Observability.Tracing;
 
@@ -40,7 +42,10 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddPresentation(builder.Configuration)
-    .AddOpenTelemetryObservability(builder.Configuration, "auth-api", tracing => tracing.AddPersistenceTracing());
+    .AddOpenTelemetryObservability(builder.Configuration, "auth-api", tracing => tracing
+        .AddPersistenceTracing()
+        .AddKafkaMessagingTracing()
+        .AddInfrastructureTracing());
 
 var app = builder.Build();
 
@@ -50,6 +55,8 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
     await dbContext.Database.MigrateAsync();
 }
+
+app.UseRedisTracing();
 
 // Configure middleware pipeline
 app.UseApplication();

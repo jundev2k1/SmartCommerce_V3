@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
+using BuildingBlock.Infrastructure.Observability;
+using BuildingBlock.Messaging.Kafka.Tracing;
+using BuildingBlock.Observability.Logging;
+using BuildingBlock.Observability.Tracing;
+
 using Serilog;
 
 using Product.API;
@@ -11,14 +16,7 @@ using Product.Persistence;
 using Product.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
-var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";
-builder.Host.UseSerilog((context, config) =>
-{
-    config
-        .MinimumLevel.Information()
-        .WriteTo.Console()
-        .WriteTo.Seq(seqUrl);
-});
+builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "product-api"));
 
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -33,7 +31,11 @@ builder.Services
     .AddPersistence(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation(builder.Configuration);
+    .AddPresentation(builder.Configuration)
+    .AddOpenTelemetryObservability(builder.Configuration, "product-api", tracing => tracing
+        .AddPersistenceTracing()
+        .AddKafkaMessagingTracing()
+        .AddInfrastructureTracing());
 
 var app = builder.Build();
 
@@ -43,9 +45,19 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Database.MigrateAsync();
 
     var searchIndexer = scope.ServiceProvider.GetRequiredService<IProductSearchIndexer>();
-    await searchIndexer.EnsureIndexAsync();
+    try
+    {
+        await searchIndexer.EnsureIndexAsync();
+    }
+    catch (Exception ex)
+    {
+        // Elasticsearch is a read-model dependency, not a hard requirement to serve traffic -
+        // don't let a transient ES outage/misconfiguration take down the whole API on boot.
+        app.Logger.LogError(ex, "Failed to ensure the product search index exists. Search endpoints will be degraded until Elasticsearch connectivity is restored.");
+    }
 }
 
+app.UseRedisTracing();
 app.UseApplication();
 
 app.Run();

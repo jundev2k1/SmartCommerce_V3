@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 
 using Serilog;
+using Serilog.Enrichers.Span;
 
 namespace BuildingBlock.Observability.Logging;
 
@@ -13,11 +14,16 @@ public static class SerilogBootstrap
     {
         var seqUrl = configuration["Logging:Seq:Url"] ?? "http://seq:5341";
         var elasticsearchUrl = configuration["Logging:Elasticsearch:Url"];
+        var elasticsearchUsername = configuration["Logging:Elasticsearch:Username"];
+        var elasticsearchPassword = configuration["Logging:Elasticsearch:Password"];
 
         loggerConfiguration
             .MinimumLevel.Information()
             .Enrich.FromLogContext()
             .Enrich.WithProperty("Service", serviceName)
+            // Stamps TraceId/SpanId from Activity.Current onto every log event, so a trace in
+            // Kibana APM/Observability can be pivoted to its exact log lines in Discover.
+            .Enrich.WithSpan()
             .WriteTo.Console()
             .WriteTo.Seq(seqUrl);
 
@@ -34,7 +40,10 @@ public static class SerilogBootstrap
                 TemplateCustomSettings = new Dictionary<string, string>
                 {
                     ["index.lifecycle.name"] = "logs-ilm-policy"
-                }
+                },
+                ModifyConnectionSettings = !string.IsNullOrWhiteSpace(elasticsearchUsername) && !string.IsNullOrWhiteSpace(elasticsearchPassword)
+                    ? conn => conn.BasicAuthentication(elasticsearchUsername, elasticsearchPassword)
+                    : null
             });
         }
 

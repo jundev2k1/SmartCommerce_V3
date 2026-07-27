@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using System.Text;
 
+using BuildingBlock.Messaging.Kafka.Tracing;
 using BuildingBlock.Messaging.Services;
 
 using KafkaFlow;
@@ -24,9 +26,20 @@ public sealed class IntegrationEventDispatchHandler(
         var json = Encoding.UTF8.GetString(message);
         var headers = ConvertHeaders(context.Headers);
 
+        using var activity = KafkaTracing.StartConsumerActivity(topic, headers);
+
         logger.LogDebug("Dispatching message from topic {Topic}", topic);
 
-        await registry.DispatchAsync(topic, json, headers, context.ConsumerContext.WorkerStopped);
+        try
+        {
+            await registry.DispatchAsync(topic, json, headers, context.ConsumerContext.WorkerStopped);
+        }
+        catch (Exception ex)
+        {
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            activity?.AddException(ex);
+            throw;
+        }
     }
 
     private static IReadOnlyDictionary<string, string> ConvertHeaders(IMessageHeaders headers) =>

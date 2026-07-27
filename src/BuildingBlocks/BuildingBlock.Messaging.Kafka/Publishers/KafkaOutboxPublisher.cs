@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Text;
 
 using BuildingBlock.Messaging.Abstractions;
 using BuildingBlock.Messaging.Kafka.Configuration;
+using BuildingBlock.Messaging.Kafka.Tracing;
 
 using KafkaFlow;
 using KafkaFlow.Producers;
@@ -28,6 +30,8 @@ public sealed class KafkaOutboxPublisher(
         var producer = producerAccessor.GetProducer(KafkaFlowDefaults.ProducerName);
         var value = Encoding.UTF8.GetBytes(payload);
 
+        using var activity = KafkaTracing.StartProducerActivity(topic);
+
         var headers = new MessageHeaders
         {
             { "event-type", Encoding.UTF8.GetBytes(eventType) },
@@ -39,6 +43,17 @@ public sealed class KafkaOutboxPublisher(
         if (actorId is not null)
             headers.Add("actor-id", Encoding.UTF8.GetBytes(actorId));
 
-        await producer.ProduceAsync(topic, correlationId, value, headers);
+        KafkaTracing.InjectTraceContext(headers);
+
+        try
+        {
+            await producer.ProduceAsync(topic, correlationId, value, headers);
+        }
+        catch (Exception ex)
+        {
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            activity?.AddException(ex);
+            throw;
+        }
     }
 }

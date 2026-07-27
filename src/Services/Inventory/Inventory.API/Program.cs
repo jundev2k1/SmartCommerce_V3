@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
+using BuildingBlock.Infrastructure.Observability;
+using BuildingBlock.Messaging.Kafka.Tracing;
+using BuildingBlock.Observability.Logging;
+using BuildingBlock.Observability.Tracing;
+
 using Serilog;
 
 using Inventory.API;
@@ -10,14 +15,7 @@ using Inventory.Persistence;
 using Inventory.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
-var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";
-builder.Host.UseSerilog((context, config) =>
-{
-    config
-        .MinimumLevel.Information()
-        .WriteTo.Console()
-        .WriteTo.Seq(seqUrl);
-});
+builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "inventory-api"));
 
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -38,7 +36,11 @@ builder.Services
     .AddPersistence(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation(builder.Configuration);
+    .AddPresentation(builder.Configuration)
+    .AddOpenTelemetryObservability(builder.Configuration, "inventory-api", tracing => tracing
+        .AddPersistenceTracing()
+        .AddKafkaMessagingTracing()
+        .AddInfrastructureTracing());
 
 var app = builder.Build();
 
@@ -48,6 +50,7 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Database.MigrateAsync();
 }
 
+app.UseRedisTracing();
 app.UseApplication();
 
 app.Run();

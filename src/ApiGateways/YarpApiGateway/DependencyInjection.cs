@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddSingleton(gatewayOptions);
         services.AddSingleton<ISwaggerAggregator, SwaggerAggregator>();
         services.AddHttpClient();
+        services.AddHealthChecks();
         services.AddRefreshTokenCache(gatewayOptions.Redis.ConnectionString);
 
         AddAuthentication(services, gatewayOptions);

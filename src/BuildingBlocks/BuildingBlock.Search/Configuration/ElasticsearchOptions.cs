@@ -9,4 +9,8 @@ public sealed class ElasticsearchOptions
     public int MaxRetries { get; set; } = 3;
 
     public int RequestTimeoutSeconds { get; set; } = 30;
+
+    public string Username { get; set; } = string.Empty;
+
+    public string Password { get; set; } = string.Empty;
 }

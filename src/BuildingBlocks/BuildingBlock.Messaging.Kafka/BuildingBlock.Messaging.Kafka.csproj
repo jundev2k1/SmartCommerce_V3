@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuildingBlock.Messaging\BuildingBlock.Messaging.csproj" />
+    <ProjectReference Include="..\BuildingBlock.Observability\BuildingBlock.Observability.csproj" />
   </ItemGroup>
 
   <ItemGroup>

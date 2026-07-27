@@ -3,6 +3,7 @@ using BuildingBlock.Search.Configuration;
 using BuildingBlock.Search.Indexing;
 
 using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,11 @@ public static class ServiceCollectionExtensions
             var settings = new ElasticsearchClientSettings(new Uri(options.Url))
                 .MaximumRetries(options.MaxRetries)
                 .RequestTimeout(TimeSpan.FromSeconds(options.RequestTimeoutSeconds));
+
+            if (!string.IsNullOrWhiteSpace(options.Username) && !string.IsNullOrWhiteSpace(options.Password))
+            {
+                settings.Authentication(new BasicAuthentication(options.Username, options.Password));
+            }
 
             return new ElasticsearchClient(settings);
         });

@@ -19,9 +19,16 @@ services:
       - Gateway__Jwt__Audience=${GATEWAY_JWT_AUDIENCE}
       # Redis (refresh token existence check only)
       - Gateway__Redis__ConnectionString=${GATEWAY_REDIS_CONNECTION_STRING}
+      # Logging
+      - Logging__Seq__Url=${SEQ_URL}
+      - Logging__Elasticsearch__Url=${ELASTICSEARCH_URL}
+      # Observability (APM/tracing - see docs/setup/observability.md)
+      - Observability__ApmServerUrl=${APM_SERVER_URL}
     healthcheck:
+      # Must probe the in-container port (GATEWAY_HTTP_PORT/8080), not GATEWAY_PUBLIC_PORT (5000)
+      # - that's only the host-side mapping, and curl runs *inside* this container.
       test:
-        ["CMD", "curl", "-f", "http://localhost:${GATEWAY_PUBLIC_PORT}/health"]
+        ["CMD", "curl", "-f", "http://localhost:${GATEWAY_HTTP_PORT}/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -43,6 +50,9 @@ services:
       - ConnectionStrings__Hangfire=${HANGFIRE_DB_CONNECTION}
       # Logging
       - Logging__Seq__Url=${SEQ_URL}
+      - Logging__Elasticsearch__Url=${ELASTICSEARCH_URL}
+      # Observability (APM/tracing - see docs/setup/observability.md)
+      - Observability__ApmServerUrl=${APM_SERVER_URL}
       # Cache (Redis)
       - Cache__ConnectionString=${AUTH_REDIS_CONNECTION_STRING}
       - Cache__DefaultExpirationMinutes=${AUTH_REDIS_EXPIRATION_MINUTES}
@@ -102,6 +112,9 @@ services:
       - ConnectionStrings__Hangfire=${USER_HANGFIRE_DB_CONNECTION}
       # Logging
       - Logging__Seq__Url=${SEQ_URL}
+      - Logging__Elasticsearch__Url=${ELASTICSEARCH_URL}
+      # Observability (APM/tracing - see docs/setup/observability.md)
+      - Observability__ApmServerUrl=${APM_SERVER_URL}
       # JWT
       - Jwt__SecretKey=${AUTH_JWT_SECRET_KEY}
       - Jwt__Issuer=${AUTH_JWT_ISSUER}
@@ -159,6 +172,11 @@ services:
       - ConnectionStrings__Hangfire=${PRODUCT_HANGFIRE_DB_CONNECTION}
       # Logging
       - Logging__Seq__Url=${SEQ_URL}
+      - Logging__Elasticsearch__Url=${ELASTICSEARCH_URL}
+      - Logging__Elasticsearch__Username=${ELASTICSEARCH_APP_USERNAME}
+      - Logging__Elasticsearch__Password=${ELASTICSEARCH_PASSWORD}
+      # Observability (APM/tracing - see docs/setup/observability.md)
+      - Observability__ApmServerUrl=${APM_SERVER_URL}
       # JWT (validation only - tokens are issued by Auth)
       - Jwt__SecretKey=${AUTH_JWT_SECRET_KEY}
       - Jwt__Issuer=${AUTH_JWT_ISSUER}
@@ -195,6 +213,8 @@ services:
       - Kafka__BootstrapServers=${PRODUCT_KAFKA_BROKERS}
       # Elasticsearch (Search read model - see docs/reference/search.md)
       - Elasticsearch__Url=${PRODUCT_ELASTICSEARCH_URL}
+      - Elasticsearch__Username=${ELASTICSEARCH_APP_USERNAME}
+      - Elasticsearch__Password=${ELASTICSEARCH_PASSWORD}
       # gRPC (stock availability lookup for Search Products - see docs/services/inventory-service.md)
       - Grpc__InventoryService__Url=${INVENTORY_GRPC_URL}
     healthcheck:
@@ -219,6 +239,9 @@ services:
       - ConnectionStrings__Hangfire=${INVENTORY_HANGFIRE_DB_CONNECTION}
       # Logging
       - Logging__Seq__Url=${SEQ_URL}
+      - Logging__Elasticsearch__Url=${ELASTICSEARCH_URL}
+      # Observability (APM/tracing - see docs/setup/observability.md)
+      - Observability__ApmServerUrl=${APM_SERVER_URL}
       # JWT (validation only - tokens are issued by Auth)
       - Jwt__SecretKey=${AUTH_JWT_SECRET_KEY}
       - Jwt__Issuer=${AUTH_JWT_ISSUER}
@@ -366,6 +389,9 @@ services:
       - ConnectionStrings__Hangfire=${NOTIFICATION_HANGFIRE_DB_CONNECTION}
       # Logging
       - Logging__Seq__Url=${SEQ_URL}
+      - Logging__Elasticsearch__Url=${ELASTICSEARCH_URL}
+      # Observability (APM/tracing - see docs/setup/observability.md)
+      - Observability__ApmServerUrl=${APM_SERVER_URL}
       # JWT (validation only - tokens are issued by Auth)
       - Jwt__SecretKey=${AUTH_JWT_SECRET_KEY}
       - Jwt__Issuer=${AUTH_JWT_ISSUER}
@@ -488,9 +514,21 @@ services:
     environment:
       - discovery.type=${ELASTICSEARCH_DISCOVERY_TYPE}
       - xpack.security.enabled=${ELASTICSEARCH_XPACK_SECURITY_ENABLED}
+      - xpack.security.http.ssl.enabled=${ELASTICSEARCH_HTTP_SSL_ENABLED}
+      # Bootstraps the built-in `elastic` superuser's password on first start (recognized
+      # natively by the ES docker image) - ELASTICSEARCH_USERNAME/PASSWORD alone only tell
+      # *consumers* (Kibana/Product/APM) what to send, they don't set anything inside ES itself.
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
       - ES_JAVA_OPTS=${ELASTICSEARCH_JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
+      # Must use the elastic superuser here, not kibana_system - kibana_system's real
+      # password isn't provisioned until es-init runs, and es-init depends_on this
+      # healthcheck passing first (see es-init below).
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -u ${ELASTICSEARCH_APP_USERNAME}:${ELASTICSEARCH_PASSWORD} http://localhost:9200 >/dev/null || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -501,6 +539,8 @@ services:
       - "${KIBANA_PORT}:5601"
     environment:
       - ELASTICSEARCH_HOSTS=${KIBANA_ELASTICSEARCH_HOSTS}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5601/api/status"]
       interval: 30s
@@ -510,11 +550,19 @@ services:
   es-init:
     environment:
       - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
+      # Authenticates as elastic (the only user guaranteed valid right after ES boots via
+      # ELASTIC_PASSWORD) - also resets kibana_system's real password to this same value,
+      # since nothing else provisions it (see init-ilm-templates.sh).
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_APP_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
 
   apm-server:
     container_name: ${APM_SERVER_CONTAINER_NAME}
     ports:
       - "${APM_SERVER_PORT}:8200"
+    environment:
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_APP_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
     healthcheck:
       # apm-server's image has no curl/wget - a bare TCP connect via bash's /dev/tcp
       # is enough to confirm the port is accepting connections.

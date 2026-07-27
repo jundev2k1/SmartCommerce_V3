@@ -1,5 +1,11 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
+using BuildingBlock.Infrastructure.Observability;
+using BuildingBlock.Messaging.Kafka.Tracing;
+using BuildingBlock.Observability.Logging;
+using BuildingBlock.Observability.Tracing;
+using BuildingBlock.Persistence.Mongo.DependencyInjection;
+
 using Serilog;
 
 using Notification.API;
@@ -8,14 +14,7 @@ using Notification.Infrastructure;
 using Notification.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
-var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";
-builder.Host.UseSerilog((context, config) =>
-{
-    config
-        .MinimumLevel.Information()
-        .WriteTo.Console()
-        .WriteTo.Seq(seqUrl);
-});
+builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "notification-api"));
 
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -30,9 +29,15 @@ builder.Services
     .AddPersistence(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation(builder.Configuration);
+    .AddPresentation(builder.Configuration)
+    .AddOpenTelemetryObservability(builder.Configuration, "notification-api", tracing => tracing
+        .AddMongoTracing()
+        .AddKafkaMessagingTracing()
+        .AddInfrastructureTracing());
 
 var app = builder.Build();
+
+app.UseRedisTracing();
 
 // No migration step here - Mongo is schemaless. The "notifications" collection and its indexes
 // are created once by scripts/mongodb/init-mongo.js when the mongo container first initializes;

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
+using BuildingBlock.Infrastructure.Observability;
+using BuildingBlock.Messaging.Kafka.Tracing;
 using BuildingBlock.Observability.Logging;
 using BuildingBlock.Observability.Tracing;
 
@@ -29,7 +31,10 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddPresentation(builder.Configuration)
-    .AddOpenTelemetryObservability(builder.Configuration, "order-api", tracing => tracing.AddPersistenceTracing());
+    .AddOpenTelemetryObservability(builder.Configuration, "order-api", tracing => tracing
+        .AddPersistenceTracing()
+        .AddKafkaMessagingTracing()
+        .AddInfrastructureTracing());
 
 var app = builder.Build();
 
@@ -39,6 +44,7 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Database.MigrateAsync();
 }
 
+app.UseRedisTracing();
 app.UseApplication();
 
 app.Run();

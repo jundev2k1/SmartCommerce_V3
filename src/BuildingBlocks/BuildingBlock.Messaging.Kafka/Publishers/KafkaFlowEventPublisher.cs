@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
 using BuildingBlock.Contract.Events;
 using BuildingBlock.Messaging.Abstractions;
 using BuildingBlock.Messaging.Kafka.Configuration;
+using BuildingBlock.Messaging.Kafka.Tracing;
 
 using KafkaFlow;
 using KafkaFlow.Producers;
@@ -20,13 +22,25 @@ public sealed class KafkaFlowEventPublisher(
         var topic = GenerateTopicName(@event);
         var value = JsonSerializer.SerializeToUtf8Bytes(@event);
 
+        using var activity = KafkaTracing.StartProducerActivity(topic);
+
         var headers = new MessageHeaders
         {
             { "event-type", Encoding.UTF8.GetBytes(typeof(TEvent).Name) },
             { "correlation-id", Encoding.UTF8.GetBytes(@event.CorrelationId) },
         };
+        KafkaTracing.InjectTraceContext(headers);
 
-        await producer.ProduceAsync(topic, @event.CorrelationId, value, headers);
+        try
+        {
+            await producer.ProduceAsync(topic, @event.CorrelationId, value, headers);
+        }
+        catch (Exception ex)
+        {
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            activity?.AddException(ex);
+            throw;
+        }
     }
 
     public async Task PublishBatchAsync<TEvent>(

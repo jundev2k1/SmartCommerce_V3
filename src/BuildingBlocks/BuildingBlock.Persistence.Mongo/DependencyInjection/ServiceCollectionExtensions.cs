@@ -7,6 +7,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 
 namespace BuildingBlock.Persistence.Mongo.DependencyInjection;
 
@@ -29,7 +30,14 @@ public static class ServiceCollectionExtensions
     {
         RegisterConventionsOnce();
 
-        services.AddSingleton<IMongoClient>(_ => new MongoClient(connectionString));
+        services.AddSingleton<IMongoClient>(_ =>
+        {
+            var settings = MongoClientSettings.FromConnectionString(connectionString);
+            // Emits an Activity per Mongo command via MongoDB.Driver.Core.Extensions.DiagnosticSources
+            // - matched on the export side by MongoTracingExtensions.AddMongoTracing().
+            settings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+            return new MongoClient(settings);
+        });
         services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase(databaseName));
         services.AddSingleton<TContext>();
 

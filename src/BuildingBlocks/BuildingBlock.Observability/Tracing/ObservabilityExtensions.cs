@@ -22,8 +22,12 @@ public static class ObservabilityExtensions
             {
                 tracing
                     .SetSampler(new AlwaysOnSampler())
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
+                    .AddAspNetCoreInstrumentation(options => options.RecordException = true)
+                    .AddHttpClientInstrumentation(options => options.RecordException = true)
+                    // Composes with AddHttpClientInstrumentation: this package suppresses the
+                    // inner HTTP span it would otherwise duplicate, so both can be registered
+                    // together safely - see grpc-dotnet/opentelemetry-dotnet-contrib docs.
+                    .AddGrpcClientInstrumentation()
                     .AddOtlpExporter(otlp => otlp.Endpoint = new Uri(apmServerUrl));
 
                 configureTracing?.Invoke(tracing);

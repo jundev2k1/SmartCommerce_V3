@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using System.Text.Json;
 
 using BuildingBlock.Application.Abstractions.Outbox;
+using BuildingBlock.Infrastructure.Observability;
 using BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +50,9 @@ public sealed class InboxRetryHostedService(
 
     private async Task ProcessDueRetriesAsync(CancellationToken ct)
     {
+        using var activity = InfrastructureActivitySource.Instance.StartActivity(
+            "InboxRetry.Poll", ActivityKind.Internal);
+
         IReadOnlyList<InboxMessageSnapshot> due;
 
         try
@@ -55,9 +60,12 @@ public sealed class InboxRetryHostedService(
             using var scope = _serviceProvider.CreateAsyncScope();
             var inboxStore = scope.ServiceProvider.GetRequiredService<IInboxStore>();
             due = await inboxStore.GetDueForRetryAsync(_options.BatchSize, ct);
+            activity?.SetTag("inbox.retries.count", due.Count);
         }
         catch (Exception ex)
         {
+            activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+            activity?.AddException(ex);
             _logger.LogError(ex, "Error fetching due Inbox retries");
             return;
         }
@@ -75,6 +83,8 @@ public sealed class InboxRetryHostedService(
             }
             catch (Exception ex)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
+                activity?.AddException(ex);
                 _logger.LogError(
                     ex,
                     "Unexpected error retrying message {MessageId} for consumer {ConsumerName}",
@@ -85,6 +95,11 @@ public sealed class InboxRetryHostedService(
 
     private async Task RetryOneAsync(InboxMessageSnapshot row, CancellationToken ct)
     {
+        using var activity = InfrastructureActivitySource.Instance.StartActivity(
+            "InboxRetry.RetryMessage", ActivityKind.Internal);
+        activity?.SetTag("messaging.message.id", row.MessageId);
+        activity?.SetTag("messaging.consumer.name", row.ConsumerName);
+
         // Fresh scope per message, same as the live Kafka dispatch path - keeps each retry's
         // business persistence isolated to its own DbContext/change tracker.
         using var scope = _serviceProvider.CreateAsyncScope();
