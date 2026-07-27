@@ -129,6 +129,19 @@ public sealed class MongoInboxStore<TContext>(TContext context) : IInboxStore
         return (int)result.DeletedCount;
     }
 
+    public async Task<IReadOnlyList<InboxDeadLetterSummary>> GetDeadLetterSummaryAsync(CancellationToken ct = default)
+    {
+        var docs = await _context.InboxMessages
+            .Find(m => m.Status == InboxMessageStatus.DeadLetter)
+            .Project(m => new { m.ConsumerName, m.Topic, m.LastRetryAt })
+            .ToListAsync(ct);
+
+        return [.. docs
+            .GroupBy(d => (d.ConsumerName, d.Topic))
+            .Select(g => new InboxDeadLetterSummary(
+                g.Key.ConsumerName, g.Key.Topic, g.Count(), g.Min(d => d.LastRetryAt) ?? DateTime.UtcNow))];
+    }
+
     private static InboxMessageSnapshot ToSnapshot(InboxDocument m) => new(
         m.MessageId,
         m.ConsumerName,

@@ -141,6 +141,25 @@ public sealed class EfInboxStore<TContext>(TContext context) : IInboxStore
         return ids.Count;
     }
 
+    public async Task<IReadOnlyList<InboxDeadLetterSummary>> GetDeadLetterSummaryAsync(CancellationToken ct = default)
+    {
+        var groups = await _context.InboxMessages
+            .AsNoTracking()
+            .Where(m => m.Status == InboxMessageStatus.DeadLetter)
+            .GroupBy(m => new { m.ConsumerName, m.Topic })
+            .Select(g => new
+            {
+                g.Key.ConsumerName,
+                g.Key.Topic,
+                Count = g.Count(),
+                OldestDeadLetteredAt = g.Min(m => m.LastRetryAt)
+            })
+            .ToListAsync(ct);
+
+        return [.. groups.Select(g => new InboxDeadLetterSummary(
+            g.ConsumerName, g.Topic, g.Count, g.OldestDeadLetteredAt ?? DateTime.UtcNow))];
+    }
+
     private static InboxMessageSnapshot ToSnapshot(InboxMessage m) => new(
         m.MessageId,
         m.ConsumerName,

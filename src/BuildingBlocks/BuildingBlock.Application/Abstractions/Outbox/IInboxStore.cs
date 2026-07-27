@@ -90,4 +90,10 @@ public interface IInboxStore
     /// (InboxCleanupJob) can loop until a batch comes back short of batchSize.
     /// </summary>
     Task<int> DeleteProcessedBeforeAsync(DateTime olderThanUtc, int batchSize, CancellationToken ct = default);
+
+    /// <summary>
+    /// Aggregate counts of DeadLetter rows grouped by (ConsumerName, Topic), for periodic ops
+    /// monitoring. Never returns row payloads - just enough to alert on and locate the rows.
+    /// </summary>
+    Task<IReadOnlyList<InboxDeadLetterSummary>> GetDeadLetterSummaryAsync(CancellationToken ct = default);
 }

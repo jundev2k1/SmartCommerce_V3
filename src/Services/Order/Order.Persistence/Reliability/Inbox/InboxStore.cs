@@ -43,6 +43,12 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
     public Task<int> DeleteProcessedBeforeAsync(DateTime olderThanUtc, int batchSize, CancellationToken ct = default) =>
         _primitiveStore.DeleteProcessedBeforeAsync(olderThanUtc, batchSize, ct);
 
+    public async Task<IReadOnlyList<InboxDeadLetterSummary>> GetDeadLetterSummaryAsync(CancellationToken ct = default)
+    {
+        var rows = await _primitiveStore.GetDeadLetterSummaryAsync(ct);
+        return [.. rows.Select(ToApplication)];
+    }
+
     private static InboxAttemptDecision ToApplication(BuildingBlock.Persistence.Inbox.InboxAttemptDecision decision) => decision switch
     {
         BuildingBlock.Persistence.Inbox.InboxAttemptDecision.Proceed => InboxAttemptDecision.Proceed,
@@ -82,4 +88,7 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
         snapshot.NextRetryAt,
         snapshot.LastRetryAt,
         snapshot.LastError);
+
+    private static InboxDeadLetterSummary ToApplication(BuildingBlock.Persistence.Inbox.InboxDeadLetterSummary summary) => new(
+        summary.ConsumerName, summary.Topic, summary.Count, summary.OldestDeadLetteredAt);
 }
