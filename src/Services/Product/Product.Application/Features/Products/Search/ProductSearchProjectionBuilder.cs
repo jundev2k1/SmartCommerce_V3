@@ -46,6 +46,17 @@ public sealed class ProductSearchProjectionBuilder(
             DefaultPrice = defaultVariation.Price,
             DefaultVariationId = defaultVariation.Id,
             DefaultVariationSku = defaultVariation.Sku.Value,
+            // Active only - a Discontinued/Inactive variation's name shouldn't surface a product
+            // in keyword search results the customer can't actually buy that variant from.
+            VariationNames = [.. product.Variations
+                .Where(v => v.Status == ProductVariationStatus.Active)
+                .Select(v => v.Name)
+                .Distinct()],
+            // Every Active variation's id, not just the Default's - lets SearchProductsHandler
+            // compute "is ANY variation in stock" instead of only checking the default.
+            VariationIds = [.. product.Variations
+                .Where(v => v.Status == ProductVariationStatus.Active)
+                .Select(v => v.Id)],
             CategoryIds = categoryIds,
             CategoryNames = [.. categories.Where(c => categoryIds.Contains(c.Id)).Select(c => c.Name)],
             TagIds = tagIds,

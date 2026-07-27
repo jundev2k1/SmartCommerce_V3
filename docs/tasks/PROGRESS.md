@@ -4,7 +4,7 @@ One line per still-open task, most recent date first. Per-task detail lives in e
 
 ## 2026-07-27
 
-Source: full-system business-requirements audit (Product, Customer, Order+concurrency, Audit Log, Inventory) — read-only, no fixes applied yet. 12 tasks opened; Task 9 resolved same day. See [2026-07-27/PROGRESS.md](./2026-07-27/PROGRESS.md) for detail.
+Source: full-system business-requirements audit (Product, Customer, Order+concurrency, Audit Log, Inventory) — read-only, no fixes applied yet. 12 tasks opened; Task 9 resolved same day. A second audit pass this date (SmartCommerce V3 Search/Variation/Cart-Stock checklist) opened Tasks 13-22 — all 10 resolved same day. See [2026-07-27/PROGRESS.md](./2026-07-27/PROGRESS.md) for detail.
 
 - [ ] Task 1 — Customer (User) Delete endpoint does not exist (`2026-07-27/Task1_customer-delete-endpoint-missing.md`).
 - [ ] Task 2 — Order concurrency token never round-trips through the API contract; real cross-session conflicts unprotected (`2026-07-27/Task2_order-concurrency-token-not-in-contract.md`).
@@ -18,6 +18,16 @@ Source: full-system business-requirements audit (Product, Customer, Order+concur
 - [ ] Task 10 — Category/Tag delete has no usage-count precheck (`2026-07-27/Task10_category-tag-delete-no-usage-precheck.md`).
 - [ ] Task 11 — `RebuildProductSearchIndex` has no documented auth requirement (`2026-07-27/Task11_rebuild-search-index-auth-undocumented.md`).
 - [ ] Task 12 — Inventory reservation model decision needed: deduct-immediately + saga-compensate vs. true reserve/commit/release (`2026-07-27/Task12_inventory-reservation-model-decision.md`).
+- [x] Task 13 — Keyword/filter search has no case-insensitive option, shared infra + User + Order (`2026-07-27/Task13_case-insensitive-search-missing.md`) — resolved.
+- [x] Task 14 — Order search has no Order ID field (`2026-07-27/Task14_order-id-search-filter-missing.md`) — resolved.
+- [x] Task 15 — Product Search doesn't index/search Variation Name (`2026-07-27/Task15_product-search-missing-variation-name.md`) — resolved; live reindex not run this session.
+- [x] Task 16 — `ProductVariation.Name` is a dead property, never set or returned (`2026-07-27/Task16_variation-name-not-wired.md`) — resolved: full Create/Add/Update/Read wiring + migration.
+- [x] Task 17 — No shared stock-availability service across Cart/Order (`2026-07-27/Task17_no-shared-stock-validation-service.md`) — resolved: `IStockAvailabilityService` extracted.
+- [x] Task 18 — Add Cart API never checks real stock, only a status flag (`2026-07-27/Task18_add-cart-no-realtime-stock-check.md`) — resolved.
+- [x] Task 19 — Get Cart returns no live stock/availability per item (`2026-07-27/Task19_get-cart-no-live-stock-check.md`) — resolved.
+- [x] Task 20 — Create Order's insufficient-stock error has no structured per-item detail (`2026-07-27/Task20_create-order-insufficient-stock-error-not-structured.md`) — resolved as part of Task 17's change.
+- [x] Task 21 — Product Search's `isInStock` reflects only the default variation (`2026-07-27/Task21_product-list-add-cart-checks-default-variation-only.md`) — resolved via direct gRPC (user-confirmed approach).
+- [x] Task 22 — GetProduct response has no per-variation stock data (`2026-07-27/Task22_get-product-no-per-variation-stock.md`) — resolved.
 
 ## 2026-07-22
 

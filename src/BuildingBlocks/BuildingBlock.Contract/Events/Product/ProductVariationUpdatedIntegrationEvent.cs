@@ -1,10 +1,11 @@
 namespace BuildingBlock.Contract.Events.Product;
 
-/// <summary>Fired when a variation's Sku/Price/Status changes - the fields catalog consumers (Order) care about.</summary>
+/// <summary>Fired when a variation's Sku/Name/Price/Status changes - the fields catalog consumers (Order) care about.</summary>
 public sealed record ProductVariationUpdatedIntegrationEvent(
     Guid ProductId,
     Guid ProductVariationId,
     string Sku,
+    string VariationName,
     decimal Price,
     string Status,
     string? CorrelationId = null) : IIntegrationEvent

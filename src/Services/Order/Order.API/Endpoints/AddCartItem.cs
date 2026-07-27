@@ -23,7 +23,9 @@ public sealed class AddCartItemEndpoint : ICarterModule
         "",
         "### Error Responses",
         "- **404**: Variation not found in the local product catalog",
-        "- **400**: Product is not currently available for ordering",
+        "- **400**: Product is not currently available for ordering, or requested quantity",
+        "  (existing cart quantity + this request) exceeds real-time Inventory stock - the 400's",
+        "  `details` carries `{ insufficients: [variationId] }`",
     ];
 
     public void AddRoutes(IEndpointRouteBuilder app)

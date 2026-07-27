@@ -23,6 +23,11 @@ public static class CriteriaPredicateBuilder<TEntity>
     private static readonly MethodInfo StartsWithMethod = typeof(string).GetMethod(nameof(string.StartsWith), [typeof(string)])!;
     private static readonly MethodInfo EndsWithMethod = typeof(string).GetMethod(nameof(string.EndsWith), [typeof(string)])!;
 
+    // `.ToLower()`, not `.ToLowerInvariant()` - EF Core's relational providers (Npgsql included) recognize and
+    // translate the former to a SQL LOWER() call; the invariant overload isn't pattern-matched and would force
+    // client-side evaluation.
+    private static readonly MethodInfo ToLowerMethod = typeof(string).GetMethod(nameof(string.ToLower), Type.EmptyTypes)!;
+
     public static Expression<Func<TEntity, bool>>? Build(CriteriaDefinition<TEntity> definition, CriteriaRequest request)
     {
         var parameter = Expression.Parameter(typeof(TEntity), "x");
@@ -55,6 +60,7 @@ public static class CriteriaPredicateBuilder<TEntity>
     {
         var property = ParameterRebinder.ReplaceParameter(field.Accessor, parameter);
         var propertyType = property.Type;
+        var ignoreCase = field.IgnoreCase && propertyType == typeof(string);
 
         switch (op)
         {
@@ -80,19 +86,24 @@ public static class CriteriaPredicateBuilder<TEntity>
                 }
 
             case CriteriaOperator.Contains:
-                return Expression.Call(property, ContainsMethod, BuildConstant(property, propertyType, field, value));
+                return Expression.Call(
+                    NormalizeCase(property, ignoreCase), ContainsMethod, NormalizeCase(BuildConstant(property, propertyType, field, value), ignoreCase));
 
             case CriteriaOperator.StartsWith:
-                return Expression.Call(property, StartsWithMethod, BuildConstant(property, propertyType, field, value));
+                return Expression.Call(
+                    NormalizeCase(property, ignoreCase), StartsWithMethod, NormalizeCase(BuildConstant(property, propertyType, field, value), ignoreCase));
 
             case CriteriaOperator.EndsWith:
-                return Expression.Call(property, EndsWithMethod, BuildConstant(property, propertyType, field, value));
+                return Expression.Call(
+                    NormalizeCase(property, ignoreCase), EndsWithMethod, NormalizeCase(BuildConstant(property, propertyType, field, value), ignoreCase));
 
             case CriteriaOperator.Eq:
-                return Expression.Equal(property, BuildConstant(property, propertyType, field, value));
+                return Expression.Equal(
+                    NormalizeCase(property, ignoreCase), NormalizeCase(BuildConstant(property, propertyType, field, value), ignoreCase));
 
             case CriteriaOperator.Ne:
-                return Expression.NotEqual(property, BuildConstant(property, propertyType, field, value));
+                return Expression.NotEqual(
+                    NormalizeCase(property, ignoreCase), NormalizeCase(BuildConstant(property, propertyType, field, value), ignoreCase));
 
             case CriteriaOperator.Gt:
                 return Expression.GreaterThan(property, BuildConstant(property, propertyType, field, value));
@@ -110,6 +121,9 @@ public static class CriteriaPredicateBuilder<TEntity>
                 throw new NotSupportedException($"Operator '{op}' is not supported.");
         }
     }
+
+    private static Expression NormalizeCase(Expression stringExpr, bool ignoreCase)
+        => ignoreCase ? Expression.Call(stringExpr, ToLowerMethod) : stringExpr;
 
     private static ConstantExpression BuildConstant(
         Expression property, Type propertyType, CriteriaFieldMetadata<TEntity> field, JsonElement? value)
@@ -136,7 +150,8 @@ public static class CriteriaPredicateBuilder<TEntity>
         foreach (var field in definition.KeywordFields)
         {
             var property = ParameterRebinder.ReplaceParameter(field.Accessor, parameter);
-            var call = Expression.Call(property, ContainsMethod, Expression.Constant(keyword));
+            var ignoreCase = field.IgnoreCase && property.Type == typeof(string);
+            var call = Expression.Call(NormalizeCase(property, ignoreCase), ContainsMethod, NormalizeCase(Expression.Constant(keyword), ignoreCase));
             body = body is null ? call : Expression.OrElse(body, call);
         }
 

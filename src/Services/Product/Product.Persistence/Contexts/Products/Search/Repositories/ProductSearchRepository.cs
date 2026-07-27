@@ -53,7 +53,7 @@ public sealed class ProductSearchRepository(ElasticsearchClient client) : IProdu
         {
             var keyword = criteria.Keyword;
             must.Add(q => q.MultiMatch(m => m
-                .Fields(new[] { "name", "categoryNames", "tagNames" })
+                .Fields(new[] { "name", "variationNames", "categoryNames", "tagNames" })
                 .Query(keyword)));
         }
 

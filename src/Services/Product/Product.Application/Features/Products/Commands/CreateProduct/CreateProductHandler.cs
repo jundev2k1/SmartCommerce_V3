@@ -138,6 +138,7 @@ public sealed class CreateProductHandler(
                     variation.Id,
                     variation.Sku.Value,
                     product.Name,
+                    variation.Name,
                     variation.Price,
                     variation.Status.ToString(),
                     correlationId),

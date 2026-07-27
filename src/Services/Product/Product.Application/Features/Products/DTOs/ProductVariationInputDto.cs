@@ -2,6 +2,7 @@ namespace Product.Application.Features.Products.DTOs;
 
 public sealed record ProductVariationInputDto(
     string Sku,
+    string Name,
     decimal Price,
     bool IsDefault = false,
     string? Barcode = null,

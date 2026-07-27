@@ -22,8 +22,7 @@ public sealed class SearchProductsHandler(
         var (items, totalCount) = await searchRepo.SearchAsync(criteria, ct);
 
         var variationIds = items
-            .Where(d => d.DefaultVariationId.HasValue)
-            .Select(d => d.DefaultVariationId!.Value)
+            .SelectMany(d => d.VariationIds)
             .Distinct()
             .ToList();
 
@@ -34,9 +33,11 @@ public sealed class SearchProductsHandler(
                 d.ProductId, d.Code, d.Name, d.Slug, d.Thumbnail, d.DefaultPrice,
                 d.DefaultVariationId, d.DefaultVariationSku, d.CategoryIds, d.CategoryNames,
                 d.TagIds, d.TagNames, d.Status, d.UpdatedAt,
-                IsInStock: d.DefaultVariationId is { } variationId
-                    ? stockByVariationId is null ? null : stockByVariationId.GetValueOrDefault(variationId) > 0
-                    : null))
+                IsInStock: d.VariationIds.Count == 0
+                    ? null
+                    : stockByVariationId is null
+                        ? null
+                        : d.VariationIds.Any(id => stockByVariationId.GetValueOrDefault(id) > 0)))
             .ToList();
 
         return PaginatedResult<SearchProductsItemResponse>.Create(mapped, request.Page, request.PageSize, (int)totalCount);

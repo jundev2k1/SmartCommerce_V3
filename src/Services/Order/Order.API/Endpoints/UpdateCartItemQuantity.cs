@@ -25,7 +25,8 @@ public sealed class UpdateCartItemQuantityEndpoint : ICarterModule
         "",
         "### Error Responses",
         "- **404**: Variation not found in the cart",
-        "- **400**: Quantity is 0 or negative",
+        "- **400**: Quantity is 0 or negative, or exceeds real-time Inventory stock - the latter's",
+        "  `details` carries `{ insufficients: [variationId] }`",
     ];
 
     public void AddRoutes(IEndpointRouteBuilder app)

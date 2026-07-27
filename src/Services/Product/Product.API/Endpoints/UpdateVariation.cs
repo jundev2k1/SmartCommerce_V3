@@ -8,6 +8,7 @@ namespace Product.API.Endpoints;
 
 public sealed record UpdateVariationRequest(
     string Sku,
+    string Name,
     decimal Price,
     string Status,
     string? Barcode = null,
@@ -23,7 +24,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Update Variation",
         "",
-        "Updates a ProductVariation's details (Sku, Barcode, Price, Cost, Weight, Dimensions,",
+        "Updates a ProductVariation's details (Sku, Name, Barcode, Price, Cost, Weight, Dimensions,",
         "Images, Status). Never touches DisplayOrder or IsDefault - use ReorderVariations /",
         "ChangeDefaultVariation for those.",
         "",
@@ -57,6 +58,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
             productId,
             variationId,
             request.Sku.Trim(),
+            request.Name.Trim(),
             request.Price,
             request.Status.Trim(),
             request.Barcode?.Trim(),

@@ -11,7 +11,8 @@ public sealed class GetProductEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Get Product Details",
         "",
-        "Retrieves product information by product ID.",
+        "Retrieves product information by product ID. Each variation includes a live AvailableStock",
+        "from Inventory Service (null if Inventory is unreachable - fail-open, not treated as 0).",
         "",
         "### Route Parameters",
         "- **productId**: Unique identifier of the product (required, must be valid GUID)",

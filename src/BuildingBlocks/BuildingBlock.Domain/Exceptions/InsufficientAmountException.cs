@@ -8,8 +8,8 @@ namespace BuildingBlock.Domain.Exceptions;
 /// </summary>
 public class InsufficientAmountException : DomainException
 {
-    public InsufficientAmountException(string? systemMessage = null)
-        : base(MessageCodeEnum.InsufficientStock, systemMessage) { }
+    public InsufficientAmountException(string? systemMessage = null, object? detail = null)
+        : base(MessageCodeEnum.InsufficientStock, systemMessage, detail) { }
 
     public InsufficientAmountException(
         string resourceName,
@@ -25,8 +25,8 @@ public class InsufficientAmountException : DomainException
         RequiredAmount = required;
     }
 
-    public InsufficientAmountException(MessageCodeEnum messageCode, string? systemMessage = null)
-        : base(messageCode, systemMessage) { }
+    public InsufficientAmountException(MessageCodeEnum messageCode, string? systemMessage = null, object? detail = null)
+        : base(messageCode, systemMessage, detail) { }
 
     public string? ResourceName { get; }
     public decimal AvailableAmount { get; }

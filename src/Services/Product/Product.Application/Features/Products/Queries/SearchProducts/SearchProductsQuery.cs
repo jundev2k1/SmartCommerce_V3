@@ -31,6 +31,7 @@ public sealed record SearchProductsItemResponse(
     IReadOnlyList<string> TagNames,
     string Status,
     DateTime UpdatedAt,
-    // Null when DefaultVariationId is absent, or when Inventory Service couldn't be reached for
+    // True when ANY Active variation has stock > 0 (not just the Default variation). Null when
+    // the product has no Active variations, or when Inventory Service couldn't be reached for
     // this page (fail-open - a transient Inventory outage must not break product search).
     bool? IsInStock);

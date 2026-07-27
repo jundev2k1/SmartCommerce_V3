@@ -7,7 +7,7 @@ namespace Order.Application.Features.Orders.Common;
 
 public sealed class OrderItemPreparationService(
     IOrderProductCatalogReadService catalogReadService,
-    IInventoryClientService inventoryClient) : IOrderItemPreparationService
+    IStockAvailabilityService stockAvailabilityService) : IOrderItemPreparationService
 {
     /// <summary>Stock is checked first (cheapest gate, one batched gRPC call) so an insufficient-stock order fails fast before spending a query on catalog validation/pricing - applies uniformly to both CreateOrder (client) and AdminCreateOrder, since both funnel through here.</summary>
     public async Task<OrderItemCreateModel[]> PrepareAsync(IReadOnlyCollection<OrderItemRequest> items, CancellationToken ct = default)
@@ -52,15 +52,17 @@ public sealed class OrderItemPreparationService(
     /// <summary>Runs before catalog validation, so items are only known by VariationId here - not yet enriched with the catalog's ProductName.</summary>
     private async Task EnsureStockAvailableAsync(IReadOnlyCollection<OrderItemRequest> items, CancellationToken ct)
     {
-        var variationIds = items.Select(i => i.VariationId).ToArray();
-        var stockByVariation = await inventoryClient.GetAvailableStockBatchAsync(variationIds, ct);
+        var requests = items.Select(i => new StockRequest(i.VariationId, i.Quantity)).ToArray();
+        var availability = await stockAvailabilityService.CheckAsync(requests, ct);
 
-        var insufficient = items
-            .Where(item => stockByVariation.GetValueOrDefault(item.VariationId) < item.Quantity)
-            .Select(item => $"Variation {item.VariationId} (requested {item.Quantity}, available {stockByVariation.GetValueOrDefault(item.VariationId)})")
-            .ToArray();
+        var insufficientItems = availability.Values.Where(a => !a.IsSufficient).ToArray();
+        if (insufficientItems.Length == 0)
+            return;
 
-        if (insufficient.Length > 0)
-            throw ExceptionFactory.InsufficientStock($"Insufficient stock for: {string.Join(", ", insufficient)}");
+        var detail = new { insufficients = insufficientItems.Select(i => i.VariationId).ToArray() };
+        var message = string.Join(", ", insufficientItems.Select(
+            i => $"Variation {i.VariationId} (requested {i.RequestedQuantity}, available {i.AvailableQuantity})"));
+
+        throw ExceptionFactory.InsufficientStock($"Insufficient stock for: {message}", detail);
     }
 }

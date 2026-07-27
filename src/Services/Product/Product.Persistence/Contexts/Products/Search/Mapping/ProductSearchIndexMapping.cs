@@ -21,6 +21,8 @@ public static class ProductSearchIndexMapping
             .DoubleNumber(d => d.DefaultPrice)
             .Keyword(d => d.DefaultVariationId)
             .Keyword(d => d.DefaultVariationSku)
+            .Text(d => d.VariationNames)
+            .Keyword(d => d.VariationIds)
             .Keyword(d => d.CategoryIds)
             .Text(d => d.CategoryNames)
             .Keyword(d => d.TagIds)

@@ -73,6 +73,7 @@ public sealed class ProductWriteService(
         Guid productId,
         Guid variationId,
         Sku sku,
+        string name,
         decimal price,
         Barcode? barcode,
         decimal? cost,
@@ -88,6 +89,7 @@ public sealed class ProductWriteService(
             async variation =>
             {
                 variation.UpdateIdentifiers(sku, barcode);
+                variation.UpdateName(name);
                 variation.UpdatePricing(price, cost);
                 variation.UpdatePhysicalAttributes(weight, dimensions);
                 variation.ReplaceImages(images ?? []);

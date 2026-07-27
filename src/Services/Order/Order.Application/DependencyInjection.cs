@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Order.Application.Abstractions.Services;
 using Order.Application.Features.Orders.Common;
+using Order.Application.Features.Stock;
 
 namespace Order.Application;
 
@@ -21,6 +22,7 @@ public static class DependencyInjection
             .AddApplicationBehaviors()
             .AddMapster()
             .AddFluentValidation()
+            .AddScoped<IStockAvailabilityService, StockAvailabilityService>()
             .AddScoped<IOrderItemPreparationService, OrderItemPreparationService>()
             .AddScoped<IOrderCreationService, OrderCreationService>();
 

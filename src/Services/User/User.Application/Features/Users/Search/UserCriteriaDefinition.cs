@@ -8,8 +8,8 @@ namespace User.Application.Features.Users.Search;
 public static class UserCriteriaDefinition
 {
     public static readonly CriteriaDefinition<UserProfile> Instance = CriteriaDefinition<UserProfile>.Create()
-        .Field(x => x.UserName).String().Sortable().KeywordSearchable()
-        .Field(x => x.Email).String().Sortable().KeywordSearchable()
+        .Field(x => x.UserName).String().Sortable().KeywordSearchable().IgnoreCase()
+        .Field(x => x.Email).String().Sortable().KeywordSearchable().IgnoreCase()
         .Field(x => x.FirstName).String().KeywordSearchable()
         .Field(x => x.LastName).String().KeywordSearchable()
         .Field(x => x.Status).Enum().Sortable()

@@ -36,7 +36,11 @@ public class ExceptionFactoryTests
 
     public static TheoryData<Func<string, DomainException>> InsufficientAmountFactories => new()
     {
-        ExceptionFactory.InsufficientStock,
+        // Wrapped in a lambda, not passed as a bare method group: InsufficientStock now has an
+        // optional trailing `detail` parameter (see docs/tasks/2026-07-27/Task20_...), and a
+        // method group with extra optional parameters no longer implicitly converts to a
+        // narrower Func<string, DomainException> delegate.
+        s => ExceptionFactory.InsufficientStock(s),
         ExceptionFactory.InsufficientBalance,
         ExceptionFactory.InsufficientQuota,
     };

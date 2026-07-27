@@ -28,6 +28,7 @@ public sealed class ProductVariation : BaseEntity<Guid>
     public static ProductVariation Create(
         Guid productId,
         Sku sku,
+        string name,
         decimal price,
         int displayOrder,
         Barcode? barcode = null,
@@ -38,6 +39,7 @@ public sealed class ProductVariation : BaseEntity<Guid>
         ProductVariationStatus status = ProductVariationStatus.Active,
         ProductVariationMetadata? metadata = null)
     {
+        ValidateName(name);
         ValidatePrice(price);
         ValidateCost(cost);
         ValidateWeight(weight);
@@ -47,6 +49,7 @@ public sealed class ProductVariation : BaseEntity<Guid>
             Id = Guid.CreateVersion7(),
             ProductId = productId,
             Sku = sku,
+            Name = name,
             Barcode = barcode,
             Price = price,
             Cost = cost,
@@ -64,6 +67,14 @@ public sealed class ProductVariation : BaseEntity<Guid>
         }
 
         return variation;
+    }
+
+    public void UpdateName(string name)
+    {
+        ValidateName(name);
+
+        Name = name;
+        Tourch();
     }
 
     public void MarkAsDefault()
@@ -166,6 +177,14 @@ public sealed class ProductVariation : BaseEntity<Guid>
     public static bool IsValidCost(decimal? cost) => cost is null || cost >= 0;
 
     public static bool IsValidWeight(decimal? weight) => weight is null || weight > 0;
+
+    public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);
+
+    private static void ValidateName(string name)
+    {
+        if (!IsValidName(name))
+            throw ExceptionFactory.RequiredField("Variation name cannot be empty.");
+    }
 
     private static void ValidatePrice(decimal price)
     {

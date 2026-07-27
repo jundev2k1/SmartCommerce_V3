@@ -19,6 +19,10 @@ public sealed class ProductVariationConfig : IEntityTypeConfiguration<ProductVar
         builder.Property(x => x.ProductId)
             .IsRequired();
 
+        builder.Property(x => x.Name)
+            .HasMaxLength(200)
+            .IsRequired();
+
         builder.Property(x => x.Sku)
             .HasConversion(x => x.Value, x => Sku.Create(x))
             .HasMaxLength(50)

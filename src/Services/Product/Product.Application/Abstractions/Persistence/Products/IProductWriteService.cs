@@ -27,6 +27,7 @@ public interface IProductWriteService
         Guid productId,
         Guid variationId,
         Sku sku,
+        string name,
         decimal price,
         Barcode? barcode,
         decimal? cost,

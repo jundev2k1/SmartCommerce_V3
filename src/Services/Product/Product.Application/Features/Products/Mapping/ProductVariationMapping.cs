@@ -13,6 +13,7 @@ public static class ProductVariationMapping
         return ProductVariation.Create(
             productId: productId,
             sku: Sku.Create(dto.Sku),
+            name: dto.Name,
             price: dto.Price,
             displayOrder: displayOrder,
             barcode: dto.Barcode is not null ? Barcode.Create(dto.Barcode) : null,

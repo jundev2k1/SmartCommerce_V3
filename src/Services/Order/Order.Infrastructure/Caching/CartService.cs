@@ -18,7 +18,8 @@ namespace Order.Infrastructure.Caching;
 /// </summary>
 public sealed class CartService(
     ICacheService cacheService,
-    IOrderProductCatalogReadService catalogReadService) : ICartService
+    IOrderProductCatalogReadService catalogReadService,
+    IStockAvailabilityService stockAvailabilityService) : ICartService
 {
     private static readonly TimeSpan Ttl = TimeSpan.FromMinutes(CacheKeys.Cart.DefaultTtlMinutes);
 
@@ -30,14 +31,16 @@ public sealed class CartService(
 
     public async Task<CartResponse> AddItemAsync(Guid userId, Guid variationId, int quantity, CancellationToken ct = default)
     {
-        await EnsureOrderableAsync(variationId, ct);
-
         var data = await LoadAsync(userId, ct);
         var existing = data.Items.FirstOrDefault(i => i.VariationId == variationId);
+        var resultingQuantity = (existing?.Quantity ?? 0) + quantity;
+
+        await EnsureOrderableAndInStockAsync(variationId, resultingQuantity, ct);
+
         if (existing is not null)
         {
             data.Items.Remove(existing);
-            data.Items.Add(existing with { Quantity = existing.Quantity + quantity });
+            data.Items.Add(existing with { Quantity = resultingQuantity });
         }
         else
         {
@@ -56,6 +59,8 @@ public sealed class CartService(
         var data = await LoadAsync(userId, ct);
         var existing = data.Items.FirstOrDefault(i => i.VariationId == variationId)
             ?? throw new NotFoundException("Cart item", variationId);
+
+        await EnsureOrderableAndInStockAsync(variationId, quantity, ct);
 
         data.Items.Remove(existing);
         data.Items.Add(existing with { Quantity = quantity });
@@ -78,7 +83,8 @@ public sealed class CartService(
         await cacheService.RemoveAsync(CacheKeys.Cart.Key(userId), ct);
     }
 
-    private async Task EnsureOrderableAsync(Guid variationId, CancellationToken ct)
+    /// <summary>Checked on every add/update-quantity - resultingQuantity is the line's total quantity AFTER this mutation (existing + delta for Add, the new absolute value for Update), never just the delta, so stock is validated against what the cart would actually hold.</summary>
+    private async Task EnsureOrderableAndInStockAsync(Guid variationId, int resultingQuantity, CancellationToken ct)
     {
         var variations = await catalogReadService.GetByVariantionIdsAsync([variationId], ct);
         var variation = variations.FirstOrDefault()
@@ -86,6 +92,16 @@ public sealed class CartService(
 
         if (!variation.IsOrderable)
             throw ExceptionFactory.InvalidState($"Product ({variation.ProductName}) is not currently available for ordering.");
+
+        var availability = await stockAvailabilityService.CheckAsync(
+            [new StockRequest(variationId, resultingQuantity)], ct);
+
+        if (availability.TryGetValue(variationId, out var stock) && !stock.IsSufficient)
+        {
+            throw ExceptionFactory.InsufficientStock(
+                $"Insufficient stock for Variation {variationId} (requested {stock.RequestedQuantity}, available {stock.AvailableQuantity})",
+                detail: new { insufficients = new[] { variationId } });
+        }
     }
 
     private async Task<CartData> LoadAsync(Guid userId, CancellationToken ct)
@@ -99,7 +115,13 @@ public sealed class CartService(
         await cacheService.SetAsync(CacheKeys.Cart.Key(userId), data, Ttl, ct);
     }
 
-    /// <summary>Resolves live product/price data for every cart line, drops any line whose variation no longer exists or isn't orderable, and persists the pruned result.</summary>
+    /// <summary>
+    /// Resolves live product/price data for every cart line, drops any line whose variation no
+    /// longer exists or isn't orderable, and persists the pruned result. Insufficient STOCK is
+    /// deliberately not pruned here (unlike a deleted/unorderable variation) - every remaining
+    /// line gets a live AvailableStock/IsInsufficientStock so the client can mark/disable it,
+    /// per the "surface it, don't silently drop it" requirement.
+    /// </summary>
     private async Task<CartResponse> EnrichAndPruneAsync(Guid userId, CartData data, CancellationToken ct)
     {
         if (data.Items.Count == 0)
@@ -116,11 +138,20 @@ public sealed class CartService(
         if (validItems.Count != data.Items.Count)
             await SaveAsync(userId, new CartData(validItems), ct);
 
+        if (validItems.Count == 0)
+            return new CartResponse([]);
+
+        var stockRequests = validItems.Select(i => new StockRequest(i.VariationId, i.Quantity)).ToArray();
+        var availability = await stockAvailabilityService.CheckAsync(stockRequests, ct);
+
         return new CartResponse([.. validItems
             .Select(i =>
             {
                 var entry = catalogById[i.VariationId];
-                return new CartItemResponse(entry.ProductId, i.VariationId, entry.ProductName, entry.Price, i.Quantity);
+                var stock = availability[i.VariationId];
+                return new CartItemResponse(
+                    entry.ProductId, i.VariationId, entry.ProductName, entry.Price, i.Quantity,
+                    stock.AvailableQuantity, !stock.IsSufficient);
             })]);
     }
 }

@@ -12,6 +12,7 @@ namespace Product.API.Endpoints;
 
 public sealed record CreateProductVariationRequest(
     string Sku,
+    string Name,
     decimal Price,
     bool IsDefault = false,
     string? Barcode = null,
@@ -46,7 +47,7 @@ public sealed class CreateProductEndpoint : ICarterModule
         "- **Name**: Product name (required)",
         "- **Description**: Product description",
         "- **Slug**: Unique URL slug (required, must be unique)",
-        "- **Variations**: At least one variation (required). If none is marked IsDefault, the first is used.",
+        "- **Variations**: At least one variation (required, each with its own required Name). If none is marked IsDefault, the first is used.",
         "- **CategoryIds** / **TagIds**: Optional category/tag assignments (must already exist)",
         "",
         "### Error Responses",
@@ -81,6 +82,7 @@ public sealed class CreateProductEndpoint : ICarterModule
             request.Slug.Trim(),
             [.. request.Variations.Select(v => new ProductVariationInputDto(
                 v.Sku.Trim(),
+                v.Name.Trim(),
                 v.Price,
                 v.IsDefault,
                 v.Barcode?.Trim(),

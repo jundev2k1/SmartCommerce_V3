@@ -52,6 +52,7 @@ public sealed class AddVariationHandler(
                     variation.Id,
                     variation.Sku.Value,
                     targetProduct.Name,
+                    variation.Name,
                     variation.Price,
                     variation.Status.ToString(),
                     correlationId),

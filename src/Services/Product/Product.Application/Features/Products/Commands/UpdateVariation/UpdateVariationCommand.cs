@@ -9,6 +9,7 @@ public sealed record UpdateVariationCommand(
     Guid ProductId,
     Guid VariationId,
     string Sku,
+    string Name,
     decimal Price,
     string Status,
     string? Barcode = null,

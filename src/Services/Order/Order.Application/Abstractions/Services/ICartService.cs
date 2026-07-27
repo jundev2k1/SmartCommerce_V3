@@ -20,7 +20,15 @@ public interface ICartService
     Task ClearCartAsync(Guid userId, CancellationToken ct = default);
 }
 
-public sealed record CartItemResponse(Guid ProductId, Guid VariationId, string ProductName, decimal UnitPrice, int Quantity);
+/// <summary>AvailableStock/IsInsufficientStock are always live from Inventory (see IStockAvailabilityService) - never dropped from the response even when insufficient, so the client can mark/disable the specific line instead of silently losing it (unlike a deleted/unorderable variation, which IS pruned - see CartService.EnrichAndPruneAsync).</summary>
+public sealed record CartItemResponse(
+    Guid ProductId,
+    Guid VariationId,
+    string ProductName,
+    decimal UnitPrice,
+    int Quantity,
+    int AvailableStock,
+    bool IsInsufficientStock);
 
 public sealed record CartResponse(IReadOnlyCollection<CartItemResponse> Items)
 {

@@ -9,6 +9,7 @@ namespace Product.API.Endpoints;
 
 public sealed record AddVariationRequest(
     string Sku,
+    string Name,
     decimal Price,
     bool MakeDefault = false,
     string? Barcode = null,
@@ -56,6 +57,7 @@ public sealed class AddVariationEndpoint : ICarterModule
             productId,
             new ProductVariationInputDto(
                 request.Sku.Trim(),
+                request.Name.Trim(),
                 request.Price,
                 request.MakeDefault,
                 request.Barcode?.Trim(),

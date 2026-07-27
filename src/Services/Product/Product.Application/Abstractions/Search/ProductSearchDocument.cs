@@ -15,6 +15,8 @@ public sealed class ProductSearchDocument
     public decimal? DefaultPrice { get; set; }
     public Guid? DefaultVariationId { get; set; }
     public string? DefaultVariationSku { get; set; }
+    public IReadOnlyList<string> VariationNames { get; set; } = [];
+    public IReadOnlyList<Guid> VariationIds { get; set; } = [];
     public IReadOnlyList<Guid> CategoryIds { get; set; } = [];
     public IReadOnlyList<string> CategoryNames { get; set; } = [];
     public IReadOnlyList<Guid> TagIds { get; set; } = [];

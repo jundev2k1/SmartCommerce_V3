@@ -14,7 +14,9 @@ public sealed class GetCartEndpoint : ICarterModule
         "",
         "Returns the current user's cart. Lines are always priced/named live from the product",
         "catalog - a line whose variation was deleted or made unavailable since it was added is",
-        "dropped automatically rather than being returned stale.",
+        "dropped automatically rather than being returned stale. Each remaining line also carries",
+        "a live AvailableStock and IsInsufficientStock (true when Quantity exceeds AvailableStock) -",
+        "an insufficient-stock line is kept and marked, never silently dropped.",
     ];
 
     public void AddRoutes(IEndpointRouteBuilder app)

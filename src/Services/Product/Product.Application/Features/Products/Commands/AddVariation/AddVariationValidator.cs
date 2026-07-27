@@ -12,6 +12,11 @@ public sealed class AddVariationValidator : AbstractValidator<AddVariationComman
             .Must(Sku.IsValid)
             .WithMessage("Sku must be 1-50 characters and contain only letters, digits, and hyphens");
 
+        RuleFor(x => x.VariationInput.Name)
+            .Must(ProductVariation.IsValidName)
+            .WithMessage("Variation name is required")
+            .MaximumLength(200).WithMessage("Variation name must not exceed 200 characters");
+
         RuleFor(x => x.VariationInput.Price)
             .Must(ProductVariation.IsValidPrice)
             .WithMessage("Price cannot be negative");

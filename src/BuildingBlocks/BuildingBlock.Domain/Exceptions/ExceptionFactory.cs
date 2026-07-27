@@ -34,8 +34,8 @@ public static class ExceptionFactory
 
     // ==================== Insufficient Amount ====================
 
-    public static InsufficientAmountException InsufficientStock(string systemMessage)
-        => new(systemMessage);
+    public static InsufficientAmountException InsufficientStock(string systemMessage, object? detail = null)
+        => new(systemMessage, detail);
 
     public static InsufficientAmountException InsufficientBalance(string systemMessage)
         => new(systemMessage);

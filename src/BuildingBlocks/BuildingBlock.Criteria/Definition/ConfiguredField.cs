@@ -28,6 +28,13 @@ public sealed class ConfiguredField<TEntity>
         return this;
     }
 
+    /// <summary>Matches this field's Contains/StartsWith/EndsWith/Eq/Ne operators and keyword search case-insensitively (via SQL-translatable `.ToLower()`, not culture-invariant casing).</summary>
+    public ConfiguredField<TEntity> IgnoreCase()
+    {
+        Reconfigure(field => field with { IgnoreCase = true });
+        return this;
+    }
+
     public ConfiguredField<TEntity> AllowOperators(params CriteriaOperator[] operators)
     {
         Reconfigure(field => field with { AllowedOperators = operators.ToHashSet() });
