@@ -11,10 +11,13 @@ import { useLocalOrdersQuery } from '../api/orders.queries';
 import { useOrderRealtimeUpdates } from '../hooks/useOrderRealtimeUpdates';
 
 /**
- * Customer-facing order history — same browser-scoped local-orders data as
- * the admin Orders list (no list endpoint exists, see
- * docs/modules/order-management.md), presented as a simple card grid instead
- * of an admin data table.
+ * Customer-facing order history — browser-scoped local-orders data, unlike
+ * the admin Orders list (OrdersListPage), which now uses the real
+ * `SearchOrders` endpoint. That endpoint is Admin-only and there's no
+ * customer-scoped "list my orders" endpoint (see
+ * docs/modules/order-management.md), so this page has no real list to call
+ * and stays on the local-orders/GetOrder approach; presented as a simple
+ * card grid instead of an admin data table.
  */
 export function OrderHistoryListPage() {
   const t = useTranslations('orders.history');

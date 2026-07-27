@@ -1,12 +1,8 @@
 {
   "title": "Orders",
   "refresh": "Refresh",
-  "searchPlaceholder": "Search by order id...",
+  "searchPlaceholder": "Search by customer name...",
   "anyStatus": "Any status",
-  "statusOption": "Status {value}",
-  "noLocalOrdersTitle": "No orders yet",
-  "noLocalOrdersDescription": "Orders placed from this browser will appear here — the Order service has no list endpoint, so orders placed elsewhere won't show up.",
-  "browseProducts": "Browse products",
   "table": {
     "orderId": "Order ID",
     "customerId": "Customer ID",
@@ -16,17 +12,15 @@
   },
   "filters": {
     "status": "Status",
-    "customerId": "Customer ID",
-    "customerIdPlaceholder": "Filter by customer id...",
+    "phone": "Customer phone",
+    "phonePlaceholder": "Filter by phone number...",
     "dateFrom": "From",
     "dateTo": "To",
     "sort": "Sort by"
   },
   "sortOptions": {
     "createdAtDesc": "Newest first",
-    "createdAtAsc": "Oldest first",
-    "totalDesc": "Total (high to low)",
-    "totalAsc": "Total (low to high)"
+    "createdAtAsc": "Oldest first"
   },
   "detail": {
     "title": "Order {id}",

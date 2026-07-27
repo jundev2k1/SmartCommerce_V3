@@ -23,10 +23,13 @@ export interface OrderStatusChangedEvent {
  * invalidate pattern so swapping in the real event name/payload later is a
  * one-line change, not a rearchitecture (per decisions/0007-signalr-strategy.md).
  *
- * On receipt, invalidates only that one order's detail query — never the
- * whole order list — since "the list" here is just a set of individual
- * `useOrderQuery`/detail queries (see docs/modules/order-management.md), so a
- * targeted invalidation is already the correct/minimal one.
+ * On receipt, invalidates that one order's detail query plus every active
+ * `useOrdersSearchQuery` result (admin search list/approve queue) — a status
+ * change can move an order in or out of a filtered/sorted page, so a
+ * targeted per-order invalidation alone isn't enough once a real list query
+ * exists (see docs/modules/order-management.md). "My Orders" has no list
+ * query to invalidate — it's just individual detail queries, which the first
+ * invalidate already covers.
  */
 export function useOrderRealtimeUpdates(onEvent?: (event: OrderStatusChangedEvent) => void) {
   const queryClient = useQueryClient();
@@ -34,6 +37,7 @@ export function useOrderRealtimeUpdates(onEvent?: (event: OrderStatusChangedEven
   const handler = useCallback(
     (event: OrderStatusChangedEvent) => {
       queryClient.invalidateQueries({ queryKey: orderKeys.detail(event.orderId) });
+      queryClient.invalidateQueries({ queryKey: orderKeys.searches() });
       onEvent?.(event);
     },
     [queryClient, onEvent],

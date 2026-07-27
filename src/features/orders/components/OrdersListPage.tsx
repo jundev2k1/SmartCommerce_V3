@@ -5,25 +5,17 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from '@tanstack/react-query';
 import type { ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import {
-  AppDataTable,
-  AppEmpty,
-  AppInput,
-  AppSelect,
-  IconButton,
-  PrimaryButton,
-  RefreshButton,
-} from '@/shared/ui';
+import { AppDataTable, AppInput, AppSelect, IconButton, RefreshButton } from '@/shared/ui';
 import { EntityHeader, EntityToolbar, FilterPanel, SelectionPanel } from '@/shared/entity';
 import { OrderStatusBadge, ProductPrice, ORDER_STATUS_LABEL_KEYS } from '@/shared/commerce';
 import { Eye } from 'lucide-react';
-import { OrderStatus, type GetOrderResponse } from '@/services/order';
-import { useLocalOrdersQuery, orderKeys } from '../api/orders.queries';
+import { OrderStatus, type SearchOrdersItemResponse } from '@/services/order';
+import { useOrdersSearchQuery, orderKeys } from '../api/orders.queries';
 import { useOrderRealtimeUpdates } from '../hooks/useOrderRealtimeUpdates';
 
 const PAGE_SIZE = 10;
 
-type SortKey = 'createdAt-desc' | 'createdAt-asc' | 'total-desc' | 'total-asc';
+type SortKey = 'createdAt-desc' | 'createdAt-asc';
 
 export function OrdersListPage() {
   const t = useTranslations('orders');
@@ -31,87 +23,50 @@ export function OrdersListPage() {
   const tStatus = useTranslations('commerce.orderStatus');
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { orders, isLoading, hasAny } = useLocalOrdersQuery();
-  // No monolithic order-list query exists to invalidate — a live event just
-  // invalidates its one order's detail query, which this page's underlying
-  // useQueries picks up automatically on next render.
   useOrderRealtimeUpdates();
 
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState<string | undefined>(undefined);
-  const [customerId, setCustomerId] = useState('');
+  const [status, setStatus] = useState<OrderStatus | undefined>(undefined);
+  const [phone, setPhone] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [sort, setSort] = useState<SortKey>('createdAt-desc');
   const [page, setPage] = useState(1);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const filtered = useMemo(() => {
-    let result = orders;
-    if (search.trim()) {
-      const query = search.trim().toLowerCase();
-      result = result.filter((order) => order.id.toLowerCase().includes(query));
-    }
-    if (status) {
-      result = result.filter((order) => String(order.status) === status);
-    }
-    if (customerId.trim()) {
-      const query = customerId.trim().toLowerCase();
-      result = result.filter((order) => order.customerId.toLowerCase().includes(query));
-    }
-    if (dateFrom) {
-      const from = new Date(dateFrom).getTime();
-      result = result.filter((order) => new Date(order.createdAt).getTime() >= from);
-    }
-    if (dateTo) {
-      const to = new Date(dateTo).getTime();
-      result = result.filter((order) => new Date(order.createdAt).getTime() <= to);
-    }
-    const sorted = [...result];
-    sorted.sort((a, b) => {
-      switch (sort) {
-        case 'createdAt-asc':
-          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-        case 'total-desc':
-          return b.totalAmount - a.totalAmount;
-        case 'total-asc':
-          return a.totalAmount - b.totalAmount;
-        case 'createdAt-desc':
-        default:
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      }
-    });
-    return sorted;
-  }, [orders, search, status, customerId, dateFrom, dateTo, sort]);
+  const { data, isLoading } = useOrdersSearchQuery({
+    keyword: search || undefined,
+    status,
+    phone: phone || undefined,
+    createdFrom: dateFrom ? new Date(dateFrom).toISOString() : undefined,
+    createdTo: dateTo ? new Date(`${dateTo}T23:59:59.999`).toISOString() : undefined,
+    sortBy: 'createdAt',
+    sortDescending: sort === 'createdAt-desc',
+    page,
+    pageSize: PAGE_SIZE,
+  });
 
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  const statusOptions = useMemo(() => {
-    const values = new Set(orders.map((order) => order.status));
-    return Array.from(values).map((value) => ({
-      value: String(value),
-      label:
-        value in ORDER_STATUS_LABEL_KEYS
-          ? tStatus(ORDER_STATUS_LABEL_KEYS[value as OrderStatus])
-          : t('statusOption', { value }),
-    }));
-  }, [orders, t, tStatus]);
+  const statusOptions = useMemo(
+    () =>
+      (Object.values(OrderStatus) as OrderStatus[]).map((value) => ({
+        value: String(value),
+        label: tStatus(ORDER_STATUS_LABEL_KEYS[value]),
+      })),
+    [tStatus],
+  );
 
   const sortOptions: { value: SortKey; label: string }[] = [
     { value: 'createdAt-desc', label: t('sortOptions.createdAtDesc') },
     { value: 'createdAt-asc', label: t('sortOptions.createdAtAsc') },
-    { value: 'total-desc', label: t('sortOptions.totalDesc') },
-    { value: 'total-asc', label: t('sortOptions.totalAsc') },
   ];
 
   const selectedCount = Object.values(rowSelection).filter(Boolean).length;
 
   function handleRefresh() {
-    queryClient.invalidateQueries({ queryKey: orderKeys.details() });
+    queryClient.invalidateQueries({ queryKey: orderKeys.searches() });
   }
 
-  const columns: ColumnDef<GetOrderResponse>[] = [
+  const columns: ColumnDef<SearchOrdersItemResponse>[] = [
     { accessorKey: 'id', header: t('table.orderId') },
     { accessorKey: 'customerId', header: t('table.customerId') },
     {
@@ -131,23 +86,6 @@ export function OrdersListPage() {
     },
   ];
 
-  if (!hasAny) {
-    return (
-      <div className="space-y-4">
-        <EntityHeader title={t('title')} />
-        <AppEmpty
-          title={t('noLocalOrdersTitle')}
-          description={t('noLocalOrdersDescription')}
-          action={
-            <PrimaryButton onClick={() => router.push('/shop')}>
-              {t('browseProducts')}
-            </PrimaryButton>
-          }
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-4">
       <EntityHeader
@@ -162,29 +100,29 @@ export function OrdersListPage() {
         }}
         searchPlaceholder={t('searchPlaceholder')}
         filters={
-          <FilterPanel active={Boolean(status || customerId || dateFrom || dateTo)}>
+          <FilterPanel active={Boolean(status !== undefined || phone || dateFrom || dateTo)}>
             <div className="space-y-3">
               <div className="space-y-1.5">
                 <label className="text-sm font-medium">{t('filters.status')}</label>
                 <AppSelect
                   options={statusOptions}
-                  value={status}
+                  value={status !== undefined ? String(status) : undefined}
                   onValueChange={(v) => {
-                    setStatus(v);
+                    setStatus(v ? (Number(v) as OrderStatus) : undefined);
                     setPage(1);
                   }}
                   placeholder={t('anyStatus')}
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium">{t('filters.customerId')}</label>
+                <label className="text-sm font-medium">{t('filters.phone')}</label>
                 <AppInput
-                  value={customerId}
+                  value={phone}
                   onChange={(e) => {
-                    setCustomerId(e.target.value);
+                    setPhone(e.target.value);
                     setPage(1);
                   }}
-                  placeholder={t('filters.customerIdPlaceholder')}
+                  placeholder={t('filters.phonePlaceholder')}
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
@@ -225,11 +163,11 @@ export function OrdersListPage() {
         selectionBar={<SelectionPanel count={selectedCount} onClear={() => setRowSelection({})} />}
       />
 
-      <AppDataTable<GetOrderResponse>
+      <AppDataTable<SearchOrdersItemResponse>
         columns={columns}
-        data={pageItems}
+        data={data?.items ?? []}
         page={page}
-        pageCount={pageCount}
+        pageCount={data?.totalPages ?? 1}
         onPageChange={setPage}
         isLoading={isLoading}
         enableRowSelection

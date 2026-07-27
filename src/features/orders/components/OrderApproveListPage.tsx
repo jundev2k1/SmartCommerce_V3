@@ -1,13 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from '@tanstack/react-query';
 import type { ColumnDef } from '@tanstack/react-table';
 import {
   AppDataTable,
-  AppEmpty,
   AppModal,
   CancelButton,
   DeleteButton,
@@ -18,9 +17,9 @@ import {
 import { EntityHeader } from '@/shared/entity';
 import { OrderStatusBadge, ProductPrice } from '@/shared/commerce';
 import { Eye, CheckCircle2, XCircle } from 'lucide-react';
-import { OrderStatus, type GetOrderResponse } from '@/services/order';
+import { OrderStatus, type SearchOrdersItemResponse } from '@/services/order';
 import {
-  useLocalOrdersQuery,
+  useOrdersSearchQuery,
   useCancelOrderMutation,
   useCompleteOrderMutation,
   orderKeys,
@@ -30,18 +29,17 @@ import { useOrderRealtimeUpdates } from '../hooks/useOrderRealtimeUpdates';
 const PAGE_SIZE = 10;
 
 /**
- * Confirmed orders awaiting fulfillment — filtered client-side from the same
- * browser-scoped local-orders data every order view uses (no list endpoint
- * exists, see docs/modules/order-management.md). "Approve" calls the real
- * `CompleteOrder` endpoint (admin-only); once an order leaves Confirmed it
- * naturally drops out of this filtered view on the next render.
+ * Confirmed orders awaiting fulfillment — server-side search via the real
+ * Admin-only `SearchOrders` endpoint, filtered to `status = Confirmed`.
+ * "Approve" calls the real `CompleteOrder` endpoint; once an order leaves
+ * Confirmed, `useOrderRealtimeUpdates` invalidates the search query and it
+ * naturally drops out of this list.
  */
 export function OrderApproveListPage() {
   const t = useTranslations('orders.approve');
   const tCommon = useTranslations('common.actions');
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { orders, isLoading, hasAny } = useLocalOrdersQuery();
   useOrderRealtimeUpdates();
 
   const completeMutation = useCompleteOrderMutation();
@@ -49,12 +47,13 @@ export function OrderApproveListPage() {
   const [cancelTarget, setCancelTarget] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
-  const pending = useMemo(
-    () => orders.filter((order) => order.status === OrderStatus.Confirmed),
-    [orders],
-  );
-  const pageCount = Math.max(1, Math.ceil(pending.length / PAGE_SIZE));
-  const pageItems = pending.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const { data, isLoading } = useOrdersSearchQuery({
+    status: OrderStatus.Confirmed,
+    sortBy: 'createdAt',
+    sortDescending: true,
+    page,
+    pageSize: PAGE_SIZE,
+  });
 
   async function handleApprove(orderId: string) {
     try {
@@ -77,10 +76,10 @@ export function OrderApproveListPage() {
   }
 
   function handleRefresh() {
-    queryClient.invalidateQueries({ queryKey: orderKeys.details() });
+    queryClient.invalidateQueries({ queryKey: orderKeys.searches() });
   }
 
-  const columns: ColumnDef<GetOrderResponse>[] = [
+  const columns: ColumnDef<SearchOrdersItemResponse>[] = [
     { accessorKey: 'id', header: t('table.orderId') },
     { accessorKey: 'customerId', header: t('table.customerId') },
     {
@@ -100,15 +99,6 @@ export function OrderApproveListPage() {
     },
   ];
 
-  if (!hasAny) {
-    return (
-      <div className="space-y-4">
-        <EntityHeader title={t('title')} />
-        <AppEmpty title={t('emptyTitle')} description={t('emptyDescription')} />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-4">
       <EntityHeader
@@ -116,11 +106,11 @@ export function OrderApproveListPage() {
         actions={<RefreshButton aria-label={t('refresh')} onClick={handleRefresh} />}
       />
 
-      <AppDataTable<GetOrderResponse>
+      <AppDataTable<SearchOrdersItemResponse>
         columns={columns}
-        data={pageItems}
+        data={data?.items ?? []}
         page={page}
-        pageCount={pageCount}
+        pageCount={data?.totalPages ?? 1}
         onPageChange={setPage}
         isLoading={isLoading}
         emptyTitle={t('emptyTitle')}
