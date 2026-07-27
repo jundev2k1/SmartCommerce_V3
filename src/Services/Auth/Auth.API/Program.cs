@@ -4,21 +4,16 @@ using Auth.Infrastructure;
 using Auth.Persistence;
 using Auth.Persistence.Engine;
 
+using BuildingBlock.Observability.Logging;
+using BuildingBlock.Observability.Tracing;
+
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
 using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Serilog with Seq
-var seqUrl = builder.Configuration["Logging:Seq:Url"] ?? "http://seq:5341";
-builder.Host.UseSerilog((context, config) =>
-{
-    config
-        .MinimumLevel.Information()
-        .WriteTo.Console()
-        .WriteTo.Seq(seqUrl);
-});
+builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "auth-api"));
 
 // Expose REST and gRPC on separate ports
 builder.WebHost.ConfigureKestrel(options =>
@@ -44,7 +39,8 @@ builder.Services
     .AddPersistence(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation(builder.Configuration);
+    .AddPresentation(builder.Configuration)
+    .AddOpenTelemetryObservability(builder.Configuration, "auth-api", tracing => tracing.AddPersistenceTracing());
 
 var app = builder.Build();
 

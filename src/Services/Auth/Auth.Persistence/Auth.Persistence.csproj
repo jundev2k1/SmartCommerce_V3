@@ -11,10 +11,12 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks/BuildingBlock.Persistence/BuildingBlock.Persistence.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks/BuildingBlock.Persistence.Ef/BuildingBlock.Persistence.Ef.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlock.Observability\BuildingBlock.Observability.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Npgsql.OpenTelemetry" Version="10.0.3" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ public static class CorsExtensions
 {
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services, string policyName)
     {
-        string[] allowOrigins = ["localhost:3000", "localhost:5000"];
+        string[] allowOrigins = ["http://localhost:3000", "http://localhost:5000"];
         services.AddCors(options =>
         {
             options.AddPolicy(policyName, policy =>
