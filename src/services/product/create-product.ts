@@ -1,4 +1,5 @@
 import { apiClient } from '@/shared/lib/api/client';
+import { IdempotencyOperation } from '@/shared/lib/api/idempotency';
 import { BASE_PATH } from './_base';
 import type { VariationInput } from './add-variation';
 
@@ -25,8 +26,12 @@ export interface CreateProductResponse {
 /**
  * POST /products — creates a product together with all initial variations in
  * one request (aggregate initialization). Use the dedicated variation
- * endpoints afterward for add/update/remove/reorder.
+ * endpoints afterward for add/update/remove/reorder. Requires an
+ * Idempotency-Key (backend `.RequireIdempotency()`).
  */
-export function createProduct(request: CreateProductRequest): Promise<CreateProductResponse> {
-  return apiClient.post(`${BASE_PATH}/products`, request).then((res) => res.data);
+export async function createProduct(request: CreateProductRequest): Promise<CreateProductResponse> {
+  const res = await apiClient.post(`${BASE_PATH}/products`, request, {
+    idempotency: { operationId: IdempotencyOperation.CreateProduct },
+  });
+  return res.data;
 }

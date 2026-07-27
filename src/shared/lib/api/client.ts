@@ -3,6 +3,7 @@ import { useLocaleStore } from '@/shared/stores/locale.store';
 import { useSessionStore } from '@/shared/stores/session.store';
 import type { ApiError } from '@/shared/types';
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import { IDEMPOTENCY_HEADER_NAME, idempotencyManager } from './idempotency';
 import type { ApiResponseEnvelope } from './types';
 
 const REFRESH_ENDPOINT = '/api/auth/refresh-token';
@@ -23,6 +24,13 @@ apiClient.interceptors.request.use((config) => {
   // Only 2 endpoints formally require this (auth/register, user/profiles POST) per their
   // Swagger contract, but we send it on every request for consistent distributed tracing.
   config.headers.set('X-Correlation-Id', crypto.randomUUID());
+  // Opt-in per request via `{ idempotency: { operationId } }` — see shared/lib/api/idempotency.
+  if (config.idempotency) {
+    config.headers.set(
+      IDEMPOTENCY_HEADER_NAME,
+      idempotencyManager.getKey(config.idempotency.operationId),
+    );
+  }
   return config;
 });
 
@@ -63,9 +71,14 @@ apiClient.interceptors.response.use(
   (response) => {
     const envelope = response.data as ApiResponseEnvelope<unknown>;
     if (!envelope.success) {
+      // Application-level failure — the operation's Idempotency-Key (if any) is
+      // intentionally left in place so a resubmit of the same operation reuses it.
       return Promise.reject(toApiError(response.status, envelope, 'Request failed.'));
     }
     response.data = envelope.data;
+    if (response.config.idempotency) {
+      idempotencyManager.complete(response.config.idempotency.operationId);
+    }
     return response;
   },
   async (error: AxiosError<ApiResponseEnvelope<unknown>>) => {

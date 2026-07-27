@@ -1,4 +1,5 @@
 import { apiClient } from '@/shared/lib/api/client';
+import { IdempotencyOperation } from '@/shared/lib/api/idempotency';
 import { BASE_PATH } from './_base';
 
 export interface CreateUserRequest {
@@ -17,7 +18,13 @@ export interface CreateUserResponse {
   userId: string;
 }
 
-/** POST /profiles — requires X-Correlation-Id (sent globally, see services/api-layer.md). */
-export function createUser(request: CreateUserRequest): Promise<CreateUserResponse> {
-  return apiClient.post(`${BASE_PATH}/profiles`, request).then((res) => res.data);
+/**
+ * POST /profiles — requires X-Correlation-Id (sent globally, see
+ * services/api-layer.md) and an Idempotency-Key (backend `.RequireIdempotency()`).
+ */
+export async function createUser(request: CreateUserRequest): Promise<CreateUserResponse> {
+  const res = await apiClient.post(`${BASE_PATH}/profiles`, request, {
+    idempotency: { operationId: IdempotencyOperation.CreateUser },
+  });
+  return res.data;
 }
