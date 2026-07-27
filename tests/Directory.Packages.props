@@ -21,6 +21,8 @@
 
     <!-- Integration tests (Phase 5 - real Postgres via Testcontainers, see docs/testing/TestingArchitecture.md) -->
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.13.0" />
+
+    <PackageVersion Include="System.Security.Cryptography.Xml" Version="10.0.10" />
   </ItemGroup>
 
 </Project>
