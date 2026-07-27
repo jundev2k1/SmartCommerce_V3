@@ -33,6 +33,17 @@ public sealed class OrderReadService(OrderDbContext dbContext) : IOrderReadServi
             .ToCriteriaPagedResultAsync(request, ct);
     }
 
+    public async Task<PaginatedResult<OrderEntity>> SearchByCustomerAsync(Guid customerId, CriteriaRequest request, CancellationToken ct = default)
+    {
+        return await dbContext.Orders
+            .AsNoTracking()
+            .Include(o => o.Items)
+            .Include(o => o.Owner)
+            .Where(o => o.Owner.CustomerId == customerId)
+            .ApplyCriteria(OrderHistoryCriteriaDefinition.Instance, request)
+            .ToCriteriaPagedResultAsync(request, ct);
+    }
+
     public async Task<OrderEntity?> GetByIdempotencyKeyAsync(Guid customerId, string idempotencyKey, CancellationToken ct = default)
     {
         return await dbContext.Orders
