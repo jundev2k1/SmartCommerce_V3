@@ -1,7 +1,11 @@
 # Task 7: Design UserSearchDocument + Accent-Insensitive Mapping
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Elasticsearch
+
+## What was done
+
+Resolved the "no in-repo precedent" gap by extending `BuildingBlock.Search`'s generic `IElasticsearchIndexer<TDocument>`/`ElasticsearchIndexer<TDocument>` with an **additive overload** of `EnsureIndexAsync`/`RecreateIndexAsync` that also accepts `Action<IndexSettingsDescriptor<TDocument>> configureSettings` (the existing 3-arg overloads are untouched — confirmed Product still builds and behaves identically). `UserSearchIndexMapping.ConfigureSettings` defines a custom analyzer (`user_search_name_analyzer`: standard tokenizer + built-in `lowercase`/`asciifolding` token filters — both ship in core Elasticsearch, no plugin needed) applied only to the `SearchName` text field. `DisplayName` stays a plain, unanalyzed `Keyword` so search results show the exact original name. Chose the "analyzer-only" design option from the task's two alternatives (not literal word-order permutations) — a plain `multi_match` query's own per-term OR semantics already gives word-order independence once terms are folded/lowercased consistently. `UserSearchDocument` also gained `FirstName`/`MiddleName`/`LastName` (stored, `Index(false)`) to preserve `SearchUsersItemResponse`'s existing discrete-name-parts contract (an addition beyond the original plan, needed once Task 10's mapping-back-to-response-DTO was worked out). No live-ES spike was run this session (no Docker instance up) — the mapping/analyzer code is correct against the Elastic.Clients.Elasticsearch API (verified via reflection against the installed package) and compiles, but real-Elasticsearch verification of the Vietnamese-diacritic behavior is still open, tracked under Task 17.
 
 ## Objective
 

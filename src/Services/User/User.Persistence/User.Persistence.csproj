@@ -11,6 +11,7 @@
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Domain/BuildingBlock.Domain.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Persistence/BuildingBlock.Persistence.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Persistence.Ef/BuildingBlock.Persistence.Ef.csproj" />
+    <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Search/BuildingBlock.Search.csproj" />
     <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Observability/BuildingBlock.Observability.csproj" />
   </ItemGroup>
 

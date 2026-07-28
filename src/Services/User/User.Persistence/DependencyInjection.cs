@@ -7,6 +7,7 @@ using BuildingBlock.Persistence.Ef.DependencyInjection;
 using BuildingBlock.Persistence.Ef.Inbox;
 using BuildingBlock.Persistence.Ef.Outbox;
 using BuildingBlock.Persistence.Repository;
+using BuildingBlock.Search.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +17,15 @@ using Npgsql;
 using OpenTelemetry.Trace;
 
 using User.Application.Abstractions.Persistence.UserProfiles;
+using User.Application.Abstractions.Search;
 using User.Persistence.Engine;
 using User.Persistence.Engine.UnitOfWork;
 using User.Persistence.Inbox;
 using User.Persistence.Outbox;
 using User.Persistence.Contexts.UserProfiles.Read;
 using User.Persistence.Contexts.UserProfiles.Repositories;
+using User.Persistence.Contexts.UserProfiles.Search.Indexers;
+using User.Persistence.Contexts.UserProfiles.Search.Repositories;
 using User.Persistence.Contexts.UserProfiles.Write;
 
 namespace User.Persistence;
@@ -43,7 +47,20 @@ public static class DependencyInjection
             .AddUserProfilePersistence()
             .AddUnitOfWork()
             .AddOutboxAndInbox()
-            .AddAuditHierarchy();
+            .AddAuditHierarchy()
+            .AddUserSearchServices(configuration);
+
+        return services;
+    }
+
+    // Mirrors Product.Persistence's AddProductSearchServices - a business-capability-named
+    // method (not AddElasticsearchPersistence) called from AddPersistence, never a separate
+    // Program.cs step. See docs/reference/search.md.
+    private static IServiceCollection AddUserSearchServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddElasticsearchClient(configuration);
+        services.AddScoped<IUserSearchIndexer, UserSearchIndexer>();
+        services.AddScoped<IUserSearchRepository, UserSearchRepository>();
 
         return services;
     }

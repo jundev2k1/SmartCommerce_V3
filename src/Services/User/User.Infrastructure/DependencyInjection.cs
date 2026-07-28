@@ -63,6 +63,8 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         services.AddScoped<IIntegrationEventConsumer, UserAccountDeletionIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, UserProfileCreatedSearchSyncConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, UserProfileUpdatedSearchSyncConsumer>();
 
         return services;
     }

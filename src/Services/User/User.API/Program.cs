@@ -10,6 +10,7 @@ using Serilog;
 
 using User.API;
 using User.Application;
+using User.Application.Abstractions.Search;
 using User.Infrastructure;
 using User.Persistence;
 using User.Persistence.Engine;
@@ -49,6 +50,18 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
     await dbContext.Database.MigrateAsync();
+
+    var searchIndexer = scope.ServiceProvider.GetRequiredService<IUserSearchIndexer>();
+    try
+    {
+        await searchIndexer.EnsureIndexAsync();
+    }
+    catch (Exception ex)
+    {
+        // Elasticsearch is a read-model dependency, not a hard requirement to serve traffic -
+        // don't let a transient ES outage/misconfiguration take down the whole API on boot.
+        app.Logger.LogError(ex, "Failed to ensure the user search index exists. Search endpoints will be degraded until Elasticsearch connectivity is restored.");
+    }
 }
 
 app.UseRedisTracing();

@@ -1,9 +1,4 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Persistence.Ef.Criteria;
-
 using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Features.Users.Search;
 using User.Persistence.Engine;
 
 namespace User.Persistence.Contexts.UserProfiles.Read;
@@ -17,11 +12,13 @@ public sealed class UserProfileReadService(UserDbContext dbContext) : IUserProfi
             .FirstOrDefaultAsync(u => u.Id == id, ct);
     }
 
-    public async Task<PaginatedResult<UserProfile>> SearchAsync(CriteriaRequest request, CancellationToken ct = default)
+    public async Task<IReadOnlyList<UserProfile>> GetAllAsync(int skip, int take, CancellationToken ct = default)
     {
         return await dbContext.UserProfiles
             .AsNoTracking()
-            .ApplyCriteria(UserCriteriaDefinition.Instance, request)
-            .ToCriteriaPagedResultAsync(request, ct);
+            .OrderBy(u => u.Id)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync(ct);
     }
 }

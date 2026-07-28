@@ -1,6 +1,7 @@
 using BuildingBlock.Search.Abstractions;
 
 using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 using Elastic.Transport.Products.Elasticsearch;
 
@@ -18,6 +19,19 @@ public sealed class ElasticsearchIndexer<TDocument>(ElasticsearchClient client) 
         await CreateIndexAsync(indexName, configureMapping, ct);
     }
 
+    public async Task EnsureIndexAsync(
+        string indexName,
+        Action<PropertiesDescriptor<TDocument>> configureMapping,
+        Action<IndexSettingsDescriptor<TDocument>> configureSettings,
+        CancellationToken ct = default)
+    {
+        var exists = await client.Indices.ExistsAsync(indexName, ct);
+        if (exists.Exists)
+            return;
+
+        await CreateIndexAsync(indexName, configureMapping, configureSettings, ct);
+    }
+
     public async Task RecreateIndexAsync(string indexName, Action<PropertiesDescriptor<TDocument>> configureMapping, CancellationToken ct = default)
     {
         var exists = await client.Indices.ExistsAsync(indexName, ct);
@@ -25,6 +39,19 @@ public sealed class ElasticsearchIndexer<TDocument>(ElasticsearchClient client) 
             await client.Indices.DeleteAsync(indexName, ct);
 
         await CreateIndexAsync(indexName, configureMapping, ct);
+    }
+
+    public async Task RecreateIndexAsync(
+        string indexName,
+        Action<PropertiesDescriptor<TDocument>> configureMapping,
+        Action<IndexSettingsDescriptor<TDocument>> configureSettings,
+        CancellationToken ct = default)
+    {
+        var exists = await client.Indices.ExistsAsync(indexName, ct);
+        if (exists.Exists)
+            await client.Indices.DeleteAsync(indexName, ct);
+
+        await CreateIndexAsync(indexName, configureMapping, configureSettings, ct);
     }
 
     public async Task IndexAsync(string indexName, string documentId, TDocument document, CancellationToken ct = default)
@@ -64,6 +91,17 @@ public sealed class ElasticsearchIndexer<TDocument>(ElasticsearchClient client) 
     {
         var response = await client.Indices.CreateAsync<TDocument>(
             indexName, c => c.Mappings(m => m.Properties(configureMapping)), ct);
+        EnsureSuccess(response, $"create index '{indexName}'");
+    }
+
+    private async Task CreateIndexAsync(
+        string indexName,
+        Action<PropertiesDescriptor<TDocument>> configureMapping,
+        Action<IndexSettingsDescriptor<TDocument>> configureSettings,
+        CancellationToken ct)
+    {
+        var response = await client.Indices.CreateAsync<TDocument>(
+            indexName, c => c.Settings(configureSettings).Mappings(m => m.Properties(configureMapping)), ct);
         EnsureSuccess(response, $"create index '{indexName}'");
     }
 

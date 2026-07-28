@@ -152,6 +152,10 @@ services:
       - Grpc__AuthService__Url=${AUTH_GRPC_URL}
       # Kafka
       - Kafka__BootstrapServers=${USER_KAFKA_BROKERS}
+      # Elasticsearch (Search read model - see docs/reference/search.md)
+      - Elasticsearch__Url=${USER_ELASTICSEARCH_URL}
+      - Elasticsearch__Username=${ELASTICSEARCH_APP_USERNAME}
+      - Elasticsearch__Password=${ELASTICSEARCH_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s

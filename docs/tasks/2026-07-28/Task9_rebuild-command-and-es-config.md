@@ -1,7 +1,11 @@
 # Task 9: RebuildUserSearchIndex Command + ES Config/Docker Wiring
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Elasticsearch / Infrastructure
+
+## What was done
+
+`RebuildUserSearchIndexCommand`/`Handler` added, reusing `UserSearchProjectionBuilder`/`IUserSearchIndexer` exactly like Product's rebuild handler (paged 200/batch via the new `IUserProfileReadService.GetAllAsync`, `RecreateIndexAsync` then `BulkIndexAsync` per batch). `POST /users/search/rebuild` endpoint added (`RequireAdmin`), with the auth requirement spelled out in the Swagger description from day one — closing the exact gap Product's equivalent endpoint left undocumented for a while. `User.API/Program.cs` gained the fail-open `EnsureIndexAsync()` bootstrap call (try/catch around Elasticsearch connectivity, logs but doesn't crash the API on failure, identical to Product's). `.env`/`.env.template` gained `USER_ELASTICSEARCH_URL`; `docker-compose.override.yml`'s `user-api` service gained the 3-line `Elasticsearch__Url`/`Username`/`Password` block, reusing the same shared `elastic` app-user credentials Product already uses (no new per-service credential introduced). `user-api`'s `depends_on: elasticsearch: condition: service_healthy` already existed in `docker-compose.yml` (previously only for the shared logging sink) — no change needed there.
 
 ## Objective
 

@@ -1,7 +1,13 @@
 # Task 8: ProjectionBuilder + Sync Events (Self-Consumption)
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Elasticsearch
+
+## What was done
+
+`UserSearchProjectionBuilder` (`UserProfile` → `UserSearchDocument`, single + batched) added to `User.Application/Features/Users/Search/`, using a fixed `"en"` index-time locale for `DisplayName` per the documented simplification. Closed the flagged gap: added `UserProfileUpdatedIntegrationEvent` (new, `BuildingBlock.Contract`), published from `UpdateUserHandler` via Outbox in the same transaction as the profile write — previously this handler published nothing at all. Added `OnUserSearchSyncRequiredEvent`/`Handler` and `OnUserSearchRemovalRequiredEvent`/`Handler` (internal events, mirroring Product's exact shape) plus two new self-consuming Kafka consumers in `User.Infrastructure/Messaging/Consumers/` (`UserProfileCreatedSearchSyncConsumer`, `UserProfileUpdatedSearchSyncConsumer`), registered in `User.Infrastructure/DependencyInjection.cs`.
+
+**Deliberate deviation from Product's pattern, recorded here as designed, not an oversight:** two of the four sync triggers do **not** go through Outbox/Kafka self-consumption. `OnUserInitiatedHandler` (Auth's self-registration path, already running in-process off a gRPC call) and `OnUserDeletionHandler` (already running off an inbound, Inbox-deduped Kafka message) each dispatch the internal sync/removal event directly via `IInternalEventDispatcher`, since both already have the delivery guarantees Product's self-consumption hop exists to provide — adding a second hop would be redundant complexity, not extra safety. Only the two REST-triggered paths (Create, Update) use the full Outbox → Kafka → self-consumption loop, matching Product's reasoning for *those* specific paths.
 
 ## Objective
 

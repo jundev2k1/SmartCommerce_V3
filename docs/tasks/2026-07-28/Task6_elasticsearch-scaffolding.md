@@ -1,7 +1,11 @@
 # Task 6: Scaffold User Elasticsearch Search (Mirror Product Architecture)
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Elasticsearch
+
+## What was done
+
+Scaffolded exactly per plan: `User.Application/Abstractions/Search/{IUserSearchIndexer,IUserSearchRepository,UserSearchCriteria,UserSearchDocument}.cs` and `User.Persistence/Contexts/UserProfiles/Search/{UserSearchIndexNames.cs, Mapping/UserSearchIndexMapping.cs, Indexers/UserSearchIndexer.cs, Repositories/UserSearchRepository.cs}` — flat layout beside `Read/`/`Write/`/`Repositories/`, not Product's `Engine/`/`Reliability/`/`Storage/` regrouping, per the persistence-coding-conventions distinction for single-aggregate services. `AddUserSearchServices(configuration)` added to `User.Persistence/DependencyInjection.cs`'s `AddPersistence` chain. Added the `BuildingBlock.Search` project reference to `User.Persistence.csproj` (previously missing). `BuildingBlock.Search` itself needed one additive change (see Task 7) but no behavior change for its existing Product consumer — verified via a standalone `Product.API` build.
 
 ## Objective
 

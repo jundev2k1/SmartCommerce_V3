@@ -1,7 +1,17 @@
 # Task 10: Cut SearchUsers Over to Elasticsearch-Backed Query
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Elasticsearch
+
+## What was done
+
+**Decision made: full cutover**, matching Product's precedent. `SearchUsersHandler` now calls `IUserSearchRepository.SearchAsync` exclusively; `IUserProfileReadService.SearchAsync` (the Postgres/`ApplyCriteria` execution path) was deleted from both the interface and `UserProfileReadService`, confirmed unused elsewhere first via a repo-wide grep. The request/response contract was deliberately kept identical (`CriteriaRequest` in, `SearchUsersItemResponse` out) so Frontend Task 4 may need zero changes — that's for the frontend session to confirm against a running stack.
+
+`UserCriteriaDefinition` was **not** deleted (unlike Product's fully-removed old criteria file) — it's kept as a pure request-shape validator for `SearchUsersValidator`, since `CriteriaRequestValidator<T>` is engine-agnostic. Its field list was narrowed to match exactly what `SearchUsersHandler.BuildCriteria`/`UserSearchRepository` actually implement (`.AllowOperators()` with zero args added to `userName`/`email`/`createdAt`/`updatedAt` to make them sort-only, matching reality) — closing a real validation/execution mismatch risk (a filter that validates successfully but is silently ignored) rather than leaving it latent. **Individual `firstName`/`middleName`/`lastName` filters were retired** in favor of the unified `keyword` search, which is a strict improvement (was case-sensitive and excluded `middleName` before; now case+accent+word-order-insensitive and covers all three parts) — documented in the endpoint's Swagger description.
+
+`SearchUsersHandler` recomputes `DisplayName` per-request from the document's stored `FirstName`/`MiddleName`/`LastName` using the caller's actual locale (via `ICurrentLocaleService`) rather than trusting the document's fixed index-time `en` value — consistent with `GetUser`/`GetUserDetail`'s behavior.
+
+Verified: full-solution `dotnet build` passes (only the same pre-existing, unrelated `Order.Application.Tests` failure remains). Not yet done: a live end-to-end run against Docker/Elasticsearch (no stack was started this session) and the parity/regression checks against the existing phone-search and role-tab UI features — tracked under Task 16 (migration review) and Task 17 (testing).
 
 ## Objective
 

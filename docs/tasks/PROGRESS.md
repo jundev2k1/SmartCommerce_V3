@@ -4,18 +4,18 @@ One line per still-open task, most recent date first. Per-task detail lives in e
 
 ## 2026-07-28
 
-Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-5 implemented same day (Phase A name model + Phase B locale/DisplayName); Tasks 6-18 (Elasticsearch, cache, gRPC, testing, docs) remain not started. Paired with 7 frontend tasks in `SimpleShopUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
+Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-10 implemented same day (Phase A name model, Phase B locale/DisplayName, Phase D Elasticsearch search); Tasks 11-18 (cache, gRPC, migration review, testing, docs) remain not started. Paired with 7 frontend tasks in `SimpleShopUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
 
 - [x] Task 1 — Add MiddleName: Domain + Persistence (`2026-07-28/Task1_middlename-domain-and-persistence.md`) — done.
 - [x] Task 2 — Add MiddleName: Application layer (`2026-07-28/Task2_middlename-application-layer.md`) — done.
 - [x] Task 3 — Propagate MiddleName: cross-service contracts (`2026-07-28/Task3_middlename-cross-service-contracts.md`) — done.
 - [x] Task 4 — Build `ICurrentLocaleService` (`2026-07-28/Task4_current-locale-service.md`) — done.
 - [x] Task 5 — Build locale-aware DisplayName formatter (`2026-07-28/Task5_displayname-formatter.md`) — done.
-- [ ] Task 6 — Scaffold User Elasticsearch search (`2026-07-28/Task6_elasticsearch-scaffolding.md`)
-- [ ] Task 7 — Design UserSearchDocument + accent-insensitive mapping (`2026-07-28/Task7_search-document-and-accent-insensitive-mapping.md`) — highest-uncertainty item, no in-repo precedent
-- [ ] Task 8 — ProjectionBuilder + sync events (`2026-07-28/Task8_projection-builder-and-sync-events.md`)
-- [ ] Task 9 — RebuildUserSearchIndex command + ES config (`2026-07-28/Task9_rebuild-command-and-es-config.md`)
-- [ ] Task 10 — Cut SearchUsers over to Elasticsearch (`2026-07-28/Task10_cutover-searchusers-to-elasticsearch.md`)
+- [x] Task 6 — Scaffold User Elasticsearch search (`2026-07-28/Task6_elasticsearch-scaffolding.md`) — done.
+- [x] Task 7 — Design UserSearchDocument + accent-insensitive mapping (`2026-07-28/Task7_search-document-and-accent-insensitive-mapping.md`) — done; live-ES diacritic verification still open.
+- [x] Task 8 — ProjectionBuilder + sync events (`2026-07-28/Task8_projection-builder-and-sync-events.md`) — done.
+- [x] Task 9 — RebuildUserSearchIndex command + ES config (`2026-07-28/Task9_rebuild-command-and-es-config.md`) — done.
+- [x] Task 10 — Cut SearchUsers over to Elasticsearch (`2026-07-28/Task10_cutover-searchusers-to-elasticsearch.md`) — done, full cutover.
 - [ ] Task 11 — User Detail cache scaffold (`2026-07-28/Task11_user-detail-cache-scaffold.md`)
 - [ ] Task 12 — Wire cache invalidation into Create/Update/Delete (`2026-07-28/Task12_cache-invalidation-wiring.md`)
 - [ ] Task 13 — Extend `user.proto` with GetUser/GetUsers (`2026-07-28/Task13_grpc-proto-getuser-getusers.md`)
