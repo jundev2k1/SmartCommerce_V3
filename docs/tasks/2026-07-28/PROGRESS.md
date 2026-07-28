@@ -2,7 +2,7 @@
 
 Status legend: `[ ]` not started · `[~]` in progress · `[b]` blocked · `[x]` done
 
-Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer." Full read-only impact analysis performed across Product's Elasticsearch implementation, User service's current state, cache infrastructure, gRPC consumers, and (in the sibling repo) frontend screens/locale handling. See [00-architecture-and-plan.md](./00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 (name model, locale/DisplayName, Elasticsearch search, cache, gRPC, migration review) implemented 2026-07-28, same session as the planning pass. Tasks 17-18 (testing, docs) remain not started. Task 15's consumer choice (Audit) was made autonomously per the task's own recommendation - flag for team confirmation.
+Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer." Full read-only impact analysis performed across Product's Elasticsearch implementation, User service's current state, cache infrastructure, gRPC consumers, and (in the sibling repo) frontend screens/locale handling. See [00-architecture-and-plan.md](./00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 and 18 (name model, locale/DisplayName, Elasticsearch search, cache, gRPC, migration review, docs) implemented 2026-07-28, same session as the planning pass. Task 17 (testing) remains not started. Task 15's consumer choice (Audit) was made autonomously per the task's own recommendation - flag for team confirmation.
 
 - [x] Task 1 — Add MiddleName: Domain + Persistence (`Task1_middlename-domain-and-persistence.md`) — done: entity, EF config, migration, seeder.
 - [x] Task 2 — Add MiddleName: Application layer, User service (`Task2_middlename-application-layer.md`) — done: Commands/Validators/Queries/Criteria/endpoints.
@@ -21,7 +21,7 @@ Source: planning-only request — "User Service Search, Elasticsearch, Localizat
 - [x] Task 15 — First real gRPC consumer (`Task15_first-grpc-consumer.md`) — done: Audit chosen autonomously (task's own recommendation) - **flag for team confirmation**.
 - [x] Task 16 — Migration/reindex review (`Task16_migration-and-reindex-review.md`) — done as a code-level review; top operational risk flagged: `RebuildUserSearchIndex` must run before the first real `SearchUsers` call once deployed.
 - [ ] Task 17 — Testing, threaded through all phases (`Task17_testing.md`)
-- [ ] Task 18 — Documentation updates (`Task18_documentation-updates.md`)
+- [x] Task 18 — Documentation updates (`Task18_documentation-updates.md`) — done: user-service.md, search.md, caching.md, grpc.md, events.md, and both SimpleShopUI backend/user + backend/auth README.md updated.
 
 ## Verification notes (Tasks 1-16)
 

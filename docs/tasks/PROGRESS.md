@@ -4,7 +4,7 @@ One line per still-open task, most recent date first. Per-task detail lives in e
 
 ## 2026-07-28
 
-Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 implemented same day (name model, locale/DisplayName, Elasticsearch search, cache, gRPC incl. Audit as first consumer, migration review); Tasks 17-18 (testing, docs) remain not started. Paired with 7 frontend tasks in `SimpleShopUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
+Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 and 18 implemented same day (name model, locale/DisplayName, Elasticsearch search, cache, gRPC incl. Audit as first consumer, migration review, docs); Task 17 (testing) remains not started. Paired with 7 frontend tasks in `SimpleShopUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
 
 - [x] Task 1 — Add MiddleName: Domain + Persistence (`2026-07-28/Task1_middlename-domain-and-persistence.md`) — done.
 - [x] Task 2 — Add MiddleName: Application layer (`2026-07-28/Task2_middlename-application-layer.md`) — done.
@@ -23,7 +23,7 @@ Source: planning-only request — "User Service Search, Elasticsearch, Localizat
 - [x] Task 15 — First real gRPC consumer (`2026-07-28/Task15_first-grpc-consumer.md`) — done: Audit, chosen autonomously — **flag for team confirmation**.
 - [x] Task 16 — Migration/reindex review (`2026-07-28/Task16_migration-and-reindex-review.md`) — done; top risk: run `RebuildUserSearchIndex` before first real `SearchUsers` call post-deploy.
 - [ ] Task 17 — Testing (`2026-07-28/Task17_testing.md`)
-- [ ] Task 18 — Documentation updates (`2026-07-28/Task18_documentation-updates.md`)
+- [x] Task 18 — Documentation updates (`2026-07-28/Task18_documentation-updates.md`) — done.
 
 ## 2026-07-27
 

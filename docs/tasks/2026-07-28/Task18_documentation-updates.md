@@ -1,7 +1,21 @@
 # Task 18: Documentation Updates
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Documentation
+
+## What was done
+
+All six docs named in this file's own scope were updated, plus one extra found while touching the frontend doc:
+
+- `docs/services/user-service.md` — routes table (ES-backed `SearchUsers`, new `POST /users/search/rebuild`), a fully rewritten "User-specific building blocks" section (gRPC `GetUser`/`GetUsers`, Elasticsearch search, User Detail cache, locale-aware DisplayName, the two new self-consuming search-sync consumers), a note on `Roles` now also flowing into the ES document, and two new "Known issues" entries (`DeleteUserCommand`/`DeleteUserHandler` dead code, the inherited blocking-rebuild limitation).
+- `docs/reference/search.md` — scope line and architecture diagram updated to include User as a second full implementation (no longer "Product... the only full implementation"); the `IElasticsearchIndexer` settings-aware overload noted; a full new "User Search" section covering the three deliberate differences from Product (custom analyzer, retired per-field name filters, four sync trigger paths) and the still-open operational risk (rebuild not yet run against real data).
+- `docs/reference/caching.md` — new "User Detail cache" section, explaining the DTO-based deviation from the `Cached{X}ServiceDecorator` template (and why: `UserProfile`'s private setters) and pointing at the correct `CacheKeys.UserProfiles` group vs. the pre-existing dead `CacheKeys.Users`.
+- `docs/reference/grpc.md` — "two call chains" corrected to three (Audit → User added); new "Batch RPCs: never a loop of single calls" section documenting `GetUsers`'s never-omit convention and Audit's fail-open, display-only consumer.
+- `docs/reference/events.md` — one-sentence addition noting `UserProfileUpdatedIntegrationEvent` as a recent example of the "new event added purely for search sync" pattern.
+- `SimpleShopUI/docs/backend/user/README.md` — endpoints table (rebuild endpoint), a new "Locale" section (the `Accept-Language` header already flows, no frontend change needed), the `SearchUsers` field-support changes, and `middleName`/`displayName` on the DTOs.
+- **Extra, not originally listed**: `SimpleShopUI/docs/backend/auth/README.md`'s `RegisterRequest` DTO line — a one-line fix for the same `middleName` addition (Task 3), found while touching the sibling User doc.
+
+Not done, out of this task's scope: SimpleShopUI's own `docs/frontend/i18n.md`/ADR (Frontend Task 5's concern, not this one), and no team review cycle occurred (this was a solo session).
 
 ## Objective
 
@@ -37,9 +51,9 @@ Small, spread across the epic — a paragraph or section per doc, per phase.
 
 ## Completion checklist
 
-- [ ] `docs/services/user-service.md` updated (routes, new building blocks, search/cache/gRPC sections)
-- [ ] `docs/reference/search.md` gains a "User Search" section, "only full implementation today" language corrected
-- [ ] `docs/reference/caching.md` gains a User Detail cache example
-- [ ] `docs/reference/grpc.md` updated with the new call chain(s) and User's first read RPCs
-- [ ] `docs/reference/events.md` updated if `UserProfileUpdatedIntegrationEvent` (or any other new event) is added
-- [ ] `SimpleShopUI/docs/backend/user/README.md` updated once the backend contract is final (coordinate with Frontend Task F6)
+- [x] `docs/services/user-service.md` updated (routes, new building blocks, search/cache/gRPC sections)
+- [x] `docs/reference/search.md` gains a "User Search" section, "only full implementation today" language corrected
+- [x] `docs/reference/caching.md` gains a User Detail cache example
+- [x] `docs/reference/grpc.md` updated with the new call chain(s) and User's first read RPCs
+- [x] `docs/reference/events.md` updated for `UserProfileUpdatedIntegrationEvent`
+- [x] `SimpleShopUI/docs/backend/user/README.md` updated (backend contract already landed this session, no need to wait for Frontend Task F6)
