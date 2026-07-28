@@ -22,6 +22,7 @@ public sealed class OnUserRegisteredHandler(
             @event.Email,
             @event.UserName,
             @event.FirstName,
+            @event.MiddleName,
             @event.LastName,
             @event.PhoneNumber,
             @event.CorrelationId,

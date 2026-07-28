@@ -16,7 +16,8 @@ public sealed record CreateUserRequest(
     string FirstName,
     string LastName,
     string[] Roles,
-    string TempPassword);
+    string TempPassword,
+    string MiddleName = "");
 
 public sealed class CreateUserEndpoint : ICarterModule
 {
@@ -31,6 +32,7 @@ public sealed class CreateUserEndpoint : ICarterModule
         "- **UserName**: Unique username (required)",
         "- **PhoneNumber**: User phone number (required)",
         "- **FirstName**: User first name (required)",
+        "- **MiddleName**: User middle name (optional)",
         "- **LastName**: User last name (required)",
         "- **Roles**: Roles to grant the new Auth Account (Root may grant Admin or User; Admin may only grant User)",
         "- **TempPassword**: Initial password for the new Auth Account; user should be required to change it on first login",
@@ -76,6 +78,7 @@ public sealed class CreateUserEndpoint : ICarterModule
             request.UserName.Trim(),
             request.PhoneNumber.Trim(),
             request.FirstName.Trim(),
+            request.MiddleName.Trim(),
             request.LastName.Trim(),
             request.Roles,
             request.TempPassword);

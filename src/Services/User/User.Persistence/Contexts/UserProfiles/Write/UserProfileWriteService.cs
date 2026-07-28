@@ -28,11 +28,11 @@ public sealed class UserProfileWriteService(
         await unitOfWork.SaveChangesAsync(ct);
     }
 
-    public async Task UpdateProfileDetailsAsync(Guid id, string firstName, string lastName, string phoneNumber, CancellationToken ct = default)
+    public async Task UpdateProfileDetailsAsync(Guid id, string firstName, string middleName, string lastName, string phoneNumber, CancellationToken ct = default)
     {
         await repo.UpdateAsync(id, async user =>
         {
-            user.UpdateProfile(firstName, lastName, phoneNumber);
+            user.UpdateProfile(firstName, middleName, lastName, phoneNumber);
             await Task.CompletedTask;
         }, ct);
     }

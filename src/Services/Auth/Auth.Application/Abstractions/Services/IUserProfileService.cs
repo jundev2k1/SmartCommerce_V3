@@ -9,6 +9,7 @@ public interface IUserProfileService
         string email,
         string userName,
         string firstName,
+        string middleName,
         string lastName,
         string phoneNumber,
         string correlationId,

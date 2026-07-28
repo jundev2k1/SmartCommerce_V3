@@ -8,7 +8,7 @@ public interface IUserProfileWriteService
     /// <summary>Used by OnUserInitiated: mirrors an Account created in Auth, commits via bare SaveChangesAsync.</summary>
     Task SyncFromAccountInitiationAsync(UserProfile user, CancellationToken ct = default);
 
-    Task UpdateProfileDetailsAsync(Guid id, string firstName, string lastName, string phoneNumber, CancellationToken ct = default);
+    Task UpdateProfileDetailsAsync(Guid id, string firstName, string middleName, string lastName, string phoneNumber, CancellationToken ct = default);
 
     Task DeleteAsync(Guid id, CancellationToken ct = default);
 

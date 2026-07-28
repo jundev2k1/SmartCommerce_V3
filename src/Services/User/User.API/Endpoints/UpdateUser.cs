@@ -9,7 +9,8 @@ namespace User.API.Endpoints;
 public sealed record UpdateUserRequest(
     string FirstName,
     string LastName,
-    string PhoneNumber);
+    string PhoneNumber,
+    string MiddleName = "");
 
 public sealed class UpdateUserEndpoint : ICarterModule
 {
@@ -23,6 +24,7 @@ public sealed class UpdateUserEndpoint : ICarterModule
         "",
         "### Request Body",
         "- **FirstName**: User first name (required)",
+        "- **MiddleName**: User middle name (optional)",
         "- **LastName**: User last name (required)",
         "- **PhoneNumber**: User phone number (required)",
         "",
@@ -62,6 +64,7 @@ public sealed class UpdateUserEndpoint : ICarterModule
         var command = new UpdateUserCommand(
             userId,
             request.FirstName.Trim(),
+            request.MiddleName.Trim(),
             request.LastName.Trim(),
             request.PhoneNumber.Trim());
 

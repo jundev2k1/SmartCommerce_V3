@@ -6,7 +6,7 @@ using BuildingBlock.Web.Swagger.EndpointHeader;
 
 namespace Auth.API.Endpoints;
 
-public record RegisterRequest(string Email, string Password, string FirstName, string LastName, string PhoneNumber);
+public record RegisterRequest(string Email, string Password, string FirstName, string LastName, string PhoneNumber, string MiddleName = "");
 
 public sealed class Register : ICarterModule
 {
@@ -19,6 +19,7 @@ public sealed class Register : ICarterModule
         "- **Email**: User email address (required, must be unique)",
         "- **Password**: User password (required)",
         "- **FirstName**: User first name (required)",
+        "- **MiddleName**: User middle name (optional)",
         "- **LastName**: User last name (required)",
         "- **PhoneNumber**: User phone number (required)",
         "",
@@ -46,7 +47,8 @@ public sealed class Register : ICarterModule
                 request.Password.Trim(),
                 request.FirstName.Trim(),
                 request.LastName.Trim(),
-                request.PhoneNumber.Trim());
+                request.PhoneNumber.Trim(),
+                request.MiddleName.Trim());
             await sender.Send(command, ct);
             return ApiResponse<object>.Ok(MessageCode.Created);
         })

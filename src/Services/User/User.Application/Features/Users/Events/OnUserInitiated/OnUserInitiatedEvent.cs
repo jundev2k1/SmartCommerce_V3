@@ -8,6 +8,7 @@ public sealed record OnUserInitiatedEvent(
     string UserName,
     string PhoneNumber,
     string FirstName,
+    string MiddleName,
     string LastName,
     string CorrelationId = "") : IInternalEvent
 {

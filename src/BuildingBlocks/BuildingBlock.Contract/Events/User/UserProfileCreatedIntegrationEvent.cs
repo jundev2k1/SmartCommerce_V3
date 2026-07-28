@@ -5,6 +5,7 @@ public sealed record UserProfileCreatedIntegrationEvent(
     string Email,
     string UserName,
     string FirstName,
+    string MiddleName,
     string LastName,
     string? CorrelationId = null,
     string[]? Roles = null,

@@ -7,4 +7,11 @@ public static class HeaderKeys
     public const string ClientVersion = "X-Client-Version";
     public const string DeviceId = "X-Device-Id";
     public const string IdempotencyKey = "Idempotency-Key";
+
+    /// <summary>
+    /// Reuses the standard HTTP header rather than inventing a custom one - the frontend already
+    /// sends `Accept-Language` on every request (see SimpleShopUI's shared Axios client), so no
+    /// frontend change is needed for this to start flowing.
+    /// </summary>
+    public const string Locale = "Accept-Language";
 }

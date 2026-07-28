@@ -5,6 +5,7 @@ public sealed record OnUserRegisteredEvent(
     string Email,
     string UserName,
     string FirstName,
+    string MiddleName,
     string LastName,
     string PhoneNumber,
     string CorrelationId) : IInternalEvent

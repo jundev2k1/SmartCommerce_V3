@@ -11,7 +11,7 @@ public sealed class UpdateUserHandler(
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             await userWriteService.UpdateProfileDetailsAsync(
-                request.UserId, request.FirstName.Trim(), request.LastName.Trim(), request.PhoneNumber.Trim(), ct);
+                request.UserId, request.FirstName.Trim(), request.MiddleName.Trim(), request.LastName.Trim(), request.PhoneNumber.Trim(), ct);
         }, ct: ct);
 
         return new UpdateUserResponse();

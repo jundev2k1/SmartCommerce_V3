@@ -24,6 +24,9 @@ public sealed class RegisterValidator : AbstractValidator<RegisterCommand>
             .MinimumLength(2).WithMessage("Last name must be at least 2 characters.")
             .MaximumLength(50).WithMessage("Last name must not exceed 50 characters.");
 
+        RuleFor(x => x.MiddleName)
+            .MaximumLength(50).WithMessage("Middle name must not exceed 50 characters.");
+
         RuleFor(x => x.PhoneNumber)
             .NotEmpty().WithMessage("Full name is required.")
             .MinimumLength(10).WithMessage("Phone number must be at least 10 characters.")

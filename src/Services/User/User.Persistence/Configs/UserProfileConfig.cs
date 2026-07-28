@@ -32,6 +32,10 @@ public sealed class UserProfileConfig : IEntityTypeConfiguration<UserProfile>
             .HasMaxLength(256)
             .IsRequired();
 
+        builder.Property(x => x.MiddleName)
+            .HasMaxLength(50)
+            .IsRequired();
+
         builder.Property(x => x.LastName)
             .HasMaxLength(256)
             .IsRequired();

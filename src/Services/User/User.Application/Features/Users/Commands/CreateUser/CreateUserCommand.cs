@@ -5,6 +5,7 @@ public sealed record CreateUserCommand(
     string UserName,
     string PhoneNumber,
     string FirstName,
+    string MiddleName,
     string LastName,
     string[] Roles,
     string TempPassword = "") : ICommand<CreateUserResponse>;

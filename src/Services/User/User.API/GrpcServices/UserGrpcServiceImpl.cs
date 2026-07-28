@@ -19,6 +19,7 @@ public sealed class UserGrpcServiceImpl(IInternalEventDispatcher eventDispatcher
             request.UserName.Trim(),
             request.PhoneNumber.Trim(),
             request.FirstName.Trim(),
+            request.MiddleName.Trim(),
             request.LastName.Trim(),
             CorrelationId: request.CorrelationId);
         await eventDispatcher.PublishAsync(@event, context.CancellationToken);

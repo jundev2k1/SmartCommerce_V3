@@ -5,6 +5,7 @@ public sealed record OnUserCreatedEvent(
     string Email,
     string UserName,
     string FirstName,
+    string MiddleName,
     string LastName,
     string[] Roles,
     string TempPassword,
@@ -16,11 +17,12 @@ public sealed record OnUserCreatedEvent(
         string email,
         string userName,
         string firstName,
+        string middleName,
         string lastName,
         string[] roles,
         string tempPassword,
         string correlationId)
-        : this(userId, email, userName, firstName, lastName, roles, tempPassword, correlationId, DateTime.UtcNow)
+        : this(userId, email, userName, firstName, middleName, lastName, roles, tempPassword, correlationId, DateTime.UtcNow)
     {
     }
 }

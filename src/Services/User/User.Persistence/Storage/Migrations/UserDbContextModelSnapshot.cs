@@ -192,6 +192,12 @@ namespace User.Persistence.Storage.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("last_name");
 
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("middle_name");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)

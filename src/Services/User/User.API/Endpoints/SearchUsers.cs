@@ -22,7 +22,7 @@ public sealed class SearchUsersEndpoint : ICarterModule
         "",
         "### Searchable Fields",
         "- **userName**, **email**: eq/ne/c/sw/ew/in/nin, sortable, included in keyword search, case-insensitive",
-        "- **firstName**, **lastName**: eq/ne/c/sw/ew/in/nin, included in keyword search",
+        "- **firstName**, **middleName**, **lastName**: eq/ne/c/sw/ew/in/nin, included in keyword search",
         "- **status**: eq/ne/in/nin, sortable",
         "- **phone**: eq/ne/sw/ew/in/nin (indexed prefix/suffix search - `c` is intentionally not supported)",
         "- **createdAt**: eq/ne/gt/gte/lt/lte/between, sortable",

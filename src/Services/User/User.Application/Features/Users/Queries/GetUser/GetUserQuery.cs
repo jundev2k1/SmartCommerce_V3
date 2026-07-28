@@ -8,7 +8,9 @@ public sealed record GetUserResponse(
     string UserName,
     string PhoneNumber,
     string FirstName,
+    string MiddleName,
     string LastName,
+    string DisplayName,
     UserStatus Status,
     DateTime CreatedAt,
     DateTime UpdatedAt);

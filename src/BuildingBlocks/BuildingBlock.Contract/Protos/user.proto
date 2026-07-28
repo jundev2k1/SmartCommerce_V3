@@ -16,6 +16,7 @@ message CreateUserProfileRequest {
   string last_name = 5;
   string phone_number = 6;
   string correlation_id = 7;
+  string middle_name = 8;
 }
 
 message CreateUserProfileResponse {

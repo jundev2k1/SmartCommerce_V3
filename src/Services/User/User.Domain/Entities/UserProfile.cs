@@ -13,6 +13,7 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
     public string PhoneSearch { get; private set; } = string.Empty;
     public string PhoneReverse { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
+    public string MiddleName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
     public UserStatus Status { get; private set; }
 
@@ -31,6 +32,7 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
         string userName,
         string phoneNumber,
         string firstName,
+        string middleName,
         string lastName,
         string[] roles,
         UserStatus status = UserStatus.Active)
@@ -42,6 +44,7 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
             UserName = userName,
             PhoneNumber = phoneNumber,
             FirstName = firstName,
+            MiddleName = middleName,
             LastName = lastName,
             Roles = roles,
             Status = status,
@@ -50,9 +53,10 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
         return user;
     }
 
-    public void UpdateProfile(string firstName, string lastName, string phoneNumber)
+    public void UpdateProfile(string firstName, string middleName, string lastName, string phoneNumber)
     {
         FirstName = firstName;
+        MiddleName = middleName;
         LastName = lastName;
         PhoneNumber = phoneNumber;
         SyncPhoneSearchFields();

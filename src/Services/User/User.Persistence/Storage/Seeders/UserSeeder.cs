@@ -18,6 +18,7 @@ public sealed class UserSeeder(UserDbContext context)
                 account.Username,
                 "1234567890",
                 account.Username,
+                string.Empty,
                 account.Username,
                 account.Roles))
             .ToArray();

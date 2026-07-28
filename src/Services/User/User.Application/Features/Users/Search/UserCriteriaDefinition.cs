@@ -11,6 +11,7 @@ public static class UserCriteriaDefinition
         .Field(x => x.UserName).String().Sortable().KeywordSearchable().IgnoreCase()
         .Field(x => x.Email).String().Sortable().KeywordSearchable().IgnoreCase()
         .Field(x => x.FirstName).String().KeywordSearchable()
+        .Field(x => x.MiddleName).String().KeywordSearchable()
         .Field(x => x.LastName).String().KeywordSearchable()
         .Field(x => x.Status).Enum().Sortable()
         .Field(x => x.PhoneNumber, name: "phone").UsePhoneSearch(x => x.PhoneSearch, x => x.PhoneReverse)

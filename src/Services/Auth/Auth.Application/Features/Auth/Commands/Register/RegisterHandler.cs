@@ -49,6 +49,7 @@ public sealed class RegisterHandler(
             request.Email,
             request.Email,
             request.FirstName,
+            request.MiddleName,
             request.LastName,
             request.PhoneNumber,
             correlationId);

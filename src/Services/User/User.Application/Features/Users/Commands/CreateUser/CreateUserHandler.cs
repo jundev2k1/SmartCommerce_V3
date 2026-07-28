@@ -33,6 +33,7 @@ public sealed class CreateUserHandler(
             request.UserName.Trim(),
             request.PhoneNumber.Trim(),
             request.FirstName.Trim(),
+            request.MiddleName.Trim(),
             request.LastName.Trim(),
             request.Roles);
 
@@ -68,6 +69,7 @@ public sealed class CreateUserHandler(
             createdUser.Email,
             createdUser.UserName,
             createdUser.FirstName,
+            createdUser.MiddleName,
             createdUser.LastName,
             correlationId,
             roles,

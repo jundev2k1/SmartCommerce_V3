@@ -18,6 +18,7 @@ public sealed class OnUserInitiatedHandler(
             @event.UserName,
             @event.PhoneNumber,
             @event.FirstName,
+            @event.MiddleName,
             @event.LastName,
             [AppRole.User]);
         await userWriteService.SyncFromAccountInitiationAsync(user, ct);

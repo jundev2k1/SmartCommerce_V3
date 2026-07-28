@@ -30,6 +30,7 @@ public sealed class UserCreatedIntegrationEventConsumer(
             data.Email,
             data.UserName,
             data.FirstName,
+            data.MiddleName,
             data.LastName,
             data.Roles,
             data.TempPassword,

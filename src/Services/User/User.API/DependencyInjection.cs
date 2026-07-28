@@ -32,6 +32,7 @@ public static class DependencyInjection
         services
             .AddExceptionHandling()
             .AddCurrentUser()
+            .AddCurrentLocale()
             .AddJwtBearerAuthentication(configuration)
             .AddSwaggerDocumentation(WebOptions)
             .AddCorsPolicy(WebOptions.CorsPolicyName)

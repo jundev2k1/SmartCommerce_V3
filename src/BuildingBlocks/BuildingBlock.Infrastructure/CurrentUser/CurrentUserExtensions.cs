@@ -13,4 +13,12 @@ public static class CurrentUserExtensions
             .AddScoped<ICurrentUserService, CurrentUserService>();
         return services;
     }
+
+    public static IServiceCollection AddCurrentLocale(this IServiceCollection services)
+    {
+        services
+            .AddHttpContextAccessor()
+            .AddScoped<ICurrentLocaleService, CurrentLocaleService>();
+        return services;
+    }
 }
