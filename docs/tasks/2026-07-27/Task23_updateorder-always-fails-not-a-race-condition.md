@@ -1,6 +1,6 @@
 # Task 23: UpdateOrder fails unconditionally — not a race condition, a pre-existing EF Core change-tracking bug
 
-**Status:** Open. Discovered while building the `UpdateOrderRaceConditionTests` diagnostic suite (see `tests/integration/Order.IntegrationTests/`); NOT fixed as part of that work, per that task's explicit "don't modify production code" instruction.
+**Status:** Open. Discovered while building the `UpdateOrderRaceConditionTests` diagnostic suite (see `tests/integration/Order.IntegrationTests/`); NOT fixed as part of that work, per that task's explicit "don't modify production code" instruction. See `Task24_race-test-retargeted-to-updateownerinfo.md` (2026-07-28): that suite has since been retargeted to `UpdateOrderOwnerInfoCommand` to get a useful concurrency signal without waiting on this fix — `UpdateOrder` itself remains untested for concurrency and this bug is still unfixed.
 
 ## Source
 

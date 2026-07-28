@@ -160,6 +160,22 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
     }
 
     /// <summary>
+    /// Moves a Pending order to Confirmed via IOrderWriteService.ConfirmAsync directly - the same
+    /// saga-bypassing shortcut CreateOrderAsync takes for creation. Needed before
+    /// UpdateOrderOwnerInfo will accept the order (OrderWriteService.UpdateOwnerInfoAsync only
+    /// allows Status == Confirmed, unlike UpdateItems' Pending-only window).
+    /// </summary>
+    protected async Task ConfirmOrderAsync(Guid orderId)
+    {
+        await using var scope = CreateScope();
+        var writeService = scope.ServiceProvider.GetRequiredService<IOrderWriteService>();
+        var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+        await writeService.ConfirmAsync(orderId);
+        await uow.SaveChangesAsync();
+    }
+
+    /// <summary>
     /// Reloads the order from a brand-new DbContext/scope - never the tracked entity a handler
     /// under test just mutated. <c>Version</c> is the Postgres <c>xmin</c> system column EF maps
     /// as the concurrency token (see OrderConfig.cs) - read via a raw shadow-property projection
