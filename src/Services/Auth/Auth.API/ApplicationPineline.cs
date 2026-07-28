@@ -2,7 +2,7 @@ using Auth.API.ExceptionHandling;
 using Auth.API.GrpcServices;
 using Auth.Application.Abstractions.Services;
 using Auth.Infrastructure.BackgroundJobs;
-using Auth.Persistence.Seeders;
+using Auth.Persistence.Storage.Seeders;
 
 using BuildingBlock.Web.Cors;
 using BuildingBlock.Web.Middleware;

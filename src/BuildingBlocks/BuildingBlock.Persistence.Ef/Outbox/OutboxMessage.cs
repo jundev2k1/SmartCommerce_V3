@@ -17,7 +17,12 @@ public sealed class OutboxMessage
     private OutboxMessage() { }
 
     public static OutboxMessage Create(
-        string eventType, string topic, string payload, string correlationId, string? actorId, string actorType)
+        string eventType,
+        string topic,
+        string payload,
+        string correlationId,
+        string? actorId,
+        string actorType)
     {
         return new OutboxMessage
         {

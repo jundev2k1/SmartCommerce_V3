@@ -1,11 +1,10 @@
 using BuildingBlock.Saga.Abstractions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using Order.Persistence.Engine;
 
-namespace Order.Persistence.Saga;
+namespace Order.Persistence.Reliability.Saga;
 
 /// <summary>
 /// Persistent ISagaStore for CreateOrderSaga, registered as a singleton (matching

@@ -2,7 +2,7 @@ using BuildingBlock.Domain.Seeders;
 
 using User.Persistence.Engine;
 
-namespace User.Persistence.Seeders;
+namespace User.Persistence.Storage.Seeders;
 
 public sealed class UserSeeder(UserDbContext context)
 {

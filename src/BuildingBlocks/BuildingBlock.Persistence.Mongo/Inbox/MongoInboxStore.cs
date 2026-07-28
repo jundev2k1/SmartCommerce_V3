@@ -31,71 +31,79 @@ public sealed class MongoInboxStore<TContext>(TContext context) : IInboxStore
         CancellationToken ct = default)
     {
         var existing = await _context.InboxMessages
-            .Find(m => m.MessageId == messageId && m.ConsumerName == consumerName)
+            .Find(x => x.MessageId == messageId && x.ConsumerName == consumerName)
             .FirstOrDefaultAsync(ct);
-
         if (existing is not null)
         {
-            switch (existing.Status)
+            return existing.Status switch
             {
-                case InboxMessageStatus.Processed:
-                    return InboxAttemptDecision.AlreadyProcessed;
-                case InboxMessageStatus.DeadLetter:
-                    return InboxAttemptDecision.DeadLettered;
-                case InboxMessageStatus.Retrying when existing.NextRetryAt > DateTime.UtcNow:
-                    return InboxAttemptDecision.NotDueYet;
-            }
-
-            _currentAttemptId = existing.Id;
-            return InboxAttemptDecision.Proceed;
+                InboxMessageStatus.Processed => InboxAttemptDecision.AlreadyProcessed,
+                InboxMessageStatus.DeadLetter => InboxAttemptDecision.DeadLettered,
+                InboxMessageStatus.Retrying when existing.NextRetryAt > DateTime.UtcNow
+                    => InboxAttemptDecision.NotDueYet,
+                _ => InboxAttemptDecision.Proceed
+            };
         }
 
-        var created = InboxDocument.Create(messageId, consumerName, topic, payload, headersJson);
-        await _context.InboxMessages.InsertOneAsync(created, cancellationToken: ct);
+        var document = InboxDocument.Create(
+            messageId,
+            consumerName,
+            topic,
+            payload,
+            headersJson);
 
-        _currentAttemptId = created.Id;
+        try
+        {
+            await _context.InboxMessages.InsertOneAsync(document, cancellationToken: ct);
+        }
+        catch (MongoWriteException ex) when (ex.WriteError.Category == ServerErrorCategory.DuplicateKey)
+        {
+            return InboxAttemptDecision.AlreadyProcessed;
+        }
+
         return InboxAttemptDecision.Proceed;
     }
 
-    public async Task CompleteAttemptAsync(CancellationToken ct = default)
+    public async Task CompleteAttemptAsync(
+        Guid messageId,
+        string consumerName,
+        CancellationToken ct = default)
     {
-        if (_currentAttemptId is null)
-            return;
-
         var update = Builders<InboxDocument>.Update
-            .Set(m => m.Status, InboxMessageStatus.Processed)
-            .Set(m => m.ProcessedAt, DateTime.UtcNow)
-            .Set(m => m.NextRetryAt, (DateTime?)null)
-            .Set(m => m.LastError, (string?)null);
+            .Set(x => x.Status, InboxMessageStatus.Processed)
+            .Set(x => x.ProcessedAt, DateTime.UtcNow)
+            .Set(x => x.NextRetryAt, null)
+            .Set(x => x.LastError, null);
 
-        await _context.InboxMessages.UpdateOneAsync(m => m.Id == _currentAttemptId, update, cancellationToken: ct);
-        _currentAttemptId = null;
+        await _context.InboxMessages
+            .UpdateOneAsync(x => x.MessageId == messageId && x.ConsumerName == consumerName,
+            update,
+            cancellationToken: ct);
     }
 
     public async Task<InboxFailureOutcome> FailAttemptAsync(
+        Guid messageId,
+        string consumerName,
         string error,
         InboxRetryPolicy policy,
         CancellationToken ct = default)
     {
-        if (_currentAttemptId is null)
-            return InboxFailureOutcome.WillRetry;
-
-        var doc = await _context.InboxMessages.Find(m => m.Id == _currentAttemptId).FirstOrDefaultAsync(ct);
+        var doc = await _context.InboxMessages
+            .Find(x => x.MessageId == messageId && x.ConsumerName == consumerName)
+            .FirstOrDefaultAsync(ct);
         if (doc is null)
-        {
-            _currentAttemptId = null;
             return InboxFailureOutcome.WillRetry;
-        }
 
         doc.MarkFailed(error, policy);
-        await _context.InboxMessages.ReplaceOneAsync(m => m.Id == doc.Id, doc, cancellationToken: ct);
 
-        var outcome = doc.Status == InboxMessageStatus.DeadLetter
+        await _context.InboxMessages.ReplaceOneAsync(
+            x => x.Id == doc.Id,
+            doc,
+            cancellationToken: ct);
+
+        return doc.Status == InboxMessageStatus.DeadLetter
             ? InboxFailureOutcome.DeadLettered
             : InboxFailureOutcome.WillRetry;
-
-        _currentAttemptId = null;
-        return outcome;
     }
 
     public async Task<IReadOnlyList<InboxMessageSnapshot>> GetDueForRetryAsync(int batchSize, CancellationToken ct = default)

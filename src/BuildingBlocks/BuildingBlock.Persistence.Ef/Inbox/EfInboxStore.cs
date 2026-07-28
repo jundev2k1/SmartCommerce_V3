@@ -17,7 +17,6 @@ public sealed class EfInboxStore<TContext>(TContext context) : IInboxStore
     where TContext : Microsoft.EntityFrameworkCore.DbContext, IInboxDbContext
 {
     private readonly TContext _context = context;
-    private InboxMessage? _currentAttempt;
 
     public async Task<InboxAttemptDecision> BeginAttemptAsync(
         Guid messageId,
@@ -28,84 +27,73 @@ public sealed class EfInboxStore<TContext>(TContext context) : IInboxStore
         CancellationToken ct = default)
     {
         var existing = await _context.InboxMessages
-            .FirstOrDefaultAsync(m => m.MessageId == messageId && m.ConsumerName == consumerName, ct);
-
+            .FirstOrDefaultAsync(x => x.MessageId == messageId && x.ConsumerName == consumerName, ct);
         if (existing is not null)
         {
-            switch (existing.Status)
+            return existing.Status switch
             {
-                case InboxMessageStatus.Processed:
-                    return InboxAttemptDecision.AlreadyProcessed;
-                case InboxMessageStatus.DeadLetter:
-                    return InboxAttemptDecision.DeadLettered;
-                case InboxMessageStatus.Retrying when existing.NextRetryAt > DateTime.UtcNow:
-                    return InboxAttemptDecision.NotDueYet;
-            }
-
-            existing.RefreshAttemptContext(topic, payload, headersJson);
-            existing.MarkProcessed();
-            _currentAttempt = existing;
-            return InboxAttemptDecision.Proceed;
+                InboxMessageStatus.Processed => InboxAttemptDecision.AlreadyProcessed,
+                InboxMessageStatus.DeadLetter => InboxAttemptDecision.DeadLettered,
+                InboxMessageStatus.Retrying when existing.NextRetryAt > DateTime.UtcNow
+                    => InboxAttemptDecision.NotDueYet,
+                _ => InboxAttemptDecision.Proceed
+            };
         }
 
-        var created = InboxMessage.Create(messageId, consumerName, topic, payload, headersJson);
-        created.MarkProcessed();
-        await _context.InboxMessages.AddAsync(created, ct);
+        var inbox = InboxMessage.Create(
+            messageId,
+            consumerName,
+            topic,
+            payload,
+            headersJson);
 
-        _currentAttempt = created;
+        await _context.InboxMessages.AddAsync(inbox, ct);
+
+        try
+        {
+            await _context.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException)
+        {
+            return InboxAttemptDecision.AlreadyProcessed;
+        }
+
         return InboxAttemptDecision.Proceed;
     }
 
-    public async Task CompleteAttemptAsync(CancellationToken ct = default)
+    public async Task CompleteAttemptAsync(
+        Guid messageId,
+        string consumerName,
+        CancellationToken ct = default)
     {
-        if (_currentAttempt is null)
+        var inbox = await _context.InboxMessages
+            .FirstOrDefaultAsync(x => x.MessageId == messageId && x.ConsumerName == consumerName, ct);
+        if (inbox is null)
             return;
 
-        // No-op if the handler's own SaveChanges already flushed this entity (its tracker state
-        // is already Unchanged) - this call only matters for handlers that never persist anything
-        // themselves.
+        inbox.MarkProcessed();
         await _context.SaveChangesAsync(ct);
-        _currentAttempt = null;
     }
 
     public async Task<InboxFailureOutcome> FailAttemptAsync(
+        Guid messageId,
+        string consumerName,
         string error,
         InboxRetryPolicy policy,
         CancellationToken ct = default)
     {
-        if (_currentAttempt is null)
+        var inbox = await _context.InboxMessages
+            .FirstOrDefaultAsync(x => x.MessageId == messageId && x.ConsumerName == consumerName, ct);
+        if (inbox is null)
             return InboxFailureOutcome.WillRetry;
 
-        var entry = _context.Entry(_currentAttempt);
+        inbox.MarkFailed(error, policy);
 
-        if (entry.State == EntityState.Unchanged)
-        {
-            // The optimistic Processed marker staged in BeginAttemptAsync was already flushed and
-            // committed by the handler's own SaveChanges before it threw downstream. The business
-            // change (and this marker, in the same transaction) already happened - flipping the
-            // row back to Retrying now would cause the next attempt to re-run already-committed
-            // business logic, which is exactly the duplicate-side-effect bug this is meant to
-            // prevent. Leave it Processed.
-            _currentAttempt = null;
-            return InboxFailureOutcome.AlreadyCommitted;
-        }
-
-        if (entry.State == EntityState.Detached)
-        {
-            // Rolled back (EfUnitOfWork.ExecuteTransactionAsync clears the tracker on rollback) -
-            // nothing was committed. Re-add so the failure state below can still be persisted.
-            _context.InboxMessages.Add(_currentAttempt);
-        }
-
-        _currentAttempt.MarkFailed(error, policy);
         await _context.SaveChangesAsync(ct);
 
-        var outcome = _currentAttempt.Status == InboxMessageStatus.DeadLetter
+        return inbox.Status == InboxMessageStatus.DeadLetter
             ? InboxFailureOutcome.DeadLettered
             : InboxFailureOutcome.WillRetry;
-
-        _currentAttempt = null;
-        return outcome;
     }
 
     public async Task<IReadOnlyList<InboxMessageSnapshot>> GetDueForRetryAsync(int batchSize, CancellationToken ct = default)

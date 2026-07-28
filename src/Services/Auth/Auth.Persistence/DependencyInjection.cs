@@ -4,14 +4,13 @@ using Auth.Domain.Entities;
 using Auth.Persistence.Contexts.Accounts.Read;
 using Auth.Persistence.Contexts.Accounts.Repositories;
 using Auth.Persistence.Contexts.Accounts.Write;
-using Auth.Persistence.Inbox;
-using Auth.Persistence.Outbox;
 using Auth.Persistence.Contexts.RefreshTokens.Read;
-using Auth.Persistence.Contexts.RefreshTokens.Repositories;
 using Auth.Persistence.Contexts.RefreshTokens.Write;
 using Auth.Persistence.Engine;
 using Auth.Persistence.Engine.UnitOfWork;
-using Auth.Persistence.Seeders;
+using Auth.Persistence.Reliability.Inbox;
+using Auth.Persistence.Reliability.Outbox;
+using Auth.Persistence.Storage.Seeders;
 
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Application.Abstractions.Persistence;

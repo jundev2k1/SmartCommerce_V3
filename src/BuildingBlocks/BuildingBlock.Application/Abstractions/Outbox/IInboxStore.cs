@@ -70,13 +70,15 @@ public interface IInboxStore
     /// Flushes the optimistic Processed marker if it wasn't already committed by the handler's
     /// own SaveChanges.
     /// </summary>
-    Task CompleteAttemptAsync(CancellationToken ct = default);
+    Task CompleteAttemptAsync(Guid messageId, string consumerName, CancellationToken ct = default);
 
     /// <summary>
     /// Call after the handler invoked following a Proceed decision throws. See
     /// <see cref="InboxFailureOutcome"/> for the three possible outcomes.
     /// </summary>
     Task<InboxFailureOutcome> FailAttemptAsync(
+        Guid messageId,
+        string consumerName,
         string error,
         InboxRetryPolicy policy,
         CancellationToken ct = default);

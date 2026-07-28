@@ -5,9 +5,8 @@ using BuildingBlock.Web.Swagger;
 using Inventory.API.ExceptionHandling;
 using Inventory.API.GrpcServices;
 using Inventory.Infrastructure.BackgroundJobs;
-using Inventory.Persistence;
 using Inventory.Persistence.Engine;
-using Inventory.Persistence.Seeders;
+using Inventory.Persistence.Storage.Seeders;
 
 namespace Inventory.API;
 

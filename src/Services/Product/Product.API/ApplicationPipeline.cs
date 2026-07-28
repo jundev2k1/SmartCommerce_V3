@@ -5,9 +5,8 @@ using BuildingBlock.Web.Swagger;
 
 using Product.API.ExceptionHandling;
 using Product.Infrastructure.BackgroundJobs;
-using Product.Persistence;
 using Product.Persistence.Engine;
-using Product.Persistence.Seeders;
+using Product.Persistence.Storage.Seeders;
 
 namespace Product.API;
 

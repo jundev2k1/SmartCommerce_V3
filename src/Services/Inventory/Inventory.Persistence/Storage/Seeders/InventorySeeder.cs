@@ -1,6 +1,6 @@
 using Inventory.Persistence.Engine;
 
-namespace Inventory.Persistence.Seeders;
+namespace Inventory.Persistence.Storage.Seeders;
 
 public sealed class InventorySeeder(InventoryDbContext context)
 {

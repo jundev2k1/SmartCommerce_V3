@@ -18,15 +18,14 @@ using OpenTelemetry.Trace;
 
 using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Application.Abstractions.Search;
-using User.Persistence.Engine;
-using User.Persistence.Engine.UnitOfWork;
-using User.Persistence.Inbox;
-using User.Persistence.Outbox;
 using User.Persistence.Contexts.UserProfiles.Read;
-using User.Persistence.Contexts.UserProfiles.Repositories;
 using User.Persistence.Contexts.UserProfiles.Search.Indexers;
 using User.Persistence.Contexts.UserProfiles.Search.Repositories;
 using User.Persistence.Contexts.UserProfiles.Write;
+using User.Persistence.Engine;
+using User.Persistence.Engine.UnitOfWork;
+using User.Persistence.Reliability.Inbox;
+using User.Persistence.Reliability.Outbox;
 
 namespace User.Persistence;
 

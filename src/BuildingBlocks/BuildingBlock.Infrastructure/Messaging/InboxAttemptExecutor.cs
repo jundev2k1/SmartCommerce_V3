@@ -55,7 +55,7 @@ public sealed class InboxAttemptExecutor(
         try
         {
             await handlerAction();
-            await inboxStore.CompleteAttemptAsync(ct);
+            await inboxStore.CompleteAttemptAsync(messageId, consumerName, ct);
 
             logger.LogInformation(
                 "Retry succeeded: message {MessageId}, consumer {ConsumerName}, topic {Topic}",
@@ -63,7 +63,7 @@ public sealed class InboxAttemptExecutor(
         }
         catch (Exception ex)
         {
-            var outcome = await inboxStore.FailAttemptAsync(ex.Message, _options.ToPolicy(), ct);
+            var outcome = await inboxStore.FailAttemptAsync(messageId, consumerName, ex.Message, _options.ToPolicy(), ct);
 
             switch (outcome)
             {

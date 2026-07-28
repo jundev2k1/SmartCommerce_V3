@@ -2,7 +2,7 @@ using System.Text.Json;
 
 using BuildingBlock.Saga.Abstractions;
 
-namespace Order.Persistence.Saga;
+namespace Order.Persistence.Reliability.Saga;
 
 /// <summary>
 /// EF row backing EfSagaStore - a plain persistence-layer record, not a domain aggregate (SagaId

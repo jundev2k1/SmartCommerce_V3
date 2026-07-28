@@ -1,7 +1,6 @@
-using Product.Domain.ValueObjects;
 using Product.Persistence.Engine;
 
-namespace Product.Persistence.Seeders;
+namespace Product.Persistence.Storage.Seeders;
 
 public sealed class ProductSeeder(ProductDbContext context)
 {

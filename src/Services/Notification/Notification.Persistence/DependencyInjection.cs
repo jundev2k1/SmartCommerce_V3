@@ -1,3 +1,13 @@
+using BuildingBlock.Application.Abstractions.Outbox;
+using BuildingBlock.Application.Abstractions.Persistence;
+using BuildingBlock.Persistence.Mongo.DependencyInjection;
+using BuildingBlock.Persistence.Mongo.Inbox;
+using BuildingBlock.Persistence.Mongo.Outbox;
+using BuildingBlock.Persistence.Mongo.Serialization;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 using Notification.Application.Abstractions.Persistence.NotificationChannels;
 using Notification.Application.Abstractions.Persistence.NotificationDispatches;
@@ -6,9 +16,6 @@ using Notification.Application.Abstractions.Persistence.NotificationRules;
 using Notification.Application.Abstractions.Persistence.NotificationTemplates;
 using Notification.Application.Abstractions.Persistence.UserNotifications;
 using Notification.Domain.ValueObjects;
-using Notification.Persistence.Engine;
-using Notification.Persistence.Engine.UnitOfWork;
-using Notification.Persistence.Inbox;
 using Notification.Persistence.Contexts.NotificationCampaigns.Read;
 using Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
 using Notification.Persistence.Contexts.NotificationCampaigns.Write;
@@ -27,20 +34,13 @@ using Notification.Persistence.Contexts.NotificationRules.Write;
 using Notification.Persistence.Contexts.NotificationTemplates.Read;
 using Notification.Persistence.Contexts.NotificationTemplates.Repositories;
 using Notification.Persistence.Contexts.NotificationTemplates.Write;
-using Notification.Persistence.Outbox;
 using Notification.Persistence.Contexts.UserNotifications.Read;
 using Notification.Persistence.Contexts.UserNotifications.Repositories;
 using Notification.Persistence.Contexts.UserNotifications.Write;
-
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Persistence.Mongo.DependencyInjection;
-using BuildingBlock.Persistence.Mongo.Inbox;
-using BuildingBlock.Persistence.Mongo.Outbox;
-using BuildingBlock.Persistence.Mongo.Serialization;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Notification.Persistence.Engine;
+using Notification.Persistence.Engine.UnitOfWork;
+using Notification.Persistence.Reliability.Inbox;
+using Notification.Persistence.Reliability.Outbox;
 
 namespace Notification.Persistence;
 

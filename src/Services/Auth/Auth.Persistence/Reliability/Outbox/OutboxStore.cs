@@ -3,7 +3,7 @@ using System.Text.Json;
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Contract.Events;
 
-namespace Auth.Persistence.Outbox;
+namespace Auth.Persistence.Reliability.Outbox;
 
 /// <summary>
 /// Application-level adapter: translates typed integration events to primitive outbox rows.

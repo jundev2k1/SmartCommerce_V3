@@ -1,9 +1,11 @@
 using Auth.Domain.Entities;
 using Auth.Persistence.Engine;
+
 using BuildingBlock.Domain.Seeders;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth.Persistence.Seeders;
+namespace Auth.Persistence.Storage.Seeders;
 
 public class RoleSeeder(AuthDbContext context)
 {

@@ -22,15 +22,20 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
         return ToApplication(decision);
     }
 
-    public Task CompleteAttemptAsync(CancellationToken ct = default) =>
-        _primitiveStore.CompleteAttemptAsync(ct);
+    public Task CompleteAttemptAsync(Guid messageId, string consumerName, CancellationToken ct = default) =>
+        _primitiveStore.CompleteAttemptAsync(messageId, consumerName, ct);
 
-    public async Task<InboxFailureOutcome> FailAttemptAsync(string error, InboxRetryPolicy policy, CancellationToken ct = default)
+    public async Task<InboxFailureOutcome> FailAttemptAsync(
+        Guid messageId,
+        string consumerName,
+        string error,
+        InboxRetryPolicy policy,
+        CancellationToken ct = default)
     {
         var primitivePolicy = new BuildingBlock.Persistence.Inbox.InboxRetryPolicy(
             policy.MaxRetryCount, policy.InitialRetryDelay, policy.RetryBackoffMultiplier, policy.MaximumRetryDelay);
 
-        var outcome = await _primitiveStore.FailAttemptAsync(error, primitivePolicy, ct);
+        var outcome = await _primitiveStore.FailAttemptAsync(messageId, consumerName, error, primitivePolicy, ct);
         return ToApplication(outcome);
     }
 

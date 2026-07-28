@@ -11,16 +11,31 @@ public sealed class EfOutboxStore<TContext>(TContext context, ICurrentUserServic
     private readonly TContext _context = context;
     private readonly ICurrentUserService _currentUser = currentUser;
 
-    public async Task EnqueueAsync(string eventType, string topic, string payload, string correlationId, CancellationToken ct = default)
+    public async Task EnqueueAsync(
+        string eventType,
+        string topic,
+        string payload,
+        string correlationId,
+        CancellationToken ct = default)
     {
-        var actorId = _currentUser.IsAuthenticated() ? _currentUser.GetUserId()?.ToString() : null;
+        var actorId = _currentUser.IsAuthenticated()
+            ? _currentUser.GetUserId()?.ToString()
+            : null;
         var actorType = actorId is not null ? "user" : "system";
 
-        var message = OutboxMessage.Create(eventType, topic, payload, correlationId, actorId, actorType);
+        var message = OutboxMessage.Create(
+            eventType,
+            topic,
+            payload,
+            correlationId,
+            actorId,
+            actorType);
         await _context.OutboxMessages.AddAsync(message, ct);
     }
 
-    public async Task<IReadOnlyList<OutboxMessageSnapshot>> GetUnprocessedAsync(int batchSize, CancellationToken ct = default)
+    public async Task<IReadOnlyList<OutboxMessageSnapshot>> GetUnprocessedAsync(
+        int batchSize,
+        CancellationToken ct = default)
     {
         var messages = await _context.OutboxMessages
             .Where(m => m.ProcessedAt == null)
@@ -62,7 +77,10 @@ public sealed class EfOutboxStore<TContext>(TContext context, ICurrentUserServic
         await _context.SaveChangesAsync(ct);
     }
 
-    public async Task<int> DeleteProcessedBeforeAsync(DateTime olderThanUtc, int batchSize, CancellationToken ct = default)
+    public async Task<int> DeleteProcessedBeforeAsync(
+        DateTime olderThanUtc,
+        int batchSize,
+        CancellationToken ct = default)
     {
         var ids = await _context.OutboxMessages
             .Where(m => m.ProcessedAt != null && m.ProcessedAt < olderThanUtc)

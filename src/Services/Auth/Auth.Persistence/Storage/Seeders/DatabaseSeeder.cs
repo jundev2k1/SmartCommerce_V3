@@ -1,11 +1,11 @@
+using Auth.Domain.Entities;
+using Auth.Persistence.Engine;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using Auth.Domain.Entities;
-using Auth.Persistence.Engine;
-
-namespace Auth.Persistence.Seeders;
+namespace Auth.Persistence.Storage.Seeders;
 
 public class DatabaseSeeder(
     AuthDbContext context,

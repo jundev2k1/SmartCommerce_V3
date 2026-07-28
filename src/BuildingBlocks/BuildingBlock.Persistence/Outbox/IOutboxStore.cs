@@ -9,10 +9,17 @@ namespace BuildingBlock.Persistence.Outbox;
 public interface IOutboxStore
 {
     /// <summary>Enqueue a new outbox row with already-serialized payload and computed topic.</summary>
-    Task EnqueueAsync(string eventType, string topic, string payload, string correlationId, CancellationToken ct = default);
+    Task EnqueueAsync(
+        string eventType,
+        string topic,
+        string payload,
+        string correlationId,
+        CancellationToken ct = default);
 
     /// <summary>Fetch unprocessed rows, ordered by creation time.</summary>
-    Task<IReadOnlyList<OutboxMessageSnapshot>> GetUnprocessedAsync(int batchSize, CancellationToken ct = default);
+    Task<IReadOnlyList<OutboxMessageSnapshot>> GetUnprocessedAsync(
+        int batchSize,
+        CancellationToken ct = default);
 
     /// <summary>Mark a row as successfully published.</summary>
     Task MarkProcessedAsync(Guid id, CancellationToken ct = default);
@@ -25,5 +32,8 @@ public interface IOutboxStore
     /// Never touches rows with ProcessedAt == null (pending/unpublished messages are never deleted).
     /// Returns the number of rows deleted, so the caller can loop until a batch comes back short.
     /// </summary>
-    Task<int> DeleteProcessedBeforeAsync(DateTime olderThanUtc, int batchSize, CancellationToken ct = default);
+    Task<int> DeleteProcessedBeforeAsync(
+        DateTime olderThanUtc,
+        int batchSize,
+        CancellationToken ct = default);
 }

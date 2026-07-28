@@ -3,7 +3,7 @@ using System.Text.Json;
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Contract.Events;
 
-namespace User.Persistence.Outbox;
+namespace User.Persistence.Reliability.Outbox;
 
 public sealed class OutboxStore(
     BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore) : BuildingBlock.Application.Abstractions.Outbox.IOutboxStore

@@ -1,4 +1,4 @@
-namespace Auth.Persistence.Seeders;
+namespace Auth.Persistence.Storage.Seeders;
 
 public static class SeedData
 {

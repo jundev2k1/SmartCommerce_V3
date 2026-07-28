@@ -7,7 +7,7 @@ using BuildingBlock.Domain.Seeders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth.Persistence.Seeders;
+namespace Auth.Persistence.Storage.Seeders;
 
 public class AccountSeeder(AuthDbContext context, UserManager<Account> userManager)
 {

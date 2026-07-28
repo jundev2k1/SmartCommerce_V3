@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Order.Persistence.Saga;
+using Order.Persistence.Reliability.Saga;
 
 namespace Order.Persistence.Configs;
 

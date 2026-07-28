@@ -6,9 +6,8 @@ using BuildingBlock.Web.Swagger;
 using User.API.ExceptionHandling;
 using User.API.GrpcServices;
 using User.Infrastructure.BackgroundJobs;
-using User.Persistence;
 using User.Persistence.Engine;
-using User.Persistence.Seeders;
+using User.Persistence.Storage.Seeders;
 
 namespace User.API;
 

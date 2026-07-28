@@ -30,8 +30,8 @@ using Product.Persistence.Contexts.ProductTags.Read;
 using Product.Persistence.Contexts.ProductTags.Write;
 using Product.Persistence.Engine;
 using Product.Persistence.Engine.UnitOfWork;
-using Product.Persistence.Inbox;
-using Product.Persistence.Outbox;
+using Product.Persistence.Reliability.Inbox;
+using Product.Persistence.Reliability.Outbox;
 
 namespace Product.Persistence;
 
