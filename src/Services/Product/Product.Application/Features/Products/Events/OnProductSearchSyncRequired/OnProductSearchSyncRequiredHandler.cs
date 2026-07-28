@@ -10,7 +10,6 @@ namespace Product.Application.Features.Products.Events.OnProductSearchSyncRequir
 /// <summary>The Search Consumer's reaction: rebuild the document from current Postgres state and upsert it. See docs/reference/search.md.</summary>
 public sealed class OnProductSearchSyncRequiredHandler(
     IProductReadService productReadService,
-    ProductSearchProjectionBuilder projectionBuilder,
     IProductSearchIndexer searchIndexer,
     IAppLogger<OnProductSearchSyncRequiredHandler> logger) : IInternalEventHandler<OnProductSearchSyncRequiredEvent>
 {
@@ -23,7 +22,7 @@ public sealed class OnProductSearchSyncRequiredHandler(
             return;
         }
 
-        var document = await projectionBuilder.BuildAsync(product, ct);
+        var document = await ProductSearchProjectionBuilder.BuildAsync(product, ct);
         await searchIndexer.IndexAsync(document, ct);
     }
 }

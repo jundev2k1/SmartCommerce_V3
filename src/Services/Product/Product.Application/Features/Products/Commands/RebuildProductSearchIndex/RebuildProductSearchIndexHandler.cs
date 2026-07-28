@@ -12,7 +12,6 @@ namespace Product.Application.Features.Products.Commands.RebuildProductSearchInd
 /// </summary>
 public sealed class RebuildProductSearchIndexHandler(
     IProductReadService productReadService,
-    ProductSearchProjectionBuilder projectionBuilder,
     IProductSearchIndexer searchIndexer) : ICommandHandler<RebuildProductSearchIndexCommand, RebuildProductSearchIndexResponse>
 {
     private const int BatchSize = 200;
@@ -24,20 +23,20 @@ public sealed class RebuildProductSearchIndexHandler(
 
         var indexed = 0;
         var skip = 0;
-        IReadOnlyList<ProductEntity> batch;
+        ProductEntity[] batch;
 
         do
         {
             batch = await productReadService.GetAllAsync(skip, BatchSize, ct);
-            if (batch.Count == 0)
+            if (batch.Length == 0)
                 break;
 
-            var documents = await projectionBuilder.BuildManyAsync(batch, ct);
+            var documents = await ProductSearchProjectionBuilder.BuildManyAsync(batch, ct);
             await searchIndexer.BulkIndexAsync(documents, ct);
 
-            indexed += batch.Count;
+            indexed += batch.Length;
             skip += BatchSize;
-        } while (batch.Count == BatchSize);
+        } while (batch.Length == BatchSize);
 
         return new RebuildProductSearchIndexResponse(indexed);
     }

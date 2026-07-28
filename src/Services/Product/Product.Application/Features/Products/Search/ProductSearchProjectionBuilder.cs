@@ -1,5 +1,3 @@
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Application.Abstractions.Persistence.ProductTags;
 using Product.Application.Abstractions.Search;
 
 namespace Product.Application.Features.Products.Search;
@@ -10,27 +8,22 @@ namespace Product.Application.Features.Products.Search;
 /// (RebuildProductSearchIndexHandler), so future schema changes only touch this one class. See
 /// docs/reference/search.md.
 /// </summary>
-public sealed class ProductSearchProjectionBuilder(
-    IProductCategoryReadService categoryReadService,
-    IProductTagReadService tagReadService)
+public sealed class ProductSearchProjectionBuilder()
 {
-    public async Task<ProductSearchDocument> BuildAsync(ProductEntity product, CancellationToken ct = default)
+    public static async Task<ProductSearchDocument> BuildAsync(ProductEntity product, CancellationToken ct = default)
     {
-        var categories = await categoryReadService.GetAllAsync(ct);
-        var tags = await tagReadService.GetAllAsync(ct);
-        return Build(product, categories, tags);
+        await Task.CompletedTask;
+        return Build(product);
     }
 
-    public async Task<IReadOnlyList<ProductSearchDocument>> BuildManyAsync(
+    public static async Task<IReadOnlyList<ProductSearchDocument>> BuildManyAsync(
         IReadOnlyList<ProductEntity> products, CancellationToken ct = default)
     {
-        var categories = await categoryReadService.GetAllAsync(ct);
-        var tags = await tagReadService.GetAllAsync(ct);
-        return [.. products.Select(p => Build(p, categories, tags))];
+        await Task.CompletedTask;
+        return [.. products.Select(Build)];
     }
 
-    private static ProductSearchDocument Build(
-        ProductEntity product, IReadOnlyList<ProductCategory> categories, IReadOnlyList<ProductTag> tags)
+    private static ProductSearchDocument Build(ProductEntity product)
     {
         var defaultVariation = product.DefaultVariation;
         var categoryIds = product.CategoryMappings.Select(m => m.CategoryId).ToList();
@@ -58,9 +51,9 @@ public sealed class ProductSearchProjectionBuilder(
                 .Where(v => v.Status == ProductVariationStatus.Active)
                 .Select(v => v.Id)],
             CategoryIds = categoryIds,
-            CategoryNames = [.. categories.Where(c => categoryIds.Contains(c.Id)).Select(c => c.Name)],
+            CategoryNames = [.. product.CategoryMappings.Select(cm => cm.Category.Name)],
             TagIds = tagIds,
-            TagNames = [.. tags.Where(t => tagIds.Contains(t.Id)).Select(t => t.Name)],
+            TagNames = [.. product.TagMappings.Select(tm => tm.Tag.Name)],
             // Product itself has no lifecycle status field today - the Default variation's
             // status is the documented stand-in (see docs/reference/search.md).
             Status = defaultVariation.Status.ToString(),

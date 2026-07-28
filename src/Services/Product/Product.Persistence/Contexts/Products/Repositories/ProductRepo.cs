@@ -15,9 +15,12 @@ public sealed class ProductRepo(ProductDbContext dbContext) : IProductRepository
     {
         return await dbContext.Products
             .AsNoTracking()
+            .AsSplitQuery()
             .Include(p => p.Variations)
             .Include(p => p.CategoryMappings)
+            .ThenInclude(cm => cm.Category)
             .Include(p => p.TagMappings)
+            .ThenInclude(tm => tm.Tag)
             .FirstOrDefaultAsync(p => p.Id.Equals(id), ct);
     }
 

@@ -1,4 +1,5 @@
 using BuildingBlock.Application;
+
 using FluentValidation;
 
 using Mapster;
@@ -6,8 +7,6 @@ using Mapster;
 using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Product.Application.Features.Products.Search;
 
 namespace Product.Application;
 
@@ -27,7 +26,6 @@ public static class DependencyInjection
 
     private static IServiceCollection AddSearchServices(this IServiceCollection services)
     {
-        services.AddScoped<ProductSearchProjectionBuilder>();
         return services;
     }
 

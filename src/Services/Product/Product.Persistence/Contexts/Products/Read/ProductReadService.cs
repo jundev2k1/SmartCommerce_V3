@@ -9,19 +9,22 @@ public sealed class ProductReadService(
     ProductDbContext dbContext,
     IRepository<ProductEntity> repo) : IProductReadService
 {
-    public async Task<IReadOnlyList<ProductEntity>> GetAllAsync(int skip, int take, CancellationToken ct = default)
+    public async Task<ProductEntity[]> GetAllAsync(int skip, int take, CancellationToken ct = default)
     {
         // Same "always loaded" reasoning as ProductRepo.GetByIdAsync - RebuildProductSearchIndexHandler
         // consumes this batch via ProductSearchProjectionBuilder, which needs these collections.
         return await dbContext.Products
             .AsNoTracking()
+            .AsSplitQuery()
             .Include(p => p.Variations)
             .Include(p => p.CategoryMappings)
+            .ThenInclude(cm => cm.Category)
             .Include(p => p.TagMappings)
+            .ThenInclude(tm => tm.Tag)
             .OrderBy(p => p.Id)
             .Skip(skip)
             .Take(take)
-            .ToListAsync(ct);
+            .ToArrayAsync(ct);
     }
 
     public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
