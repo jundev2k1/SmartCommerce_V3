@@ -53,6 +53,23 @@ Live verification (alias created correctly, swap leaves zero read-unavailable wi
 old-generation cleanup) is deferred to Task 27 (testing), same as every other task in
 this epic that needs a running ES container.
 
+## Bug found and fixed via live Docker run (post-merge)
+
+`POST /products/search/rebuild` against a real cluster failed with a 400
+`illegal_argument_exception: "The provided expression [product-search] matches an alias,
+specify the corresponding concrete indices instead"` on every call after the first. Root
+cause: `Indices.ExistsAsync(name)` resolves aliases too - it returns `Exists: true` once
+`product-search` is already alias-managed (from the prior `EnsureIndexAsync` call at
+startup), not only for a genuine pre-Task-20 concrete index. `MigrateLegacyConcreteIndexIfPresentAsync`
+was checking only `ExistsAsync`, so it mis-detected the already-migrated alias as
+"legacy" and tried to `DELETE` it as a concrete index - which ES rejects.
+
+Fixed by checking `Indices.ExistsAliasAsync` first and returning immediately (nothing to
+migrate) whenever the name is already alias-managed; only falls through to the
+concrete-index check/delete when it's genuinely not an alias. Verified via `dotnet build`
+across `BuildingBlock.Search`/`Product.API`; re-verify live via the same
+`/products/search/rebuild` call before considering this task closed.
+
 ## Next
 
 Task 21 (User: `SearchName`/`UserName` → `search_as_you_type` + tiered query) can now

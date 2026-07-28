@@ -123,6 +123,16 @@ public sealed class ElasticsearchIndexer<TDocument>(ElasticsearchClient client) 
     /// </summary>
     private async Task MigrateLegacyConcreteIndexIfPresentAsync(string alias, CancellationToken ct)
     {
+        // Indices.ExistsAsync(name) resolves aliases too - it returns true once `alias` is
+        // already alias-managed, not just for a genuine pre-Task-20 concrete index. Without this
+        // check, every later call (e.g. a rebuild after the alias already exists) would
+        // mis-detect "legacy" and try to DELETE the alias name directly, which ES rejects
+        // (400 illegal_argument_exception: "matches an alias, specify the corresponding concrete
+        // indices instead").
+        var aliasExists = await client.Indices.ExistsAliasAsync(alias, ct);
+        if (aliasExists.Exists)
+            return;
+
         var concreteIndexExists = await client.Indices.ExistsAsync(alias, ct);
         if (!concreteIndexExists.Exists)
             return;
