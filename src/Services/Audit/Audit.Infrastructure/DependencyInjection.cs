@@ -32,8 +32,8 @@ public static class DependencyInjection
         // Consumers must be registered before AddKafkaMessaging - their Topics are
         // discovered eagerly to configure the KafkaFlow consumer pipeline.
         services.AddMessagingConsumers();
-        services.AddInboxOutboxInfrastructure(configuration);
         services.AddKafkaMessaging(configuration, "audit-service");
+        services.AddInboxOutboxInfrastructure(configuration);
 
         services.AddGrpcClients(configuration);
 

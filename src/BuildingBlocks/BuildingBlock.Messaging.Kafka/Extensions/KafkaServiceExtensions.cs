@@ -29,8 +29,10 @@ public static class KafkaServiceExtensions
 
         services.AddSingleton(kafkaOptions);
 
-        // Register a placeholder delegate before DiscoverConsumerTopics is called.
-        // It will be replaced by the real implementation when AddInboxOutboxInfrastructure is called.
+        // Register a placeholder delegate so DiscoverConsumerTopics (below) can construct
+        // IntegrationEventConsumerRegistry before Inbox infrastructure exists. Callers must
+        // invoke AddInboxOutboxInfrastructure AFTER this method so its real delegate
+        // registration is last and wins when resolved as a single instance.
         services.AddScoped<Func<InboxDispatchContext, Func<Task>, CancellationToken, Task>>(sp =>
             (context, handlerAction, ct) => handlerAction());
 

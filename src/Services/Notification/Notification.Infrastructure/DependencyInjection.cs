@@ -33,8 +33,8 @@ public static class DependencyInjection
         services.AddApplicationEventDispatcher();
 
         services.AddMessagingConsumers();
-        services.AddInboxOutboxInfrastructure(configuration);
         services.AddKafkaMessaging(configuration, "notification-service");
+        services.AddInboxOutboxInfrastructure(configuration);
         services.AddNotificationDelivery();
         services.AddNotificationChannelCache();
 

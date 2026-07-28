@@ -36,8 +36,8 @@ public static class DependencyInjection
             .AddSecurityServices()
             .AddApplicationEventDispatcher()
             .AddMessagingConsumers()
-            .AddInboxOutboxInfrastructure(configuration)
             .AddKafkaMessaging(configuration, "auth-service")
+            .AddInboxOutboxInfrastructure(configuration)
             .AddGrpcClients(configuration)
             .AddApplicationServices();
 

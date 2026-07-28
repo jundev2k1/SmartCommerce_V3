@@ -19,8 +19,9 @@ public static class MessagingInfrastructureExtensions
 {
     /// <summary>
     /// Registers the Outbox Relay + Inbox Retry hosted services and Inbox dedup/retry support.
-    /// Must be called BEFORE AddKafkaMessaging; it overrides the placeholder delegate with the
-    /// real Inbox implementation.
+    /// Must be called AFTER AddKafkaMessaging: the .NET DI container resolves a single-instance
+    /// service to its LAST registration, so this has to be added after AddKafkaMessaging's
+    /// placeholder delegate for the real Inbox implementation to actually win at runtime.
     /// </summary>
     public static IServiceCollection AddInboxOutboxInfrastructure(
         this IServiceCollection services,
@@ -33,9 +34,11 @@ public static class MessagingInfrastructureExtensions
 
         services.AddScoped<InboxAttemptExecutor>();
 
-        // Replace the placeholder delegate with the real Inbox implementation.
-        // MUST be registered before AddKafkaMessaging's DiscoverConsumerTopics call,
-        // otherwise the temp provider won't find it.
+        // Replace the placeholder delegate with the real Inbox implementation. Must be
+        // registered after AddKafkaMessaging so this registration is last and wins when
+        // resolved as a single instance (DiscoverConsumerTopics only reads registry.Topics,
+        // it never invokes the delegate, so the placeholder being present during that
+        // eager-discovery step inside AddKafkaMessaging is harmless).
         services.AddScoped(BuildInboxExecutionDelegate);
 
         // Register Outbox relay + Inbox retry background services

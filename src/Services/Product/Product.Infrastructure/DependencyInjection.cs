@@ -35,11 +35,12 @@ public static class DependencyInjection
         services.AddGrpcClients(configuration);
 
         // Consumers must be registered before AddKafkaMessaging - their Topics are discovered
-        // eagerly to configure the KafkaFlow consumer pipeline. The Outbox relay/Inbox delegates
-        // must also be in place first, same ordering constraint as every other consuming service.
+        // eagerly to configure the KafkaFlow consumer pipeline. AddInboxOutboxInfrastructure
+        // must come after AddKafkaMessaging so its real Inbox delegate registration is last
+        // and wins over AddKafkaMessaging's placeholder.
         services.AddMessagingConsumers();
-        services.AddInboxOutboxInfrastructure(configuration);
         services.AddKafkaMessaging(configuration, "product-service");
+        services.AddInboxOutboxInfrastructure(configuration);
 
         return services;
     }
