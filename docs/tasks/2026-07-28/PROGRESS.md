@@ -22,6 +22,8 @@ Source: planning-only request — "User Service Search, Elasticsearch, Localizat
 - [x] Task 16 — Migration/reindex review (`Task16_migration-and-reindex-review.md`) — done as a code-level review; top operational risk flagged: `RebuildUserSearchIndex` must run before the first real `SearchUsers` call once deployed.
 - [ ] Task 17 — Testing, threaded through all phases (`Task17_testing.md`)
 - [x] Task 18 — Documentation updates (`Task18_documentation-updates.md`) — done: user-service.md, search.md, caching.md, grpc.md, events.md, and both SimpleShopUI backend/user + backend/auth README.md updated.
+- [x] Task 19 — Search relevance audit (`Task19_search-relevance-audit-and-plan.md`) — audit-only, done: root cause is `multi_match`/`standard` analyzer producing whole-token-only matching, plus `Roles` being an unanalyzed `Keyword` (exact-match only). Decisions made 2026-07-28 (email whole-token is enough, index all variation SKUs, defer Brand, alias infra first) — implementation (Tasks 20-27) not started.
+- [x] Task 20 — Alias-based blue/green reindex infra (`Task20_alias-based-blue-green-reindex.md`) — done: `ElasticsearchIndexer<TDocument>` now treats every index name as an ES alias with versioned backing indices and an atomic swap on rebuild; zero caller/interface signature changes. `dotnet build` verified for `BuildingBlock.Search`/`Product.API`/`User.API`; no live-ES run (same caveat as the rest of this epic). Tasks 21-27 remain not started.
 
 ## Verification notes (Tasks 1-16)
 

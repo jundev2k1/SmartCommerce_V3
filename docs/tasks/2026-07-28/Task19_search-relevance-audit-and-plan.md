@@ -1,6 +1,13 @@
 # Task 19 — Elasticsearch Search Relevance Audit (User + Product)
 
-Status: **Audit only — no implementation done.** Approval required before Phase 9 (implementation).
+Status: **Audit approved, decisions made 2026-07-28 — implementation (Tasks 20-27) not yet started.**
+
+## Decisions (2026-07-28)
+
+1. **Email:** whole-token matching is sufficient (already works today) — no change to Email mapping/query.
+2. **Product SKU:** index **all** variation SKUs, not just the default variation's — Task 24 is confirmed in-scope (schema addition to `ProductSearchDocument`/`ProductSearchProjectionBuilder`), not blocked on a further product-owner decision.
+3. **Brand field:** deferred entirely — out of scope for this effort (`ProductEntity` has no Brand today; a domain change is a separate initiative).
+4. **Sequencing:** alias-based blue/green reindex infra (Task 20) goes **first**, before any mapping-changing task (21/23/24), per the recommendation — avoids a search-unavailable window on every reindex from here on.
 
 ## Why this exists
 
@@ -242,15 +249,15 @@ tiers layered on top. No change needed for word order specifically.
    4-arg `EnsureIndexAsync`/`RecreateIndexAsync` overload already present in
    `IElasticsearchIndexer<TDocument>` but unused by `ProductSearchIndexer`.
 
-5. **Task 24 — Product: SKU searchability decision.** Needs a product-owner decision
-   first (not a pure search change): should all variation SKUs be indexed (schema
-   addition to `ProductSearchDocument`/`ProductSearchProjectionBuilder`), or is
-   default-variation-SKU-only acceptable? Blocked on that answer before implementing.
+5. **Task 24 — Product: index all variation SKUs.** Decided 2026-07-28 — not just the
+   default variation's. Schema addition: `ProductSearchDocument` gains a `VariationSkus`
+   list (mirrors the existing `VariationNames`/`VariationIds` shape), populated by
+   `ProductSearchProjectionBuilder`, added to the `multi_match`/tiered query's field set.
 
-6. **Task 25 (optional, needs product-owner input) — Brand field.** `Brand` does not
-   exist on `ProductEntity` today — this is a domain/persistence change outside
-   search's scope, tracked here only as a dependency flag, not to be implemented as
-   part of the search epic.
+6. **Task 25 — Brand field: deferred, not implemented.** `Brand` does not exist on
+   `ProductEntity` today — this is a domain/persistence change outside search's scope.
+   Explicitly out of scope for this epic (decided 2026-07-28); revisit only if/when
+   Brand is added to the domain independently.
 
 7. **Task 26 — Fix the two correctness bugs found during audit** (`Enum.Parse`
    fallback in `SearchUsersHandler`, multi-sort clause support) — unrelated to
@@ -277,12 +284,7 @@ tiers layered on top. No change needed for word order specifically.
 - Existing docs (`docs/reference/search.md`) will need updates once implemented —
   per [[docs_first_rule]].
 
-### Open questions for the user before implementation starts
+### Open questions — resolved
 
-1. Should email support partial mid-token search ("gma" → gmail), or is whole-token
-   (already working) sufficient?
-2. Product SKU: index all variation SKUs, or keep default-variation-only?
-3. Is a Brand field in scope (requires domain/persistence work outside search), or
-   defer entirely?
-4. Priority/sequencing: do Task 20 (alias infra) first as recommended, or accept the
-   existing blocking-reindex approach for this round and defer alias work?
+See "Decisions (2026-07-28)" at the top of this document. All four questions are
+answered; implementation may proceed starting with Task 20.

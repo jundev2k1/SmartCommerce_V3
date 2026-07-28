@@ -7,7 +7,9 @@ namespace User.Persistence.Contexts.UserProfiles.Search.Indexers;
 
 /// <summary>
 /// IUserSearchIndexer impl - fixes the User index name/mapping/settings on top of
-/// BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;.
+/// BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;. The name passed
+/// through here is an ES alias, not a concrete index - EnsureIndexAsync/RecreateIndexAsync
+/// manage the versioned index + alias swap underneath; this class stays unaware of that detail.
 /// </summary>
 public sealed class UserSearchIndexer(IElasticsearchIndexer<UserSearchDocument> indexer) : IUserSearchIndexer
 {
