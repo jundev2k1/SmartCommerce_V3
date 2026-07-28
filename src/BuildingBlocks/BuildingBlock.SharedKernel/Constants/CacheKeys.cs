@@ -24,7 +24,12 @@ public static class CacheKeys
         public const int DefaultTtlMinutes = 30;
     }
 
-    /// <summary>User profile cache patterns and configuration (for future extension)</summary>
+    /// <summary>
+    /// Dead scaffold - never wired to any code (kept, not deleted, to avoid churn unrelated to
+    /// this change). The "auth:users" prefix was seeded for Auth's own account concept, NOT
+    /// User service's UserProfile aggregate - see <see cref="UserProfiles"/> for the real,
+    /// User-owned key group.
+    /// </summary>
     public static class Users
     {
         private const string Prefix = "auth:users";
@@ -40,6 +45,26 @@ public static class CacheKeys
 
         /// <summary>Default TTL for user cache in minutes</summary>
         public const int DefaultTtlMinutes = 60;
+    }
+
+    /// <summary>
+    /// User service's own UserProfile detail cache (read-through: cache -&gt; DB, invalidated on
+    /// Create/Update/Delete). Deliberately a different, correctly-namespaced key group from the
+    /// dead <see cref="Users"/> scaffold above - see docs/tasks/2026-07-28/Task11_user-detail-cache-scaffold.md.
+    /// User and Auth share one physical Redis instance, so a distinct prefix matters, not just style.
+    /// </summary>
+    public static class UserProfiles
+    {
+        private const string Prefix = "user:users";
+
+        /// <summary>Get user profile detail cache key. Pattern: user:users:detail:{userId}</summary>
+        public static string Detail(Guid userId) => $"{Prefix}:detail:{userId}";
+
+        /// <summary>Cache key pattern for all user profile detail entries. Used for pattern-based invalidation</summary>
+        public const string DetailPattern = "user:users:detail:*";
+
+        /// <summary>Default TTL in minutes - short, per the read-through cache's design (short-lived, refreshed on read, invalidated on write)</summary>
+        public const int DefaultTtlMinutes = 10;
     }
 
     /// <summary>

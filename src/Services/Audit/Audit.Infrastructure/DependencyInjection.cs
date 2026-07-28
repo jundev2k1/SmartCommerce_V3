@@ -1,6 +1,10 @@
+using Audit.Application.Abstractions.Services;
 using Audit.Infrastructure.BackgroundJobs;
+using Audit.Infrastructure.GrpcClients;
 using Audit.Infrastructure.Messaging.Consumers;
 
+using BuildingBlock.Contract.Protos.User;
+using BuildingBlock.Grpc.Client;
 using BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 using BuildingBlock.Infrastructure.Extensions;
 using BuildingBlock.Infrastructure.Messaging;
@@ -31,6 +35,8 @@ public static class DependencyInjection
         services.AddInboxOutboxInfrastructure(configuration);
         services.AddKafkaMessaging(configuration, "audit-service");
 
+        services.AddGrpcClients(configuration);
+
         return services;
     }
 
@@ -38,6 +44,19 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         services.AddScoped<IIntegrationEventConsumer, AuditIntegrationEventConsumer>();
+
+        return services;
+    }
+
+    // Audit's first-ever gRPC client - see docs/tasks/2026-07-28/Task15_first-grpc-consumer.md.
+    private static IServiceCollection AddGrpcClients(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var userServiceUrl = configuration["Grpc:UserService:Url"] ?? "http://user-api:5002";
+
+        services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>(new Uri(userServiceUrl));
+        services.AddScoped<IUserClientService, UserClientService>();
 
         return services;
     }

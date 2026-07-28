@@ -14,4 +14,11 @@ public sealed record GetAuditLogResponse(
     AuditNode Root,
     AuditMetadata? Metadata,
     DateTime Timestamp,
-    DateTime ReceivedAt);
+    DateTime ReceivedAt,
+    /// <summary>
+    /// Display-time-only enrichment of Metadata.Actor via User's gRPC GetUser - never persisted,
+    /// never part of the shared AuditMetadata contract (which stays write-side/publisher-neutral).
+    /// Null whenever Actor isn't a resolvable UserId or the lookup fails - fail-open, never blocks
+    /// this read. See docs/tasks/2026-07-28/Task15_first-grpc-consumer.md.
+    /// </summary>
+    string? ActorDisplayName = null);

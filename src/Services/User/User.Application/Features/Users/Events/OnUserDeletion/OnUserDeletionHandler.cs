@@ -1,13 +1,15 @@
 using BuildingBlock.Application.Abstractions.Events;
 
 using User.Application.Abstractions.Persistence.UserProfiles;
+using User.Application.Abstractions.Services;
 using User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
 
 namespace User.Application.Features.Users.Events.OnUserDeletion;
 
 public sealed class OnUserDeletionHandler(
     IUserProfileWriteService userWriteService,
-    IInternalEventDispatcher eventDispatcher) : IInternalEventHandler<OnUserDeletionEvent>
+    IInternalEventDispatcher eventDispatcher,
+    IUserProfileCacheService userProfileCache) : IInternalEventHandler<OnUserDeletionEvent>
 {
     public async Task Handle(OnUserDeletionEvent @event, CancellationToken ct = default)
     {
@@ -18,5 +20,10 @@ public sealed class OnUserDeletionHandler(
         // Inbox-dedup guarantees; no second hop needed. See
         // docs/tasks/2026-07-28/Task8_projection-builder-and-sync-events.md.
         await eventDispatcher.PublishAsync(new OnUserSearchRemovalRequiredEvent(@event.Id), ct);
+
+        // User Detail cache invalidation - this is the REAL deletion path (verified: the
+        // separate DeleteUserCommand/DeleteUserHandler have no callers anywhere in the repo).
+        // See docs/tasks/2026-07-28/Task12_cache-invalidation-wiring.md.
+        await userProfileCache.RemoveAsync(@event.Id, ct);
     }
 }

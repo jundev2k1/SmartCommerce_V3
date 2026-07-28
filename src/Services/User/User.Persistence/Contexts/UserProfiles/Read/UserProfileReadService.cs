@@ -12,6 +12,17 @@ public sealed class UserProfileReadService(UserDbContext dbContext) : IUserProfi
             .FirstOrDefaultAsync(u => u.Id == id, ct);
     }
 
+    public async Task<IReadOnlyList<UserProfile>> GetByIdsAsync(IReadOnlyCollection<Guid> ids, CancellationToken ct = default)
+    {
+        if (ids.Count == 0)
+            return [];
+
+        return await dbContext.UserProfiles
+            .AsNoTracking()
+            .Where(u => ids.Contains(u.Id))
+            .ToListAsync(ct);
+    }
+
     public async Task<IReadOnlyList<UserProfile>> GetAllAsync(int skip, int take, CancellationToken ct = default)
     {
         return await dbContext.UserProfiles

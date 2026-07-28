@@ -1,7 +1,11 @@
 # Task 13: Extend `user.proto` with GetUser/GetUsers RPCs
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** gRPC
+
+## What was done
+
+Added `GetUser`/`GetUsers` to `UserGrpcService`, additive (field 8 onward, existing `CreateUserProfile`/`CreateUserProfileRequest` untouched). `GetUserResponse`/`UserProfileItem` both carry a `found` bool (never omit a requested id from a batch response — mirrors `inventory.proto`'s `GetProductsStock` convention exactly) plus `display_name`, formatted at a fixed default locale (`"en"`) since a gRPC caller is a service, not an authenticated end-user request with its own `Accept-Language` — the same simplification the search index already uses. Verified via a scoped `BuildingBlock.Contract` build (proto stubs regenerate automatically at build time, no manual codegen step).
 
 ## Objective
 

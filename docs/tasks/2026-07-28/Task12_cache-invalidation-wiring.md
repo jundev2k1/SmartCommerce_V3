@@ -1,7 +1,11 @@
 # Task 12: Wire Cache Invalidation into Create/Update/Delete
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Cache
+
+## What was done
+
+`UpdateUserHandler` invalidates (`IUserProfileCacheService.RemoveAsync`) after its transaction commits, not inside it — the cache isn't transactional storage, so there's nothing to roll back there if the transaction fails (it simply never runs). `OnUserDeletionHandler` — confirmed, again, to be the real deletion path (`UserAccountDeletionIntegrationEventConsumer` → `OnUserDeletionEvent` → this handler; `DeleteUserCommand`/`DeleteUserHandler` still have zero callers anywhere in the repo, re-verified via grep before wiring) — invalidates after `DeleteWithNoTrackingAsync`. `CreateUserHandler` was deliberately left without proactive cache population (the "optional, not required" item from the plan) — the first `GetUserDetail`/gRPC lookup after creation is a normal, expected cache miss.
 
 ## Objective
 

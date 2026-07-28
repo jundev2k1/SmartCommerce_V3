@@ -4,7 +4,7 @@ One line per still-open task, most recent date first. Per-task detail lives in e
 
 ## 2026-07-28
 
-Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-10 implemented same day (Phase A name model, Phase B locale/DisplayName, Phase D Elasticsearch search); Tasks 11-18 (cache, gRPC, migration review, testing, docs) remain not started. Paired with 7 frontend tasks in `SimpleShopUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
+Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 implemented same day (name model, locale/DisplayName, Elasticsearch search, cache, gRPC incl. Audit as first consumer, migration review); Tasks 17-18 (testing, docs) remain not started. Paired with 7 frontend tasks in `SimpleShopUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
 
 - [x] Task 1 — Add MiddleName: Domain + Persistence (`2026-07-28/Task1_middlename-domain-and-persistence.md`) — done.
 - [x] Task 2 — Add MiddleName: Application layer (`2026-07-28/Task2_middlename-application-layer.md`) — done.
@@ -16,12 +16,12 @@ Source: planning-only request — "User Service Search, Elasticsearch, Localizat
 - [x] Task 8 — ProjectionBuilder + sync events (`2026-07-28/Task8_projection-builder-and-sync-events.md`) — done.
 - [x] Task 9 — RebuildUserSearchIndex command + ES config (`2026-07-28/Task9_rebuild-command-and-es-config.md`) — done.
 - [x] Task 10 — Cut SearchUsers over to Elasticsearch (`2026-07-28/Task10_cutover-searchusers-to-elasticsearch.md`) — done, full cutover.
-- [ ] Task 11 — User Detail cache scaffold (`2026-07-28/Task11_user-detail-cache-scaffold.md`)
-- [ ] Task 12 — Wire cache invalidation into Create/Update/Delete (`2026-07-28/Task12_cache-invalidation-wiring.md`)
-- [ ] Task 13 — Extend `user.proto` with GetUser/GetUsers (`2026-07-28/Task13_grpc-proto-getuser-getusers.md`)
-- [ ] Task 14 — Implement server-side GetUser/GetUsers (`2026-07-28/Task14_grpc-server-implementation.md`)
-- [ ] Task 15 — First real gRPC consumer — needs a product decision (`2026-07-28/Task15_first-grpc-consumer.md`)
-- [ ] Task 16 — Migration/reindex review (`2026-07-28/Task16_migration-and-reindex-review.md`)
+- [x] Task 11 — User Detail cache scaffold (`2026-07-28/Task11_user-detail-cache-scaffold.md`) — done (DTO-based reader, not a literal decorator, due to UserProfile's private setters).
+- [x] Task 12 — Wire cache invalidation into Create/Update/Delete (`2026-07-28/Task12_cache-invalidation-wiring.md`) — done.
+- [x] Task 13 — Extend `user.proto` with GetUser/GetUsers (`2026-07-28/Task13_grpc-proto-getuser-getusers.md`) — done.
+- [x] Task 14 — Implement server-side GetUser/GetUsers (`2026-07-28/Task14_grpc-server-implementation.md`) — done.
+- [x] Task 15 — First real gRPC consumer (`2026-07-28/Task15_first-grpc-consumer.md`) — done: Audit, chosen autonomously — **flag for team confirmation**.
+- [x] Task 16 — Migration/reindex review (`2026-07-28/Task16_migration-and-reindex-review.md`) — done; top risk: run `RebuildUserSearchIndex` before first real `SearchUsers` call post-deploy.
 - [ ] Task 17 — Testing (`2026-07-28/Task17_testing.md`)
 - [ ] Task 18 — Documentation updates (`2026-07-28/Task18_documentation-updates.md`)
 

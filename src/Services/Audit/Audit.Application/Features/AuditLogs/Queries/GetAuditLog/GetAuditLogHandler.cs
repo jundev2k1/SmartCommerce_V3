@@ -1,17 +1,23 @@
 using Audit.Application.Abstractions.Persistence.AuditLogs;
+using Audit.Application.Abstractions.Services;
 
+using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Audit;
 
 namespace Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
-public sealed class GetAuditLogHandler(IAuditLogReadService auditLogReadService)
-    : IQueryHandler<GetAuditLogQuery, GetAuditLogResponse>
+public sealed class GetAuditLogHandler(
+    IAuditLogReadService auditLogReadService,
+    IUserClientService userClientService,
+    IAppLogger<GetAuditLogHandler> logger) : IQueryHandler<GetAuditLogQuery, GetAuditLogResponse>
 {
     public async Task<GetAuditLogResponse> Handle(GetAuditLogQuery request, CancellationToken ct = default)
     {
         var entry = await auditLogReadService.GetByIdAsync(request.AuditLogId, ct)
             ?? throw new NotFoundException("AuditLog", request.AuditLogId);
+
+        var actorDisplayName = await TryResolveActorDisplayNameAsync(entry.Metadata?.Actor, ct);
 
         return new GetAuditLogResponse(
             entry.Id,
@@ -22,7 +28,29 @@ public sealed class GetAuditLogHandler(IAuditLogReadService auditLogReadService)
             MapNode(entry.Root),
             MapMetadata(entry.Metadata),
             entry.Timestamp,
-            entry.ReceivedAt);
+            entry.ReceivedAt,
+            actorDisplayName);
+    }
+
+    // Fail-open: an Actor that isn't a resolvable UserId (e.g. the username fallback
+    // HttpAuditMetadataProvider uses when unauthenticated) or a transient User-service outage
+    // must never fail this read - the audit entry itself is always returned regardless. Mirrors
+    // Product Search's fail-open Inventory-enrichment pattern.
+    private async Task<string?> TryResolveActorDisplayNameAsync(string? actor, CancellationToken ct)
+    {
+        if (!Guid.TryParse(actor, out var actorUserId))
+            return null;
+
+        try
+        {
+            var profile = await userClientService.GetActorAsync(actorUserId, ct);
+            return profile?.DisplayName;
+        }
+        catch (Exception ex)
+        {
+            logger.Warning("Failed to resolve actor display name for UserId {ActorUserId} - continuing without it: {ErrorMessage}", actorUserId, ex.Message);
+            return null;
+        }
     }
 
     private static AuditNode MapNode(AuditTrailNode node)

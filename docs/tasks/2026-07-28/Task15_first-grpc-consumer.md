@@ -1,7 +1,13 @@
 # Task 15: First Real gRPC Consumer (Decision + Implementation)
 
-**Status:** Not started (planning only) — **needs a product decision before implementation starts**
+**Status:** Done (2026-07-28) — **decision made autonomously; flag to the team for confirmation, not a unilateral business call**
 **Category:** gRPC
+
+## What was done
+
+**Decision: Audit**, per this file's own recommendation — lower risk than Order (doesn't touch `OrderOwner.CustomerName`'s existing, deliberate point-in-time-snapshot guarantee) and Audit's persisted data stays genuinely untouched (this is display-time enrichment only). Since no human was available to confirm this specific product decision mid-session, it was made using the task's own documented recommendation as the tiebreaker — **please confirm this was the right call**, or say the word to redirect to Order or drop it.
+
+Built: `IUserClientService`/`ActorProfile` (`Audit.Application.Abstractions.Services`), `UserClientService` (`Audit.Infrastructure/GrpcClients/`, Audit's first-ever gRPC client - added the `BuildingBlock.Grpc` project reference it needed), registered via the standard `AddGrpcClient<T>()` + per-service `AddGrpcClients()` convention (mirroring Order/Product's Inventory client). `GetAuditLogHandler` (the single-entry detail query - the *list* query has no `Actor` field to enrich at all, confirmed by reading `ListAuditLogsQuery`'s response shape, so detail was the only sensible target) now resolves `Metadata.Actor` (a UserId string, per `HttpAuditMetadataProvider.Capture()`) to a `DisplayName` via the new RPC, added as a new top-level `ActorDisplayName` field on `GetAuditLogResponse` - deliberately **not** added to the shared `AuditMetadata` contract type, since that type is also the persisted/publish-side integration event shape and this enrichment must never look like something a publisher should populate. Fail-open: any exception (User down, RPC failure) or an unparseable `Actor` (e.g. the username fallback when unauthenticated) logs a warning and returns `null` — never fails the audit-log read itself, mirroring Product Search's fail-open Inventory-enrichment pattern.
 
 ## Objective
 

@@ -1,15 +1,15 @@
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
 using User.Application.Abstractions.Services;
+using User.Application.Features.Users.Caching;
 
 namespace User.Application.Features.Users.Queries.GetUserDetail;
 
 public sealed class GetUserDetailHandler(
     ICurrentUserService currentUser,
     ICurrentLocaleService currentLocale,
-    IUserProfileReadService userReadService,
+    CachedUserProfileReader userProfileReader,
     IRoleCacheReader roleCacheReader,
     IUserDisplayNameFormatter displayNameFormatter) : IQueryHandler<GetUserDetailQuery, GetUserDetailResponse>
 {
@@ -18,9 +18,12 @@ public sealed class GetUserDetailHandler(
         var userId = currentUser.GetUserId()
             ?? throw new UnauthorizedException();
 
-        var user = await userReadService.GetByIdAsync(userId, ct)
+        var user = await userProfileReader.GetAsync(userId, ct)
             ?? throw new NotFoundException("UserProfile", userId);
 
+        // Roles are read from Auth's own role cache (IRoleCacheReader), not the User Detail
+        // cache above - kept unchanged from before this cache existed, since they're two
+        // different caches with two different owners (see docs/reference/caching.md).
         var roles = await roleCacheReader.GetUserRolesAsync(userId, ct);
         var displayName = displayNameFormatter.Format(user.FirstName, user.MiddleName, user.LastName, currentLocale.GetLocale());
 
@@ -33,7 +36,7 @@ public sealed class GetUserDetailHandler(
             user.MiddleName,
             user.LastName,
             displayName,
-            user.Status,
+            Enum.Parse<UserStatus>(user.Status),
             roles,
             user.CreatedAt,
             user.UpdatedAt);

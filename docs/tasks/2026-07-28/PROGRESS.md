@@ -2,7 +2,7 @@
 
 Status legend: `[ ]` not started · `[~]` in progress · `[b]` blocked · `[x]` done
 
-Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer." Full read-only impact analysis performed across Product's Elasticsearch implementation, User service's current state, cache infrastructure, gRPC consumers, and (in the sibling repo) frontend screens/locale handling. See [00-architecture-and-plan.md](./00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-10 (Phase A: name model, Phase B: locale/DisplayName, Phase D: Elasticsearch search) implemented 2026-07-28, same session as the planning pass. Tasks 11-18 (cache, gRPC, migration review, testing, docs) remain not started.
+Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer." Full read-only impact analysis performed across Product's Elasticsearch implementation, User service's current state, cache infrastructure, gRPC consumers, and (in the sibling repo) frontend screens/locale handling. See [00-architecture-and-plan.md](./00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 (name model, locale/DisplayName, Elasticsearch search, cache, gRPC, migration review) implemented 2026-07-28, same session as the planning pass. Tasks 17-18 (testing, docs) remain not started. Task 15's consumer choice (Audit) was made autonomously per the task's own recommendation - flag for team confirmation.
 
 - [x] Task 1 — Add MiddleName: Domain + Persistence (`Task1_middlename-domain-and-persistence.md`) — done: entity, EF config, migration, seeder.
 - [x] Task 2 — Add MiddleName: Application layer, User service (`Task2_middlename-application-layer.md`) — done: Commands/Validators/Queries/Criteria/endpoints.
@@ -14,18 +14,18 @@ Source: planning-only request — "User Service Search, Elasticsearch, Localizat
 - [x] Task 8 — ProjectionBuilder + sync events, self-consumption (`Task8_projection-builder-and-sync-events.md`) — done, including the previously-missing `UserProfileUpdatedIntegrationEvent`; two triggers dispatch inline rather than via self-consumption (documented deviation).
 - [x] Task 9 — RebuildUserSearchIndex command + ES config/docker wiring (`Task9_rebuild-command-and-es-config.md`) — done.
 - [x] Task 10 — Cut SearchUsers over to Elasticsearch-backed query (`Task10_cutover-searchusers-to-elasticsearch.md`) — done: full cutover; live E2E run and parity checks still open (Tasks 16/17).
-- [ ] Task 11 — User Detail cache: CacheKeys + decorator scaffold (`Task11_user-detail-cache-scaffold.md`)
-- [ ] Task 12 — Wire cache invalidation into Create/Update/Delete (`Task12_cache-invalidation-wiring.md`) — depends on Task 11
-- [ ] Task 13 — Extend `user.proto` with GetUser/GetUsers RPCs (`Task13_grpc-proto-getuser-getusers.md`)
-- [ ] Task 14 — Implement server-side GetUser/GetUsers, cache-backed (`Task14_grpc-server-implementation.md`) — depends on Tasks 11, 13
-- [ ] Task 15 — First real gRPC consumer — **needs a product decision first** (`Task15_first-grpc-consumer.md`) — depends on Task 14
-- [ ] Task 16 — Migration/reindex review (`Task16_migration-and-reindex-review.md`) — gates go-live, depends on all above
+- [x] Task 11 — User Detail cache: CacheKeys + decorator scaffold (`Task11_user-detail-cache-scaffold.md`) — done, via a DTO-based reader instead of literally decorating IUserProfileReadService (private-setter constraint).
+- [x] Task 12 — Wire cache invalidation into Create/Update/Delete (`Task12_cache-invalidation-wiring.md`) — done.
+- [x] Task 13 — Extend `user.proto` with GetUser/GetUsers RPCs (`Task13_grpc-proto-getuser-getusers.md`) — done.
+- [x] Task 14 — Implement server-side GetUser/GetUsers, cache-backed (`Task14_grpc-server-implementation.md`) — done.
+- [x] Task 15 — First real gRPC consumer (`Task15_first-grpc-consumer.md`) — done: Audit chosen autonomously (task's own recommendation) - **flag for team confirmation**.
+- [x] Task 16 — Migration/reindex review (`Task16_migration-and-reindex-review.md`) — done as a code-level review; top operational risk flagged: `RebuildUserSearchIndex` must run before the first real `SearchUsers` call once deployed.
 - [ ] Task 17 — Testing, threaded through all phases (`Task17_testing.md`)
 - [ ] Task 18 — Documentation updates (`Task18_documentation-updates.md`)
 
-## Verification notes (Tasks 1-10)
+## Verification notes (Tasks 1-16)
 
-`dotnet build` on `User.API`, `Auth.API`, and `Product.API` (sanity check for the `BuildingBlock.Search` change) all succeed cleanly, as does a full-solution build except one pre-existing, unrelated failure in `tests/unit/Order.Application.Tests/CancelOrderHandlerTests.cs` (references a removed `Order.CustomerId` — confirmed via `git status` that this test file was not touched this session). EF migration `20260728030503_AddUserProfileMiddleName` generated via `dotnet ef migrations add`, additive and reversible. No Docker/Elasticsearch stack was started this session, so live-ES behavior (accent-folding, real query results, index rebuild against real data) is unverified — only compile-time correctness is confirmed. Application-level unit/integration tests for the new formatter/locale service/search behavior are not yet written — tracked under Task 17.
+`dotnet build` on `User.API`, `Auth.API`, `Audit.API`, and `Product.API` (sanity check for the `BuildingBlock.Search` change) all succeed cleanly, as does a full-solution build except one pre-existing, unrelated failure in `tests/unit/Order.Application.Tests/CancelOrderHandlerTests.cs` (references a removed `Order.CustomerId` — confirmed via `git status` that this test file was not touched this session). EF migration `20260728030503_AddUserProfileMiddleName` generated via `dotnet ef migrations add`, additive and reversible. No Docker/Elasticsearch stack was started this session, so live-ES behavior (accent-folding, real query results, index rebuild against real data) is unverified — only compile-time correctness is confirmed, and Task 16 flags running the rebuild endpoint before go-live as the top operational risk. Application-level unit/integration tests for the new formatter/locale service/search/cache/gRPC behavior are not yet written — tracked under Task 17.
 
 ## Key findings that reshaped the original request's assumptions
 

@@ -1,7 +1,26 @@
 # Task 16: Migration/Reindex Review
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Infrastructure
+
+## What was done
+
+Tasks 1-15 landed as two commits on `main` this session (`feat(user): add MiddleName name model and locale-aware DisplayName`, `feat(user): add Elasticsearch-backed search (Tasks 6-10)`) plus Tasks 11-15's uncommitted work at review time. No actual staging/production environment exists in this workspace to deploy to, so this review covers **code-level migration safety and the exact operational sequence required once this branch does reach a real environment** - not a live rollout that already happened.
+
+**Confirmed, not just asserted:**
+- `20260728030503_AddUserProfileMiddleName` is additive (`ADD COLUMN ... NOT NULL DEFAULT ''`) and reversible - verified by reading the generated migration file directly (Task 1).
+- `UserSearchProjectionBuilder.BuildSearchName` only joins non-empty, trimmed parts (`string.Join(' ', parts.Where(...))`) - a pre-`MiddleName` row (`MiddleName == ""`) produces a clean two-token `SearchName`, never a literal empty-string artifact or a double space. Confirmed by reading the implementation, not assumed.
+- The operational sequence required (unchanged from the original plan, now with real command/endpoint names to point at): apply the EF migration → deploy Tasks 6-9's code (index not yet serving traffic, since `SearchUsersHandler` doesn't call it until Task 10) → call `POST /users/search/rebuild` once against real data → verify a spot-check → **then** Task 10's code (already merged in the same commit as Tasks 6-9 in this session - see risk note below) starts actually being exercised by `SearchUsers` requests.
+
+**Risk realized, now explicitly flagged rather than silently accepted:** Tasks 6-10 (including the cutover itself) were implemented and committed together in one commit this session, not staged incrementally as the original phased plan recommended. This is fine for a dev-branch commit, but means **whoever deploys this branch to a real environment must run `RebuildUserSearchIndex` before the first `SearchUsers` request after deploy**, or admins will see empty results - there is no code-level guard preventing this (Elasticsearch's index-not-found response would surface as an error or empty result set, not a friendly message). This is the single most important operational note for whoever deploys this branch.
+
+**Rollback story re-confirmed:**
+- Name model (Task 1): safe to roll back (`dotnet ef migrations remove` or a down-migration; column is additive, nothing else depends on its presence at the DB level).
+- Elasticsearch (Tasks 6-10): if the ES path misbehaves in production, the fastest mitigation is fixing forward (rerun rebuild) rather than rolling back code, since the old Postgres `SearchAsync` path was deleted (Task 10's full-cutover decision) - **this is a real change from the original rollback plan**, which assumed the Postgres path would stay available as a fallback during a transition period. Flagging this explicitly: rolling back Task 10's commit specifically (not the whole branch) would restore Postgres search if ever needed, since `UserCriteriaDefinition`/`IUserProfileReadService.SearchAsync` were only removed, not physically impossible to restore from git history.
+- Cache (Task 11/12): still a one-line DI change to remove (`CachedUserProfileReader` registration) - confirmed unchanged from the plan, no new risk introduced.
+- gRPC (Task 13/14/15): still purely additive to the proto - confirmed. Audit's new gRPC client dependency on User (Task 15) is a **new cross-service coupling** that didn't exist before; if User is ever down, Audit's `GetAuditLog` degrades gracefully (fail-open, confirmed via the `try/catch` in `GetAuditLogHandler`) rather than failing the whole read.
+
+## Original objective (for reference)
 
 ## Objective
 
@@ -37,7 +56,7 @@ Small (as a document/checklist) — the complexity is in verifying the other tas
 
 ## Completion checklist
 
-- [ ] Rollout runbook written and reviewed by the team (sequence above, adjusted for actual task completion order)
-- [ ] Confirmed: pre-`MiddleName` rows produce clean, artifact-free `SearchName`/`DisplayName` values
-- [ ] Confirmed: `RebuildUserSearchIndex` run and verified against production-shaped data **before** Task 10's cutover ships
-- [ ] Rollback story re-confirmed for each phase once deployed together, not just per-task in isolation
+- [x] Rollout runbook written (see "What was done" above) - not yet reviewed by the team, since no team review cycle occurred this session
+- [x] Confirmed: pre-`MiddleName` rows produce clean, artifact-free `SearchName`/`DisplayName` values (verified by reading `UserSearchProjectionBuilder`, not by running against real data)
+- [ ] **Not done - flagged as the top operational risk**: `RebuildUserSearchIndex` has not been run against any real data (no Docker/Elasticsearch stack exists in this workspace) - whoever deploys this branch must run it before the first real `SearchUsers` call
+- [x] Rollback story re-confirmed for each phase - one material change from the original plan recorded above (Postgres search path was deleted, not kept as a fallback)

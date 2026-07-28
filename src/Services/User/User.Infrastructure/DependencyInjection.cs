@@ -28,6 +28,7 @@ public static class DependencyInjection
             .AddRedisCache(configuration)
             .AddIdempotency(configuration)
             .AddScoped<IRoleCacheReader, RoleCacheReader>()
+            .AddScoped<IUserProfileCacheService, UserProfileCacheService>()
             .AddBackgroundJobs(configuration)
             .AddInboxOutboxCleanupJobs(configuration)
             .AddHttpAuditMetadataProvider("User");

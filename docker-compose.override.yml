@@ -372,6 +372,8 @@ services:
       - Jobs__InboxCleanup__MaxBatchesPerRun=${AUDIT_INBOX_CLEANUP_MAX_BATCHES}
       # Kafka
       - Kafka__BootstrapServers=${AUDIT_KAFKA_BROKERS}
+      # gRPC (actor display-name enrichment for GetAuditLog - fail-open, see docs/reference/grpc.md)
+      - Grpc__UserService__Url=${USER_GRPC_URL}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s

@@ -8,6 +8,7 @@ using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 using User.Application.Abstractions.Services;
+using User.Application.Features.Users.Caching;
 using User.Application.Features.Users.Search;
 using User.Application.Services;
 
@@ -23,7 +24,8 @@ public static class DependencyInjection
             .AddMapster()
             .AddFluentValidation()
             .AddSingleton<IUserDisplayNameFormatter, UserDisplayNameFormatter>()
-            .AddScoped<UserSearchProjectionBuilder>();
+            .AddScoped<UserSearchProjectionBuilder>()
+            .AddScoped<CachedUserProfileReader>();
 
         return services;
     }

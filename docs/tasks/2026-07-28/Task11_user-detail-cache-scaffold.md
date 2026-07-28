@@ -1,7 +1,13 @@
 # Task 11: User Detail Cache — CacheKeys + Decorator Scaffold
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** Cache
+
+## What was done
+
+Added a new, correctly-namespaced `CacheKeys.UserProfiles` group (`user:users:detail:{userId}`, 10-minute default TTL) — the dead, wrongly-namespaced `CacheKeys.Users` (`auth:users:*`) was kept in place (not deleted, to avoid unrelated churn) but annotated as dead scaffold, pointing readers to `UserProfiles` instead.
+
+**Deviation from the literal "decorator wrapping `IUserProfileReadService`" plan, for a concrete technical reason**: `UserProfile`'s properties all have `private set` (domain encapsulation) and no public constructor, so a JSON-deserialized cache entry cannot be reconstructed as a real `UserProfile` instance from outside `User.Domain` — the same reasoning that gives Elasticsearch its own read-model document instead of indexing the aggregate directly. Built a parallel, purpose-built `CachedUserProfile` DTO (`User.Application.Abstractions.Services`) instead, with `IUserProfileCacheService` (Redis-backed, `User.Infrastructure/Caching/UserProfileCacheService.cs`, mirrors `RoleCacheService`'s shape exactly) and `CachedUserProfileReader` (`User.Application/Features/Users/Caching/`) providing the actual read-through orchestration (cache → `IUserProfileReadService.GetByIdAsync`/`GetByIdsAsync` on miss → refresh cache → return), both single and batch. `IUserProfileReadService.GetByIdsAsync` was added as a new batch method (needed by both this task and Task 14). Wired into `GetUserDetailHandler` in place of the direct `IUserProfileReadService.GetByIdAsync` call; `IRoleCacheReader` (Auth's role cache) is unchanged, a deliberately separate cache with a separate owner.
 
 ## Objective
 

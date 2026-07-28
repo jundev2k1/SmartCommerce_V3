@@ -1,7 +1,11 @@
 # Task 14: Implement Server-Side GetUser/GetUsers (Cache-Backed)
 
-**Status:** Not started (planning only)
+**Status:** Done (2026-07-28)
 **Category:** gRPC
+
+## What was done
+
+`GetUserByIdQuery`/`Handler` and `GetUsersByIdsQuery`/`Handler` added (`User.Application/Features/Users/Queries/GetUserById/`), both backed by Task 11's `CachedUserProfileReader` — the batch handler never falls back to a loop of single lookups (`CachedUserProfileReader.GetManyAsync` does exactly one `IUserProfileReadService.GetByIdsAsync` round trip for whatever wasn't already cached). `UserGrpcServiceImpl` gained `GetUser`/`GetUsers` overrides — the first read-oriented RPCs on this server, dispatching via `ISender` per `docs/reference/grpc.md`'s convention (unchanged from `CreateUserProfile`'s existing shape, just Query instead of an internal event). `GetUsers` iterates the *original* requested id list (not the result dictionary) to build the response, so a duplicate, unparseable, or nonexistent id in the request still gets exactly one `found=false` item back, never silently dropped.
 
 ## Objective
 
