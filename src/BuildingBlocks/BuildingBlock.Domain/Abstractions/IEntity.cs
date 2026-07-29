@@ -10,5 +10,7 @@ public interface IEntity
     DateTime CreatedAt { get; set; }
     DateTime UpdatedAt { get; set; }
 
-    void Tourch();
+    void Track();
+
+    void Touch();
 }

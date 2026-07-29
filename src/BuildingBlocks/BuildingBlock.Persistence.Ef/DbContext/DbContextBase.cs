@@ -35,4 +35,6 @@ public abstract class DbContextBase(DbContextOptions options) : Microsoft.Entity
     protected virtual void ConfigureModel(ModelBuilder modelBuilder)
     {
     }
+
+    public bool IsDisableTimestamps { get; set; }
 }

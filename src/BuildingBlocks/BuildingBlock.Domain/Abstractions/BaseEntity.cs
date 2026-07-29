@@ -10,7 +10,13 @@ public abstract class BaseEntity<T> : IEntity<T>
     [AuditIgnore]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public void Tourch()
+    public void Track()
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Touch()
     {
         UpdatedAt = DateTime.UtcNow;
     }
@@ -23,7 +29,13 @@ public abstract class BaseEntity : IEntity
     [AuditIgnore]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public void Tourch()
+    public void Track()
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Touch()
     {
         UpdatedAt = DateTime.UtcNow;
     }

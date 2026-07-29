@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<IAuditHierarchyRegistry>(new AuditHierarchyRegistry(new Dictionary<Type, AuditEntityMetadata>()));
         services.TryAddScoped<IAuditMetadataProvider, NullAuditMetadataProvider>();
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, AuditInterceptor>());
+        services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TimestampInterceptor>());
 
         services.AddDbContext<TContext>((serviceProvider, options) =>
         {
