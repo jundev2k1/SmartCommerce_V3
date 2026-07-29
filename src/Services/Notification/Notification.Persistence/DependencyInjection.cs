@@ -137,7 +137,8 @@ public static class DependencyInjection
     {
         services
             .AddMongoOutboxStore<NotificationMongoContext>()
-            .AddMongoInboxStore<NotificationMongoContext>();
+            .AddMongoInboxStore<NotificationMongoContext>()
+            .AddMongoDeadLetterQueryService<NotificationMongoContext>();
 
         services.AddScoped<IOutboxStore, OutboxStore>();
         services.AddScoped<IInboxStore, InboxStore>();

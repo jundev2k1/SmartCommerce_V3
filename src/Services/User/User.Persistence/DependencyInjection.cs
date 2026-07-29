@@ -110,7 +110,8 @@ public static class DependencyInjection
     {
         services
             .AddEfOutboxStore<UserDbContext>()
-            .AddEfInboxStore<UserDbContext>();
+            .AddEfInboxStore<UserDbContext>()
+            .AddEfDeadLetterQueryService<UserDbContext>();
 
         services.AddScoped<IOutboxStore, OutboxStore>();
         services.AddScoped<IInboxStore, InboxStore>();

@@ -11,16 +11,19 @@ public sealed class AuditMongoContext : MongoContextBase, IOutboxMongoContext, I
     public IMongoCollection<AuditLogEntry> AuditLogs { get; }
     public IMongoCollection<OutboxDocument> OutboxMessages { get; }
     public IMongoCollection<InboxDocument> InboxMessages { get; }
+    public IMongoCollection<InboxRetryHistoryDocument> InboxRetryHistories { get; }
 
     public AuditMongoContext(IMongoDatabase database) : base(database)
     {
         AuditLogs = database.GetCollection<AuditLogEntry>("logs");
         OutboxMessages = database.GetCollection<OutboxDocument>("outbox_messages");
         InboxMessages = database.GetCollection<InboxDocument>("inbox_messages");
+        InboxRetryHistories = database.GetCollection<InboxRetryHistoryDocument>("inbox_retry_histories");
 
         // No OnModelCreating equivalent in Mongo - index creation happens once here, since
         // this context is registered as a Singleton (see AddPersistenceMongoContext).
         OutboxMessages.EnsureOutboxIndexes();
         InboxMessages.EnsureInboxIndexes();
+        InboxRetryHistories.EnsureInboxRetryHistoryIndexes();
     }
 }

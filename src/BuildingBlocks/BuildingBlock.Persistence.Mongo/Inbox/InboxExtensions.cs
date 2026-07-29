@@ -1,3 +1,4 @@
+using BuildingBlock.Application.Abstractions.DeadLetters;
 using BuildingBlock.Persistence.Inbox;
 using BuildingBlock.Persistence.Mongo.MongoContext;
 
@@ -30,6 +31,23 @@ public static class InboxExtensions
     }
 
     /// <summary>
+    /// Ensure the InboxRetryHistory collection's indexes exist. Call once from the derived Mongo
+    /// context's constructor alongside EnsureInboxIndexes.
+    /// </summary>
+    public static void EnsureInboxRetryHistoryIndexes(this IMongoCollection<InboxRetryHistoryDocument> collection)
+    {
+        // Lists a row's retry history most-recent-first (GetRetryHistoryAsync).
+        collection.Indexes.CreateOne(new CreateIndexModel<InboxRetryHistoryDocument>(
+            Builders<InboxRetryHistoryDocument>.IndexKeys.Ascending(x => x.InboxMessageId).Descending(x => x.StartedAt),
+            new CreateIndexOptions { Name = "idx_inbox_retry_history_message_started_at" }));
+
+        // Finds the single open (FinishedAt == null) entry closed out by CompleteAttemptAsync/FailAttemptAsync.
+        collection.Indexes.CreateOne(new CreateIndexModel<InboxRetryHistoryDocument>(
+            Builders<InboxRetryHistoryDocument>.IndexKeys.Ascending(x => x.InboxMessageId).Ascending(x => x.FinishedAt),
+            new CreateIndexOptions { Name = "idx_inbox_retry_history_message_open" }));
+    }
+
+    /// <summary>
     /// Register the generic Mongo inbox store for the given Mongo context type.
     /// The context must implement IInboxMongoContext.
     /// </summary>
@@ -37,6 +55,16 @@ public static class InboxExtensions
         where TContext : MongoContextBase, IInboxMongoContext
     {
         services.AddScoped<IInboxStore, MongoInboxStore<TContext>>();
+        return services;
+    }
+
+    /// <summary>
+    /// Register the generic Mongo dead-letter query service for the given Mongo context type.
+    /// </summary>
+    public static IServiceCollection AddMongoDeadLetterQueryService<TContext>(this IServiceCollection services)
+        where TContext : MongoContextBase, IInboxMongoContext
+    {
+        services.AddScoped<IDeadLetterQueryService, MongoDeadLetterQueryService<TContext>>();
         return services;
     }
 }

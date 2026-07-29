@@ -17,5 +17,6 @@ public sealed class OrderDbContext(DbContextOptions<OrderDbContext> options)
     public DbSet<OrderProductCatalog> OrderProductCatalogs { get; set; } = null!;
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
     public DbSet<InboxMessage> InboxMessages { get; set; } = null!;
+    public DbSet<InboxRetryHistory> InboxRetryHistories { get; set; } = null!;
     public DbSet<SagaExecutionRecordEntity> SagaExecutionRecords { get; set; } = null!;
 }

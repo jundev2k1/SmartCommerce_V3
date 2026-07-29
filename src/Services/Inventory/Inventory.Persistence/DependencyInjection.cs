@@ -107,7 +107,8 @@ public static class DependencyInjection
     {
         services
             .AddEfOutboxStore<InventoryDbContext>()
-            .AddEfInboxStore<InventoryDbContext>();
+            .AddEfInboxStore<InventoryDbContext>()
+            .AddEfDeadLetterQueryService<InventoryDbContext>();
 
         services.AddScoped<IOutboxStore, OutboxStore>();
         services.AddScoped<IInboxStore, InboxStore>();

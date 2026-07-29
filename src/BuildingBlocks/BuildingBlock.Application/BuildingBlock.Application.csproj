@@ -10,6 +10,7 @@
     <ProjectReference Include="../BuildingBlock.Domain/BuildingBlock.Domain.csproj" />
     <ProjectReference Include="../BuildingBlock.Contract/BuildingBlock.Contract.csproj" />
     <ProjectReference Include="..\BuildingBlock.SharedKernel\BuildingBlock.SharedKernel.csproj" />
+    <ProjectReference Include="..\BuildingBlock.Criteria\BuildingBlock.Criteria.csproj" />
   </ItemGroup>
 
   <ItemGroup>

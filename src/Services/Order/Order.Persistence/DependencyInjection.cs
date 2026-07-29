@@ -121,7 +121,8 @@ public static class DependencyInjection
     {
         services
             .AddEfOutboxStore<OrderDbContext>()
-            .AddEfInboxStore<OrderDbContext>();
+            .AddEfInboxStore<OrderDbContext>()
+            .AddEfDeadLetterQueryService<OrderDbContext>();
 
         services.AddScoped<IOutboxStore, OutboxStore>();
         services.AddScoped<IInboxStore, InboxStore>();

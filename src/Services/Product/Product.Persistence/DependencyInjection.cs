@@ -129,6 +129,7 @@ public static class DependencyInjection
     private static IServiceCollection AddInbox(this IServiceCollection services)
     {
         services.AddEfInboxStore<ProductDbContext>();
+        services.AddEfDeadLetterQueryService<ProductDbContext>();
         services.AddScoped<IInboxStore, InboxStore>();
 
         return services;

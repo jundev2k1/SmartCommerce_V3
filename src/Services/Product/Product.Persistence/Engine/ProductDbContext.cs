@@ -17,4 +17,5 @@ public sealed class ProductDbContext(DbContextOptions<ProductDbContext> options)
     public DbSet<ProductTagMapping> ProductTagMappings { get; set; } = null!;
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
     public DbSet<InboxMessage> InboxMessages { get; set; } = null!;
+    public DbSet<InboxRetryHistory> InboxRetryHistories { get; set; } = null!;
 }

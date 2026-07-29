@@ -12,7 +12,7 @@ Source: full-system business-requirements audit covering Product, Customer, Orde
 - [ ] **Task 6 — Audit log query API has no server-side filter by entity/actor**, forcing a fragile client-side pagination workaround.
 - [ ] **Task 7 — Inventory publishes no domain-specific stock events over Kafka**; Order↔Inventory integration is gRPC-only.
 - [ ] **Task 8 — No standardized retry policy (Polly)** anywhere in the solution.
-- [x] **Task 9 — Dead-letter handling is a DB status flag only**, not a real Kafka DLQ with reprocessing/alerting. Resolved: added `IInboxStore.GetDeadLetterSummaryAsync` (Ef+Mongo, all 7 services) plus `InboxDeadLetterMonitorJob`, a recurring job that logs a warning per stuck (consumer, topic) group every 15 min. Full replay-from-topic DLQ intentionally left out of scope.
+- [x] **Task 9 — Dead-letter handling is a DB status flag only**, not a real Kafka DLQ with reprocessing/alerting. Resolved (2026-07-27): added `IInboxStore.GetDeadLetterSummaryAsync` (Ef+Mongo, all 7 services) plus `InboxDeadLetterMonitorJob`, a recurring job that logs a warning per stuck (consumer, topic) group every 15 min. Extended (2026-07-29): full Dead Letter Queue management APIs — search/detail/retry-one/retry-bulk/retry-all, `InboxRetryHistory` audit trail, republish via `IOutboxPublisher` (not direct handler invocation) — see `Task9_dead-letter-handling-db-flag-only.md`.
 - [ ] **Task 10 — Category/Tag delete has no usage-count precheck** before a 409.
 - [ ] **Task 11 — `RebuildProductSearchIndex` has no documented auth requirement.**
 - [ ] **Task 12 — Inventory's "reservation" is deduct-immediately + saga-compensate, not a true reserve/commit/release model** — decision needed on whether that's sufficient long-term.

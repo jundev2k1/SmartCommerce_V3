@@ -138,7 +138,8 @@ public static class DependencyInjection
     {
         services
             .AddEfOutboxStore<AuthDbContext>()
-            .AddEfInboxStore<AuthDbContext>();
+            .AddEfInboxStore<AuthDbContext>()
+            .AddEfDeadLetterQueryService<AuthDbContext>();
 
         services.AddScoped<IOutboxStore>(sp => new OutboxStore(
             sp.GetRequiredService<BuildingBlock.Persistence.Outbox.IOutboxStore>(),

@@ -98,6 +98,65 @@ namespace Order.Persistence.Storage.Migrations
                     b.ToTable("inbox_messages", (string)null);
                 });
 
+            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ConsumerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("consumer_name");
+
+                    b.Property<long?>("DurationMs")
+                        .HasColumnType("bigint")
+                        .HasColumnName("duration_ms");
+
+                    b.Property<string>("Exception")
+                        .HasColumnType("text")
+                        .HasColumnName("exception");
+
+                    b.Property<DateTime?>("FinishedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("finished_at");
+
+                    b.Property<Guid>("InboxMessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("inbox_message_id");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("message_id");
+
+                    b.Property<string>("Operator")
+                        .HasColumnType("text")
+                        .HasColumnName("operator");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("integer")
+                        .HasColumnName("result");
+
+                    b.Property<int>("RetryNumber")
+                        .HasColumnType("integer")
+                        .HasColumnName("retry_number");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("started_at");
+
+                    b.Property<string>("Topic")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("topic");
+
+                    b.HasKey("Id")
+                        .HasName("pk_inbox_retry_histories");
+
+                    b.ToTable("inbox_retry_histories", (string)null);
+                });
+
             modelBuilder.Entity("BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -391,7 +450,7 @@ namespace Order.Persistence.Storage.Migrations
                     b.ToTable("order_product_catalogs", (string)null);
                 });
 
-            modelBuilder.Entity("Order.Persistence.Saga.SagaExecutionRecordEntity", b =>
+            modelBuilder.Entity("Order.Persistence.Reliability.Saga.SagaExecutionRecordEntity", b =>
                 {
                     b.Property<string>("SagaId")
                         .HasMaxLength(200)

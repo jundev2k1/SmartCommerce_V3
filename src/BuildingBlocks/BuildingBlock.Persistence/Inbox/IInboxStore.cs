@@ -76,4 +76,25 @@ public interface IInboxStore
     /// monitoring. Never returns row payloads - just enough to alert on and locate the rows.
     /// </summary>
     Task<IReadOnlyList<InboxDeadLetterSummary>> GetDeadLetterSummaryAsync(CancellationToken ct = default);
+
+    /// <summary>
+    /// Atomically flips a row from DeadLetter back to Retrying (NextRetryAt = null, RetryCount
+    /// reset to 0 - a fresh attempt budget for the admin-initiated cycle) and records a new
+    /// "Retrying" retry-history entry. Implemented as a single conditional update
+    /// (WHERE Id = id AND Status = DeadLetter) so a second concurrent call for the same id always
+    /// observes NotDeadLetter - no separate locking is required for correctness, only for
+    /// avoiding redundant Kafka publishes in bulk/retry-all callers.
+    /// </summary>
+    Task<InboxRequeueResult> RequeueDeadLetterAsync(Guid inboxMessageId, string? operatorId, CancellationToken ct = default);
+
+    /// <summary>Retry-history entries for one Inbox row, most recent first.</summary>
+    Task<IReadOnlyList<InboxRetryHistoryEntry>> GetRetryHistoryAsync(Guid inboxMessageId, CancellationToken ct = default);
+
+    /// <summary>
+    /// Compensating action for a successful RequeueDeadLetterAsync whose subsequent Kafka publish
+    /// then failed (the message never actually left this service, so the row must not be left
+    /// looking like a live in-flight retry). Reverts the row to DeadLetter and closes the open
+    /// retry-history entry as FailedAgain.
+    /// </summary>
+    Task RevertFailedRequeueAsync(Guid inboxMessageId, string error, CancellationToken ct = default);
 }

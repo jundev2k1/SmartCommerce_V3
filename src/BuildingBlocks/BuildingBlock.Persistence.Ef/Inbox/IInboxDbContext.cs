@@ -9,4 +9,5 @@ namespace BuildingBlock.Persistence.Ef.Inbox;
 public interface IInboxDbContext
 {
     DbSet<InboxMessage> InboxMessages { get; }
+    DbSet<InboxRetryHistory> InboxRetryHistories { get; }
 }

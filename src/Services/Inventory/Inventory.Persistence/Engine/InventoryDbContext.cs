@@ -14,5 +14,6 @@ public sealed class InventoryDbContext(DbContextOptions<InventoryDbContext> opti
     public DbSet<InventoryTransaction> InventoryTransactions { get; set; } = null!;
     public DbSet<StockDeduction> StockDeductions { get; set; } = null!;
     public DbSet<InboxMessage> InboxMessages { get; set; } = null!;
+    public DbSet<InboxRetryHistory> InboxRetryHistories { get; set; } = null!;
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
 }

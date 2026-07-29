@@ -9,4 +9,5 @@ namespace BuildingBlock.Persistence.Mongo.Inbox;
 public interface IInboxMongoContext
 {
     IMongoCollection<InboxDocument> InboxMessages { get; }
+    IMongoCollection<InboxRetryHistoryDocument> InboxRetryHistories { get; }
 }

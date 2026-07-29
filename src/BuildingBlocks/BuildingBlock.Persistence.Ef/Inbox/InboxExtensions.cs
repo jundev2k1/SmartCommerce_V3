@@ -1,3 +1,4 @@
+using BuildingBlock.Application.Abstractions.DeadLetters;
 using BuildingBlock.Persistence.Inbox;
 
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public static class InboxExtensions
     public static void ApplyInboxConfiguration(this ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new InboxConfiguration());
+        modelBuilder.ApplyConfiguration(new InboxRetryHistoryConfiguration());
     }
 
     /// <summary>
@@ -24,6 +26,16 @@ public static class InboxExtensions
         where TContext : Microsoft.EntityFrameworkCore.DbContext, IInboxDbContext
     {
         services.AddScoped<IInboxStore, EfInboxStore<TContext>>();
+        return services;
+    }
+
+    /// <summary>
+    /// Register the generic EF dead-letter query service for the given DbContext type.
+    /// </summary>
+    public static IServiceCollection AddEfDeadLetterQueryService<TContext>(this IServiceCollection services)
+        where TContext : Microsoft.EntityFrameworkCore.DbContext, IInboxDbContext
+    {
+        services.AddScoped<IDeadLetterQueryService, EfDeadLetterQueryService<TContext>>();
         return services;
     }
 }

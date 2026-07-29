@@ -66,7 +66,8 @@ public static class DependencyInjection
     {
         services
             .AddMongoOutboxStore<AuditMongoContext>()
-            .AddMongoInboxStore<AuditMongoContext>();
+            .AddMongoInboxStore<AuditMongoContext>()
+            .AddMongoDeadLetterQueryService<AuditMongoContext>();
 
         services.AddScoped<IOutboxStore, OutboxStore>();
         services.AddScoped<IInboxStore, InboxStore>();

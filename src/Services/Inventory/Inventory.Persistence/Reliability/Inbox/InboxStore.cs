@@ -49,6 +49,21 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
         return [.. rows.Select(ToApplication)];
     }
 
+    public async Task<InboxRequeueResult> RequeueDeadLetterAsync(Guid inboxMessageId, string? operatorId, CancellationToken ct = default)
+    {
+        var result = await _primitiveStore.RequeueDeadLetterAsync(inboxMessageId, operatorId, ct);
+        return ToApplication(result);
+    }
+
+    public async Task<IReadOnlyList<InboxRetryHistoryEntry>> GetRetryHistoryAsync(Guid inboxMessageId, CancellationToken ct = default)
+    {
+        var rows = await _primitiveStore.GetRetryHistoryAsync(inboxMessageId, ct);
+        return [.. rows.Select(ToApplication)];
+    }
+
+    public Task RevertFailedRequeueAsync(Guid inboxMessageId, string error, CancellationToken ct = default) =>
+        _primitiveStore.RevertFailedRequeueAsync(inboxMessageId, error, ct);
+
     private static InboxAttemptDecision ToApplication(BuildingBlock.Persistence.Inbox.InboxAttemptDecision decision) => decision switch
     {
         BuildingBlock.Persistence.Inbox.InboxAttemptDecision.Proceed => InboxAttemptDecision.Proceed,
@@ -91,4 +106,28 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
 
     private static InboxDeadLetterSummary ToApplication(BuildingBlock.Persistence.Inbox.InboxDeadLetterSummary summary) => new(
         summary.ConsumerName, summary.Topic, summary.Count, summary.OldestDeadLetteredAt);
+
+    private static InboxRequeueResult ToApplication(BuildingBlock.Persistence.Inbox.InboxRequeueResult result) => new(
+        result.Outcome switch
+        {
+            BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.Requeued => InboxRequeueOutcome.Requeued,
+            BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.NotFound => InboxRequeueOutcome.NotFound,
+            BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.NotDeadLetter => InboxRequeueOutcome.NotDeadLetter,
+            _ => throw new ArgumentOutOfRangeException(nameof(result), result.Outcome, null),
+        },
+        result.Snapshot is null ? null : ToApplication(result.Snapshot),
+        result.RetryNumber);
+
+    private static InboxRetryHistoryEntry ToApplication(BuildingBlock.Persistence.Inbox.InboxRetryHistoryEntry entry) => new(
+        entry.Id, entry.InboxMessageId, entry.MessageId, entry.ConsumerName, entry.Topic, entry.RetryNumber,
+        entry.StartedAt, entry.FinishedAt, entry.DurationMs, entry.Operator,
+        entry.Result switch
+        {
+            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Retrying => InboxRetryHistoryResult.Retrying,
+            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Succeeded => InboxRetryHistoryResult.Succeeded,
+            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.FailedAgain => InboxRetryHistoryResult.FailedAgain,
+            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Cancelled => InboxRetryHistoryResult.Cancelled,
+            _ => throw new ArgumentOutOfRangeException(nameof(entry), entry.Result, null),
+        },
+        entry.Exception);
 }

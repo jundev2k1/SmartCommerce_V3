@@ -69,6 +69,12 @@ public sealed class MongoInboxStore<TContext>(TContext context) : IInboxStore
         string consumerName,
         CancellationToken ct = default)
     {
+        var doc = await _context.InboxMessages
+            .Find(x => x.MessageId == messageId && x.ConsumerName == consumerName)
+            .FirstOrDefaultAsync(ct);
+        if (doc is null)
+            return;
+
         var update = Builders<InboxDocument>.Update
             .Set(x => x.Status, InboxMessageStatus.Processed)
             .Set(x => x.ProcessedAt, DateTime.UtcNow)
@@ -79,6 +85,8 @@ public sealed class MongoInboxStore<TContext>(TContext context) : IInboxStore
             .UpdateOneAsync(x => x.MessageId == messageId && x.ConsumerName == consumerName,
             update,
             cancellationToken: ct);
+
+        await CloseOpenRetryHistoryAsync(doc.Id, InboxRetryHistoryResult.Succeeded, null, ct);
     }
 
     public async Task<InboxFailureOutcome> FailAttemptAsync(
@@ -101,9 +109,29 @@ public sealed class MongoInboxStore<TContext>(TContext context) : IInboxStore
             doc,
             cancellationToken: ct);
 
+        await CloseOpenRetryHistoryAsync(doc.Id, InboxRetryHistoryResult.FailedAgain, error, ct);
+
         return doc.Status == InboxMessageStatus.DeadLetter
             ? InboxFailureOutcome.DeadLettered
             : InboxFailureOutcome.WillRetry;
+    }
+
+    /// <summary>
+    /// Closes the single open (FinishedAt == null) retry-history entry for this row, if any. A
+    /// no-op lookup for the vast majority of messages that were never manually retried.
+    /// </summary>
+    private async Task CloseOpenRetryHistoryAsync(
+        Guid inboxMessageId, InboxRetryHistoryResult result, string? exception, CancellationToken ct)
+    {
+        var open = await _context.InboxRetryHistories
+            .Find(h => h.InboxMessageId == inboxMessageId && h.FinishedAt == null)
+            .FirstOrDefaultAsync(ct);
+        if (open is null)
+            return;
+
+        open.Close(result, exception);
+
+        await _context.InboxRetryHistories.ReplaceOneAsync(h => h.Id == open.Id, open, cancellationToken: ct);
     }
 
     public async Task<IReadOnlyList<InboxMessageSnapshot>> GetDueForRetryAsync(int batchSize, CancellationToken ct = default)
@@ -148,6 +176,67 @@ public sealed class MongoInboxStore<TContext>(TContext context) : IInboxStore
             .GroupBy(d => (d.ConsumerName, d.Topic))
             .Select(g => new InboxDeadLetterSummary(
                 g.Key.ConsumerName, g.Key.Topic, g.Count(), g.Min(d => d.LastRetryAt) ?? DateTime.UtcNow))];
+    }
+
+    public async Task<InboxRequeueResult> RequeueDeadLetterAsync(
+        Guid inboxMessageId, string? operatorId, CancellationToken ct = default)
+    {
+        var doc = await _context.InboxMessages
+            .Find(x => x.Id == inboxMessageId)
+            .FirstOrDefaultAsync(ct);
+
+        if (doc is null)
+            return new InboxRequeueResult(InboxRequeueOutcome.NotFound, null, 0);
+
+        if (doc.Status != InboxMessageStatus.DeadLetter)
+            return new InboxRequeueResult(InboxRequeueOutcome.NotDeadLetter, null, 0);
+
+        // Conditional update: only matches if the doc is still DeadLetter at write time, so two
+        // concurrent requeue calls for the same id can never both report Requeued.
+        var update = Builders<InboxDocument>.Update
+            .Set(x => x.Status, InboxMessageStatus.Retrying)
+            .Set(x => x.NextRetryAt, null)
+            .Set(x => x.RetryCount, 0);
+
+        var result = await _context.InboxMessages.UpdateOneAsync(
+            x => x.Id == inboxMessageId && x.Status == InboxMessageStatus.DeadLetter,
+            update,
+            cancellationToken: ct);
+
+        if (result.ModifiedCount == 0)
+            return new InboxRequeueResult(InboxRequeueOutcome.NotDeadLetter, null, 0);
+
+        var priorRetries = (int)await _context.InboxRetryHistories
+            .CountDocumentsAsync(h => h.InboxMessageId == inboxMessageId, cancellationToken: ct);
+        var retryNumber = priorRetries + 1;
+
+        var history = InboxRetryHistoryDocument.Start(
+            inboxMessageId, doc.MessageId, doc.ConsumerName, doc.Topic, retryNumber, operatorId);
+        await _context.InboxRetryHistories.InsertOneAsync(history, cancellationToken: ct);
+
+        var snapshot = ToSnapshot(doc) with { Status = InboxMessageStatus.Retrying, NextRetryAt = null, RetryCount = 0 };
+        return new InboxRequeueResult(InboxRequeueOutcome.Requeued, snapshot, retryNumber);
+    }
+
+    public async Task RevertFailedRequeueAsync(Guid inboxMessageId, string error, CancellationToken ct = default)
+    {
+        var update = Builders<InboxDocument>.Update.Set(x => x.Status, InboxMessageStatus.DeadLetter);
+        await _context.InboxMessages.UpdateOneAsync(x => x.Id == inboxMessageId, update, cancellationToken: ct);
+
+        await CloseOpenRetryHistoryAsync(inboxMessageId, InboxRetryHistoryResult.FailedAgain, error, ct);
+    }
+
+    public async Task<IReadOnlyList<InboxRetryHistoryEntry>> GetRetryHistoryAsync(
+        Guid inboxMessageId, CancellationToken ct = default)
+    {
+        var docs = await _context.InboxRetryHistories
+            .Find(h => h.InboxMessageId == inboxMessageId)
+            .SortByDescending(h => h.StartedAt)
+            .ToListAsync(ct);
+
+        return [.. docs.Select(h => new InboxRetryHistoryEntry(
+            h.Id, h.InboxMessageId, h.MessageId, h.ConsumerName, h.Topic, h.RetryNumber,
+            h.StartedAt, h.FinishedAt, h.DurationMs, h.Operator, h.Result, h.Exception))];
     }
 
     private static InboxMessageSnapshot ToSnapshot(InboxDocument m) => new(

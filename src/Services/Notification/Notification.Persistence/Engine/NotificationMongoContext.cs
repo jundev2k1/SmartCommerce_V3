@@ -21,6 +21,7 @@ public sealed class NotificationMongoContext : MongoContextBase, IOutboxMongoCon
     public IMongoCollection<NotificationDispatch> NotificationDispatches { get; }
     public IMongoCollection<OutboxDocument> OutboxMessages { get; }
     public IMongoCollection<InboxDocument> InboxMessages { get; }
+    public IMongoCollection<InboxRetryHistoryDocument> InboxRetryHistories { get; }
 
     public NotificationMongoContext(IMongoDatabase database) : base(database)
     {
@@ -33,10 +34,12 @@ public sealed class NotificationMongoContext : MongoContextBase, IOutboxMongoCon
         NotificationDispatches = database.GetCollection<NotificationDispatch>("notification_dispatches");
         OutboxMessages = database.GetCollection<OutboxDocument>("outbox_messages");
         InboxMessages = database.GetCollection<InboxDocument>("inbox_messages");
+        InboxRetryHistories = database.GetCollection<InboxRetryHistoryDocument>("inbox_retry_histories");
 
         // No OnModelCreating equivalent in Mongo - index creation happens once here, since
         // this context is registered as a Singleton (see AddPersistenceMongoContext).
         OutboxMessages.EnsureOutboxIndexes();
         InboxMessages.EnsureInboxIndexes();
+        InboxRetryHistories.EnsureInboxRetryHistoryIndexes();
     }
 }

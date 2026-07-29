@@ -32,6 +32,7 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
     // Outbox and Inbox - required by IOutboxDbContext and IInboxDbContext
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
     public DbSet<InboxMessage> InboxMessages { get; set; } = null!;
+    public DbSet<InboxRetryHistory> InboxRetryHistories { get; set; } = null!;
 
     // Identity Claims & Logins
     //
