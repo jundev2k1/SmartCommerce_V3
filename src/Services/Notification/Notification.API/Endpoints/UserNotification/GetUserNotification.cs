@@ -11,6 +11,7 @@ public sealed class GetUserNotification : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/user-notifications/{notificationId}", HandleAsync)
+            .WithTags("UserNotification")
             .RequireAuthorization(AuthorizationPolicies.RequireUser)
             .WithName("GetUserNotification")
             .WithDisplayName("Get User Notification API")

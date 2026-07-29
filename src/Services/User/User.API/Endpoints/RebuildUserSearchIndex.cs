@@ -24,6 +24,7 @@ public sealed class RebuildUserSearchIndexEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/users/search/rebuild", Handle)
+            .WithTags("User")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("RebuildUserSearchIndex")
             .WithDisplayName("Rebuild User Search Index API")

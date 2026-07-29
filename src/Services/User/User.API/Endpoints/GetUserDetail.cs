@@ -36,6 +36,7 @@ public sealed class GetUserDetailEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/profiles/current/detail", Handle)
+            .WithTags("User")
             .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
             .WithName("GetUserDetail")
             .WithDisplayName("Get User Detail API")

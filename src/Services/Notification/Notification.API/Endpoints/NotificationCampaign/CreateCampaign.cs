@@ -10,6 +10,7 @@ public sealed class CreateCampaign : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/notification-campaigns", HandleAsync)
+            .WithTags("NotificationCampaign")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("CreateNotificationCampaign")
             .WithDisplayName("Create Notification Campaign API")

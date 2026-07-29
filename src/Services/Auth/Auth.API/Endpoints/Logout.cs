@@ -29,6 +29,7 @@ public sealed class Logout : ICarterModule
             await sender.Send(command, ct);
             return ApiResponse<object>.Ok();
         })
+        .WithTags("Authentication")
         .WithSummary("Auth_Logout")
         .WithDisplayName("Logout API")
         .WithDescription(API_DESC.JoinToString("\n"))

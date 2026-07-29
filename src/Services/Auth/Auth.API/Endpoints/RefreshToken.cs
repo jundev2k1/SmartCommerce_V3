@@ -38,6 +38,7 @@ public sealed class RefreshToken : ICarterModule
             await sender.Send(command, ct);
             return ApiResponse<object>.Ok();
         })
+        .WithTags("Authentication")
         .AllowAnonymous()
         .WithSummary("Auth_RefreshToken")
         .WithDisplayName("Refresh Token API")

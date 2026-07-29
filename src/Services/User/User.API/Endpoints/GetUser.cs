@@ -36,6 +36,7 @@ public sealed class GetUserEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/profiles/{userId}", Handle)
+            .WithTags("User")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("GetUser")
             .WithDisplayName("Get User API")

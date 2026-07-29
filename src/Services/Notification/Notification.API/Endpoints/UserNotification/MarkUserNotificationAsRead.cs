@@ -11,6 +11,7 @@ public sealed class MarkUserNotificationAsRead : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/user-notifications/{notificationId}/read", HandleAsync)
+            .WithTags("UserNotification")
             .RequireAuthorization(AuthorizationPolicies.RequireUser)
             .WithName("MarkUserNotificationAsRead")
             .WithDisplayName("Mark User Notification As Read API")

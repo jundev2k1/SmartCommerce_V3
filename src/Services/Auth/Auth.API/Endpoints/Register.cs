@@ -52,6 +52,7 @@ public sealed class Register : ICarterModule
             await sender.Send(command, ct);
             return ApiResponse<object>.Ok(MessageCode.Created);
         })
+        .WithTags("Authentication")
         .AllowAnonymous()
         .Headers([
             new HeaderDefinition(HeaderKeys.CorrelationId, true)

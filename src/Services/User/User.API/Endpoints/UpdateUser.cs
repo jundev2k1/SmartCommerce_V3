@@ -48,6 +48,7 @@ public sealed class UpdateUserEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/profiles/{userId}", Handle)
+            .WithTags("User")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("UpdateUser")
             .WithDisplayName("Update User API")

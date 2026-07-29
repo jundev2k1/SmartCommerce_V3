@@ -10,6 +10,7 @@ public sealed class GetListCampaigns : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/notification-campaigns", HandleAsync)
+            .WithTags("NotificationCampaign")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("ListNotificationCampaigns")
             .WithDisplayName("List Notification Campaigns API")

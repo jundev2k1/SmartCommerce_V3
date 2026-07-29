@@ -56,6 +56,7 @@ public sealed class CreateUserEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/profiles", Handle)
+            .WithTags("User")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .Headers([
                 new HeaderDefinition(HeaderKeys.CorrelationId, true),

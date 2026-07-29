@@ -40,6 +40,7 @@ public sealed class SearchUsersEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/users/search", Handle)
+            .WithTags("User")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("SearchUsers")
             .WithDisplayName("Search Users API")

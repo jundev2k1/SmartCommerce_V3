@@ -11,6 +11,7 @@ public sealed class CreateUserNotification : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/user-notifications", HandleAsync)
+            .WithTags("UserNotification")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("CreateUserNotification")
             .WithDisplayName("Create User Notification API")

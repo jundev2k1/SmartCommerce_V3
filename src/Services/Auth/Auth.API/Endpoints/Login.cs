@@ -40,6 +40,7 @@ public sealed class Login : ICarterModule
             await sender.Send(command, ct);
             return ApiResponse<object>.Ok();
         })
+        .WithTags("Authentication")
         .AllowAnonymous()
         .WithSummary("Auth_Login")
         .WithDisplayName("Login API")

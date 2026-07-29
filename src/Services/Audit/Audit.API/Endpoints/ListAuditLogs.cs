@@ -23,6 +23,7 @@ public sealed class ListAuditLogsEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/audit-logs", Handle)
+            .WithTags("Audit")
             .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
             .WithName("ListAuditLogs")
             .WithDisplayName("List Audit Logs API")
