@@ -1,5 +1,4 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Exceptions;
+using Order.Domain.ValueObjects;
 
 namespace Order.Domain.Entities;
 
@@ -9,31 +8,27 @@ namespace Order.Domain.Entities;
 /// structured items has no flat-parameter equivalent. Not persisted itself - Order.Create() turns
 /// each model into an owned OrderItem entity.
 /// </summary>
-public sealed record OrderItemCreateModel(Guid ProductId, string ProductName, decimal UnitPrice, int Quantity, decimal Discount = 0m);
-
-public sealed class OrderItem : BaseEntity<Guid>
+public sealed class OrderItem : BaseEntity<Guid>, IAuditable
 {
     public Guid OrderId { get; private set; }
     public Guid ProductId { get; private set; }
     public string ProductName { get; private set; } = string.Empty;
-    public decimal UnitPrice { get; private set; }
-    public int Quantity { get; private set; }
-    public decimal Discount { get; private set; }
-    public decimal LineTotal => (UnitPrice * Quantity) - Discount;
+    public Money UnitPrice { get; private set; } = default!;
+    public Quantity Quantity { get; private set; } = default!;
+    public Money DiscountAmount { get; private set; } = default!;
+    public decimal LineTotal => (UnitPrice.Value * Quantity.Value) - DiscountAmount.Value;
+    public ICollection<OrderDiscount> Discounts { get; private set; } = [];
 
     private OrderItem() { }
 
-    internal static OrderItem Create(Guid id, Guid orderId, Guid productId, string productName, decimal unitPrice, int quantity, decimal discount = 0m)
+    public static OrderItem Create(
+        Guid id,
+        Guid orderId,
+        Guid productId,
+        string productName,
+        Money unitPrice,
+        Quantity quantity)
     {
-        if (quantity <= 0)
-            throw ExceptionFactory.InvalidRange("Order item quantity must be greater than zero.");
-
-        if (unitPrice < 0)
-            throw ExceptionFactory.InvalidRange("Order item unit price cannot be negative.");
-
-        if (discount < 0 || discount > unitPrice * quantity)
-            throw ExceptionFactory.InvalidRange("Order item discount must be between 0 and the line's pre-discount total.");
-
         return new OrderItem
         {
             Id = id,
@@ -42,7 +37,11 @@ public sealed class OrderItem : BaseEntity<Guid>
             ProductName = productName,
             UnitPrice = unitPrice,
             Quantity = quantity,
-            Discount = discount,
         };
+    }
+
+    public void ApplyDiscount(Money discountAmount)
+    {
+        DiscountAmount = discountAmount;
     }
 }

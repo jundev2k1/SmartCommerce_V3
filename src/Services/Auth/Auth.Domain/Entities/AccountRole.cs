@@ -11,7 +11,13 @@ public class AccountRole : IdentityUserRole<Guid>, IEntity
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public void Tourch()
+    public void Track()
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Touch()
     {
         UpdatedAt = DateTime.UtcNow;
     }

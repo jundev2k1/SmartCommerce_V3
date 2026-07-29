@@ -38,12 +38,10 @@ public sealed class NotificationCampaignTarget : BaseEntity<Guid>
     internal void Enable()
     {
         Enabled = true;
-        Tourch();
     }
 
     internal void Disable()
     {
         Enabled = false;
-        Tourch();
     }
 }

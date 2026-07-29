@@ -10,8 +10,8 @@ public static class OrderCriteriaDefinition
         // Exact match only - a GUID has no meaningful prefix/suffix/contains match, so Eq/Ne/In/NotIn (Guid's
         // default operator set) is intentionally not narrowed further.
         .Field(x => x.Id).Guid()
-        .Field(x => x.Owner.CustomerName).String().Sortable().KeywordSearchable().IgnoreCase()
-        .Field(x => x.Owner.CustomerPhone, name: "phone").UsePhoneSearch(x => x.Owner.CustomerPhoneSearch, x => x.Owner.CustomerPhoneReverse)
+        .Field(x => x.Owner.OwnerName).String().Sortable().KeywordSearchable().IgnoreCase()
+        .Field(x => x.Owner.OwnerPhone, name: "phone").UsePhoneSearch(x => x.Owner.OwnerPhoneSearch, x => x.Owner.OwnerPhoneReverse)
         .Field(x => x.Status).Enum().Sortable()
         .Field(x => x.CreatedAt).DateTime().Sortable()
         .Build();

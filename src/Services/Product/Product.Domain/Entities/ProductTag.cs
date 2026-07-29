@@ -24,7 +24,6 @@ public sealed class ProductTag : AggregateRoot<Guid>, IAuditable
         ValidateName(name);
 
         Name = name;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

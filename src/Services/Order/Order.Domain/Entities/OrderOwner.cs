@@ -1,5 +1,7 @@
-using BuildingBlock.Domain.Abstractions;
+using BuildingBlock.SharedKernel.Extensions;
 using BuildingBlock.SharedKernel.Text;
+
+using Order.Domain.ValueObjects;
 
 namespace Order.Domain.Entities;
 
@@ -13,12 +15,12 @@ namespace Order.Domain.Entities;
 public sealed class OrderOwner : BaseEntity
 {
     public Guid OrderId { get; private set; }
-    public Guid CustomerId { get; private set; }
-    public string CustomerName { get; private set; } = string.Empty;
-    public string CustomerPhone { get; private set; } = string.Empty;
-    public string CustomerPhoneSearch { get; private set; } = string.Empty;
-    public string CustomerPhoneReverse { get; private set; } = string.Empty;
-    public string ShippingAddress { get; private set; } = string.Empty;
+    public Guid OwnerId { get; private set; }
+    public string OwnerName { get; private set; } = string.Empty;
+    public Email OwnerEmail { get; private set; } = default!;
+    public string OwnerPhone { get; private set; } = string.Empty;
+    public string OwnerPhoneSearch { get; private set; } = string.Empty;
+    public string OwnerPhoneReverse { get; private set; } = string.Empty;
 
     /// <summary>Client-supplied dedup key (scoped per CustomerId - see OrderOwnerConfig's unique index) so a retried/double-submitted CreateOrder request doesn't create a second order.</summary>
     public string? IdempotencyKey { get; private set; }
@@ -26,16 +28,19 @@ public sealed class OrderOwner : BaseEntity
     private OrderOwner() { }
 
     /// <summary>Only Order may construct/mutate its Owner - same reasoning as OrderItem.Create being internal.</summary>
-    internal static OrderOwner Create(
-        Guid orderId, Guid customerId, string customerName, string customerPhone, string shippingAddress, string? idempotencyKey)
+    public static OrderOwner Create(
+        Guid orderId,
+        Guid customerId,
+        string name,
+        string phone,
+        string? idempotencyKey)
     {
         var owner = new OrderOwner
         {
             OrderId = orderId,
-            CustomerId = customerId,
-            CustomerName = customerName,
-            CustomerPhone = customerPhone,
-            ShippingAddress = shippingAddress,
+            OwnerId = customerId,
+            OwnerName = name,
+            OwnerPhone = phone,
             IdempotencyKey = idempotencyKey,
         };
         owner.SyncCustomerSearchFields();
@@ -43,17 +48,23 @@ public sealed class OrderOwner : BaseEntity
         return owner;
     }
 
-    internal void UpdateContact(string customerPhone, string shippingAddress)
+    public void UpdateContact(string ownerName, Email ownerEmail, string ownerPhone)
     {
-        CustomerPhone = customerPhone;
-        ShippingAddress = shippingAddress;
+        if (ownerName.IsNullOrWhiteSpace())
+            throw ExceptionFactory.RequiredField("Owner name cannot be empty.");
+
+        if (ownerPhone.IsNullOrWhiteSpace())
+            throw ExceptionFactory.RequiredField("Owner phone cannot be empty.");
+
+        OwnerName = ownerName;
+        OwnerEmail = ownerEmail;
+        OwnerPhone = ownerPhone;
         SyncCustomerSearchFields();
-        Tourch();
     }
 
     private void SyncCustomerSearchFields()
     {
-        CustomerPhoneSearch = PhoneNormalizer.Normalize(CustomerPhone);
-        CustomerPhoneReverse = PhoneNormalizer.Reverse(CustomerPhoneSearch);
+        OwnerPhoneSearch = PhoneNormalizer.Normalize(OwnerPhone);
+        OwnerPhoneReverse = PhoneNormalizer.Reverse(OwnerPhoneSearch);
     }
 }

@@ -52,7 +52,6 @@ public sealed class NotificationDispatch : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidStatus($"Cannot start processing a dispatch in {Status} status.");
 
         Status = DispatchStatus.Processing;
-        Tourch();
     }
 
     public void MarkSent(DateTime sentAtUtc)
@@ -64,7 +63,6 @@ public sealed class NotificationDispatch : AggregateRoot<Guid>, IAuditable
         DispatchedAt = sentAtUtc;
         LastError = null;
         NextRetryAt = null;
-        Tourch();
     }
 
     /// <summary>Records a failed attempt. A null <paramref name="nextRetryAtUtc"/> means retries are exhausted and the dispatch goes straight to DeadLettered.</summary>
@@ -86,8 +84,6 @@ public sealed class NotificationDispatch : AggregateRoot<Guid>, IAuditable
             Status = DispatchStatus.Failed;
             NextRetryAt = nextRetryAtUtc;
         }
-
-        Tourch();
     }
 
     public bool IsDueForRetry(DateTime asOfUtc) =>

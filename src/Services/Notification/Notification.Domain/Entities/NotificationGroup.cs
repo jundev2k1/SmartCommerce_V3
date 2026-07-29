@@ -30,25 +30,21 @@ public sealed class NotificationGroup : AggregateRoot<Guid>, IAuditable
 
         Name = name;
         Description = description;
-        Tourch();
     }
 
     public void UpdateAudience(AudienceSelector audience)
     {
         Audience = audience;
-        Tourch();
     }
 
     public void Activate()
     {
         Status = NotificationGroupStatus.Active;
-        Tourch();
     }
 
     public void Deactivate()
     {
         Status = NotificationGroupStatus.Inactive;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

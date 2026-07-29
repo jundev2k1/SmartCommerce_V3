@@ -12,7 +12,7 @@ public sealed class SearchOrdersHandler(IOrderReadService orderReadService)
         var result = await orderReadService.SearchAsync(request.Criteria, ct);
         var items = result.Items
             .Select(o => new SearchOrdersItemResponse(
-                o.Id, o.Owner.CustomerId, o.Owner.CustomerName, o.Owner.CustomerPhone, o.Status, o.TotalAmount, o.CreatedAt, o.UpdatedAt))
+                o.Id, o.Owner.OwnerId, o.Owner.OwnerName, o.Owner.OwnerPhone, o.Status, o.TotalAmount, o.CreatedAt, o.UpdatedAt))
             .ToList();
 
         return PaginatedResult<SearchOrdersItemResponse>.Create(items, result.PageNumber, result.PageSize, result.TotalCount);

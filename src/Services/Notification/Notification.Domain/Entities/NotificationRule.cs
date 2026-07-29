@@ -54,7 +54,6 @@ public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable
     {
         var target = NotificationRuleTarget.Create(Guid.CreateVersion7(), Id, channel, templateId, priority);
         Targets.Add(target);
-        Tourch();
         return target;
     }
 
@@ -67,7 +66,6 @@ public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable
             ?? throw ExceptionFactory.EntityNotFound<NotificationRuleTarget>(targetId);
 
         Targets.Remove(target);
-        Tourch();
     }
 
     public void EnableTarget(Guid targetId)
@@ -76,7 +74,6 @@ public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable
             ?? throw ExceptionFactory.EntityNotFound<NotificationRuleTarget>(targetId);
 
         target.Enable();
-        Tourch();
     }
 
     public void DisableTarget(Guid targetId)
@@ -85,7 +82,6 @@ public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable
             ?? throw ExceptionFactory.EntityNotFound<NotificationRuleTarget>(targetId);
 
         target.Disable();
-        Tourch();
     }
 
     public void UpdateDetails(string name, string description)
@@ -94,19 +90,16 @@ public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable
 
         Name = name;
         Description = description;
-        Tourch();
     }
 
     public void Enable()
     {
         Status = NotificationRuleStatus.Active;
-        Tourch();
     }
 
     public void Disable()
     {
         Status = NotificationRuleStatus.Inactive;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

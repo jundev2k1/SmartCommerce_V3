@@ -22,10 +22,10 @@ public abstract class ValueObject
 
     public static bool operator ==(ValueObject? left, ValueObject? right)
     {
-        if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
+        if (left is null ^ right is null)
             return false;
 
-        return ReferenceEquals(left, null) || left.Equals(right);
+        return left is null || left.Equals(right);
     }
 
     public static bool operator !=(ValueObject? left, ValueObject? right)

@@ -44,12 +44,10 @@ public sealed class NotificationRuleTarget : BaseEntity<Guid>
     internal void Enable()
     {
         Enabled = true;
-        Tourch();
     }
 
     internal void Disable()
     {
         Enabled = false;
-        Tourch();
     }
 }

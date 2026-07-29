@@ -13,11 +13,11 @@ public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
         // Shared primary key (1:1 with Order) - no surrogate Id, exactly one owner row per order.
         builder.HasKey(x => x.OrderId);
 
-        builder.Property(x => x.CustomerId).IsRequired();
-        builder.Property(x => x.CustomerName).HasMaxLength(200).IsRequired();
-        builder.Property(x => x.CustomerPhone).HasMaxLength(30).IsRequired();
-        builder.Property(x => x.CustomerPhoneSearch).HasMaxLength(20).IsRequired();
-        builder.Property(x => x.CustomerPhoneReverse).HasMaxLength(20).IsRequired();
+        builder.Property(x => x.OwnerId).IsRequired();
+        builder.Property(x => x.OwnerName).HasMaxLength(200).IsRequired();
+        builder.Property(x => x.OwnerPhone).HasMaxLength(30).IsRequired();
+        builder.Property(x => x.OwnerPhoneSearch).HasMaxLength(20).IsRequired();
+        builder.Property(x => x.OwnerPhoneReverse).HasMaxLength(20).IsRequired();
         builder.Property(x => x.ShippingAddress).HasMaxLength(500).IsRequired();
         builder.Property(x => x.IdempotencyKey).HasMaxLength(200);
 
@@ -37,13 +37,13 @@ public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
         // Indexes
         // Scoped per customer (not globally unique) so two different customers may reuse the same
         // client-generated key. Partial index (WHERE clause) so orders with no key never collide.
-        builder.HasIndex(x => new { x.CustomerId, x.IdempotencyKey })
+        builder.HasIndex(x => new { x.OwnerId, x.IdempotencyKey })
             .IsUnique()
             .HasFilter("\"idempotency_key\" IS NOT NULL");
 
-        builder.HasIndex(x => x.CustomerId);
-        builder.HasIndex(x => x.CustomerName);
-        builder.HasIndex(x => x.CustomerPhoneSearch);
-        builder.HasIndex(x => x.CustomerPhoneReverse);
+        builder.HasIndex(x => x.OwnerId);
+        builder.HasIndex(x => x.OwnerName);
+        builder.HasIndex(x => x.OwnerPhoneSearch);
+        builder.HasIndex(x => x.OwnerPhoneReverse);
     }
 }

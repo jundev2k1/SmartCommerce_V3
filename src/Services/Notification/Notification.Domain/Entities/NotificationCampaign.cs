@@ -59,7 +59,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
     {
         var target = NotificationCampaignTarget.Create(Guid.CreateVersion7(), Id, channel, templateId, priority);
         Targets.Add(target);
-        Tourch();
         return target;
     }
 
@@ -72,7 +71,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
             ?? throw ExceptionFactory.EntityNotFound<NotificationCampaignTarget>(targetId);
 
         Targets.Remove(target);
-        Tourch();
     }
 
     public void EnableTarget(Guid targetId)
@@ -81,7 +79,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
             ?? throw ExceptionFactory.EntityNotFound<NotificationCampaignTarget>(targetId);
 
         target.Enable();
-        Tourch();
     }
 
     public void DisableTarget(Guid targetId)
@@ -90,7 +87,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
             ?? throw ExceptionFactory.EntityNotFound<NotificationCampaignTarget>(targetId);
 
         target.Disable();
-        Tourch();
     }
 
     public void UpdateDetails(string name, string description)
@@ -99,14 +95,12 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
 
         Name = name;
         Description = description;
-        Tourch();
     }
 
     public void UpdateSchedule(NotificationSchedule schedule)
     {
         Schedule = schedule;
         NextExecutionAt = schedule.StartAt;
-        Tourch();
     }
 
     public void Activate()
@@ -115,7 +109,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidStatus($"Cannot activate a campaign in {Status} status.");
 
         Status = CampaignStatus.Active;
-        Tourch();
     }
 
     public void Pause()
@@ -124,7 +117,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidStatus($"Cannot pause a campaign in {Status} status.");
 
         Status = CampaignStatus.Paused;
-        Tourch();
     }
 
     public void Complete()
@@ -134,7 +126,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
 
         Status = CampaignStatus.Completed;
         NextExecutionAt = null;
-        Tourch();
     }
 
     public void Disable()
@@ -144,7 +135,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
 
         Status = CampaignStatus.Disabled;
         NextExecutionAt = null;
-        Tourch();
     }
 
     /// <summary>Records that an execution just happened. Whether the campaign should also move to Completed (e.g. a Once campaign after its single run) is decided by the caller via <see cref="Complete"/> - this method only records the fact.</summary>
@@ -152,7 +142,6 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
     {
         LastExecutedAt = executedAtUtc;
         NextExecutionAt = nextExecutionAtUtc;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

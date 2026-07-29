@@ -44,7 +44,6 @@ public sealed class Inventory : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidRange("Quantity to increase must be greater than 0");
 
         Quantity += amount;
-        Tourch();
     }
 
     /// <summary>Decreases stock by the given amount, guarding against overselling.</summary>
@@ -57,7 +56,6 @@ public sealed class Inventory : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InsufficientStock($"Insufficient stock: available {Quantity}, required {amount}");
 
         Quantity -= amount;
-        Tourch();
     }
 
     /// <summary>Directly corrects stock to a known-good value (e.g. after a physical count).</summary>
@@ -67,6 +65,5 @@ public sealed class Inventory : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidRange("Quantity cannot be negative");
 
         Quantity = newQuantity;
-        Tourch();
     }
 }

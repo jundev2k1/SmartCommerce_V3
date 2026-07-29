@@ -42,7 +42,13 @@ public sealed class Account : IdentityUser<Guid>, IEntity, IAuditable
         };
     }
 
-    public void Tourch()
+    public void Track()
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Touch()
     {
         UpdatedAt = DateTime.UtcNow;
     }
@@ -50,6 +56,5 @@ public sealed class Account : IdentityUser<Guid>, IEntity, IAuditable
     public void ConfirmEmail()
     {
         EmailConfirmed = true;
-        Tourch();
     }
 }

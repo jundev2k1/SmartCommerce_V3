@@ -74,19 +74,16 @@ public sealed class ProductVariation : BaseEntity<Guid>
         ValidateName(name);
 
         Name = name;
-        Tourch();
     }
 
     public void MarkAsDefault()
     {
         IsDefault = true;
-        Tourch();
     }
 
     public void UnmarkAsDefault()
     {
         IsDefault = false;
-        Tourch();
     }
 
     public void UpdatePricing(decimal price, decimal? cost)
@@ -96,14 +93,12 @@ public sealed class ProductVariation : BaseEntity<Guid>
 
         Price = price;
         Cost = cost;
-        Tourch();
     }
 
     public void UpdateIdentifiers(Sku sku, Barcode? barcode)
     {
         Sku = sku;
         Barcode = barcode;
-        Tourch();
     }
 
     public void UpdatePhysicalAttributes(decimal? weight, Dimensions? dimensions)
@@ -112,13 +107,11 @@ public sealed class ProductVariation : BaseEntity<Guid>
 
         Weight = weight;
         Dimensions = dimensions;
-        Tourch();
     }
 
     public void ChangeDisplayOrder(int displayOrder)
     {
         DisplayOrder = displayOrder;
-        Tourch();
     }
 
     public void ReplaceImages(IEnumerable<string> urls)
@@ -126,8 +119,6 @@ public sealed class ProductVariation : BaseEntity<Guid>
         Images.Clear();
         foreach (var url in urls.Where(url => !string.IsNullOrWhiteSpace(url)).Distinct())
             Images.Add(url);
-
-        Tourch();
     }
 
     public void AddImage(string url)
@@ -137,38 +128,31 @@ public sealed class ProductVariation : BaseEntity<Guid>
 
         if (!Images.Contains(url))
             Images.Add(url);
-
-        Tourch();
     }
 
     public void RemoveImage(string url)
     {
         Images.Remove(url);
-        Tourch();
     }
 
     public void Activate()
     {
         Status = ProductVariationStatus.Active;
-        Tourch();
     }
 
     public void Deactivate()
     {
         Status = ProductVariationStatus.Inactive;
-        Tourch();
     }
 
     public void Discontinue()
     {
         Status = ProductVariationStatus.Discontinued;
-        Tourch();
     }
 
     public void UpdateMetadata(ProductVariationMetadata metadata)
     {
         Metadata = metadata;
-        Tourch();
     }
 
     /// <summary>Reusable outside Create/UpdatePricing so FluentValidation can check the exact same rule (see docs/context - Domain Coding Conventions).</summary>

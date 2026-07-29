@@ -40,7 +40,6 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
 
         Name = name;
         Description = description;
-        Tourch();
     }
 
     /// <summary>
@@ -56,19 +55,16 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidState("A category cannot be its own parent.");
 
         ParentCategoryId = parentCategoryId;
-        Tourch();
     }
 
     public void Activate()
     {
         Status = ProductCategoryStatus.Active;
-        Tourch();
     }
 
     public void Deactivate()
     {
         Status = ProductCategoryStatus.Inactive;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

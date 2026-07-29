@@ -35,25 +35,21 @@ public sealed class NotificationTemplate : AggregateRoot<Guid>, IAuditable
         ValidateName(name);
 
         Name = name;
-        Tourch();
     }
 
     public void UpdateContent(TemplateContent content)
     {
         Content = content;
-        Tourch();
     }
 
     public void Activate()
     {
         Status = NotificationTemplateStatus.Active;
-        Tourch();
     }
 
     public void Deactivate()
     {
         Status = NotificationTemplateStatus.Inactive;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

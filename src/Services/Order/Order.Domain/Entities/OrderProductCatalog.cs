@@ -1,5 +1,3 @@
-using BuildingBlock.Domain.Abstractions;
-
 namespace Order.Domain.Entities;
 
 /// <summary>
@@ -43,12 +41,10 @@ public sealed class OrderProductCatalog : BaseEntity<Guid>
         Sku = sku;
         Price = price;
         Status = status;
-        Tourch();
     }
 
     public void UpdateProductName(string productName)
     {
         ProductName = productName;
-        Tourch();
     }
 }

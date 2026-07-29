@@ -58,7 +58,7 @@ public sealed class AuditInterceptorTests
         context.Add(user);
         await context.SaveChangesAsync();
 
-        user.Tourch(); // touches only [AuditIgnore] UpdatedAt
+        user.Touch(); // touches only [AuditIgnore] UpdatedAt
         await context.SaveChangesAsync();
 
         var outboxMessages = await context.OutboxMessages.ToListAsync();

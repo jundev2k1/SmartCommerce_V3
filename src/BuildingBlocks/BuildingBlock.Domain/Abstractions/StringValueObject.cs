@@ -5,14 +5,9 @@ namespace BuildingBlock.Domain.Abstractions;
 /// value equality plus a normalized underlying string. Concrete types supply their
 /// own <c>Create</c> factory with format-specific validation.
 /// </summary>
-public abstract class StringValueObject : ValueObject
+public abstract class StringValueObject(string value) : ValueObject
 {
-    public string Value { get; }
-
-    protected StringValueObject(string value)
-    {
-        Value = value;
-    }
+    public string Value { get; } = value;
 
     public override IEnumerable<object> GetEqualityComponents()
     {

@@ -44,7 +44,6 @@ public sealed class NotificationChannel : AggregateRoot<Guid>, IAuditable
         Configuration = configuration;
         ValidationStatus = ChannelValidationStatus.NotValidated;
         LastValidationError = null;
-        Tourch();
     }
 
     public void ResetConfiguration()
@@ -52,7 +51,6 @@ public sealed class NotificationChannel : AggregateRoot<Guid>, IAuditable
         Configuration = ChannelConfiguration.Empty;
         ValidationStatus = ChannelValidationStatus.NotValidated;
         LastValidationError = null;
-        Tourch();
     }
 
     public void RecordValidationResult(bool isValid, string? error = null)
@@ -60,7 +58,6 @@ public sealed class NotificationChannel : AggregateRoot<Guid>, IAuditable
         ValidationStatus = isValid ? ChannelValidationStatus.Valid : ChannelValidationStatus.Invalid;
         LastValidatedAt = DateTime.UtcNow;
         LastValidationError = isValid ? null : error;
-        Tourch();
     }
 
     public void Enable()
@@ -69,13 +66,11 @@ public sealed class NotificationChannel : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidState("Cannot enable a channel whose configuration has not been validated.");
 
         Status = NotificationChannelStatus.Active;
-        Tourch();
     }
 
     public void Disable()
     {
         Status = NotificationChannelStatus.Inactive;
-        Tourch();
     }
 
     public static bool IsValidDisplayName(string? displayName) => !string.IsNullOrWhiteSpace(displayName);

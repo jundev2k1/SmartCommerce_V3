@@ -31,6 +31,5 @@ public sealed class RefreshToken : BaseEntity<Guid>
     public void Revoke()
     {
         IsRevoked = true;
-        Tourch();
     }
 }

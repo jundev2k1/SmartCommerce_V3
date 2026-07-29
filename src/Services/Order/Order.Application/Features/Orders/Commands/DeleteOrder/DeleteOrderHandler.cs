@@ -38,7 +38,7 @@ public sealed class DeleteOrderHandler(
             await orderWriteService.DeleteAsync(request.OrderId, ct);
 
             await outboxStore.EnqueueAsync(
-                new OrderDeletedIntegrationEvent(request.OrderId, order.Owner.CustomerId), ct);
+                new OrderDeletedIntegrationEvent(request.OrderId, order.Owner.OwnerId), ct);
         }, ct: ct);
 
         return new DeleteOrderResponse();

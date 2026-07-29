@@ -58,7 +58,6 @@ public sealed class UserNotification : AggregateRoot<Guid>, IAuditable
 
         Status = NotificationStatus.Read;
         ReadAt = DateTime.UtcNow;
-        Tourch();
     }
 
     public void Archive()
@@ -67,7 +66,6 @@ public sealed class UserNotification : AggregateRoot<Guid>, IAuditable
             return;
 
         Status = NotificationStatus.Archived;
-        Tourch();
     }
 
     public bool IsExpired(DateTime asOfUtc) => ExpiredAt is not null && asOfUtc >= ExpiredAt.Value;

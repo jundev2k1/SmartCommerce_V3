@@ -89,8 +89,6 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             var successor = Variations.OrderBy(v => v.DisplayOrder).First();
             successor.MarkAsDefault();
         }
-
-        Tourch();
     }
 
     /// <summary>Switches the Default variation. No-op if it already is the default.</summary>
@@ -106,7 +104,6 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             variation.UnmarkAsDefault();
 
         target.MarkAsDefault();
-        Tourch();
     }
 
     public void AssignCategory(Guid categoryId)
@@ -116,8 +113,6 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
 
         CategoryMappings.Add(
             ProductCategoryMapping.Create(Id, categoryId));
-
-        Tourch();
     }
 
     public void RemoveCategory(Guid categoryId)
@@ -127,7 +122,6 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             return;
 
         CategoryMappings.Remove(mapping);
-        Tourch();
     }
 
     public void AssignTag(Guid tagId)
@@ -137,8 +131,6 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
 
         TagMappings.Add(
             ProductTagMapping.Create(Id, tagId));
-
-        Tourch();
     }
 
     public void RemoveTag(Guid tagId)
@@ -148,7 +140,6 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             return;
 
         TagMappings.Remove(mapping);
-        Tourch();
     }
 
     public void UpdateDetails(string name, string description)
@@ -157,19 +148,16 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
 
         Name = name;
         Description = description;
-        Tourch();
     }
 
     public void ChangeSlug(Slug slug)
     {
         Slug = slug;
-        Tourch();
     }
 
     public void UpdateMetadata(ProductMetadata metadata)
     {
         Metadata = metadata;
-        Tourch();
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

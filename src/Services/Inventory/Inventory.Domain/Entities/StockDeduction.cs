@@ -55,6 +55,5 @@ public sealed class StockDeduction : BaseEntity<Guid>
             throw ExceptionFactory.InvalidStatus($"Cannot reverse a stock deduction in {Status} status.");
 
         Status = StockDeductionStatus.Reversed;
-        Tourch();
     }
 }

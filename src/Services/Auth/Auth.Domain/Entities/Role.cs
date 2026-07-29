@@ -25,7 +25,13 @@ public sealed class Role : IdentityRole<Guid>, IEntity, IAuditable
         };
     }
 
-    public void Tourch()
+    public void Track()
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Touch()
     {
         UpdatedAt = DateTime.UtcNow;
     }

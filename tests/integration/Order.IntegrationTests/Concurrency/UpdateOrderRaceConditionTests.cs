@@ -207,8 +207,8 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         }
 
         var owner = order.Owner;
-        var matchesA = owner.CustomerPhone == commandA.CustomerPhone && owner.ShippingAddress == commandA.ShippingAddress;
-        var matchesB = owner.CustomerPhone == commandB.CustomerPhone && owner.ShippingAddress == commandB.ShippingAddress;
+        var matchesA = owner.OwnerPhone == commandA.CustomerPhone && owner.ShippingAddress == commandA.ShippingAddress;
+        var matchesB = owner.OwnerPhone == commandB.CustomerPhone && owner.ShippingAddress == commandB.ShippingAddress;
 
         // Only meaningful when at least one request actually reported success - if both failed,
         // the correct/expected final state is whatever existed before either ran (neither A's nor
@@ -218,7 +218,7 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         {
             findings.Add(
                 "A request reported success, but the persisted owner info matches neither Task A's nor " +
-                $"Task B's intended values - got phone={owner.CustomerPhone}/address={owner.ShippingAddress}, " +
+                $"Task B's intended values - got phone={owner.OwnerPhone}/address={owner.ShippingAddress}, " +
                 $"expected A=phone={commandA.CustomerPhone}/address={commandA.ShippingAddress} or " +
                 $"B=phone={commandB.CustomerPhone}/address={commandB.ShippingAddress}.");
         }
@@ -231,12 +231,12 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
             if (outcome.StatusCode != 200)
                 continue;
 
-            var thisRequestWon = owner.CustomerPhone == command.CustomerPhone && owner.ShippingAddress == command.ShippingAddress;
+            var thisRequestWon = owner.OwnerPhone == command.CustomerPhone && owner.ShippingAddress == command.ShippingAddress;
             if (!thisRequestWon)
             {
                 findings.Add(
                     $"{outcome.Label} reported success (200) for phone={command.CustomerPhone}/address={command.ShippingAddress}, " +
-                    $"but the persisted order shows phone={owner.CustomerPhone}/address={owner.ShippingAddress} - a lost update.");
+                    $"but the persisted order shows phone={owner.OwnerPhone}/address={owner.ShippingAddress} - a lost update.");
             }
         }
 
@@ -266,7 +266,7 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         else
         {
             sb.AppendLine($"Final Version (xmin): {finalState.Version}");
-            sb.AppendLine($"Final Owner: Phone={finalState.Order.Owner.CustomerPhone}, Address={finalState.Order.Owner.ShippingAddress}");
+            sb.AppendLine($"Final Owner: Phone={finalState.Order.Owner.OwnerPhone}, Address={finalState.Order.Owner.ShippingAddress}");
             sb.AppendLine("Final Items (must be unchanged by UpdateOrderOwnerInfo):");
             foreach (var item in finalState.Order.Items.OrderBy(i => i.ProductId))
                 sb.AppendLine($"  - Variation {item.ProductId}: Quantity={item.Quantity}");

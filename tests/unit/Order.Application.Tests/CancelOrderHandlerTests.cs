@@ -32,7 +32,7 @@ public sealed class CancelOrderHandlerTests
             .Returns(ci =>
             {
                 order.Cancel(ci.ArgAt<string>(1));
-                return Task.FromResult(order.Owner.CustomerId);
+                return Task.FromResult(order.Owner.OwnerId);
             });
 
         var uow = Substitute.For<IUnitOfWork>();

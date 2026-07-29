@@ -1,27 +1,25 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Exceptions;
-
 using Order.Domain.Enums;
 
 namespace Order.Domain.Entities;
 
 public sealed class Order : AggregateRoot<Guid>, IAuditable
 {
-    /// <summary>Who placed this order and where it ships - see OrderOwner remarks.</summary>
     public OrderOwner Owner { get; private set; } = default!;
-
+    public OrderShipping Shipping { get; private set; } = default!;
     public OrderStatus Status { get; private set; }
     public decimal TotalAmount => Items.Sum(i => i.LineTotal);
     public ICollection<OrderItem> Items { get; private set; } = [];
+    public ICollection<OrderDiscount> Discounts { get; private set; } = [];
 
-    /// <summary>Set only when Status is Cancelled - e.g. "OutOfStock" (CreateOrderSaga compensation) or "CancelledByCustomer" (manual CancelOrder).</summary>
     public string? CancellationReason { get; private set; }
 
     private Order() { }
 
     public static Order Create(
-        Guid id, Guid customerId, string customerName, string customerPhone, string shippingAddress,
-        IEnumerable<OrderItemCreateModel> items, string? idempotencyKey = null)
+        Guid id,
+        OrderOwner owner,
+        OrderShipping shipping,
+        IEnumerable<OrderItem> items)
     {
         var models = items.ToList();
         if (models.Count == 0)
@@ -31,46 +29,72 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
         {
             Id = id,
             Status = OrderStatus.Pending,
+            Owner = owner,
+            Shipping = shipping,
+            Items = [.. items],
+            Discounts = [],
         };
-        order.Owner = OrderOwner.Create(id, customerId, customerName, customerPhone, shippingAddress, idempotencyKey);
-
-        foreach (var model in models)
-        {
-            order.Items.Add(OrderItem.Create(
-                Guid.CreateVersion7(), id, model.ProductId, model.ProductName, model.UnitPrice, model.Quantity, model.Discount));
-        }
 
         return order;
     }
 
-    /// <summary>Replaces the item list wholesale - only while the order hasn't left the customer-editable Pending window (Confirm() moves it out via the async CreateOrderSaga).</summary>
-    public void UpdateItems(IEnumerable<OrderItemCreateModel> items)
+    public void AddDiscount(OrderDiscount discount)
     {
-        if (Status != OrderStatus.Pending)
-            throw ExceptionFactory.InvalidStatus($"Cannot update items on an order in {Status} status.");
+        if (discount.OrderId != Id)
+            throw new InvalidArgumentException(
+                "Cannot add a discount to an order that does not match the discount's OrderId.");
 
-        var models = items.ToList();
-        if (models.Count == 0)
-            throw ExceptionFactory.EmptyCollection("An order must contain at least one item.");
-
-        Items.Clear();
-        foreach (var model in models)
-        {
-            Items.Add(OrderItem.Create(
-                Guid.CreateVersion7(), Id, model.ProductId, model.ProductName, model.UnitPrice, model.Quantity, model.Discount));
-        }
-
-        Tourch();
+        Discounts.Add(discount);
     }
 
     /// <summary>Updates the customer-editable contact/shipping snapshot - allowed in the same non-terminal window as Cancel(), since a Cancelled/Completed order no longer ships.</summary>
     public void UpdateOwnerInfo(string customerPhone, string shippingAddress)
     {
         if (Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
-            throw ExceptionFactory.InvalidStatus($"Cannot update owner information on an order in {Status} status.");
+            throw ExceptionFactory.InvalidStatus(
+                $"Cannot update owner information on an order in {Status} status.");
 
         Owner.UpdateContact(customerPhone, shippingAddress);
-        Tourch();
+    }
+
+    public void UpdateShippingInfo(string receiverName, string receiverPhone, string address)
+    {
+        if (Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
+            throw ExceptionFactory.InvalidStatus($"Cannot update shipping information on an order in {Status} status.");
+
+        Shipping.UpdateContact(receiverName, receiverPhone, address);
+    }
+
+    public void MarkShipped()
+    {
+        if (Status != OrderStatus.Confirmed)
+            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as shipped when status is {Status}.");
+
+        Shipping.MarkShipped();
+    }
+
+    public void MarkArrivedAtWarehouse()
+    {
+        if (Status != OrderStatus.Confirmed)
+            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as arrived at warehouse when status is {Status}.");
+
+        Shipping.MarkArrivedAtWarehouse();
+    }
+
+    public void MarkInTransit()
+    {
+        if (Status != OrderStatus.Confirmed)
+            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as in transit when status is {Status}.");
+
+        Shipping.MarkInTransit();
+    }
+
+    public void MarkDelivered()
+    {
+        if (Status != OrderStatus.Confirmed)
+            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as delivered when status is {Status}.");
+
+        Shipping.MarkDelivered();
     }
 
     public void Confirm()
@@ -79,7 +103,6 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidStatus($"Cannot confirm an order in {Status} status.");
 
         Status = OrderStatus.Confirmed;
-        Tourch();
     }
 
     public void Cancel(string reason)
@@ -93,9 +116,9 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
         if (Status == OrderStatus.Completed)
             throw ExceptionFactory.InvalidStatus("Cannot cancel a completed order.");
 
+        Shipping.Cancel();
         Status = OrderStatus.Cancelled;
         CancellationReason = reason.Trim();
-        Tourch();
     }
 
     public void Complete()
@@ -103,7 +126,9 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
         if (Status != OrderStatus.Confirmed)
             throw ExceptionFactory.InvalidStatus($"Cannot complete an order in {Status} status.");
 
+        if (Shipping.Status != ShippingStatus.Delivered)
+            throw ExceptionFactory.InvalidStatus($"Cannot complete an order when shipping status is {Shipping.Status}.");
+
         Status = OrderStatus.Completed;
-        Tourch();
     }
 }

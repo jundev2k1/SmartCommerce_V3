@@ -31,7 +31,7 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
         await repo.UpdateAsync(orderId, async order =>
         {
             order.UpdateItems(items);
-            customerId = order.Owner.CustomerId;
+            customerId = order.Owner.OwnerId;
             totalAmount = order.TotalAmount;
             await Task.CompletedTask;
         }, ct);
@@ -79,7 +79,7 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
                 throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
             order.Cancel(reason);
-            customerId = order.Owner.CustomerId;
+            customerId = order.Owner.OwnerId;
             await Task.CompletedTask;
         }, ct);
 
@@ -96,7 +96,7 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
                 throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
             order.Complete();
-            customerId = order.Owner.CustomerId;
+            customerId = order.Owner.OwnerId;
             await Task.CompletedTask;
         }, ct);
 

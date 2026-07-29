@@ -34,18 +34,15 @@ public sealed class Warehouse : AggregateRoot<Guid>, IAuditable
     {
         Name = name;
         Address = address;
-        Tourch();
     }
 
     public void Activate()
     {
         Status = WarehouseStatus.Active;
-        Tourch();
     }
 
     public void Deactivate()
     {
         Status = WarehouseStatus.Inactive;
-        Tourch();
     }
 }

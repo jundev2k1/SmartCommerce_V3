@@ -39,7 +39,7 @@ public sealed class OrderReadService(OrderDbContext dbContext) : IOrderReadServi
             .AsNoTracking()
             .Include(o => o.Items)
             .Include(o => o.Owner)
-            .Where(o => o.Owner.CustomerId == customerId)
+            .Where(o => o.Owner.OwnerId == customerId)
             .ApplyCriteria(OrderHistoryCriteriaDefinition.Instance, request)
             .ToCriteriaPagedResultAsync(request, ct);
     }
@@ -50,6 +50,6 @@ public sealed class OrderReadService(OrderDbContext dbContext) : IOrderReadServi
             .AsNoTracking()
             .Include(o => o.Items)
             .Include(o => o.Owner)
-            .FirstOrDefaultAsync(o => o.Owner.CustomerId == customerId && o.Owner.IdempotencyKey == idempotencyKey, ct);
+            .FirstOrDefaultAsync(o => o.Owner.OwnerId == customerId && o.Owner.IdempotencyKey == idempotencyKey, ct);
     }
 }

@@ -17,7 +17,7 @@ public class BaseEntityTests
         var updatedAtBeforeTouch = entity.UpdatedAt;
 
         Thread.Sleep(5);
-        entity.Tourch();
+        entity.Touch();
 
         entity.CreatedAt.ShouldBe(createdAt);
         entity.UpdatedAt.ShouldBeGreaterThan(updatedAtBeforeTouch);

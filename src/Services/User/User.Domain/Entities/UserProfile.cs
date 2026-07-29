@@ -60,7 +60,6 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
         LastName = lastName;
         PhoneNumber = phoneNumber;
         SyncPhoneSearchFields();
-        Tourch();
     }
 
     private void SyncPhoneSearchFields()
@@ -72,18 +71,15 @@ public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
     public void Deactivate()
     {
         Status = UserStatus.Inactive;
-        Tourch();
     }
 
     public void Activate()
     {
         Status = UserStatus.Active;
-        Tourch();
     }
 
     public void Suspend()
     {
         Status = UserStatus.Suspended;
-        Tourch();
     }
 }
