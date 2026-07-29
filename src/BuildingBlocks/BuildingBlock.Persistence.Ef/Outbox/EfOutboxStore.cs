@@ -38,6 +38,7 @@ public sealed class EfOutboxStore<TContext>(TContext context, ICurrentUserServic
         CancellationToken ct = default)
     {
         var messages = await _context.OutboxMessages
+            .AsNoTracking()
             .Where(m => m.ProcessedAt == null)
             .OrderBy(m => m.CreatedAt)
             .Take(batchSize)
