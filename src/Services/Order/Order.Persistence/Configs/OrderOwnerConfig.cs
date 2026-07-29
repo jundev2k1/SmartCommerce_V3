@@ -42,6 +42,7 @@ public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
             .HasFilter("\"idempotency_key\" IS NOT NULL");
 
         builder.HasIndex(x => x.CustomerId);
+        builder.HasIndex(x => x.CustomerName);
         builder.HasIndex(x => x.CustomerPhoneSearch);
         builder.HasIndex(x => x.CustomerPhoneReverse);
     }

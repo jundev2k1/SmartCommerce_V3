@@ -31,5 +31,10 @@ public sealed class InboxConfiguration : IEntityTypeConfiguration<InboxMessage>
         // Covers the InboxRetryHostedService poll: WHERE Status = Retrying AND NextRetryAt <= now.
         builder.HasIndex(x => new { x.Status, x.NextRetryAt })
             .HasDatabaseName("idx_inbox_status_next_retry_at");
+
+        // Covers the Dead Letter Queue admin list/search default view: WHERE Status = DeadLetter
+        // ORDER BY CreatedAt (see DeadLetterCriteriaDefinition/EfDeadLetterQueryService).
+        builder.HasIndex(x => new { x.Status, x.CreatedAt })
+            .HasDatabaseName("idx_inbox_status_created_at");
     }
 }

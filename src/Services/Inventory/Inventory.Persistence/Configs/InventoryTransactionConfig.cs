@@ -38,7 +38,10 @@ public sealed class InventoryTransactionConfig : IEntityTypeConfiguration<Invent
         builder.Property(x => x.UpdatedAt)
             .HasDefaultValueSql("now()");
 
-        builder.HasIndex(x => x.InventoryId);
+        // GetHistoryAsync filters InventoryId and sorts CreatedAt DESC - the composite covers both
+        // (and still serves InventoryId-only filters via its leftmost column, so the old
+        // single-column InventoryId index was removed as redundant).
+        builder.HasIndex(x => new { x.InventoryId, x.CreatedAt });
 
         // Supports the transaction search's equality filters (see Task 5) - movements are
         // typically queried by product, variation, warehouse, or type, not just their own inventory row.

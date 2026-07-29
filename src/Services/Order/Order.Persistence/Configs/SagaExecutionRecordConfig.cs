@@ -18,7 +18,10 @@ public sealed class SagaExecutionRecordConfig : IEntityTypeConfiguration<SagaExe
         builder.Property(x => x.CorrelationId).HasMaxLength(200);
         builder.Property(x => x.UserId).HasMaxLength(200);
 
-        builder.HasIndex(x => x.SagaName);
-        builder.HasIndex(x => x.State);
+        // GetHistoryAsync/GetFailedSagasAsync filter on SagaName/State and sort StartedAt DESC -
+        // composites cover both the filter and the sort (and still serve filter-only queries via
+        // their leftmost column, so the old single-column SagaName/State indexes were removed).
+        builder.HasIndex(x => new { x.SagaName, x.StartedAt });
+        builder.HasIndex(x => new { x.State, x.StartedAt });
     }
 }

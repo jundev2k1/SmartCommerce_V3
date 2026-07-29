@@ -92,6 +92,9 @@ namespace Inventory.Persistence.Storage.Migrations
                         .IsUnique()
                         .HasDatabaseName("idx_inbox_message_consumer_unique");
 
+                    b.HasIndex("Status", "CreatedAt")
+                        .HasDatabaseName("idx_inbox_status_created_at");
+
                     b.HasIndex("Status", "NextRetryAt")
                         .HasDatabaseName("idx_inbox_status_next_retry_at");
 
@@ -214,6 +217,10 @@ namespace Inventory.Persistence.Storage.Migrations
                     b.HasKey("Id")
                         .HasName("pk_outbox_messages");
 
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("idx_outbox_unprocessed_created_at")
+                        .HasFilter("\"processed_at\" IS NULL");
+
                     b.HasIndex("ProcessedAt")
                         .HasDatabaseName("idx_outbox_processed_at");
 
@@ -333,9 +340,6 @@ namespace Inventory.Persistence.Storage.Migrations
                     b.HasKey("Id")
                         .HasName("pk_inventory_transactions");
 
-                    b.HasIndex("InventoryId")
-                        .HasDatabaseName("ix_inventory_transactions_inventory_id");
-
                     b.HasIndex("ProductId")
                         .HasDatabaseName("ix_inventory_transactions_product_id");
 
@@ -347,6 +351,9 @@ namespace Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("WarehouseId")
                         .HasDatabaseName("ix_inventory_transactions_warehouse_id");
+
+                    b.HasIndex("InventoryId", "CreatedAt")
+                        .HasDatabaseName("ix_inventory_transactions_inventory_id_created_at");
 
                     b.ToTable("inventory_transactions", (string)null);
                 });

@@ -42,6 +42,12 @@ public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
             .OnDelete(DeleteBehavior.Cascade);
 
         // Indexes
-        builder.HasIndex(x => x.Status);
+        // CreatedAt is the sort key for both admin search (OrderCriteriaDefinition) and customer
+        // history (OrderHistoryCriteriaDefinition) - kept standalone for sort-only/unfiltered
+        // listings, and leading a composite with Status since the two are commonly filtered+sorted
+        // together (the composite also serves Status-only filters via its leftmost column, so the
+        // old lone Status index was removed as redundant).
+        builder.HasIndex(x => x.CreatedAt);
+        builder.HasIndex(x => new { x.Status, x.CreatedAt });
     }
 }

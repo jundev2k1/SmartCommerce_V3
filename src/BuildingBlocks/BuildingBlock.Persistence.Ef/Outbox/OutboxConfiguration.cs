@@ -21,5 +21,12 @@ public sealed class OutboxConfiguration : IEntityTypeConfiguration<OutboxMessage
 
         builder.HasIndex(x => x.ProcessedAt)
             .HasDatabaseName("idx_outbox_processed_at");
+
+        // Covers the relay's hot poll: WHERE ProcessedAt IS NULL ORDER BY CreatedAt. Partial so the
+        // index stays small as processed rows accumulate (the ProcessedAt index above already
+        // serves the IS NULL predicate, but not the CreatedAt sort).
+        builder.HasIndex(x => x.CreatedAt)
+            .HasFilter("\"processed_at\" IS NULL")
+            .HasDatabaseName("idx_outbox_unprocessed_created_at");
     }
 }

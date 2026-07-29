@@ -20,6 +20,11 @@ public sealed class AccountConfig : IEntityTypeConfiguration<Account>
             .IsRequired()
             .HasMaxLength(256);
 
+        // Login (AccountReadService.GetByEmailAsync) filters the raw Email column - ASP.NET
+        // Identity's own index only covers the normalized_email column, so this predicate was
+        // otherwise served by a sequential scan.
+        builder.HasIndex(a => a.Email);
+
         builder.HasMany(a => a.AccountRoles)
             .WithOne(ar => ar.Account)
             .HasForeignKey(ar => ar.UserId)
