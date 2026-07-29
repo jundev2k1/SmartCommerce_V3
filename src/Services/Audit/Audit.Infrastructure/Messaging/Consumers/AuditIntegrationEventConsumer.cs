@@ -30,31 +30,24 @@ public sealed class AuditIntegrationEventConsumer(
         IReadOnlyDictionary<string, string> headers,
         CancellationToken ct = default)
     {
-        try
+        var integrationEvent = JsonSerializer.Deserialize<AuditIntegrationEvent>(message);
+        if (integrationEvent == null)
         {
-            var integrationEvent = JsonSerializer.Deserialize<AuditIntegrationEvent>(message);
-            if (integrationEvent == null)
-            {
-                logger.Warning("Failed to deserialize AuditIntegrationEvent");
-                return;
-            }
-
-            var metadata = integrationEvent.Metadata;
-            if (headers.TryGetValue("actor-id", out var headerActorId) && headerActorId != metadata?.Actor)
-                metadata = metadata is null ? new AuditMetadata { Actor = headerActorId } : metadata with { Actor = headerActorId };
-
-            await sender.Send(new RecordAuditLogCommand(
-                integrationEvent.RootEntityType,
-                integrationEvent.RootEntityId,
-                integrationEvent.Metadata?.Service ?? string.Empty,
-                integrationEvent.CorrelationId,
-                integrationEvent.Root,
-                metadata,
-                integrationEvent.PublishedAt), ct);
+            logger.Warning("Failed to deserialize AuditIntegrationEvent");
+            return;
         }
-        catch (Exception ex)
-        {
-            logger.Error(ex, "Error processing AuditIntegrationEvent");
-        }
+
+        var metadata = integrationEvent.Metadata;
+        if (headers.TryGetValue("actor-id", out var headerActorId) && headerActorId != metadata?.Actor)
+            metadata = metadata is null ? new AuditMetadata { Actor = headerActorId } : metadata with { Actor = headerActorId };
+
+        await sender.Send(new RecordAuditLogCommand(
+            integrationEvent.RootEntityType,
+            integrationEvent.RootEntityId,
+            integrationEvent.Metadata?.Service ?? string.Empty,
+            integrationEvent.CorrelationId,
+            integrationEvent.Root,
+            metadata,
+            integrationEvent.PublishedAt), ct);
     }
 }
