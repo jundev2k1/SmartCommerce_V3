@@ -4,8 +4,9 @@ namespace BuildingBlock.Contract.Events.Product;
 public sealed record ProductVariationUpdatedIntegrationEvent(
     Guid ProductId,
     Guid ProductVariationId,
-    string Sku,
+    string ProductName,
     string VariationName,
+    string Sku,
     decimal Price,
     string Status,
     string? CorrelationId = null) : IIntegrationEvent

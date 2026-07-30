@@ -19,4 +19,4 @@ public sealed record OrderCreatedIntegrationEvent(
 }
 
 /// <summary>ProductVariationId is what OrderItem.ProductId actually holds - see docs/services/order-service.md's naming-mismatch note.</summary>
-public sealed record OrderCreatedItem(Guid ProductVariationId, string ProductName, int Quantity, decimal UnitPrice);
+public sealed record OrderCreatedItem(Guid ProductId, Guid VariationId, string Name, int Quantity, decimal UnitPrice);
