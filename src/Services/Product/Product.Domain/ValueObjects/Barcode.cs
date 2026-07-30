@@ -1,9 +1,10 @@
-using System.Text.RegularExpressions;
+using BuildingBlock.SharedKernel.RegexPatterns;
+using BuildingBlock.SharedKernel.Utilities;
 
 namespace Product.Domain.ValueObjects;
 
 /// <summary>EAN/UPC/GTIN barcode - 8 to 14 numeric digits.</summary>
-public sealed partial class Barcode : StringValueObject
+public sealed class Barcode : StringValueObject
 {
     private Barcode(string value) : base(value) { }
 
@@ -21,6 +22,11 @@ public sealed partial class Barcode : StringValueObject
         return true;
     }
 
+    public static Barcode Create()
+    {
+        var newCode = NativeBarcodeGenerator.GenerateEan13();
+        return Create(newCode);
+    }
     public static Barcode Create(string value)
     {
         var error = GetValidationError(value);
@@ -35,12 +41,9 @@ public sealed partial class Barcode : StringValueObject
         if (string.IsNullOrWhiteSpace(value))
             return ExceptionFactory.RequiredField("Barcode cannot be empty.");
 
-        if (!BarcodeFormat().IsMatch(value.Trim()))
+        if (!RegexPatterns.BarcodeFormat().IsMatch(value.Trim()))
             return ExceptionFactory.InvalidFormat("Barcode must be 8-14 numeric digits (EAN/UPC/GTIN).");
 
         return null;
     }
-
-    [GeneratedRegex("^[0-9]{8,14}$")]
-    private static partial Regex BarcodeFormat();
 }

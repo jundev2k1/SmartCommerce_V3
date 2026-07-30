@@ -20,11 +20,6 @@ public sealed class ProductVariation : BaseEntity<Guid>
 
     private ProductVariation() { }
 
-    /// <summary>
-    /// Only Product may construct a variation - keeps the "exactly one Default" invariant from
-    /// ever being bypassed by code outside the aggregate. Flat parameters (no Spec/DTO object)
-    /// so call sites stay explicit and adding/removing a field never breaks every caller.
-    /// </summary>
     public static ProductVariation Create(
         Guid productId,
         Sku sku,

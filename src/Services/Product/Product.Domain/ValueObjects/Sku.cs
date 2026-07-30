@@ -1,56 +1,26 @@
-using System.Text.RegularExpressions;
+using BuildingBlock.SharedKernel.Extensions;
+using BuildingBlock.SharedKernel.RegexPatterns;
 
 namespace Product.Domain.ValueObjects;
 
-/// <summary>Stock keeping unit - identifies a single ProductVariation. Not shared across variations.</summary>
-public sealed partial class Sku : StringValueObject
+public sealed class Sku : StringValueObject
 {
-    private const int MaxLength = 50;
+    private Sku(string val) : base(val) { }
 
-    private Sku(string value) : base(value) { }
-
-    /// <summary>Cheap pre-check for upper layers (e.g. FluentValidation) - shares GetValidationError with Create so the two never diverge.</summary>
-    public static bool IsValid(string? value) => GetValidationError(value) is null;
-
-    public static bool TryCreate(string? value, out Sku? sku)
+    public static Sku Create(string val)
     {
-        if (GetValidationError(value) is not null)
-        {
-            sku = null;
-            return false;
-        }
+        var normalizedVal = val?.Trim().ToUpperInvariant()
+            ?? throw ExceptionFactory.InvalidRange("Product SKU is not valid.");
 
-        sku = new Sku(Normalize(value!));
-        return true;
+        if (!IsValid(normalizedVal))
+            throw ExceptionFactory.InvalidRange("Product SKU is not valid.");
+
+        return new Sku(normalizedVal);
     }
 
-    public static Sku Create(string value)
-    {
-        var error = GetValidationError(value);
-        if (error is not null)
-            throw error;
-
-        return new Sku(Normalize(value));
-    }
-
-    private static string Normalize(string value) => value.Trim().ToUpperInvariant();
-
-    private static InvalidArgumentException? GetValidationError(string? value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return ExceptionFactory.RequiredField("SKU cannot be empty.");
-
-        var normalized = Normalize(value);
-
-        if (normalized.Length > MaxLength)
-            return ExceptionFactory.ValueTooLarge($"SKU cannot exceed {MaxLength} characters.");
-
-        if (!SkuFormat().IsMatch(normalized))
-            return ExceptionFactory.InvalidFormat("SKU may only contain letters, digits, and hyphens.");
-
-        return null;
-    }
-
-    [GeneratedRegex("^[A-Z0-9-]+$")]
-    private static partial Regex SkuFormat();
+    public static bool IsValid(string val)
+        => val.IsNotNullOrWhiteSpace()
+            && val.Length >= 3
+            && val.Length <= 30
+            && RegexPatterns.Sku().IsMatch(val);
 }
