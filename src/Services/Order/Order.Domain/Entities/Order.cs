@@ -12,7 +12,6 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
     public OrderStatus Status { get; private set; }
     public string? CancellationReason { get; private set; }
-    public decimal TotalAmount => Items.Sum(i => i.LineTotal);
     public Money Subtotal { get; private set; } = default!;
     public Money DiscountTotal { get; private set; } = default!;
     public Money ShippingFee => Shipping.FinalFee;

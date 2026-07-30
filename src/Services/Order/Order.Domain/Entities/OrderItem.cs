@@ -25,7 +25,6 @@ public sealed class OrderItem : BaseEntity<long>, IAuditable
     public Money CouponDiscount { get; private set; } = default!;
     /// <summary>Manual adjustment made by administrator.</summary>
     public Money ManualDiscount { get; private set; } = default!;
-    public decimal LineTotal => (UnitPrice.Value * Quantity.Value) - DiscountAmount.Value;
     /// <summary>Final amount contributed by this item.</summary>
     public Money FinalAmount { get; private set; } = default!;
 

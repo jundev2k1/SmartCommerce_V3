@@ -153,7 +153,14 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
         string customerName,
         string customerPhone,
         string shippingAddress,
-        params (Guid productId, Guid variationId, string productName, decimal unitPrice, int quantity)[] items)
+        params (
+            Guid productId,
+            Guid variationId,
+            string productName,
+            string variationName,
+            decimal unitPrice,
+            int quantity
+        )[] items)
     {
         var orderId = Guid.CreateVersion7();
 
@@ -187,6 +194,7 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
                 item.productId,
                 item.variationId,
                 item.productName,
+                item.variationName,
                 Money.Create(item.unitPrice),
                 Quantity.Create(item.quantity)))
             .ToArray();

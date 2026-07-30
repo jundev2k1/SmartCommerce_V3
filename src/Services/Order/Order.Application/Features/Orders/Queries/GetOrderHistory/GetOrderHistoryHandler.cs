@@ -20,7 +20,7 @@ public sealed class GetOrderHistoryHandler(
             .Select(o => new OrderHistoryItemResponse(
                 o.Id,
                 o.Status,
-                o.TotalAmount,
+                o.GrandTotal.Value,
                 o.CreatedAt,
                 o.UpdatedAt))
             .ToList();
