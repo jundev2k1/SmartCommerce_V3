@@ -1,6 +1,6 @@
 namespace Order.Domain.Enums;
 
-public enum DiscountSource
+public enum DiscountSource : short
 {
     Coupon = 1,
     Campaign = 2,

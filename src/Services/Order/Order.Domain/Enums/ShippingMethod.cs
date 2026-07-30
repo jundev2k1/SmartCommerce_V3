@@ -1,6 +1,6 @@
 namespace Order.Domain.Enums;
 
-public enum ShippingMethod
+public enum ShippingMethod : short
 {
     /// <summary>Pickup shipping method, where the customer picks up the order from a designated location.</summary>
     Pickup = 1,

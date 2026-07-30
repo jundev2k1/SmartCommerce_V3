@@ -5,4 +5,14 @@ namespace Order.Persistence.Contexts.Orders.Repositories;
 public sealed class OrderRepo(OrderDbContext dbContext)
     : OrderBaseRepository<OrderEntity>(dbContext), IOrderRepository
 {
+    public async Task<OrderEntity?> GetByIdempotencyKeyAsync(
+        string idempotencyKey,
+        CancellationToken ct = default)
+    {
+        return await _dbContext.Orders
+            .AsNoTracking()
+            .Include(o => o.Items)
+            .Include(o => o.Owner)
+            .FirstOrDefaultAsync(o => o.IdempotencyKey == idempotencyKey, ct);
+    }
 }

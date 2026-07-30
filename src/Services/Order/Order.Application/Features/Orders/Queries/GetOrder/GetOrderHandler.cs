@@ -25,13 +25,25 @@ public sealed class GetOrderHandler(
             order.Id,
             order.Owner.OwnerId,
             order.Owner.OwnerName,
-            order.Owner.OwnerPhone,
-            order.Owner.ShippingAddress,
+            order.Owner.OwnerPhone.Value,
+            order.Shipping.Address,
             order.Status,
-            order.TotalAmount,
-            [.. order.Items.Select(i => new GetOrderItemResponse(i.ProductId, i.Name, i.UnitPrice, i.Quantity, i.Discount, i.LineTotal))],
+            order.GrandTotal.Value,
+            MapToItemResponse(order.Items),
             order.CancellationReason,
             order.CreatedAt,
             order.UpdatedAt);
+    }
+
+    private static GetOrderItemResponse[] MapToItemResponse(IEnumerable<OrderItem> items)
+    {
+        return [.. items
+            .Select(i => new GetOrderItemResponse(
+                i.ProductId,
+                i.ProductName,
+                i.UnitPrice.Value,
+                i.Quantity.Value,
+                0,
+                i.FinalAmount.Value))];
     }
 }

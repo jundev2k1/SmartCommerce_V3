@@ -70,7 +70,7 @@ public sealed class DeleteOrderHandlerTests
     public async Task Handle_DoesNotRestockOrDelete_WhenOrderIsConfirmed()
     {
         var order = CreateOrder();
-        order.Confirm();
+        order.Accept();
 
         var (readService, writeService, outbox, inventory, uow) = CreateSubstitutes(order);
         var handler = new DeleteOrderHandler(readService, writeService, outbox, inventory, uow);

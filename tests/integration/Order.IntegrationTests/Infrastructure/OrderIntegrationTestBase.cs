@@ -177,18 +177,18 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
             orderOwner.OwnerPhone,
             shippingAddress,
             ShippingMethod.Standard,
-            Money.Create(0),
             string.Empty);
         order.SetShipping(orderShipping);
 
         var orderItems = items
-            .Select(i => OrderItem.Create(
+            .Select((item, index) => OrderItem.Create(
                 order.Id,
-                i.productId,
-                i.variationId,
-                i.productName,
-                Money.Create(i.unitPrice),
-                Quantity.Create(i.quantity)))
+                index + 1,
+                item.productId,
+                item.variationId,
+                item.productName,
+                Money.Create(item.unitPrice),
+                Quantity.Create(item.quantity)))
             .ToArray();
         order.SetOrderItems(orderItems);
 

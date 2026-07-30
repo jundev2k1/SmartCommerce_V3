@@ -47,8 +47,8 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
 
         await repo.UpdateAsync(orderId, async order =>
         {
-            order.Confirm();
-            totalAmount = order.TotalAmount;
+            order.Accept();
+            totalAmount = order.GrandTotal.Value;
             await Task.CompletedTask;
         }, ct);
 

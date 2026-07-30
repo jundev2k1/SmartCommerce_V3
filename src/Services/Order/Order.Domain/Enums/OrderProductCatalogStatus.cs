@@ -1,6 +1,6 @@
 namespace Order.Domain.Enums;
 
-public enum OrderProductCatalogStatus
+public enum OrderProductCatalogStatus : short
 {
     Active = 1,
     Inactive = 2,

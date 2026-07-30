@@ -1,46 +1,69 @@
-using Order.Domain.Enums;
-using Order.Domain.ValueObjects;
+using BuildingBlock.Application.Exceptions;
 
 namespace Order.Domain.Entities;
 
-/// <summary>
-/// The element type Order.Create's bulk factory accepts - not a Spec/DTO object reducing
-/// parameter count (see conventions/domain-coding-conventions.md#2), since a collection of N
-/// structured items has no flat-parameter equivalent. Not persisted itself - Order.Create() turns
-/// each model into an owned OrderItem entity.
-/// </summary>
-public sealed class OrderItem : BaseEntity<Guid>, IAuditable
+public sealed class OrderItem : BaseEntity<long>, IAuditable
 {
     public Guid OrderId { get; private set; }
+    public int OrderItemNo { get; private set; }
     public Guid ProductId { get; private set; }
     public Guid VariationId { get; private set; }
-    public string Name { get; private set; } = string.Empty;
+    public string ProductName { get; private set; } = string.Empty;
+    public string VariationName { get; private set; } = string.Empty;
+    public OrderItemType Type { get; private set; }
     public Money UnitPrice { get; private set; } = default!;
     public Quantity Quantity { get; private set; } = default!;
-    public Money DiscountAmount { get; private set; } = default!;
+    /// <summary>Total amount before any discount (UnitPrice × Quantity)</summary>
+    public Money Subtotal { get; private set; } = default!;
+    /// <summary>Total discount from product promotion.</summary>
+    public Money ProductPromotionDiscount { get; private set; } = default!;
+    /// <summary>Total discount allocated from bundle/set promotion.</summary>
+    public Money BundleDiscount { get; private set; } = default!;
+    /// <summary>Total discount allocated from gift campaigns.</summary>
+    public Money GiftDiscount { get; private set; } = default!;
+    /// <summary>Total discount from item-level coupon.</summary>
+    public Money CouponDiscount { get; private set; } = default!;
+    /// <summary>Manual adjustment made by administrator.</summary>
+    public Money ManualDiscount { get; private set; } = default!;
     public decimal LineTotal => (UnitPrice.Value * Quantity.Value) - DiscountAmount.Value;
+    /// <summary>Final amount contributed by this item.</summary>
+    public Money FinalAmount { get; private set; } = default!;
+
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
 
     private OrderItem() { }
 
     public static OrderItem Create(
         Guid orderId,
+        int orderItemNo,
         Guid productId,
         Guid variationId,
         string productName,
+        string variationName,
         Money unitPrice,
-        Quantity quantity)
+        Quantity quantity,
+        OrderItemType type = OrderItemType.Normal)
     {
         return new OrderItem
         {
-            Id = Guid.CreateVersion7(),
             OrderId = orderId,
+            OrderItemNo = orderItemNo,
             ProductId = productId,
             VariationId = variationId,
-            Name = productName,
+            ProductName = productName,
+            VariationName = variationName,
+            Type = type,
             UnitPrice = unitPrice,
             Quantity = quantity,
         };
+    }
+
+    internal void LoadDiscounts(IEnumerable<OrderDiscount> discounts)
+    {
+        if (discounts.Any(d => !d.OrderItemId.HasValue || d.OrderItemId != Id))
+            throw new BadRequestException("One or more order item discount are invalid.");
+
+        Discounts = [.. discounts];
     }
 
     public void AddDiscount(OrderDiscount discount)
@@ -55,7 +78,7 @@ public sealed class OrderItem : BaseEntity<Guid>, IAuditable
 
         if (discount.Target != DiscountTarget.OrderItem)
             throw new InvalidArgumentException(
-                "Cannot add an Order-targeted discount to the order itself - it must be added to the specific Order instead.");
+                "Cannot add an Order-targeted discount to the order item itself - it must be added to the specific Order instead.");
 
         Discounts.Add(discount);
     }
@@ -66,8 +89,8 @@ public sealed class OrderItem : BaseEntity<Guid>, IAuditable
             AddDiscount(discount);
     }
 
-    public void ApplyDiscount(Money discountAmount)
+    public void ApplyProductPromotionDiscount(Money discountAmount)
     {
-        DiscountAmount = discountAmount;
+        ProductPromotionDiscount = discountAmount;
     }
 }

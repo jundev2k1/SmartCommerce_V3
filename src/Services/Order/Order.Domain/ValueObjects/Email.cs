@@ -1,4 +1,3 @@
-using BuildingBlock.SharedKernel.Extensions;
 using BuildingBlock.SharedKernel.RegexPatterns;
 
 namespace Order.Domain.ValueObjects;

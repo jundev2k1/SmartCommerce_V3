@@ -15,9 +15,6 @@ public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
         builder.Property(x => x.Status).HasConversion<int>();
         builder.Property(x => x.CancellationReason).HasMaxLength(200);
 
-        // TotalAmount is a computed sum over Items, not a stored column.
-        builder.Ignore(x => x.TotalAmount);
-
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
         builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");
 

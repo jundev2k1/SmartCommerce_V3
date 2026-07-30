@@ -1,6 +1,6 @@
 namespace Order.Domain.Enums;
 
-public enum DiscountMethod
+public enum DiscountMethod : short
 {
     /// <summary>Discount is a fixed amount, e.g. $10 off.</summary>
     FixedAmount = 1,

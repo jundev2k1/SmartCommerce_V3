@@ -1,6 +1,6 @@
 namespace Order.Domain.Enums;
 
-public enum ShippingStatus
+public enum ShippingStatus : short
 {
     /// <summary>Indicates that the shipping is pending.</summary>
     Pending = 1,

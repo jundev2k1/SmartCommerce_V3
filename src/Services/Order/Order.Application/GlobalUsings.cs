@@ -6,15 +6,17 @@ global using System.Threading.Tasks;
 
 global using BuildingBlock.Application.Abstractions.CQRS;
 global using BuildingBlock.Application.Abstractions.Events;
+global using BuildingBlock.Application.Abstractions.Outbox;
 global using BuildingBlock.Application.Abstractions.Persistence;
+global using BuildingBlock.Application.Abstractions.Services;
+global using BuildingBlock.Application.Exceptions;
 global using BuildingBlock.Domain.Enums;
 global using BuildingBlock.Domain.Exceptions;
 global using BuildingBlock.SharedKernel.Constants;
-global using BuildingBlock.SharedKernel.Extensions;
+
+global using Mapster;
 
 global using Order.Domain.Entities;
 global using Order.Domain.Enums;
 global using Order.Domain.ValueObjects;
-// "Order" collides with this project's own root namespace (Order.Application, Order.Domain, ...) -
-// C# resolves the bare identifier to the namespace before the imported type, so the entity needs an alias.
 global using OrderEntity = Order.Domain.Entities.Order;

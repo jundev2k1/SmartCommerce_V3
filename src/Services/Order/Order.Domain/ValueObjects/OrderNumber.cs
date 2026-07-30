@@ -1,5 +1,3 @@
-using BuildingBlock.SharedKernel.Extensions;
-
 using Order.Domain.Regexes;
 
 namespace Order.Domain.ValueObjects;

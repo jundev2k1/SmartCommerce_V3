@@ -29,7 +29,7 @@ public sealed class SearchOrdersHandler(IOrderReadService orderReadService)
             order.Owner.OwnerName,
             order.Owner.OwnerPhone.Value,
             order.Status,
-            order.TotalAmount,
+            order.GrandTotal.Value,
             order.CreatedAt,
             order.UpdatedAt);
     }

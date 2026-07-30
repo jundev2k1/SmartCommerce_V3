@@ -1,9 +1,4 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Order;
-
-using Mapster;
 
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 using Order.Application.Abstractions.Persistence.Orders;
@@ -59,7 +54,7 @@ public sealed class CreateOrderHandler(
         string idempotencyKey,
         CancellationToken ct)
     {
-        var duplicate = await orderReadService.GetByIdempotencyKeyAsync(ownerId, idempotencyKey, ct);
+        var duplicate = await orderReadService.GetByIdempotencyKeyAsync(idempotencyKey, ct);
         if (duplicate is not null)
             throw new ConflictException(
                 $"OrderId: {duplicate.Id} - Order Number: {duplicate.OrderNumber}. " +
@@ -151,7 +146,7 @@ public sealed class CreateOrderHandler(
             .Select(i => new OrderCreatedItem(
                 i.ProductId,
                 i.VariationId,
-                i.Name,
+                i.ProductName,
                 i.Quantity.Value,
                 i.UnitPrice.Value))
             .ToArray();
@@ -165,7 +160,7 @@ public sealed class CreateOrderHandler(
                 order.Id,
                 owner.OwnerId,
                 orderCreatedItems,
-                order.TotalAmount,
+                order.GrandTotal.Value,
                 correlationId);
             await outboxStore.EnqueueAsync(eventBus, ct);
         }, ct: ct);
@@ -180,7 +175,7 @@ public sealed class CreateOrderHandler(
             order.OrderNumber.Value);
     }
 
-    private OrderEntity CreateOrderEntity(
+    private static OrderEntity CreateOrderEntity(
         string idempotencyId,
         OrderOwnerRequestDto owner,
         OrderShippingInfoRequestDto shippingInfo,
@@ -219,30 +214,30 @@ public sealed class CreateOrderHandler(
         OrderEntity order,
         OrderShippingInfoRequestDto shipping)
     {
-        var shippingFee = 0M;
         var orderShipping = OrderShipping.Create(
             order.Id,
             shipping.ReceiverName,
             shipping.ReceiverPhone,
             shipping.ShippingAddress,
             shipping.ShippingMethod,
-            Money.Create(shippingFee),
             shipping.Note);
         order.SetShipping(orderShipping);
     }
 
     private static void SetOrderItems(OrderEntity order, OrderItemInfos itemInfo)
     {
-        OrderItem MapToOrderItem(OrderItemRequestDto item)
+        OrderItem MapToOrderItem(OrderItemRequestDto item, int index)
         {
             var catalog = itemInfo.Catalogs.FirstOrDefault(c => c.Id == item.VariationId)
                 ?? throw new NotFoundException(nameof(item.VariationId), item.VariationId);
 
             return OrderItem.Create(
                 order.Id,
+                index + 1,
                 item.ProductId,
                 item.VariationId,
                 catalog.ProductName,
+                catalog.VariationName,
                 catalog.Price,
                 Quantity.Create(item.Quantity));
         }

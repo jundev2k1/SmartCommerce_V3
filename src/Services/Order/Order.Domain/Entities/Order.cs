@@ -1,5 +1,5 @@
-using Order.Domain.Enums;
-using Order.Domain.ValueObjects;
+using BuildingBlock.Application.Exceptions;
+using BuildingBlock.Domain.Enums;
 
 namespace Order.Domain.Entities;
 
@@ -8,14 +8,21 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
     public OrderNumber OrderNumber { get; private set; } = default!;
     public OrderOwner Owner { get; private set; } = default!;
     public OrderShipping Shipping { get; private set; } = default!;
-    public OrderStatus Status { get; private set; }
-    public decimal TotalAmount => Items.Sum(i => i.LineTotal);
     public ICollection<OrderItem> Items { get; private set; } = [];
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
+    public OrderStatus Status { get; private set; }
     public string? CancellationReason { get; private set; }
+    public decimal TotalAmount => Items.Sum(i => i.LineTotal);
+    public Money Subtotal { get; private set; } = default!;
+    public Money DiscountTotal { get; private set; } = default!;
+    public Money ShippingFee => Shipping.FinalFee;
+    public Money ShippingDiscount { get; private set; } = default!;
+    public Tax Tax { get; private set; } = default!;
+    public Money GrandTotal { get; private set; } = default!;
     public string IdempotencyKey { get; private set; } = string.Empty;
     public Guid? CreatedById { get; private set; }
 
+    #region Constructor
     private Order() { }
 
     public static Order Create(string idempotencyKey, Guid? createdById = null)
@@ -31,7 +38,60 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
 
         return order;
     }
+    #endregion
 
+    #region Order
+    public void Accept()
+    {
+        if (Status != OrderStatus.Pending)
+            throw ExceptionFactory.InvalidStatus($"Cannot accept an order in {Status} status.");
+
+        if (Items.Count == 0)
+            throw new BadRequestException(MessageCode.InvalidOrderItems);
+
+        Status = OrderStatus.Confirmed;
+    }
+
+    public void Process()
+    {
+        if (Status != OrderStatus.Confirmed)
+            throw ExceptionFactory.InvalidStatus($"Cannot start processing an order in {Status} status.");
+
+        if (Items.Count == 0)
+            throw new BadRequestException(MessageCode.InvalidOrderItems);
+
+        Status = OrderStatus.Processing;
+    }
+
+    public void Complete()
+    {
+        if (Status != OrderStatus.Processing)
+            throw ExceptionFactory.InvalidStatus($"Cannot complete an order in {Status} status.");
+
+        if (Shipping.Status != ShippingStatus.Delivered)
+            throw ExceptionFactory.InvalidStatus($"Cannot complete an order when shipping status is {Shipping.Status}.");
+
+        Status = OrderStatus.Completed;
+    }
+
+    public void Cancel(string reason)
+    {
+        if (string.IsNullOrWhiteSpace(reason))
+            throw ExceptionFactory.RequiredField("A cancellation reason is required.");
+
+        if (Status == OrderStatus.Cancelled)
+            throw ExceptionFactory.InvalidStatus("Order is already cancelled.");
+
+        if (Status == OrderStatus.Completed)
+            throw ExceptionFactory.InvalidStatus("Cannot cancel a completed order.");
+
+        Shipping.Cancel();
+        Status = OrderStatus.Cancelled;
+        CancellationReason = reason;
+    }
+    #endregion
+
+    #region OrderItem
     public void SetOrderItems(OrderItem[] items)
     {
         if (items.Length == 0)
@@ -42,7 +102,9 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
 
         Items = items;
     }
+    #endregion
 
+    #region Owner
     public void SetOwner(OrderOwner owner)
     {
         if (owner.OrderId != Id)
@@ -50,36 +112,6 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
                 "Cannot set an OrderOwner for an order that does not match the OrderOwner's OrderId.");
 
         Owner = owner;
-    }
-
-    public void SetShipping(OrderShipping shipping)
-    {
-        if (shipping.OrderId != Id)
-            throw new InvalidArgumentException(
-                "Cannot set an OrderShipping for an order that does not match the OrderShipping's OrderId.");
-
-        Shipping = shipping;
-    }
-
-    public void AddDiscount(OrderDiscount discount)
-    {
-        if (discount.OrderId != Id)
-            throw new InvalidArgumentException(
-                "Cannot add a discount to an order that does not match the discount's OrderId.");
-
-        if (discount.Target != DiscountTarget.Order)
-            throw new InvalidArgumentException(
-                "Cannot add an OrderItem-targeted discount to the order itself - it must be added to the specific OrderItem instead.");
-
-        Discounts.Add(discount);
-    }
-
-    public void AddRangeDiscounts(IEnumerable<OrderDiscount> discounts)
-    {
-        foreach (var discount in discounts)
-        {
-            AddDiscount(discount);
-        }
     }
 
     public void UpdateOwnerInfo(
@@ -93,6 +125,17 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
                 $"Cannot update owner information on an order in {Status} status.");
 
         Owner.UpdateContact(ownerName, ownerEmail, ownerPhone, idempotencyKey);
+    }
+    #endregion
+
+    #region Shipping
+    public void SetShipping(OrderShipping shipping)
+    {
+        if (shipping.OrderId != Id)
+            throw new InvalidArgumentException(
+                "Cannot set an OrderShipping for an order that does not match the OrderShipping's OrderId.");
+
+        Shipping = shipping;
     }
 
     public void UpdateShippingInfo(
@@ -138,39 +181,37 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
 
         Shipping.MarkDelivered();
     }
+    #endregion
 
-    public void Confirm()
+    #region Discount
+    public void LoadDiscounts(IEnumerable<OrderDiscount> discounts)
     {
-        if (Status != OrderStatus.Pending)
-            throw ExceptionFactory.InvalidStatus($"Cannot confirm an order in {Status} status.");
+        if (discounts.Any(d => d.OrderId != Id))
+            throw new BadRequestException("One or more order item discount are invalid.");
 
-        Status = OrderStatus.Confirmed;
+        Discounts = [.. discounts];
     }
 
-    public void Cancel(string reason)
+    public void AddDiscount(OrderDiscount discount)
     {
-        if (string.IsNullOrWhiteSpace(reason))
-            throw ExceptionFactory.RequiredField("A cancellation reason is required.");
+        if (discount.OrderId != Id)
+            throw new InvalidArgumentException(
+                "Cannot add a discount to an order that does not match the discount's OrderId.");
 
-        if (Status == OrderStatus.Cancelled)
-            throw ExceptionFactory.InvalidStatus("Order is already cancelled.");
+        if (discount.Target != DiscountTarget.Order)
+            throw new InvalidArgumentException(
+                "Cannot add an OrderItem-targeted discount to the order itself - it must be added to the specific OrderItem instead.");
 
-        if (Status == OrderStatus.Completed)
-            throw ExceptionFactory.InvalidStatus("Cannot cancel a completed order.");
-
-        Shipping.Cancel();
-        Status = OrderStatus.Cancelled;
-        CancellationReason = reason.Trim();
+        Discounts.Add(discount);
     }
 
-    public void Complete()
+    public void AddRangeDiscounts(IEnumerable<OrderDiscount> discounts)
     {
-        if (Status != OrderStatus.Confirmed)
-            throw ExceptionFactory.InvalidStatus($"Cannot complete an order in {Status} status.");
-
-        if (Shipping.Status != ShippingStatus.Delivered)
-            throw ExceptionFactory.InvalidStatus($"Cannot complete an order when shipping status is {Shipping.Status}.");
-
-        Status = OrderStatus.Completed;
+        foreach (var discount in discounts)
+        {
+            AddDiscount(discount);
+        }
     }
+    #endregion
+
 }

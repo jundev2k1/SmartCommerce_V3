@@ -1,7 +1,4 @@
-using BuildingBlock.SharedKernel.Extensions;
 using BuildingBlock.SharedKernel.Text;
-
-using Order.Domain.ValueObjects;
 
 namespace Order.Domain.Entities;
 

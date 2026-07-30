@@ -16,18 +16,13 @@ public sealed class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
             .IsRequired();
         builder.Property(x => x.ProductId)
             .IsRequired();
-        builder.Property(x => x.Name)
+        builder.Property(x => x.ProductName)
             .HasMaxLength(200)
             .IsRequired();
         builder.Property(x => x.UnitPrice)
             .HasColumnType("numeric(18,2)");
         builder.Property(x => x.Quantity)
             .IsRequired();
-        builder.Property(x => x.Discount)
-            .HasColumnType("numeric(18,2)")
-            .HasDefaultValue(0m);
-
-        builder.Ignore(x => x.LineTotal);
 
         builder.Property(x => x.CreatedAt)
             .HasDefaultValueSql("now()");

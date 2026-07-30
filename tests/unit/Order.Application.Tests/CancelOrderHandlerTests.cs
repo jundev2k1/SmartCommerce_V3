@@ -53,7 +53,7 @@ public sealed class CancelOrderHandlerTests
     {
         var order = CreateOrder();
         if (confirmed)
-            order.Confirm();
+            order.Accept();
 
         var (writeService, outbox, inventory, uow) = CreateSubstitutes(order);
         var handler = new CancelOrderHandler(writeService, outbox, inventory, uow);
@@ -93,7 +93,7 @@ public sealed class CancelOrderHandlerTests
     public async Task Handle_DoesNotRestock_WhenOrderIsCompleted()
     {
         var order = CreateOrder();
-        order.Confirm();
+        order.Accept();
         order.Complete();
 
         var (writeService, outbox, inventory, uow) = CreateSubstitutes(order);
