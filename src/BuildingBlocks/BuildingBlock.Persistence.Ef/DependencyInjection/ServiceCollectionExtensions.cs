@@ -2,6 +2,8 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Persistence.Audit;
 using BuildingBlock.Persistence.Ef.DbContext;
 using BuildingBlock.Persistence.Ef.Interceptors;
+using BuildingBlock.Persistence.Ef.Repository;
+using BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -26,6 +28,7 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IAuditMetadataProvider, NullAuditMetadataProvider>();
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, AuditInterceptor>());
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TimestampInterceptor>());
+        services.TryAddScoped(typeof(IRepository<>), typeof(GenericRepository<,>));
 
         services.AddDbContext<TContext>((serviceProvider, options) =>
         {
