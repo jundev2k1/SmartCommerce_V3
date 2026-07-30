@@ -4,6 +4,7 @@ using BuildingBlock.Persistence.Repository;
 
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Domain.Enums;
+using Order.Domain.ValueObjects;
 
 namespace Order.Persistence.Contexts.Orders.Write;
 
@@ -20,39 +21,24 @@ public sealed class OrderWriteService(IRepository<OrderEntity> repo) : IOrderWri
         await repo.AddAsync(order, ct);
     }
 
-    public async Task<(Guid CustomerId, decimal TotalAmount)> UpdateItemsAsync(
-        Guid orderId,
-        IReadOnlyCollection<OrderItemCreateModel> items,
-        CancellationToken ct = default)
-    {
-        var customerId = Guid.Empty;
-        var totalAmount = 0m;
-
-        await repo.UpdateAsync(orderId, async order =>
-        {
-            order.UpdateItems(items);
-            customerId = order.Owner.OwnerId;
-            totalAmount = order.TotalAmount;
-            await Task.CompletedTask;
-        }, ct);
-
-        return (customerId, totalAmount);
-    }
-
     public async Task UpdateOwnerInfoAsync(
         Guid orderId,
-        string customerPhone,
-        string shippingAddress,
+        string ownerName,
+        Email ownerEmail,
+        PhoneNumber ownerPhone,
+        string idempotencyKey,
         CancellationToken ct = default)
     {
-        await repo.UpdateAsync(orderId, async order =>
-        {
-            if (order.Status is not OrderStatus.Confirmed)
-                throw new BadRequestException(MessageCode.InvalidOrderStatus);
+        await repo.UpdateAsync(
+            id: orderId,
+            updateAction: order =>
+            {
+                if (order.Status is not OrderStatus.Confirmed)
+                    throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
-            order.UpdateOwnerInfo(customerPhone, shippingAddress);
-            await Task.CompletedTask;
-        }, ct);
+                order.UpdateOwnerInfo(ownerName, ownerEmail, ownerPhone, idempotencyKey);
+            },
+            ct);
     }
 
     public async Task<decimal> ConfirmAsync(Guid orderId, CancellationToken ct = default)

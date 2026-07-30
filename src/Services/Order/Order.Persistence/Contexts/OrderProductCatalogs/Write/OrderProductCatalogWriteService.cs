@@ -1,6 +1,8 @@
 using BuildingBlock.Persistence.Repository;
 
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Domain.Enums;
+using Order.Domain.ValueObjects;
 using Order.Persistence.Contexts.OrderProductCatalogs.Repositories;
 
 namespace Order.Persistence.Contexts.OrderProductCatalogs.Write;
@@ -20,55 +22,35 @@ public sealed class OrderProductCatalogWriteService(
     }
 
     public async Task UpdateVariationSnapshotAsync(
-        Guid id,
-        string productName,
-        string sku,
-        decimal price,
-        string status,
-        CancellationToken ct = default)
-    {
-        await repo.UpdateAsync(id, async entry =>
-        {
-            entry.UpdatePricing(sku, price, status);
-            entry.UpdateProductName(productName);
-            await Task.CompletedTask;
-        }, ct);
-    }
-
-    public async Task UpdatePricingAsync(
-        Guid id,
-        string sku,
-        decimal price,
-        string status,
-        CancellationToken ct = default)
-    {
-        await repo.UpdateAsync(id, async entry =>
-        {
-            entry.UpdatePricing(sku, price, status);
-            await Task.CompletedTask;
-        }, ct);
-    }
-
-    public async Task UpdateProductNameByProductIdAsync(
         Guid productId,
-        string productName,
+        Guid variationId,
+        string name,
+        Sku sku,
+        Money price,
+        OrderProductCatalogStatus status,
         CancellationToken ct = default)
     {
-        await catalogRepo.UpdateProductNameByProductIdAsync(
-            productId,
-            productName,
-            ct);
+        await catalogRepo.UpdateAsync(productId, variationId, entry =>
+        {
+            entry.UpdateSku(sku);
+            entry.UpdatePricing(price);
+            entry.UpdateName(name);
+            entry.UpdateStatus(status);
+        }, ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
+    public async Task DeleteAsync(
+        Guid productId,
+        Guid variationId,
+        CancellationToken ct = default)
     {
-        await repo.DeleteAsync(id, ct);
+        await catalogRepo.DeleteAsync(productId, variationId, ct);
     }
 
     public async Task DeleteByProductIdAsync(
         Guid productId,
         CancellationToken ct = default)
     {
-        await catalogRepo.DeleteByProductIdAsync(productId, ct);
+        await catalogRepo.DeleteProductAsync(productId, ct);
     }
 }

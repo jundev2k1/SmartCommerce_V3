@@ -1,8 +1,21 @@
+using BuildingBlock.Persistence.Repository;
+
 namespace Order.Persistence.Contexts.OrderProductCatalogs.Repositories;
 
-public interface IOrderProductCatalogRepository
+public interface IOrderProductCatalogRepository : IRepository<OrderProductCatalog>
 {
-    Task UpdateProductNameByProductIdAsync(Guid productId, string productName, CancellationToken ct = default);
+    Task UpdateAsync(
+        Guid productId,
+        Guid variationId,
+        Action<OrderProductCatalog> updateAction,
+        CancellationToken ct = default);
 
-    Task DeleteByProductIdAsync(Guid productId, CancellationToken ct = default);
+    Task DeleteAsync(
+        Guid productId,
+        Guid variationId,
+        CancellationToken ct = default);
+
+    Task DeleteProductAsync(
+        Guid productId,
+        CancellationToken ct = default);
 }
