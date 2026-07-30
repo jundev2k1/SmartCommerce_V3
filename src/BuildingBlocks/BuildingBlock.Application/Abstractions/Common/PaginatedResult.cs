@@ -10,7 +10,7 @@ public class PaginatedResult<T>
     public bool HasPreviousPage => PageNumber > 1;
     public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
 
-    public static PaginatedResult<T> Create(List<T> items, int pageNumber, int pageSize, int totalCount)
+    public static PaginatedResult<T> Create(IEnumerable<T> items, int pageNumber, int pageSize, int totalCount)
     {
         return new PaginatedResult<T>
         {
