@@ -1,19 +1,34 @@
 using BuildingBlock.Application.Abstractions.Common;
+using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Infrastructure.Authorization;
 using BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Orders.Commands.AdminCreateOrder;
-using Order.Application.Features.Orders.Common;
+using Order.Application.Features.Orders.Commands.CreateOrder;
+using Order.Application.Features.Orders.DTOs;
 
 namespace Order.API.Endpoints.Order;
 
-public sealed record AdminCreateOrderItemRequestDto(Guid ProductId, Guid VariationId, int Quantity, decimal Discount = 0m);
+public sealed record AdminCreateOrderOwnerInfoRequest(
+    Guid OwnerId,
+    string OwnerName,
+    string OwnerEmail,
+    string OwnerPhone);
+
+public sealed record AdminCreateOrderShippingInfoRequest(
+    string ShippingMethod,
+    string ReceiverName,
+    string ReceiverPhone,
+    string ShippingAddress);
+
+public sealed record AdminCreateOrderItemRequestDto(
+    Guid ProductId,
+    Guid VariationId,
+    int Quantity,
+    decimal Discount = 0m);
 
 public sealed record AdminCreateOrderRequest(
-    Guid CustomerId,
-    string CustomerName,
-    string CustomerPhone,
-    string ShippingAddress,
+    AdminCreateOrderOwnerInfoRequest OwnerInfo,
+    AdminCreateOrderShippingInfoRequest ShippingInfo,
     IReadOnlyCollection<AdminCreateOrderItemRequestDto> Items);
 
 public sealed class AdminCreateOrderEndpoint : ICarterModule
@@ -56,19 +71,54 @@ public sealed class AdminCreateOrderEndpoint : ICarterModule
 
     private static async Task<IResult> Handle(
         [FromBody] AdminCreateOrderRequest request,
+        [FromServices] ICurrentUserService currentUser,
         [FromServices] ISender sender,
         CancellationToken ct = default)
     {
-        var command = new AdminCreateOrderCommand(
-            request.CustomerId,
-            request.CustomerName,
-            request.CustomerPhone,
-            request.ShippingAddress,
-            [.. request.Items.Select(i => new OrderItemRequest(i.ProductId, i.VariationId, i.Quantity, i.Discount))]);
+        var adminId = currentUser.GetUserId()
+            ?? throw new UnauthorizedAccessException(
+                "Admin user must be authenticated to create an order on behalf of a customer.");
 
+        var command = new CreateOrderCommand(
+            MapToOrderOwnerRequestDto(request.OwnerInfo),
+            MapToOrderShippingInfoRequestDto(request.ShippingInfo),
+            MapToOrderItemRequestDtos(request.Items),
+            adminId);
         var response = await sender.Send(command, ct);
 
         return Results.Accepted($"/orders/{response.OrderId}",
             ApiResponse<CreateOrderResponse>.Ok(response));
+    }
+
+    private static OrderOwnerRequestDto MapToOrderOwnerRequestDto(
+        AdminCreateOrderOwnerInfoRequest input)
+    {
+        return new OrderOwnerRequestDto(
+            input.OwnerId,
+            input.OwnerName.Trim(),
+            Email.Create(input.OwnerEmail.Trim()),
+            PhoneNumber.Create(input.OwnerPhone.Trim()));
+    }
+
+    private static OrderShippingInfoRequestDto MapToOrderShippingInfoRequestDto(
+        AdminCreateOrderShippingInfoRequest input)
+    {
+        return new OrderShippingInfoRequestDto(
+            Enum.TryParse<ShippingMethod>(input.ShippingMethod.Trim(), out var shippingMethod)
+                ? shippingMethod
+                : throw new ArgumentException("Invalid shipping method"),
+            input.ReceiverName.Trim(),
+            PhoneNumber.Create(input.ReceiverPhone.Trim()),
+            input.ShippingAddress.Trim());
+    }
+
+    private static OrderItemRequestDto[] MapToOrderItemRequestDtos(
+        IReadOnlyCollection<AdminCreateOrderItemRequestDto> items)
+    {
+        return [.. items.Select(i =>
+            new OrderItemRequestDto(
+                i.ProductId,
+                i.VariationId,
+                i.Quantity))];
     }
 }

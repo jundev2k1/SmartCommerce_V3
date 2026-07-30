@@ -9,7 +9,10 @@ using Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 namespace Order.API.Endpoints.Order;
 
-public sealed record UpdateOrderOwnerInfoRequest(string CustomerPhone, string ShippingAddress);
+public sealed record UpdateOrderOwnerInfoRequest(
+    string OwnerName,
+    string OwnerEmail,
+    string OwnerPhone);
 
 public sealed class UpdateOrderOwnerInfoEndpoint : ICarterModule
 {
@@ -45,7 +48,7 @@ public sealed class UpdateOrderOwnerInfoEndpoint : ICarterModule
             .WithName("UpdateOrderOwnerInfo")
             .WithDisplayName("Update Order Owner Info API")
             .WithDescription(API_DESC.JoinToString("\n"))
-            .Produces<ApiResponse<UpdateOrderOwnerInfoResponse>>(StatusCodes.Status200OK);
+            .Produces<ApiResponse<object?>>(StatusCodes.Status200OK);
     }
 
     private static async Task<IResult> Handle(
@@ -56,10 +59,11 @@ public sealed class UpdateOrderOwnerInfoEndpoint : ICarterModule
     {
         var command = new UpdateOrderOwnerInfoCommand(
             orderId,
-            request.CustomerPhone.Trim(),
-            request.ShippingAddress.Trim());
-        var response = await sender.Send(command, ct);
+            request.OwnerName.Trim(),
+            request.OwnerEmail.Trim(),
+            request.OwnerPhone.Trim());
+        await sender.Send(command, ct);
 
-        return Results.Ok(ApiResponse<UpdateOrderOwnerInfoResponse>.Ok(response));
+        return Results.Ok(ApiResponse<object?>.NoContent());
     }
 }
