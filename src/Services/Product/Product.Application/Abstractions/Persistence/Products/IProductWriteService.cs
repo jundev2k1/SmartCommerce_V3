@@ -23,7 +23,7 @@ public interface IProductWriteService
         IEnumerable<ProductVariationInputDto> variations,
         CancellationToken ct = default);
 
-    Task UpdateVariationInformationAsync(
+    Task<ProductVariation> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,

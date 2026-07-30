@@ -29,6 +29,7 @@ public sealed class ProductReadService(
 
     public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
+        // TODO: change to get with includes
         return await repo.GetByIdAsync(id, ct);
     }
 

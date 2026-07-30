@@ -69,7 +69,7 @@ public sealed class ProductWriteService(
         return [.. entities];
     }
 
-    public async Task UpdateVariationInformationAsync(
+    public async Task<ProductVariation> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -83,9 +83,10 @@ public sealed class ProductWriteService(
         ProductVariationStatus status,
         CancellationToken ct = default)
     {
+        ProductVariation updated = null!;
         await productRepo.UpdateVariationAsync(
             variationId,
-            query => query,
+            query => query.Include(q => q.Product),
             async variation =>
             {
                 variation.UpdateIdentifiers(sku, barcode);
@@ -107,9 +108,12 @@ public sealed class ProductWriteService(
                         break;
                 }
 
+                updated = variation;
                 await uow.SaveChangesAsync(ct);
             },
             ct);
+
+        return updated;
     }
 
     public async Task DeleteVariationAsync(Guid variationId, CancellationToken ct = default)

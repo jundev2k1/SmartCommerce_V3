@@ -25,11 +25,11 @@ public sealed class UpdateVariationHandler(
         var dimensions = request.DimensionsLength is not null && request.DimensionsWidth is not null && request.DimensionsHeight is not null
             ? Dimensions.Create(request.DimensionsLength.Value, request.DimensionsWidth.Value, request.DimensionsHeight.Value)
             : null;
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.UpdateVariationInformationAsync(
+            var variation = await productWriteService.UpdateVariationInformationAsync(
                 request.ProductId,
                 request.VariationId,
                 Sku.Create(request.Sku),
@@ -47,8 +47,8 @@ public sealed class UpdateVariationHandler(
                 new ProductVariationUpdatedIntegrationEvent(
                     request.ProductId,
                     request.VariationId,
-                    request.Sku,
                     request.Name,
+                    request.Sku,
                     request.Price,
                     status.ToString(),
                     correlationId),
