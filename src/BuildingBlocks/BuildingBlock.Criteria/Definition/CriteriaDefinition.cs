@@ -35,7 +35,7 @@ public sealed class CriteriaDefinition<TEntity>
         => _fields.TryGetValue(name, out field!);
 
     public IReadOnlyCollection<CriteriaFieldMetadata<TEntity>> KeywordFields
-        => _fields.Values.Where(f => f.KeywordSearchable).ToArray();
+        => [.. _fields.Values.Where(f => f.KeywordSearchable)];
 
     internal void Register(CriteriaFieldMetadata<TEntity> metadata) => _fields[metadata.LogicalName] = metadata;
 
