@@ -9,7 +9,8 @@ public interface IStockAvailabilityService
 {
     /// <summary>One batched Inventory gRPC call for every requested (variationId, quantity) pair. Never throws for insufficiency - callers decide how to react (reject outright, mark specific items, etc.).</summary>
     Task<IReadOnlyDictionary<Guid, StockAvailability>> CheckAsync(
-        IReadOnlyCollection<StockRequest> requests, CancellationToken ct = default);
+        IReadOnlyCollection<StockRequest> requests,
+        CancellationToken ct = default);
 }
 
 public sealed record StockRequest(Guid VariationId, int RequestedQuantity);

@@ -7,8 +7,10 @@ public interface IOrderWriteService
     /// <summary>Updates the customer-editable shipping/contact snapshot (Order.UpdateOwnerInfo enforces the non-terminal-status guard).</summary>
     Task UpdateOwnerInfoAsync(
         Guid orderId,
-        string customerPhone,
-        string shippingAddress,
+        string ownerName,
+        Email ownerEmail,
+        PhoneNumber ownerPhone,
+        string idempotencyKey,
         CancellationToken ct = default);
 
     Task<decimal> ConfirmAsync(Guid orderId, CancellationToken ct = default);

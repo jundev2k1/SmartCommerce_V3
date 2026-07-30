@@ -1,7 +1,6 @@
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Contract.Events.Order;
-using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Saga.Abstractions;
 using BuildingBlock.Saga.Core;
 

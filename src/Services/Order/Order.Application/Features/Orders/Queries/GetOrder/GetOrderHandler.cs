@@ -29,7 +29,7 @@ public sealed class GetOrderHandler(
             order.Owner.ShippingAddress,
             order.Status,
             order.TotalAmount,
-            [.. order.Items.Select(i => new GetOrderItemResponse(i.ProductId, i.ProductName, i.UnitPrice, i.Quantity, i.Discount, i.LineTotal))],
+            [.. order.Items.Select(i => new GetOrderItemResponse(i.ProductId, i.Name, i.UnitPrice, i.Quantity, i.Discount, i.LineTotal))],
             order.CancellationReason,
             order.CreatedAt,
             order.UpdatedAt);

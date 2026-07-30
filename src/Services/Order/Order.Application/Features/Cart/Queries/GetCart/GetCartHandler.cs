@@ -11,8 +11,10 @@ public sealed class GetCartHandler(
 {
     public async Task<CartResponse> Handle(GetCartQuery request, CancellationToken ct = default)
     {
-        var userId = currentUser.GetUserId() ?? throw new ForbiddenException();
+        var userId = currentUser.GetUserId()
+            ?? throw new ForbiddenException();
 
-        return await cartService.GetCartAsync(userId, ct);
+        var (_, cart) = await cartService.GetCartAsync(userId, ct);
+        return cart;
     }
 }

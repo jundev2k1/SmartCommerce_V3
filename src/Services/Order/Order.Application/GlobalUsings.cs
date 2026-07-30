@@ -14,6 +14,7 @@ global using BuildingBlock.SharedKernel.Extensions;
 
 global using Order.Domain.Entities;
 global using Order.Domain.Enums;
+global using Order.Domain.ValueObjects;
 // "Order" collides with this project's own root namespace (Order.Application, Order.Domain, ...) -
 // C# resolves the bare identifier to the namespace before the imported type, so the entity needs an alias.
 global using OrderEntity = Order.Domain.Entities.Order;

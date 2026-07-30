@@ -1,5 +1,7 @@
 using FluentValidation;
 
+using Order.Domain.ValueObjects;
+
 namespace Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 public sealed class UpdateOrderOwnerInfoValidator : AbstractValidator<UpdateOrderOwnerInfoCommand>
@@ -8,12 +10,10 @@ public sealed class UpdateOrderOwnerInfoValidator : AbstractValidator<UpdateOrde
     {
         RuleFor(x => x.OrderId).NotEmpty().WithMessage("OrderId is required");
 
-        RuleFor(x => x.CustomerPhone)
-            .NotEmpty().WithMessage("CustomerPhone is required")
-            .MaximumLength(30);
+        RuleFor(x => x.OwnerPhone)
+            .Must(PhoneNumber.IsValid).WithMessage("OwnerPhone is not valid");
 
-        RuleFor(x => x.ShippingAddress)
-            .NotEmpty().WithMessage("ShippingAddress is required")
-            .MaximumLength(500);
+        RuleFor(x => x.OwnerEmail)
+            .Must(Email.IsValid).WithMessage("OwnerEmail is not valid");
     }
 }

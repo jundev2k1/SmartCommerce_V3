@@ -1,25 +1,22 @@
 using Order.Application.Abstractions.Persistence.Orders;
+using Order.Domain.ValueObjects;
 
 namespace Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 public sealed class UpdateOrderOwnerInfoHandler(
     IOrderWriteService orderWriteService,
-    IUnitOfWork uow) : ICommandHandler<UpdateOrderOwnerInfoCommand, UpdateOrderOwnerInfoResponse>
+    IUnitOfWork uow) : ICommandHandler<UpdateOrderOwnerInfoCommand>
 {
-    public async Task<UpdateOrderOwnerInfoResponse> Handle(UpdateOrderOwnerInfoCommand request, CancellationToken ct = default)
+    public async Task Handle(UpdateOrderOwnerInfoCommand request, CancellationToken ct = default)
     {
         await uow.ExecuteTransactionAsync(async () =>
         {
             await orderWriteService.UpdateOwnerInfoAsync(
                 request.OrderId,
-                request.CustomerPhone,
-                request.ShippingAddress,
+                request.OwnerName,
+                Email.Create(request.OwnerEmail),
+                PhoneNumber.Create(request.OwnerPhone),
                 ct);
         }, ct: ct);
-
-        return new UpdateOrderOwnerInfoResponse(
-            request.OrderId,
-            request.CustomerPhone,
-            request.ShippingAddress);
     }
 }

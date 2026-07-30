@@ -1,4 +1,5 @@
 using BuildingBlock.Application;
+
 using FluentValidation;
 
 using Mapster;
@@ -23,8 +24,7 @@ public static class DependencyInjection
             .AddMapster()
             .AddFluentValidation()
             .AddScoped<IStockAvailabilityService, StockAvailabilityService>()
-            .AddScoped<IOrderItemPreparationService, OrderItemPreparationService>()
-            .AddScoped<IOrderCreationService, OrderCreationService>();
+            .AddScoped<IOrderItemPreparationService, OrderItemPreparationService>();
 
         return services;
     }

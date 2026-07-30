@@ -7,15 +7,28 @@ namespace Order.Application.Abstractions.Services;
 /// </summary>
 public interface ICartService
 {
-    Task<CartResponse> GetCartAsync(Guid userId, CancellationToken ct = default);
+    Task<(OrderProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
+        Guid userId,
+        CancellationToken ct = default);
 
     /// <summary>Adds Quantity to the existing line if the variation is already in the cart, otherwise inserts a new line.</summary>
-    Task<CartResponse> AddItemAsync(Guid userId, Guid variationId, int quantity, CancellationToken ct = default);
+    Task<CartResponse> AddItemAsync(
+        Guid userId,
+        Guid variationId,
+        int quantity,
+        CancellationToken ct = default);
 
     /// <summary>Sets the line to an absolute Quantity. Rejects Quantity &lt;= 0 - callers should remove the line instead.</summary>
-    Task<CartResponse> UpdateItemQuantityAsync(Guid userId, Guid variationId, int quantity, CancellationToken ct = default);
+    Task<CartResponse> UpdateItemQuantityAsync(
+        Guid userId,
+        Guid variationId,
+        int quantity,
+        CancellationToken ct = default);
 
-    Task<CartResponse> RemoveItemAsync(Guid userId, Guid variationId, CancellationToken ct = default);
+    Task<CartResponse> RemoveItemAsync(
+        Guid userId,
+        Guid variationId,
+        CancellationToken ct = default);
 
     Task ClearCartAsync(Guid userId, CancellationToken ct = default);
 }
