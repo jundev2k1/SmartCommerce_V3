@@ -92,13 +92,28 @@ public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor)
         _httpContextAccessor.HttpContext?.Response.Cookies.Delete("RefreshToken");
     }
 
-    public string? GetCorrelationId()
+    public string GetCorrelationId()
     {
-        if (_httpContextAccessor.HttpContext is null) return null;
+        if (_httpContextAccessor.HttpContext is null)
+            return Guid.NewGuid().ToString();
 
-        return _httpContextAccessor.HttpContext.Request.Headers.TryGetValue(HeaderKeys.CorrelationId, out var correlationIdValue)
-            ? correlationIdValue.ToString()
-            : null;
+        return _httpContextAccessor.HttpContext.Request.Headers.TryGetValue(
+            HeaderKeys.CorrelationId,
+            out var correlationIdValue)
+                ? correlationIdValue.ToString()
+                : Guid.NewGuid().ToString();
+    }
+
+    public string? GetIdempotencyKey()
+    {
+        if (_httpContextAccessor.HttpContext is null)
+            return null;
+
+        return _httpContextAccessor.HttpContext.Request.Headers.TryGetValue(
+            HeaderKeys.IdempotencyKey,
+            out var idempotencyKeyValue)
+                ? idempotencyKeyValue.ToString()
+                : null;
     }
 
     public string GetIpAddress()

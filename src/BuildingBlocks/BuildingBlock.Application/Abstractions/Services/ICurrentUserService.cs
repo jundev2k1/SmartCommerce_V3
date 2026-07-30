@@ -26,7 +26,9 @@ public interface ICurrentUserService
 
     void RemoveRefreshToken();
 
-    string? GetCorrelationId();
+    string GetCorrelationId();
+
+    string? GetIdempotencyKey();
 
     string GetIpAddress();
 }
