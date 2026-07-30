@@ -5,6 +5,7 @@ using BuildingBlock.SharedKernel.Constants;
 
 using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 using Order.Application.Abstractions.Services;
+using Order.Domain.Entities;
 
 namespace Order.Infrastructure.Caching;
 
@@ -23,13 +24,19 @@ public sealed class CartService(
 {
     private static readonly TimeSpan Ttl = TimeSpan.FromMinutes(CacheKeys.Cart.DefaultTtlMinutes);
 
-    public async Task<CartResponse> GetCartAsync(Guid userId, CancellationToken ct = default)
+    public async Task<(OrderProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
+        Guid userId,
+        CancellationToken ct = default)
     {
         var data = await LoadAsync(userId, ct);
         return await EnrichAndPruneAsync(userId, data, ct);
     }
 
-    public async Task<CartResponse> AddItemAsync(Guid userId, Guid variationId, int quantity, CancellationToken ct = default)
+    public async Task<CartResponse> AddItemAsync(
+        Guid userId,
+        Guid variationId,
+        int quantity,
+        CancellationToken ct = default)
     {
         var data = await LoadAsync(userId, ct);
         var existing = data.Items.FirstOrDefault(i => i.VariationId == variationId);
@@ -48,10 +55,15 @@ public sealed class CartService(
         }
 
         await SaveAsync(userId, data, ct);
-        return await EnrichAndPruneAsync(userId, data, ct);
+        var (_, cart) = await EnrichAndPruneAsync(userId, data, ct);
+        return cart;
     }
 
-    public async Task<CartResponse> UpdateItemQuantityAsync(Guid userId, Guid variationId, int quantity, CancellationToken ct = default)
+    public async Task<CartResponse> UpdateItemQuantityAsync(
+        Guid userId,
+        Guid variationId,
+        int quantity,
+        CancellationToken ct = default)
     {
         if (quantity <= 0)
             throw ExceptionFactory.InvalidRange("Quantity must be greater than 0 - remove the item instead of setting it to zero or less.");
@@ -66,16 +78,21 @@ public sealed class CartService(
         data.Items.Add(existing with { Quantity = quantity });
 
         await SaveAsync(userId, data, ct);
-        return await EnrichAndPruneAsync(userId, data, ct);
+        var (_, cart) = await EnrichAndPruneAsync(userId, data, ct);
+        return cart;
     }
 
-    public async Task<CartResponse> RemoveItemAsync(Guid userId, Guid variationId, CancellationToken ct = default)
+    public async Task<CartResponse> RemoveItemAsync(
+        Guid userId,
+        Guid variationId,
+        CancellationToken ct = default)
     {
         var data = await LoadAsync(userId, ct);
         data.Items.RemoveAll(i => i.VariationId == variationId);
 
         await SaveAsync(userId, data, ct);
-        return await EnrichAndPruneAsync(userId, data, ct);
+        var (_, cart) = await EnrichAndPruneAsync(userId, data, ct);
+        return cart;
     }
 
     public async Task ClearCartAsync(Guid userId, CancellationToken ct = default)
@@ -84,14 +101,17 @@ public sealed class CartService(
     }
 
     /// <summary>Checked on every add/update-quantity - resultingQuantity is the line's total quantity AFTER this mutation (existing + delta for Add, the new absolute value for Update), never just the delta, so stock is validated against what the cart would actually hold.</summary>
-    private async Task EnsureOrderableAndInStockAsync(Guid variationId, int resultingQuantity, CancellationToken ct)
+    private async Task EnsureOrderableAndInStockAsync(
+        Guid variationId,
+        int resultingQuantity,
+        CancellationToken ct)
     {
         var variations = await catalogReadService.GetByVariantionIdsAsync([variationId], ct);
         var variation = variations.FirstOrDefault()
             ?? throw new NotFoundException("Variation", variationId);
 
         if (!variation.IsOrderable)
-            throw ExceptionFactory.InvalidState($"Product ({variation.ProductName}) is not currently available for ordering.");
+            throw ExceptionFactory.InvalidState($"Product ({variation.Name}) is not currently available for ordering.");
 
         var availability = await stockAvailabilityService.CheckAsync(
             [new StockRequest(variationId, resultingQuantity)], ct);
@@ -122,10 +142,13 @@ public sealed class CartService(
     /// line gets a live AvailableStock/IsInsufficientStock so the client can mark/disable it,
     /// per the "surface it, don't silently drop it" requirement.
     /// </summary>
-    private async Task<CartResponse> EnrichAndPruneAsync(Guid userId, CartData data, CancellationToken ct)
+    private async Task<(OrderProductCatalog[] Catalogs, CartResponse Cart)> EnrichAndPruneAsync(
+        Guid userId,
+        CartData data,
+        CancellationToken ct)
     {
         if (data.Items.Count == 0)
-            return new CartResponse([]);
+            return ([], new CartResponse([]));
 
         var variationIds = data.Items.Select(i => i.VariationId).ToArray();
         var catalogEntries = await catalogReadService.GetByVariantionIdsAsync(variationIds, ct);
@@ -139,20 +162,28 @@ public sealed class CartService(
             await SaveAsync(userId, new CartData(validItems), ct);
 
         if (validItems.Count == 0)
-            return new CartResponse([]);
+            return ([], new CartResponse([]));
 
-        var stockRequests = validItems.Select(i => new StockRequest(i.VariationId, i.Quantity)).ToArray();
+        var stockRequests = validItems
+            .Select(i => new StockRequest(i.VariationId, i.Quantity))
+            .ToArray();
         var availability = await stockAvailabilityService.CheckAsync(stockRequests, ct);
 
-        return new CartResponse([.. validItems
+        var cart = new CartResponse([.. validItems
             .Select(i =>
             {
                 var entry = catalogById[i.VariationId];
                 var stock = availability[i.VariationId];
                 return new CartItemResponse(
-                    entry.ProductId, i.VariationId, entry.ProductName, entry.Price, i.Quantity,
-                    stock.AvailableQuantity, !stock.IsSufficient);
+                    entry.ProductId,
+                    i.VariationId,
+                    entry.Name,
+                    entry.Price.Value,
+                    i.Quantity,
+                    stock.AvailableQuantity,
+                    !stock.IsSufficient);
             })]);
+        return (catalogEntries, cart);
     }
 }
 

@@ -24,11 +24,13 @@ public sealed class OnProductVariationUpdatedHandler(
         await uow.ExecuteTransactionAsync(
             action: async () =>
             {
-                await catalogWriteService.UpdatePricingAsync(
+                await catalogWriteService.UpdateVariationSnapshotAsync(
+                    @event.ProductId,
                     @event.ProductVariationId,
-                    @event.Sku,
-                    @event.Price,
-                    @event.Status,
+                    @event.Name,
+                    Sku.Create(@event.Sku),
+                    Money.Create(@event.Price),
+                    Enum.Parse<OrderProductCatalogStatus>(@event.Status),
                     ct);
             },
             ct: ct);

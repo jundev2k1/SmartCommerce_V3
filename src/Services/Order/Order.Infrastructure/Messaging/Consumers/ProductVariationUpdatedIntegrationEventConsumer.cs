@@ -3,7 +3,6 @@ using System.Text.Json;
 using BuildingBlock.Application.Abstractions.Events;
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Contract.Events.Product;
-using BuildingBlock.Messaging.Abstractions;
 
 using Order.Application.Features.Catalog.Events.OnProductVariationUpdated;
 
@@ -33,6 +32,7 @@ public sealed class ProductVariationUpdatedIntegrationEventConsumer(
         var @event = new OnProductVariationUpdatedEvent(
             integrationEvent.ProductId,
             integrationEvent.ProductVariationId,
+            integrationEvent.VariationName,
             integrationEvent.Sku,
             integrationEvent.Price,
             integrationEvent.Status,
