@@ -35,7 +35,7 @@ public sealed class CreateProductHandler(
         var product = CreateNewProduct(request, categoryIds, tagIds);
 
         // Persist data and enqueue integration events.
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
         await SaveProductAsync(product, correlationId, ct);
 
         // Build response.

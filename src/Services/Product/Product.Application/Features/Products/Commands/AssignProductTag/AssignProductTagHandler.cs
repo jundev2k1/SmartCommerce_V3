@@ -20,7 +20,7 @@ public sealed class AssignProductTagHandler(
         _ = await tagReadService.GetByIdAsync(request.TagId, ct)
             ?? throw new NotFoundException(nameof(ProductTag), request.TagId);
 
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

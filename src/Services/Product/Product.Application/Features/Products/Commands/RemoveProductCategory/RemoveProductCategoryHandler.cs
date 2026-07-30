@@ -14,7 +14,7 @@ public sealed class RemoveProductCategoryHandler(
 {
     public async Task<RemoveProductCategoryResponse> Handle(RemoveProductCategoryCommand request, CancellationToken ct = default)
     {
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

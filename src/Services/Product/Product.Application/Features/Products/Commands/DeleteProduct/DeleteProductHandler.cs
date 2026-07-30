@@ -20,7 +20,7 @@ public sealed class DeleteProductHandler(
         _ = await productReadService.GetByIdAsync(request.ProductId, ct)
             ?? throw new NotFoundException(nameof(ProductEntity), request.ProductId);
 
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

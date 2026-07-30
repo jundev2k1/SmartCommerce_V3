@@ -82,7 +82,7 @@ public sealed class CreateUserEndpoint : ICarterModule
             request.MiddleName.Trim(),
             request.LastName.Trim(),
             request.Roles,
-            request.TempPassword);
+            request.TempPassword.Trim());
 
         var response = await sender.Send(command, ct);
 

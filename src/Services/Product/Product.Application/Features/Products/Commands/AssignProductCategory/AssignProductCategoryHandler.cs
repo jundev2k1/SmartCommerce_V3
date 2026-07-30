@@ -20,7 +20,7 @@ public sealed class AssignProductCategoryHandler(
         _ = await categoryReadService.GetByIdAsync(request.CategoryId, ct)
             ?? throw new NotFoundException(nameof(ProductCategory), request.CategoryId);
 
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

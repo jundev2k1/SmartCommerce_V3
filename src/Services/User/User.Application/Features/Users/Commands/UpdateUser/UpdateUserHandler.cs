@@ -16,24 +16,24 @@ public sealed class UpdateUserHandler(
 {
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken ct = default)
     {
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             await userWriteService.UpdateProfileDetailsAsync(
-                request.UserId, request.FirstName.Trim(), request.MiddleName.Trim(), request.LastName.Trim(), request.PhoneNumber.Trim(), ct);
+                request.UserId,
+                request.FirstName,
+                request.MiddleName,
+                request.LastName,
+                request.PhoneNumber,
+                ct);
 
-            // Search sync trigger - see docs/reference/search.md and
-            // docs/tasks/2026-07-28/Task8_projection-builder-and-sync-events.md. Without this,
-            // the search index would never learn about a profile edit.
-            var integrationEvent = new UserProfileUpdatedIntegrationEvent(request.UserId, correlationId);
+            var integrationEvent = new UserProfileUpdatedIntegrationEvent(
+                request.UserId,
+                correlationId);
             await outboxStore.EnqueueAsync(integrationEvent, ct);
         }, ct: ct);
 
-        // User Detail cache invalidation - see docs/tasks/2026-07-28/Task12_cache-invalidation-wiring.md.
-        // Invalidate-after-commit (not inside the transaction): the cache isn't transactional
-        // storage, so there's nothing to roll back there if the transaction above fails - it
-        // simply never runs in that case.
         await userProfileCache.RemoveAsync(request.UserId, ct);
 
         return new UpdateUserResponse();

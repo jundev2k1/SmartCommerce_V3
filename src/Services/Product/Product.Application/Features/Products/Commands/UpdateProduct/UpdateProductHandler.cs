@@ -20,7 +20,7 @@ public sealed class UpdateProductHandler(
             throw new ConflictException($"Product with slug ({request.Slug}) already exists");
 
         var slug = Slug.Create(request.Slug);
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

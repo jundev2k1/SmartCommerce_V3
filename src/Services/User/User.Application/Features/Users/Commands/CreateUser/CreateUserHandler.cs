@@ -29,20 +29,25 @@ public sealed class CreateUserHandler(
         // Create user profile
         var user = UserProfile.Create(
             Guid.CreateVersion7(),
-            request.Email.Trim(),
-            request.UserName.Trim(),
-            request.PhoneNumber.Trim(),
-            request.FirstName.Trim(),
-            request.MiddleName.Trim(),
-            request.LastName.Trim(),
+            request.Email,
+            request.UserName,
+            request.PhoneNumber,
+            request.FirstName,
+            request.MiddleName,
+            request.LastName,
             request.Roles);
 
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             await userWriteService.CreateAsync(user, ct);
-            await PublishProfileCreatedEventAsync(user, request.Roles, request.TempPassword.Trim(), correlationId, ct);
+            await PublishProfileCreatedEventAsync(
+                user,
+                request.Roles,
+                request.TempPassword,
+                correlationId,
+                ct);
         }, ct: ct);
 
         return new CreateUserResponse(user.Id);

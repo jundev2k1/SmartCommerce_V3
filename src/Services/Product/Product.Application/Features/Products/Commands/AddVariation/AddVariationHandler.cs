@@ -34,7 +34,7 @@ public sealed class AddVariationHandler(
         var targetProduct = await productReadService.GetByIdAsync(request.ProductId, ct)
             ?? throw new NotFoundException(nameof(request.ProductId), request.ProductId);
 
-        var correlationId = currentUser.GetCorrelationId() ?? Guid.NewGuid().ToString();
+        var correlationId = currentUser.GetCorrelationId();
 
         ProductVariation variation = null!;
         await unitOfWork.ExecuteTransactionAsync(async () =>
