@@ -111,7 +111,7 @@ public sealed class CartService(
             ?? throw new NotFoundException("Variation", variationId);
 
         if (!variation.IsOrderable)
-            throw ExceptionFactory.InvalidState($"Product ({variation.Name}) is not currently available for ordering.");
+            throw ExceptionFactory.InvalidState($"Product ({variation.ProductName}) is not currently available for ordering.");
 
         var availability = await stockAvailabilityService.CheckAsync(
             [new StockRequest(variationId, resultingQuantity)], ct);
@@ -177,7 +177,7 @@ public sealed class CartService(
                 return new CartItemResponse(
                     entry.ProductId,
                     i.VariationId,
-                    entry.Name,
+                    entry.ProductName,
                     entry.Price.Value,
                     i.Quantity,
                     stock.AvailableQuantity,

@@ -14,7 +14,8 @@ public sealed class OrderProductCatalog : BaseEntity<Guid>
 {
     public Guid ProductId { get; private set; }
     public Guid VariationId { get; private set; }
-    public string Name { get; private set; } = string.Empty;
+    public string ProductName { get; private set; } = string.Empty;
+    public string VariationName { get; private set; } = string.Empty;
     public Sku Sku { get; private set; } = default!;
     public Money Price { get; private set; } = default!;
     public OrderProductCatalogStatus Status { get; private set; } = OrderProductCatalogStatus.Active;
@@ -26,7 +27,8 @@ public sealed class OrderProductCatalog : BaseEntity<Guid>
     public static OrderProductCatalog Create(
         Guid productId,
         Guid variationId,
-        string name,
+        string productName,
+        string variationName,
         Sku sku,
         Money price,
         OrderProductCatalogStatus status)
@@ -36,7 +38,8 @@ public sealed class OrderProductCatalog : BaseEntity<Guid>
             Id = Guid.CreateVersion7(),
             ProductId = productId,
             VariationId = variationId,
-            Name = name,
+            ProductName = productName,
+            VariationName = variationName,
             Sku = sku,
             Price = price,
             Status = status,
@@ -55,7 +58,7 @@ public sealed class OrderProductCatalog : BaseEntity<Guid>
 
     public void UpdateName(string name)
     {
-        Name = name;
+        ProductName = name;
     }
 
     public void UpdateStatus(OrderProductCatalogStatus status)

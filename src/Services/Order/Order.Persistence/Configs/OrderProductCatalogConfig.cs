@@ -11,7 +11,14 @@ public sealed class OrderProductCatalogConfig : IEntityTypeConfiguration<OrderPr
         builder.Property(x => x.ProductId)
             .IsRequired();
 
-        builder.Property(x => x.Name)
+        builder.Property(x => x.VariationId)
+            .IsRequired();
+
+        builder.Property(x => x.ProductName)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder.Property(x => x.VariationName)
             .HasMaxLength(200)
             .IsRequired();
 
@@ -29,6 +36,6 @@ public sealed class OrderProductCatalogConfig : IEntityTypeConfiguration<OrderPr
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
         builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");
 
-        builder.HasIndex(x => x.ProductId);
+        builder.HasIndex(x => new { x.ProductId, x.VariationId }).IsUnique();
     }
 }

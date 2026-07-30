@@ -13,6 +13,8 @@ using Order.Application;
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
 using Order.Domain.Entities;
+using Order.Domain.Enums;
+using Order.Domain.ValueObjects;
 using Order.Persistence;
 using Order.Persistence.Engine;
 
@@ -124,7 +126,7 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
     protected static ISender GetSender(AsyncServiceScope scope) => scope.ServiceProvider.GetRequiredService<ISender>();
 
     /// <summary>Seeds OrderProductCatalog rows directly (bypassing the Product->Kafka->consumer sync path, which isn't running here) so OrderItemPreparationService's catalog lookup resolves the variation ids a test uses.</summary>
-    protected async Task SeedCatalogAsync(params (Guid VariationId, Guid ProductId, string Name, string Sku, decimal Price)[] variations)
+    protected async Task SeedCatalogAsync(params (Guid ProductId, Guid VariationId, string ProductName, string VariationName, string Sku, decimal Price)[] variations)
     {
         await using var scope = CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
@@ -132,7 +134,14 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
         foreach (var v in variations)
         {
             db.OrderProductCatalogs.Add(
-                OrderProductCatalog.Create(v.VariationId, v.ProductId, v.Name, v.Sku, v.Price, OrderProductCatalog.ActiveStatus));
+                OrderProductCatalog.Create(
+                    v.ProductId,
+                    v.VariationId,
+                    v.ProductName,
+                    v.VariationName,
+                    Sku.Create(v.Sku),
+                    Money.Create(v.Price),
+                    OrderProductCatalogStatus.Active));
         }
 
         await db.SaveChangesAsync();
@@ -144,7 +153,7 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
         string customerName,
         string customerPhone,
         string shippingAddress,
-        params OrderItemCreateModel[] items)
+        params (Guid productId, Guid variationId, string productName, decimal unitPrice, int quantity)[] items)
     {
         var orderId = Guid.CreateVersion7();
 
@@ -152,7 +161,37 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
         var writeService = scope.ServiceProvider.GetRequiredService<IOrderWriteService>();
         var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-        var order = OrderEntity.Create(orderId, customerId, customerName, customerPhone, shippingAddress, items);
+        var order = OrderEntity.Create(Guid.NewGuid().ToString());
+
+        var orderOwner = OrderOwner.Create(
+            order.Id,
+            customerId,
+            customerName,
+            Email.Create("abc1234@gmai.com"),
+            PhoneNumber.Create(customerPhone));
+        order.SetOwner(orderOwner);
+
+        var orderShipping = OrderShipping.Create(
+            order.Id,
+            orderOwner.OwnerName,
+            orderOwner.OwnerPhone,
+            shippingAddress,
+            ShippingMethod.Standard,
+            Money.Create(0),
+            string.Empty);
+        order.SetShipping(orderShipping);
+
+        var orderItems = items
+            .Select(i => OrderItem.Create(
+                order.Id,
+                i.productId,
+                i.variationId,
+                i.productName,
+                Money.Create(i.unitPrice),
+                Quantity.Create(i.quantity)))
+            .ToArray();
+        order.SetOrderItems(orderItems);
+
         await writeService.CreateAsync(order);
         await uow.SaveChangesAsync();
 

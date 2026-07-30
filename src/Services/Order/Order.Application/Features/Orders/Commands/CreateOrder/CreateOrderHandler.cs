@@ -242,7 +242,7 @@ public sealed class CreateOrderHandler(
                 order.Id,
                 item.ProductId,
                 item.VariationId,
-                catalog.Name,
+                catalog.ProductName,
                 catalog.Price,
                 Quantity.Create(item.Quantity));
         }

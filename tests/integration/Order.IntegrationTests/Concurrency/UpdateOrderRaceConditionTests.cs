@@ -37,9 +37,10 @@ namespace Order.IntegrationTests.Concurrency;
 ///   every UpdateOrder call fail unconditionally, even with zero concurrency - see
 ///   docs/tasks/2026-07-27/Task23_updateorder-always-fails-not-a-race-condition.md.
 ///
-/// UpdateOrderOwnerInfo only mutates Order.Owner (CustomerPhone/ShippingAddress), never Items,
-/// so it sidesteps that bug entirely while still exercising the same xmin-based optimistic
-/// concurrency path (OrderConfig.cs's `.IsRowVersion()` + EfUnitOfWork's
+/// UpdateOrderOwnerInfo only mutates Order.Owner (OwnerName/OwnerEmail/OwnerPhone - shipping
+/// address/method now live on the separate OrderShipping entity, untouched by this command),
+/// never Items, so it sidesteps that bug entirely while still exercising the same xmin-based
+/// optimistic concurrency path (OrderConfig.cs's `.IsRowVersion()` + EfUnitOfWork's
 /// DbUpdateConcurrencyException -> ConflictException translation): Order.UpdateOwnerInfo calls
 /// the same Tourch() every other mutator does, which bumps the Orders row's UpdatedAt, so a
 /// concurrent Owner mutation still competes for the same per-Order xmin lock even though Owner
@@ -54,6 +55,11 @@ namespace Order.IntegrationTests.Concurrency;
 /// exactly match whichever request's intended values "won". Anything else gets logged loudly
 /// and, if it constitutes actual data corruption (not just "both succeeded"), fails the test -
 /// see the corruption checks at the bottom of the iteration loop.
+///
+/// Updated 2026-07-30: UpdateOrderOwnerInfoCommand was trimmed down to OwnerName/OwnerEmail/
+/// OwnerPhone only (ShippingAddress moved out to the separate OrderShipping entity, which this
+/// command no longer touches), so the corruption checks below now compare only those three
+/// fields instead of also asserting on ShippingAddress.
 /// </summary>
 public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : OrderIntegrationTestBase
 {
@@ -79,15 +85,14 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
                 Guid.CreateVersion7(),
                 "Race Condition Customer",
                 "0900000000",
-                "1 Test Street",
-                new OrderItemCreateModel(VariationId, "Race Condition Variation", 10.00m, 2));
+                "1 Test Street");
 
             // UpdateOrderOwnerInfo requires Status == Confirmed - see the class remarks.
             await ConfirmOrderAsync(orderId);
 
             // Task A and Task B: two different owner-info replacements for the exact same Order.
-            var commandA = new UpdateOrderOwnerInfoCommand(orderId, "0123123123", "Address A - 123 Test Street");
-            var commandB = new UpdateOrderOwnerInfoCommand(orderId, "0456456456", "Address B - 456 Test Avenue");
+            var commandA = new UpdateOrderOwnerInfoCommand(orderId, "User A", "userA@gmail.com", "0123123123");
+            var commandB = new UpdateOrderOwnerInfoCommand(orderId, "Admin B", "adminB@gmail.com", "0456456456");
 
             await using var scopeA = CreateScope();
             await using var scopeB = CreateScope();
@@ -146,19 +151,28 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         var stopwatch = Stopwatch.StartNew();
         try
         {
-            var response = await sender.Send(command);
+            await sender.Send(command);
             stopwatch.Stop();
-            return new RequestOutcome(label, 200, Describe(response), null, null, stopwatch.Elapsed);
+            return new RequestOutcome(
+                label,
+                200,
+                string.Empty,
+                null,
+                null,
+                stopwatch.Elapsed);
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
-            return new RequestOutcome(label, MapToStatusCode(ex), null, ex.GetType().Name, ex.Message, stopwatch.Elapsed);
+            return new RequestOutcome(
+                label,
+                MapToStatusCode(ex),
+                null,
+                ex.GetType().Name,
+                ex.Message,
+                stopwatch.Elapsed);
         }
     }
-
-    private static string Describe(UpdateOrderOwnerInfoResponse response) =>
-        $"{{ OrderId = {response.OrderId}, Phone = {response.OwnerPhone}, Address = {response.ShippingAddress} }}";
 
     /// <summary>
     /// Mirrors BuildingBlock.Infrastructure.ExceptionHandling.ExceptionHandlerHelper's own
@@ -177,7 +191,7 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
     /// <summary>
     /// Order Items are asserted untouched first (UpdateOrderOwnerInfo must never reach them),
     /// then the owner-info corruption categories the original item-replacement version of this
-    /// test checked for, translated to Owner's CustomerPhone/ShippingAddress. "Both requests
+    /// test checked for, translated to Owner's OwnerName/OwnerEmail/OwnerPhone. "Both requests
     /// succeeded" / "last write wins" is deliberately NOT itself treated as corruption - logged
     /// prominently elsewhere - but a 200 response whose claimed values never actually persisted
     /// (a lost update silently masquerading as success) is.
@@ -199,7 +213,7 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
 
         var order = finalState.Order;
 
-        if (order.Items.Count != 1 || order.Items.Single().Quantity != 2)
+        if (order.Items.Count != 1 || order.Items.Single().Quantity.Value != 2)
         {
             findings.Add(
                 "Order Items changed even though UpdateOrderOwnerInfo must never touch them - " +
@@ -207,8 +221,8 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         }
 
         var owner = order.Owner;
-        var matchesA = owner.OwnerPhone == commandA.CustomerPhone && owner.ShippingAddress == commandA.ShippingAddress;
-        var matchesB = owner.OwnerPhone == commandB.CustomerPhone && owner.ShippingAddress == commandB.ShippingAddress;
+        var matchesA = Matches(owner, commandA);
+        var matchesB = Matches(owner, commandB);
 
         // Only meaningful when at least one request actually reported success - if both failed,
         // the correct/expected final state is whatever existed before either ran (neither A's nor
@@ -218,9 +232,9 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         {
             findings.Add(
                 "A request reported success, but the persisted owner info matches neither Task A's nor " +
-                $"Task B's intended values - got phone={owner.OwnerPhone}/address={owner.ShippingAddress}, " +
-                $"expected A=phone={commandA.CustomerPhone}/address={commandA.ShippingAddress} or " +
-                $"B=phone={commandB.CustomerPhone}/address={commandB.ShippingAddress}.");
+                $"Task B's intended values - got name={owner.OwnerName}/email={owner.OwnerEmail}/phone={owner.OwnerPhone}, " +
+                $"expected A=name={commandA.OwnerName}/email={commandA.OwnerEmail}/phone={commandA.OwnerPhone} or " +
+                $"B=name={commandB.OwnerName}/email={commandB.OwnerEmail}/phone={commandB.OwnerPhone}.");
         }
 
         // A "successful" response's reported values must match what actually persisted -
@@ -231,17 +245,21 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
             if (outcome.StatusCode != 200)
                 continue;
 
-            var thisRequestWon = owner.OwnerPhone == command.CustomerPhone && owner.ShippingAddress == command.ShippingAddress;
-            if (!thisRequestWon)
+            if (!Matches(owner, command))
             {
                 findings.Add(
-                    $"{outcome.Label} reported success (200) for phone={command.CustomerPhone}/address={command.ShippingAddress}, " +
-                    $"but the persisted order shows phone={owner.OwnerPhone}/address={owner.ShippingAddress} - a lost update.");
+                    $"{outcome.Label} reported success (200) for name={command.OwnerName}/email={command.OwnerEmail}/phone={command.OwnerPhone}, " +
+                    $"but the persisted order shows name={owner.OwnerName}/email={owner.OwnerEmail}/phone={owner.OwnerPhone} - a lost update.");
             }
         }
 
         return findings;
     }
+
+    private static bool Matches(OrderOwner owner, UpdateOrderOwnerInfoCommand command) =>
+        owner.OwnerName == command.OwnerName
+        && owner.OwnerEmail.Value == command.OwnerEmail
+        && owner.OwnerPhone.Value == command.OwnerPhone;
 
     private void PrintIteration(
         int iteration,
@@ -266,7 +284,7 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
         else
         {
             sb.AppendLine($"Final Version (xmin): {finalState.Version}");
-            sb.AppendLine($"Final Owner: Phone={finalState.Order.Owner.OwnerPhone}, Address={finalState.Order.Owner.ShippingAddress}");
+            sb.AppendLine($"Final Owner: Name={finalState.Order.Owner.OwnerName}, Email={finalState.Order.Owner.OwnerEmail}, Phone={finalState.Order.Owner.OwnerPhone}");
             sb.AppendLine("Final Items (must be unchanged by UpdateOrderOwnerInfo):");
             foreach (var item in finalState.Order.Items.OrderBy(i => i.ProductId))
                 sb.AppendLine($"  - Variation {item.ProductId}: Quantity={item.Quantity}");

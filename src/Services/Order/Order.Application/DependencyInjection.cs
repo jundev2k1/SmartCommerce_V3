@@ -9,7 +9,6 @@ using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 using Order.Application.Abstractions.Services;
-using Order.Application.Features.Orders.Common;
 using Order.Application.Features.Stock;
 
 namespace Order.Application;

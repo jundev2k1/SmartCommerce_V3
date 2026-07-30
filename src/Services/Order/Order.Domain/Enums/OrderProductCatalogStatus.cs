@@ -2,7 +2,7 @@ namespace Order.Domain.Enums;
 
 public enum OrderProductCatalogStatus
 {
-    InActive = 1,
-    Active = 2,
+    Active = 1,
+    Inactive = 2,
     Discontinued = 3,
 }
