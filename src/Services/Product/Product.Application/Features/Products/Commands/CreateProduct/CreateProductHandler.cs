@@ -56,7 +56,7 @@ public sealed class CreateProductHandler(
 
         foreach (var variation in request.Variations)
         {
-            if (await productReadService.SkuExistsAsync(variation.Sku, ct: ct))
+            if (await productReadService.SkuExistsAsync(Sku.Create(variation.Sku), ct: ct))
                 throw new ConflictException($"Variation with SKU ({variation.Sku}) already exists");
         }
     }
@@ -139,7 +139,7 @@ public sealed class CreateProductHandler(
                     variation.Sku.Value,
                     product.Name,
                     variation.Name,
-                    variation.Price,
+                    variation.Price.Value,
                     variation.Status.ToString(),
                     correlationId),
                 ct);

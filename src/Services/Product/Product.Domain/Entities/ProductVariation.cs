@@ -8,9 +8,8 @@ public sealed class ProductVariation : BaseEntity<Guid>
     public string Description { get; private set; } = string.Empty;
     public Sku Sku { get; private set; } = null!;
     public Barcode? Barcode { get; private set; }
-    public decimal Price { get; private set; }
-    public decimal? Cost { get; private set; }
-    public decimal? Weight { get; private set; }
+    public Money Price { get; private set; } = default!;
+    public Weight? Weight { get; private set; }
     public Dimensions? Dimensions { get; private set; }
     public ICollection<string> Images { get; private set; } = [];
     public ProductVariationStatus Status { get; private set; }
@@ -24,20 +23,16 @@ public sealed class ProductVariation : BaseEntity<Guid>
         Guid productId,
         Sku sku,
         string name,
-        decimal price,
+        Money price,
         int displayOrder,
         Barcode? barcode = null,
-        decimal? cost = null,
-        decimal? weight = null,
+        Weight? weight = null,
         Dimensions? dimensions = null,
         IEnumerable<string>? images = null,
         ProductVariationStatus status = ProductVariationStatus.Active,
         ProductVariationMetadata? metadata = null)
     {
         ValidateName(name);
-        ValidatePrice(price);
-        ValidateCost(cost);
-        ValidateWeight(weight);
 
         var variation = new ProductVariation
         {
@@ -47,7 +42,6 @@ public sealed class ProductVariation : BaseEntity<Guid>
             Name = name,
             Barcode = barcode,
             Price = price,
-            Cost = cost,
             Weight = weight,
             Dimensions = dimensions,
             Status = status,
@@ -81,13 +75,9 @@ public sealed class ProductVariation : BaseEntity<Guid>
         IsDefault = false;
     }
 
-    public void UpdatePricing(decimal price, decimal? cost)
+    public void UpdatePricing(Money price)
     {
-        ValidatePrice(price);
-        ValidateCost(cost);
-
         Price = price;
-        Cost = cost;
     }
 
     public void UpdateIdentifiers(Sku sku, Barcode? barcode)
@@ -96,10 +86,8 @@ public sealed class ProductVariation : BaseEntity<Guid>
         Barcode = barcode;
     }
 
-    public void UpdatePhysicalAttributes(decimal? weight, Dimensions? dimensions)
+    public void UpdatePhysicalAttributes(Weight? weight, Dimensions? dimensions)
     {
-        ValidateWeight(weight);
-
         Weight = weight;
         Dimensions = dimensions;
     }
@@ -150,36 +138,11 @@ public sealed class ProductVariation : BaseEntity<Guid>
         Metadata = metadata;
     }
 
-    /// <summary>Reusable outside Create/UpdatePricing so FluentValidation can check the exact same rule (see docs/context - Domain Coding Conventions).</summary>
-    public static bool IsValidPrice(decimal price) => price >= 0;
-
-    public static bool IsValidCost(decimal? cost) => cost is null || cost >= 0;
-
-    public static bool IsValidWeight(decimal? weight) => weight is null || weight > 0;
-
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);
 
     private static void ValidateName(string name)
     {
         if (!IsValidName(name))
             throw ExceptionFactory.RequiredField("Variation name cannot be empty.");
-    }
-
-    private static void ValidatePrice(decimal price)
-    {
-        if (!IsValidPrice(price))
-            throw ExceptionFactory.InvalidRange("Variation price cannot be negative.");
-    }
-
-    private static void ValidateCost(decimal? cost)
-    {
-        if (!IsValidCost(cost))
-            throw ExceptionFactory.InvalidRange("Variation cost cannot be negative.");
-    }
-
-    private static void ValidateWeight(decimal? weight)
-    {
-        if (!IsValidWeight(weight))
-            throw ExceptionFactory.InvalidRange("Variation weight must be greater than zero when specified.");
     }
 }

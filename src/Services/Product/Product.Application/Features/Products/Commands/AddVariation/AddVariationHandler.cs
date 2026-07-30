@@ -19,7 +19,7 @@ public sealed class AddVariationHandler(
         var variationInput = request.VariationInput;
 
         // Check if exists product SKU
-        if (await productReadService.SkuExistsAsync(variationInput.Sku, ct: ct))
+        if (await productReadService.SkuExistsAsync(Sku.Create(variationInput.Sku), ct: ct))
         {
             var owningProductName = await productReadService.GetProductNameBySkuAsync(variationInput.Sku, ct);
             var ownerSuffix = owningProductName is null
@@ -53,7 +53,7 @@ public sealed class AddVariationHandler(
                     variation.Sku.Value,
                     targetProduct.Name,
                     variation.Name,
-                    variation.Price,
+                    variation.Price.Value,
                     variation.Status.ToString(),
                     correlationId),
                 ct);

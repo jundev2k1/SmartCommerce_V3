@@ -7,8 +7,8 @@ public sealed record ProductVariationResponse(
     string Name,
     string? Barcode,
     decimal Price,
-    decimal? Cost,
     decimal? Weight,
+    string? WeightUnit,
     decimal? DimensionsLength,
     decimal? DimensionsWidth,
     decimal? DimensionsHeight,
@@ -16,10 +16,6 @@ public sealed record ProductVariationResponse(
     string Status,
     bool IsDefault,
     int DisplayOrder,
-    // Null when the caller didn't resolve stock for this variation (e.g. AddVariation/UpdateVariation
-    // responses, which don't call Inventory) or Inventory Service couldn't be reached - not the same
-    // as 0 (confirmed out of stock). Only GetProduct currently populates this (see docs/tasks/2026-07-27/
-    // Task22_get-product-no-per-variation-stock.md).
     int? AvailableStock = null)
 {
     public static ProductVariationResponse From(ProductVariation variation, int? availableStock = null) => new(
@@ -27,9 +23,9 @@ public sealed record ProductVariationResponse(
         variation.Sku.Value,
         variation.Name,
         variation.Barcode?.Value,
-        variation.Price,
-        variation.Cost,
-        variation.Weight,
+        variation.Price.Value,
+        variation.Weight?.Value,
+        variation.Weight?.Unit.ToString(),
         variation.Dimensions?.Length,
         variation.Dimensions?.Width,
         variation.Dimensions?.Height,

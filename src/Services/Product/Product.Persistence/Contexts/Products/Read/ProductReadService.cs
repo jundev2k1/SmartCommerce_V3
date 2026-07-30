@@ -59,13 +59,12 @@ public sealed class ProductReadService(
             .AnyAsync(p => p.Slug == normalized && (excludeProductId == null || p.Id != excludeProductId), ct);
     }
 
-    public async Task<bool> SkuExistsAsync(string sku, Guid? excludeVariationId = null, CancellationToken ct = default)
+    public async Task<bool> SkuExistsAsync(Sku sku, Guid? excludeVariationId = null, CancellationToken ct = default)
     {
-        var normalized = Sku.Create(sku);
         return await dbContext.Products
             .AsNoTracking()
             .SelectMany(p => p.Variations)
-            .AnyAsync(v => v.Sku == normalized && (excludeVariationId == null || v.Id != excludeVariationId), ct);
+            .AnyAsync(v => v.Sku.Equals(sku) && (excludeVariationId == null || v.Id != excludeVariationId), ct);
     }
 
     public async Task<string?> GetProductNameBySkuAsync(string sku, CancellationToken ct = default)

@@ -28,13 +28,12 @@ public interface IProductWriteService
         Guid variationId,
         Sku sku,
         string name,
-        decimal price,
+        Money price,
         Barcode? barcode,
-        decimal? cost,
-        decimal? weight,
+        Weight? weight,
         Dimensions? dimensions,
         IReadOnlyCollection<string>? images,
-        ProductVariationStatus status,
+        ProductVariationStatus? status = null,
         CancellationToken ct = default);
 
     Task DeleteVariationAsync(Guid variationId, CancellationToken ct = default);

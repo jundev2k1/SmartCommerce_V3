@@ -74,13 +74,12 @@ public sealed class ProductWriteService(
         Guid variationId,
         Sku sku,
         string name,
-        decimal price,
+        Money price,
         Barcode? barcode,
-        decimal? cost,
-        decimal? weight,
+        Weight? weight,
         Dimensions? dimensions,
         IReadOnlyCollection<string>? images,
-        ProductVariationStatus status,
+        ProductVariationStatus? status = null,
         CancellationToken ct = default)
     {
         ProductVariation updated = null!;
@@ -91,7 +90,7 @@ public sealed class ProductWriteService(
             {
                 variation.UpdateIdentifiers(sku, barcode);
                 variation.UpdateName(name);
-                variation.UpdatePricing(price, cost);
+                variation.UpdatePricing(price);
                 variation.UpdatePhysicalAttributes(weight, dimensions);
                 variation.ReplaceImages(images ?? []);
 

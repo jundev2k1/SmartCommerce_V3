@@ -4,6 +4,7 @@ using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Contract.Events.Product;
 
 using Product.Application.Abstractions.Persistence.Products;
+using Product.Application.Features.Products.Mapping;
 
 namespace Product.Application.Features.Products.Commands.UpdateVariation;
 
@@ -16,10 +17,8 @@ public sealed class UpdateVariationHandler(
 {
     public async Task<UpdateVariationResponse> Handle(UpdateVariationCommand request, CancellationToken ct = default)
     {
-        if (!Enum.TryParse<ProductVariationStatus>(request.Status, ignoreCase: true, out var status))
-            throw new BadRequestException($"Invalid variation status: {request.Status}");
-
-        if (await productReadService.SkuExistsAsync(request.Sku, request.VariationId, ct))
+        var sku = Sku.Create(request.Sku);
+        if (await productReadService.SkuExistsAsync(sku, request.VariationId, ct))
             throw new ConflictException($"Variation with SKU ({request.Sku}) already exists");
 
         var dimensions = request.DimensionsLength is not null && request.DimensionsWidth is not null && request.DimensionsHeight is not null
@@ -32,25 +31,24 @@ public sealed class UpdateVariationHandler(
             var variation = await productWriteService.UpdateVariationInformationAsync(
                 request.ProductId,
                 request.VariationId,
-                Sku.Create(request.Sku),
+                sku,
                 request.Name,
-                request.Price,
+                Money.Create(request.Price),
                 request.Barcode is null ? null : Barcode.Create(request.Barcode),
-                request.Cost,
-                request.Weight,
+                ProductVariationMapping.MapWeight(request.Weight, request.WeightUnit),
                 dimensions,
                 request.Images,
-                status,
-                ct);
+                ct: ct);
 
             await outboxStore.EnqueueAsync(
                 new ProductVariationUpdatedIntegrationEvent(
-                    request.ProductId,
-                    request.VariationId,
-                    request.Name,
-                    request.Sku,
-                    request.Price,
-                    status.ToString(),
+                    variation.ProductId,
+                    variation.Id,
+                    variation.Product.Name,
+                    variation.Name,
+                    variation.Sku.Value,
+                    variation.Price.Value,
+                    variation.Status.ToString(),
                     correlationId),
                 ct);
         }, ct: ct);

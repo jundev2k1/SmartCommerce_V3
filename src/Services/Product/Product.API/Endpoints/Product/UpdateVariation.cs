@@ -1,8 +1,10 @@
 using BuildingBlock.Application.Abstractions.Common;
+using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Infrastructure.Authorization;
 using BuildingBlock.SharedKernel.Extensions;
 
 using Product.Application.Features.Products.Commands.UpdateVariation;
+using Product.Domain.Enums;
 
 namespace Product.API.Endpoints.Product;
 
@@ -12,8 +14,8 @@ public sealed record UpdateVariationRequest(
     decimal Price,
     string Status,
     string? Barcode = null,
-    decimal? Cost = null,
     decimal? Weight = null,
+    string? WeightUnit = null,
     decimal? DimensionsLength = null,
     decimal? DimensionsWidth = null,
     decimal? DimensionsHeight = null,
@@ -55,16 +57,24 @@ public sealed class UpdateVariationEndpoint : ICarterModule
         [FromServices] ISender sender,
         CancellationToken ct = default)
     {
+        if (!Enum.TryParse<ProductVariationStatus>(request.Status.Trim(), out var variationStatus))
+            throw new BadRequestException($"Variation Status ({request.Status}) is invalid.");
+
+        if (request.WeightUnit != null && !Enum.TryParse<WeightUnit>(request.WeightUnit.Trim(), out var _))
+            throw new BadRequestException($"Weight Unit ({request.WeightUnit}) is invalid.");
+
         var command = new UpdateVariationCommand(
             productId,
             variationId,
             request.Sku.Trim(),
             request.Name.Trim(),
             request.Price,
-            request.Status.Trim(),
+            variationStatus,
             request.Barcode?.Trim(),
-            request.Cost,
             request.Weight,
+            request.WeightUnit != null
+                ? Enum.Parse<WeightUnit>(request.WeightUnit.Trim())
+                : null,
             request.DimensionsLength,
             request.DimensionsWidth,
             request.DimensionsHeight,

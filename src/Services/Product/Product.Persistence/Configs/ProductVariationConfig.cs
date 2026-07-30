@@ -37,10 +37,20 @@ public sealed class ProductVariationConfig : IEntityTypeConfiguration<ProductVar
         builder.Property(x => x.Price)
             .HasColumnType("numeric(18,2)")
             .IsRequired();
-        builder.Property(x => x.Cost)
-            .HasColumnType("numeric(18,2)");
+
         builder.Property(x => x.Weight)
             .HasColumnType("numeric(10,3)");
+
+        builder.OwnsOne(x => x.Weight, weight =>
+        {
+            weight.Property(w => w.Value)
+                .HasColumnName("weight")
+                .HasColumnType("numeric(10,3)");
+
+            weight.Property(w => w.Unit)
+                .HasColumnName("weight_unit")
+                .HasConversion<short>();
+        });
 
         // Dimensions is a Value Object with no independent identity - mapped as an owned type
         // onto the same table (nested columns) since EF Core has no non-owned way to flatten a

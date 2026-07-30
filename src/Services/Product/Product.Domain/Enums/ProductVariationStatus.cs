@@ -1,6 +1,6 @@
 namespace Product.Domain.Enums;
 
-public enum ProductVariationStatus
+public enum ProductVariationStatus : short
 {
     Active = 1,
     Inactive = 2,
