@@ -158,7 +158,7 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
     }
 
     private static string Describe(UpdateOrderOwnerInfoResponse response) =>
-        $"{{ OrderId = {response.OrderId}, Phone = {response.CustomerPhone}, Address = {response.ShippingAddress} }}";
+        $"{{ OrderId = {response.OrderId}, Phone = {response.OwnerPhone}, Address = {response.ShippingAddress} }}";
 
     /// <summary>
     /// Mirrors BuildingBlock.Infrastructure.ExceptionHandling.ExceptionHandlerHelper's own
