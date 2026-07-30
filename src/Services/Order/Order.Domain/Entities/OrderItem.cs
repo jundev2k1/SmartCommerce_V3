@@ -1,3 +1,4 @@
+using Order.Domain.Enums;
 using Order.Domain.ValueObjects;
 
 namespace Order.Domain.Entities;
@@ -12,7 +13,8 @@ public sealed class OrderItem : BaseEntity<Guid>, IAuditable
 {
     public Guid OrderId { get; private set; }
     public Guid ProductId { get; private set; }
-    public string ProductName { get; private set; } = string.Empty;
+    public Guid VariationId { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public Money UnitPrice { get; private set; } = default!;
     public Quantity Quantity { get; private set; } = default!;
     public Money DiscountAmount { get; private set; } = default!;
@@ -22,22 +24,46 @@ public sealed class OrderItem : BaseEntity<Guid>, IAuditable
     private OrderItem() { }
 
     public static OrderItem Create(
-        Guid id,
         Guid orderId,
         Guid productId,
+        Guid variationId,
         string productName,
         Money unitPrice,
         Quantity quantity)
     {
         return new OrderItem
         {
-            Id = id,
+            Id = Guid.CreateVersion7(),
             OrderId = orderId,
             ProductId = productId,
-            ProductName = productName,
+            VariationId = variationId,
+            Name = productName,
             UnitPrice = unitPrice,
             Quantity = quantity,
         };
+    }
+
+    public void AddDiscount(OrderDiscount discount)
+    {
+        if (discount.OrderId != OrderId)
+            throw new InvalidArgumentException(
+                "Cannot add a discount to an orderItem that does not match the discount's OrderId.");
+
+        if (!discount.OrderItemId.HasValue || discount.OrderItemId.Value != Id)
+            throw new InvalidArgumentException(
+                "Cannot add a discount to an orderItem that does not match the discount's OrderItemId");
+
+        if (discount.Target != DiscountTarget.OrderItem)
+            throw new InvalidArgumentException(
+                "Cannot add an Order-targeted discount to the order itself - it must be added to the specific Order instead.");
+
+        Discounts.Add(discount);
+    }
+
+    public void AddRangeDiscount(IEnumerable<OrderDiscount> discounts)
+    {
+        foreach (var discount in discounts)
+            AddDiscount(discount);
     }
 
     public void ApplyDiscount(Money discountAmount)

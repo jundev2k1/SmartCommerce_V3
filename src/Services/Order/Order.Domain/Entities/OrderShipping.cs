@@ -7,7 +7,7 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
 {
     public Guid OrderId { get; private set; }
     public string ReceiverName { get; private set; } = string.Empty;
-    public string ReceiverPhone { get; private set; } = string.Empty;
+    public PhoneNumber ReceiverPhone { get; private set; } = default!;
     public string Address { get; private set; } = string.Empty;
     public Money ShippingFee { get; private set; } = default!;
     public ShippingMethod ShippingMethod { get; private set; } = ShippingMethod.Standard;
@@ -18,16 +18,19 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
     public DateTime? InTransitAt { get; private set; }
     public DateTime? DeliveredAt { get; private set; }
 
+    public string? IdempotencyKey { get; private set; }
+
     private OrderShipping() { }
 
     public static OrderShipping Create(
         Guid orderId,
         string receiverName,
-        string receiverPhone,
+        PhoneNumber receiverPhone,
         string address,
         ShippingMethod shippingMethod,
         Money shippingFee,
-        string note)
+        string note,
+        string? idempotencyKey = null)
     {
         return new OrderShipping
         {
@@ -41,18 +44,20 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
             ShippingFee = shippingFee,
             ShippingMethod = shippingMethod,
             Note = note,
+            IdempotencyKey = idempotencyKey,
         };
     }
 
     public void UpdateContact(
         string receiverName,
-        string receiverPhone,
-        string address)
+        PhoneNumber receiverPhone,
+        string address,
+        string idempotencyKey)
     {
         ReceiverName = receiverName;
         ReceiverPhone = receiverPhone;
         Address = address;
-        UpdatedAt = DateTime.UtcNow;
+        IdempotencyKey = idempotencyKey;
     }
 
     public void MarkShipped()
@@ -63,7 +68,6 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
         Status = ShippingStatus.Shipped;
 
         ShippedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void MarkArrivedAtWarehouse()
@@ -74,7 +78,6 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
         Status = ShippingStatus.Arrived;
 
         ArrivedAtWarehouseAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void MarkInTransit()
@@ -85,7 +88,6 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
         Status = ShippingStatus.InTransit;
 
         InTransitAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void MarkDelivered()
@@ -96,7 +98,6 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
         Status = ShippingStatus.Delivered;
 
         DeliveredAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Cancel()
@@ -105,7 +106,5 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
             throw new InvalidOperationException($"Cannot cancel shipping when status is {Status}.");
 
         Status = ShippingStatus.Canceled;
-
-        UpdatedAt = DateTime.UtcNow;
     }
 }

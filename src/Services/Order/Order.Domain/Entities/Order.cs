@@ -1,41 +1,64 @@
 using Order.Domain.Enums;
+using Order.Domain.ValueObjects;
 
 namespace Order.Domain.Entities;
 
 public sealed class Order : AggregateRoot<Guid>, IAuditable
 {
+    public OrderNumber OrderNumber { get; private set; } = default!;
     public OrderOwner Owner { get; private set; } = default!;
     public OrderShipping Shipping { get; private set; } = default!;
     public OrderStatus Status { get; private set; }
     public decimal TotalAmount => Items.Sum(i => i.LineTotal);
     public ICollection<OrderItem> Items { get; private set; } = [];
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
-
     public string? CancellationReason { get; private set; }
+    public string IdempotencyKey { get; private set; } = string.Empty;
+    public Guid? CreatedById { get; private set; }
 
     private Order() { }
 
-    public static Order Create(
-        Guid id,
-        OrderOwner owner,
-        OrderShipping shipping,
-        IEnumerable<OrderItem> items)
+    public static Order Create(string idempotencyKey, Guid? createdById = null)
     {
-        var models = items.ToList();
-        if (models.Count == 0)
-            throw ExceptionFactory.EmptyCollection("An order must contain at least one item.");
-
         var order = new Order
         {
-            Id = id,
+            Id = Guid.CreateVersion7(),
+            OrderNumber = OrderNumber.Create(),
             Status = OrderStatus.Pending,
-            Owner = owner,
-            Shipping = shipping,
-            Items = [.. items],
-            Discounts = [],
+            CreatedById = createdById,
+            IdempotencyKey = idempotencyKey,
         };
 
         return order;
+    }
+
+    public void SetOrderItems(OrderItem[] items)
+    {
+        if (items.Length == 0)
+            throw ExceptionFactory.EmptyCollection("An order must contain at least one item.");
+
+        if (Items.Count != 0)
+            throw ExceptionFactory.InvalidState("The items in the order cannot be modified.");
+
+        Items = items;
+    }
+
+    public void SetOwner(OrderOwner owner)
+    {
+        if (owner.OrderId != Id)
+            throw new InvalidArgumentException(
+                "Cannot set an OrderOwner for an order that does not match the OrderOwner's OrderId.");
+
+        Owner = owner;
+    }
+
+    public void SetShipping(OrderShipping shipping)
+    {
+        if (shipping.OrderId != Id)
+            throw new InvalidArgumentException(
+                "Cannot set an OrderShipping for an order that does not match the OrderShipping's OrderId.");
+
+        Shipping = shipping;
     }
 
     public void AddDiscount(OrderDiscount discount)
@@ -44,25 +67,44 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
             throw new InvalidArgumentException(
                 "Cannot add a discount to an order that does not match the discount's OrderId.");
 
+        if (discount.Target != DiscountTarget.Order)
+            throw new InvalidArgumentException(
+                "Cannot add an OrderItem-targeted discount to the order itself - it must be added to the specific OrderItem instead.");
+
         Discounts.Add(discount);
     }
 
-    /// <summary>Updates the customer-editable contact/shipping snapshot - allowed in the same non-terminal window as Cancel(), since a Cancelled/Completed order no longer ships.</summary>
-    public void UpdateOwnerInfo(string customerPhone, string shippingAddress)
+    public void AddRangeDiscounts(IEnumerable<OrderDiscount> discounts)
+    {
+        foreach (var discount in discounts)
+        {
+            AddDiscount(discount);
+        }
+    }
+
+    public void UpdateOwnerInfo(
+        string ownerName,
+        Email ownerEmail,
+        PhoneNumber ownerPhone,
+        string idempotencyKey)
     {
         if (Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
             throw ExceptionFactory.InvalidStatus(
                 $"Cannot update owner information on an order in {Status} status.");
 
-        Owner.UpdateContact(customerPhone, shippingAddress);
+        Owner.UpdateContact(ownerName, ownerEmail, ownerPhone, idempotencyKey);
     }
 
-    public void UpdateShippingInfo(string receiverName, string receiverPhone, string address)
+    public void UpdateShippingInfo(
+        string receiverName,
+        PhoneNumber receiverPhone,
+        string address,
+        string idempotencyKey)
     {
         if (Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
             throw ExceptionFactory.InvalidStatus($"Cannot update shipping information on an order in {Status} status.");
 
-        Shipping.UpdateContact(receiverName, receiverPhone, address);
+        Shipping.UpdateContact(receiverName, receiverPhone, address, idempotencyKey);
     }
 
     public void MarkShipped()

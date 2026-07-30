@@ -18,11 +18,10 @@ public sealed class OrderOwner : BaseEntity
     public Guid OwnerId { get; private set; }
     public string OwnerName { get; private set; } = string.Empty;
     public Email OwnerEmail { get; private set; } = default!;
-    public string OwnerPhone { get; private set; } = string.Empty;
+    public PhoneNumber OwnerPhone { get; private set; } = default!;
     public string OwnerPhoneSearch { get; private set; } = string.Empty;
     public string OwnerPhoneReverse { get; private set; } = string.Empty;
 
-    /// <summary>Client-supplied dedup key (scoped per CustomerId - see OrderOwnerConfig's unique index) so a retried/double-submitted CreateOrder request doesn't create a second order.</summary>
     public string? IdempotencyKey { get; private set; }
 
     private OrderOwner() { }
@@ -32,14 +31,16 @@ public sealed class OrderOwner : BaseEntity
         Guid orderId,
         Guid customerId,
         string name,
-        string phone,
-        string? idempotencyKey)
+        Email email,
+        PhoneNumber phone,
+        string? idempotencyKey = null)
     {
         var owner = new OrderOwner
         {
             OrderId = orderId,
             OwnerId = customerId,
             OwnerName = name,
+            OwnerEmail = email,
             OwnerPhone = phone,
             IdempotencyKey = idempotencyKey,
         };
@@ -48,23 +49,25 @@ public sealed class OrderOwner : BaseEntity
         return owner;
     }
 
-    public void UpdateContact(string ownerName, Email ownerEmail, string ownerPhone)
+    public void UpdateContact(
+        string ownerName,
+        Email ownerEmail,
+        PhoneNumber ownerPhone,
+        string idempotencyKey)
     {
         if (ownerName.IsNullOrWhiteSpace())
             throw ExceptionFactory.RequiredField("Owner name cannot be empty.");
 
-        if (ownerPhone.IsNullOrWhiteSpace())
-            throw ExceptionFactory.RequiredField("Owner phone cannot be empty.");
-
         OwnerName = ownerName;
         OwnerEmail = ownerEmail;
         OwnerPhone = ownerPhone;
+        IdempotencyKey = idempotencyKey;
         SyncCustomerSearchFields();
     }
 
     private void SyncCustomerSearchFields()
     {
-        OwnerPhoneSearch = PhoneNormalizer.Normalize(OwnerPhone);
+        OwnerPhoneSearch = PhoneNormalizer.Normalize(OwnerPhone.Value);
         OwnerPhoneReverse = PhoneNormalizer.Reverse(OwnerPhoneSearch);
     }
 }

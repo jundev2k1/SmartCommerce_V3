@@ -4,9 +4,10 @@ using Order.Domain.ValueObjects;
 
 namespace Order.Domain.Entities;
 
-public sealed class OrderDiscount : BaseEntity<Guid>, IAuditable
+public sealed class OrderDiscount : BaseEntity<long>, IAuditable
 {
     public Guid OrderId { get; private set; }
+    public Guid? OrderItemId { get; private set; }
     public DiscountTarget Target { get; private set; }
     public DiscountSource Source { get; private set; } = DiscountSource.Unknown;
     public string? SourceId { get; private set; }
@@ -20,8 +21,8 @@ public sealed class OrderDiscount : BaseEntity<Guid>, IAuditable
     private OrderDiscount() { }
 
     public static OrderDiscount Create(
-        Guid id,
         Guid orderId,
+        Guid? orderItemId,
         DiscountTarget target,
         DiscountSource source,
         string? sourceId,
@@ -31,8 +32,8 @@ public sealed class OrderDiscount : BaseEntity<Guid>, IAuditable
     {
         return new OrderDiscount
         {
-            Id = id,
             OrderId = orderId,
+            OrderItemId = orderItemId,
             Target = target,
             Source = source,
             SourceId = sourceId,

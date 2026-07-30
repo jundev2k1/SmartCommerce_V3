@@ -1,3 +1,6 @@
+using Order.Domain.Enums;
+using Order.Domain.ValueObjects;
+
 namespace Order.Domain.Entities;
 
 /// <summary>
@@ -9,42 +12,54 @@ namespace Order.Domain.Entities;
 /// </summary>
 public sealed class OrderProductCatalog : BaseEntity<Guid>
 {
-    public const string ActiveStatus = "Active";
-
     public Guid ProductId { get; private set; }
-    public string ProductName { get; private set; } = string.Empty;
-    public string Sku { get; private set; } = string.Empty;
-    public decimal Price { get; private set; }
+    public Guid VariationId { get; private set; }
+    public string Name { get; private set; } = string.Empty;
+    public Sku Sku { get; private set; } = default!;
+    public Money Price { get; private set; } = default!;
+    public OrderProductCatalogStatus Status { get; private set; } = OrderProductCatalogStatus.Active;
 
-    /// <summary>Mirrors Product's ProductVariationStatus (Active/Inactive/Discontinued) as of the last synced event - the first validation layer CreateOrderHandler checks before trusting a request. See docs/services/order-service.md.</summary>
-    public string Status { get; private set; } = ActiveStatus;
-
-    public bool IsOrderable => Status == ActiveStatus;
+    public bool IsOrderable => Status == OrderProductCatalogStatus.Active;
 
     private OrderProductCatalog() { }
 
-    public static OrderProductCatalog Create(Guid productVariationId, Guid productId, string productName, string sku, decimal price, string status)
+    public static OrderProductCatalog Create(
+        Guid productId,
+        Guid variationId,
+        string name,
+        Sku sku,
+        Money price,
+        OrderProductCatalogStatus status)
     {
         return new OrderProductCatalog
         {
-            Id = productVariationId,
+            Id = Guid.CreateVersion7(),
             ProductId = productId,
-            ProductName = productName,
+            VariationId = variationId,
+            Name = name,
             Sku = sku,
             Price = price,
             Status = status,
         };
     }
 
-    public void UpdatePricing(string sku, decimal price, string status)
+    public void UpdateSku(Sku sku)
     {
         Sku = sku;
-        Price = price;
-        Status = status;
     }
 
-    public void UpdateProductName(string productName)
+    public void UpdatePricing(Money price)
     {
-        ProductName = productName;
+        Price = price;
+    }
+
+    public void UpdateName(string name)
+    {
+        Name = name;
+    }
+
+    public void UpdateStatus(OrderProductCatalogStatus status)
+    {
+        Status = status;
     }
 }

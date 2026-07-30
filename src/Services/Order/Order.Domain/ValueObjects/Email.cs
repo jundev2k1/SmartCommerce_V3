@@ -16,5 +16,7 @@ public sealed class Email : StringValueObject
     }
 
     public static bool IsValid(string val)
-        => val.IsNotNullOrWhiteSpace() && RegexPatterns.Email().IsMatch(val);
+        => val.IsNotNullOrWhiteSpace()
+            && val.Length <= 100
+            && RegexPatterns.Email().IsMatch(val);
 }
