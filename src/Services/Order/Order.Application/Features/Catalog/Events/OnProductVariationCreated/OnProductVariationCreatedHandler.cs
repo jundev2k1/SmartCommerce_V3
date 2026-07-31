@@ -1,12 +1,12 @@
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductVariationCreated;
 
 /// <summary>Keeps a local variation name/sku/price snapshot so CreateOrderHandler can validate and price requested variations without a synchronous call to Product Service.</summary>
 public sealed class OnProductVariationCreatedHandler(
     IUnitOfWork uow,
-    IOrderProductCatalogReadService catalogReadService,
-    IOrderProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductVariationCreatedEvent>
+    IProductCatalogReadService catalogReadService,
+    IProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductVariationCreatedEvent>
 {
     public async Task Handle(OnProductVariationCreatedEvent @event, CancellationToken ct = default)
     {
@@ -25,19 +25,19 @@ public sealed class OnProductVariationCreatedHandler(
                         @event.ProductName,
                         Sku.Create(@event.Sku),
                         Money.Create(@event.Price),
-                        Enum.Parse<OrderProductCatalogStatus>(@event.Status),
+                        Enum.Parse<ProductCatalogStatus>(@event.Status),
                         ct);
                 }
                 else
                 {
-                    var entry = OrderProductCatalog.Create(
+                    var entry = ProductCatalog.Create(
                         @event.ProductId,
                         @event.ProductVariationId,
                         @event.ProductName,
                         @event.VariationName,
                         Sku.Create(@event.Sku),
                         Money.Create(@event.Price),
-                        Enum.Parse<OrderProductCatalogStatus>(@event.Status));
+                        Enum.Parse<ProductCatalogStatus>(@event.Status));
                     await catalogWriteService.CreateAsync(entry, ct);
                 }
             },

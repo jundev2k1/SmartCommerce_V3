@@ -3,15 +3,15 @@ using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.SharedKernel.Constants;
 
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 using Order.Application.Abstractions.Services;
-using Order.Domain.Entities;
+using Order.Domain.Entities.Catalogs;
 
 namespace Order.Infrastructure.Caching;
 
 /// <summary>
 /// Redis-backed cart, keyed per user. Only {VariationId, Quantity} pairs are stored - name/price/
-/// orderable-status are always resolved live from OrderProductCatalog on every read or mutation,
+/// orderable-status are always resolved live from ProductCatalog on every read or mutation,
 /// the same "never trust/store stale price" principle OrderItemPreparationService already applies
 /// to order items (see docs/services/order-service.md). A variation that's been deleted or
 /// deactivated since being added is dropped from the cart the next time it's read, rather than
@@ -19,12 +19,12 @@ namespace Order.Infrastructure.Caching;
 /// </summary>
 public sealed class CartService(
     ICacheService cacheService,
-    IOrderProductCatalogReadService catalogReadService,
+    IProductCatalogReadService catalogReadService,
     IStockAvailabilityService stockAvailabilityService) : ICartService
 {
     private static readonly TimeSpan Ttl = TimeSpan.FromMinutes(CacheKeys.Cart.DefaultTtlMinutes);
 
-    public async Task<(OrderProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
+    public async Task<(ProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
         Guid userId,
         CancellationToken ct = default)
     {
@@ -142,7 +142,7 @@ public sealed class CartService(
     /// line gets a live AvailableStock/IsInsufficientStock so the client can mark/disable it,
     /// per the "surface it, don't silently drop it" requirement.
     /// </summary>
-    private async Task<(OrderProductCatalog[] Catalogs, CartResponse Cart)> EnrichAndPruneAsync(
+    private async Task<(ProductCatalog[] Catalogs, CartResponse Cart)> EnrichAndPruneAsync(
         Guid userId,
         CartData data,
         CancellationToken ct)

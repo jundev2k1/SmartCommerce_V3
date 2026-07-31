@@ -16,7 +16,8 @@ global using BuildingBlock.SharedKernel.Constants;
 
 global using Mapster;
 
-global using Order.Domain.Entities;
+global using Order.Domain.Entities.Catalogs;
+global using Order.Domain.Entities.Orders;
 global using Order.Domain.Enums;
 global using Order.Domain.ValueObjects;
-global using OrderEntity = Order.Domain.Entities.Order;
+global using OrderEntity = Order.Domain.Entities.Orders.Order;

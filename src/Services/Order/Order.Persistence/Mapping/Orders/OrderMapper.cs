@@ -1,5 +1,5 @@
 using Order.Application.Abstractions.Persistence.Orders;
-using Order.Domain.Entities.Data;
+using Order.Domain.Entities.Orders.Data;
 using Order.Domain.ValueObjects;
 
 namespace Order.Persistence.Mapping.Orders;

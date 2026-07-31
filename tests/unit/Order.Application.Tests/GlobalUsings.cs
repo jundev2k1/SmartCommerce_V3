@@ -6,4 +6,4 @@ global using BuildingBlock.Application.Exceptions;
 
 global using Order.Domain.Enums;
 
-global using OrderEntity = Order.Domain.Entities.Order;
+global using OrderEntity = Order.Domain.Entities.Orders.Order;

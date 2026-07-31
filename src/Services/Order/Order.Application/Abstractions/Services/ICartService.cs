@@ -7,7 +7,7 @@ namespace Order.Application.Abstractions.Services;
 /// </summary>
 public interface ICartService
 {
-    Task<(OrderProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
+    Task<(ProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
         Guid userId,
         CancellationToken ct = default);
 

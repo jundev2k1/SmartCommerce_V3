@@ -5,7 +5,7 @@ namespace BuildingBlock.Contract.Events.Product;
 /// for a later standalone AddVariation call. This is the event stock-keeping actually reacts
 /// to (Inventory creates one zero-stock row per variation), replacing the pre-redesign
 /// ProductCreatedIntegrationEvent's single VariantId field now that a Product always has N
-/// variations. ProductName is carried so Order can build its OrderProductCatalog row without a
+/// variations. ProductName is carried so Order can build its ProductCatalog row without a
 /// second lookup back to Product Service. VariationName is carried alongside it (additive -
 /// existing consumers that only map ProductName are unaffected) so a future consumer can start
 /// displaying the variation's own name instead of the parent product's.

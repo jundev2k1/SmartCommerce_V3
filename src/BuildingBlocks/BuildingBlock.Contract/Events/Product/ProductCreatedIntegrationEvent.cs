@@ -3,7 +3,7 @@ namespace BuildingBlock.Contract.Events.Product;
 /// <summary>
 /// Product-level info only - Sku/Price live on ProductVariation now, so stock/catalog
 /// consumers react to ProductVariationCreatedIntegrationEvent instead (see that event's
-/// remarks). Consumed by Order (name for its OrderProductCatalog read-model).
+/// remarks). Consumed by Order (name for its ProductCatalog read-model).
 /// </summary>
 public sealed record ProductCreatedIntegrationEvent(
     Guid ProductId,

@@ -13,7 +13,7 @@ using Order.Application;
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
 using Order.Application.Features.Orders.DTOs;
-using Order.Domain.Entities;
+using Order.Domain.Entities.Catalogs;
 using Order.Domain.Enums;
 using Order.Domain.ValueObjects;
 using Order.Persistence;
@@ -25,7 +25,7 @@ using Testcontainers.PostgreSql;
 
 using Xunit;
 
-using OrderEntity = Order.Domain.Entities.Order;
+using OrderEntity = Order.Domain.Entities.Orders.Order;
 
 namespace Order.IntegrationTests.Infrastructure;
 
@@ -126,7 +126,7 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
 
     protected static ISender GetSender(AsyncServiceScope scope) => scope.ServiceProvider.GetRequiredService<ISender>();
 
-    /// <summary>Seeds OrderProductCatalog rows directly (bypassing the Product->Kafka->consumer sync path, which isn't running here) so OrderItemPreparationService's catalog lookup resolves the variation ids a test uses.</summary>
+    /// <summary>Seeds ProductCatalog rows directly (bypassing the Product->Kafka->consumer sync path, which isn't running here) so OrderItemPreparationService's catalog lookup resolves the variation ids a test uses.</summary>
     protected async Task SeedCatalogAsync(params (Guid ProductId, Guid VariationId, string ProductName, string VariationName, string Sku, decimal Price)[] variations)
     {
         await using var scope = CreateScope();
@@ -134,15 +134,15 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
 
         foreach (var v in variations)
         {
-            db.OrderProductCatalogs.Add(
-                OrderProductCatalog.Create(
+            db.ProductCatalogs.Add(
+                ProductCatalog.Create(
                     v.ProductId,
                     v.VariationId,
                     v.ProductName,
                     v.VariationName,
                     Sku.Create(v.Sku),
                     Money.Create(v.Price),
-                    OrderProductCatalogStatus.Active));
+                    ProductCatalogStatus.Active));
         }
 
         await db.SaveChangesAsync();

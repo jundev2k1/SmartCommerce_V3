@@ -1,10 +1,10 @@
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductDeleted;
 
 public sealed class OnProductDeletedHandler(
     IUnitOfWork uow,
-    IOrderProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductDeletedEvent>
+    IProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductDeletedEvent>
 {
     public async Task Handle(OnProductDeletedEvent @event, CancellationToken ct = default)
     {

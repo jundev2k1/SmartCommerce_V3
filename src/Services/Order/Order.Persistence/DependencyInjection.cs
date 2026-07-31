@@ -16,10 +16,10 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 using Order.Application.Abstractions.Persistence.Orders;
-using Order.Persistence.Contexts.OrderProductCatalogs.Read;
-using Order.Persistence.Contexts.OrderProductCatalogs.Write;
+using Order.Persistence.Contexts.ProductCatalogs.Read;
+using Order.Persistence.Contexts.ProductCatalogs.Write;
 using Order.Persistence.Contexts.Orders.Read;
 using Order.Persistence.Contexts.Orders.Write;
 using Order.Persistence.Engine;
@@ -72,7 +72,7 @@ public static class DependencyInjection
     }
 
     // Order aggregate: Order is the root, OrderItem/OrderOwner belong to it via OrderId.
-    // OrderProductCatalog is a separate local read-model (kept in sync from Product's events),
+    // ProductCatalog is a separate local read-model (kept in sync from Product's events),
     // not part of this aggregate, so it isn't registered here.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
@@ -94,7 +94,7 @@ public static class DependencyInjection
         return services;
     }
 
-    // OrderRepo/OrderProductCatalogRepo both implement the generic IRepository<T> - Scrutor's
+    // OrderRepo/ProductCatalogRepo both implement the generic IRepository<T> - Scrutor's
     // AsImplementedInterfaces() registers each concrete class against every interface it
     // implements (including the empty per-aggregate marker interfaces), so this one scan call
     // covers both. Read/Write services are registered explicitly since they're one-per-aggregate.
@@ -105,8 +105,8 @@ public static class DependencyInjection
         services.AddScoped<IOrderReadService, OrderReadService>();
         services.AddScoped<IOrderWriteService, OrderWriteService>();
 
-        services.AddScoped<IOrderProductCatalogReadService, OrderProductCatalogReadService>();
-        services.AddScoped<IOrderProductCatalogWriteService, OrderProductCatalogWriteService>();
+        services.AddScoped<IProductCatalogReadService, ProductCatalogReadService>();
+        services.AddScoped<IProductCatalogWriteService, ProductCatalogWriteService>();
 
         return services;
     }

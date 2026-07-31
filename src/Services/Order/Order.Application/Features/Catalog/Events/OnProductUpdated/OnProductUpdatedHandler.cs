@@ -1,11 +1,11 @@
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductUpdated;
 
-/// <summary>A Product's Name is shared across every one of its variations, so this refreshes every OrderProductCatalog row for the product, not just one.</summary>
+/// <summary>A Product's Name is shared across every one of its variations, so this refreshes every ProductCatalog row for the product, not just one.</summary>
 public sealed class OnProductUpdatedHandler(
     IUnitOfWork uow,
-    IOrderProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductUpdatedEvent>
+    IProductCatalogWriteService catalogWriteService) : IInternalEventHandler<OnProductUpdatedEvent>
 {
     public async Task Handle(OnProductUpdatedEvent @event, CancellationToken ct = default)
     {

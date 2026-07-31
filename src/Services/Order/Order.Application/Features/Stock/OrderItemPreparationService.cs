@@ -1,11 +1,11 @@
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 using Order.Application.Abstractions.Services;
 using Order.Application.Features.Orders.DTOs;
 
 namespace Order.Application.Features.Stock;
 
 public sealed class OrderItemPreparationService(
-    IOrderProductCatalogReadService catalogReadService,
+    IProductCatalogReadService catalogReadService,
     IInventoryClientService inventoryClient,
     ICartService cartService) : IOrderItemPreparationService
 {
@@ -36,7 +36,7 @@ public sealed class OrderItemPreparationService(
             .ToArray();
     }
 
-    private async Task<(OrderProductCatalog[] Catalogs, OrderItemRequestDto[] Items)> EnsureCartMatchesAsync(
+    private async Task<(ProductCatalog[] Catalogs, OrderItemRequestDto[] Items)> EnsureCartMatchesAsync(
         Guid customerId,
         OrderItemRequestDto[] items,
         CancellationToken ct)
@@ -54,7 +54,7 @@ public sealed class OrderItemPreparationService(
         return (catalogs, cart.Items.Adapt<OrderItemRequestDto[]>());
     }
 
-    private async Task<(OrderProductCatalog[] Catalogs, OrderItemRequestDto[] Items)> EnsureItemsAreInStockAsync(
+    private async Task<(ProductCatalog[] Catalogs, OrderItemRequestDto[] Items)> EnsureItemsAreInStockAsync(
         OrderItemRequestDto[] items,
         CancellationToken ct)
     {

@@ -1,13 +1,13 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
+using Order.Application.Abstractions.Persistence.ProductCatalogs;
 
 namespace Order.Application.Features.Catalog.Events.OnProductVariationUpdated;
 
 public sealed class OnProductVariationUpdatedHandler(
     IUnitOfWork uow,
-    IOrderProductCatalogReadService catalogReadService,
-    IOrderProductCatalogWriteService catalogWriteService,
+    IProductCatalogReadService catalogReadService,
+    IProductCatalogWriteService catalogWriteService,
     IAppLogger<OnProductVariationUpdatedHandler> logger) : IInternalEventHandler<OnProductVariationUpdatedEvent>
 {
     public async Task Handle(OnProductVariationUpdatedEvent @event, CancellationToken ct = default)
@@ -16,7 +16,7 @@ public sealed class OnProductVariationUpdatedHandler(
         if (!exists)
         {
             logger.Warning(
-                "OrderProductCatalog entry not found for ProductVariationId {ProductVariationId}, skipping update",
+                "ProductCatalog entry not found for ProductVariationId {ProductVariationId}, skipping update",
                 @event.ProductVariationId);
             return;
         }
@@ -30,7 +30,7 @@ public sealed class OnProductVariationUpdatedHandler(
                     @event.Name,
                     Sku.Create(@event.Sku),
                     Money.Create(@event.Price),
-                    Enum.Parse<OrderProductCatalogStatus>(@event.Status),
+                    Enum.Parse<ProductCatalogStatus>(@event.Status),
                     ct);
             },
             ct: ct);
