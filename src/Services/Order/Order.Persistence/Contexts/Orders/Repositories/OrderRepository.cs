@@ -3,7 +3,7 @@ using Order.Persistence.Engine;
 namespace Order.Persistence.Contexts.Orders.Repositories;
 
 public sealed class OrderRepo(OrderDbContext dbContext)
-    : OrderBaseRepository<OrderEntity>(dbContext), IOrderRepository
+    : OrderBaseRepository<OrderEntity, Guid>(dbContext), IOrderRepository
 {
     public async Task<OrderEntity?> GetByIdempotencyKeyAsync(
         string idempotencyKey,

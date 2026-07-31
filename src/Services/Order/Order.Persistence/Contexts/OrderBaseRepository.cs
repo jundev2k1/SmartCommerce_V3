@@ -10,3 +10,9 @@ public abstract class OrderBaseRepository<TEntity>(OrderDbContext context)
     where TEntity : class, IEntity
 {
 }
+
+public abstract class OrderBaseRepository<TEntity, TId>(OrderDbContext context)
+    : EntityGenericRepository<OrderDbContext, TEntity, TId>(context)
+    where TEntity : class, IEntity<TId>
+{
+}

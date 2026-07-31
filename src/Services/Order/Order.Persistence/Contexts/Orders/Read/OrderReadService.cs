@@ -1,7 +1,6 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Criteria.Requests;
 using BuildingBlock.Persistence.Ef.Criteria;
-using BuildingBlock.Persistence.Repository;
 
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Features.Orders.Search;
@@ -11,13 +10,12 @@ using Order.Persistence.Engine;
 namespace Order.Persistence.Contexts.Orders.Read;
 
 public sealed class OrderReadService(
-    IRepository<OrderEntity> repo,
-    IOrderRepository orderRepository,
+    IOrderRepository orderRepo,
     OrderDbContext dbContext) : IOrderReadService
 {
     public async Task<OrderEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
-        return await repo.GetByIdAsync(
+        return await orderRepo.GetByIdAsync(
             id,
             query => query
                 .Include(q => q.Items)
@@ -49,5 +47,5 @@ public sealed class OrderReadService(
     public async Task<OrderEntity?> GetByIdempotencyKeyAsync(
         string idempotencyKey,
         CancellationToken ct = default)
-        => await orderRepository.GetByIdempotencyKeyAsync(idempotencyKey, ct);
+        => await orderRepo.GetByIdempotencyKeyAsync(idempotencyKey, ct);
 }
