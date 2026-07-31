@@ -114,8 +114,8 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
         if (Items.Count != 0)
             throw ExceptionFactory.InvalidState("The items in the order cannot be modified.");
 
-        Items = itemsData
-            .Select(data => OrderItem.Create(
+        Items = [.. itemsData.Select(data =>
+            OrderItem.Create(
                 Id,
                 data.LineNo,
                 data.ProductId,
@@ -124,8 +124,7 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
                 data.VariationName,
                 data.UnitPrice,
                 data.Quantity,
-                data.Type))
-            .ToArray();
+                data.Type))];
     }
     #endregion
 

@@ -19,7 +19,7 @@ public sealed class CreateOrderHandler(
         // Validate idempotency key and check for existing order with the same key
         var idempotencyId = currentUser.GetIdempotencyKey()
             ?? throw new BadRequestException(MessageCode.InvalidInput, "Missing currelation ID from Header.");
-        await CheckExistingIdempotentOrderAsync(request.Owner.OwnerId, idempotencyId, ct);
+        await CheckExistingIdempotentOrderAsync(idempotencyId, ct);
 
         // Check if order items match the user's cart (if not admin-created), resolve catalog
         // pricing, and ensure stock availability
@@ -46,10 +46,7 @@ public sealed class CreateOrderHandler(
     }
 
     #region Check existing idempotent order
-    private async Task CheckExistingIdempotentOrderAsync(
-        Guid ownerId,
-        string idempotencyKey,
-        CancellationToken ct)
+    private async Task CheckExistingIdempotentOrderAsync(string idempotencyKey, CancellationToken ct)
     {
         var duplicate = await orderReadService.GetByIdempotencyKeyAsync(idempotencyKey, ct);
         if (duplicate is not null)

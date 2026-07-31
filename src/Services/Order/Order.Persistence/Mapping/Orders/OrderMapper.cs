@@ -28,7 +28,7 @@ public static class OrderMapper
                 request.ShippingInfo.ReceiverPhone,
                 request.ShippingInfo.ShippingAddress,
                 request.ShippingInfo.Note),
-            request.Items
+            [.. request.Items
                 .Select((item, index) => new CreateOrderItemData(
                     index + 1,
                     item.ProductId,
@@ -36,7 +36,6 @@ public static class OrderMapper
                     item.ProductName,
                     item.VariationName,
                     Money.Create(item.UnitPrice),
-                    Quantity.Create(item.Quantity)))
-                .ToArray());
+                    Quantity.Create(item.Quantity)))]);
     }
 }
