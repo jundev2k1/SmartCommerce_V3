@@ -14,16 +14,17 @@ public sealed class OnUserInitiatedHandler(
     {
         // Create user profile. This flow is only reached via Auth's self-registration path
         // (RegisterHandler), which always assigns exactly AppRole.User - never Admin.
-        var user = UserProfile.Create(
-            @event.AccountId,
-            @event.Email,
-            @event.UserName,
-            @event.PhoneNumber,
-            @event.FirstName,
-            @event.MiddleName,
-            @event.LastName,
-            [AppRole.User]);
-        await userWriteService.SyncFromAccountInitiationAsync(user, ct);
+        var user = await userWriteService.SyncFromAccountInitiationAsync(
+            new SyncUserProfileRequest(
+                @event.AccountId,
+                @event.Email,
+                @event.UserName,
+                @event.PhoneNumber,
+                @event.FirstName,
+                @event.MiddleName,
+                @event.LastName,
+                [AppRole.User]),
+            ct);
 
         // Search sync trigger - dispatched inline rather than via Outbox/Kafka self-consumption,
         // since this handler already runs in-process off Auth's gRPC call; no cross-service hop

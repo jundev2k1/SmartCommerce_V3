@@ -26,22 +26,22 @@ public sealed class CreateUserHandler(
         // Check valid roles from input
         EnsureCallerMayGrantRoles(request.Roles);
 
-        // Create user profile
-        var user = UserProfile.Create(
-            Guid.CreateVersion7(),
-            request.Email,
-            request.UserName,
-            request.PhoneNumber,
-            request.FirstName,
-            request.MiddleName,
-            request.LastName,
-            request.Roles);
-
         var correlationId = currentUser.GetCorrelationId();
+        UserProfile user = null!;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await userWriteService.CreateAsync(user, ct);
+            user = await userWriteService.CreateAsync(
+                new CreateUserProfileRequest(
+                    Guid.CreateVersion7(),
+                    request.Email,
+                    request.UserName,
+                    request.PhoneNumber,
+                    request.FirstName,
+                    request.MiddleName,
+                    request.LastName,
+                    request.Roles),
+                ct);
             await PublishProfileCreatedEventAsync(
                 user,
                 request.Roles,

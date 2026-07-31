@@ -9,15 +9,39 @@ public sealed class UserProfileWriteService(
     IRepository<UserProfile, Guid> repo,
     IUnitOfWork unitOfWork) : IUserProfileWriteService
 {
-    public async Task CreateAsync(UserProfile user, CancellationToken ct = default)
+    public async Task<UserProfile> CreateAsync(CreateUserProfileRequest request, CancellationToken ct = default)
     {
+        var user = UserProfile.Create(
+            request.Id,
+            request.Email,
+            request.UserName,
+            request.PhoneNumber,
+            request.FirstName,
+            request.MiddleName,
+            request.LastName,
+            request.Roles);
+
         await repo.AddAsync(user, ct);
+
+        return user;
     }
 
-    public async Task SyncFromAccountInitiationAsync(UserProfile user, CancellationToken ct = default)
+    public async Task<UserProfile> SyncFromAccountInitiationAsync(SyncUserProfileRequest request, CancellationToken ct = default)
     {
+        var user = UserProfile.Create(
+            request.AccountId,
+            request.Email,
+            request.UserName,
+            request.PhoneNumber,
+            request.FirstName,
+            request.MiddleName,
+            request.LastName,
+            request.Roles);
+
         await repo.AddAsync(user, ct);
         await unitOfWork.SaveChangesAsync(ct);
+
+        return user;
     }
 
     public async Task UpdateProfileDetailsAsync(Guid id, string firstName, string middleName, string lastName, string phoneNumber, CancellationToken ct = default)
