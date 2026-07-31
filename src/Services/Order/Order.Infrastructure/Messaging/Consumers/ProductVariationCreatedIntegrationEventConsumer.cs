@@ -35,6 +35,7 @@ public sealed class ProductVariationCreatedIntegrationEventConsumer(
             integrationEvent.ProductVariationId,
             integrationEvent.Sku,
             integrationEvent.ProductName,
+            integrationEvent.VariationName,
             integrationEvent.Price,
             integrationEvent.Status,
             integrationEvent.CorrelationId);

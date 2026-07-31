@@ -109,7 +109,8 @@ public sealed class AdminCreateOrderEndpoint : ICarterModule
                 : throw new ArgumentException("Invalid shipping method"),
             input.ReceiverName.Trim(),
             PhoneNumber.Create(input.ReceiverPhone.Trim()),
-            input.ShippingAddress.Trim());
+            input.ShippingAddress.Trim(),
+            string.Empty);
     }
 
     private static OrderItemRequestDto[] MapToOrderItemRequestDtos(

@@ -36,4 +36,14 @@ public sealed class OrderProductCatalogRepo(OrderDbContext dbContext)
             .Where(p => p.ProductId == productId)
             .ExecuteDeleteAsync(ct);
     }
+
+    public async Task<int> UpdateProductNameByProductIdAsync(
+        Guid productId,
+        string name,
+        CancellationToken ct = default)
+    {
+        return await _dbContext.OrderProductCatalogs
+            .Where(p => p.ProductId == productId)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(p => p.ProductName, name), ct);
+    }
 }

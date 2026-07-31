@@ -18,7 +18,7 @@ public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
         builder.Property(x => x.OwnerPhone).HasMaxLength(30).IsRequired();
         builder.Property(x => x.OwnerPhoneSearch).HasMaxLength(20).IsRequired();
         builder.Property(x => x.OwnerPhoneReverse).HasMaxLength(20).IsRequired();
-        builder.Property(x => x.ShippingAddress).HasMaxLength(500).IsRequired();
+        builder.Property(x => x.OwnerEmail).HasMaxLength(256).IsRequired();
         builder.Property(x => x.IdempotencyKey).HasMaxLength(200);
 
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");

@@ -18,4 +18,9 @@ public interface IOrderProductCatalogRepository : IRepository<OrderProductCatalo
     Task DeleteProductAsync(
         Guid productId,
         CancellationToken ct = default);
+
+    Task<int> UpdateProductNameByProductIdAsync(
+        Guid productId,
+        string name,
+        CancellationToken ct = default);
 }

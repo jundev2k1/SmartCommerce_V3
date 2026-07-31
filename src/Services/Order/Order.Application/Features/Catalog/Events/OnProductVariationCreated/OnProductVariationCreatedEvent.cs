@@ -5,6 +5,7 @@ public sealed record OnProductVariationCreatedEvent(
     Guid ProductVariationId,
     string Sku,
     string ProductName,
+    string VariationName,
     decimal Price,
     string Status,
     string CorrelationId = "") : IInternalEvent

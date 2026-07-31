@@ -15,6 +15,7 @@ public sealed class FakeCurrentUserService : ICurrentUserService
     public List<string> Roles { get; set; } = [];
     public bool Authenticated { get; set; } = true;
     public string? CorrelationId { get; set; } = Guid.CreateVersion7().ToString();
+    public string? IdempotencyKey { get; set; } = Guid.CreateVersion7().ToString();
     public string IpAddress { get; set; } = "127.0.0.1";
 
     private string _accessToken = string.Empty;
@@ -33,5 +34,6 @@ public sealed class FakeCurrentUserService : ICurrentUserService
     public void RemoveAccessToken() => _accessToken = string.Empty;
     public void RemoveRefreshToken() => _refreshToken = string.Empty;
     public string? GetCorrelationId() => CorrelationId;
+    public string? GetIdempotencyKey() => IdempotencyKey;
     public string GetIpAddress() => IpAddress;
 }

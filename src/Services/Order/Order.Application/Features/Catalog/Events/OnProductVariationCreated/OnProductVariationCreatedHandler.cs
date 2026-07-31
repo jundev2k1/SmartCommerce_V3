@@ -20,22 +20,24 @@ public sealed class OnProductVariationCreatedHandler(
                 if (isExist)
                 {
                     await catalogWriteService.UpdateVariationSnapshotAsync(
+                        @event.ProductId,
                         @event.ProductVariationId,
                         @event.ProductName,
-                        @event.Sku,
-                        @event.Price,
-                        @event.Status,
+                        Sku.Create(@event.Sku),
+                        Money.Create(@event.Price),
+                        Enum.Parse<OrderProductCatalogStatus>(@event.Status),
                         ct);
                 }
                 else
                 {
                     var entry = OrderProductCatalog.Create(
-                        @event.ProductVariationId,
                         @event.ProductId,
+                        @event.ProductVariationId,
                         @event.ProductName,
-                        @event.Sku,
-                        @event.Price,
-                        @event.Status);
+                        @event.VariationName,
+                        Sku.Create(@event.Sku),
+                        Money.Create(@event.Price),
+                        Enum.Parse<OrderProductCatalogStatus>(@event.Status));
                     await catalogWriteService.CreateAsync(entry, ct);
                 }
             },

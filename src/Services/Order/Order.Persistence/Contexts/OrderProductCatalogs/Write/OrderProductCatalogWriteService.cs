@@ -53,4 +53,12 @@ public sealed class OrderProductCatalogWriteService(
     {
         await catalogRepo.DeleteProductAsync(productId, ct);
     }
+
+    public async Task UpdateProductNameByProductIdAsync(
+        Guid productId,
+        string name,
+        CancellationToken ct = default)
+    {
+        await catalogRepo.UpdateProductNameByProductIdAsync(productId, name, ct);
+    }
 }

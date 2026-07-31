@@ -19,6 +19,12 @@ public interface IOrderProductCatalogWriteService
         Guid variationId,
         CancellationToken ct = default);
 
+    /// <summary>Bulk-refreshes ProductName across every catalog row for this product - a Product's name is shared by every variation.</summary>
+    Task UpdateProductNameByProductIdAsync(
+        Guid productId,
+        string name,
+        CancellationToken ct = default);
+
     Task DeleteByProductIdAsync(
         Guid productId,
         CancellationToken ct = default);

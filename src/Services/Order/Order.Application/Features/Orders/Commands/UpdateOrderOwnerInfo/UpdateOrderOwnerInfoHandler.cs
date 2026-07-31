@@ -1,14 +1,17 @@
 using Order.Application.Abstractions.Persistence.Orders;
-using Order.Domain.ValueObjects;
 
 namespace Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 public sealed class UpdateOrderOwnerInfoHandler(
+    ICurrentUserService currentUser,
     IOrderWriteService orderWriteService,
     IUnitOfWork uow) : ICommandHandler<UpdateOrderOwnerInfoCommand>
 {
     public async Task Handle(UpdateOrderOwnerInfoCommand request, CancellationToken ct = default)
     {
+        var idempotencyKey = currentUser.GetIdempotencyKey()
+            ?? throw new BadRequestException(MessageCode.InvalidInput, "Missing currelation ID from Header.");
+
         await uow.ExecuteTransactionAsync(async () =>
         {
             await orderWriteService.UpdateOwnerInfoAsync(
@@ -16,6 +19,7 @@ public sealed class UpdateOrderOwnerInfoHandler(
                 request.OwnerName,
                 Email.Create(request.OwnerEmail),
                 PhoneNumber.Create(request.OwnerPhone),
+                idempotencyKey,
                 ct);
         }, ct: ct);
     }

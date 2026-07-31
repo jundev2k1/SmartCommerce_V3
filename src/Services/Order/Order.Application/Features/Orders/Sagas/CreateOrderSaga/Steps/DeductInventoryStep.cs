@@ -29,7 +29,7 @@ public sealed class DeductInventoryStep(
             ?? throw new InvalidOperationException("CreateOrderSaga context is missing Items.");
 
         var deductionItems = items
-            .Select(i => new InventoryDeductionItem(i.ProductVariationId, i.Quantity))
+            .Select(i => new InventoryDeductionItem(i.VariationId, i.Quantity))
             .ToList();
 
         var result = await inventoryClient.DeductStockAsync(orderId, deductionItems, reason: $"Order {orderId}", ct);

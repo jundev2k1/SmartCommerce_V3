@@ -12,6 +12,7 @@ public sealed class OnProductVariationDeletedHandler(
             action: async () =>
             {
                 await catalogWriteService.DeleteAsync(
+                    @event.ProductId,
                     @event.ProductVariationId,
                     ct);
             },
