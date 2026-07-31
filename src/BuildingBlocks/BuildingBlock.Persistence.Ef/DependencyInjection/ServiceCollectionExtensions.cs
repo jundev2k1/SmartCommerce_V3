@@ -29,6 +29,7 @@ public static class ServiceCollectionExtensions
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, AuditInterceptor>());
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TimestampInterceptor>());
         services.TryAddScoped(typeof(IRepository<>), typeof(GenericRepository<,>));
+        services.TryAddScoped(typeof(IRepository<,>), typeof(EntityGenericRepository<,,>));
 
         services.AddDbContext<TContext>((serviceProvider, options) =>
         {
