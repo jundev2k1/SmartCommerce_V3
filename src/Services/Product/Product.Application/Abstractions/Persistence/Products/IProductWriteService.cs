@@ -2,9 +2,19 @@ using Product.Application.Features.Products.DTOs;
 
 namespace Product.Application.Abstractions.Persistence.Products;
 
+public sealed record CreateProductRequest(
+    string Code,
+    string Name,
+    string Description,
+    string Slug,
+    IReadOnlyCollection<ProductVariationInputDto> Variations,
+    IReadOnlyCollection<Guid> CategoryIds,
+    IReadOnlyCollection<Guid> TagIds);
+
 public interface IProductWriteService
 {
-    Task CreateAsync(ProductEntity product, CancellationToken ct = default);
+    /// <summary>Returns the created ProductEntity - CreateProductHandler needs it whole (Id, DefaultVariation, every variation) to build ProductCreatedIntegrationEvent/ProductVariationCreatedIntegrationEvent per variation.</summary>
+    Task<ProductEntity> CreateAsync(CreateProductRequest request, CancellationToken ct = default);
 
     Task UpdateDetailsAsync(
         Guid id,

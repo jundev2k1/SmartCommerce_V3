@@ -7,7 +7,6 @@ using BuildingBlock.SharedKernel.Extensions;
 using Product.Application.Abstractions.Persistence.ProductCategories;
 using Product.Application.Abstractions.Persistence.Products;
 using Product.Application.Abstractions.Persistence.ProductTags;
-using Product.Application.Features.Products.Mapping;
 
 namespace Product.Application.Features.Products.Commands.CreateProduct;
 
@@ -31,12 +30,9 @@ public sealed class CreateProductHandler(
         var tagIds = request.TagIds ?? [];
         await ValidateTagsAsync(tagIds, ct);
 
-        // Create the aggregate.
-        var product = CreateNewProduct(request, categoryIds, tagIds);
-
         // Persist data and enqueue integration events.
         var correlationId = currentUser.GetCorrelationId();
-        await SaveProductAsync(product, correlationId, ct);
+        var product = await SaveProductAsync(request, categoryIds, tagIds, correlationId, ct);
 
         // Build response.
         return new CreateProductResponse(product.Id, product.DefaultVariation.Id);
@@ -82,38 +78,32 @@ public sealed class CreateProductHandler(
     }
     #endregion
 
-    #region Product Creation
-    private static ProductEntity CreateNewProduct(
+    #region Persistence
+    private async Task<ProductEntity> SaveProductAsync(
         CreateProductCommand request,
         IReadOnlyCollection<Guid> categoryIds,
-        IReadOnlyCollection<Guid> tagIds)
-    {
-        var variations = request.Variations.MapInputToEntities(default);
-        var product = ProductEntity.Create(
-            ProductCode.Create(request.Code),
-            request.Name,
-            request.Description,
-            Slug.Create(request.Slug),
-            null,
-            variations,
-            categoryIds,
-            tagIds);
-
-        return product;
-    }
-    #endregion
-
-    #region Persistence
-    private async Task SaveProductAsync(
-        ProductEntity product,
+        IReadOnlyCollection<Guid> tagIds,
         string correlationId,
         CancellationToken ct)
     {
+        ProductEntity product = null!;
+
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await productWriteService.CreateAsync(product, ct);
+            product = await productWriteService.CreateAsync(
+                new CreateProductRequest(
+                    request.Code,
+                    request.Name,
+                    request.Description,
+                    request.Slug,
+                    request.Variations,
+                    categoryIds,
+                    tagIds),
+                ct);
             await PublishIntegrationEventsAsync(product, correlationId, ct);
         }, ct: ct);
+
+        return product;
     }
 
     private async Task PublishIntegrationEventsAsync(

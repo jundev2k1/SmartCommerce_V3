@@ -1,4 +1,4 @@
-namespace Product.Domain.Entities;
+namespace Product.Domain.Entities.Products;
 
 /// <summary>
 /// Aggregate root. Holds only data shared across every variation - identity, display copy,
@@ -63,6 +63,7 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             Metadata = metadata ?? new ProductMetadata(),
             Variations = [.. variations],
             CategoryMappings = categoryMappings,
+            TagMappings = tagMappings,
         };
 
         return product;

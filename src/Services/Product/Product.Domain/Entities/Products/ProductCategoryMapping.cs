@@ -1,4 +1,6 @@
-namespace Product.Domain.Entities;
+using Product.Domain.Entities.Categories;
+
+namespace Product.Domain.Entities.Products;
 
 /// <summary>
 /// Explicit many-to-many join entity between Product and ProductCategory - Product and

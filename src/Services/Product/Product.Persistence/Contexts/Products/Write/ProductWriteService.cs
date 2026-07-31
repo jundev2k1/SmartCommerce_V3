@@ -14,12 +14,25 @@ public sealed class ProductWriteService(
     IProductRepository productRepo,
     IUnitOfWork uow) : IProductWriteService
 {
-    public async Task CreateAsync(
-        ProductEntity product,
+    public async Task<ProductEntity> CreateAsync(
+        CreateProductRequest request,
         CancellationToken ct = default)
     {
+        var variations = request.Variations.MapInputToEntities(default);
+        var product = ProductEntity.Create(
+            ProductCode.Create(request.Code),
+            request.Name,
+            request.Description,
+            Slug.Create(request.Slug),
+            null,
+            variations,
+            request.CategoryIds,
+            request.TagIds);
+
         await repo.AddAsync(product, ct);
         await uow.SaveChangesAsync(ct);
+
+        return product;
     }
 
     public async Task UpdateDetailsAsync(
