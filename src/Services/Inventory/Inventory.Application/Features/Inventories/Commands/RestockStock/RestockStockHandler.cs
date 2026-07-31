@@ -63,29 +63,22 @@ public sealed class RestockStockHandler(
                             continue;
                         }
 
-                        await inventoryWriteService.StageUpdateAsync(inventory.Id, async inv =>
-                        {
-                            inv.Increase(item.Quantity);
+                        var inv = await inventoryWriteService.IncreaseAsync(inventory.Id, item.Quantity, ct);
 
-                            await transactionWriteService.StageAddAsync(
-                                InventoryTransaction.Create(
-                                    inv.Id,
-                                    inv.ProductId,
-                                    inv.VariationId,
-                                    inv.WarehouseId,
-                                    InventoryTransactionType.StockIn,
-                                    item.Quantity,
-                                    inv.Quantity,
-                                    reasonText),
-                                ct);
-                        }, ct);
+                        await transactionWriteService.StageAddAsync(
+                            InventoryTransaction.Create(
+                                inv.Id,
+                                inv.ProductId,
+                                inv.VariationId,
+                                inv.WarehouseId,
+                                InventoryTransactionType.StockIn,
+                                item.Quantity,
+                                inv.Quantity,
+                                reasonText),
+                            ct);
                     }
 
-                    await deductionWriteService.StageUpdateAsync(request.DeductionId, async d =>
-                    {
-                        d.MarkReversed();
-                        await Task.CompletedTask;
-                    }, ct);
+                    await deductionWriteService.MarkReversedAsync(request.DeductionId, ct);
                 }, ct: ct);
 
                 return new RestockStockResult(true);

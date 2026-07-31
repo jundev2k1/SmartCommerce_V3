@@ -1,5 +1,7 @@
 namespace Inventory.Application.Abstractions.Persistence.Inventories;
 
+public sealed record InventoryAdjustmentResult(InventoryEntity Entity, int Delta);
+
 public interface IInventoryWriteService
 {
     /// <summary>Self-committing (ExecuteTransactionAsync). Used by OnProductVariationCreated - the only write in its transaction.</summary>
@@ -12,11 +14,23 @@ public interface IInventoryWriteService
     Task DeleteByVariationIdAsync(Guid productVariationId, CancellationToken ct = default);
 
     /// <summary>
-    /// Non-committing: loads the tracked entity and applies updateAction, but does not call
-    /// IUnitOfWork itself. Every caller (AdjustStock/StockIn/StockOut/DeductStock/RestockStock)
-    /// also mutates InventoryTransaction (and StockDeduction, for Deduct/Restock) atomically and
-    /// owns the ExecuteTransactionAsync call itself - see Correction 2 in the persistence
-    /// refactor tracker.
+    /// Non-committing: increases stock and returns the updated entity. Callers (StockIn/RestockStock)
+    /// also stage an InventoryTransaction and own the ExecuteTransactionAsync call themselves - see
+    /// Correction 2 in the persistence refactor tracker.
     /// </summary>
-    Task StageUpdateAsync(Guid id, Action<InventoryEntity> updateAction, CancellationToken ct = default);
+    Task<InventoryEntity> IncreaseAsync(Guid id, int amount, CancellationToken ct = default);
+
+    /// <summary>
+    /// Non-committing: decreases stock (guards against overselling) and returns the updated entity.
+    /// Callers (DeductStock/StockOut) also stage an InventoryTransaction and own the
+    /// ExecuteTransactionAsync call themselves.
+    /// </summary>
+    Task<InventoryEntity> DecreaseAsync(Guid id, int amount, CancellationToken ct = default);
+
+    /// <summary>
+    /// Non-committing: corrects stock to newQuantity (e.g. after a physical count) and returns the
+    /// updated entity plus the delta applied, for transaction logging. Caller (AdjustStock) also
+    /// stages an InventoryTransaction and owns the ExecuteTransactionAsync call itself.
+    /// </summary>
+    Task<InventoryAdjustmentResult> AdjustToAsync(Guid id, int newQuantity, CancellationToken ct = default);
 }

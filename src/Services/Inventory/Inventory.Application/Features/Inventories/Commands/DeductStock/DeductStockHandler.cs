@@ -102,22 +102,19 @@ public sealed class DeductStockHandler(
 
             foreach (var (item, inventoryId) in validated)
             {
-                await inventoryWriteService.StageUpdateAsync(inventoryId, async inv =>
-                {
-                    inv.Decrease(item.Quantity);
+                var inv = await inventoryWriteService.DecreaseAsync(inventoryId, item.Quantity, ct);
 
-                    await transactionWriteService.StageAddAsync(
-                        InventoryTransaction.Create(
-                            inv.Id,
-                            inv.ProductId,
-                            inv.VariationId,
-                            inv.WarehouseId,
-                            InventoryTransactionType.StockOut,
-                            item.Quantity,
-                            inv.Quantity,
-                            reasonText),
-                        ct);
-                }, ct);
+                await transactionWriteService.StageAddAsync(
+                    InventoryTransaction.Create(
+                        inv.Id,
+                        inv.ProductId,
+                        inv.VariationId,
+                        inv.WarehouseId,
+                        InventoryTransactionType.StockOut,
+                        item.Quantity,
+                        inv.Quantity,
+                        reasonText),
+                    ct);
             }
 
             var itemsJson = JsonSerializer.Serialize(request.Items);

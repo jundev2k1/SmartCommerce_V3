@@ -6,10 +6,10 @@ namespace Inventory.Persistence.Contexts.Inventories.Write;
 /// <summary>
 /// Never calls IUnitOfWork itself. AddAsync/DeleteByProductIdAsync/DeleteByVariationIdAsync are
 /// each the sole write in their caller's transaction (OnProductVariationCreated/OnProductDeleted/
-/// OnProductVariationDeleted own ExecuteTransactionAsync themselves). StageUpdateAsync is used
-/// only by the cross-aggregate stock-mutation handlers (AdjustStock/DeductStock/RestockStock/
-/// StockIn/StockOut), which own IUnitOfWork directly and batch this with InventoryTransaction/
-/// StockDeduction writes - see Correction 2 in the persistence refactor tracker.
+/// OnProductVariationDeleted own ExecuteTransactionAsync themselves). IncreaseAsync/DecreaseAsync/
+/// AdjustToAsync are used only by the cross-aggregate stock-mutation handlers (AdjustStock/
+/// DeductStock/RestockStock/StockIn/StockOut), which own IUnitOfWork directly and batch this with
+/// InventoryTransaction/StockDeduction writes - see Correction 2 in the persistence refactor tracker.
 /// </summary>
 public sealed class InventoryWriteService(
     IInventoryRepository inventoryRepo) : IInventoryWriteService
@@ -29,8 +29,44 @@ public sealed class InventoryWriteService(
         await inventoryRepo.DeleteByVariationIdAsync(productVariationId, ct);
     }
 
-    public async Task StageUpdateAsync(Guid id, Action<InventoryEntity> updateAction, CancellationToken ct = default)
+    public async Task<InventoryEntity> IncreaseAsync(Guid id, int amount, CancellationToken ct = default)
     {
-        await inventoryRepo.UpdateAsync(id, updateAction, ct);
+        InventoryEntity? entity = null;
+
+        await inventoryRepo.UpdateAsync(id, inv =>
+        {
+            inv.Increase(amount);
+            entity = inv;
+        }, ct);
+
+        return entity!;
+    }
+
+    public async Task<InventoryEntity> DecreaseAsync(Guid id, int amount, CancellationToken ct = default)
+    {
+        InventoryEntity? entity = null;
+
+        await inventoryRepo.UpdateAsync(id, inv =>
+        {
+            inv.Decrease(amount);
+            entity = inv;
+        }, ct);
+
+        return entity!;
+    }
+
+    public async Task<InventoryAdjustmentResult> AdjustToAsync(Guid id, int newQuantity, CancellationToken ct = default)
+    {
+        InventoryEntity? entity = null;
+        var delta = 0;
+
+        await inventoryRepo.UpdateAsync(id, inv =>
+        {
+            delta = newQuantity - inv.Quantity;
+            inv.Adjust(newQuantity);
+            entity = inv;
+        }, ct);
+
+        return new InventoryAdjustmentResult(entity!, delta);
     }
 }

@@ -1,5 +1,5 @@
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
 namespace Inventory.Application.Features.Inventories.Commands.StockIn;
 
@@ -14,16 +14,11 @@ public sealed class StockInHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await inventoryWriteService.StageUpdateAsync(request.InventoryId, async (inv) =>
-            {
-                inv.Increase(request.Quantity);
-                inventory = inv;
-                await Task.CompletedTask;
-            }, ct);
+            inventory = await inventoryWriteService.IncreaseAsync(request.InventoryId, request.Quantity, ct);
 
             await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
-                    inventory!.Id,
+                    inventory.Id,
                     inventory.ProductId,
                     inventory.VariationId,
                     inventory.WarehouseId,

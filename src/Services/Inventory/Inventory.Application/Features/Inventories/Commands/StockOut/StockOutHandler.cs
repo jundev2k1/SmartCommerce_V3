@@ -14,16 +14,11 @@ public sealed class StockOutHandler(
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await inventoryWriteService.StageUpdateAsync(request.InventoryId, async (inv) =>
-            {
-                inv.Decrease(request.Quantity);
-                inventory = inv;
-                await Task.CompletedTask;
-            }, ct);
+            inventory = await inventoryWriteService.DecreaseAsync(request.InventoryId, request.Quantity, ct);
 
             await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
-                    inventory!.Id,
+                    inventory.Id,
                     inventory.ProductId,
                     inventory.VariationId,
                     inventory.WarehouseId,

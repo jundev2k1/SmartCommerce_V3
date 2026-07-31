@@ -13,8 +13,8 @@ public sealed class StockDeductionWriteService(
         await repo.AddAsync(entity, ct);
     }
 
-    public async Task StageUpdateAsync(Guid deductionId, Func<StockDeduction, Task> updateAction, CancellationToken ct = default)
+    public async Task MarkReversedAsync(Guid deductionId, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(deductionId, updateAction, ct);
+        await repo.UpdateAsync(deductionId, d => d.MarkReversed(), ct);
     }
 }

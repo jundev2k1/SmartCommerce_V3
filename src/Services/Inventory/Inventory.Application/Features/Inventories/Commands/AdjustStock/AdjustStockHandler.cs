@@ -10,32 +10,25 @@ public sealed class AdjustStockHandler(
 {
     public async Task<AdjustStockResponse> Handle(AdjustStockCommand request, CancellationToken ct = default)
     {
-        InventoryEntity? inventory = null;
-        var delta = 0;
+        InventoryAdjustmentResult? adjustment = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await inventoryWriteService.StageUpdateAsync(request.InventoryId, async (inv) =>
-            {
-                delta = request.NewQuantity - inv.Quantity;
-                inv.Adjust(request.NewQuantity);
-                inventory = inv;
-                await Task.CompletedTask;
-            }, ct);
+            adjustment = await inventoryWriteService.AdjustToAsync(request.InventoryId, request.NewQuantity, ct);
 
             await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
-                    inventory!.Id,
-                    inventory.ProductId,
-                    inventory.VariationId,
-                    inventory.WarehouseId,
+                    adjustment.Entity.Id,
+                    adjustment.Entity.ProductId,
+                    adjustment.Entity.VariationId,
+                    adjustment.Entity.WarehouseId,
                     InventoryTransactionType.Adjustment,
-                    delta,
-                    inventory.Quantity,
+                    adjustment.Delta,
+                    adjustment.Entity.Quantity,
                     request.Reason.Trim()),
                 ct);
         }, ct: ct);
 
-        return new AdjustStockResponse(inventory!.Quantity);
+        return new AdjustStockResponse(adjustment!.Entity.Quantity);
     }
 }
