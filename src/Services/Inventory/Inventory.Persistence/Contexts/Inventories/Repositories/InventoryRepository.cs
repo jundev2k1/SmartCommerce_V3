@@ -36,7 +36,7 @@ public sealed class InventoryRepository(InventoryDbContext dbContext)
         CancellationToken ct = default)
     {
         var rows = await _dbContext.Inventories
-            .Where(i => i.VariationId == productVariationId)
+            .Where(i => i.VariantId == productVariationId)
             .ToListAsync(ct);
 
         _dbContext.Inventories.RemoveRange(rows);

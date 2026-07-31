@@ -8,17 +8,10 @@ using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.StockDeductions;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
+using Inventory.Application.Features.Inventories.DTOs;
 
 namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
 
-/// <summary>
-/// Validates every requested item against current stock, then deducts all-or-nothing inside one
-/// transaction. Idempotent via StockDeduction (keyed by DeductionId) - a retried call with the
-/// same id replays the original outcome instead of decrementing twice. Retries a bounded number
-/// of times on ConflictException (EfUnitOfWork's translation of a Postgres xmin conflict - see
-/// InventoryConfig) since a concurrent deduction against the same row invalidates this attempt's
-/// read and must re-validate against fresh quantities, not blindly retry the same numbers.
-/// </summary>
 public sealed class DeductStockHandler(
     IStockDeductionReadService deductionReadService,
     IStockDeductionWriteService deductionWriteService,
@@ -80,9 +73,9 @@ public sealed class DeductStockHandler(
                     continue;
                 }
 
-                if (inventory.Quantity < item.Quantity)
+                if (inventory.AvailableQuantity < item.Quantity)
                 {
-                    insufficient.Add(new InsufficientStockItem(item.ProductVariationId, item.Quantity, inventory.Quantity));
+                    insufficient.Add(new InsufficientStockItem(item.ProductVariationId, item.Quantity, inventory.Available));
                     continue;
                 }
 
@@ -104,14 +97,14 @@ public sealed class DeductStockHandler(
                 var inv = await inventoryWriteService.DecreaseAsync(inventoryId, item.Quantity, ct);
 
                 await transactionWriteService.StageAddAsync(
-                    new CreateInventoryTransactionRequest(
+                    new CreateInventoryTransactionDto(
                         inv.Id,
                         inv.ProductId,
-                        inv.VariationId,
+                        inv.VariantId,
                         inv.WarehouseId,
                         InventoryTransactionType.StockOut,
                         item.Quantity,
-                        inv.Quantity,
+                        inv.Available,
                         reasonText),
                     ct);
             }

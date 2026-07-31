@@ -20,15 +20,15 @@ public sealed class AdjustStockHandler(
                 new CreateInventoryTransactionRequest(
                     adjustment.Entity.Id,
                     adjustment.Entity.ProductId,
-                    adjustment.Entity.VariationId,
+                    adjustment.Entity.VariantId,
                     adjustment.Entity.WarehouseId,
                     InventoryTransactionType.Adjustment,
                     adjustment.Delta,
-                    adjustment.Entity.Quantity,
+                    adjustment.Entity.Available,
                     request.Reason.Trim()),
                 ct);
         }, ct: ct);
 
-        return new AdjustStockResponse(adjustment!.Entity.Quantity);
+        return new AdjustStockResponse(adjustment!.Entity.Available);
     }
 }

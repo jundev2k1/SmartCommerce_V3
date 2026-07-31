@@ -69,7 +69,7 @@ public sealed class InventoryWriteService(
 
         await inventoryRepo.UpdateAsync(id, inv =>
         {
-            delta = newQuantity - inv.Quantity;
+            delta = newQuantity - inv.Available;
             inv.Adjust(newQuantity);
             entity = inv;
         }, ct);

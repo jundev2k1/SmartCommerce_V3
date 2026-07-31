@@ -27,7 +27,7 @@ public sealed class InventoryReadService(
         CancellationToken ct = default)
     {
         return await inventoryRepo.GetAsync(i =>
-            i.VariationId == variationId
+            i.VariantId == variationId
             && i.WarehouseId == warehouseId, ct);
     }
 
@@ -36,24 +36,24 @@ public sealed class InventoryReadService(
         return await dbContext.Inventories
             .AsNoTracking()
             .Where(i => i.ProductId == productId)
-            .SumAsync(i => i.Quantity, ct);
+            .SumAsync(i => i.Available, ct);
     }
 
     public async Task<int> GetTotalStockByVariationIdAsync(Guid variationId, CancellationToken ct = default)
     {
         return await dbContext.Inventories
             .AsNoTracking()
-            .Where(i => i.VariationId == variationId)
-            .SumAsync(i => i.Quantity, ct);
+            .Where(i => i.VariantId == variationId)
+            .SumAsync(i => i.Available, ct);
     }
 
     public async Task<IReadOnlyDictionary<Guid, int>> GetTotalStockByVariationIdsAsync(IReadOnlyCollection<Guid> variationIds, CancellationToken ct = default)
     {
         return await dbContext.Inventories
             .AsNoTracking()
-            .Where(i => variationIds.Contains(i.VariationId))
-            .GroupBy(i => i.VariationId)
-            .Select(g => new { VariationId = g.Key, Total = g.Sum(i => i.Quantity) })
+            .Where(i => variationIds.Contains(i.VariantId))
+            .GroupBy(i => i.VariantId)
+            .Select(g => new { VariationId = g.Key, Total = g.Sum(i => i.Available) })
             .ToDictionaryAsync(x => x.VariationId, x => x.Total, ct);
     }
 }

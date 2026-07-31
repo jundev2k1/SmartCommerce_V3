@@ -20,15 +20,15 @@ public sealed class StockOutHandler(
                 new CreateInventoryTransactionRequest(
                     inventory.Id,
                     inventory.ProductId,
-                    inventory.VariationId,
+                    inventory.VariantId,
                     inventory.WarehouseId,
                     InventoryTransactionType.StockOut,
                     request.Quantity,
-                    inventory.Quantity,
+                    inventory.Available,
                     request.Reason.Trim()),
                 ct);
         }, ct: ct);
 
-        return new StockOutResponse(inventory!.Quantity);
+        return new StockOutResponse(inventory!.Available);
     }
 }

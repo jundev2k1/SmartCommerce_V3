@@ -73,7 +73,7 @@ public sealed class RestockStockHandler(
                                 inv.WarehouseId,
                                 InventoryTransactionType.StockIn,
                                 item.Quantity,
-                                inv.Quantity,
+                                inv.Available,
                                 reasonText),
                             ct);
                     }

@@ -20,15 +20,15 @@ public sealed class StockInHandler(
                 new CreateInventoryTransactionRequest(
                     inventory.Id,
                     inventory.ProductId,
-                    inventory.VariationId,
+                    inventory.VariantId,
                     inventory.WarehouseId,
                     InventoryTransactionType.StockIn,
                     request.Quantity,
-                    inventory.Quantity,
+                    inventory.Available,
                     request.Reason.Trim()),
                 ct);
         }, ct: ct);
 
-        return new StockInResponse(inventory!.Quantity);
+        return new StockInResponse(inventory!.Available);
     }
 }

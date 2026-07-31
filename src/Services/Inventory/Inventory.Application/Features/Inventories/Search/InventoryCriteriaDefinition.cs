@@ -7,9 +7,9 @@ public static class InventoryCriteriaDefinition
 {
     public static readonly CriteriaDefinition<InventoryEntity> Instance = CriteriaDefinition<InventoryEntity>.Create()
         .Field(x => x.ProductId).Guid()
-        .Field(x => x.VariationId).Guid()
+        .Field(x => x.VariantId).Guid()
         .Field(x => x.WarehouseId).Guid()
-        .Field(x => x.Quantity).Number().Sortable()
+        .Field(x => x.Available).Number().Sortable()
         .Field(x => x.CreatedAt).DateTime().Sortable()
         .Build();
 }

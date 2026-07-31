@@ -1,3 +1,5 @@
+using Inventory.Application.Features.Inventories.DTOs;
+
 namespace Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
 public sealed record CreateInventoryTransactionRequest(
@@ -12,10 +14,5 @@ public sealed record CreateInventoryTransactionRequest(
 
 public interface IInventoryTransactionWriteService
 {
-    /// <summary>
-    /// Non-committing: every caller batches this into a larger cross-aggregate transaction it
-    /// owns itself (Inventory + InventoryTransaction, plus StockDeduction for Deduct/Restock) -
-    /// see Correction 2 in the persistence refactor tracker.
-    /// </summary>
-    Task StageAddAsync(CreateInventoryTransactionRequest request, CancellationToken ct = default);
+    Task StageAddAsync(CreateInventoryTransactionDto dto, CancellationToken ct = default);
 }

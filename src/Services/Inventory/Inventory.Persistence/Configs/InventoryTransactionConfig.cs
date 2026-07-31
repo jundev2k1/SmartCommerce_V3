@@ -14,7 +14,7 @@ public sealed class InventoryTransactionConfig : IEntityTypeConfiguration<Invent
         builder.Property(x => x.ProductId)
             .IsRequired();
 
-        builder.Property(x => x.VariationId)
+        builder.Property(x => x.VariantId)
             .IsRequired();
 
         builder.Property(x => x.WarehouseId)
@@ -46,7 +46,7 @@ public sealed class InventoryTransactionConfig : IEntityTypeConfiguration<Invent
         // Supports the transaction search's equality filters (see Task 5) - movements are
         // typically queried by product, variation, warehouse, or type, not just their own inventory row.
         builder.HasIndex(x => x.ProductId);
-        builder.HasIndex(x => x.VariationId);
+        builder.HasIndex(x => x.VariantId);
         builder.HasIndex(x => x.WarehouseId);
         builder.HasIndex(x => x.Type);
     }
