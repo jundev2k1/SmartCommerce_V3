@@ -6,7 +6,7 @@ using Product.Application.Abstractions.Persistence.ProductTags;
 namespace Product.Persistence.Contexts.ProductTags.Write;
 
 public sealed class ProductTagWriteService(
-    IRepository<ProductTag> repo,
+    IRepository<ProductTag, Guid> repo,
     IUnitOfWork unitOfWork) : IProductTagWriteService
 {
     public async Task CreateAsync(ProductTag tag, CancellationToken ct = default)
@@ -17,10 +17,9 @@ public sealed class ProductTagWriteService(
 
     public async Task UpdateTagNameAsync(Guid id, string tagName, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(id, async productTag =>
+        await repo.UpdateAsync(id, productTag =>
         {
             productTag.Rename(tagName);
-            await Task.CompletedTask;
         }, ct);
     }
 

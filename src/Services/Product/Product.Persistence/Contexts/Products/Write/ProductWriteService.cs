@@ -9,14 +9,8 @@ using Product.Persistence.Contexts.Products.Repositories;
 
 namespace Product.Persistence.Contexts.Products.Write;
 
-/// <summary>
-/// Every method here only stages repository operations - it never calls IUnitOfWork itself.
-/// The Application handler owns the transaction (ExecuteTransactionAsync) and its own
-/// SaveChangesAsync, since every Product mutation historically committed that way; EF Core
-/// automatically enlists this service's repo calls in whatever transaction the caller opened.
-/// </summary>
 public sealed class ProductWriteService(
-    IRepository<ProductEntity> repo,
+    IRepository<ProductEntity, Guid> repo,
     IProductRepository productRepo,
     IUnitOfWork uow) : IProductWriteService
 {

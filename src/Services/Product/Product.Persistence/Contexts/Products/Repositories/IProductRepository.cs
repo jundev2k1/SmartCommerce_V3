@@ -1,12 +1,29 @@
+using BuildingBlock.Persistence.Repository;
+
 namespace Product.Persistence.Contexts.Products.Repositories;
 
-public interface IProductRepository
+public interface IProductRepository : IRepository<ProductEntity>
 {
-    Task<int> GetNextVariationDisplayOrderAsync(Guid productId, CancellationToken ct = default);
+    Task<ProductEntity[]> GetAllAsync(
+        int skip,
+        int take,
+        CancellationToken ct = default);
 
-    Task AddVariationAsync(ProductVariation variation, CancellationToken ct = default);
+    Task<Guid[]> GetProductsByTagIdAsync(
+        Guid tagId,
+        CancellationToken ct = default);
 
-    Task AddVariationRangeAsync(IEnumerable<ProductVariation> variations, CancellationToken ct = default);
+    Task<int> GetNextVariationDisplayOrderAsync(
+        Guid productId,
+        CancellationToken ct = default);
+
+    Task AddVariationAsync(
+        ProductVariation variation,
+        CancellationToken ct = default);
+
+    Task AddVariationRangeAsync(
+        IEnumerable<ProductVariation> variations,
+        CancellationToken ct = default);
 
     Task UpdateVariationAsync(
         Guid id,

@@ -11,7 +11,7 @@ namespace Product.Persistence.Contexts.ProductCategories.Write;
 /// UpdateProductCategoryHandler owns the ExecuteTransactionAsync call itself.
 /// </summary>
 public sealed class ProductCategoryWriteService(
-    IRepository<ProductCategory> repo,
+    IRepository<ProductCategory, Guid> repo,
     IUnitOfWork unitOfWork) : IProductCategoryWriteService
 {
     public async Task CreateAsync(ProductCategory category, CancellationToken ct = default)

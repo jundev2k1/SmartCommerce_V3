@@ -1,52 +1,46 @@
 using BuildingBlock.Persistence.Repository;
 
 using Product.Application.Abstractions.Persistence.Products;
+using Product.Persistence.Contexts.Products.Repositories;
 using Product.Persistence.Engine;
 
 namespace Product.Persistence.Contexts.Products.Read;
 
 public sealed class ProductReadService(
     ProductDbContext dbContext,
-    IRepository<ProductEntity> repo) : IProductReadService
+    IRepository<ProductEntity, Guid> repo,
+    IProductRepository productRepo) : IProductReadService
 {
-    public async Task<ProductEntity[]> GetAllAsync(int skip, int take, CancellationToken ct = default)
+    public async Task<ProductEntity[]> GetAllAsync(
+        int skip,
+        int take,
+        CancellationToken ct = default)
     {
-        // Same "always loaded" reasoning as ProductRepo.GetByIdAsync - RebuildProductSearchIndexHandler
-        // consumes this batch via ProductSearchProjectionBuilder, which needs these collections.
-        return await dbContext.Products
-            .AsNoTracking()
-            .AsSplitQuery()
-            .Include(p => p.Variations)
-            .Include(p => p.CategoryMappings)
-            .ThenInclude(cm => cm.Category)
-            .Include(p => p.TagMappings)
-            .ThenInclude(tm => tm.Tag)
-            .OrderBy(p => p.Id)
-            .Skip(skip)
-            .Take(take)
-            .ToArrayAsync(ct);
+        return await productRepo.GetAllAsync(skip, take, ct);
     }
 
     public async Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
-        // TODO: change to get with includes
-        return await repo.GetByIdAsync(id, ct);
+        return await repo.GetByIdAsync(
+            id,
+            query => query.AsSplitQuery()
+                .Include(p => p.Variations)
+                .Include(p => p.CategoryMappings)
+                .ThenInclude(cm => cm.Category)
+                .Include(p => p.TagMappings)
+                .ThenInclude(tm => tm.Tag),
+            ct);
     }
 
-    public async Task<Guid[]> GetProductsByTagIdAsync(Guid tagId, CancellationToken ct = default)
+    public async Task<Guid[]> GetProductsByTagIdAsync(
+        Guid tagId,
+        CancellationToken ct = default)
     {
-        return await dbContext.Products
-            .AsNoTracking()
-            .Where(p => p.TagMappings.Any(tm => tm.TagId == tagId))
-            .Select(p => p.Id)
-            .ToArrayAsync(ct);
+        return await productRepo.GetProductsByTagIdAsync(tagId, ct);
     }
 
     public async Task<bool> CodeExistsAsync(string code, CancellationToken ct = default)
     {
-        // Compare the whole value-converted property, not .Value on it - EF Core can translate
-        // "p.Code == someProductCode" (the converter applies to the constant), but not
-        // "p.Code.Value == someString" (member access on the post-conversion CLR type).
         var normalized = ProductCode.Create(code);
         return await dbContext.Products.AsNoTracking().AnyAsync(p => p.Code == normalized, ct);
     }
