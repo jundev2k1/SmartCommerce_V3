@@ -11,7 +11,7 @@ namespace Auth.Persistence.Contexts.RefreshTokens.Write;
 /// owns itself. See the persistence refactor tracker's extension of Correction 2 to Auth.
 /// </summary>
 public sealed class RefreshTokenWriteService(
-    IRepository<RefreshToken> repo) : IRefreshTokenWriteService
+    IRepository<RefreshToken, Guid> repo) : IRefreshTokenWriteService
 {
     public async Task AddAsync(RefreshToken token, CancellationToken ct = default)
     {
