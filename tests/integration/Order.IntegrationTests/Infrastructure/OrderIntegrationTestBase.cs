@@ -12,6 +12,7 @@ using NSubstitute;
 using Order.Application;
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
+using Order.Application.Features.Orders.DTOs;
 using Order.Domain.Entities;
 using Order.Domain.Enums;
 using Order.Domain.ValueObjects;
@@ -162,48 +163,38 @@ public abstract class OrderIntegrationTestBase : IAsyncLifetime
             int quantity
         )[] items)
     {
-        var orderId = Guid.CreateVersion7();
-
         await using var scope = CreateScope();
         var writeService = scope.ServiceProvider.GetRequiredService<IOrderWriteService>();
         var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-        var order = OrderEntity.Create(Guid.NewGuid().ToString());
+        var request = new CreateOrderRequest(
+            Guid.NewGuid().ToString(),
+            null,
+            new OrderOwnerRequestDto(
+                customerId,
+                customerName,
+                Email.Create("abc1234@gmai.com"),
+                PhoneNumber.Create(customerPhone)),
+            new OrderShippingInfoRequestDto(
+                ShippingMethod.Standard,
+                customerName,
+                PhoneNumber.Create(customerPhone),
+                shippingAddress,
+                string.Empty),
+            items
+                .Select(item => new PreparedOrderItem(
+                    item.productId,
+                    item.variationId,
+                    item.productName,
+                    item.variationName,
+                    item.unitPrice,
+                    item.quantity))
+                .ToArray());
 
-        var orderOwner = OrderOwner.Create(
-            order.Id,
-            customerId,
-            customerName,
-            Email.Create("abc1234@gmai.com"),
-            PhoneNumber.Create(customerPhone));
-        order.SetOwner(orderOwner);
-
-        var orderShipping = OrderShipping.Create(
-            order.Id,
-            orderOwner.OwnerName,
-            orderOwner.OwnerPhone,
-            shippingAddress,
-            ShippingMethod.Standard,
-            string.Empty);
-        order.SetShipping(orderShipping);
-
-        var orderItems = items
-            .Select((item, index) => OrderItem.Create(
-                order.Id,
-                index + 1,
-                item.productId,
-                item.variationId,
-                item.productName,
-                item.variationName,
-                Money.Create(item.unitPrice),
-                Quantity.Create(item.quantity)))
-            .ToArray();
-        order.SetOrderItems(orderItems);
-
-        await writeService.CreateAsync(order);
+        var order = await writeService.CreateAsync(request);
         await uow.SaveChangesAsync();
 
-        return orderId;
+        return order.Id;
     }
 
     /// <summary>

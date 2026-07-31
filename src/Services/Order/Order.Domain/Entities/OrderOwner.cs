@@ -24,7 +24,7 @@ public sealed class OrderOwner : BaseEntity
     private OrderOwner() { }
 
     /// <summary>Only Order may construct/mutate its Owner - same reasoning as OrderItem.Create being internal.</summary>
-    public static OrderOwner Create(
+    internal static OrderOwner Create(
         Guid orderId,
         Guid customerId,
         string name,

@@ -17,7 +17,7 @@ public sealed class OrderDiscount : BaseEntity<long>, IAuditable
 
     private OrderDiscount() { }
 
-    public static OrderDiscount Create(
+    internal static OrderDiscount Create(
         Guid orderId,
         long? orderItemId,
         Guid? orderShippingId,

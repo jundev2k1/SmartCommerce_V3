@@ -1,6 +1,8 @@
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Enums;
 
+using Order.Domain.Entities.Data;
+
 namespace Order.Domain.Entities;
 
 public sealed class Order : AggregateRoot<Guid>, IAuditable
@@ -34,6 +36,18 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
             CreatedById = createdById,
             IdempotencyKey = idempotencyKey,
         };
+
+        return order;
+    }
+
+    /// <summary>Builds the order plus its Owner/Shipping/Items in one call - see CreateOrderData's own remarks for why this exists.</summary>
+    public static Order Create(CreateOrderData data)
+    {
+        var order = Create(data.IdempotencyKey, data.CreatedById);
+
+        order.CreateOwner(data.Owner);
+        order.CreateShipping(data.Shipping);
+        order.CreateItems(data.Items);
 
         return order;
     }
@@ -91,26 +105,41 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
     #endregion
 
     #region OrderItem
-    public void SetOrderItems(OrderItem[] items)
+    /// <summary>Builds this order's OrderItems from behavior data - only Order may construct an OrderItem (see OrderItem.Create being internal).</summary>
+    public void CreateItems(IReadOnlyList<CreateOrderItemData> itemsData)
     {
-        if (items.Length == 0)
+        if (itemsData.Count == 0)
             throw ExceptionFactory.EmptyCollection("An order must contain at least one item.");
 
         if (Items.Count != 0)
             throw ExceptionFactory.InvalidState("The items in the order cannot be modified.");
 
-        Items = items;
+        Items = itemsData
+            .Select(data => OrderItem.Create(
+                Id,
+                data.LineNo,
+                data.ProductId,
+                data.VariationId,
+                data.ProductName,
+                data.VariationName,
+                data.UnitPrice,
+                data.Quantity,
+                data.Type))
+            .ToArray();
     }
     #endregion
 
     #region Owner
-    public void SetOwner(OrderOwner owner)
+    /// <summary>Builds this order's Owner from behavior data - only Order may construct an OrderOwner (see OrderOwner.Create being internal).</summary>
+    public void CreateOwner(CreateOrderOwnerData data)
     {
-        if (owner.OrderId != Id)
-            throw new InvalidArgumentException(
-                "Cannot set an OrderOwner for an order that does not match the OrderOwner's OrderId.");
-
-        Owner = owner;
+        Owner = OrderOwner.Create(
+            Id,
+            data.OwnerId,
+            data.OwnerName,
+            data.OwnerEmail,
+            data.OwnerPhone,
+            data.IdempotencyKey);
     }
 
     public void UpdateOwnerInfo(
@@ -128,13 +157,17 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
     #endregion
 
     #region Shipping
-    public void SetShipping(OrderShipping shipping)
+    /// <summary>Builds this order's Shipping from behavior data - only Order may construct an OrderShipping (see OrderShipping.Create being internal).</summary>
+    public void CreateShipping(CreateOrderShippingData data)
     {
-        if (shipping.OrderId != Id)
-            throw new InvalidArgumentException(
-                "Cannot set an OrderShipping for an order that does not match the OrderShipping's OrderId.");
-
-        Shipping = shipping;
+        Shipping = OrderShipping.Create(
+            Id,
+            data.ReceiverName,
+            data.ReceiverPhone,
+            data.Address,
+            data.ShippingMethod,
+            data.Note,
+            data.IdempotencyKey);
     }
 
     public void UpdateShippingInfo(

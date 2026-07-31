@@ -21,7 +21,7 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
     #region Constructor
     private OrderShipping() { }
 
-    public static OrderShipping Create(
+    internal static OrderShipping Create(
         Guid orderId,
         string receiverName,
         PhoneNumber receiverPhone,

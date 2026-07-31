@@ -32,7 +32,7 @@ public sealed class OrderItem : BaseEntity<long>, IAuditable
 
     private OrderItem() { }
 
-    public static OrderItem Create(
+    internal static OrderItem Create(
         Guid orderId,
         int orderItemNo,
         Guid productId,

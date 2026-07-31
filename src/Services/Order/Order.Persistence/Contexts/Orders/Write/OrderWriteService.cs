@@ -5,14 +5,19 @@ using Order.Application.Abstractions.Persistence.Orders;
 using Order.Domain.Enums;
 using Order.Domain.ValueObjects;
 using Order.Persistence.Contexts.Orders.Repositories;
+using Order.Persistence.Mapping.Orders;
 
 namespace Order.Persistence.Contexts.Orders.Write;
 
 public sealed class OrderWriteService(IOrderRepository orderRepo) : IOrderWriteService
 {
-    public async Task CreateAsync(OrderEntity order, CancellationToken ct = default)
+    public async Task<OrderEntity> CreateAsync(CreateOrderRequest request, CancellationToken ct = default)
     {
+        var order = OrderEntity.Create(OrderMapper.ToCreateOrderData(request));
+
         await orderRepo.AddAsync(order, ct);
+
+        return order;
     }
 
     public async Task UpdateOwnerInfoAsync(

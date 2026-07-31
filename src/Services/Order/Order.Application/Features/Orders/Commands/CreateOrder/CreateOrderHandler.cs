@@ -1,6 +1,5 @@
 using BuildingBlock.Contract.Events.Order;
 
-using Order.Application.Abstractions.Persistence.OrderProductCatalogs;
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Application.Abstractions.Services;
 using Order.Application.Features.Orders.DTOs;
@@ -9,12 +8,10 @@ namespace Order.Application.Features.Orders.Commands.CreateOrder;
 
 public sealed class CreateOrderHandler(
     ICurrentUserService currentUser,
-    IOrderProductCatalogReadService catalogReadService,
+    IOrderItemPreparationService itemPreparationService,
     IOrderReadService orderReadService,
     IOrderWriteService orderWriteService,
-    ICartService cartService,
     IUnitOfWork uow,
-    IInventoryClientService inventoryClient,
     IOutboxStore outboxStore) : ICommandHandler<CreateOrderCommand, CreateOrderResponse>
 {
     public async Task<CreateOrderResponse> Handle(CreateOrderCommand request, CancellationToken ct = default)
@@ -24,20 +21,20 @@ public sealed class CreateOrderHandler(
             ?? throw new BadRequestException(MessageCode.InvalidInput, "Missing currelation ID from Header.");
         await CheckExistingIdempotentOrderAsync(request.Owner.OwnerId, idempotencyId, ct);
 
-        // Check if order items match the user's cart (if not admin-created)
-        // And ensure stock availability
+        // Check if order items match the user's cart (if not admin-created), resolve catalog
+        // pricing, and ensure stock availability
         var isAdminCreated = request.CreatedById.HasValue;
-        var orderItemInfos = await CheckAndGetOrderItemsAsync(
+        var preparedItems = await itemPreparationService.PrepareAsync(
             isAdminCreated,
             request.Owner.OwnerId,
             request.Items,
             ct);
 
-        var response = await StartProcessingAsync(
+        var response = await CreateAndPublishAsync(
             idempotencyId,
             request.Owner,
             request.ShippingInfo,
-            orderItemInfos,
+            preparedItems,
             request.CreatedById,
             ct);
 
@@ -63,100 +60,41 @@ public sealed class CreateOrderHandler(
     }
     #endregion
 
-    #region Validation order items
-    private async Task<OrderItemInfos> CheckAndGetOrderItemsAsync(
-        bool isAdminCreated,
-        Guid ownerId,
-        OrderItemRequestDto[] items, CancellationToken ct)
-    {
-        if (!isAdminCreated)
-        {
-            return await EnsureCartMatchesAsync(ownerId, items, ct);
-        }
-        else
-        {
-            return await EnsureItemsAreInStockAsync(items, ct);
-        }
-    }
-
-    private async Task<OrderItemInfos> EnsureCartMatchesAsync(
-        Guid customerId,
-        OrderItemRequestDto[] items,
-        CancellationToken ct)
-    {
-        var (catalogs, cart) = await cartService.GetCartAsync(customerId, ct);
-
-        var requested = items.Select(i => (i.VariationId, i.Quantity)).ToHashSet();
-        var current = cart.Items.Select(i => (i.VariationId, i.Quantity)).ToHashSet();
-
-        if (!requested.SetEquals(current))
-            throw new ConflictException(
-                "Your cart has changed since it was last loaded (an item's quantity, availability, " +
-                "or presence differs). Call GET /cart to refresh, then resubmit.");
-
-        return new OrderItemInfos(catalogs, cart.Items.Adapt<OrderItemRequestDto[]>());
-    }
-
-    private async Task<OrderItemInfos> EnsureItemsAreInStockAsync(
-        OrderItemRequestDto[] items,
-        CancellationToken ct)
-    {
-        var variationIds = items
-            .Select(i => i.VariationId)
-            .ToArray();
-        var catalogEntries = await catalogReadService.GetByVariantionIdsAsync(variationIds, ct);
-        if (variationIds.Length != catalogEntries.Length)
-            throw new ConflictException(
-                "Your cart has changed since it was last loaded " +
-                "(an item's quantity, availability, or presence differs).");
-
-        var stockByVariation = await inventoryClient.GetAvailableStockBatchAsync(variationIds, ct);
-        if (stockByVariation.Count != variationIds.Length)
-            throw new ConflictException(
-                "One or more items in your order are no longer available (deleted or deactivated).");
-
-        if (stockByVariation.Values.Any(stock => stock < 1))
-            throw new InsufficientAmountException("One or more items in your order are out of stock.");
-
-        return new OrderItemInfos(catalogEntries, items);
-    }
-    #endregion
-
     #region Create order and publish event bus
-    private async Task<CreateOrderResponse> StartProcessingAsync(
+    private async Task<CreateOrderResponse> CreateAndPublishAsync(
         string idempotencyId,
         OrderOwnerRequestDto owner,
         OrderShippingInfoRequestDto shippingInfo,
-        OrderItemInfos itemInfo,
+        IReadOnlyList<PreparedOrderItem> preparedItems,
         Guid? createdById,
         CancellationToken ct)
     {
         var correlationId = currentUser.GetCorrelationId();
 
-        // Create order entity and persist it
-        var order = CreateOrderEntity(
+        var createOrderRequest = new CreateOrderRequest(
             idempotencyId,
+            createdById,
             owner,
             shippingInfo,
-            itemInfo,
-            createdById);
+            preparedItems);
 
-        // Create order created items to publish to event bus
-        var orderCreatedItems = order.Items
-            .Select(i => new OrderCreatedItem(
-                i.ProductId,
-                i.VariationId,
-                i.ProductName,
-                i.Quantity.Value,
-                i.UnitPrice.Value))
-            .ToArray();
+        OrderEntity order = null!;
 
         // Persist data and create outbox
-        OrderCreatedIntegrationEvent eventBus = null!;
         await uow.ExecuteTransactionAsync(async () =>
         {
-            await orderWriteService.CreateAsync(order, ct);
-            eventBus = new OrderCreatedIntegrationEvent(
+            order = await orderWriteService.CreateAsync(createOrderRequest, ct);
+
+            var orderCreatedItems = order.Items
+                .Select(i => new OrderCreatedItem(
+                    i.ProductId,
+                    i.VariationId,
+                    i.ProductName,
+                    i.Quantity.Value,
+                    i.UnitPrice.Value))
+                .ToArray();
+
+            var eventBus = new OrderCreatedIntegrationEvent(
                 order.Id,
                 owner.OwnerId,
                 orderCreatedItems,
@@ -174,80 +112,5 @@ public sealed class CreateOrderHandler(
             order.Id,
             order.OrderNumber.Value);
     }
-
-    private static OrderEntity CreateOrderEntity(
-        string idempotencyId,
-        OrderOwnerRequestDto owner,
-        OrderShippingInfoRequestDto shippingInfo,
-        OrderItemInfos itemInfo,
-        Guid? createdById)
-    {
-        // Create order aggregate root entity
-        var order = OrderEntity.Create(idempotencyId, createdById);
-
-        // Create and set order owner
-        SetOrderOwner(order, owner);
-
-        // Create and set order items
-        SetOrderItems(order, itemInfo);
-
-        // Create and set order shipping
-        SetOrderShipping(order, shippingInfo);
-
-        return order;
-    }
-
-    private static void SetOrderOwner(
-        OrderEntity order,
-        OrderOwnerRequestDto owner)
-    {
-        var orderOwner = OrderOwner.Create(
-            order.Id,
-            owner.OwnerId,
-            owner.OwnerName,
-            owner.OwnerEmail,
-            owner.OwnerPhone);
-        order.SetOwner(orderOwner);
-    }
-
-    private static void SetOrderShipping(
-        OrderEntity order,
-        OrderShippingInfoRequestDto shipping)
-    {
-        var orderShipping = OrderShipping.Create(
-            order.Id,
-            shipping.ReceiverName,
-            shipping.ReceiverPhone,
-            shipping.ShippingAddress,
-            shipping.ShippingMethod,
-            shipping.Note);
-        order.SetShipping(orderShipping);
-    }
-
-    private static void SetOrderItems(OrderEntity order, OrderItemInfos itemInfo)
-    {
-        OrderItem MapToOrderItem(OrderItemRequestDto item, int index)
-        {
-            var catalog = itemInfo.Catalogs.FirstOrDefault(c => c.Id == item.VariationId)
-                ?? throw new NotFoundException(nameof(item.VariationId), item.VariationId);
-
-            return OrderItem.Create(
-                order.Id,
-                index + 1,
-                item.ProductId,
-                item.VariationId,
-                catalog.ProductName,
-                catalog.VariationName,
-                catalog.Price,
-                Quantity.Create(item.Quantity));
-        }
-
-        var orderItems = itemInfo.Items
-            .Select(MapToOrderItem)
-            .ToArray();
-        order.SetOrderItems(orderItems);
-    }
     #endregion
-
-    private record OrderItemInfos(OrderProductCatalog[] Catalogs, OrderItemRequestDto[] Items);
 }
