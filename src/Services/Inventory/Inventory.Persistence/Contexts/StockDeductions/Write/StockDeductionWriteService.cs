@@ -8,9 +8,14 @@ namespace Inventory.Persistence.Contexts.StockDeductions.Write;
 public sealed class StockDeductionWriteService(
     IRepository<StockDeduction, Guid> repo) : IStockDeductionWriteService
 {
-    public async Task StageAddAsync(StockDeduction entity, CancellationToken ct = default)
+    public async Task StageFailedAsync(Guid deductionId, string failureCode, string? reason, CancellationToken ct = default)
     {
-        await repo.AddAsync(entity, ct);
+        await repo.AddAsync(StockDeduction.CreateFailed(deductionId, failureCode, reason), ct);
+    }
+
+    public async Task StageSucceededAsync(Guid deductionId, string itemsJson, string? reason, CancellationToken ct = default)
+    {
+        await repo.AddAsync(StockDeduction.CreateSucceeded(deductionId, itemsJson, reason), ct);
     }
 
     public async Task MarkReversedAsync(Guid deductionId, CancellationToken ct = default)

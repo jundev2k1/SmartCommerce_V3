@@ -66,7 +66,7 @@ public sealed class RestockStockHandler(
                         var inv = await inventoryWriteService.IncreaseAsync(inventory.Id, item.Quantity, ct);
 
                         await transactionWriteService.StageAddAsync(
-                            InventoryTransaction.Create(
+                            new CreateInventoryTransactionRequest(
                                 inv.Id,
                                 inv.ProductId,
                                 inv.VariationId,

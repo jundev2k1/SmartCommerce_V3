@@ -2,10 +2,16 @@ namespace Inventory.Application.Abstractions.Persistence.Inventories;
 
 public sealed record InventoryAdjustmentResult(InventoryEntity Entity, int Delta);
 
+public sealed record CreateInventoryRequest(
+    Guid ProductId,
+    Guid VariationId,
+    Guid WarehouseId,
+    int Quantity = 0);
+
 public interface IInventoryWriteService
 {
     /// <summary>Self-committing (ExecuteTransactionAsync). Used by OnProductVariationCreated - the only write in its transaction.</summary>
-    Task AddAsync(InventoryEntity entity, CancellationToken ct = default);
+    Task AddAsync(CreateInventoryRequest request, CancellationToken ct = default);
 
     /// <summary>Self-committing. Used by OnProductDeleted - the only write in its transaction.</summary>
     Task DeleteByProductIdAsync(Guid productId, CancellationToken ct = default);

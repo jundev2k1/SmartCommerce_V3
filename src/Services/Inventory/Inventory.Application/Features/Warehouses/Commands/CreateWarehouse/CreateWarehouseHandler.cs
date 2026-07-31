@@ -14,13 +14,13 @@ public sealed class CreateWarehouseHandler(
         if (existing is not null)
             throw new ConflictException($"Warehouse with code ({request.Code}) already exists");
 
-        var warehouse = Warehouse.Create(
-            Guid.CreateVersion7(),
-            request.Code.Trim(),
-            request.Name.Trim(),
-            request.Address.Trim());
-        await warehouseWriteService.CreateAsync(warehouse, ct);
+        var warehouseId = await warehouseWriteService.CreateAsync(
+            new CreateWarehouseRequest(
+                request.Code.Trim(),
+                request.Name.Trim(),
+                request.Address.Trim()),
+            ct);
 
-        return new CreateWarehouseResponse(warehouse.Id);
+        return new CreateWarehouseResponse(warehouseId);
     }
 }

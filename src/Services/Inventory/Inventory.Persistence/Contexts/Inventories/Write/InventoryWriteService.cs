@@ -14,8 +14,15 @@ namespace Inventory.Persistence.Contexts.Inventories.Write;
 public sealed class InventoryWriteService(
     IInventoryRepository inventoryRepo) : IInventoryWriteService
 {
-    public async Task AddAsync(InventoryEntity entity, CancellationToken ct = default)
+    public async Task AddAsync(CreateInventoryRequest request, CancellationToken ct = default)
     {
+        var entity = InventoryEntity.Create(
+            Guid.CreateVersion7(),
+            request.ProductId,
+            request.VariationId,
+            request.WarehouseId,
+            request.Quantity);
+
         await inventoryRepo.AddAsync(entity, ct);
     }
 

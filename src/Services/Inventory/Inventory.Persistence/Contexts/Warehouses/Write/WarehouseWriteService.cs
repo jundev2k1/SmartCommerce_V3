@@ -9,9 +9,17 @@ public sealed class WarehouseWriteService(
     IRepository<Warehouse> repo,
     IUnitOfWork unitOfWork) : IWarehouseWriteService
 {
-    public async Task CreateAsync(Warehouse warehouse, CancellationToken ct = default)
+    public async Task<Guid> CreateAsync(CreateWarehouseRequest request, CancellationToken ct = default)
     {
+        var warehouse = Warehouse.Create(
+            Guid.CreateVersion7(),
+            request.Code,
+            request.Name,
+            request.Address);
+
         await repo.AddAsync(warehouse, ct);
         await unitOfWork.SaveChangesAsync(ct);
+
+        return warehouse.Id;
     }
 }

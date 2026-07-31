@@ -38,15 +38,11 @@ public sealed class OnProductVariationCreatedHandler(
         if (existing is not null)
             return;
 
-        var inventory = InventoryEntity.Create(
-            Guid.CreateVersion7(),
-            @event.ProductId,
-            @event.ProductVariationId,
-            warehouse.Id);
-
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            await inventoryWriteService.AddAsync(inventory, ct);
+            await inventoryWriteService.AddAsync(
+                new CreateInventoryRequest(@event.ProductId, @event.ProductVariationId, warehouse.Id),
+                ct);
         }, ct: ct);
     }
 }

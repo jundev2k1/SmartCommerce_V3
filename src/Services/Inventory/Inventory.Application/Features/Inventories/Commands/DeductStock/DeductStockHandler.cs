@@ -91,8 +91,7 @@ public sealed class DeductStockHandler(
 
             if (insufficient.Count > 0)
             {
-                await deductionWriteService.StageAddAsync(
-                    StockDeduction.CreateFailed(request.DeductionId, "InsufficientStock", request.Reason), ct);
+                await deductionWriteService.StageFailedAsync(request.DeductionId, "InsufficientStock", request.Reason, ct);
 
                 result = new DeductStockResult(false, "InsufficientStock", insufficient);
                 return;
@@ -105,7 +104,7 @@ public sealed class DeductStockHandler(
                 var inv = await inventoryWriteService.DecreaseAsync(inventoryId, item.Quantity, ct);
 
                 await transactionWriteService.StageAddAsync(
-                    InventoryTransaction.Create(
+                    new CreateInventoryTransactionRequest(
                         inv.Id,
                         inv.ProductId,
                         inv.VariationId,
@@ -118,8 +117,7 @@ public sealed class DeductStockHandler(
             }
 
             var itemsJson = JsonSerializer.Serialize(request.Items);
-            await deductionWriteService.StageAddAsync(
-                StockDeduction.CreateSucceeded(request.DeductionId, itemsJson, request.Reason), ct);
+            await deductionWriteService.StageSucceededAsync(request.DeductionId, itemsJson, request.Reason, ct);
 
             result = new DeductStockResult(true, null, []);
         }, ct: ct);

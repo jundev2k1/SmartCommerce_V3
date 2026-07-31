@@ -1,5 +1,15 @@
 namespace Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
+public sealed record CreateInventoryTransactionRequest(
+    Guid InventoryId,
+    Guid ProductId,
+    Guid VariationId,
+    Guid WarehouseId,
+    InventoryTransactionType Type,
+    int Quantity,
+    int QuantityAfter,
+    string Reason);
+
 public interface IInventoryTransactionWriteService
 {
     /// <summary>
@@ -7,5 +17,5 @@ public interface IInventoryTransactionWriteService
     /// owns itself (Inventory + InventoryTransaction, plus StockDeduction for Deduct/Restock) -
     /// see Correction 2 in the persistence refactor tracker.
     /// </summary>
-    Task StageAddAsync(InventoryTransaction entity, CancellationToken ct = default);
+    Task StageAddAsync(CreateInventoryTransactionRequest request, CancellationToken ct = default);
 }

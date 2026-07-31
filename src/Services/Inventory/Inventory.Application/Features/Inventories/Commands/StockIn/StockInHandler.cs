@@ -17,7 +17,7 @@ public sealed class StockInHandler(
             inventory = await inventoryWriteService.IncreaseAsync(request.InventoryId, request.Quantity, ct);
 
             await transactionWriteService.StageAddAsync(
-                InventoryTransaction.Create(
+                new CreateInventoryTransactionRequest(
                     inventory.Id,
                     inventory.ProductId,
                     inventory.VariationId,

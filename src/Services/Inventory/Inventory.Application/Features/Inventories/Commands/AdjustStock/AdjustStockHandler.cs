@@ -17,7 +17,7 @@ public sealed class AdjustStockHandler(
             adjustment = await inventoryWriteService.AdjustToAsync(request.InventoryId, request.NewQuantity, ct);
 
             await transactionWriteService.StageAddAsync(
-                InventoryTransaction.Create(
+                new CreateInventoryTransactionRequest(
                     adjustment.Entity.Id,
                     adjustment.Entity.ProductId,
                     adjustment.Entity.VariationId,
