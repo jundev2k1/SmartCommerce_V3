@@ -18,5 +18,5 @@ public interface IInventoryWriteService
     /// owns the ExecuteTransactionAsync call itself - see Correction 2 in the persistence
     /// refactor tracker.
     /// </summary>
-    Task StageUpdateAsync(Guid id, Func<InventoryEntity, Task> updateAction, CancellationToken ct = default);
+    Task StageUpdateAsync(Guid id, Action<InventoryEntity> updateAction, CancellationToken ct = default);
 }

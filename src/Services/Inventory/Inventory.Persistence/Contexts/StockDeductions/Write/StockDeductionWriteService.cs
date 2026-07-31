@@ -6,7 +6,7 @@ namespace Inventory.Persistence.Contexts.StockDeductions.Write;
 
 /// <summary>Both methods are non-committing - see Correction 2 in the persistence refactor tracker.</summary>
 public sealed class StockDeductionWriteService(
-    IRepository<StockDeduction> repo) : IStockDeductionWriteService
+    IRepository<StockDeduction, Guid> repo) : IStockDeductionWriteService
 {
     public async Task StageAddAsync(StockDeduction entity, CancellationToken ct = default)
     {

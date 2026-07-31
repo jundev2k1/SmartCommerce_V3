@@ -1,5 +1,3 @@
-using BuildingBlock.Persistence.Repository;
-
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Persistence.Contexts.Inventories.Repositories;
 
@@ -14,12 +12,11 @@ namespace Inventory.Persistence.Contexts.Inventories.Write;
 /// StockDeduction writes - see Correction 2 in the persistence refactor tracker.
 /// </summary>
 public sealed class InventoryWriteService(
-    IRepository<InventoryEntity> repo,
     IInventoryRepository inventoryRepo) : IInventoryWriteService
 {
     public async Task AddAsync(InventoryEntity entity, CancellationToken ct = default)
     {
-        await repo.AddAsync(entity, ct);
+        await inventoryRepo.AddAsync(entity, ct);
     }
 
     public async Task DeleteByProductIdAsync(Guid productId, CancellationToken ct = default)
@@ -32,8 +29,8 @@ public sealed class InventoryWriteService(
         await inventoryRepo.DeleteByVariationIdAsync(productVariationId, ct);
     }
 
-    public async Task StageUpdateAsync(Guid id, Func<InventoryEntity, Task> updateAction, CancellationToken ct = default)
+    public async Task StageUpdateAsync(Guid id, Action<InventoryEntity> updateAction, CancellationToken ct = default)
     {
-        await repo.UpdateAsync(id, updateAction, ct);
+        await inventoryRepo.UpdateAsync(id, updateAction, ct);
     }
 }

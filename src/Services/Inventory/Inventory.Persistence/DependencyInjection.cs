@@ -87,7 +87,7 @@ public static class DependencyInjection
         services.AddScoped<IWarehouseReadService, WarehouseReadService>();
         services.AddScoped<IWarehouseWriteService, WarehouseWriteService>();
 
-        services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepo>();
+        services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepository>();
         services.AddScoped<IInventoryTransactionReadService, InventoryTransactionReadService>();
         services.AddScoped<IInventoryTransactionWriteService, InventoryTransactionWriteService>();
 
