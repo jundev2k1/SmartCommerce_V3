@@ -11,7 +11,7 @@ public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryEntity>
         builder.Property(x => x.ProductId)
             .IsRequired();
 
-        builder.Property(x => x.ProductVariationId)
+        builder.Property(x => x.VariationId)
             .IsRequired();
 
         builder.Property(x => x.WarehouseId)
@@ -30,7 +30,7 @@ public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryEntity>
         // physical stock actually lives, since Product can no longer exist without one. ProductId
         // stays indexed (non-unique) purely so "total stock for a product" can filter without a
         // cross-service join back to Product.
-        builder.HasIndex(x => new { x.ProductVariationId, x.WarehouseId }).IsUnique();
+        builder.HasIndex(x => new { x.VariationId, x.WarehouseId }).IsUnique();
         builder.HasIndex(x => x.ProductId);
 
         // Supports filtering search results by warehouse alone - the composite unique index above

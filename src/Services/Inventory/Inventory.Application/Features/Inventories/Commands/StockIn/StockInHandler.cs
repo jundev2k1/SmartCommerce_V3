@@ -23,10 +23,9 @@ public sealed class StockInHandler(
 
             await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
-                    Guid.CreateVersion7(),
                     inventory!.Id,
                     inventory.ProductId,
-                    inventory.ProductVariationId,
+                    inventory.VariationId,
                     inventory.WarehouseId,
                     InventoryTransactionType.StockIn,
                     request.Quantity,

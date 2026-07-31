@@ -8,7 +8,7 @@ public sealed class InventoryTransaction : BaseEntity<Guid>, IAuditable
 {
     public Guid InventoryId { get; private set; }
     public Guid ProductId { get; private set; }
-    public Guid ProductVariationId { get; private set; }
+    public Guid VariationId { get; private set; }
     public Guid WarehouseId { get; private set; }
     public InventoryTransactionType Type { get; private set; }
     public int Quantity { get; private set; }
@@ -18,10 +18,9 @@ public sealed class InventoryTransaction : BaseEntity<Guid>, IAuditable
     private InventoryTransaction() { }
 
     public static InventoryTransaction Create(
-        Guid id,
         Guid inventoryId,
         Guid productId,
-        Guid productVariationId,
+        Guid variationId,
         Guid warehouseId,
         InventoryTransactionType type,
         int quantity,
@@ -30,10 +29,10 @@ public sealed class InventoryTransaction : BaseEntity<Guid>, IAuditable
     {
         return new InventoryTransaction
         {
-            Id = id,
+            Id = Guid.CreateVersion7(),
             InventoryId = inventoryId,
             ProductId = productId,
-            ProductVariationId = productVariationId,
+            VariationId = variationId,
             WarehouseId = warehouseId,
             Type = type,
             Quantity = quantity,

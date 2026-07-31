@@ -1,5 +1,5 @@
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
 namespace Inventory.Application.Features.Inventories.Commands.AdjustStock;
 
@@ -25,10 +25,9 @@ public sealed class AdjustStockHandler(
 
             await transactionWriteService.StageAddAsync(
                 InventoryTransaction.Create(
-                    Guid.CreateVersion7(),
                     inventory!.Id,
                     inventory.ProductId,
-                    inventory.ProductVariationId,
+                    inventory.VariationId,
                     inventory.WarehouseId,
                     InventoryTransactionType.Adjustment,
                     delta,

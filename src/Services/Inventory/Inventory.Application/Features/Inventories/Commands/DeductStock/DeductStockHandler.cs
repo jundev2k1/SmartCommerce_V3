@@ -4,8 +4,8 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.StockDeductions;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 
@@ -108,10 +108,9 @@ public sealed class DeductStockHandler(
 
                     await transactionWriteService.StageAddAsync(
                         InventoryTransaction.Create(
-                            Guid.CreateVersion7(),
                             inv.Id,
                             inv.ProductId,
-                            inv.ProductVariationId,
+                            inv.VariationId,
                             inv.WarehouseId,
                             InventoryTransactionType.StockOut,
                             item.Quantity,

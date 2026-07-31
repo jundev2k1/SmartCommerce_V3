@@ -8,7 +8,7 @@ public static class InventoryTransactionCriteriaDefinition
     public static readonly CriteriaDefinition<InventoryTransaction> Instance = CriteriaDefinition<InventoryTransaction>.Create()
         .Field(x => x.InventoryId).Guid()
         .Field(x => x.ProductId).Guid()
-        .Field(x => x.ProductVariationId).Guid()
+        .Field(x => x.VariationId).Guid()
         .Field(x => x.WarehouseId).Guid()
         .Field(x => x.Type).Enum().Sortable()
         .Field(x => x.Quantity).Number().Sortable()

@@ -69,10 +69,9 @@ public sealed class RestockStockHandler(
 
                             await transactionWriteService.StageAddAsync(
                                 InventoryTransaction.Create(
-                                    Guid.CreateVersion7(),
                                     inv.Id,
                                     inv.ProductId,
-                                    inv.ProductVariationId,
+                                    inv.VariationId,
                                     inv.WarehouseId,
                                     InventoryTransactionType.StockIn,
                                     item.Quantity,

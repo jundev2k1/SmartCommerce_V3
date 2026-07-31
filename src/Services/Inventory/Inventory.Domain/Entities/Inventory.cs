@@ -14,7 +14,7 @@ namespace Inventory.Domain.Entities;
 public sealed class Inventory : AggregateRoot<Guid>, IAuditable
 {
     public Guid ProductId { get; private set; }
-    public Guid ProductVariationId { get; private set; }
+    public Guid VariationId { get; private set; }
     public Guid WarehouseId { get; private set; }
     public int Quantity { get; private set; }
 
@@ -23,7 +23,7 @@ public sealed class Inventory : AggregateRoot<Guid>, IAuditable
     public static Inventory Create(
         Guid id,
         Guid productId,
-        Guid productVariationId,
+        Guid variationId,
         Guid warehouseId,
         int quantity = 0)
     {
@@ -31,7 +31,7 @@ public sealed class Inventory : AggregateRoot<Guid>, IAuditable
         {
             Id = id,
             ProductId = productId,
-            ProductVariationId = productVariationId,
+            VariationId = variationId,
             WarehouseId = warehouseId,
             Quantity = quantity,
         };
