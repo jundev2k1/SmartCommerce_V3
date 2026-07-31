@@ -1,3 +1,5 @@
+using BuildingBlock.Domain.ValueObjects;
+
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Domain.Entities.Orders.Data;
 using Order.Domain.ValueObjects;

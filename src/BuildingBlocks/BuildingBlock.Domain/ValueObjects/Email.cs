@@ -1,6 +1,9 @@
+using BuildingBlock.Domain.Abstractions;
+using BuildingBlock.Domain.Exceptions;
+using BuildingBlock.SharedKernel.Extensions;
 using BuildingBlock.SharedKernel.RegexPatterns;
 
-namespace Order.Domain.ValueObjects;
+namespace BuildingBlock.Domain.ValueObjects;
 
 public sealed class Email : StringValueObject
 {

@@ -1,3 +1,4 @@
+using BuildingBlock.Domain.ValueObjects;
 using BuildingBlock.Persistence.Repository;
 
 using Order.Application.Abstractions.Persistence.ProductCatalogs;

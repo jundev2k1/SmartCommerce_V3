@@ -12,6 +12,7 @@ global using BuildingBlock.Application.Abstractions.Services;
 global using BuildingBlock.Application.Exceptions;
 global using BuildingBlock.Domain.Enums;
 global using BuildingBlock.Domain.Exceptions;
+global using BuildingBlock.Domain.ValueObjects;
 global using BuildingBlock.SharedKernel.Constants;
 
 global using Mapster;

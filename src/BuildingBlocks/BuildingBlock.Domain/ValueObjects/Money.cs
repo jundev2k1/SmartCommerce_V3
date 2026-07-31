@@ -1,4 +1,7 @@
-namespace Order.Domain.ValueObjects;
+using BuildingBlock.Domain.Abstractions;
+using BuildingBlock.Domain.Exceptions;
+
+namespace BuildingBlock.Domain.ValueObjects;
 
 public sealed class Money : ValueObject
 {

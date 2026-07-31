@@ -1,5 +1,6 @@
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Enums;
+using BuildingBlock.Domain.ValueObjects;
 
 using Order.Application.Abstractions.Persistence.Orders;
 using Order.Domain.Enums;
