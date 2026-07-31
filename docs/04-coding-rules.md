@@ -163,6 +163,74 @@ To add caching to an existing service (not a repository), wrap it: define the de
 
 Implement `IRecurringJob` (`BuildingBlock.Application.Abstractions.Jobs`), register via `AddScopedByInterfaceAndConcrete<IRecurringJob>`. See [workflows/add-background-job.md](workflows/add-background-job.md).
 
+## Formatting
+
+Baseline house style for whitespace/line-breaking, applies to all C# code unless a more specific rule above overrides it for that construct.
+
+**Properties** — no blank lines between consecutive properties/fields in a class, even across attributes or short XML doc comments. Keeps entities scannable when they have many properties.
+
+```csharp
+public Guid Id { get; private set; }
+/// <summary>Current stock quantity.</summary>
+public int Quantity { get; private set; }
+public DateTime CreatedAt { get; private set; }
+public DateTime UpdatedAt { get; private set; }
+```
+
+Prefer a single-line `/// <summary>...</summary>` over a multi-line XML block unless the description genuinely needs more than one line.
+
+**Overloads** — group overloaded methods back-to-back with no blank line between them; this is the first level of logical grouping, ahead of reaching for `#region`. Non-overload methods keep normal blank-line spacing between them. Reserve `#region` for files with enough distinct responsibilities that overload grouping alone doesn't organize them.
+
+```csharp
+public Task UpdateAsync(Guid id, Action<TEntity> action) { ... }
+public Task UpdateAsync(Guid id, Func<TEntity, Task> action) { ... }
+public Task UpdateAsync(
+    Guid id,
+    Func<IQueryable<TEntity>, IQueryable<TEntity>> includes,
+    Action<TEntity> action) { ... }
+```
+
+**Parameter wrapping** — once a call/declaration needs to wrap, every parameter goes on its own line (no partial wrap to fit width), each indented one level deeper than the declaration. Nested callbacks add one further indent level per level of ownership, so depth is visible at a glance:
+
+```csharp
+Execute(
+    request,
+    options,
+    item =>
+    {
+        Process(
+            item,
+            context =>
+            {
+                Save(context);
+            });
+    })
+```
+
+**Method chains** — break the fluent chain before breaking a method's own parameters; only break inside a `Select`/`Where`/etc. once that call's own arguments are the actual readability problem, not just because the chain is long.
+
+```csharp
+var result = users
+    .Select(user =>
+    {
+        return new UserDto(
+            user.Id,
+            user.Name);
+    })
+    .ToArray();
+```
+
+Priority when a line is too long: (1) break the method chain, (2) break that method's parameters, (3) break nested callbacks/expressions — stop as soon as it reads cleanly, don't pre-emptively apply the next level.
+
+**Closing parenthesis** — stays attached to the last argument's line, never on its own line. Applies to method calls, constructor calls, generic calls, and LINQ arguments alike.
+
+```csharp
+var result = service.Execute(
+    request,
+    options,
+    cancellationToken);
+```
+
 ## Async
 
 All I/O-bound methods are `async Task`/`async Task<T>`, `ct` threaded through every call down to the EF Core / Redis / HTTP call. No `.Result`/`.Wait()` in request-handling code paths (the two known exceptions — `SeedDatabase`/`InitializeRefreshTokenCache` in `Auth.API/ApplicationPipeline.cs` calling `.Wait()` — are startup-only, not request-time, and are an accepted exception to this rule, not a pattern to copy elsewhere).
