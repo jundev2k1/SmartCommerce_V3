@@ -1,0 +1,37 @@
+using Inventory.Domain.Entities.Inventories;
+
+namespace Inventory.Domain.Entities.InventoryCounts;
+
+public sealed class InventoryCountItem : BaseEntity<long>
+{
+    public Guid InventoryCountId { get; private set; }
+    public InventoryCount InventoryCount { get; private set; } = default!;
+    public Guid InventoryId { get; private set; }
+    public InventoryStock Inventory { get; private set; } = default!;
+    public Guid ProductVariantId { get; private set; }
+    public Quantity ExpectedQuantity { get; private set; } = default!;
+    public Quantity? ActualQuantity { get; private set; }
+    public int DifferenceQuantity { get; private set; }
+    public string Note { get; private set; } = string.Empty;
+
+    private InventoryCountItem() { }
+
+    /// <summary>Only InventoryCount may construct/mutate its Items - see InventoryCount.AddItem.</summary>
+    internal static InventoryCountItem Create(Guid inventoryCountId, Guid inventoryId, Guid productVariantId, int expectedQuantity)
+    {
+        return new InventoryCountItem
+        {
+            InventoryCountId = inventoryCountId,
+            InventoryId = inventoryId,
+            ProductVariantId = productVariantId,
+            ExpectedQuantity = Quantity.Create(expectedQuantity),
+        };
+    }
+
+    /// <summary>Only InventoryCount may mutate its Items - see InventoryCount.RecordCount.</summary>
+    internal void RecordActual(int actualQuantity)
+    {
+        ActualQuantity = Quantity.Create(actualQuantity);
+        DifferenceQuantity = actualQuantity - ExpectedQuantity.Value;
+    }
+}
