@@ -4,7 +4,8 @@ using System.Text;
 using MediatR;
 
 using Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
-using Order.Domain.Entities;
+using Order.Domain.Entities.Orders;
+using Order.Domain.ValueObjects;
 using Order.IntegrationTests.Infrastructure;
 
 using Shouldly;
@@ -91,8 +92,8 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
             await ConfirmOrderAsync(orderId);
 
             // Task A and Task B: two different owner-info replacements for the exact same Order.
-            var commandA = new UpdateOrderOwnerInfoCommand(orderId, "User A", "userA@gmail.com", "0123123123");
-            var commandB = new UpdateOrderOwnerInfoCommand(orderId, "Admin B", "adminB@gmail.com", "0456456456");
+            var commandA = new UpdateOrderOwnerInfoCommand(orderId, "User A", Email.Create("userA@gmail.com"), PhoneNumber.Create("0123123123"));
+            var commandB = new UpdateOrderOwnerInfoCommand(orderId, "Admin B", Email.Create("adminB@gmail.com"), PhoneNumber.Create("0456456456"));
 
             await using var scopeA = CreateScope();
             await using var scopeB = CreateScope();
@@ -258,8 +259,8 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
 
     private static bool Matches(OrderOwner owner, UpdateOrderOwnerInfoCommand command) =>
         owner.OwnerName == command.OwnerName
-        && owner.OwnerEmail.Value == command.OwnerEmail
-        && owner.OwnerPhone.Value == command.OwnerPhone;
+        && owner.OwnerEmail.Value == command.OwnerEmail.Value
+        && owner.OwnerPhone.Value == command.OwnerPhone.Value;
 
     private void PrintIteration(
         int iteration,

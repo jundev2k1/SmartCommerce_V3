@@ -60,8 +60,8 @@ public sealed class UpdateOrderOwnerInfoEndpoint : ICarterModule
         var command = new UpdateOrderOwnerInfoCommand(
             orderId,
             request.OwnerName.Trim(),
-            request.OwnerEmail.Trim(),
-            request.OwnerPhone.Trim());
+            Email.Create(request.OwnerEmail.Trim()),
+            PhoneNumber.Create(request.OwnerPhone.Trim()));
         await sender.Send(command, ct);
 
         return Results.Ok(ApiResponse<object?>.NoContent());

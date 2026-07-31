@@ -17,8 +17,8 @@ public sealed class UpdateOrderOwnerInfoHandler(
             await orderWriteService.UpdateOwnerInfoAsync(
                 request.OrderId,
                 request.OwnerName,
-                Email.Create(request.OwnerEmail),
-                PhoneNumber.Create(request.OwnerPhone),
+                request.OwnerEmail,
+                request.OwnerPhone,
                 idempotencyKey,
                 ct);
         }, ct: ct);
