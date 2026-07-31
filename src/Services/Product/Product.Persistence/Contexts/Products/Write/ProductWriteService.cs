@@ -209,7 +209,7 @@ public sealed class ProductWriteService(
 
     public async Task DeleteAsync(Guid id, CancellationToken ct = default)
     {
-        await repo.DeleteAsync(id, ct);
+        await repo.DeleteByIdAsync(id, ct);
         await uow.SaveChangesAsync(ct);
     }
 }

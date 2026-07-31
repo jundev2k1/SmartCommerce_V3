@@ -90,7 +90,9 @@ public abstract class GenericRepository<TContext, TEntity>(TContext context) : I
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken ct = default)
     {
-        return await _dbSet.AnyAsync(predicate, ct);
+        return await _dbSet
+            .AsNoTracking()
+            .AnyAsync(predicate, ct);
     }
     public async Task<bool> ExistsAsync<TValue>(
         Expression<Func<TEntity, TValue>> selector,
@@ -122,7 +124,9 @@ public abstract class GenericRepository<TContext, TEntity>(TContext context) : I
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken ct = default)
     {
-        return await _dbSet.CountAsync(predicate, ct);
+        return await _dbSet
+            .AsNoTracking()
+            .CountAsync(predicate, ct);
     }
 
     #endregion
@@ -159,7 +163,6 @@ public abstract class GenericRepository<TContext, TEntity>(TContext context) : I
 
         updateAction(entity);
     }
-
     public async Task UpdateAsync(
         Expression<Func<TEntity, bool>> predicate,
         Func<TEntity, Task> updateAction,
@@ -172,7 +175,6 @@ public abstract class GenericRepository<TContext, TEntity>(TContext context) : I
 
         await updateAction(entity);
     }
-
     public async Task UpdateAsync(
         Expression<Func<TEntity, bool>> predicate,
         Func<IQueryable<TEntity>, IQueryable<TEntity>> includes,
@@ -186,7 +188,6 @@ public abstract class GenericRepository<TContext, TEntity>(TContext context) : I
 
         updateAction(entity);
     }
-
     public async Task UpdateAsync(
         Expression<Func<TEntity, bool>> predicate,
         Func<IQueryable<TEntity>, IQueryable<TEntity>> includes,
