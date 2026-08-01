@@ -1,0 +1,14 @@
+using BuildingBlock.Criteria.Definition;
+
+namespace Inventory.Application.Features.InventoryCounts.Search;
+
+public static class InventoryCountCriteriaDefinition
+{
+    public static readonly CriteriaDefinition<InventoryCount> Instance = CriteriaDefinition<InventoryCount>.Create()
+        .Field(x => x.Number).Text().Sortable()
+        .Field(x => x.WarehouseId).Guid()
+        .Field(x => x.Status).Enum().Sortable()
+        .Field(x => x.CountDate).DateTime().Sortable()
+        .Field(x => x.CreatedAt).DateTime().Sortable()
+        .Build();
+}
