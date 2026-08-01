@@ -1,20 +1,17 @@
-using System.Text.Json;
-
 using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using Inventory.Application.Abstractions.Persistence.StockDeductions;
+using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Application.Features.Inventories.DTOs;
 
 namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 public sealed class DeductStockHandler(
-    IStockDeductionReadService deductionReadService,
-    IStockDeductionWriteService deductionWriteService,
+    IInventoryDocumentReadService documentReadService,
+    IInventoryDocumentWriteService documentWriteService,
     IInventoryReadService inventoryReadService,
     IInventoryWriteService inventoryWriteService,
     IInventoryTransactionWriteService transactionWriteService,
@@ -27,10 +24,12 @@ public sealed class DeductStockHandler(
 
     public async Task<DeductStockResult> Handle(DeductStockCommand request, CancellationToken ct = default)
     {
-        var existing = await deductionReadService.GetByIdAsync(request.DeductionId, ct);
+        var existing = await documentReadService.GetByNumberAsync(request.DeductionId.ToString(), ct);
         if (existing is not null)
         {
-            logger.Information("DeductStock {DeductionId} already processed ({Status}), replaying stored result", request.DeductionId, existing.Status);
+            logger.Information(
+                "Stock deduction {DeductionId} already processed ({Status}), replaying result",
+                request.DeductionId, existing.Status);
             return ToResult(existing);
         }
 
@@ -61,7 +60,7 @@ public sealed class DeductStockHandler(
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var insufficient = new List<InsufficientStockItem>();
-            var validated = new List<(DeductStockItem Item, Guid InventoryId)>();
+            var validated = new List<(DeductStockItem Item, Guid InventoryId, int ProductId, Guid ProductVariantId)>();
 
             foreach (var item in request.Items)
             {
@@ -75,26 +74,49 @@ public sealed class DeductStockHandler(
 
                 if (inventory.AvailableQuantity < item.Quantity)
                 {
-                    insufficient.Add(new InsufficientStockItem(item.ProductVariationId, item.Quantity, inventory.Available));
+                    insufficient.Add(new InsufficientStockItem(item.ProductVariationId, item.Quantity, inventory.AvailableQuantity));
                     continue;
                 }
 
-                validated.Add((item, inventory.Id));
+                validated.Add((item, inventory.Id, inventory.ProductId, inventory.VariantId));
             }
 
             if (insufficient.Count > 0)
             {
-                await deductionWriteService.StageFailedAsync(request.DeductionId, "InsufficientStock", request.Reason, ct);
+                var failureDoc = InventoryDocument.Create(
+                    request.DeductionId.ToString(),
+                    InventoryDocumentType.Issue,
+                    InventoryDocumentReason.StockOut,
+                    sourceWarehouseId: warehouseId,
+                    destinationWarehouseId: null);
+
+                failureDoc.Cancel();
+                await documentWriteService.AddAsync(failureDoc, ct);
 
                 result = new DeductStockResult(false, "InsufficientStock", insufficient);
                 return;
             }
 
             var reasonText = request.Reason is null ? "Order deduction" : $"Order deduction: {request.Reason}";
+            var document = InventoryDocument.Create(
+                request.DeductionId.ToString(),
+                InventoryDocumentType.Issue,
+                InventoryDocumentReason.StockOut,
+                sourceWarehouseId: warehouseId,
+                destinationWarehouseId: null,
+                description: reasonText);
 
-            foreach (var (item, inventoryId) in validated)
+            foreach (var (item, inventoryId, productId, productVariantId) in validated)
             {
                 var inv = await inventoryWriteService.DecreaseAsync(inventoryId, item.Quantity, ct);
+
+                document.AddItem(
+                    productId: productId,
+                    productVariantId: productVariantId,
+                    quantity: item.Quantity,
+                    unitOfMeasure: "EA",
+                    inventoryId: inventoryId,
+                    description: reasonText);
 
                 await transactionWriteService.StageAddAsync(
                     new CreateInventoryTransactionDto(
@@ -104,23 +126,26 @@ public sealed class DeductStockHandler(
                         inv.WarehouseId,
                         InventoryTransactionType.StockOut,
                         item.Quantity,
-                        inv.Available,
+                        inv.AvailableQuantity,
                         reasonText),
                     ct);
             }
 
-            var itemsJson = JsonSerializer.Serialize(request.Items);
-            await deductionWriteService.StageSucceededAsync(request.DeductionId, itemsJson, request.Reason, ct);
+            document.Submit();
+            document.Approve(Guid.Empty);
+            document.Complete();
 
+            await documentWriteService.AddAsync(document, ct);
             result = new DeductStockResult(true, null, []);
         }, ct: ct);
 
         return result!;
     }
 
-    private static DeductStockResult ToResult(StockDeduction deduction) => deduction.Status switch
+    private static DeductStockResult ToResult(InventoryDocument document) => document.Status switch
     {
-        StockDeductionStatus.Succeeded or StockDeductionStatus.Reversed => new DeductStockResult(true, null, []),
-        _ => new DeductStockResult(false, deduction.FailureCode ?? "InsufficientStock", []),
+        InventoryDocumentStatus.Completed => new DeductStockResult(true, null, []),
+        InventoryDocumentStatus.Cancelled => new DeductStockResult(false, "InsufficientStock", []),
+        _ => new DeductStockResult(false, "ProcessingFailed", []),
     };
 }

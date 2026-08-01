@@ -1,20 +1,16 @@
-using System.Text.Json;
-
 using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 
+using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.StockDeductions;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 namespace Inventory.Application.Features.Inventories.Commands.RestockStock;
 
 public sealed class RestockStockHandler(
-    IStockDeductionReadService deductionReadService,
-    IStockDeductionWriteService deductionWriteService,
+    IInventoryDocumentReadService documentReadService,
+    IInventoryDocumentWriteService documentWriteService,
     IInventoryReadService inventoryReadService,
     IInventoryWriteService inventoryWriteService,
     IInventoryTransactionWriteService transactionWriteService,
@@ -27,23 +23,19 @@ public sealed class RestockStockHandler(
 
     public async Task<RestockStockResult> Handle(RestockStockCommand request, CancellationToken ct = default)
     {
-        var deduction = await deductionReadService.GetByIdAsync(request.DeductionId, ct);
+        var document = await documentReadService.GetByNumberAsync(request.DeductionId.ToString(), ct);
 
-        // Nothing to reverse: never deducted, already reversed, or the original attempt failed.
-        // A compensating action must never itself become a blocking failure - see
-        // docs/reference/create-order-saga.md's compensation/idempotency notes.
-        if (deduction is null || deduction.Status != StockDeductionStatus.Succeeded)
+        if (document is null || document.Status != InventoryDocumentStatus.Completed)
         {
             logger.Information(
                 "RestockStock {DeductionId} is a no-op ({Status})",
-                request.DeductionId, deduction?.Status.ToString() ?? "NeverDeducted");
+                request.DeductionId, document?.Status.ToString() ?? "NeverDeducted");
             return new RestockStockResult(true);
         }
 
         var warehouse = await warehouseReadService.GetByCodeAsync(MainWarehouseCode, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Warehouse '{MainWarehouseCode}' is not configured.");
 
-        var items = JsonSerializer.Deserialize<List<DeductStockItem>>(deduction.ItemsJson) ?? [];
         var reasonText = request.Reason is null ? "Deduction reversal" : $"Deduction reversal: {request.Reason}";
 
         for (var attempt = 1; attempt <= MaxConcurrencyRetries; attempt++)
@@ -52,33 +44,31 @@ public sealed class RestockStockHandler(
             {
                 await unitOfWork.ExecuteTransactionAsync(async () =>
                 {
-                    foreach (var item in items)
+                    foreach (var item in document.Items)
                     {
-                        var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(item.ProductVariationId, warehouse.Id, ct);
+                        var inventory = await inventoryReadService.GetByIdAsync(item.InventoryId!.Value, ct);
                         if (inventory is null)
                         {
                             logger.Warning(
-                                "RestockStock {DeductionId}: no inventory row for variation {VariationId}, skipping",
-                                request.DeductionId, item.ProductVariationId);
+                                "RestockStock {DeductionId}: no inventory row {InventoryId}, skipping",
+                                request.DeductionId, item.InventoryId);
                             continue;
                         }
 
-                        var inv = await inventoryWriteService.IncreaseAsync(inventory.Id, item.Quantity, ct);
+                        var inv = await inventoryWriteService.IncreaseAsync(inventory.Id, item.Quantity.Value, ct);
 
                         await transactionWriteService.StageAddAsync(
-                            new CreateInventoryTransactionRequest(
+                            new CreateInventoryTransactionDto(
                                 inv.Id,
                                 inv.ProductId,
-                                inv.VariationId,
+                                inv.VariantId,
                                 inv.WarehouseId,
                                 InventoryTransactionType.StockIn,
-                                item.Quantity,
-                                inv.Available,
+                                item.Quantity.Value,
+                                inv.AvailableQuantity,
                                 reasonText),
                             ct);
                     }
-
-                    await deductionWriteService.MarkReversedAsync(request.DeductionId, ct);
                 }, ct: ct);
 
                 return new RestockStockResult(true);
