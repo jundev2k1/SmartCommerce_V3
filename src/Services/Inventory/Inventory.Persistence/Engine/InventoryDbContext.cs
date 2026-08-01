@@ -1,7 +1,3 @@
-using BuildingBlock.Persistence.Ef.DbContext;
-using BuildingBlock.Persistence.Ef.Inbox;
-using BuildingBlock.Persistence.Ef.Outbox;
-
 namespace Inventory.Persistence.Engine;
 
 public sealed class InventoryDbContext(DbContextOptions<InventoryDbContext> options)
@@ -9,11 +5,31 @@ public sealed class InventoryDbContext(DbContextOptions<InventoryDbContext> opti
     IInboxDbContext,
     IOutboxDbContext
 {
-    public DbSet<InventoryEntity> Inventories { get; set; } = null!;
-    public DbSet<Warehouse> Warehouses { get; set; } = null!;
+    // Aggregate Roots
+    public DbSet<InventoryStock> InventoryStocks { get; set; } = null!;
     public DbSet<InventoryTransaction> InventoryTransactions { get; set; } = null!;
-    public DbSet<StockDeduction> StockDeductions { get; set; } = null!;
+    public DbSet<InventoryLot> InventoryLots { get; set; } = null!;
+    public DbSet<InventoryReservation> InventoryReservations { get; set; } = null!;
+    public DbSet<InventorySerial> InventorySerials { get; set; } = null!;
+    public DbSet<InventoryCount> InventoryCounts { get; set; } = null!;
+    public DbSet<InventoryDocument> InventoryDocuments { get; set; } = null!;
+    public DbSet<Warehouse> Warehouses { get; set; } = null!;
+
+    // Child Entities
+    public DbSet<InventoryCountItem> InventoryCountItems { get; set; } = null!;
+    public DbSet<InventoryDocumentItem> InventoryDocumentItems { get; set; } = null!;
+    public DbSet<WarehouseZone> WarehouseZones { get; set; } = null!;
+
+    // System Tables
     public DbSet<InboxMessage> InboxMessages { get; set; } = null!;
     public DbSet<InboxRetryHistory> InboxRetryHistories { get; set; } = null!;
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyPersistenceConfigurations(typeof(InventoryDbContext).Assembly);
+        modelBuilder.ApplyOutboxInboxConfiguration(this);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

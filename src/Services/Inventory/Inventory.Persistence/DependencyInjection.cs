@@ -10,15 +10,12 @@ using BuildingBlock.Persistence.Repository;
 
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using Inventory.Application.Abstractions.Persistence.StockDeductions;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Persistence.Contexts.Inventories.Read;
 using Inventory.Persistence.Contexts.Inventories.Write;
 using Inventory.Persistence.Contexts.InventoryTransactions.Read;
 using Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
 using Inventory.Persistence.Contexts.InventoryTransactions.Write;
-using Inventory.Persistence.Contexts.StockDeductions.Read;
-using Inventory.Persistence.Contexts.StockDeductions.Write;
 using Inventory.Persistence.Contexts.Warehouses.Read;
 using Inventory.Persistence.Contexts.Warehouses.Write;
 using Inventory.Persistence.Engine;
@@ -72,11 +69,8 @@ public static class DependencyInjection
         return services;
     }
 
-    // InventoryRepo/WarehouseRepo/StockDeductionRepo implement the generic IRepository<T> again
-    // (restored per the persistence refactor's Course Correction - see the tracker) and are
-    // Scrutor-scanned. InventoryTransactionRepo doesn't (append-only - AddAsync is its only real
-    // operation, never updated/deleted/tracked-loaded), so it stays manually registered, same
-    // reasoning as Audit's AuditLogRepo.
+    // Inventory/Warehouse repositories are Scrutor-scanned via AddScopedByInterface.
+    // InventoryTransactionRepository is manually registered (append-only aggregate, no update/delete operations).
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScopedByInterface(typeof(IRepository<>), typeof(InventoryDbContext));
@@ -90,9 +84,6 @@ public static class DependencyInjection
         services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepository>();
         services.AddScoped<IInventoryTransactionReadService, InventoryTransactionReadService>();
         services.AddScoped<IInventoryTransactionWriteService, InventoryTransactionWriteService>();
-
-        services.AddScoped<IStockDeductionReadService, StockDeductionReadService>();
-        services.AddScoped<IStockDeductionWriteService, StockDeductionWriteService>();
 
         return services;
     }
@@ -116,16 +107,16 @@ public static class DependencyInjection
         return services;
     }
 
-    // Inventory (root), Warehouse (independent root - a physical location, not owned by
-    // Inventory), InventoryTransaction (append-only log entry, belongs to the Inventory record
+    // InventoryStock (root), Warehouse (independent root - a physical location, not owned by
+    // InventoryStock), InventoryTransaction (append-only log entry, belongs to the InventoryStock record
     // it happened against).
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
         {
-            builder.Entity<InventoryEntity>().IsRoot(x => x.Id);
+            builder.Entity<InventoryStock>().IsRoot(x => x.Id);
             builder.Entity<InventoryTransaction>()
-                .BelongsTo<InventoryEntity>(x => x.InventoryId);
+                .BelongsTo<InventoryStock>(x => x.InventoryId);
 
             builder.Entity<Warehouse>().IsRoot(x => x.Id);
         });

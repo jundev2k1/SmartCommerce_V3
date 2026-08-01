@@ -1,6 +1,6 @@
 namespace Inventory.Application.Abstractions.Persistence.Inventories;
 
-public sealed record InventoryAdjustmentResult(InventoryEntity Entity, int Delta);
+public sealed record InventoryAdjustmentResult(InventoryStock Entity, int Delta);
 
 public sealed record CreateInventoryRequest(
     Guid ProductId,
@@ -20,23 +20,22 @@ public interface IInventoryWriteService
     Task DeleteByVariationIdAsync(Guid productVariationId, CancellationToken ct = default);
 
     /// <summary>
-    /// Non-committing: increases stock and returns the updated entity. Callers (StockIn/RestockStock)
-    /// also stage an InventoryTransaction and own the ExecuteTransactionAsync call themselves - see
-    /// Correction 2 in the persistence refactor tracker.
+    /// Non-committing: receives stock and returns the updated entity. Callers (StockIn/RestockStock)
+    /// also stage an InventoryTransaction and own the ExecuteTransactionAsync call themselves.
     /// </summary>
-    Task<InventoryEntity> IncreaseAsync(Guid id, int amount, CancellationToken ct = default);
+    Task<InventoryStock> ReceiveStockAsync(Guid id, int quantity, CancellationToken ct = default);
 
     /// <summary>
-    /// Non-committing: decreases stock (guards against overselling) and returns the updated entity.
+    /// Non-committing: deducts stock (guards against overselling) and returns the updated entity.
     /// Callers (DeductStock/StockOut) also stage an InventoryTransaction and own the
     /// ExecuteTransactionAsync call themselves.
     /// </summary>
-    Task<InventoryEntity> DecreaseAsync(Guid id, int amount, CancellationToken ct = default);
+    Task<InventoryStock> DeductStockAsync(Guid id, int quantity, CancellationToken ct = default);
 
     /// <summary>
     /// Non-committing: corrects stock to newQuantity (e.g. after a physical count) and returns the
     /// updated entity plus the delta applied, for transaction logging. Caller (AdjustStock) also
     /// stages an InventoryTransaction and owns the ExecuteTransactionAsync call itself.
     /// </summary>
-    Task<InventoryAdjustmentResult> AdjustToAsync(Guid id, int newQuantity, CancellationToken ct = default);
+    Task<InventoryAdjustmentResult> AdjustStockAsync(Guid id, int newQuantity, CancellationToken ct = default);
 }

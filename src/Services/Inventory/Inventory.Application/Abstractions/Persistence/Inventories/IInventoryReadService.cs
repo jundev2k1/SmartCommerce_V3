@@ -1,16 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-
 namespace Inventory.Application.Abstractions.Persistence.Inventories;
 
 public interface IInventoryReadService
 {
-    Task<InventoryEntity?> GetByIdAsync(Guid id, CancellationToken ct = default);
+    Task<InventoryStock?> GetByIdAsync(Guid id, CancellationToken ct = default);
 
-    Task<PaginatedResult<InventoryEntity>> SearchAsync(CriteriaRequest request, CancellationToken ct = default);
+    Task<PaginatedResult<InventoryStock>> SearchAsync(CriteriaRequest request, CancellationToken ct = default);
 
-    /// <summary>Stock is keyed at (ProductVariationId, WarehouseId) - see InventoryEntity remarks.</summary>
-    Task<InventoryEntity?> GetByVariationAndWarehouseAsync(
+    /// <summary>Stock is keyed at (ProductVariationId, WarehouseId) - each product variation per warehouse has one InventoryStock aggregate.</summary>
+    Task<InventoryStock?> GetByVariationAndWarehouseAsync(
         Guid productVariationId,
         Guid warehouseId,
         CancellationToken ct = default);
