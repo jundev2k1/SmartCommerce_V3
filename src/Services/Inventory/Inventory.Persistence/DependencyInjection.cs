@@ -9,10 +9,30 @@ using BuildingBlock.Persistence.Ef.Outbox;
 using BuildingBlock.Persistence.Repository;
 
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryCounts;
+using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+using Inventory.Application.Abstractions.Persistence.InventoryLots;
+using Inventory.Application.Abstractions.Persistence.InventoryReservations;
+using Inventory.Application.Abstractions.Persistence.InventorySerials;
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Persistence.Contexts.Inventories.Read;
 using Inventory.Persistence.Contexts.Inventories.Write;
+using Inventory.Persistence.Contexts.InventoryCounts.Read;
+using Inventory.Persistence.Contexts.InventoryCounts.Repositories;
+using Inventory.Persistence.Contexts.InventoryCounts.Write;
+using Inventory.Persistence.Contexts.InventoryDocuments.Read;
+using Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
+using Inventory.Persistence.Contexts.InventoryDocuments.Write;
+using Inventory.Persistence.Contexts.InventoryLots.Read;
+using Inventory.Persistence.Contexts.InventoryLots.Repositories;
+using Inventory.Persistence.Contexts.InventoryLots.Write;
+using Inventory.Persistence.Contexts.InventoryReservations.Read;
+using Inventory.Persistence.Contexts.InventoryReservations.Repositories;
+using Inventory.Persistence.Contexts.InventoryReservations.Write;
+using Inventory.Persistence.Contexts.InventorySerials.Read;
+using Inventory.Persistence.Contexts.InventorySerials.Repositories;
+using Inventory.Persistence.Contexts.InventorySerials.Write;
 using Inventory.Persistence.Contexts.InventoryTransactions.Read;
 using Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
 using Inventory.Persistence.Contexts.InventoryTransactions.Write;
@@ -69,21 +89,49 @@ public static class DependencyInjection
         return services;
     }
 
-    // Inventory/Warehouse repositories are Scrutor-scanned via AddScopedByInterface.
-    // InventoryTransactionRepository is manually registered (append-only aggregate, no update/delete operations).
+    // Repositories are Scrutor-scanned via AddScopedByInterface for generic IRepository<>.
+    // Specialized repositories and services are manually registered.
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScopedByInterface(typeof(IRepository<>), typeof(InventoryDbContext));
 
+        // Inventory
         services.AddScoped<IInventoryReadService, InventoryReadService>();
         services.AddScoped<IInventoryWriteService, InventoryWriteService>();
 
+        // Warehouse
         services.AddScoped<IWarehouseReadService, WarehouseReadService>();
         services.AddScoped<IWarehouseWriteService, WarehouseWriteService>();
 
+        // InventoryTransaction
         services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepository>();
         services.AddScoped<IInventoryTransactionReadService, InventoryTransactionReadService>();
         services.AddScoped<IInventoryTransactionWriteService, InventoryTransactionWriteService>();
+
+        // InventoryLot
+        services.AddScoped<IInventoryLotRepository, InventoryLotRepository>();
+        services.AddScoped<IInventoryLotReadService, InventoryLotReadService>();
+        services.AddScoped<IInventoryLotWriteService, InventoryLotWriteService>();
+
+        // InventoryReservation
+        services.AddScoped<IInventoryReservationRepository, InventoryReservationRepository>();
+        services.AddScoped<IInventoryReservationReadService, InventoryReservationReadService>();
+        services.AddScoped<IInventoryReservationWriteService, InventoryReservationWriteService>();
+
+        // InventorySerial
+        services.AddScoped<IInventorySerialRepository, InventorySerialRepository>();
+        services.AddScoped<IInventorySerialReadService, InventorySerialReadService>();
+        services.AddScoped<IInventorySerialWriteService, InventorySerialWriteService>();
+
+        // InventoryCount
+        services.AddScoped<IInventoryCountRepository, InventoryCountRepository>();
+        services.AddScoped<IInventoryCountReadService, InventoryCountReadService>();
+        services.AddScoped<IInventoryCountWriteService, InventoryCountWriteService>();
+
+        // InventoryDocument
+        services.AddScoped<IInventoryDocumentRepository, InventoryDocumentRepository>();
+        services.AddScoped<IInventoryDocumentReadService, InventoryDocumentReadService>();
+        services.AddScoped<IInventoryDocumentWriteService, InventoryDocumentWriteService>();
 
         return services;
     }
