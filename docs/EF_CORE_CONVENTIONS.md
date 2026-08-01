@@ -529,33 +529,61 @@ Only the new line shows as changed, providing a cleaner diff.
 
 ### Consistent Style
 
-Apply multiline formatting to all builder chains:
+The **first fluent call** should remain on the same line as `builder`. Subsequent calls go on new lines:
 
 ```csharp
 // Relationships
-builder
-    .HasOne(x => x.Warehouse)
+builder.HasOne(x => x.Warehouse)
     .WithMany()
     .HasForeignKey(x => x.WarehouseId)
     .OnDelete(DeleteBehavior.Restrict)
     .IsRequired();
 
 // Complex properties with multiple configurations
-builder
-    .Property(x => x.Notes)
+builder.Property(x => x.Notes)
     .HasMaxLength(500)
     .IsRequired(false)
     .HasDefaultValue(string.Empty);
 
 // Even single configurations
-builder
-    .Property(x => x.Id)
+builder.Property(x => x.Id)
     .IsRequired();
 
-builder
-    .HasIndex(x => x.Code)
+builder.HasIndex(x => x.Code)
     .IsUnique();
 ```
+
+### Why This Specific Format
+
+This format produces **cleaner Git history** when adding new fluent calls.
+
+**Example scenario: Adding `.HasDefaultValue(...)` to an existing property**
+
+With this format:
+```diff
+  builder.Property(x => x.Name)
+      .HasMaxLength(100)
++     .HasDefaultValue(string.Empty);
+```
+
+Only the new line appears as changed.
+
+If the first call were on a new line:
+```diff
+- builder
++ builder
+      .Property(x => x.Name)
+      .HasMaxLength(100)
++     .HasDefaultValue(string.Empty);
+```
+
+Unrelated lines would appear as modified, cluttering the diff and making code reviews harder.
+
+**Benefits:**
+- Minimal diffs when extending configurations
+- Clearer pull requests
+- Easier merge conflict resolution
+- Better git blame tracking
 
 ---
 
