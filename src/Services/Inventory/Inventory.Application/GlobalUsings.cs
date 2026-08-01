@@ -6,6 +6,11 @@ global using System.Threading.Tasks;
 global using BuildingBlock.Application.Abstractions.CQRS;
 global using BuildingBlock.Application.Abstractions.Persistence;
 
+global using Inventory.Application.Abstractions.Persistence.InventoryCounts;
+global using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+global using Inventory.Application.Abstractions.Persistence.InventoryLots;
+global using Inventory.Application.Abstractions.Persistence.InventoryReservations;
+global using Inventory.Application.Abstractions.Persistence.InventorySerials;
 global using Inventory.Domain.Entities;
 global using Inventory.Domain.Enums;
 
