@@ -108,7 +108,7 @@ public sealed class DeductStockHandler(
 
             foreach (var (item, inventoryId, productId, productVariantId) in validated)
             {
-                var inv = await inventoryWriteService.DecreaseAsync(inventoryId, item.Quantity, ct);
+                var inv = await inventoryWriteService.DeductStockAsync(inventoryId, item.Quantity, ct);
 
                 document.AddItem(
                     productId: productId,
