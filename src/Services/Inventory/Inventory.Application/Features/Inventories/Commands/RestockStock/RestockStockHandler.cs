@@ -1,26 +1,21 @@
 using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Domain.Exceptions;
 
+using Inventory.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
+using Inventory.Application.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.RestockStock;
 
 public sealed class RestockStockHandler(
     IInventoryDocumentReadService documentReadService,
-    IInventoryDocumentWriteService documentWriteService,
     IInventoryReadService inventoryReadService,
     IInventoryWriteService inventoryWriteService,
-    IInventoryTransactionWriteService transactionWriteService,
-    IWarehouseReadService warehouseReadService,
+    InventoryTransactionService transactionService,
+    OptimisticConcurrencyRetry concurrencyRetry,
     IUnitOfWork unitOfWork,
     IAppLogger<RestockStockHandler> logger) : ICommandHandler<RestockStockCommand, RestockStockResult>
 {
-    private const string MainWarehouseCode = "MAIN";
-    private const int MaxConcurrencyRetries = 3;
-
     public async Task<RestockStockResult> Handle(RestockStockCommand request, CancellationToken ct = default)
     {
         var document = await documentReadService.GetByNumberAsync(request.DeductionId.ToString(), ct);
@@ -33,54 +28,44 @@ public sealed class RestockStockHandler(
             return new RestockStockResult(true);
         }
 
-        var warehouse = await warehouseReadService.GetByCodeAsync(MainWarehouseCode, ct)
-            ?? throw ExceptionFactory.EntityNotFound($"Warehouse '{MainWarehouseCode}' is not configured.");
-
         var reasonText = request.Reason is null ? "Deduction reversal" : $"Deduction reversal: {request.Reason}";
 
-        for (var attempt = 1; attempt <= MaxConcurrencyRetries; attempt++)
+        await concurrencyRetry.ExecuteAsync(async () =>
+            await ReverseDeductionAsync(document, reasonText, ct));
+
+        return new RestockStockResult(true);
+    }
+
+    private async Task ReverseDeductionAsync(InventoryDocument document, string reason, CancellationToken ct)
+    {
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            try
+            foreach (var item in document.Items)
             {
-                await unitOfWork.ExecuteTransactionAsync(async () =>
+                var inventory = await inventoryReadService.GetByIdAsync(item.InventoryId!.Value, ct);
+                if (inventory is null)
                 {
-                    foreach (var item in document.Items)
-                    {
-                        var inventory = await inventoryReadService.GetByIdAsync(item.InventoryId!.Value, ct);
-                        if (inventory is null)
-                        {
-                            logger.Warning(
-                                "RestockStock {DeductionId}: no inventory row {InventoryId}, skipping",
-                                request.DeductionId, item.InventoryId);
-                            continue;
-                        }
+                    logger.Warning(
+                        "RestockStock: no inventory row {InventoryId}, skipping",
+                        item.InventoryId);
+                    continue;
+                }
 
-                        var inv = await inventoryWriteService.ReceiveStockAsync(inventory.Id, item.Quantity.Value, ct);
+                var inv = await inventoryWriteService.ReceiveStockAsync(inventory.Id, item.Quantity.Value, ct);
 
-                        await transactionWriteService.StageAddAsync(
-                            new CreateInventoryTransactionDto(
-                                inv.Id,
-                                inv.ProductId,
-                                inv.VariantId,
-                                inv.WarehouseId,
-                                InventoryTransactionType.StockIn,
-                                item.Quantity.Value,
-                                inv.AvailableQuantity,
-                                reasonText),
-                            ct);
-                    }
-                }, ct: ct);
-
-                return new RestockStockResult(true);
+                await transactionService.RecordAsync(
+                    inventoryId: inv.Id,
+                    productId: inv.ProductId,
+                    productVariantId: inv.VariantId,
+                    warehouseId: inv.WarehouseId,
+                    type: InventoryTransactionType.StockIn,
+                    quantity: item.Quantity.Value,
+                    balanceAfter: inv.AvailableQuantity,
+                    reason: reason,
+                    ct: ct);
             }
-            catch (ConflictException) when (attempt < MaxConcurrencyRetries)
-            {
-                logger.Warning(
-                    "Concurrent stock update detected while restocking {DeductionId} (attempt {Attempt}/{Max}), retrying",
-                    request.DeductionId, attempt, MaxConcurrencyRetries);
-            }
-        }
 
-        throw new ConflictException("Inventory is being updated concurrently. Please retry.");
+            logger.Information("Reversed deduction for order {OrderId}: {ItemCount} items", document.Number, document.Items.Count);
+        }, ct: ct);
     }
 }

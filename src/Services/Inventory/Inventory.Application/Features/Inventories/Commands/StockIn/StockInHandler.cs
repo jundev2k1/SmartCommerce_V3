@@ -1,69 +1,31 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.StockIn;
 
 public sealed class StockInHandler(
-    IInventoryReadService inventoryReadService,
-    IInventoryWriteService inventoryWriteService,
-    IInventoryDocumentWriteService documentWriteService,
-    IInventoryTransactionWriteService transactionWriteService,
+    InventoryAdjustmentService adjustmentService,
     IUnitOfWork unitOfWork,
     IAppLogger<StockInHandler> logger) : ICommandHandler<StockInCommand, StockInResponse>
 {
     public async Task<StockInResponse> Handle(StockInCommand request, CancellationToken ct = default)
     {
-        var inventory = await inventoryReadService.GetByIdAsync(request.InventoryId, ct)
-            ?? throw ExceptionFactory.EntityNotFound($"Inventory {request.InventoryId} not found.");
-
-        InventoryStock? updated = null;
+        InventoryAdjustmentService.AdjustmentResult? result = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            updated = await inventoryWriteService.ReceiveStockAsync(request.InventoryId, request.Quantity, ct);
-
-            var document = InventoryDocument.Create(
-                number: Guid.NewGuid().ToString("N").Substring(0, 16).ToUpperInvariant(),
-                type: InventoryDocumentType.Receipt,
-                reason: InventoryDocumentReason.Purchase,
-                sourceWarehouseId: null,
-                destinationWarehouseId: inventory.WarehouseId,
-                description: request.Reason.Trim());
-
-            document.AddItem(
-                productId: inventory.ProductId,
-                productVariantId: inventory.VariantId,
-                quantity: request.Quantity,
-                unitOfMeasure: "EA",
-                inventoryId: inventory.Id,
-                description: request.Reason.Trim());
-
-            document.Submit();
-            document.Approve(Guid.Empty);
-            document.Complete();
-
-            await documentWriteService.AddAsync(document, ct);
-
-            await transactionWriteService.StageAddAsync(
-                new CreateInventoryTransactionDto(
-                    inventory.Id,
-                    inventory.ProductId,
-                    inventory.VariantId,
-                    inventory.WarehouseId,
-                    InventoryTransactionType.StockIn,
-                    request.Quantity,
-                    updated.AvailableQuantity,
-                    request.Reason.Trim()),
+            result = await adjustmentService.ReceiveAsync(
+                request.InventoryId,
+                request.Quantity,
+                request.Reason.Trim(),
                 ct);
 
             logger.Information(
                 "Received {Quantity} units into inventory {InventoryId}, new total: {NewQuantity}",
-                request.Quantity, request.InventoryId, updated.AvailableQuantity);
+                request.Quantity, request.InventoryId, result.Inventory.AvailableQuantity);
         }, ct: ct);
 
-        return new StockInResponse(updated!.AvailableQuantity);
+        return new StockInResponse(result!.Inventory.AvailableQuantity);
     }
 }

@@ -39,6 +39,7 @@ public static class DependencyInjection
         services.AddScoped<InventoryDocumentService>();
         services.AddScoped<InventoryTransactionService>();
         services.AddScoped<StockDeductionService>();
+        services.AddScoped<InventoryAdjustmentService>();
         return services;
     }
 
