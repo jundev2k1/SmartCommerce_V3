@@ -1,6 +1,7 @@
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.InventoryLots;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -13,8 +14,8 @@ public sealed class ReceivingService(
     IInventoryWriteService inventoryWriteService,
     IInventoryLotWriteService lotWriteService,
     IWarehouseReadService warehouseReadService,
-    InventoryDocumentService documentService,
-    InventoryTransactionService transactionService)
+    IInventoryDocumentService documentService,
+    IInventoryTransactionService transactionService) : IReceivingService
 {
     public sealed record ReceivingItem(
         Guid ProductVariantId,

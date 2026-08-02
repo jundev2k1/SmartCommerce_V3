@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
 
 public sealed class StartCycleCountHandler(
-    CycleCountService cycleCountService,
+    ICycleCountService cycleCountService,
     IUnitOfWork unitOfWork,
     IAppLogger<StartCycleCountHandler> logger) : ICommandHandler<StartCycleCountCommand, StartCycleCountResponse>
 {

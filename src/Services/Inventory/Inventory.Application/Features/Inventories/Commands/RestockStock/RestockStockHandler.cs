@@ -3,7 +3,7 @@ using BuildingBlock.Application.Abstractions.Services;
 using Inventory.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.RestockStock;
 
@@ -11,7 +11,7 @@ public sealed class RestockStockHandler(
     IInventoryDocumentReadService documentReadService,
     IInventoryReadService inventoryReadService,
     IInventoryWriteService inventoryWriteService,
-    InventoryTransactionService transactionService,
+    IInventoryTransactionService transactionService,
     OptimisticConcurrencyRetry concurrencyRetry,
     IUnitOfWork unitOfWork,
     IAppLogger<RestockStockHandler> logger) : ICommandHandler<RestockStockCommand, RestockStockResult>

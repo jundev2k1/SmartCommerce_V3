@@ -1,4 +1,5 @@
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -9,8 +10,8 @@ namespace Inventory.Application.Services;
 public sealed class InventoryAdjustmentService(
     IInventoryReadService readService,
     IInventoryWriteService writeService,
-    InventoryDocumentService documentService,
-    InventoryTransactionService transactionService)
+    IInventoryDocumentService documentService,
+    IInventoryTransactionService transactionService) : IInventoryAdjustmentService
 {
     public sealed record AdjustmentResult(
         InventoryStock Inventory,

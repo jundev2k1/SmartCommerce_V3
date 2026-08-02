@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
 public sealed class TransferInventoryHandler(
-    TransferService transferService,
+    ITransferService transferService,
     IUnitOfWork unitOfWork,
     IAppLogger<TransferInventoryHandler> logger) : ICommandHandler<TransferInventoryCommand, TransferInventoryResponse>
 {

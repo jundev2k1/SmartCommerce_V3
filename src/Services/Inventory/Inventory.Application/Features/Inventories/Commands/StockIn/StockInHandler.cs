@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.StockIn;
 
 public sealed class StockInHandler(
-    InventoryAdjustmentService adjustmentService,
+    IInventoryAdjustmentService adjustmentService,
     IUnitOfWork unitOfWork,
     IAppLogger<StockInHandler> logger) : ICommandHandler<StockInCommand, StockInResponse>
 {

@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
 
 public sealed class ReceiveInventoryHandler(
-    ReceivingService receivingService,
+    IReceivingService receivingService,
     IUnitOfWork unitOfWork,
     IAppLogger<ReceiveInventoryHandler> logger) : ICommandHandler<ReceiveInventoryCommand, ReceiveInventoryResponse>
 {

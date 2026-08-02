@@ -3,16 +3,16 @@ using BuildingBlock.Application.Abstractions.Services;
 using Inventory.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 public sealed class DeductStockHandler(
     IWarehouseReadService warehouseReadService,
     IInventoryDocumentReadService documentReadService,
-    StockAvailabilityService availabilityService,
-    InventoryDocumentService documentService,
-    StockDeductionService deductionService,
+    IStockAvailabilityService availabilityService,
+    IInventoryDocumentService documentService,
+    IStockDeductionService deductionService,
     OptimisticConcurrencyRetry concurrencyRetry,
     IUnitOfWork unitOfWork,
     IAppLogger<DeductStockHandler> logger) : ICommandHandler<DeductStockCommand, DeductStockResult>

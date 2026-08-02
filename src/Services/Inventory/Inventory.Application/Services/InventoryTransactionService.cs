@@ -1,4 +1,5 @@
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -7,7 +8,7 @@ namespace Inventory.Application.Services;
 /// Ensures transaction history is never forgotten and remains consistent with stock modifications.
 /// </summary>
 public sealed class InventoryTransactionService(
-    IInventoryTransactionWriteService writeService)
+    IInventoryTransactionWriteService writeService) : IInventoryTransactionService
 {
     /// <summary>
     /// Records an inventory transaction for a stock change.

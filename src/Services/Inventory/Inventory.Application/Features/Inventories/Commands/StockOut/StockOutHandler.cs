@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.StockOut;
 
 public sealed class StockOutHandler(
-    InventoryAdjustmentService adjustmentService,
+    IInventoryAdjustmentService adjustmentService,
     IUnitOfWork unitOfWork,
     IAppLogger<StockOutHandler> logger) : ICommandHandler<StockOutCommand, StockOutResponse>
 {

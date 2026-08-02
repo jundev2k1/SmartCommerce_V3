@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Services;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Features.Inventories.Commands.AdjustStock;
 
 public sealed class AdjustStockHandler(
-    InventoryAdjustmentService adjustmentService,
+    IInventoryAdjustmentService adjustmentService,
     IUnitOfWork unitOfWork,
     IAppLogger<AdjustStockHandler> logger) : ICommandHandler<AdjustStockCommand, AdjustStockResponse>
 {

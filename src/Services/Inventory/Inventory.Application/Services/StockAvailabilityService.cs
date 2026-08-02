@@ -1,4 +1,5 @@
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -6,7 +7,7 @@ namespace Inventory.Application.Services;
 /// Validates stock availability for multiple product variations in a single operation.
 /// Centralizes validation logic and returns structured results for handlers to use.
 /// </summary>
-public sealed class StockAvailabilityService(IInventoryReadService readService)
+public sealed class StockAvailabilityService(IInventoryReadService readService) : IStockAvailabilityService
 {
     public sealed record ValidationResult(
         bool Success,

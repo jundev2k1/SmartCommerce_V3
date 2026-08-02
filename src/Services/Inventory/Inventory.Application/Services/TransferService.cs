@@ -1,5 +1,6 @@
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -11,8 +12,8 @@ public sealed class TransferService(
     IInventoryReadService inventoryReadService,
     IInventoryWriteService inventoryWriteService,
     IWarehouseReadService warehouseReadService,
-    InventoryDocumentService documentService,
-    InventoryTransactionService transactionService)
+    IInventoryDocumentService documentService,
+    IInventoryTransactionService transactionService) : ITransferService
 {
     public sealed record TransferItem(
         Guid ProductVariantId,

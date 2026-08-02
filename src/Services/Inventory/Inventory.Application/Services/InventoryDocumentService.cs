@@ -1,4 +1,5 @@
 using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -8,7 +9,7 @@ namespace Inventory.Application.Services;
 /// </summary>
 public sealed class InventoryDocumentService(
     IInventoryDocumentReadService readService,
-    IInventoryDocumentWriteService writeService)
+    IInventoryDocumentWriteService writeService) : IInventoryDocumentService
 {
     /// <summary>Creates and immediately completes a document (for immediate operations).</summary>
     public async Task<InventoryDocument> CreateAndCompleteAsync(

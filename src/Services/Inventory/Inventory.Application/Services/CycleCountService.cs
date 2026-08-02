@@ -1,6 +1,7 @@
 using Inventory.Application.Abstractions.Persistence.InventoryCounts;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -14,8 +15,8 @@ public sealed class CycleCountService(
     IInventoryCountReadService countReadService,
     IInventoryCountWriteService countWriteService,
     IWarehouseReadService warehouseReadService,
-    InventoryDocumentService documentService,
-    InventoryTransactionService transactionService)
+    IInventoryDocumentService documentService,
+    IInventoryTransactionService transactionService) : ICycleCountService
 {
     public sealed record CountItem(
         Guid ProductVariantId,

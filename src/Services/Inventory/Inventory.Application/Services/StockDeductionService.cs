@@ -1,4 +1,5 @@
 using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Services;
 
 namespace Inventory.Application.Services;
 
@@ -9,8 +10,8 @@ namespace Inventory.Application.Services;
 /// </summary>
 public sealed class StockDeductionService(
     IInventoryWriteService inventoryWriteService,
-    InventoryDocumentService documentService,
-    InventoryTransactionService transactionService)
+    IInventoryDocumentService documentService,
+    IInventoryTransactionService transactionService) : IStockDeductionService
 {
     public sealed record DeductionResult(
         bool Success,
