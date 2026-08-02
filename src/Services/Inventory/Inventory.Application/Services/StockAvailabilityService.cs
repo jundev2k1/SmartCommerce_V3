@@ -9,34 +9,23 @@ namespace Inventory.Application.Services;
 /// </summary>
 public sealed class StockAvailabilityService(IInventoryReadService readService) : IStockAvailabilityService
 {
-    public sealed record ValidationResult(
-        bool Success,
-        IReadOnlyList<InventoryStock> AvailableInventories,
-        IReadOnlyList<InsufficientStockError> InsufficientItems);
-
-    public sealed record InsufficientStockError(
-        Guid InventoryId,
-        Guid ProductVariationId,
-        int RequestedQuantity,
-        int AvailableQuantity);
-
     /// <summary>
     /// Validates that all requested product variations have sufficient stock in the specified warehouse.
     /// Returns structured result with available inventories and insufficient items.
     /// </summary>
-    public async Task<ValidationResult> ValidateAsync(
-        IReadOnlyList<(Guid ProductVariationId, int RequestedQuantity)> items,
+    public async Task<IStockAvailabilityService.StockAvailabilityResult> ValidateAsync(
+        IReadOnlyList<(Guid ProductVariationId, int Quantity)> items,
         Guid warehouseId,
         CancellationToken ct = default)
     {
         if (items.Count == 0)
-            return new ValidationResult(true, [], []);
+            return new IStockAvailabilityService.StockAvailabilityResult(true, [], []);
 
         var variationIds = items.Select(i => i.ProductVariationId).Distinct().ToList();
         var inventories = await readService.GetByVariationAndWarehouseAsync(variationIds, warehouseId, ct);
 
         var available = new List<InventoryStock>();
-        var insufficient = new List<InsufficientStockError>();
+        var insufficient = new List<IStockAvailabilityService.InsufficientStockError>();
 
         foreach (var (variationId, requested) in items)
         {
@@ -44,7 +33,7 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
 
             if (inventory is null)
             {
-                insufficient.Add(new InsufficientStockError(
+                insufficient.Add(new IStockAvailabilityService.InsufficientStockError(
                     id: Guid.Empty,
                     productVariationId: variationId,
                     requestedQuantity: requested,
@@ -54,7 +43,7 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
 
             if (inventory.AvailableQuantity < requested)
             {
-                insufficient.Add(new InsufficientStockError(
+                insufficient.Add(new IStockAvailabilityService.InsufficientStockError(
                     id: inventory.Id,
                     productVariationId: variationId,
                     requestedQuantity: requested,
@@ -65,7 +54,7 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
             available.Add(inventory);
         }
 
-        return new ValidationResult(
+        return new IStockAvailabilityService.StockAvailabilityResult(
             Success: insufficient.Count == 0,
             AvailableInventories: available,
             InsufficientItems: insufficient);

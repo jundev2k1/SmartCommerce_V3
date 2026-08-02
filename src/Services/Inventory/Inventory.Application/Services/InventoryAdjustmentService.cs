@@ -13,16 +13,11 @@ public sealed class InventoryAdjustmentService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : IInventoryAdjustmentService
 {
-    public sealed record AdjustmentResult(
-        InventoryStock Inventory,
-        int Delta,
-        InventoryDocument Document);
-
     /// <summary>
     /// Adjusts stock to a target quantity and records complete audit trail.
     /// Returns inventory state, delta, and document for caller use.
     /// </summary>
-    public async Task<AdjustmentResult> AdjustToAsync(
+    public async Task<IInventoryAdjustmentService.AdjustmentResult> AdjustToAsync(
         Guid inventoryId,
         int newQuantity,
         string reason,
@@ -63,13 +58,13 @@ public sealed class InventoryAdjustmentService(
             reason: reason,
             ct: ct);
 
-        return new AdjustmentResult(adjusted.Entity, delta, document);
+        return new IInventoryAdjustmentService.AdjustmentResult(adjusted.Entity, delta, document);
     }
 
     /// <summary>
     /// Receives stock (stock-in operation) and records receipt document.
     /// </summary>
-    public async Task<AdjustmentResult> ReceiveAsync(
+    public async Task<IInventoryAdjustmentService.AdjustmentResult> ReceiveAsync(
         Guid inventoryId,
         int quantity,
         string reason,
@@ -107,13 +102,13 @@ public sealed class InventoryAdjustmentService(
             reason: reason,
             ct: ct);
 
-        return new AdjustmentResult(updated, quantity, document);
+        return new IInventoryAdjustmentService.AdjustmentResult(updated, quantity, document);
     }
 
     /// <summary>
     /// Issues stock (stock-out operation) and records issue document.
     /// </summary>
-    public async Task<AdjustmentResult> IssueAsync(
+    public async Task<IInventoryAdjustmentService.AdjustmentResult> IssueAsync(
         Guid inventoryId,
         int quantity,
         string reason,
@@ -151,6 +146,6 @@ public sealed class InventoryAdjustmentService(
             reason: reason,
             ct: ct);
 
-        return new AdjustmentResult(updated, -quantity, document);
+        return new IInventoryAdjustmentService.AdjustmentResult(updated, -quantity, document);
     }
 }

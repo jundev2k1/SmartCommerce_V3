@@ -28,7 +28,7 @@ public sealed class DocumentNumber : ValueObject
 
     public override string ToString() => Value;
 
-    protected override IEnumerable<object?> GetAtomicValues()
+    public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }

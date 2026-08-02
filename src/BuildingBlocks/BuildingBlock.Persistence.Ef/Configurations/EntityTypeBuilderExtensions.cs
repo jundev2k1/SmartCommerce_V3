@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace BuildingBlock.Persistence.Ef.Configurations;
 
 /// <summary>
