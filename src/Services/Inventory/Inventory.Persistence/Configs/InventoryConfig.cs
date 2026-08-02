@@ -1,3 +1,4 @@
+using BuildingBlock.Persistence.Ef.Configurations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Inventory.Persistence.Configs;
@@ -20,23 +21,14 @@ public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryEntity>
         builder.Property(x => x.Available)
             .IsRequired();
 
-        builder.Property(x => x.CreatedAt)
-            .HasDefaultValueSql("now()");
-
-        builder.Property(x => x.UpdatedAt)
-            .HasDefaultValueSql("now()");
-
         builder.HasIndex(x => new { x.VariantId, x.WarehouseId })
             .IsUnique();
 
         builder.HasIndex(x => x.ProductId);
-        
+
         builder.HasIndex(x => x.WarehouseId);
 
-        builder.Property<uint>("xmin")
-            .HasColumnName("xmin")
-            .HasColumnType("xid")
-            .ValueGeneratedOnAddOrUpdate()
-            .IsRowVersion();
+        // Audit & Concurrency
+        builder.ConfigureCommonFields();
     }
 }
