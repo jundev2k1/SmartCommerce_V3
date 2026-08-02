@@ -44,8 +44,7 @@ public sealed class InventoryLotConfig : IEntityTypeConfiguration<InventoryLot>
         builder.Property(x => x.Quantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.Metadata)
             .HasConversion(

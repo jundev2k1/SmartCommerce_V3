@@ -41,11 +41,11 @@ public sealed class WarehouseZoneConfig : IEntityTypeConfiguration<WarehouseZone
             .IsRequired()
             .HasDefaultValue(0);
 
-        builder.OwnsOne(x => x.Capacity);
-
-        builder.OwnsOne(x => x.Temperature);
-
-        builder.OwnsOne(x => x.Humidity);
+        // TODO: Configure owned types properly with JSON serialization
+        // For now, ignore them to allow initial migration
+        builder.Ignore(x => x.Capacity);
+        builder.Ignore(x => x.Temperature);
+        builder.Ignore(x => x.Humidity);
 
         builder.Property(x => x.PickingStrategy)
             .IsRequired()

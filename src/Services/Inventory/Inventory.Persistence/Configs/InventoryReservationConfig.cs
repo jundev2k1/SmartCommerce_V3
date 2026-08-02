@@ -43,8 +43,7 @@ public sealed class InventoryReservationConfig : IEntityTypeConfiguration<Invent
         builder.Property(x => x.Quantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.ExpiredAt);
 

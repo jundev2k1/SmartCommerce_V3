@@ -38,50 +38,42 @@ public sealed class InventoryStockConfig : IEntityTypeConfiguration<InventorySto
         builder.Property(x => x.OnHandQuantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.ReservedQuantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.IncomingQuantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.OutgoingQuantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.DamagedQuantity)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.SafetyStock)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.ReorderPoint)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.MaximumStock)
             .HasConversion(
                 x => x.Value,
-                x => Quantity.Create(x))
-            .HasDefaultValue(0);
+                x => Quantity.Create(x));
 
         builder.Property(x => x.Metadata)
             .HasConversion(

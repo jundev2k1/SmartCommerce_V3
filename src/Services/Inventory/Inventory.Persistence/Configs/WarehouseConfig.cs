@@ -43,13 +43,12 @@ public sealed class WarehouseConfig : IEntityTypeConfiguration<Warehouse>
             .HasMaxLength(50)
             .HasDefaultValue("UTC");
 
-        builder.OwnsOne(x => x.Address);
-
-        builder.OwnsOne(x => x.Location);
-
-        builder.OwnsOne(x => x.Contact);
-
-        builder.OwnsOne(x => x.Capacity);
+        // TODO: Configure owned types properly with JSON serialization
+        // For now, ignore them to allow initial migration
+        builder.Ignore(x => x.Address);
+        builder.Ignore(x => x.Location);
+        builder.Ignore(x => x.Contact);
+        builder.Ignore(x => x.Capacity);
 
         builder.Property(x => x.SupportsReceiving)
             .IsRequired()
