@@ -40,6 +40,7 @@ public static class DependencyInjection
         services.AddScoped<InventoryTransactionService>();
         services.AddScoped<StockDeductionService>();
         services.AddScoped<InventoryAdjustmentService>();
+        services.AddScoped<ReceivingService>();
         return services;
     }
 

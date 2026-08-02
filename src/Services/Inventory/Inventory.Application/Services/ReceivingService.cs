@@ -1,0 +1,125 @@
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.InventoryLots;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
+
+namespace Inventory.Application.Services;
+
+/// <summary>
+/// Owns the complete receiving workflow: validates warehouse, receives stock, creates lots, records transactions.
+/// Handles multi-item receiving with lot allocation.
+/// </summary>
+public sealed class ReceivingService(
+    IInventoryReadService inventoryReadService,
+    IInventoryWriteService inventoryWriteService,
+    IInventoryLotWriteService lotWriteService,
+    IWarehouseReadService warehouseReadService,
+    InventoryDocumentService documentService,
+    InventoryTransactionService transactionService)
+{
+    public sealed record ReceivingItem(
+        Guid ProductVariantId,
+        Guid WarehouseId,
+        int Quantity,
+        string? LotNumber = null,
+        DateTime? ManufactureDate = null,
+        DateTime? ExpiryDate = null);
+
+    public sealed record ReceivingResult(
+        InventoryDocument Document,
+        IReadOnlyList<InventoryStock> ReceivedInventories,
+        IReadOnlyList<InventoryLot> CreatedLots);
+
+    /// <summary>
+    /// Receives multiple items into a warehouse, optionally creating lot records for lot-tracked items.
+    /// </summary>
+    public async Task<ReceivingResult> ReceiveAsync(
+        string purchaseOrderNumber,
+        Guid warehouseId,
+        IReadOnlyList<ReceivingItem> items,
+        string description,
+        CancellationToken ct = default)
+    {
+        var warehouse = await warehouseReadService.GetByIdAsync(warehouseId, ct)
+            ?? throw ExceptionFactory.EntityNotFound($"Warehouse {warehouseId} not found.");
+
+        var receivedInventories = new List<InventoryStock>();
+        var createdLots = new List<InventoryLot>();
+        var transactions = new List<(
+            Guid InventoryId,
+            Guid ProductId,
+            Guid ProductVariantId,
+            Guid WarehouseId,
+            InventoryTransactionType Type,
+            int Quantity,
+            int BalanceAfter,
+            string Reason)>();
+
+        // Process each received item
+        foreach (var item in items)
+        {
+            var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
+                item.ProductVariantId, warehouseId, ct);
+
+            if (inventory is null)
+            {
+                throw ExceptionFactory.EntityNotFound(
+                    $"Inventory for variation {item.ProductVariantId} in warehouse {warehouseId} not found. " +
+                    "Create inventory records first.");
+            }
+
+            var receivedInventory = await inventoryWriteService.ReceiveStockAsync(
+                inventory.Id, item.Quantity, ct);
+            receivedInventories.Add(receivedInventory);
+
+            // Create lot record if lot number provided (for lot-tracked items)
+            if (!string.IsNullOrWhiteSpace(item.LotNumber))
+            {
+                var lot = InventoryLot.Create(
+                    inventoryId: inventory.Id,
+                    lotNumber: item.LotNumber,
+                    quantity: item.Quantity,
+                    manufactureDate: item.ManufactureDate,
+                    expiredDate: item.ExpiryDate);
+
+                await lotWriteService.AddAsync(lot, ct);
+                createdLots.Add(lot);
+            }
+
+            transactions.Add((
+                receivedInventory.Id,
+                receivedInventory.ProductId,
+                receivedInventory.VariantId,
+                receivedInventory.WarehouseId,
+                InventoryTransactionType.StockIn,
+                item.Quantity,
+                receivedInventory.AvailableQuantity,
+                $"Received from PO {purchaseOrderNumber}: {description}"));
+        }
+
+        // Create receiving document
+        var document = await documentService.CreateAndCompleteAsync(
+            type: InventoryDocumentType.Receipt,
+            reason: InventoryDocumentReason.Purchase,
+            sourceWarehouseId: null,
+            destinationWarehouseId: warehouseId,
+            description: $"PO {purchaseOrderNumber}: {description}",
+            ct: ct);
+
+        // Add items to document
+        foreach (var item in items)
+        {
+            document.AddItem(
+                productId: receivedInventories
+                    .First(i => i.VariantId == item.ProductVariantId).ProductId,
+                productVariantId: item.ProductVariantId,
+                quantity: item.Quantity,
+                unitOfMeasure: "EA",
+                description: item.LotNumber ?? description);
+        }
+
+        // Record all transactions
+        await transactionService.RecordBatchAsync(transactions, ct);
+
+        return new ReceivingResult(document, receivedInventories, createdLots);
+    }
+}
