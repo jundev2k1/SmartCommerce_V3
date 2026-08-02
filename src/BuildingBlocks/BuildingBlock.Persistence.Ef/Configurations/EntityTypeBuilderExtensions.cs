@@ -1,3 +1,5 @@
+using BuildingBlock.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BuildingBlock.Persistence.Ef.Configurations;
@@ -15,7 +17,7 @@ public static class EntityTypeBuilderExtensions
     /// separate from business audit logging via the Audit Service.
     /// </summary>
     public static EntityTypeBuilder<T> ConfigureAuditFields<T>(this EntityTypeBuilder<T> builder)
-        where T : class
+        where T : class, IEntity
     {
         builder.Property(x => x.CreatedAt)
             .IsRequired()
@@ -50,7 +52,7 @@ public static class EntityTypeBuilderExtensions
     /// For immutable entities (like append-only logs), call ConfigureAuditFields() only.
     /// </summary>
     public static EntityTypeBuilder<T> ConfigureCommonFields<T>(this EntityTypeBuilder<T> builder)
-        where T : class
+        where T : class, IEntity
     {
         return builder
             .ConfigureAuditFields()
