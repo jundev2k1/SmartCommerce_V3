@@ -1,0 +1,182 @@
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
+
+namespace Inventory.Application.Services;
+
+/// <summary>
+/// Owns the complete warehouse transfer workflow: validates both warehouses, deducts from source, receives at destination.
+/// Handles multi-item transfers atomically with complete audit trail.
+/// </summary>
+public sealed class TransferService(
+    IInventoryReadService inventoryReadService,
+    IInventoryWriteService inventoryWriteService,
+    IWarehouseReadService warehouseReadService,
+    InventoryDocumentService documentService,
+    InventoryTransactionService transactionService)
+{
+    public sealed record TransferItem(
+        Guid ProductVariantId,
+        int Quantity);
+
+    public sealed record TransferResult(
+        InventoryDocument SourceDocument,
+        InventoryDocument DestinationDocument,
+        IReadOnlyList<InventoryStock> SourceInventories,
+        IReadOnlyList<InventoryStock> DestinationInventories);
+
+    /// <summary>
+    /// Transfers multiple items from source warehouse to destination warehouse.
+    /// Creates both Issue (source) and Receipt (destination) documents atomically.
+    /// </summary>
+    public async Task<TransferResult> TransferAsync(
+        Guid sourceWarehouseId,
+        Guid destinationWarehouseId,
+        IReadOnlyList<TransferItem> items,
+        string reason,
+        CancellationToken ct = default)
+    {
+        // Validate warehouses
+        var sourceWarehouse = await warehouseReadService.GetByIdAsync(sourceWarehouseId, ct)
+            ?? throw ExceptionFactory.EntityNotFound($"Source warehouse {sourceWarehouseId} not found.");
+
+        var destinationWarehouse = await warehouseReadService.GetByIdAsync(destinationWarehouseId, ct)
+            ?? throw ExceptionFactory.EntityNotFound($"Destination warehouse {destinationWarehouseId} not found.");
+
+        if (sourceWarehouseId == destinationWarehouseId)
+            throw ExceptionFactory.InvalidRange("Source and destination warehouse must be different.");
+
+        var sourceInventories = new List<InventoryStock>();
+        var destinationInventories = new List<InventoryStock>();
+        var sourceTransactions = new List<(
+            Guid InventoryId,
+            Guid ProductId,
+            Guid ProductVariantId,
+            Guid WarehouseId,
+            InventoryTransactionType Type,
+            int Quantity,
+            int BalanceAfter,
+            string Reason)>();
+        var destinationTransactions = new List<(
+            Guid InventoryId,
+            Guid ProductId,
+            Guid ProductVariantId,
+            Guid WarehouseId,
+            InventoryTransactionType Type,
+            int Quantity,
+            int BalanceAfter,
+            string Reason)>();
+
+        // Process each item
+        foreach (var item in items)
+        {
+            // Get source inventory and validate
+            var sourceInventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
+                item.ProductVariantId, sourceWarehouseId, ct);
+
+            if (sourceInventory is null)
+            {
+                throw ExceptionFactory.EntityNotFound(
+                    $"Inventory for variant {item.ProductVariantId} in source warehouse not found.");
+            }
+
+            if (sourceInventory.AvailableQuantity < item.Quantity)
+            {
+                throw ExceptionFactory.InsufficientStock(
+                    $"Insufficient stock for variant {item.ProductVariantId}. " +
+                    $"Available: {sourceInventory.AvailableQuantity}, Required: {item.Quantity}");
+            }
+
+            // Get or create destination inventory
+            var destinationInventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
+                item.ProductVariantId, destinationWarehouseId, ct);
+
+            if (destinationInventory is null)
+            {
+                throw ExceptionFactory.EntityNotFound(
+                    $"Inventory for variant {item.ProductVariantId} in destination warehouse not found. " +
+                    "Create inventory records in destination warehouse first.");
+            }
+
+            // Perform transfers
+            var deducted = await inventoryWriteService.DeductStockAsync(
+                sourceInventory.Id, item.Quantity, ct);
+            sourceInventories.Add(deducted);
+
+            var received = await inventoryWriteService.ReceiveStockAsync(
+                destinationInventory.Id, item.Quantity, ct);
+            destinationInventories.Add(received);
+
+            // Record transactions
+            sourceTransactions.Add((
+                deducted.Id,
+                deducted.ProductId,
+                deducted.VariantId,
+                deducted.WarehouseId,
+                InventoryTransactionType.StockOut,
+                item.Quantity,
+                deducted.AvailableQuantity,
+                $"Transfer to {destinationWarehouse.Name}: {reason}"));
+
+            destinationTransactions.Add((
+                received.Id,
+                received.ProductId,
+                received.VariantId,
+                received.WarehouseId,
+                InventoryTransactionType.StockIn,
+                item.Quantity,
+                received.AvailableQuantity,
+                $"Transfer from {sourceWarehouse.Name}: {reason}"));
+        }
+
+        // Create transfer documents
+        var transferId = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpperInvariant();
+
+        var sourceDocument = await documentService.CreateAndCompleteAsync(
+            number: $"TRX-OUT-{transferId}",
+            type: InventoryDocumentType.Transfer,
+            reason: InventoryDocumentReason.Transfer,
+            sourceWarehouseId: sourceWarehouseId,
+            destinationWarehouseId: destinationWarehouseId,
+            description: reason,
+            ct: ct);
+
+        var destinationDocument = await documentService.CreateAndCompleteAsync(
+            number: $"TRX-IN-{transferId}",
+            type: InventoryDocumentType.Transfer,
+            reason: InventoryDocumentReason.Transfer,
+            sourceWarehouseId: sourceWarehouseId,
+            destinationWarehouseId: destinationWarehouseId,
+            description: reason,
+            ct: ct);
+
+        // Add items to documents
+        foreach (var item in items)
+        {
+            var sourceInv = sourceInventories.First(i => i.VariantId == item.ProductVariantId);
+            sourceDocument.AddItem(
+                productId: sourceInv.ProductId,
+                productVariantId: item.ProductVariantId,
+                quantity: item.Quantity,
+                unitOfMeasure: "EA",
+                description: $"Transfer to {destinationWarehouse.Name}");
+
+            var destInv = destinationInventories.First(i => i.VariantId == item.ProductVariantId);
+            destinationDocument.AddItem(
+                productId: destInv.ProductId,
+                productVariantId: item.ProductVariantId,
+                quantity: item.Quantity,
+                unitOfMeasure: "EA",
+                description: $"Transfer from {sourceWarehouse.Name}");
+        }
+
+        // Record all transactions
+        await transactionService.RecordBatchAsync(sourceTransactions, ct);
+        await transactionService.RecordBatchAsync(destinationTransactions, ct);
+
+        return new TransferResult(
+            sourceDocument,
+            destinationDocument,
+            sourceInventories,
+            destinationInventories);
+    }
+}
