@@ -2,6 +2,7 @@ using BuildingBlock.Application;
 using FluentValidation;
 
 using Inventory.Application.Abstractions.Persistence;
+using Inventory.Application.Services;
 
 using Mapster;
 
@@ -20,7 +21,8 @@ public static class DependencyInjection
             .AddApplicationBehaviors()
             .AddMapster()
             .AddFluentValidation()
-            .AddInfrastructure();
+            .AddInfrastructure()
+            .AddBusinessServices();
 
         return services;
     }
@@ -28,6 +30,15 @@ public static class DependencyInjection
     private static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<OptimisticConcurrencyRetry>();
+        return services;
+    }
+
+    private static IServiceCollection AddBusinessServices(this IServiceCollection services)
+    {
+        services.AddScoped<StockAvailabilityService>();
+        services.AddScoped<InventoryDocumentService>();
+        services.AddScoped<InventoryTransactionService>();
+        services.AddScoped<StockDeductionService>();
         return services;
     }
 

@@ -1,0 +1,61 @@
+using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+
+namespace Inventory.Application.Services;
+
+/// <summary>
+/// Records inventory transactions alongside stock changes.
+/// Ensures transaction history is never forgotten and remains consistent with stock modifications.
+/// </summary>
+public sealed class InventoryTransactionService(
+    IInventoryTransactionWriteService writeService)
+{
+    /// <summary>
+    /// Records an inventory transaction for a stock change.
+    /// Call this immediately after modifying InventoryStock in the same transaction.
+    /// </summary>
+    public async Task RecordAsync(
+        Guid inventoryId,
+        Guid productId,
+        Guid productVariantId,
+        Guid warehouseId,
+        InventoryTransactionType type,
+        int quantity,
+        int balanceAfter,
+        string reason,
+        CancellationToken ct = default)
+    {
+        var dto = new CreateInventoryTransactionDto(
+            inventoryId: inventoryId,
+            productId: productId,
+            productVariantId: productVariantId,
+            warehouseId: warehouseId,
+            type: type,
+            quantity: quantity,
+            balanceAfter: balanceAfter,
+            reason: reason);
+
+        await writeService.StageAddAsync(dto, ct);
+    }
+
+    /// <summary>
+    /// Records multiple transactions in batch (e.g., multi-item order deduction).
+    /// Reduces boilerplate when recording multiple related changes.
+    /// </summary>
+    public async Task RecordBatchAsync(
+        IReadOnlyList<(
+            Guid InventoryId,
+            Guid ProductId,
+            Guid ProductVariantId,
+            Guid WarehouseId,
+            InventoryTransactionType Type,
+            int Quantity,
+            int BalanceAfter,
+            string Reason)> transactions,
+        CancellationToken ct = default)
+    {
+        foreach (var (inventoryId, productId, productVariantId, warehouseId, type, quantity, balanceAfter, reason) in transactions)
+        {
+            await RecordAsync(inventoryId, productId, productVariantId, warehouseId, type, quantity, balanceAfter, reason, ct);
+        }
+    }
+}
