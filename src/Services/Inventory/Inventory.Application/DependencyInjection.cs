@@ -42,6 +42,7 @@ public static class DependencyInjection
         services.AddScoped<InventoryAdjustmentService>();
         services.AddScoped<ReceivingService>();
         services.AddScoped<TransferService>();
+        services.AddScoped<CycleCountService>();
         return services;
     }
 

@@ -1,0 +1,178 @@
+using Inventory.Application.Abstractions.Persistence.InventoryCounts;
+using Inventory.Application.Abstractions.Persistence.Inventories;
+using Inventory.Application.Abstractions.Persistence.Warehouses;
+
+namespace Inventory.Application.Services;
+
+/// <summary>
+/// Owns the complete cycle count workflow: create count document, record items, calculate variances, auto-adjust stock.
+/// Handles inventory reconciliation with comprehensive variance tracking and adjustment.
+/// </summary>
+public sealed class CycleCountService(
+    IInventoryReadService inventoryReadService,
+    IInventoryWriteService inventoryWriteService,
+    IInventoryCountReadService countReadService,
+    IInventoryCountWriteService countWriteService,
+    IWarehouseReadService warehouseReadService,
+    InventoryDocumentService documentService,
+    InventoryTransactionService transactionService)
+{
+    public sealed record CountItem(
+        Guid ProductVariantId,
+        int ActualQuantity);
+
+    public sealed record CountVariance(
+        Guid InventoryId,
+        Guid ProductVariantId,
+        int ExpectedQuantity,
+        int ActualQuantity,
+        int Variance,
+        decimal VariancePercent);
+
+    public sealed record CycleCountResult(
+        InventoryCount CountDocument,
+        IReadOnlyList<CountVariance> Variances,
+        IReadOnlyList<InventoryDocument> AdjustmentDocuments,
+        int ItemsWithVariance,
+        int ItemsAdjusted);
+
+    /// <summary>
+    /// Creates a new cycle count document for a warehouse.
+    /// </summary>
+    public async Task<InventoryCount> StartCountAsync(
+        Guid warehouseId,
+        string countDate,
+        string description,
+        CancellationToken ct = default)
+    {
+        var warehouse = await warehouseReadService.GetByIdAsync(warehouseId, ct)
+            ?? throw ExceptionFactory.EntityNotFound($"Warehouse {warehouseId} not found.");
+
+        var countNumber = GenerateCountNumber();
+        var count = InventoryCount.Create(
+            number: countNumber,
+            warehouseId: warehouseId,
+            countDate: DateTime.Parse(countDate),
+            description: description);
+
+        await countWriteService.AddAsync(count, ct);
+
+        return count;
+    }
+
+    /// <summary>
+    /// Completes a cycle count, calculates variances, and auto-adjusts stock for discrepancies.
+    /// </summary>
+    public async Task<CycleCountResult> CompleteCountAsync(
+        Guid countId,
+        IReadOnlyList<CountItem> countedItems,
+        decimal varianceThresholdPercent = 5m,
+        CancellationToken ct = default)
+    {
+        var count = await countReadService.GetByIdAsync(countId, ct)
+            ?? throw ExceptionFactory.EntityNotFound($"Cycle count {countId} not found.");
+
+        // Get all current inventory in warehouse
+        var inventories = await inventoryReadService.GetByIdAsync(countId, ct);
+        if (inventories is null)
+        {
+            throw ExceptionFactory.EntityNotFound($"Inventory {countId} not found.");
+        }
+
+        var variances = new List<CountVariance>();
+        var adjustmentDocuments = new List<InventoryDocument>();
+        var transactions = new List<(
+            Guid InventoryId,
+            Guid ProductId,
+            Guid ProductVariantId,
+            Guid WarehouseId,
+            InventoryTransactionType Type,
+            int Quantity,
+            int BalanceAfter,
+            string Reason)>();
+
+        // Calculate variances for each counted item
+        foreach (var countedItem in countedItems)
+        {
+            var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
+                countedItem.ProductVariantId, count.WarehouseId, ct);
+
+            if (inventory is null)
+                continue;
+
+            var expected = inventory.AvailableQuantity;
+            var actual = countedItem.ActualQuantity;
+            var variance = actual - expected;
+            var variancePercent = expected > 0
+                ? Math.Abs(variance) / (decimal)expected * 100m
+                : 0m;
+
+            variances.Add(new CountVariance(
+                InventoryId: inventory.Id,
+                ProductVariantId: countedItem.ProductVariantId,
+                ExpectedQuantity: expected,
+                ActualQuantity: actual,
+                Variance: variance,
+                VariancePercent: variancePercent));
+
+            // Auto-adjust if variance exceeds threshold
+            if (Math.Abs(variancePercent) > varianceThresholdPercent)
+            {
+                var adjusted = await inventoryWriteService.AdjustStockAsync(
+                    inventory.Id, actual, ct);
+
+                // Create adjustment document
+                var adjustmentDoc = await documentService.CreateAndCompleteAsync(
+                    type: InventoryDocumentType.Adjustment,
+                    reason: InventoryDocumentReason.CycleCount,
+                    sourceWarehouseId: count.WarehouseId,
+                    destinationWarehouseId: null,
+                    description: $"Cycle count variance: {expected} → {actual} ({variance:+#;-#;0})",
+                    ct: ct);
+
+                adjustmentDoc.AddItem(
+                    productId: inventory.ProductId,
+                    productVariantId: countedItem.ProductVariantId,
+                    quantity: Math.Abs(variance),
+                    unitOfMeasure: "EA",
+                    description: $"Cycle count adjustment");
+
+                adjustmentDocuments.Add(adjustmentDoc);
+
+                transactions.Add((
+                    inventory.Id,
+                    inventory.ProductId,
+                    inventory.VariantId,
+                    inventory.WarehouseId,
+                    InventoryTransactionType.Adjustment,
+                    variance,
+                    adjusted.Entity.AvailableQuantity,
+                    $"Cycle count variance: {variance:+#;-#;0}"));
+            }
+        }
+
+        // Record all transactions
+        if (transactions.Count > 0)
+        {
+            await transactionService.RecordBatchAsync(transactions, ct);
+        }
+
+        // Mark count as completed
+        count.Complete();
+        await countWriteService.AddAsync(count, ct);
+
+        return new CycleCountResult(
+            CountDocument: count,
+            Variances: variances,
+            AdjustmentDocuments: adjustmentDocuments,
+            ItemsWithVariance: variances.Count(v => v.Variance != 0),
+            ItemsAdjusted: adjustmentDocuments.Count);
+    }
+
+    private static string GenerateCountNumber()
+    {
+        var timestamp = DateTime.UtcNow.ToString("yyyyMMdd");
+        var random = new Random().Next(1000, 9999);
+        return $"CNT-{timestamp}-{random}";
+    }
+}
