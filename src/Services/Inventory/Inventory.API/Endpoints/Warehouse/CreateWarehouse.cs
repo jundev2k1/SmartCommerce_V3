@@ -10,19 +10,35 @@ public sealed record CreateWarehouseRequest(
     string Code,
     string Name,
     WarehouseType Type,
-    string Address);
+    string Country,
+    string StateOrProvince,
+    string City,
+    string District,
+    string Ward,
+    string Street,
+    string PostalCode);
 
 public sealed class CreateWarehouseEndpoint : ICarterModule
 {
     private readonly string[] API_DESC = [
         "## Create Warehouse",
         "",
-        "Creates a new warehouse location.",
+        "Creates a new warehouse location with complete address information.",
         "",
         "### Request Body",
         "- **Code**: Unique warehouse code (required, must be unique)",
         "- **Name**: Warehouse name (required)",
-        "- **Address**: Warehouse address (required)",
+        "- **Type**: Warehouse type (required)",
+        "- **Country**: Country (required)",
+        "- **StateOrProvince**: State or province (optional)",
+        "- **City**: City (required)",
+        "- **District**: District (optional)",
+        "- **Ward**: Ward (optional)",
+        "- **Street**: Street address (required)",
+        "- **PostalCode**: Postal code (optional)",
+        "",
+        "### Behavior",
+        "Creates a new warehouse with a default storage zone automatically initialized.",
         "",
         "### Error Responses",
         "- **400**: Invalid request or validation failed",
@@ -49,7 +65,13 @@ public sealed class CreateWarehouseEndpoint : ICarterModule
             request.Code.Trim(),
             request.Name.Trim(),
             request.Type,
-            request.Address.Trim());
+            request.Country.Trim(),
+            request.StateOrProvince.Trim(),
+            request.City.Trim(),
+            request.District.Trim(),
+            request.Ward.Trim(),
+            request.Street.Trim(),
+            request.PostalCode.Trim());
 
         var response = await sender.Send(command, ct);
 

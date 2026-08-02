@@ -12,19 +12,30 @@ public sealed class WarehouseWriteService(
     public async Task<Guid> CreateAsync(CreateWarehouseRequest request, CancellationToken ct = default)
     {
         var address = Address.Create(
-            country: "US",
-            stateOrProvince: "",
-            city: request.Address,
-            district: "",
-            ward: "",
-            street: request.Address,
-            postalCode: "");
+            country: request.Country,
+            stateOrProvince: request.StateOrProvince,
+            city: request.City,
+            district: request.District,
+            ward: request.Ward,
+            street: request.Street,
+            postalCode: request.PostalCode);
 
         var warehouse = Warehouse.Create(
             request.Code,
             request.Name,
             request.Type,
             address);
+
+        warehouse.AddZone(
+            code: "DEFAULT",
+            name: "Default Storage Zone",
+            type: WarehouseZoneType.Storage,
+            priority: 0,
+            capacity: null,
+            temperature: null,
+            humidity: null,
+            pickingStrategy: PickingStrategy.FIFO,
+            allowMixedLot: false);
 
         await repo.AddAsync(warehouse, ct);
         await unitOfWork.SaveChangesAsync(ct);

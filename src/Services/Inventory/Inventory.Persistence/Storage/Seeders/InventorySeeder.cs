@@ -10,22 +10,33 @@ public sealed class InventorySeeder(InventoryDbContext context)
         if (await context.Warehouses.AnyAsync())
             return;
 
-        var address = Address.Create(
-            country: "US",
-            stateOrProvince: "CA",
-            city: "Los Angeles",
+        var platformAddress = Address.Create(
+            country: "Global",
+            stateOrProvince: "",
+            city: "Platform",
             district: "",
             ward: "",
-            street: "123 Main Street",
-            postalCode: "90001");
+            street: "Logical Inventory Location",
+            postalCode: "");
 
-        var mainWarehouse = Warehouse.Create(
-            code: "MAIN",
-            name: "Main Warehouse",
-            type: WarehouseType.DistributionCenter,
-            address: address);
+        var platformWarehouse = Warehouse.Create(
+            code: "PLATFORM",
+            name: "Platform Store Warehouse",
+            type: WarehouseType.Virtual,
+            address: platformAddress);
 
-        context.Warehouses.Add(mainWarehouse);
+        platformWarehouse.AddZone(
+            code: "DEFAULT",
+            name: "Default Storage Zone",
+            type: WarehouseZoneType.Storage,
+            priority: 0,
+            capacity: null,
+            temperature: null,
+            humidity: null,
+            pickingStrategy: PickingStrategy.FIFO,
+            allowMixedLot: false);
+
+        context.Warehouses.Add(platformWarehouse);
         await context.SaveChangesAsync();
     }
 }

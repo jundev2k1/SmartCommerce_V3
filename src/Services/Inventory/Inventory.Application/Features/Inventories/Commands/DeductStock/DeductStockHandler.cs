@@ -18,7 +18,7 @@ public sealed class DeductStockHandler(
     IUnitOfWork unitOfWork,
     IAppLogger<DeductStockHandler> logger) : ICommandHandler<DeductStockCommand, DeductStockResult>
 {
-    private const string MainWarehouseCode = "MAIN";
+    private const string MainWarehouseCode = "PLATFORM";
 
     public async Task<DeductStockResult> Handle(DeductStockCommand request, CancellationToken ct = default)
     {
@@ -32,7 +32,7 @@ public sealed class DeductStockHandler(
         }
 
         var warehouse = await warehouseReadService.GetByCodeAsync(MainWarehouseCode, ct)
-            ?? throw ExceptionFactory.EntityNotFound($"Warehouse '{MainWarehouseCode}' is not configured.");
+            ?? throw ExceptionFactory.EntityNotFound($"Default platform warehouse '{MainWarehouseCode}' is not configured.");
 
         return await concurrencyRetry.ExecuteAsync(async (cancellationToken) =>
             await ProcessDeductionAsync(request, warehouse.Id, cancellationToken), ct: ct);

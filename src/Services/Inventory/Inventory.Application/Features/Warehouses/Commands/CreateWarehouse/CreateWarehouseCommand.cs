@@ -4,6 +4,12 @@ public sealed record CreateWarehouseCommand(
     string Code,
     string Name,
     WarehouseType Type,
-    string Address) : ICommand<CreateWarehouseResponse>;
+    string Country,
+    string StateOrProvince,
+    string City,
+    string District,
+    string Ward,
+    string Street,
+    string PostalCode) : ICommand<CreateWarehouseResponse>;
 
 public sealed record CreateWarehouseResponse(Guid WarehouseId);

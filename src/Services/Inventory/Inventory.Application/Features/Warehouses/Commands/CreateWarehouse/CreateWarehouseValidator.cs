@@ -14,8 +14,28 @@ public sealed class CreateWarehouseValidator : AbstractValidator<CreateWarehouse
             .NotEmpty().WithMessage("Name is required")
             .Length(1, 200).WithMessage("Name must be between 1 and 200 characters");
 
-        RuleFor(x => x.Address)
-            .NotEmpty().WithMessage("Address is required")
-            .MaximumLength(500).WithMessage("Address must not exceed 500 characters");
+        RuleFor(x => x.Country)
+            .NotEmpty().WithMessage("Country is required")
+            .Length(1, 100).WithMessage("Country must be between 1 and 100 characters");
+
+        RuleFor(x => x.City)
+            .NotEmpty().WithMessage("City is required")
+            .Length(1, 100).WithMessage("City must be between 1 and 100 characters");
+
+        RuleFor(x => x.Street)
+            .NotEmpty().WithMessage("Street address is required")
+            .Length(1, 200).WithMessage("Street address must be between 1 and 200 characters");
+
+        RuleFor(x => x.StateOrProvince)
+            .MaximumLength(100).WithMessage("State or province must not exceed 100 characters");
+
+        RuleFor(x => x.District)
+            .MaximumLength(100).WithMessage("District must not exceed 100 characters");
+
+        RuleFor(x => x.Ward)
+            .MaximumLength(100).WithMessage("Ward must not exceed 100 characters");
+
+        RuleFor(x => x.PostalCode)
+            .MaximumLength(20).WithMessage("Postal code must not exceed 20 characters");
     }
 }

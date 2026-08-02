@@ -8,7 +8,7 @@ namespace Inventory.Application.Features.Inventories.Events.OnProductVariationCr
 
 /// <summary>
 /// Every new ProductVariation needs a stock record before it can be tracked. Defaults new
-/// inventory to the well-known "MAIN" warehouse (seeded by InventorySeeder) at zero stock - a
+/// inventory to the well-known "PLATFORM" warehouse (seeded by InventorySeeder) at zero stock - a
 /// real warehouse assignment happens later via StockIn.
 /// </summary>
 public sealed class OnProductVariationCreatedHandler(
@@ -18,7 +18,7 @@ public sealed class OnProductVariationCreatedHandler(
     IUnitOfWork unitOfWork,
     IAppLogger<OnProductVariationCreatedHandler> logger) : IInternalEventHandler<OnProductVariationCreatedEvent>
 {
-    private const string DefaultWarehouseCode = "MAIN";
+    private const string DefaultWarehouseCode = "PLATFORM";
 
     public async Task Handle(OnProductVariationCreatedEvent @event, CancellationToken ct = default)
     {

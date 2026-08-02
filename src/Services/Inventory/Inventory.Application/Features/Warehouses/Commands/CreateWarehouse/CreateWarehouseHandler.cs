@@ -19,7 +19,13 @@ public sealed class CreateWarehouseHandler(
                 request.Code.Trim(),
                 request.Name.Trim(),
                 request.Type,
-                request.Address.Trim()),
+                request.Country.Trim(),
+                request.StateOrProvince.Trim(),
+                request.City.Trim(),
+                request.District.Trim(),
+                request.Ward.Trim(),
+                request.Street.Trim(),
+                request.PostalCode.Trim()),
             ct);
 
         return new CreateWarehouseResponse(warehouseId);
