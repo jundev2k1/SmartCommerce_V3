@@ -35,18 +35,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
-        // Auto-register all business services via Scrutor based on interface naming convention
-        // Services implement IServiceName, so this scans for those interfaces
-        services.AddScopedByInterface(typeof(DependencyInjection).Assembly, type =>
-            type.Name.StartsWith("I") &&
-            (type.Name is "IStockAvailabilityService" or
-                        "IInventoryDocumentService" or
-                        "IInventoryTransactionService" or
-                        "IStockDeductionService" or
-                        "IInventoryAdjustmentService" or
-                        "IReceivingService" or
-                        "ITransferService" or
-                        "ICycleCountService"));
+        // Auto-register all business services implementing IService marker interface
+        // Enables automatic discovery via Scrutor - no hardcoding needed
+        services.AddScopedByInterface(
+            typeof(DependencyInjection).Assembly,
+            type => type.GetInterfaces().Contains(typeof(IService)));
 
         return services;
     }

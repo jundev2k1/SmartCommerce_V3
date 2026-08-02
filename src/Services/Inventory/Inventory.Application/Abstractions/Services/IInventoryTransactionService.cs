@@ -1,6 +1,8 @@
+using BuildingBlock.Application.Abstractions.Services;
+
 namespace Inventory.Application.Abstractions.Services;
 
-public interface IInventoryTransactionService
+public interface IInventoryTransactionService : IService
 {
     Task RecordAsync(
         Guid inventoryId,

@@ -26,7 +26,12 @@ public sealed class InboxMessage
 
     private InboxMessage() { }
 
-    public static InboxMessage Create(Guid messageId, string consumerName, string topic, string payload, string headersJson)
+    public static InboxMessage Create(
+        Guid messageId,
+        string consumerName,
+        string topic,
+        string payload,
+        string headersJson)
     {
         return new InboxMessage
         {
@@ -45,7 +50,10 @@ public sealed class InboxMessage
     /// Re-captures Topic/Payload/Headers on a pre-existing Retrying row. Harmless no-op when the
     /// values are unchanged; guards against a stale payload if the event contract ever changes.
     /// </summary>
-    public void RefreshAttemptContext(string topic, string payload, string headersJson)
+    public void RefreshAttemptContext(
+        string topic,
+        string payload,
+        string headersJson)
     {
         Topic = topic;
         Payload = payload;
@@ -90,7 +98,8 @@ public sealed class InboxMessage
         var multiplier = Math.Pow(policy.RetryBackoffMultiplier, exponent);
         var delayMs = policy.InitialRetryDelay.TotalMilliseconds * multiplier;
 
-        if (double.IsInfinity(delayMs) || delayMs > policy.MaximumRetryDelay.TotalMilliseconds)
+        if (double.IsInfinity(delayMs)
+            || delayMs > policy.MaximumRetryDelay.TotalMilliseconds)
             return policy.MaximumRetryDelay;
 
         return TimeSpan.FromMilliseconds(delayMs);

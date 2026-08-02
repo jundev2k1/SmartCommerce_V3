@@ -1,7 +1,9 @@
+using BuildingBlock.Application.Abstractions.Services;
+
 namespace Inventory.Application.Abstractions.Services;
 
 /// <summary>Stock deduction workflow: validates, deducts, records, documents.</summary>
-public interface IStockDeductionService
+public interface IStockDeductionService : IService
 {
     Task<StockDeductionResult> DeductAsync(
         string documentNumber,
@@ -19,7 +21,7 @@ public interface IStockDeductionService
 }
 
 /// <summary>Inventory adjustment workflow: validates, adjusts, records, documents.</summary>
-public interface IInventoryAdjustmentService
+public interface IInventoryAdjustmentService : IService
 {
     Task<AdjustmentResult> AdjustToAsync(
         Guid inventoryId,
@@ -46,7 +48,7 @@ public interface IInventoryAdjustmentService
 }
 
 /// <summary>Receiving workflow: multi-item receiving with lot tracking.</summary>
-public interface IReceivingService
+public interface IReceivingService : IService
 {
     Task<ReceivingResult> ReceiveAsync(
         string purchaseOrderNumber,
@@ -70,7 +72,7 @@ public interface IReceivingService
 }
 
 /// <summary>Warehouse transfer workflow: atomic two-way transfer.</summary>
-public interface ITransferService
+public interface ITransferService : IService
 {
     Task<TransferResult> TransferAsync(
         Guid sourceWarehouseId,
@@ -91,7 +93,7 @@ public interface ITransferService
 }
 
 /// <summary>Cycle count workflow: variance calculation and auto-adjustment.</summary>
-public interface ICycleCountService
+public interface ICycleCountService : IService
 {
     Task<InventoryCount> StartCountAsync(
         Guid warehouseId,

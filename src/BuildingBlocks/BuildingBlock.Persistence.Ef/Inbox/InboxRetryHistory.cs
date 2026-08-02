@@ -26,7 +26,12 @@ public sealed class InboxRetryHistory
     private InboxRetryHistory() { }
 
     public static InboxRetryHistory Start(
-        Guid inboxMessageId, Guid messageId, string consumerName, string topic, int retryNumber, string? operatorId)
+        Guid inboxMessageId,
+        Guid messageId,
+        string consumerName,
+        string topic,
+        int retryNumber,
+        string? operatorId)
     {
         return new InboxRetryHistory
         {

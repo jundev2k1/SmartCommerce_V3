@@ -1,6 +1,8 @@
+using BuildingBlock.Application.Abstractions.Services;
+
 namespace Inventory.Application.Abstractions.Services;
 
-public interface IInventoryDocumentService
+public interface IInventoryDocumentService : IService
 {
     Task<InventoryDocument> CreateAndCompleteAsync(
         InventoryDocumentType type,

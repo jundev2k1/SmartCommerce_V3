@@ -1,6 +1,8 @@
+using BuildingBlock.Application.Abstractions.Services;
+
 namespace Inventory.Application.Abstractions.Services;
 
-public interface IStockAvailabilityService
+public interface IStockAvailabilityService : IService
 {
     Task<StockAvailabilityResult> ValidateAsync(
         IReadOnlyList<(Guid ProductVariationId, int Quantity)> items,
