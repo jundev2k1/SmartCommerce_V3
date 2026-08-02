@@ -1,11 +1,12 @@
 using BuildingBlock.Persistence.Ef.Configurations;
+using Inventory.Domain.Entities.Inventories;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Inventory.Persistence.Configs;
 
-public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryEntity>
+public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryStock>
 {
-    public void Configure(EntityTypeBuilder<InventoryEntity> builder)
+    public void Configure(EntityTypeBuilder<InventoryStock> builder)
     {
         builder.HasKey(x => x.Id);
 

@@ -12,7 +12,7 @@ public sealed class SearchInventoriesValidator : AbstractValidator<SearchInvento
     {
         RuleFor(x => x.Criteria).Custom((criteria, context) =>
         {
-            var errors = CriteriaRequestValidator<InventoryEntity>.Validate(InventoryCriteriaDefinition.Instance, criteria);
+            var errors = CriteriaRequestValidator<InventoryStock>.Validate(InventoryCriteriaDefinition.Instance, criteria);
             foreach (var error in errors)
                 context.AddFailure(error);
         });
