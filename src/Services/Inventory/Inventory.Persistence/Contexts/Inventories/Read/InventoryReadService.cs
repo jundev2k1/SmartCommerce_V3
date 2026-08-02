@@ -10,6 +10,14 @@ public sealed class InventoryReadService(IInventoryRepository inventoryRepo) : I
         return await inventoryRepo.GetByIdAsync(id, ct);
     }
 
+    public async Task<IReadOnlyList<InventoryStock>> GetByIdsAsync(IReadOnlyCollection<Guid> ids, CancellationToken ct = default)
+    {
+        if (ids.Count == 0)
+            return [];
+
+        return await inventoryRepo.GetAsync(i => ids.Contains(i.Id), ct);
+    }
+
     public async Task<PaginatedResult<InventoryStock>> SearchAsync(CriteriaRequest request, CancellationToken ct = default)
     {
         return await inventoryRepo.SearchAsync(request, ct);

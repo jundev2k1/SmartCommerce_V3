@@ -24,6 +24,22 @@ public sealed class InventoryDocument : AggregateRoot<Guid>, IAuditable
     #region Constructor
     private InventoryDocument() { }
 
+    /// <summary>Creates a document with auto-generated number using current numbering strategy.</summary>
+    public static InventoryDocument Create(
+        InventoryDocumentType type,
+        InventoryDocumentReason reason,
+        Guid? sourceWarehouseId,
+        Guid? destinationWarehouseId,
+        string description = "")
+        => Create(
+            DocumentNumber.Generate().Value,
+            type,
+            reason,
+            sourceWarehouseId,
+            destinationWarehouseId,
+            description);
+
+    /// <summary>Creates a document with an explicit number (e.g. from external system or idempotency key).</summary>
     public static InventoryDocument Create(
         string number,
         InventoryDocumentType type,

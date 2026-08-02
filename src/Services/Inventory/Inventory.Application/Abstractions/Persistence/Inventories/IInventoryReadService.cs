@@ -4,6 +4,9 @@ public interface IInventoryReadService
 {
     Task<InventoryStock?> GetByIdAsync(Guid id, CancellationToken ct = default);
 
+    /// <summary>Loads multiple inventories in a single database query, reducing N+1 problems.</summary>
+    Task<IReadOnlyList<InventoryStock>> GetByIdsAsync(IReadOnlyCollection<Guid> ids, CancellationToken ct = default);
+
     Task<PaginatedResult<InventoryStock>> SearchAsync(CriteriaRequest request, CancellationToken ct = default);
 
     /// <summary>Stock is keyed at (ProductVariationId, WarehouseId) - each product variation per warehouse has one InventoryStock aggregate.</summary>

@@ -1,6 +1,8 @@
 using BuildingBlock.Application;
 using FluentValidation;
 
+using Inventory.Application.Abstractions.Persistence;
+
 using Mapster;
 
 using MapsterMapper;
@@ -17,8 +19,15 @@ public static class DependencyInjection
             .AddMediatR()
             .AddApplicationBehaviors()
             .AddMapster()
-            .AddFluentValidation();
+            .AddFluentValidation()
+            .AddInfrastructure();
 
+        return services;
+    }
+
+    private static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    {
+        services.AddScoped<OptimisticConcurrencyRetry>();
         return services;
     }
 
