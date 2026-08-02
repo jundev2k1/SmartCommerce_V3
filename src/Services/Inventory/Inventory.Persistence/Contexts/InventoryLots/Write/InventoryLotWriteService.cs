@@ -1,3 +1,4 @@
+using BuildingBlock.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryLots;
 using Inventory.Persistence.Contexts.InventoryLots.Repositories;
 using Inventory.Persistence.Engine;
@@ -19,17 +20,17 @@ public sealed class InventoryLotWriteService(
             request.SupplierLotNumber,
             request.CountryOfOrigin);
 
-        await repo.AddAsync(entity, ct);
-        await unitOfWork.ExecuteTransactionAsync(ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await repo.AddAsync(entity, ct);
+        }, ct: ct);
     }
 
     public async Task DeleteByInventoryIdAsync(Guid inventoryId, CancellationToken ct = default)
     {
-        var lots = await repo.GetByInventoryIdAsync(inventoryId, ct);
-        foreach (var lot in lots)
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            repo.Remove(lot);
-        }
-        await unitOfWork.ExecuteTransactionAsync(ct);
+            await repo.DeleteWithNoTrackingAsync(l => l.InventoryId == inventoryId, ct);
+        }, ct: ct);
     }
 }

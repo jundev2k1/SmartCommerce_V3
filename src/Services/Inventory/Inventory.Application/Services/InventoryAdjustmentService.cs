@@ -1,3 +1,4 @@
+using BuildingBlock.Domain.Exceptions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Services;
 
@@ -96,7 +97,7 @@ public sealed class InventoryAdjustmentService(
             productId: inventory.ProductId,
             productVariantId: inventory.VariantId,
             warehouseId: inventory.WarehouseId,
-            type: InventoryTransactionType.StockIn,
+            type: InventoryTransactionType.Receipt,
             quantity: quantity,
             balanceAfter: updated.AvailableQuantity,
             reason: reason,
@@ -140,7 +141,7 @@ public sealed class InventoryAdjustmentService(
             productId: inventory.ProductId,
             productVariantId: inventory.VariantId,
             warehouseId: inventory.WarehouseId,
-            type: InventoryTransactionType.StockOut,
+            type: InventoryTransactionType.Deduction,
             quantity: quantity,
             balanceAfter: updated.AvailableQuantity,
             reason: reason,

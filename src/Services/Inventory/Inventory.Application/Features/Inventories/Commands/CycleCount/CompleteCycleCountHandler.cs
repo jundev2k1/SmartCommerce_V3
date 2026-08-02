@@ -11,12 +11,12 @@ public sealed class CompleteCycleCountHandler(
 {
     public async Task<CompleteCycleCountResponse> Handle(CompleteCycleCountCommand request, CancellationToken ct = default)
     {
-        CycleCountService.CycleCountResult? result = null;
+        ICycleCountService.CycleCountResult? result = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var items = request.CountedItems
-                .Select(i => new CycleCountService.CountItem(i.ProductVariantId, i.ActualQuantity))
+                .Select(i => new ICycleCountService.CountItem(i.ProductVariantId, i.ActualQuantity))
                 .ToList();
 
             result = await cycleCountService.CompleteCountAsync(

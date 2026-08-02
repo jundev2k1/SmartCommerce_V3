@@ -11,7 +11,7 @@ public sealed class StockInHandler(
 {
     public async Task<StockInResponse> Handle(StockInCommand request, CancellationToken ct = default)
     {
-        InventoryAdjustmentService.AdjustmentResult? result = null;
+        IInventoryAdjustmentService.AdjustmentResult? result = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

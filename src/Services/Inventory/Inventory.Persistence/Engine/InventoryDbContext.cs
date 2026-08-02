@@ -25,11 +25,8 @@ public sealed class InventoryDbContext(DbContextOptions<InventoryDbContext> opti
     public DbSet<InboxRetryHistory> InboxRetryHistories { get; set; } = null!;
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void ConfigureModel(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyPersistenceConfigurations(typeof(InventoryDbContext).Assembly);
-        modelBuilder.ApplyOutboxInboxConfiguration(this);
-
-        base.OnModelCreating(modelBuilder);
+        base.ConfigureModel(modelBuilder);
     }
 }

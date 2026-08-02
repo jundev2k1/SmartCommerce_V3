@@ -1,3 +1,7 @@
+using Inventory.Domain.Metadata;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Inventory.Persistence.Configs;
 
 public sealed class InventoryReservationConfig : IEntityTypeConfiguration<InventoryReservation>
@@ -19,7 +23,7 @@ public sealed class InventoryReservationConfig : IEntityTypeConfiguration<Invent
         builder.Property(x => x.Status)
             .IsRequired()
             .HasConversion<short>()
-            .HasDefaultValue(InventoryReservationStatus.Active);
+            .HasDefaultValue(InventoryReservationStatus.Pending);
 
         builder.Property(x => x.InventoryId).IsRequired();
         builder.Property(x => x.WarehouseId).IsRequired();

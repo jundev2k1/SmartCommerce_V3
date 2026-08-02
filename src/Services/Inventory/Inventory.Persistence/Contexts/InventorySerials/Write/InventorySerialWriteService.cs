@@ -1,3 +1,4 @@
+using BuildingBlock.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventorySerials;
 using Inventory.Persistence.Contexts.InventorySerials.Repositories;
 using Inventory.Persistence.Engine;
@@ -12,17 +13,17 @@ public sealed class InventorySerialWriteService(
     {
         var entity = InventorySerial.Create(request.InventoryId, request.SerialNumber);
 
-        await repo.AddAsync(entity, ct);
-        await unitOfWork.ExecuteTransactionAsync(ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await repo.AddAsync(entity, ct);
+        }, ct: ct);
     }
 
     public async Task DeleteByInventoryIdAsync(Guid inventoryId, CancellationToken ct = default)
     {
-        var serials = await repo.GetByInventoryIdAsync(inventoryId, ct);
-        foreach (var serial in serials)
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            repo.Remove(serial);
-        }
-        await unitOfWork.ExecuteTransactionAsync(ct);
+            await repo.DeleteWithNoTrackingAsync(s => s.InventoryId == inventoryId, ct);
+        }, ct: ct);
     }
 }

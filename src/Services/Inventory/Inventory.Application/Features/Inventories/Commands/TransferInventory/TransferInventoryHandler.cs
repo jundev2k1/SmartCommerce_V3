@@ -11,12 +11,12 @@ public sealed class TransferInventoryHandler(
 {
     public async Task<TransferInventoryResponse> Handle(TransferInventoryCommand request, CancellationToken ct = default)
     {
-        TransferService.TransferResult? result = null;
+        ITransferService.TransferResult? result = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var items = request.Items
-                .Select(i => new TransferService.TransferItem(i.ProductVariantId, i.Quantity))
+                .Select(i => new ITransferService.TransferItem(i.ProductVariantId, i.Quantity))
                 .ToList();
 
             result = await transferService.TransferAsync(

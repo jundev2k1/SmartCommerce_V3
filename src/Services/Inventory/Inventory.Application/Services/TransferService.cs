@@ -1,3 +1,4 @@
+using BuildingBlock.Domain.Exceptions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Application.Abstractions.Services;
@@ -15,24 +16,15 @@ public sealed class TransferService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : ITransferService
 {
-    public sealed record TransferItem(
-        Guid ProductVariantId,
-        int Quantity);
-
-    public sealed record TransferResult(
-        InventoryDocument SourceDocument,
-        InventoryDocument DestinationDocument,
-        IReadOnlyList<InventoryStock> SourceInventories,
-        IReadOnlyList<InventoryStock> DestinationInventories);
 
     /// <summary>
     /// Transfers multiple items from source warehouse to destination warehouse.
     /// Creates both Issue (source) and Receipt (destination) documents atomically.
     /// </summary>
-    public async Task<TransferResult> TransferAsync(
+    public async Task<ITransferService.TransferResult> TransferAsync(
         Guid sourceWarehouseId,
         Guid destinationWarehouseId,
-        IReadOnlyList<TransferItem> items,
+        IReadOnlyList<ITransferService.TransferItem> items,
         string reason,
         CancellationToken ct = default)
     {
@@ -113,7 +105,7 @@ public sealed class TransferService(
                 deducted.ProductId,
                 deducted.VariantId,
                 deducted.WarehouseId,
-                InventoryTransactionType.StockOut,
+                InventoryTransactionType.TransferOut,
                 item.Quantity,
                 deducted.AvailableQuantity,
                 $"Transfer to {destinationWarehouse.Name}: {reason}"));
@@ -123,7 +115,7 @@ public sealed class TransferService(
                 received.ProductId,
                 received.VariantId,
                 received.WarehouseId,
-                InventoryTransactionType.StockIn,
+                InventoryTransactionType.TransferIn,
                 item.Quantity,
                 received.AvailableQuantity,
                 $"Transfer from {sourceWarehouse.Name}: {reason}"));
@@ -174,7 +166,7 @@ public sealed class TransferService(
         await transactionService.RecordBatchAsync(sourceTransactions, ct);
         await transactionService.RecordBatchAsync(destinationTransactions, ct);
 
-        return new TransferResult(
+        return new ITransferService.TransferResult(
             sourceDocument,
             destinationDocument,
             sourceInventories,

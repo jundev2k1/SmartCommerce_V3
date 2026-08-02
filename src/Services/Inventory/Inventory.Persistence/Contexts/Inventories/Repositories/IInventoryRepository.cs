@@ -1,3 +1,5 @@
+using BuildingBlock.Persistence.Repository;
+
 namespace Inventory.Persistence.Contexts.Inventories.Repositories;
 
 public interface IInventoryRepository : IRepository<InventoryStock, Guid>

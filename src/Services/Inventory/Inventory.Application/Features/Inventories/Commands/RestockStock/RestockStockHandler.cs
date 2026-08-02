@@ -30,8 +30,8 @@ public sealed class RestockStockHandler(
 
         var reasonText = request.Reason is null ? "Deduction reversal" : $"Deduction reversal: {request.Reason}";
 
-        await concurrencyRetry.ExecuteAsync(async () =>
-            await ReverseDeductionAsync(document, reasonText, ct));
+        await concurrencyRetry.ExecuteAsync(async (cancellationToken) =>
+            await ReverseDeductionAsync(document, reasonText, cancellationToken), ct: ct);
 
         return new RestockStockResult(true);
     }
@@ -58,7 +58,7 @@ public sealed class RestockStockHandler(
                     productId: inv.ProductId,
                     productVariantId: inv.VariantId,
                     warehouseId: inv.WarehouseId,
-                    type: InventoryTransactionType.StockIn,
+                    type: InventoryTransactionType.Receipt,
                     quantity: item.Quantity.Value,
                     balanceAfter: inv.AvailableQuantity,
                     reason: reason,

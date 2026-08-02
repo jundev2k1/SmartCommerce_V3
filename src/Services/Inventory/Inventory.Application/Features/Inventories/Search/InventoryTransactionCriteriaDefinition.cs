@@ -11,9 +11,9 @@ public static class InventoryTransactionCriteriaDefinition
         .Field(x => x.VariantId).Guid()
         .Field(x => x.WarehouseId).Guid()
         .Field(x => x.Type).Enum().Sortable()
-        .Field(x => x.Quantity).Number().Sortable()
-        .Field(x => x.QuantityAfter).Number().Sortable()
-        .Field(x => x.Reason).String().KeywordSearchable()
+        .Field(x => x.BeforeOnHandQuantity).Number().Sortable()
+        .Field(x => x.AfterOnHandQuantity).Number().Sortable()
+        .Field(x => x.Description).String().KeywordSearchable()
         .Field(x => x.CreatedAt).DateTime().Sortable()
         .Build();
 }

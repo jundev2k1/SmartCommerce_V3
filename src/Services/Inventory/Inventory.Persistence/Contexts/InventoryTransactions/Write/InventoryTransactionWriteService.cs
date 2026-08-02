@@ -10,15 +10,17 @@ public sealed class InventoryTransactionWriteService(
     public async Task StageAddAsync(CreateInventoryTransactionDto request, CancellationToken ct = default)
     {
         var entity = InventoryTransaction.Create(
-            request.InventoryId,
-            request.ProductId,
-            request.VariationId,
-            request.WarehouseId,
-            request.Type,
-            request.Quantity,
-            request.QuantityBefore,
-            request.QuantityAfter,
-            request.Reason);
+            inventoryId: request.InventoryId,
+            warehouseId: request.WarehouseId,
+            productId: request.ProductId,
+            variantId: request.ProductVariantId,
+            type: request.Type,
+            quantity: request.Quantity,
+            beforeOnHandQuantity: request.QuantityAfter - request.Quantity,
+            afterOnHandQuantity: request.QuantityAfter,
+            beforeReservedQuantity: 0,
+            afterReservedQuantity: 0,
+            description: request.Reason);
 
         await repo.AddAsync(entity, ct);
     }

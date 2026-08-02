@@ -1,3 +1,4 @@
+using BuildingBlock.Domain.Exceptions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Services;
 
@@ -13,16 +14,12 @@ public sealed class StockDeductionService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : IStockDeductionService
 {
-    public sealed record DeductionResult(
-        bool Success,
-        InventoryDocument Document,
-        IReadOnlyList<InventoryStock> DeductedInventories);
 
     /// <summary>
     /// Deducts stock for multiple items and records the complete operation.
     /// Returns document and deducted inventories for caller to use in their workflow.
     /// </summary>
-    public async Task<DeductionResult> DeductAsync(
+    public async Task<IStockDeductionService.StockDeductionResult> DeductAsync(
         string documentNumber,
         InventoryDocumentType documentType,
         InventoryDocumentReason documentReason,
@@ -52,7 +49,7 @@ public sealed class StockDeductionService(
                 deductedInventory.ProductId,
                 deductedInventory.VariantId,
                 deductedInventory.WarehouseId,
-                InventoryTransactionType.StockOut,
+                InventoryTransactionType.Deduction,
                 quantity,
                 deductedInventory.AvailableQuantity,
                 description));
@@ -80,7 +77,7 @@ public sealed class StockDeductionService(
 
         await transactionService.RecordBatchAsync(transactions, ct);
 
-        return new DeductionResult(
+        return new IStockDeductionService.StockDeductionResult(
             Success: true,
             Document: document,
             DeductedInventories: deductedInventories);

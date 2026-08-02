@@ -34,20 +34,20 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
             if (inventory is null)
             {
                 insufficient.Add(new IStockAvailabilityService.InsufficientStockError(
-                    id: Guid.Empty,
-                    productVariationId: variationId,
-                    requestedQuantity: requested,
-                    availableQuantity: 0));
+                    InventoryId: Guid.Empty,
+                    ProductVariationId: variationId,
+                    RequestedQuantity: requested,
+                    AvailableQuantity: 0));
                 continue;
             }
 
             if (inventory.AvailableQuantity < requested)
             {
                 insufficient.Add(new IStockAvailabilityService.InsufficientStockError(
-                    id: inventory.Id,
-                    productVariationId: variationId,
-                    requestedQuantity: requested,
-                    availableQuantity: inventory.AvailableQuantity));
+                    InventoryId: inventory.Id,
+                    ProductVariationId: variationId,
+                    RequestedQuantity: requested,
+                    AvailableQuantity: inventory.AvailableQuantity));
                 continue;
             }
 
@@ -64,7 +64,7 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
 /// <summary>Extension method to fetch multiple inventories by variation/warehouse in single query.</summary>
 file static class StockAvailabilityServiceExtensions
 {
-    private static async Task<IReadOnlyList<InventoryStock>> GetByVariationAndWarehouseAsync(
+    internal static async Task<IReadOnlyList<InventoryStock>> GetByVariationAndWarehouseAsync(
         this IInventoryReadService readService,
         IReadOnlyList<Guid> variationIds,
         Guid warehouseId,

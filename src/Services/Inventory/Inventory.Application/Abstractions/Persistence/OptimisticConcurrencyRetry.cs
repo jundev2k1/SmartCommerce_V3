@@ -1,4 +1,5 @@
 using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Domain.Exceptions;
 
 namespace Inventory.Application.Abstractions.Persistence;

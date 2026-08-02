@@ -11,7 +11,7 @@ public sealed class StockOutHandler(
 {
     public async Task<StockOutResponse> Handle(StockOutCommand request, CancellationToken ct = default)
     {
-        InventoryAdjustmentService.AdjustmentResult? result = null;
+        IInventoryAdjustmentService.AdjustmentResult? result = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {

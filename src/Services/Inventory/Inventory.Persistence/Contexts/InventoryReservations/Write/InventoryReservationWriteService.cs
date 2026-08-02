@@ -1,3 +1,4 @@
+using BuildingBlock.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryReservations;
 using Inventory.Persistence.Contexts.InventoryReservations.Repositories;
 using Inventory.Persistence.Engine;
@@ -24,17 +25,17 @@ public sealed class InventoryReservationWriteService(
             request.ExpiredAt,
             request.Reason);
 
-        await repo.AddAsync(entity, ct);
-        await unitOfWork.ExecuteTransactionAsync(ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await repo.AddAsync(entity, ct);
+        }, ct: ct);
     }
 
     public async Task DeleteByInventoryIdAsync(Guid inventoryId, CancellationToken ct = default)
     {
-        var reservations = await repo.GetByInventoryIdAsync(inventoryId, ct);
-        foreach (var reservation in reservations)
+        await unitOfWork.ExecuteTransactionAsync(async () =>
         {
-            repo.Remove(reservation);
-        }
-        await unitOfWork.ExecuteTransactionAsync(ct);
+            await repo.DeleteWithNoTrackingAsync(r => r.InventoryId == inventoryId, ct);
+        }, ct: ct);
     }
 }

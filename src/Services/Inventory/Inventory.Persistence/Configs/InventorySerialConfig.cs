@@ -1,3 +1,7 @@
+using Inventory.Domain.Metadata;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Inventory.Persistence.Configs;
 
 public sealed class InventorySerialConfig : IEntityTypeConfiguration<InventorySerial>

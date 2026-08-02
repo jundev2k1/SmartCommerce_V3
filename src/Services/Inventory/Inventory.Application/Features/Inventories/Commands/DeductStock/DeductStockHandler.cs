@@ -1,4 +1,5 @@
 using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Domain.Exceptions;
 
 using Inventory.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
@@ -33,8 +34,8 @@ public sealed class DeductStockHandler(
         var warehouse = await warehouseReadService.GetByCodeAsync(MainWarehouseCode, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Warehouse '{MainWarehouseCode}' is not configured.");
 
-        return await concurrencyRetry.ExecuteAsync(async () =>
-            await ProcessDeductionAsync(request, warehouse.Id, ct));
+        return await concurrencyRetry.ExecuteAsync(async (cancellationToken) =>
+            await ProcessDeductionAsync(request, warehouse.Id, cancellationToken), ct: ct);
     }
 
     private async Task<DeductStockResult> ProcessDeductionAsync(
@@ -52,7 +53,7 @@ public sealed class DeductStockHandler(
             await documentService.CreateAndCompleteAsync(
                 number: request.DeductionId.ToString(),
                 type: InventoryDocumentType.Issue,
-                reason: InventoryDocumentReason.StockOut,
+                reason: InventoryDocumentReason.Sale,
                 sourceWarehouseId: warehouseId,
                 destinationWarehouseId: null,
                 description: $"FAILED: {reasonText}",
@@ -86,7 +87,7 @@ public sealed class DeductStockHandler(
             var deduction = await deductionService.DeductAsync(
                 documentNumber: request.DeductionId.ToString(),
                 documentType: InventoryDocumentType.Issue,
-                documentReason: InventoryDocumentReason.StockOut,
+                documentReason: InventoryDocumentReason.Sale,
                 sourceWarehouseId: warehouseId,
                 items: deductionItems,
                 description: reasonText,

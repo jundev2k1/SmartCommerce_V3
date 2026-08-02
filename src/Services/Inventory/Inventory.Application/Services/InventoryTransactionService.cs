@@ -1,5 +1,6 @@
 using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 using Inventory.Application.Abstractions.Services;
+using Inventory.Application.Features.Inventories.DTOs;
 
 namespace Inventory.Application.Services;
 
@@ -26,14 +27,14 @@ public sealed class InventoryTransactionService(
         CancellationToken ct = default)
     {
         var dto = new CreateInventoryTransactionDto(
-            inventoryId: inventoryId,
-            productId: productId,
-            productVariantId: productVariantId,
-            warehouseId: warehouseId,
-            type: type,
-            quantity: quantity,
-            balanceAfter: balanceAfter,
-            reason: reason);
+            InventoryId: inventoryId,
+            ProductId: productId,
+            ProductVariantId: productVariantId,
+            WarehouseId: warehouseId,
+            Type: type,
+            Quantity: quantity,
+            QuantityAfter: balanceAfter,
+            Reason: reason);
 
         await writeService.StageAddAsync(dto, ct);
     }

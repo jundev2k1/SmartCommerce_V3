@@ -4,7 +4,7 @@ using BuildingBlock.Persistence.Repository;
 
 namespace Inventory.Persistence.Contexts.Warehouses.Repositories;
 
-public interface IWarehouseRepository : IRepository<Warehouse>
+public interface IWarehouseRepository : IRepository<Warehouse, Guid>
 {
     Task<Warehouse?> GetByCodeAsync(string code, CancellationToken ct = default);
 

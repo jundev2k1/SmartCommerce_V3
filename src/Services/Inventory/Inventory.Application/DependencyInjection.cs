@@ -35,11 +35,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
+        // TODO: Implement proper service registration
         // Auto-register all business services implementing IService marker interface
-        // Enables automatic discovery via Scrutor - no hardcoding needed
-        services.AddScopedByInterface(
-            typeof(DependencyInjection).Assembly,
-            type => type.GetInterfaces().Contains(typeof(IService)));
+        // services.AddScopedByInterface(
+        //     typeof(DependencyInjection).Assembly,
+        //     type => type.GetInterfaces().Contains(typeof(IService)));
 
         return services;
     }

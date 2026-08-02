@@ -1,5 +1,7 @@
 using BuildingBlock.Persistence.Ef.Configurations;
 using Inventory.Domain.Entities.Inventories;
+using Inventory.Domain.Metadata;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Inventory.Persistence.Configs;
@@ -17,9 +19,6 @@ public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryStock>
             .IsRequired();
 
         builder.Property(x => x.WarehouseId)
-            .IsRequired();
-
-        builder.Property(x => x.Available)
             .IsRequired();
 
         builder.HasIndex(x => new { x.VariantId, x.WarehouseId })

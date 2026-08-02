@@ -1,3 +1,4 @@
+using BuildingBlock.Domain.Exceptions;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.InventoryLots;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
@@ -17,26 +18,14 @@ public sealed class ReceivingService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : IReceivingService
 {
-    public sealed record ReceivingItem(
-        Guid ProductVariantId,
-        Guid WarehouseId,
-        int Quantity,
-        string? LotNumber = null,
-        DateTime? ManufactureDate = null,
-        DateTime? ExpiryDate = null);
-
-    public sealed record ReceivingResult(
-        InventoryDocument Document,
-        IReadOnlyList<InventoryStock> ReceivedInventories,
-        IReadOnlyList<InventoryLot> CreatedLots);
 
     /// <summary>
     /// Receives multiple items into a warehouse, optionally creating lot records for lot-tracked items.
     /// </summary>
-    public async Task<ReceivingResult> ReceiveAsync(
+    public async Task<IReceivingService.ReceivingResult> ReceiveAsync(
         string purchaseOrderNumber,
         Guid warehouseId,
-        IReadOnlyList<ReceivingItem> items,
+        IReadOnlyList<IReceivingService.ReceivingItem> items,
         string description,
         CancellationToken ct = default)
     {
@@ -75,15 +64,14 @@ public sealed class ReceivingService(
             // Create lot record if lot number provided (for lot-tracked items)
             if (!string.IsNullOrWhiteSpace(item.LotNumber))
             {
-                var lot = InventoryLot.Create(
-                    inventoryId: inventory.Id,
-                    lotNumber: item.LotNumber,
-                    quantity: item.Quantity,
-                    manufactureDate: item.ManufactureDate,
-                    expiredDate: item.ExpiryDate);
+                var lotRequest = new CreateInventoryLotRequest(
+                    InventoryId: inventory.Id,
+                    LotNumber: item.LotNumber,
+                    ManufactureDate: item.ManufactureDate ?? DateTime.UtcNow,
+                    ExpiredDate: item.ExpiryDate ?? DateTime.UtcNow.AddYears(1),
+                    Quantity: item.Quantity);
 
-                await lotWriteService.AddAsync(lot, ct);
-                createdLots.Add(lot);
+                await lotWriteService.AddAsync(lotRequest, ct);
             }
 
             transactions.Add((
@@ -91,7 +79,7 @@ public sealed class ReceivingService(
                 receivedInventory.ProductId,
                 receivedInventory.VariantId,
                 receivedInventory.WarehouseId,
-                InventoryTransactionType.StockIn,
+                InventoryTransactionType.Receipt,
                 item.Quantity,
                 receivedInventory.AvailableQuantity,
                 $"Received from PO {purchaseOrderNumber}: {description}"));
@@ -121,6 +109,6 @@ public sealed class ReceivingService(
         // Record all transactions
         await transactionService.RecordBatchAsync(transactions, ct);
 
-        return new ReceivingResult(document, receivedInventories, createdLots);
+        return new IReceivingService.ReceivingResult(document, receivedInventories, createdLots);
     }
 }

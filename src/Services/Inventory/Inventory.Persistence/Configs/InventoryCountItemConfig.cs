@@ -1,3 +1,7 @@
+using Inventory.Domain.Metadata;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Inventory.Persistence.Configs;
 
 public sealed class InventoryCountItemConfig : IEntityTypeConfiguration<InventoryCountItem>
@@ -23,7 +27,7 @@ public sealed class InventoryCountItemConfig : IEntityTypeConfiguration<Inventor
 
         builder.Property(x => x.ActualQuantity)
             .HasConversion(
-                x => x!.Value,
+                x => x != null ? x.Value : (int?)null,
                 x => x.HasValue ? Quantity.Create(x.Value) : null)
             .IsRequired(false);
 

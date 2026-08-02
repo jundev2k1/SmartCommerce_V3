@@ -1,14 +1,15 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Infrastructure.Authorization;
 using BuildingBlock.SharedKernel.Extensions;
-
 using Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
+using Inventory.Domain.Enums;
 
 namespace Inventory.API.Endpoints.Warehouse;
 
 public sealed record CreateWarehouseRequest(
     string Code,
     string Name,
+    WarehouseType Type,
     string Address);
 
 public sealed class CreateWarehouseEndpoint : ICarterModule
@@ -47,6 +48,7 @@ public sealed class CreateWarehouseEndpoint : ICarterModule
         var command = new CreateWarehouseCommand(
             request.Code.Trim(),
             request.Name.Trim(),
+            request.Type,
             request.Address.Trim());
 
         var response = await sender.Send(command, ct);

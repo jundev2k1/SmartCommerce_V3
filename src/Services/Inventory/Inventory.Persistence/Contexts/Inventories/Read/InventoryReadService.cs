@@ -15,7 +15,7 @@ public sealed class InventoryReadService(IInventoryRepository inventoryRepo) : I
         if (ids.Count == 0)
             return [];
 
-        return await inventoryRepo.GetAsync(i => ids.Contains(i.Id), ct);
+        return await inventoryRepo.GetManyByIdsAsync(ids, ct);
     }
 
     public async Task<PaginatedResult<InventoryStock>> SearchAsync(CriteriaRequest request, CancellationToken ct = default)

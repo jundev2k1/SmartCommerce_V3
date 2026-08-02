@@ -1,3 +1,4 @@
+using BuildingBlock.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 using Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
 using Inventory.Persistence.Engine;
@@ -18,7 +19,9 @@ public sealed class InventoryDocumentWriteService(
             request.DestinationWarehouseId,
             request.Description);
 
-        await repo.AddAsync(entity, ct);
-        await unitOfWork.ExecuteTransactionAsync(ct);
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await repo.AddAsync(entity, ct);
+        }, ct: ct);
     }
 }

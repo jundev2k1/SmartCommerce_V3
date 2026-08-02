@@ -11,12 +11,12 @@ public sealed class ReceiveInventoryHandler(
 {
     public async Task<ReceiveInventoryResponse> Handle(ReceiveInventoryCommand request, CancellationToken ct = default)
     {
-        ReceivingService.ReceivingResult? result = null;
+        IReceivingService.ReceivingResult? result = null;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var items = request.Items
-                .Select(i => new ReceivingService.ReceivingItem(
+                .Select(i => new IReceivingService.ReceivingItem(
                     ProductVariantId: i.ProductVariantId,
                     WarehouseId: request.WarehouseId,
                     Quantity: i.Quantity,

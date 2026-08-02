@@ -28,7 +28,14 @@ public sealed class InventoryDocumentService(
             description: description);
 
         CompleteWorkflow(document);
-        await writeService.AddAsync(document, ct);
+        var request = new CreateInventoryDocumentRequest(
+            Number: document.Number,
+            Type: document.Type,
+            Reason: document.Reason,
+            SourceWarehouseId: document.SourceWarehouseId,
+            DestinationWarehouseId: document.DestinationWarehouseId,
+            Description: document.Description);
+        await writeService.AddAsync(request, ct);
 
         return document;
     }
@@ -52,7 +59,14 @@ public sealed class InventoryDocumentService(
             description: description);
 
         CompleteWorkflow(document);
-        await writeService.AddAsync(document, ct);
+        var request = new CreateInventoryDocumentRequest(
+            Number: document.Number,
+            Type: document.Type,
+            Reason: document.Reason,
+            SourceWarehouseId: document.SourceWarehouseId,
+            DestinationWarehouseId: document.DestinationWarehouseId,
+            Description: document.Description);
+        await writeService.AddAsync(request, ct);
 
         return document;
     }
@@ -89,7 +103,14 @@ public sealed class InventoryDocumentService(
     /// <summary>Saves a document to persistence.</summary>
     public async Task SaveAsync(InventoryDocument document, CancellationToken ct = default)
     {
-        await writeService.AddAsync(document, ct);
+        var request = new CreateInventoryDocumentRequest(
+            Number: document.Number,
+            Type: document.Type,
+            Reason: document.Reason,
+            SourceWarehouseId: document.SourceWarehouseId,
+            DestinationWarehouseId: document.DestinationWarehouseId,
+            Description: document.Description);
+        await writeService.AddAsync(request, ct);
     }
 
     /// <summary>Retrieves an existing document by number (useful for idempotency checks).</summary>

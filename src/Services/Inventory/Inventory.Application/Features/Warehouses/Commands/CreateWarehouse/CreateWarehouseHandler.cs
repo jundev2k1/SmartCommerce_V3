@@ -18,6 +18,7 @@ public sealed class CreateWarehouseHandler(
             new CreateWarehouseRequest(
                 request.Code.Trim(),
                 request.Name.Trim(),
+                request.Type,
                 request.Address.Trim()),
             ct);
 

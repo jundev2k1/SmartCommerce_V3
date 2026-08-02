@@ -2,6 +2,7 @@ using Inventory.Application.Abstractions.Persistence.InventoryCounts;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Application.Abstractions.Services;
+using BuildingBlock.Domain.Exceptions;
 
 namespace Inventory.Application.Services;
 
@@ -18,29 +19,10 @@ public sealed class CycleCountService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : ICycleCountService
 {
-    public sealed record CountItem(
-        Guid ProductVariantId,
-        int ActualQuantity);
-
-    public sealed record CountVariance(
-        Guid InventoryId,
-        Guid ProductVariantId,
-        int ExpectedQuantity,
-        int ActualQuantity,
-        int Variance,
-        decimal VariancePercent);
-
-    public sealed record CycleCountResult(
-        InventoryCount CountDocument,
-        IReadOnlyList<CountVariance> Variances,
-        IReadOnlyList<InventoryDocument> AdjustmentDocuments,
-        int ItemsWithVariance,
-        int ItemsAdjusted);
-
-    /// <summary>
-    /// Creates a new cycle count document for a warehouse.
-    /// </summary>
-    public async Task<InventoryCount> StartCountAsync(
+  /// <summary>
+  /// Creates a new cycle count document for a warehouse.
+  /// </summary>
+  public async Task<InventoryCount> StartCountAsync(
         Guid warehouseId,
         string countDate,
         string description,
@@ -64,23 +46,16 @@ public sealed class CycleCountService(
     /// <summary>
     /// Completes a cycle count, calculates variances, and auto-adjusts stock for discrepancies.
     /// </summary>
-    public async Task<CycleCountResult> CompleteCountAsync(
+    public async Task<ICycleCountService.CycleCountResult> CompleteCountAsync(
         Guid countId,
-        IReadOnlyList<CountItem> countedItems,
+        IReadOnlyList<ICycleCountService.CountItem> countedItems,
         decimal varianceThresholdPercent = 5m,
         CancellationToken ct = default)
     {
         var count = await countReadService.GetByIdAsync(countId, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Cycle count {countId} not found.");
 
-        // Get all current inventory in warehouse
-        var inventories = await inventoryReadService.GetByIdAsync(countId, ct);
-        if (inventories is null)
-        {
-            throw ExceptionFactory.EntityNotFound($"Inventory {countId} not found.");
-        }
-
-        var variances = new List<CountVariance>();
+        var variances = new List<ICycleCountService.CountVariance>();
         var adjustmentDocuments = new List<InventoryDocument>();
         var transactions = new List<(
             Guid InventoryId,
@@ -108,7 +83,7 @@ public sealed class CycleCountService(
                 ? Math.Abs(variance) / (decimal)expected * 100m
                 : 0m;
 
-            variances.Add(new CountVariance(
+            variances.Add(new ICycleCountService.CountVariance(
                 InventoryId: inventory.Id,
                 ProductVariantId: countedItem.ProductVariantId,
                 ExpectedQuantity: expected,
@@ -162,7 +137,7 @@ public sealed class CycleCountService(
         count.Complete();
         await countWriteService.AddAsync(count, ct);
 
-        return new CycleCountResult(
+        return new ICycleCountService.CycleCountResult(
             CountDocument: count,
             Variances: variances,
             AdjustmentDocuments: adjustmentDocuments,
@@ -173,7 +148,7 @@ public sealed class CycleCountService(
     private static string GenerateCountNumber()
     {
         var timestamp = DateTime.UtcNow.ToString("yyyyMMdd");
-        var random = new Random().Next(1000, 9999);
+        var random = Random.Shared.Next(1000, 9999);
         return $"CNT-{timestamp}-{random}";
     }
 }

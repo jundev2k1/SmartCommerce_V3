@@ -1,6 +1,10 @@
 namespace Inventory.Application.Abstractions.Persistence.Warehouses;
 
-public sealed record CreateWarehouseRequest(string Code, string Name, string Address);
+public sealed record CreateWarehouseRequest(
+    string Code,
+    string Name,
+    WarehouseType Type,
+    string Address);
 
 public interface IWarehouseWriteService
 {

@@ -2,6 +2,7 @@ using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Criteria.Requests;
 using BuildingBlock.Persistence.Ef.Criteria;
 using Inventory.Application.Features.Inventories.Search;
+using Inventory.Application.Features.InventorySerials.Search;
 using Inventory.Persistence.Engine;
 
 namespace Inventory.Persistence.Contexts.InventorySerials.Repositories;
