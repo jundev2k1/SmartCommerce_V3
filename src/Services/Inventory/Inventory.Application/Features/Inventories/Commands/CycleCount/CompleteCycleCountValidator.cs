@@ -2,33 +2,6 @@ using FluentValidation;
 
 namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
 
-public sealed class StartCycleCountValidator : AbstractValidator<StartCycleCountCommand>
-{
-    public StartCycleCountValidator()
-    {
-        RuleFor(x => x.WarehouseId)
-            .NotEmpty()
-            .WithMessage("Warehouse ID is required.");
-
-        RuleFor(x => x.CountDate)
-            .NotEmpty()
-            .WithMessage("Count date is required.");
-
-        RuleFor(x => x.CountDate)
-            .Must(BeValidDate)
-            .WithMessage("Count date must be a valid date.");
-
-        RuleFor(x => x.Description)
-            .MaximumLength(500)
-            .WithMessage("Description must not exceed 500 characters.");
-    }
-
-    private static bool BeValidDate(string date)
-    {
-        return DateTime.TryParse(date, out _);
-    }
-}
-
 public sealed class CompleteCycleCountValidator : AbstractValidator<CompleteCycleCountCommand>
 {
     public CompleteCycleCountValidator()
@@ -42,7 +15,7 @@ public sealed class CompleteCycleCountValidator : AbstractValidator<CompleteCycl
             .WithMessage("At least one item must be counted.");
 
         RuleForEach(x => x.CountedItems)
-            .SetValidator(new CountItemValidator());
+            .SetValidator(new CycleCountItemValidator());
 
         RuleFor(x => x.VarianceThresholdPercent)
             .GreaterThan(0)
@@ -54,9 +27,9 @@ public sealed class CompleteCycleCountValidator : AbstractValidator<CompleteCycl
     }
 }
 
-public sealed class CountItemValidator : AbstractValidator<CycleCountItemRequest>
+public sealed class CycleCountItemValidator : AbstractValidator<CycleCountItemRequest>
 {
-    public CountItemValidator()
+    public CycleCountItemValidator()
     {
         RuleFor(x => x.ProductVariantId)
             .NotEmpty()

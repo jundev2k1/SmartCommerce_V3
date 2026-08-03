@@ -10,7 +10,7 @@ public sealed record CompleteCycleCountCommand(
     decimal VarianceThresholdPercent = 5m) : ICommand<CompleteCycleCountResponse>;
 
 public sealed record VarianceItem(
-    string ProductVariantId,
+    Guid ProductVariantId,
     int ExpectedQuantity,
     int ActualQuantity,
     int Variance,

@@ -1,8 +1,11 @@
+using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Application.Exceptions;
+using BuildingBlock.Domain.Exceptions;
+
 using Inventory.Application.Abstractions.Persistence.InventoryCounts;
 using Inventory.Application.Abstractions.Persistence.Inventories;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Application.Abstractions.Services;
-using BuildingBlock.Domain.Exceptions;
 
 namespace Inventory.Application.Services;
 
@@ -17,25 +20,25 @@ public sealed class CycleCountService(
     IInventoryCountWriteService countWriteService,
     IWarehouseReadService warehouseReadService,
     IInventoryDocumentService documentService,
-    IInventoryTransactionService transactionService) : ICycleCountService
+    IInventoryTransactionService transactionService,
+    ICurrentUserService currentUser) : ICycleCountService
 {
-  /// <summary>
-  /// Creates a new cycle count document for a warehouse.
-  /// </summary>
-  public async Task<InventoryCount> StartCountAsync(
+    /// <summary>
+    /// Creates a new cycle count document for a warehouse.
+    /// </summary>
+    public async Task<InventoryCount> StartCountAsync(
         Guid warehouseId,
-        string countDate,
+        DateTime countDate,
         string description,
         CancellationToken ct = default)
     {
-        var warehouse = await warehouseReadService.GetByIdAsync(warehouseId, ct)
+        _ = await warehouseReadService.GetByIdAsync(warehouseId, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Warehouse {warehouseId} not found.");
 
-        var countNumber = GenerateCountNumber();
         var count = InventoryCount.Create(
-            number: countNumber,
+            number: GenerateCountNumber(),
             warehouseId: warehouseId,
-            countDate: DateTime.Parse(countDate),
+            countDate: countDate,
             description: description);
 
         await countWriteService.AddAsync(count, ct);
@@ -52,6 +55,8 @@ public sealed class CycleCountService(
         decimal varianceThresholdPercent = 5m,
         CancellationToken ct = default)
     {
+        var approvedBy = currentUser.GetUserId() ?? throw new ForbiddenException();
+
         var count = await countReadService.GetByIdAsync(countId, ct)
             ?? throw ExceptionFactory.EntityNotFound($"Cycle count {countId} not found.");
 
@@ -133,9 +138,26 @@ public sealed class CycleCountService(
             await transactionService.RecordBatchAsync(transactions, ct);
         }
 
-        // Mark count as completed
-        count.Complete();
-        await countWriteService.AddAsync(count, ct);
+        // Drive the count through its full workflow (Draft -> Counting -> PendingApproval ->
+        // Approved -> Completed) in one update - this command is the single point where physical
+        // counts are known, so it owns every transition rather than exposing each as its own API.
+        await countWriteService.UpdateAsync(count.Id, c =>
+        {
+            foreach (var variance in variances)
+                c.AddItem(variance.InventoryId, variance.ProductVariantId, variance.ExpectedQuantity);
+
+            c.StartCounting();
+
+            foreach (var item in c.Items)
+            {
+                var actual = variances.First(v => v.InventoryId == item.InventoryId).ActualQuantity;
+                c.RecordCount(item.Id, actual);
+            }
+
+            c.SubmitForApproval();
+            c.Approve(approvedBy);
+            c.Complete();
+        }, ct);
 
         return new ICycleCountService.CycleCountResult(
             CountDocument: count,

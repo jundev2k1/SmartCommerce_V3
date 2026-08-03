@@ -16,7 +16,6 @@ public sealed class TransferService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : ITransferService
 {
-
     /// <summary>
     /// Transfers multiple items from source warehouse to destination warehouse.
     /// Creates both Issue (source) and Receipt (destination) documents atomically.
@@ -122,7 +121,7 @@ public sealed class TransferService(
         }
 
         // Create transfer documents
-        var transferId = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpperInvariant();
+        var transferId = Guid.NewGuid().ToString("N")[..12].ToUpperInvariant();
 
         var sourceDocument = await documentService.CreateAndCompleteAsync(
             number: $"TRX-OUT-{transferId}",

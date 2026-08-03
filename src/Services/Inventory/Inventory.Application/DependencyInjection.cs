@@ -2,6 +2,7 @@ using BuildingBlock.Application;
 using FluentValidation;
 
 using Inventory.Application.Abstractions.Persistence;
+using Inventory.Application.Abstractions.Services;
 using Inventory.Application.Services;
 
 using Mapster;
@@ -35,11 +36,14 @@ public static class DependencyInjection
 
     private static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
-        // TODO: Implement proper service registration
-        // Auto-register all business services implementing IService marker interface
-        // services.AddScopedByInterface(
-        //     typeof(DependencyInjection).Assembly,
-        //     type => type.GetInterfaces().Contains(typeof(IService)));
+        services.AddScoped<IInventoryAdjustmentService, InventoryAdjustmentService>();
+        services.AddScoped<IReceivingService, ReceivingService>();
+        services.AddScoped<ITransferService, TransferService>();
+        services.AddScoped<ICycleCountService, CycleCountService>();
+        services.AddScoped<IInventoryDocumentService, InventoryDocumentService>();
+        services.AddScoped<IStockDeductionService, StockDeductionService>();
+        services.AddScoped<IInventoryTransactionService, InventoryTransactionService>();
+        services.AddScoped<IStockAvailabilityService, StockAvailabilityService>();
 
         return services;
     }

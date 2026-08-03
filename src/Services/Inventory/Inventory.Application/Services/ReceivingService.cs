@@ -18,7 +18,6 @@ public sealed class ReceivingService(
     IInventoryDocumentService documentService,
     IInventoryTransactionService transactionService) : IReceivingService
 {
-
     /// <summary>
     /// Receives multiple items into a warehouse, optionally creating lot records for lot-tracked items.
     /// </summary>

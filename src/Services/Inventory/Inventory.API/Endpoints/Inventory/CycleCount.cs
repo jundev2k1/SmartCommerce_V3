@@ -8,8 +8,8 @@ namespace Inventory.API.Endpoints.Inventory;
 
 // Start Cycle Count Endpoint
 public sealed record StartCycleCountRequest(
-    string WarehouseId,
-    string CountDate,
+    Guid WarehouseId,
+    DateTime CountDate,
     string Description);
 
 public sealed class StartCycleCountEndpoint : ICarterModule
@@ -48,7 +48,7 @@ public sealed class StartCycleCountEndpoint : ICarterModule
         CancellationToken ct = default)
     {
         var command = new StartCycleCountCommand(
-            WarehouseId: Guid.Parse(request.WarehouseId),
+            WarehouseId: request.WarehouseId,
             CountDate: request.CountDate,
             Description: request.Description.Trim());
 
@@ -60,11 +60,11 @@ public sealed class StartCycleCountEndpoint : ICarterModule
 
 // Complete Cycle Count Endpoint
 public sealed record CountedItemRequest(
-    string ProductVariantId,
+    Guid ProductVariantId,
     int ActualQuantity);
 
 public sealed record CompleteCycleCountRequest(
-    string CountId,
+    Guid CountId,
     IReadOnlyList<CountedItemRequest> CountedItems,
     decimal VarianceThresholdPercent = 5m);
 
@@ -109,12 +109,12 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
     {
         var items = request.CountedItems
             .Select(i => new CycleCountItemRequest(
-                ProductVariantId: Guid.Parse(i.ProductVariantId),
+                ProductVariantId: i.ProductVariantId,
                 ActualQuantity: i.ActualQuantity))
             .ToList();
 
         var command = new CompleteCycleCountCommand(
-            CountId: Guid.Parse(request.CountId),
+            CountId: request.CountId,
             CountedItems: items,
             VarianceThresholdPercent: request.VarianceThresholdPercent);
 

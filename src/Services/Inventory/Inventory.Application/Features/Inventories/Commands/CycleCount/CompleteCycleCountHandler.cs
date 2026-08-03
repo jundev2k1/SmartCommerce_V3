@@ -42,7 +42,7 @@ public sealed class CompleteCycleCountHandler(
             TotalVarianceValue: totalVariance,
             Variances: result.Variances
                 .Select(v => new VarianceItem(
-                    ProductVariantId: v.ProductVariantId.ToString(),
+                    ProductVariantId: v.ProductVariantId,
                     ExpectedQuantity: v.ExpectedQuantity,
                     ActualQuantity: v.ActualQuantity,
                     Variance: v.Variance,

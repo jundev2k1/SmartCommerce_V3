@@ -10,7 +10,7 @@ public interface ICycleCountService : IService
 {
     Task<InventoryCount> StartCountAsync(
         Guid warehouseId,
-        string countDate,
+        DateTime countDate,
         string description,
         CancellationToken ct = default);
 

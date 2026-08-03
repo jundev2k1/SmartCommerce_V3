@@ -1,29 +1,24 @@
-using BuildingBlock.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventorySerials;
 using Inventory.Persistence.Contexts.InventorySerials.Repositories;
-using Inventory.Persistence.Engine;
 
 namespace Inventory.Persistence.Contexts.InventorySerials.Write;
 
+/// <summary>
+/// Never calls IUnitOfWork itself - always invoked from within a caller-owned
+/// ExecuteTransactionAsync, which performs the single SaveChanges.
+/// </summary>
 public sealed class InventorySerialWriteService(
-    IInventorySerialRepository repo,
-    IUnitOfWork unitOfWork) : IInventorySerialWriteService
+    IInventorySerialRepository repo) : IInventorySerialWriteService
 {
     public async Task AddAsync(CreateInventorySerialRequest request, CancellationToken ct = default)
     {
         var entity = InventorySerial.Create(request.InventoryId, request.SerialNumber);
 
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.AddAsync(entity, ct);
-        }, ct: ct);
+        await repo.AddAsync(entity, ct);
     }
 
     public async Task DeleteByInventoryIdAsync(Guid inventoryId, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.DeleteWithNoTrackingAsync(s => s.InventoryId == inventoryId, ct);
-        }, ct: ct);
+        await repo.DeleteWithNoTrackingAsync(s => s.InventoryId == inventoryId, ct);
     }
 }

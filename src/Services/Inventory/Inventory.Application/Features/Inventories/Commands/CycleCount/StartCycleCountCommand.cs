@@ -2,7 +2,7 @@ namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
 
 public sealed record StartCycleCountCommand(
     Guid WarehouseId,
-    string CountDate,
+    DateTime CountDate,
     string Description) : ICommand<StartCycleCountResponse>;
 
 public sealed record StartCycleCountResponse(

@@ -1,13 +1,14 @@
-using BuildingBlock.Application.Abstractions.Persistence;
 using Inventory.Application.Abstractions.Persistence.InventoryReservations;
 using Inventory.Persistence.Contexts.InventoryReservations.Repositories;
-using Inventory.Persistence.Engine;
 
 namespace Inventory.Persistence.Contexts.InventoryReservations.Write;
 
+/// <summary>
+/// Never calls IUnitOfWork itself - always invoked from within a caller-owned
+/// ExecuteTransactionAsync, which performs the single SaveChanges.
+/// </summary>
 public sealed class InventoryReservationWriteService(
-    IInventoryReservationRepository repo,
-    IUnitOfWork unitOfWork) : IInventoryReservationWriteService
+    IInventoryReservationRepository repo) : IInventoryReservationWriteService
 {
     public async Task AddAsync(CreateInventoryReservationRequest request, CancellationToken ct = default)
     {
@@ -25,17 +26,11 @@ public sealed class InventoryReservationWriteService(
             request.ExpiredAt,
             request.Reason);
 
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.AddAsync(entity, ct);
-        }, ct: ct);
+        await repo.AddAsync(entity, ct);
     }
 
     public async Task DeleteByInventoryIdAsync(Guid inventoryId, CancellationToken ct = default)
     {
-        await unitOfWork.ExecuteTransactionAsync(async () =>
-        {
-            await repo.DeleteWithNoTrackingAsync(r => r.InventoryId == inventoryId, ct);
-        }, ct: ct);
+        await repo.DeleteWithNoTrackingAsync(r => r.InventoryId == inventoryId, ct);
     }
 }

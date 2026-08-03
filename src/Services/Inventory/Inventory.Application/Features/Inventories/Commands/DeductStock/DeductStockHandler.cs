@@ -2,7 +2,6 @@ using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Domain.Exceptions;
 
 using Inventory.Application.Abstractions.Persistence;
-using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 using Inventory.Application.Abstractions.Persistence.Warehouses;
 using Inventory.Application.Abstractions.Services;
 
@@ -50,24 +49,26 @@ public sealed class DeductStockHandler(
 
         if (!validation.Success)
         {
-            await documentService.CreateAndCompleteAsync(
-                number: request.DeductionId.ToString(),
-                type: InventoryDocumentType.Issue,
-                reason: InventoryDocumentReason.Sale,
-                sourceWarehouseId: warehouseId,
-                destinationWarehouseId: null,
-                description: $"FAILED: {reasonText}",
-                ct: ct);
+            await unitOfWork.ExecuteTransactionAsync(async () =>
+            {
+                await documentService.CreateAndCompleteAsync(
+                    number: request.DeductionId.ToString(),
+                    type: InventoryDocumentType.Issue,
+                    reason: InventoryDocumentReason.Sale,
+                    sourceWarehouseId: warehouseId,
+                    destinationWarehouseId: null,
+                    description: $"FAILED: {reasonText}",
+                    ct: ct);
+            }, ct: ct);
 
             return new DeductStockResult(
                 false,
                 "InsufficientStock",
-                validation.InsufficientItems
+                [.. validation.InsufficientItems
                     .Select(i => new InsufficientStockItem(
                         i.ProductVariationId,
                         i.RequestedQuantity,
-                        i.AvailableQuantity))
-                    .ToList());
+                        i.AvailableQuantity))]);
         }
 
         DeductStockResult result = null!;
@@ -84,7 +85,7 @@ public sealed class DeductStockHandler(
                     pair.First.Quantity))
                 .ToList();
 
-            var deduction = await deductionService.DeductAsync(
+            await deductionService.DeductAsync(
                 documentNumber: request.DeductionId.ToString(),
                 documentType: InventoryDocumentType.Issue,
                 documentReason: InventoryDocumentReason.Sale,
