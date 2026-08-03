@@ -15,7 +15,7 @@ public sealed class CurrentLocaleService(IHttpContextAccessor httpContextAccesso
         if (httpContext is null)
             return DefaultLocale;
 
-        if (!httpContext.Request.Headers.TryGetValue(HeaderKeys.Locale, out var headerValue))
+        if (!httpContext.Request.Headers.TryGetValue(HeaderKeyConstant.Locale, out var headerValue))
             return DefaultLocale;
 
         var raw = headerValue.ToString();

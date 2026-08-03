@@ -28,7 +28,7 @@ public sealed class DeleteOrderEndpoint : ICarterModule
     {
         app.MapDelete("/orders/{orderId}", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("DeleteOrder")
             .WithDisplayName("Delete Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

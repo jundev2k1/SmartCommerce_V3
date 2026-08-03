@@ -35,7 +35,7 @@ public sealed class RegisterHandler(
 
                 var roleAssigned = await authService.AssignRoleAsync(
                     account.Id,
-                    AppRole.User,
+                    AppRoleConstant.User,
                     ct);
                 if (!roleAssigned)
 

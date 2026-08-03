@@ -12,7 +12,7 @@ public sealed class ListGroups : ICarterModule
     {
         app.MapGet("/notification-groups", ListAsync)
             .WithTags("NotificationGroup")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationGroups")
             .WithDisplayName("List Notification Groups API")
             .Produces<ApiResponse<PaginatedResult<NotificationGroupSummaryResponse>>>(StatusCodes.Status200OK);

@@ -12,7 +12,7 @@ public sealed class CreateGroup : ICarterModule
     {
         app.MapPost("/notification-groups", CreateAsync)
             .WithTags("NotificationGroup")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateNotificationGroup")
             .WithDisplayName("Create Notification Group API")
             .WithDescription("Creates a target audience (role, specific users, segment, ...) that campaigns broadcast to.")

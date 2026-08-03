@@ -17,7 +17,7 @@ public sealed class ListChannels : ICarterModule
     {
         app.MapGet("/notification-channels", ListAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationChannels")
             .WithDisplayName("List Notification Channels API")
             .Produces<ApiResponse<IReadOnlyList<NotificationChannelSummaryResponse>>>(StatusCodes.Status200OK);

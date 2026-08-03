@@ -50,7 +50,7 @@ public sealed class CreateWarehouseEndpoint : ICarterModule
     {
         app.MapPost("/warehouses", Handle)
             .WithTags("Warehouse")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateWarehouse")
             .WithDisplayName("Create Warehouse API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -40,9 +40,9 @@ public sealed class UpdateOrderOwnerInfoEndpoint : ICarterModule
     {
         app.MapPatch("/orders/{orderId}/owner-info", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .Headers([
-                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures a retried update is applied only once")
+                new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures a retried update is applied only once")
             ])
             .RequireIdempotency()
             .WithName("UpdateOrderOwnerInfo")

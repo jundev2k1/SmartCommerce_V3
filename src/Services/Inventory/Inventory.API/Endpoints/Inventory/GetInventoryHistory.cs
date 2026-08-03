@@ -26,7 +26,7 @@ public sealed class GetInventoryHistoryEndpoint : ICarterModule
     {
         app.MapGet("/inventories/{inventoryId}/history", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetInventoryHistory")
             .WithDisplayName("Get Inventory History API")
             .WithDescription(API_DESC.JoinToString("\n"))

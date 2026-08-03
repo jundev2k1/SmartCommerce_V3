@@ -32,7 +32,7 @@ public sealed class StockInEndpoint : ICarterModule
     {
         app.MapPost("/inventories/{inventoryId}/stock-in", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("StockIn")
             .WithDisplayName("Stock In API")
             .WithDescription(API_DESC.JoinToString("\n"))

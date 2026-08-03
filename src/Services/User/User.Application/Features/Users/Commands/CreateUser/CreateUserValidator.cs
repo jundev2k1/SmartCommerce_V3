@@ -35,7 +35,7 @@ public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(x => x.Roles)
             .NotEmpty().WithMessage("Roles is required")
-            .Must(x => x.All(AppRole.SupportedRoles.Contains)).WithMessage("One or more roles is not supported.");
+            .Must(x => x.All(AppRoleConstant.SupportedRoles.Contains)).WithMessage("One or more roles is not supported.");
 
         RuleFor(x => x.TempPassword)
             .MinimumLength(6).WithMessage("TempPassword must be at least 6 characters")

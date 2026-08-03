@@ -12,7 +12,7 @@ public sealed class ListDispatches : ICarterModule
     {
         app.MapGet("/notification-dispatches", ListAsync)
             .WithTags("NotificationDispatch")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationDispatches")
             .WithDisplayName("List Notification Dispatches API")
             .Produces<ApiResponse<PaginatedResult<NotificationDispatchSummaryResponse>>>(StatusCodes.Status200OK);

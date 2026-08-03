@@ -63,7 +63,7 @@ public sealed class AdminCreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/admin", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("AdminCreateOrder")
             .WithDisplayName("Admin Create Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

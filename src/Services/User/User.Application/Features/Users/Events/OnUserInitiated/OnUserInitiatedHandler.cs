@@ -23,7 +23,7 @@ public sealed class OnUserInitiatedHandler(
                 @event.FirstName,
                 @event.MiddleName,
                 @event.LastName,
-                [AppRole.User]),
+                [AppRoleConstant.User]),
             ct);
 
         // Search sync trigger - dispatched inline rather than via Outbox/Kafka self-consumption,

@@ -12,7 +12,7 @@ public sealed class GetTemplate : ICarterModule
     {
         app.MapGet("/notification-templates/{templateId}", GetAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationTemplate")
             .WithDisplayName("Get Notification Template API")
             .Produces<ApiResponse<GetNotificationTemplateResponse>>(StatusCodes.Status200OK);

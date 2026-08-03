@@ -13,7 +13,7 @@ public sealed class GetDispatch : ICarterModule
     {
         app.MapGet("/notification-dispatches/{dispatchId}", GetAsync)
             .WithTags("NotificationDispatch")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationDispatch")
             .WithDisplayName("Get Notification Dispatch API")
             .Produces<ApiResponse<GetNotificationDispatchResponse>>(StatusCodes.Status200OK);

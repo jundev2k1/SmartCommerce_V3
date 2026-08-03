@@ -26,7 +26,7 @@ public sealed class GetOrderEndpoint : ICarterModule
     {
         app.MapGet("/orders/{orderId}", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetOrder")
             .WithDisplayName("Get Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

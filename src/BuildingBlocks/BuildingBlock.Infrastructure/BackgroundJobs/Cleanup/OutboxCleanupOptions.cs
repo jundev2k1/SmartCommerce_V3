@@ -9,7 +9,7 @@ public sealed class OutboxCleanupOptions : IJobOptions
 
     public string JobId { get; set; } = "outbox-cleanup";
     public string CronExpression { get; set; } = "0 3 * * *";
-    public string Queue { get; set; } = JobQueue.DEFAULT;
+    public string Queue { get; set; } = JobQueueConstant.DEFAULT;
     public bool IsInit { get; set; }
 
     /// <summary>Whether the job actually deletes anything when it runs. Off = no-op, cron stays registered.</summary>

@@ -24,7 +24,7 @@ public sealed class RemoveCartItemEndpoint : ICarterModule
     {
         app.MapDelete("/cart/items/{variationId}", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("RemoveCartItem")
             .WithDisplayName("Remove Cart Item API")
             .WithDescription(API_DESC.JoinToString("\n"))

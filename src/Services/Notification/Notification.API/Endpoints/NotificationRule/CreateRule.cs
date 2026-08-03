@@ -12,7 +12,7 @@ public sealed class CreateRule : ICarterModule
     {
         app.MapPost("/notification-rules", CreateAsync)
             .WithTags("NotificationRule")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateNotificationRule")
             .WithDisplayName("Create Notification Rule API")
             .WithDescription("Defines what notification actions to create when a given business event occurs (e.g. OrderCreated -> User Notification + Email + Telegram).")

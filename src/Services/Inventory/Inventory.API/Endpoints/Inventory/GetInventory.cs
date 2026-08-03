@@ -26,7 +26,7 @@ public sealed class GetInventoryEndpoint : ICarterModule
     {
         app.MapGet("/inventories/{inventoryId}", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetInventory")
             .WithDisplayName("Get Inventory API")
             .WithDescription(API_DESC.JoinToString("\n"))

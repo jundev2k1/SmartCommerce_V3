@@ -1,6 +1,6 @@
 namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-public static class HeaderKeys
+public static class HeaderKeyConstant
 {
     public const string CorrelationId = "X-Correlation-Id";
     public const string TenantId = "X-Tenant-Id";

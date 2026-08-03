@@ -33,7 +33,7 @@ public sealed class AddCartItemEndpoint : ICarterModule
     {
         app.MapPost("/cart/items", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("AddCartItem")
             .WithDisplayName("Add Cart Item API")
             .WithDescription(API_DESC.JoinToString("\n"))

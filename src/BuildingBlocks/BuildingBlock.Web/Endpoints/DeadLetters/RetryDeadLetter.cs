@@ -19,7 +19,7 @@ public sealed class RetryDeadLetter : ICarterModule
     {
         app.MapPost("/deadletters/{id:guid}/retry", RetryOne)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RetryDeadLetter")
             .WithDisplayName("Retry Dead Letter API")
             .WithDescription("Requeues one dead-lettered message and republishes it through the normal Kafka pipeline.")

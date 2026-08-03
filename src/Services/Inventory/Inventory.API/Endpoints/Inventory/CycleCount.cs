@@ -36,7 +36,7 @@ public sealed class StartCycleCountEndpoint : ICarterModule
     {
         app.MapPost("/inventories/cycle-count/start", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("StartCycleCount")
             .WithDisplayName("Start Cycle Count API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -96,7 +96,7 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
     {
         app.MapPost("/inventories/cycle-count/complete", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CompleteCycleCount")
             .WithDisplayName("Complete Cycle Count API")
             .WithDescription(API_DESC.JoinToString("\n"))

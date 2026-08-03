@@ -31,7 +31,7 @@ public sealed class GetOrderHistoryEndpoint : ICarterModule
     {
         app.MapPost("/orders/history", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetOrderHistory")
             .WithDisplayName("Order History API")
             .WithDescription(API_DESC.JoinToString("\n"))

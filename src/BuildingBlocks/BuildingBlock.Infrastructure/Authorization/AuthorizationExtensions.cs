@@ -35,16 +35,16 @@ public static class AuthorizationExtensions
     /// </summary>
     public static void ConfigureCommonPolicies(AuthorizationOptions options)
     {
-        options.AddPolicy(AuthorizationPolicies.RequireAuthenticated, policy =>
+        options.AddPolicy(AuthorizationPoliciesConstant.RequireAuthenticated, policy =>
             policy.RequireAuthenticatedUser());
 
-        options.AddPolicy(AuthorizationPolicies.RequireAdmin, policy =>
+        options.AddPolicy(AuthorizationPoliciesConstant.RequireAdmin, policy =>
             policy.RequireAuthenticatedUser()
-                .RequireRole(AppRole.Root, AppRole.Admin));
+                .RequireRole(AppRoleConstant.Root, AppRoleConstant.Admin));
 
-        options.AddPolicy(AuthorizationPolicies.RequireUser, policy =>
+        options.AddPolicy(AuthorizationPoliciesConstant.RequireUser, policy =>
             policy.RequireAuthenticatedUser()
-                .RequireRole(AppRole.Root, AppRole.Admin, AppRole.User));
+                .RequireRole(AppRoleConstant.Root, AppRoleConstant.Admin, AppRoleConstant.User));
     }
 
     /// <summary>

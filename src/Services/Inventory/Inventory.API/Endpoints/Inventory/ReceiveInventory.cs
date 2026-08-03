@@ -52,7 +52,7 @@ public sealed class ReceiveInventoryEndpoint : ICarterModule
     {
         app.MapPost("/inventories/receive", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ReceiveInventory")
             .WithDisplayName("Receive Inventory API")
             .WithDescription(API_DESC.JoinToString("\n"))

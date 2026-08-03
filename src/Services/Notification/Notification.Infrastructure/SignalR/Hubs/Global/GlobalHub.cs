@@ -22,7 +22,7 @@ public interface IGlobalHubClient
 {
 }
 
-[Authorize(Policy = AuthorizationPolicies.RequireAuthenticated)]
+[Authorize(Policy = AuthorizationPoliciesConstant.RequireAuthenticated)]
 public partial class GlobalHub(
     ISender sender,
     IAppLogger<GlobalHub> logger) : HubBase<IGlobalHubClient>
@@ -34,23 +34,23 @@ public partial class GlobalHub(
         logger.Information($"User connected ({nameof(GlobalHub)}): {this.UserId}");
 
         var roleList = this.Roles;
-        if (roleList.Contains(AppRole.Root))
+        if (roleList.Contains(AppRoleConstant.Root))
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Root(this.UserId));
-            await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Broadcast(AppRole.Root));
+            await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Broadcast(AppRoleConstant.Root));
         }
 
-        if (roleList.Contains(AppRole.Admin))
+        if (roleList.Contains(AppRoleConstant.Admin))
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Admin(this.UserId));
-            await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Broadcast(AppRole.Admin));
+            await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Broadcast(AppRoleConstant.Admin));
         }
 
-        var isUser = roleList.Contains(AppRole.User);
+        var isUser = roleList.Contains(AppRoleConstant.User);
         if (isUser)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Member(this.UserId));
-            await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Broadcast(AppRole.User));
+            await Groups.AddToGroupAsync(Context.ConnectionId, ActorGroups.Broadcast(AppRoleConstant.User));
         }
 
         await base.OnConnectedAsync();

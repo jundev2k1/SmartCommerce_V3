@@ -19,7 +19,7 @@ public sealed class ClearCartEndpoint : ICarterModule
     {
         app.MapDelete("/cart", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("ClearCart")
             .WithDisplayName("Clear Cart API")
             .WithDescription(API_DESC.JoinToString("\n"))

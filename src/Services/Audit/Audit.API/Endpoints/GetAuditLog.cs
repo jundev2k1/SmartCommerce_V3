@@ -25,7 +25,7 @@ public sealed class GetAuditLogEndpoint : ICarterModule
     {
         app.MapGet("/audit-logs/{auditLogId}", Handle)
             .WithTags("Audit")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetAuditLog")
             .WithDisplayName("Get Audit Log API")
             .WithDescription(API_DESC.JoinToString("\n"))

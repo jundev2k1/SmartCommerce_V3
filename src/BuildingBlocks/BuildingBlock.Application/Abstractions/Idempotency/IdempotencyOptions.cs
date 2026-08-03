@@ -8,7 +8,7 @@ public sealed class IdempotencyOptions
     public const string Section = "Idempotency";
 
     /// <summary>Request header carrying the client-supplied idempotency key (default: "Idempotency-Key")</summary>
-    public string HeaderName { get; set; } = HeaderKeys.IdempotencyKey;
+    public string HeaderName { get; set; } = HeaderKeyConstant.IdempotencyKey;
 
     /// <summary>Max time to wait to acquire the distributed lock before returning 409 (default: 10s)</summary>
     public int LockTimeoutSeconds { get; set; } = 10;

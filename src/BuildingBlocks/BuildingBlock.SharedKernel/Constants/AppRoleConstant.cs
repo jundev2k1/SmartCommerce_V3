@@ -1,6 +1,6 @@
 namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-public static class AppRole
+public static class AppRoleConstant
 {
     /// <summary>
     /// Superuser role. Satisfies every role check and authorization policy.

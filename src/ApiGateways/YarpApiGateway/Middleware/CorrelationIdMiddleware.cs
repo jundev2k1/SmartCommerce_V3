@@ -11,11 +11,11 @@ public sealed class CorrelationIdMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
     {
-        var hasCorrelationId = context.Request.Headers.TryGetValue(HeaderKeys.CorrelationId, out var value)
+        var hasCorrelationId = context.Request.Headers.TryGetValue(HeaderKeyConstant.CorrelationId, out var value)
             && !string.IsNullOrWhiteSpace(value);
 
         if (!hasCorrelationId)
-            context.Request.Headers[HeaderKeys.CorrelationId] = Guid.NewGuid().ToString();
+            context.Request.Headers[HeaderKeyConstant.CorrelationId] = Guid.NewGuid().ToString();
 
         await next(context);
     }

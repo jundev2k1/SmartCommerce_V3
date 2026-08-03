@@ -31,7 +31,7 @@ public sealed class SearchOrdersEndpoint : ICarterModule
     {
         app.MapPost("/orders/search", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("SearchOrders")
             .WithDisplayName("Search Orders API")
             .WithDescription(API_DESC.JoinToString("\n"))

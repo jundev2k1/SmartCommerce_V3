@@ -33,7 +33,7 @@ public sealed class SearchInventoriesEndpoint : ICarterModule
     {
         app.MapPost("/inventories/search", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("SearchInventories")
             .WithDisplayName("Search Inventory Records API")
             .WithDescription(API_DESC.JoinToString("\n"))

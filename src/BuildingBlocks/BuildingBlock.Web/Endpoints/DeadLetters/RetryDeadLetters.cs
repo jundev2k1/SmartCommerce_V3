@@ -19,7 +19,7 @@ public sealed class RetryDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/retry", RetryMany)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RetryDeadLetters")
             .WithDisplayName("Retry Selected Dead Letters API")
             .WithDescription("Retries a caller-supplied set of dead-lettered messages.")

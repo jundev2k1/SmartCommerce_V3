@@ -13,7 +13,7 @@ public sealed class CreateUserNotification : ICarterModule
     {
         app.MapPost("/user-notifications", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateUserNotification")
             .WithDisplayName("Create User Notification API")
             .WithDescription("Creates a Notification Center entry for a user. Admin only - no automatic rule/campaign trigger is wired up yet.")

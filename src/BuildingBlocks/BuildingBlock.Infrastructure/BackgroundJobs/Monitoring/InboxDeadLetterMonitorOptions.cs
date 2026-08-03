@@ -9,7 +9,7 @@ public sealed class InboxDeadLetterMonitorOptions : IJobOptions
 
     public string JobId { get; set; } = "inbox-dead-letter-monitor";
     public string CronExpression { get; set; } = "*/15 * * * *";
-    public string Queue { get; set; } = JobQueue.DEFAULT;
+    public string Queue { get; set; } = JobQueueConstant.DEFAULT;
     public bool IsInit { get; set; }
 
     /// <summary>Whether the job actually queries/logs anything when it runs. Off = no-op, cron stays registered.</summary>

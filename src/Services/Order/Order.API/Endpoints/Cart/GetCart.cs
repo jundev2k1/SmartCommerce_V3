@@ -24,7 +24,7 @@ public sealed class GetCartEndpoint : ICarterModule
     {
         app.MapGet("/cart", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetCart")
             .WithDisplayName("Get Cart API")
             .WithDescription(API_DESC.JoinToString("\n"))

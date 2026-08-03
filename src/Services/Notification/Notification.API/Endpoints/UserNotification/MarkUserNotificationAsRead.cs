@@ -13,7 +13,7 @@ public sealed class MarkUserNotificationAsRead : ICarterModule
     {
         app.MapPost("/user-notifications/{notificationId}/read", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPolicies.RequireUser)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
             .WithName("MarkUserNotificationAsRead")
             .WithDisplayName("Mark User Notification As Read API")
             .WithDescription("Marks one of the caller's own Notification Center entries as read.")

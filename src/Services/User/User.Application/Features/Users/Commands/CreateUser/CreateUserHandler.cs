@@ -55,10 +55,10 @@ public sealed class CreateUserHandler(
 
     private void EnsureCallerMayGrantRoles(string[] roles)
     {
-        if (roles.Contains(AppRole.Root))
+        if (roles.Contains(AppRoleConstant.Root))
             throw new ForbiddenException("Cannot assign the Root role.");
 
-        if (roles.Any(r => r != AppRole.User) && !currentUser.IsInRole(AppRole.Root))
+        if (roles.Any(r => r != AppRoleConstant.User) && !currentUser.IsInRole(AppRoleConstant.Root))
             throw new ForbiddenException("Only Root can assign the Admin role.");
     }
 

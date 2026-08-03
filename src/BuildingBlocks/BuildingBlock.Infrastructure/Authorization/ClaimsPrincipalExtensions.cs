@@ -24,12 +24,12 @@ public static class ClaimsPrincipalExtensions
     /// </summary>
     public static bool HasRole(this ClaimsPrincipal principal, string role)
         => principal.FindAll(ClaimTypes.Role)
-            .Any(c => c.Value == AppRole.Root || c.Value == role);
+            .Any(c => c.Value == AppRoleConstant.Root || c.Value == role);
 
     public static bool HasAnyRole(this ClaimsPrincipal principal, params string[] roles)
         => principal.FindAll(ClaimTypes.Role)
             .Select(c => c.Value)
-            .Any(r => r == AppRole.Root || roles.Contains(r, StringComparer.OrdinalIgnoreCase));
+            .Any(r => r == AppRoleConstant.Root || roles.Contains(r, StringComparer.OrdinalIgnoreCase));
 
     public static bool HasAllRoles(this ClaimsPrincipal principal, params string[] roles)
         => roles.All(role => principal.HasRole(role));

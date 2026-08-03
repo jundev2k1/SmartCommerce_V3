@@ -1,6 +1,6 @@
 namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-public static class JobQueue
+public static class JobQueueConstant
 {
     public const string DEFAULT = "default";
     public const string MAIL = "mail";

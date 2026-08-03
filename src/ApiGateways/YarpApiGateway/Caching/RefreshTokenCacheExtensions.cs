@@ -25,6 +25,6 @@ public static class RefreshTokenCacheExtensions
         CancellationToken ct = default)
     {
         var db = redis.GetDatabase();
-        return await db.KeyExistsAsync(CacheKeys.RefreshTokens.ByTokenString(refreshToken));
+        return await db.KeyExistsAsync(CacheKeyConstant.RefreshTokens.ByTokenString(refreshToken));
     }
 }

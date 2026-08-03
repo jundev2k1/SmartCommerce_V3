@@ -18,7 +18,7 @@ public sealed class RoleCacheReader(
 {
     public async Task<IReadOnlyList<string>> GetUserRolesAsync(Guid userId, CancellationToken ct = default)
     {
-        var key = CacheKeys.Roles.UserRoles(userId);
+        var key = CacheKeyConstant.Roles.UserRoles(userId);
         var cached = await cacheService.GetAsync<List<string>>(key, ct);
 
         if (cached is null)

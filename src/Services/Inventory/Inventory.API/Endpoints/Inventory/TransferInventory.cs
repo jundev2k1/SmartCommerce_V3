@@ -49,7 +49,7 @@ public sealed class TransferInventoryEndpoint : ICarterModule
     {
         app.MapPost("/inventories/transfer", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("TransferInventory")
             .WithDisplayName("Transfer Inventory API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -12,7 +12,7 @@ public sealed class ListTemplates : ICarterModule
     {
         app.MapGet("/notification-templates", ListAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationTemplates")
             .WithDisplayName("List Notification Templates API")
             .Produces<ApiResponse<PaginatedResult<NotificationTemplateSummaryResponse>>>(StatusCodes.Status200OK);

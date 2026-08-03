@@ -38,7 +38,7 @@ public sealed class GetUserDetailEndpoint : ICarterModule
     {
         app.MapGet("/profiles/current/detail", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetUserDetail")
             .WithDisplayName("Get User Detail API")
             .WithDescription(API_DESC.JoinToString("\n"))

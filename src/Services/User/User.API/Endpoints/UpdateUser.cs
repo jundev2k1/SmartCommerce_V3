@@ -50,7 +50,7 @@ public sealed class UpdateUserEndpoint : ICarterModule
     {
         app.MapPut("/profiles/{userId}", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateUser")
             .WithDisplayName("Update User API")
             .WithDescription(API_DESC.JoinToString("\n"))

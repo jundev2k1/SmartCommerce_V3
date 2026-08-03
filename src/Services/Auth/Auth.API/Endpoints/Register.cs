@@ -55,7 +55,7 @@ public sealed class Register : ICarterModule
         .WithTags("Authentication")
         .AllowAnonymous()
         .Headers([
-            new HeaderDefinition(HeaderKeys.CorrelationId, true)
+            new HeaderDefinition(HeaderKeyConstant.CorrelationId, true)
         ])
         .WithSummary("Auth_Register")
         .WithDisplayName("Register API")

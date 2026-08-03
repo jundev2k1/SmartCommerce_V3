@@ -34,7 +34,7 @@ public sealed class UpdateCartItemQuantityEndpoint : ICarterModule
     {
         app.MapPatch("/cart/items/{variationId}", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("UpdateCartItemQuantity")
             .WithDisplayName("Update Cart Item Quantity API")
             .WithDescription(API_DESC.JoinToString("\n"))

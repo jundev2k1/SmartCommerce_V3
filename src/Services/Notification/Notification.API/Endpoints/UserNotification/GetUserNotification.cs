@@ -13,7 +13,7 @@ public sealed class GetUserNotification : ICarterModule
     {
         app.MapGet("/user-notifications/{notificationId}", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPolicies.RequireUser)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
             .WithName("GetUserNotification")
             .WithDisplayName("Get User Notification API")
             .WithDescription("Fetches one Notification Center entry. Callers may only fetch their own.")

@@ -27,7 +27,7 @@ public sealed class GetProductStockEndpoint : ICarterModule
     {
         app.MapGet("/products/{productId}/stock", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetProductStock")
             .WithDisplayName("Get Product Stock API")
             .WithDescription(API_DESC.JoinToString("\n"))

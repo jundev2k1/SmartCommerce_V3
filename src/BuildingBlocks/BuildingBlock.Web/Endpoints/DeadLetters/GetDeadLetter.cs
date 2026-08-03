@@ -20,7 +20,7 @@ public sealed class GetDeadLetter : ICarterModule
     {
         app.MapGet("/deadletters/{id:guid}", GetById)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetDeadLetter")
             .WithDisplayName("Get Dead Letter API")
             .WithDescription("Full detail for one dead-lettered row, including its retry history.")

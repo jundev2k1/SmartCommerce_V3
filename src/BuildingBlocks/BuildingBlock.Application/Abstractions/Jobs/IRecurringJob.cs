@@ -8,7 +8,7 @@ public interface IRecurringJob
 
     string CronExpression { get; }
 
-    string Queue => JobQueue.DEFAULT;
+    string Queue => JobQueueConstant.DEFAULT;
 
     bool IsInit { get; }
 

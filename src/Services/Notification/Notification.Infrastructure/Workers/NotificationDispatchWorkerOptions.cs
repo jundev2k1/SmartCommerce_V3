@@ -9,7 +9,7 @@ public sealed class NotificationDispatchWorkerOptions : IJobOptions
 
     public string JobId { get; set; } = "notification-dispatch-worker";
     public string CronExpression { get; set; } = "*/1 * * * *";
-    public string Queue { get; set; } = JobQueue.DEFAULT;
+    public string Queue { get; set; } = JobQueueConstant.DEFAULT;
     public bool IsInit { get; set; }
 
     /// <summary>Whether the job actually polls anything when it runs. Off = no-op, cron stays registered.</summary>

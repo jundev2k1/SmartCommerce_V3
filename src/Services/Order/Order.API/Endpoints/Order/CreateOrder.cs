@@ -67,9 +67,9 @@ public sealed class CreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .Headers([
-                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this order is only created once, even if the request is retried")
+                new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this order is only created once, even if the request is retried")
             ])
             .RequireIdempotency()
             .WithName("CreateOrder")

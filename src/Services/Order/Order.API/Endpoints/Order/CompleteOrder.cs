@@ -26,7 +26,7 @@ public sealed class CompleteOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/{orderId}/complete", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CompleteOrder")
             .WithDisplayName("Complete Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

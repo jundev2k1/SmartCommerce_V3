@@ -12,7 +12,7 @@ public sealed class GetCampaign : ICarterModule
     {
         app.MapGet("/notification-campaigns/{campaignId}", HandleAsync)
             .WithTags("NotificationCampaign")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationCampaign")
             .WithDisplayName("Get Notification Campaign API")
             .Produces<ApiResponse<GetNotificationCampaignResponse>>(StatusCodes.Status200OK);

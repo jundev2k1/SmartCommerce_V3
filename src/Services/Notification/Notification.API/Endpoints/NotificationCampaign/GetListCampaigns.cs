@@ -12,7 +12,7 @@ public sealed class GetListCampaigns : ICarterModule
     {
         app.MapGet("/notification-campaigns", HandleAsync)
             .WithTags("NotificationCampaign")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationCampaigns")
             .WithDisplayName("List Notification Campaigns API")
             .Produces<ApiResponse<PaginatedResult<NotificationCampaignSummaryResponse>>>(StatusCodes.Status200OK);

@@ -4,7 +4,7 @@ namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 /// Centralized cache key patterns and configurations for all cached entities.
 /// Follows the pattern: {service}:{entity}:{operation}:{id}
 /// </summary>
-public static class CacheKeys
+public static class CacheKeyConstant
 {
     /// <summary>User roles cache patterns and configuration</summary>
     public static class Roles

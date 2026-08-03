@@ -12,7 +12,7 @@ public sealed class GetChannel : ICarterModule
     {
         app.MapGet("/notification-channels/{channelId}", GetAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationChannel")
             .WithDisplayName("Get Notification Channel API")
             .Produces<ApiResponse<GetNotificationChannelResponse>>(StatusCodes.Status200OK);

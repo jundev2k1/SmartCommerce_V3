@@ -25,7 +25,7 @@ public sealed class ListAuditLogsEndpoint : ICarterModule
     {
         app.MapGet("/audit-logs", Handle)
             .WithTags("Audit")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListAuditLogs")
             .WithDisplayName("List Audit Logs API")
             .WithDescription(API_DESC.JoinToString("\n"))

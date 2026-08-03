@@ -38,7 +38,7 @@ public sealed class GetUserEndpoint : ICarterModule
     {
         app.MapGet("/profiles/{userId}", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetUser")
             .WithDisplayName("Get User API")
             .WithDescription(API_DESC.JoinToString("\n"))

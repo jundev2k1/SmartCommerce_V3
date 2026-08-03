@@ -12,7 +12,7 @@ public sealed class CreateTemplate : ICarterModule
     {
         app.MapPost("/notification-templates", CreateAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateNotificationTemplate")
             .WithDisplayName("Create Notification Template API")
             .WithDescription("Creates a reusable, channel-scoped template selected by rules/campaigns.")

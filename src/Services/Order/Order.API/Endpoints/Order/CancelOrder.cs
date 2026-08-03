@@ -26,7 +26,7 @@ public sealed class CancelOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/{orderId}/cancel", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("CancelOrder")
             .WithDisplayName("Cancel Order API")
             .WithDescription(API_DESC.JoinToString("\n"))
