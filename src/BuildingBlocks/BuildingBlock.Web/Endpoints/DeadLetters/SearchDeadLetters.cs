@@ -1,8 +1,8 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Application.Abstractions.DeadLetters;
 using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.Authorization;
 using BuildingBlock.Infrastructure.DeadLetters.Queries;
+using BuildingBlock.SharedKernel.Constants;
 
 using Carter;
 
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Endpoints;
+namespace BuildingBlock.Web.Endpoints.DeadLetters;
 
 /// <summary>
 /// Generic dead-letter management API, identical across every service that owns an Inbox table

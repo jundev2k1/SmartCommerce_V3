@@ -1,6 +1,6 @@
 using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.DeadLetters.Commands;
+using BuildingBlock.Application.DeadLetters.Commands;
+using BuildingBlock.SharedKernel.Constants;
 
 using Carter;
 
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Endpoints;
+namespace BuildingBlock.Web.Endpoints.DeadLetters;
 
 public sealed class RetryDeadLetters : ICarterModule
 {

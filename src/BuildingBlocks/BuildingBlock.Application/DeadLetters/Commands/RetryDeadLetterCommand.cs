@@ -2,7 +2,7 @@ using BuildingBlock.Application.Abstractions.CQRS;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Infrastructure.DeadLetters;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Commands;
+namespace BuildingBlock.Application.DeadLetters.Commands;
 
 public sealed record RetryDeadLetterCommand(Guid Id) : ICommand<RetryDeadLetterResponse>;
 

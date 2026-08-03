@@ -1,7 +1,7 @@
 using BuildingBlock.Application.Abstractions.CQRS;
 using BuildingBlock.Infrastructure.DeadLetters;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Commands;
+namespace BuildingBlock.Application.DeadLetters.Commands;
 
 /// <summary>Retry a caller-supplied set of dead-lettered rows. Never processes more than one retry
 /// implementation - every entry point (single/bulk/retry-all) funnels through IDeadLetterRetryService.</summary>

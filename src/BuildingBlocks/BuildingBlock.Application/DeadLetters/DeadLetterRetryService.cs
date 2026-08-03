@@ -8,7 +8,7 @@ using BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Infrastructure.DeadLetters;
+namespace BuildingBlock.Application.DeadLetters;
 
 public sealed class DeadLetterRetryService(
     IInboxStore inboxStore,

@@ -3,7 +3,7 @@ using BuildingBlock.Application.Abstractions.DeadLetters;
 using BuildingBlock.Criteria.Requests;
 using BuildingBlock.Infrastructure.DeadLetters;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Commands;
+namespace BuildingBlock.Application.DeadLetters.Commands;
 
 /// <summary>
 /// Retry every DeadLetter row matching an optional filter (e.g. "retry all failed Product

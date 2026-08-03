@@ -1,4 +1,4 @@
-namespace BuildingBlock.Infrastructure.DeadLetters;
+namespace BuildingBlock.Application.DeadLetters;
 
 public enum DeadLetterRetryOutcome
 {

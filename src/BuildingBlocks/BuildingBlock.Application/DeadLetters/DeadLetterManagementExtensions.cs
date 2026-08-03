@@ -1,12 +1,13 @@
 using BuildingBlock.Application.Abstractions.Idempotency;
 using BuildingBlock.Application.Abstractions.Outbox;
 using BuildingBlock.Application.Abstractions.Services;
+using BuildingBlock.Infrastructure.DeadLetters;
 using BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Infrastructure.DeadLetters;
+namespace BuildingBlock.Application.DeadLetters;
 
 public static class DeadLetterManagementExtensions
 {
