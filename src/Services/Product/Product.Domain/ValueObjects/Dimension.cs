@@ -1,41 +1,43 @@
 namespace SmartEcommerce.Product.Domain.ValueObjects;
 
-/// <summary>Physical shipping dimensions of a Variant, in centimeters.</summary>
-public sealed class Dimensions : ValueObject
+/// <summary>Physical shipping dimensions, expressed in a single unit shared by all three measurements.</summary>
+public sealed class Dimension : ValueObject
 {
     public decimal Length { get; }
     public decimal Width { get; }
     public decimal Height { get; }
+    public DimensionUnit Unit { get; }
 
-    private Dimensions(decimal length, decimal width, decimal height)
+    private Dimension(decimal length, decimal width, decimal height, DimensionUnit unit)
     {
         Length = length;
         Width = width;
         Height = height;
+        Unit = unit;
     }
 
     public static bool IsValid(decimal length, decimal width, decimal height) =>
         GetValidationError(length, width, height) is null;
 
-    public static bool TryCreate(decimal length, decimal width, decimal height, out Dimensions? dimensions)
+    public static bool TryCreate(decimal length, decimal width, decimal height, DimensionUnit unit, out Dimension? dimension)
     {
         if (GetValidationError(length, width, height) is not null)
         {
-            dimensions = null;
+            dimension = null;
             return false;
         }
 
-        dimensions = new Dimensions(length, width, height);
+        dimension = new Dimension(length, width, height, unit);
         return true;
     }
 
-    public static Dimensions Create(decimal length, decimal width, decimal height)
+    public static Dimension Create(decimal length, decimal width, decimal height, DimensionUnit unit)
     {
         var error = GetValidationError(length, width, height);
         if (error is not null)
             throw error;
 
-        return new Dimensions(length, width, height);
+        return new Dimension(length, width, height, unit);
     }
 
     private static InvalidArgumentException? GetValidationError(decimal length, decimal width, decimal height)
@@ -51,5 +53,8 @@ public sealed class Dimensions : ValueObject
         yield return Length;
         yield return Width;
         yield return Height;
+        yield return Unit;
     }
+
+    public override string ToString() => $"{Length}x{Width}x{Height} {Unit}";
 }

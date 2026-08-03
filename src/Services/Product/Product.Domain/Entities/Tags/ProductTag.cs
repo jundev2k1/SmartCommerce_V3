@@ -1,22 +1,72 @@
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+
 namespace SmartEcommerce.Product.Domain.Entities.Tags;
 
+/// <summary>
+/// Independent, reusable catalog lookup - flat, no hierarchy.
+/// Products reference tags via ProductTagMapping.
+/// </summary>
 public sealed class ProductTag : AggregateRoot<Guid>, IAuditable
 {
-    public TagCode Code { get; private set; } = null!;
     public string Name { get; private set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
+    public Slug Slug { get; private set; } = null!;
+    public string? Color { get; private set; }
+    public int DisplayOrder { get; private set; }
+    public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
+    public string Note { get; private set; } = string.Empty;
+
+    public ICollection<ProductTagTranslation> Translations { get; private set; } = [];
 
     private ProductTag() { }
 
-    public static ProductTag Create(Guid id, TagCode code, string name)
+    public static ProductTag Create(
+        Guid id,
+        string name,
+        string description,
+        Slug slug,
+        string? color = null,
+        int displayOrder = 0,
+        CatalogStatus status = CatalogStatus.Active,
+        string note = "")
     {
         ValidateName(name);
 
         return new ProductTag
         {
             Id = id,
-            Code = code,
             Name = name,
+            Description = description,
+            Slug = slug,
+            Color = color,
+            DisplayOrder = displayOrder,
+            Status = status,
+            Note = note
         };
+    }
+
+    public void Translate(
+        LanguageCode languageCode,
+        string name,
+        string description)
+    {
+        ValidateName(name);
+
+        var existingTranslation = Translations
+            .FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existingTranslation != null)
+        {
+            existingTranslation.UpdateDetails(name, description);
+        }
+        else
+        {
+            var translation = ProductTagTranslation.Create(
+                Id,
+                languageCode,
+                name,
+                description);
+            Translations.Add(translation);
+        }
     }
 
     public void Rename(string name)
@@ -24,6 +74,32 @@ public sealed class ProductTag : AggregateRoot<Guid>, IAuditable
         ValidateName(name);
 
         Name = name;
+    }
+
+    public void UpdateDetails(string description, string? color)
+    {
+        Description = description;
+        Color = color;
+    }
+
+    public void ChangeSlug(Slug slug)
+    {
+        Slug = slug;
+    }
+
+    public void ChangeDisplayOrder(int displayOrder)
+    {
+        DisplayOrder = displayOrder;
+    }
+
+    public void Activate()
+    {
+        Status = CatalogStatus.Active;
+    }
+
+    public void Deactivate()
+    {
+        Status = CatalogStatus.Inactive;
     }
 
     public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);

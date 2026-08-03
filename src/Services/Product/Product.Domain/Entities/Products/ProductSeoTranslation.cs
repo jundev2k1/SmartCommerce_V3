@@ -1,0 +1,44 @@
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+
+namespace SmartEcommerce.Product.Domain.Entities.Products;
+
+/// <summary>
+/// Owned child of Product - a locale-specific override of the product's SEO metadata.
+/// </summary>
+public sealed class ProductSeoTranslation : BaseEntity<Guid>
+{
+    public Product Product { get; private set; } = default!;
+    public LanguageCode LanguageCode { get; private set; } = default!;
+    public string? MetaTitle { get; private set; }
+    public string? MetaDescription { get; private set; }
+    public string? MetaKeywords { get; private set; }
+
+    private ProductSeoTranslation() { }
+
+    public static ProductSeoTranslation Create(
+        Guid productId,
+        LanguageCode languageCode,
+        string? metaTitle = null,
+        string? metaDescription = null,
+        string? metaKeywords = null)
+    {
+        return new ProductSeoTranslation
+        {
+            Id = productId,
+            LanguageCode = languageCode,
+            MetaTitle = metaTitle,
+            MetaDescription = metaDescription,
+            MetaKeywords = metaKeywords
+        };
+    }
+
+    public void UpdateMeta(
+        string? metaTitle,
+        string? metaDescription,
+        string? metaKeywords)
+    {
+        MetaTitle = metaTitle;
+        MetaDescription = metaDescription;
+        MetaKeywords = metaKeywords;
+    }
+}

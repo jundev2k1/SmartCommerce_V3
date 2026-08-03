@@ -8,7 +8,7 @@ public sealed class Weight : ValueObject
     private Weight(decimal value, WeightUnit unit)
     {
         if (value < 0)
-            throw new ArgumentOutOfRangeException(nameof(value), "Weight cannot be negative.");
+            throw ExceptionFactory.InvalidRange("Weight cannot be negative.");
 
         Value = value;
         Unit = unit;
@@ -23,21 +23,27 @@ public sealed class Weight : ValueObject
     public static Weight FromGrams(decimal value)
         => new(value, WeightUnit.Gram);
 
-    public decimal ToKilograms() =>
-        Unit switch
-        {
-            WeightUnit.Kilogram => Value,
-            WeightUnit.Gram => Value / 1000m,
-            _ => throw new NotSupportedException($"Unsupported unit: {Unit}")
-        };
+    public static Weight FromPounds(decimal value)
+        => new(value, WeightUnit.Pound);
+
+    public static Weight FromOunces(decimal value)
+        => new(value, WeightUnit.Ounce);
+
+    public decimal ToKilograms() => ToGrams() / 1000m;
 
     public decimal ToGrams() =>
         Unit switch
         {
             WeightUnit.Kilogram => Value * 1000m,
             WeightUnit.Gram => Value,
+            WeightUnit.Pound => Value * 453.59237m,
+            WeightUnit.Ounce => Value * 28.349523125m,
             _ => throw new NotSupportedException($"Unsupported unit: {Unit}")
         };
+
+    public decimal ToPounds() => ToGrams() / 453.59237m;
+
+    public decimal ToOunces() => ToGrams() / 28.349523125m;
 
     public override IEnumerable<object> GetEqualityComponents()
     {
