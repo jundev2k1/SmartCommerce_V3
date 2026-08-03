@@ -105,12 +105,8 @@ public enum MessageCode
     // Inventory Service (500-599)
     [MessageCode("500", "Insufficient stock available")]
     InsufficientStock = 500,
-    [MessageCode("501", "Inventory not found")]
-    InventoryNotFound = 501,
     [MessageCode("502", "Invalid quantity")]
     InvalidQuantity = 502,
-    [MessageCode("503", "Stock reservation failed")]
-    StockReservationFailed = 503,
     [MessageCode("504", "Warehouse not found")]
     WarehouseNotFound = 504,
     [MessageCode("505", "Location not found")]
