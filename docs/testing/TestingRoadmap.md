@@ -22,7 +22,7 @@ Priority always runs simple/deterministic → complex/infrastructure-heavy, per 
 
 Priority order by business-rule density, richest first:
 
-1. **Product.Domain** — ✅ Value Objects done (`Sku`, `ProductCode`, `Barcode`, `CategoryCode`, `Slug`, `TagCode`, `Dimensions`); `Product`/`ProductVariation` entity invariants (variation collection rules, default-variation logic) still pending — current priority, see [TestingProgress.md](TestingProgress.md)
+1. **Product.Domain** — ✅ Value Objects done (`Sku`, `ProductCode`, `Barcode`, `CategoryCode`, `Slug`, `TagCode`, `Dimensions`); `Product`/`Variant` entity invariants (variation collection rules, default-variation logic) still pending — current priority, see [TestingProgress.md](TestingProgress.md)
 2. **Notification.Domain** — richest entity set (9 entities, 6 Value Objects) — `AudienceSelector`, `ChannelConfiguration`, `NotificationSchedule`, `TemplateContent`, etc.
 3. **Inventory.Domain** — stock movement invariants
 4. **Auth.Domain** — smallest (5 files), but security-sensitive

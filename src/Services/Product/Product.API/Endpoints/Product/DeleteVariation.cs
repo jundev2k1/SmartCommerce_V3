@@ -12,7 +12,7 @@ public sealed class DeleteVariationEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Delete Variation",
         "",
-        "Removes a ProductVariation. The last remaining variation of a product can never be",
+        "Removes a Variant. The last remaining variation of a product can never be",
         "removed. Removing the current Default auto-promotes the remaining variation with the",
         "lowest DisplayOrder.",
         "",

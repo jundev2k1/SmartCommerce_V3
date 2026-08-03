@@ -456,7 +456,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue("")
                         .HasColumnName("note");
 
-                    b.Property<Guid>("ProductVariantId")
+                    b.Property<Guid>("VariantId")
                         .HasColumnType("uuid")
                         .HasColumnName("product_variant_id");
 
@@ -620,7 +620,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("product_id");
 
-                    b.Property<Guid>("ProductVariantId")
+                    b.Property<Guid>("VariantId")
                         .HasColumnType("uuid")
                         .HasColumnName("product_variant_id");
 
@@ -647,7 +647,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.HasIndex("InventoryId")
                         .HasDatabaseName("ix_inventory_document_items_inventory_id");
 
-                    b.HasIndex("ProductVariantId")
+                    b.HasIndex("VariantId")
                         .HasDatabaseName("ix_inventory_document_items_product_variant_id");
 
                     b.ToTable("inventory_document_items", (string)null);
@@ -786,7 +786,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("product_id");
 
-                    b.Property<Guid>("ProductVariantId")
+                    b.Property<Guid>("VariantId")
                         .HasColumnType("uuid")
                         .HasColumnName("product_variant_id");
 

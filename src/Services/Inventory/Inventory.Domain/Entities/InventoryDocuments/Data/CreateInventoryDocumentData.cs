@@ -16,7 +16,7 @@ public sealed record CreateInventoryDocumentData(
 
 public sealed record CreateInventoryDocumentItemData(
     Guid ProductId,
-    Guid ProductVariantId,
+    Guid VariantId,
     int Quantity,
     string UnitOfMeasure,
     Guid? InventoryId = null,

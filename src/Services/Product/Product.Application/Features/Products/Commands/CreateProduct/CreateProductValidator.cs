@@ -42,20 +42,20 @@ public sealed class CreateProductValidator : AbstractValidator<CreateProductComm
                 .WithMessage("Variation SKU must be 1-50 characters and contain only letters, digits, and hyphens");
 
             variation.RuleFor(v => v.Name)
-                .Must(ProductVariation.IsValidName)
+                .Must(Variant.IsValidName)
                 .WithMessage("Variation name is required")
                 .MaximumLength(200).WithMessage("Variation name must not exceed 200 characters");
 
             variation.RuleFor(v => v.Price)
-                .Must(ProductVariation.IsValidPrice)
+                .Must(Variant.IsValidPrice)
                 .WithMessage("Variation price cannot be negative");
 
             variation.RuleFor(v => v.Cost)
-                .Must(ProductVariation.IsValidCost)
+                .Must(Variant.IsValidCost)
                 .WithMessage("Variation cost cannot be negative");
 
             variation.RuleFor(v => v.Weight)
-                .Must(ProductVariation.IsValidWeight)
+                .Must(Variant.IsValidWeight)
                 .WithMessage("Variation weight must be greater than zero when specified");
 
             variation.RuleFor(v => v.Barcode)

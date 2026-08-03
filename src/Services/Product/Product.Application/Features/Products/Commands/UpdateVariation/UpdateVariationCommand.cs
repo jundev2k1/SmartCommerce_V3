@@ -1,7 +1,7 @@
 namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
 
 /// <summary>
-/// Covers every ProductVariation attribute except DisplayOrder and IsDefault, which have their
+/// Covers every Variant attribute except DisplayOrder and IsDefault, which have their
 /// own dedicated commands (ReorderVariations / SetDefaultVariation) since they carry
 /// cross-variation invariants the aggregate root must mediate.
 /// </summary>
@@ -11,7 +11,7 @@ public sealed record UpdateVariationCommand(
     string Sku,
     string Name,
     decimal Price,
-    ProductVariationStatus Status,
+    VariantStatus Status,
     string? Barcode = null,
     decimal? Weight = null,
     WeightUnit? WeightUnit = null,

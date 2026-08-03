@@ -8,7 +8,7 @@ using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.Receive
 namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed record ReceiveInventoryItemRequest(
-    string ProductVariantId,
+    string VariantId,
     int Quantity,
     string? LotNumber = null,
     DateTime? ManufactureDate = null,
@@ -32,7 +32,7 @@ public sealed class ReceiveInventoryEndpoint : ICarterModule
         "- **PurchaseOrderNumber**: Reference PO number (required)",
         "- **WarehouseId**: Destination warehouse ID (required, must be valid GUID)",
         "- **Items**: Array of receiving items (required, minimum 1 item)",
-        "  - **ProductVariantId**: Variant being received (required, must be valid GUID)",
+        "  - **VariantId**: Variant being received (required, must be valid GUID)",
         "  - **Quantity**: Amount received (required, must be > 0)",
         "  - **LotNumber**: Lot number for lot-tracked items (optional)",
         "  - **ManufactureDate**: Lot manufacture date (optional)",
@@ -66,7 +66,7 @@ public sealed class ReceiveInventoryEndpoint : ICarterModule
     {
         var items = request.Items
             .Select(i => new ReceiveInventoryItem(
-                ProductVariantId: Guid.Parse(i.ProductVariantId),
+                VariantId: Guid.Parse(i.VariantId),
                 Quantity: i.Quantity,
                 LotNumber: i.LotNumber,
                 ManufactureDate: i.ManufactureDate,

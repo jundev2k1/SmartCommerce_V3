@@ -1,7 +1,7 @@
 namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
 public sealed record TransferInventoryItem(
-    Guid ProductVariantId,
+    Guid VariantId,
     int Quantity);
 
 public sealed record TransferInventoryCommand(

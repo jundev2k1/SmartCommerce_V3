@@ -30,7 +30,7 @@ public sealed class EfUnitOfWorkTests
     }
 
     private static PostgresException UniqueViolation() => new(
-        messageText: "duplicate key value violates unique constraint \"ix_product_variations_sku\"",
+        messageText: "duplicate key value violates unique constraint \"ix_variants_sku\"",
         severity: "ERROR",
         invariantSeverity: "ERROR",
         sqlState: PostgresErrorCodes.UniqueViolation);

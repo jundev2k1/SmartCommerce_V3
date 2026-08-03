@@ -60,9 +60,9 @@ public static class DependencyInjection
     private static IServiceCollection AddMessagingConsumers(
         this IServiceCollection services)
     {
-        services.AddScoped<IIntegrationEventConsumer, ProductVariationCreatedIntegrationEventConsumer>();
-        services.AddScoped<IIntegrationEventConsumer, ProductVariationUpdatedIntegrationEventConsumer>();
-        services.AddScoped<IIntegrationEventConsumer, ProductVariationDeletedIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, VariantCreatedIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, VariantUpdatedIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, VariantDeletedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductUpdatedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductDeletedIntegrationEventConsumer>();
 

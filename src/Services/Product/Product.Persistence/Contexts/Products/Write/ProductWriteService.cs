@@ -50,9 +50,9 @@ public sealed class ProductWriteService(
         await uow.SaveChangesAsync(ct);
     }
 
-    public async Task<ProductVariation> AddVariationAsync(
+    public async Task<Variant> AddVariationAsync(
         Guid productId,
-        ProductVariationInputDto variation,
+        VariantInputDto variation,
         CancellationToken ct = default)
     {
         var displayOrder = await productRepo.GetNextVariationDisplayOrderAsync(productId, ct);
@@ -63,9 +63,9 @@ public sealed class ProductWriteService(
         return entity;
     }
 
-    public async Task<ProductVariation[]> AddVariationsAsync(
+    public async Task<Variant[]> AddVariationsAsync(
         Guid productId,
-        IEnumerable<ProductVariationInputDto> variations,
+        IEnumerable<VariantInputDto> variations,
         CancellationToken ct = default)
     {
         var displayOrder = await productRepo.GetNextVariationDisplayOrderAsync(productId, ct);
@@ -76,7 +76,7 @@ public sealed class ProductWriteService(
         return [.. entities];
     }
 
-    public async Task<ProductVariation> UpdateVariationInformationAsync(
+    public async Task<Variant> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -86,10 +86,10 @@ public sealed class ProductWriteService(
         Weight? weight,
         Dimensions? dimensions,
         IReadOnlyCollection<string>? images,
-        ProductVariationStatus? status = null,
+        VariantStatus? status = null,
         CancellationToken ct = default)
     {
-        ProductVariation updated = null!;
+        Variant updated = null!;
         await productRepo.UpdateVariationAsync(
             variationId,
             query => query.Include(q => q.Product),
@@ -103,13 +103,13 @@ public sealed class ProductWriteService(
 
                 switch (status)
                 {
-                    case ProductVariationStatus.Active:
+                    case VariantStatus.Active:
                         variation.Activate();
                         break;
-                    case ProductVariationStatus.Inactive:
+                    case VariantStatus.Inactive:
                         variation.Deactivate();
                         break;
-                    case ProductVariationStatus.Discontinued:
+                    case VariantStatus.Discontinued:
                         variation.Discontinue();
                         break;
                 }

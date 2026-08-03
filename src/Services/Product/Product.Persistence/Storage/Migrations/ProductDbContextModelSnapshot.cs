@@ -453,7 +453,7 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                     b.ToTable("product_tag_mappings", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductVariation", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.Variant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -533,16 +533,16 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                         .HasColumnName("weight");
 
                     b.HasKey("Id")
-                        .HasName("pk_product_variations");
+                        .HasName("pk_variants");
 
                     b.HasIndex("ProductId")
-                        .HasDatabaseName("ix_product_variations_product_id");
+                        .HasDatabaseName("ix_variants_product_id");
 
                     b.HasIndex("Sku")
                         .IsUnique()
-                        .HasDatabaseName("ix_product_variations_sku");
+                        .HasDatabaseName("ix_variants_sku");
 
-                    b.ToTable("product_variations", (string)null);
+                    b.ToTable("variants", (string)null);
                 });
 
             modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductCategory", b =>
@@ -596,18 +596,18 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductVariation", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.Variant", b =>
                 {
                     b.HasOne("SmartEcommerce.Product.Domain.Entities.Product", "Product")
                         .WithMany("Variations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_product_variations_products_product_id");
+                        .HasConstraintName("fk_variants_products_product_id");
 
                     b.OwnsOne("SmartEcommerce.Product.Domain.ValueObjects.Dimensions", "Dimensions", b1 =>
                         {
-                            b1.Property<Guid>("ProductVariationId")
+                            b1.Property<Guid>("VariantId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
@@ -623,13 +623,13 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                                 .HasColumnType("numeric(10,2)")
                                 .HasColumnName("dimensions_width");
 
-                            b1.HasKey("ProductVariationId");
+                            b1.HasKey("VariantId");
 
-                            b1.ToTable("product_variations");
+                            b1.ToTable("variants");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductVariationId")
-                                .HasConstraintName("fk_product_variations_product_variations_id");
+                                .HasForeignKey("VariantId")
+                                .HasConstraintName("fk_variants_variants_id");
                         });
 
                     b.Navigation("Dimensions");

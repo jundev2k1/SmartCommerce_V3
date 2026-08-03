@@ -7,7 +7,7 @@ public sealed record CreateProductCommand(
     string Name,
     string Description,
     string Slug,
-    IReadOnlyCollection<ProductVariationInputDto> Variations,
+    IReadOnlyCollection<VariantInputDto> Variations,
     IReadOnlyCollection<Guid>? CategoryIds = null,
     IReadOnlyCollection<Guid>? TagIds = null) : ICommand<CreateProductResponse>;
 

@@ -6,7 +6,7 @@ public sealed record CreateInventoryReservationRequest(
     Guid InventoryId,
     Guid WarehouseId,
     Guid ProductId,
-    Guid ProductVariantId,
+    Guid VariantId,
     int Quantity,
     InventoryReferenceType? ReferenceType = null,
     Guid? ReferenceId = null,

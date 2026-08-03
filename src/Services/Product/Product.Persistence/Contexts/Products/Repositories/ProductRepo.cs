@@ -41,44 +41,44 @@ public sealed class ProductRepo(ProductDbContext dbContext)
         Guid productId,
         CancellationToken ct = default)
     {
-        return await _dbContext.ProductVariations
+        return await _dbContext.Variants
             .AsNoTracking()
             .Where(pv => pv.ProductId == productId)
             .MaxAsync(pv => pv.DisplayOrder, ct) + 1;
     }
 
     public async Task AddVariationAsync(
-        ProductVariation variation,
+        Variant variation,
         CancellationToken ct = default)
     {
-        await _dbContext.ProductVariations.AddAsync(variation, ct);
+        await _dbContext.Variants.AddAsync(variation, ct);
     }
 
     public async Task AddVariationRangeAsync(
-        IEnumerable<ProductVariation> variations,
+        IEnumerable<Variant> variations,
         CancellationToken ct = default)
     {
-        await _dbContext.ProductVariations.AddRangeAsync(variations, ct);
+        await _dbContext.Variants.AddRangeAsync(variations, ct);
     }
 
     public async Task UpdateVariationAsync(
         Guid id,
-        Func<IQueryable<ProductVariation>, IQueryable<ProductVariation>> includes,
-        Func<ProductVariation, Task> updateAction,
+        Func<IQueryable<Variant>, IQueryable<Variant>> includes,
+        Func<Variant, Task> updateAction,
         CancellationToken ct = default)
     {
-        var query = includes(_dbContext.ProductVariations);
+        var query = includes(_dbContext.Variants);
         var variation = await query.FirstOrDefaultAsync(p => p.Id!.Equals(id), ct)
-            ?? throw new NotFoundException(nameof(ProductVariation), id!);
+            ?? throw new NotFoundException(nameof(Variant), id!);
 
         await updateAction(variation);
     }
 
     public async Task RemoveVariationAsync(Guid id, CancellationToken ct = default)
     {
-        var variation = await _dbContext.ProductVariations
+        var variation = await _dbContext.Variants
             .FirstOrDefaultAsync(v => v.Id == id, ct)
-            ?? throw new NotFoundException(nameof(ProductVariation), id!);
+            ?? throw new NotFoundException(nameof(Variant), id!);
 
         _dbContext.Remove(variation);
     }

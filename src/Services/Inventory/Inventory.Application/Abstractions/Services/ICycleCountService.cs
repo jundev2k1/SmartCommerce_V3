@@ -21,12 +21,12 @@ public interface ICycleCountService : IService
         CancellationToken ct = default);
 
     public sealed record CountItem(
-        Guid ProductVariantId,
+        Guid VariantId,
         int ActualQuantity);
 
     public sealed record CountVariance(
         Guid InventoryId,
-        Guid ProductVariantId,
+        Guid VariantId,
         int ExpectedQuantity,
         int ActualQuantity,
         int Variance,

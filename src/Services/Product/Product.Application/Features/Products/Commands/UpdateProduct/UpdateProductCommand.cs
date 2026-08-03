@@ -1,6 +1,6 @@
 namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateProduct;
 
-/// <summary>Product-level info only - never touches ProductVariation, see ProductVariation-specific commands for that.</summary>
+/// <summary>Product-level info only - never touches Variant, see Variant-specific commands for that.</summary>
 public sealed record UpdateProductCommand(
     Guid ProductId,
     string Name,

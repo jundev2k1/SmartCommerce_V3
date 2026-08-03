@@ -16,7 +16,7 @@ public sealed class InventoryCountItemConfig : IEntityTypeConfiguration<Inventor
             .IsRequired();
         builder.Property(x => x.InventoryId)
             .IsRequired();
-        builder.Property(x => x.ProductVariantId)
+        builder.Property(x => x.VariantId)
             .IsRequired();
 
         builder.Property(x => x.ExpectedQuantity)

@@ -18,5 +18,5 @@ public sealed record OrderCreatedIntegrationEvent(
     public DateTime PublishedAt { get; init; } = DateTime.UtcNow;
 }
 
-/// <summary>ProductVariationId is what OrderItem.ProductId actually holds - see docs/services/order-service.md's naming-mismatch note.</summary>
+/// <summary>VariantId is what OrderItem.ProductId actually holds - see docs/services/order-service.md's naming-mismatch note.</summary>
 public sealed record OrderCreatedItem(Guid ProductId, Guid VariationId, string Name, int Quantity, decimal UnitPrice);

@@ -13,7 +13,7 @@ public sealed class InventoryTransactionWriteService(
             inventoryId: request.InventoryId,
             warehouseId: request.WarehouseId,
             productId: request.ProductId,
-            variantId: request.ProductVariantId,
+            variantId: request.VariantId,
             type: request.Type,
             quantity: request.Quantity,
             beforeOnHandQuantity: request.QuantityAfter - request.Quantity,

@@ -20,9 +20,9 @@ public interface IInventoryClientService
     Task RestockAsync(Guid deductionId, string? reason, CancellationToken ct = default);
 }
 
-public sealed record InventoryDeductionItem(Guid ProductVariationId, int Quantity);
+public sealed record InventoryDeductionItem(Guid VariantId, int Quantity);
 
-public sealed record InventoryDeductionInsufficientItem(Guid ProductVariationId, int RequestedQuantity, int AvailableQuantity);
+public sealed record InventoryDeductionInsufficientItem(Guid VariantId, int RequestedQuantity, int AvailableQuantity);
 
 public sealed record InventoryDeductionResult(
     bool Success,

@@ -9,9 +9,9 @@ public sealed record DeductStockCommand(
     IReadOnlyCollection<DeductStockItem> Items,
     string? Reason = null) : ICommand<DeductStockResult>;
 
-public sealed record DeductStockItem(Guid ProductVariationId, int Quantity);
+public sealed record DeductStockItem(Guid VariantId, int Quantity);
 
-public sealed record InsufficientStockItem(Guid ProductVariationId, int RequestedQuantity, int AvailableQuantity);
+public sealed record InsufficientStockItem(Guid VariantId, int RequestedQuantity, int AvailableQuantity);
 
 public sealed record DeductStockResult(
     bool Success,

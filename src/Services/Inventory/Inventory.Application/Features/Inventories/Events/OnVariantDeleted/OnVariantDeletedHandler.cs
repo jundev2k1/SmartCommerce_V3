@@ -1,0 +1,19 @@
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnVariantDeleted;
+
+/// <summary>A deleted variation no longer exists to hold stock against, so its inventory rows (across every warehouse) are removed with it.</summary>
+public sealed class OnVariantDeletedHandler(
+    IInventoryWriteService inventoryWriteService,
+    IUnitOfWork unitOfWork) : IInternalEventHandler<OnVariantDeletedEvent>
+{
+    public async Task Handle(OnVariantDeletedEvent @event, CancellationToken ct = default)
+    {
+        await unitOfWork.ExecuteTransactionAsync(async () =>
+        {
+            await inventoryWriteService.DeleteByVariationIdAsync(@event.VariantId, ct);
+        }, ct: ct);
+    }
+}

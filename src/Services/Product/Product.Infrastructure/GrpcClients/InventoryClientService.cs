@@ -10,12 +10,12 @@ public sealed class InventoryClientService(InventoryGrpcService.InventoryGrpcSer
     public async Task<IReadOnlyDictionary<Guid, int>> GetAvailableStockBatchAsync(IReadOnlyCollection<Guid> productVariationIds, CancellationToken ct = default)
     {
         var request = new GetProductsStockRequest();
-        request.ProductVariationIds.AddRange(productVariationIds.Select(id => id.ToString()));
+        request.VariantIds.AddRange(productVariationIds.Select(id => id.ToString()));
 
         var response = await client.GetProductsStockAsync(request, cancellationToken: ct);
 
         return response.Items.ToDictionary(
-            i => Guid.Parse(i.ProductVariationId),
+            i => Guid.Parse(i.VariantId),
             i => i.TotalQuantity);
     }
 }

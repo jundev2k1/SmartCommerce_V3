@@ -17,7 +17,7 @@ public sealed class ReceiveInventoryHandler(
         {
             var items = request.Items
                 .Select(i => new IReceivingService.ReceivingItem(
-                    ProductVariantId: i.ProductVariantId,
+                    VariantId: i.VariantId,
                     WarehouseId: request.WarehouseId,
                     Quantity: i.Quantity,
                     LotNumber: i.LotNumber,

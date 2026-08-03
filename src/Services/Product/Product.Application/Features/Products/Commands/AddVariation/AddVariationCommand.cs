@@ -4,6 +4,6 @@ namespace SmartEcommerce.Product.Application.Features.Products.Commands.AddVaria
 
 public sealed record AddVariationCommand(
     Guid ProductId,
-    ProductVariationInputDto VariationInput) : ICommand<AddVariationResponse>;
+    VariantInputDto VariationInput) : ICommand<AddVariationResponse>;
 
-public sealed record AddVariationResponse(ProductVariationResponse Variation);
+public sealed record AddVariationResponse(VariantResponse Variation);

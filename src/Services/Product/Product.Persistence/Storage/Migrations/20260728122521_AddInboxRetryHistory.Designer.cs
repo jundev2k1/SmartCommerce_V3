@@ -449,7 +449,7 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                     b.ToTable("product_tag_mappings", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductVariation", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.Variant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -592,7 +592,7 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductVariation", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.Variant", b =>
                 {
                     b.HasOne("SmartEcommerce.Product.Domain.Entities.Product", "Product")
                         .WithMany("Variations")
@@ -603,7 +603,7 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
 
                     b.OwnsOne("SmartEcommerce.Product.Domain.ValueObjects.Dimensions", "Dimensions", b1 =>
                         {
-                            b1.Property<Guid>("ProductVariationId")
+                            b1.Property<Guid>("VariantId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
@@ -619,12 +619,12 @@ namespace SmartEcommerce.Product.Persistence.Storage.Migrations
                                 .HasColumnType("numeric(10,2)")
                                 .HasColumnName("dimensions_width");
 
-                            b1.HasKey("ProductVariationId");
+                            b1.HasKey("VariantId");
 
                             b1.ToTable("product_variations");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductVariationId")
+                                .HasForeignKey("VariantId")
                                 .HasConstraintName("fk_product_variations_product_variations_id");
                         });
 

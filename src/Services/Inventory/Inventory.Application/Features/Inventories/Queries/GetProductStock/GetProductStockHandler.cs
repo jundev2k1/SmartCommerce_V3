@@ -7,10 +7,10 @@ public sealed class GetProductStockHandler(IInventoryReadService inventoryReadSe
 {
     public async Task<GetProductStockResponse> Handle(GetProductStockQuery request, CancellationToken ct = default)
     {
-        var total = request.ProductVariationId is not null
-            ? await inventoryReadService.GetTotalStockByVariationIdAsync(request.ProductVariationId.Value, ct)
+        var total = request.VariantId is not null
+            ? await inventoryReadService.GetTotalStockByVariationIdAsync(request.VariantId.Value, ct)
             : await inventoryReadService.GetTotalStockByProductIdAsync(request.ProductId, ct);
 
-        return new GetProductStockResponse(request.ProductId, request.ProductVariationId, total);
+        return new GetProductStockResponse(request.ProductId, request.VariantId, total);
     }
 }

@@ -3,7 +3,7 @@ namespace SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
 public sealed record CreateInventoryTransactionDto(
     Guid InventoryId,
     Guid ProductId,
-    Guid ProductVariantId,
+    Guid VariantId,
     Guid WarehouseId,
     InventoryTransactionType Type,
     int Quantity,

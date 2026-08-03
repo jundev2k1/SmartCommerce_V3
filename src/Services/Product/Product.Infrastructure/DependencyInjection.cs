@@ -67,9 +67,9 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventConsumer, ProductCreatedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductUpdatedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductDeletedIntegrationEventConsumer>();
-        services.AddScoped<IIntegrationEventConsumer, ProductVariationCreatedIntegrationEventConsumer>();
-        services.AddScoped<IIntegrationEventConsumer, ProductVariationUpdatedIntegrationEventConsumer>();
-        services.AddScoped<IIntegrationEventConsumer, ProductVariationDeletedIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, VariantCreatedIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, VariantUpdatedIntegrationEventConsumer>();
+        services.AddScoped<IIntegrationEventConsumer, VariantDeletedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductCategoryAssignedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductCategoryRemovedIntegrationEventConsumer>();
         services.AddScoped<IIntegrationEventConsumer, ProductTagAssignedIntegrationEventConsumer>();

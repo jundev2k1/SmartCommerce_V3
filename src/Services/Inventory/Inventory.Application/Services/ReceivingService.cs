@@ -36,7 +36,7 @@ public sealed class ReceivingService(
         var transactions = new List<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,
@@ -47,12 +47,12 @@ public sealed class ReceivingService(
         foreach (var item in items)
         {
             var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
-                item.ProductVariantId, warehouseId, ct);
+                item.VariantId, warehouseId, ct);
 
             if (inventory is null)
             {
                 throw ExceptionFactory.EntityNotFound(
-                    $"Inventory for variation {item.ProductVariantId} in warehouse {warehouseId} not found. " +
+                    $"Inventory for variation {item.VariantId} in warehouse {warehouseId} not found. " +
                     "Create inventory records first.");
             }
 
@@ -98,8 +98,8 @@ public sealed class ReceivingService(
         {
             document.AddItem(
                 productId: receivedInventories
-                    .First(i => i.VariantId == item.ProductVariantId).ProductId,
-                productVariantId: item.ProductVariantId,
+                    .First(i => i.VariantId == item.VariantId).ProductId,
+                productVariantId: item.VariantId,
                 quantity: item.Quantity,
                 unitOfMeasure: "EA",
                 description: item.LotNumber ?? description);

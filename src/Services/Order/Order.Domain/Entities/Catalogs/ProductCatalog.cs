@@ -1,9 +1,9 @@
 namespace SmartEcommerce.Order.Domain.Entities.Catalogs;
 
 /// <summary>
-/// Local read-model of variation name/sku/price, kept in sync via the Product/ProductVariation
+/// Local read-model of variation name/sku/price, kept in sync via the Product/Variant
 /// integration events so Order can price/validate requested variations without a synchronous
-/// call to Product Service. Id is the ProductVariationId itself (1:1 with a variation, no
+/// call to Product Service. Id is the VariantId itself (1:1 with a variation, no
 /// surrogate key) - keyed at variation level, not product level, since that's the actual
 /// priced/orderable unit now that a Product can have many variations.
 /// </summary>

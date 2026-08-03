@@ -19,7 +19,7 @@ public interface IInventoryTransactionService : IService
         IReadOnlyList<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,

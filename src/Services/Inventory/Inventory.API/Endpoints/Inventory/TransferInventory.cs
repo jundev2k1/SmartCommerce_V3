@@ -8,7 +8,7 @@ using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.Transfe
 namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed record TransferInventoryItemRequest(
-    string ProductVariantId,
+    string VariantId,
     int Quantity);
 
 public sealed record TransferInventoryRequest(
@@ -30,7 +30,7 @@ public sealed class TransferInventoryEndpoint : ICarterModule
         "- **SourceWarehouseId**: Warehouse to transfer from (required, must be valid GUID)",
         "- **DestinationWarehouseId**: Warehouse to transfer to (required, must be valid GUID)",
         "- **Items**: Array of items to transfer (required, minimum 1 item)",
-        "  - **ProductVariantId**: Variant being transferred (required, must be valid GUID)",
+        "  - **VariantId**: Variant being transferred (required, must be valid GUID)",
         "  - **Quantity**: Amount to transfer (required, must be > 0)",
         "- **Reason**: Transfer reason/notes (required, max 500 chars)",
         "",
@@ -63,7 +63,7 @@ public sealed class TransferInventoryEndpoint : ICarterModule
     {
         var items = request.Items
             .Select(i => new TransferInventoryItem(
-                ProductVariantId: Guid.Parse(i.ProductVariantId),
+                VariantId: Guid.Parse(i.VariantId),
                 Quantity: i.Quantity))
             .ToList();
 

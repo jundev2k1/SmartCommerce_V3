@@ -18,7 +18,7 @@ public sealed class InventoryReservationWriteService(
             request.InventoryId,
             request.WarehouseId,
             request.ProductId,
-            request.ProductVariantId,
+            request.VariantId,
             request.Quantity,
             request.ReferenceType,
             request.ReferenceId,

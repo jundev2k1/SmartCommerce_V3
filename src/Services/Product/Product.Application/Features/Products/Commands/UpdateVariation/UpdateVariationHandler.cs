@@ -35,13 +35,13 @@ public sealed class UpdateVariationHandler(
                 request.Name,
                 Money.Create(request.Price),
                 request.Barcode is null ? null : Barcode.Create(request.Barcode),
-                ProductVariationMapping.MapWeight(request.Weight, request.WeightUnit),
+                VariantMapping.MapWeight(request.Weight, request.WeightUnit),
                 dimensions,
                 request.Images,
                 ct: ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductVariationUpdatedIntegrationEvent(
+                new VariantUpdatedIntegrationEvent(
                     variation.ProductId,
                     variation.Id,
                     variation.Product.Name,

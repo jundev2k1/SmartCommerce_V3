@@ -24,7 +24,7 @@ public sealed class StockDeductionService(
         InventoryDocumentType documentType,
         InventoryDocumentReason documentReason,
         Guid sourceWarehouseId,
-        IReadOnlyList<(Guid InventoryId, Guid ProductId, Guid ProductVariantId, int Quantity)> items,
+        IReadOnlyList<(Guid InventoryId, Guid ProductId, Guid VariantId, int Quantity)> items,
         string description,
         CancellationToken ct = default)
     {
@@ -32,7 +32,7 @@ public sealed class StockDeductionService(
         var transactions = new List<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,
@@ -68,7 +68,7 @@ public sealed class StockDeductionService(
         {
             document.AddItem(
                 productId: item.ProductId,
-                productVariantId: item.ProductVariantId,
+                productVariantId: item.VariantId,
                 quantity: item.Quantity,
                 unitOfMeasure: "EA",
                 inventoryId: item.InventoryId,

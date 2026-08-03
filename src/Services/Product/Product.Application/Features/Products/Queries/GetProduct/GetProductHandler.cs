@@ -29,7 +29,7 @@ public sealed class GetProductHandler(
             product.Slug.Value,
             [.. product.CategoryMappings.Select(m => m.CategoryId)],
             [.. product.TagMappings.Select(m => m.TagId)],
-            [.. product.Variations.Select(v => ProductVariationResponse.From(
+            [.. product.Variations.Select(v => VariantResponse.From(
                 v, stockByVariationId?.GetValueOrDefault(v.Id)))],
             product.CreatedAt,
             product.UpdatedAt);

@@ -16,20 +16,20 @@ public sealed class UpdateVariationValidator : AbstractValidator<UpdateVariation
             .WithMessage("Sku must be 1-50 characters and contain only letters, digits, and hyphens");
 
         RuleFor(x => x.Name)
-            .Must(ProductVariation.IsValidName)
+            .Must(Variant.IsValidName)
             .WithMessage("Variation name is required")
             .MaximumLength(200).WithMessage("Variation name must not exceed 200 characters");
 
         RuleFor(x => x.Price)
-            .Must(ProductVariation.IsValidPrice)
+            .Must(Variant.IsValidPrice)
             .WithMessage("Price cannot be negative");
 
         RuleFor(x => x.Cost)
-            .Must(ProductVariation.IsValidCost)
+            .Must(Variant.IsValidCost)
             .WithMessage("Cost cannot be negative");
 
         RuleFor(x => x.Weight)
-            .Must(ProductVariation.IsValidWeight)
+            .Must(Variant.IsValidWeight)
             .WithMessage("Weight must be greater than zero when specified");
 
         RuleFor(x => x.Barcode)
@@ -37,7 +37,7 @@ public sealed class UpdateVariationValidator : AbstractValidator<UpdateVariation
             .WithMessage("Barcode must be 8-14 numeric digits (EAN/UPC/GTIN)");
 
         RuleFor(x => x.Status)
-            .Must(s => Enum.TryParse<ProductVariationStatus>(s, ignoreCase: true, out _))
+            .Must(s => Enum.TryParse<VariantStatus>(s, ignoreCase: true, out _))
             .WithMessage("Status must be one of: Active, Inactive, Discontinued");
     }
 }

@@ -13,7 +13,7 @@ public interface IStockDeductionService : IService
         InventoryDocumentType documentType,
         InventoryDocumentReason documentReason,
         Guid sourceWarehouseId,
-        IReadOnlyList<(Guid InventoryId, Guid ProductId, Guid ProductVariantId, int Quantity)> items,
+        IReadOnlyList<(Guid InventoryId, Guid ProductId, Guid VariantId, int Quantity)> items,
         string description,
         CancellationToken ct = default);
 

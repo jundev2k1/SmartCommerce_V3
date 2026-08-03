@@ -16,7 +16,7 @@ public interface IReceivingService : IService
         CancellationToken ct = default);
 
     public sealed record ReceivingItem(
-        Guid ProductVariantId,
+        Guid VariantId,
         Guid WarehouseId,
         int Quantity,
         string? LotNumber = null,

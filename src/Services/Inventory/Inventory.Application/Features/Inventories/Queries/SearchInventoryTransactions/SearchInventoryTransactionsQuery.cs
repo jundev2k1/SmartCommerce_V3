@@ -9,7 +9,7 @@ public sealed record SearchInventoryTransactionsItemResponse(
     Guid Id,
     Guid InventoryId,
     Guid ProductId,
-    Guid ProductVariationId,
+    Guid VariantId,
     Guid WarehouseId,
     InventoryTransactionType Type,
     int Quantity,

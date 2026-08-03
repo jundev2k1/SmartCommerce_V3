@@ -15,7 +15,7 @@ public sealed class UpdateProductEndpoint : ICarterModule
         "## Update Product",
         "",
         "Updates Product-level shared information only (Name/Description/Slug). Never touches",
-        "ProductVariation data - use the dedicated ProductVariation APIs for that.",
+        "Variant data - use the dedicated Variant APIs for that.",
         "",
         "### Route Parameters",
         "- **productId**: Unique identifier of the product (required, must be valid GUID)",

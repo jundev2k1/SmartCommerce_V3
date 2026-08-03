@@ -29,7 +29,7 @@ public sealed class InventoryTransactionService(
         var dto = new CreateInventoryTransactionDto(
             InventoryId: inventoryId,
             ProductId: productId,
-            ProductVariantId: productVariantId,
+            VariantId: productVariantId,
             WarehouseId: warehouseId,
             Type: type,
             Quantity: quantity,
@@ -47,7 +47,7 @@ public sealed class InventoryTransactionService(
         IReadOnlyList<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,

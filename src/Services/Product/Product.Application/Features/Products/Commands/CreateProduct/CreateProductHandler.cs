@@ -123,7 +123,7 @@ public sealed class CreateProductHandler(
         foreach (var variation in product.Variations)
         {
             await outboxStore.EnqueueAsync(
-                new ProductVariationCreatedIntegrationEvent(
+                new VariantCreatedIntegrationEvent(
                     product.Id,
                     variation.Id,
                     variation.Sku.Value,

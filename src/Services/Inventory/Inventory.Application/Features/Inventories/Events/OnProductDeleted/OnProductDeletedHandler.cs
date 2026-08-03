@@ -5,7 +5,7 @@ using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnProductDeleted;
 
 /// <summary>
-/// Whole-product deletion is an EF cascade over the owned ProductVariation rows (see
+/// Whole-product deletion is an EF cascade over the owned Variant rows (see
 /// Product.RemoveVariation vs. a full aggregate delete), so no per-variation Deleted event fires
 /// for each one - this handler is the fallback that cleans up every inventory row for the
 /// product in one pass.

@@ -16,7 +16,7 @@ public interface ITransferService : IService
         CancellationToken ct = default);
 
     public sealed record TransferItem(
-        Guid ProductVariantId,
+        Guid VariantId,
         int Quantity);
 
     public sealed record TransferResult(

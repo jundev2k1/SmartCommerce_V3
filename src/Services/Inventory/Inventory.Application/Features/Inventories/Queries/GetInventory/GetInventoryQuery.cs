@@ -5,7 +5,7 @@ public sealed record GetInventoryQuery(Guid InventoryId) : IQuery<GetInventoryRe
 public sealed record GetInventoryResponse(
     Guid Id,
     Guid ProductId,
-    Guid ProductVariationId,
+    Guid VariantId,
     Guid WarehouseId,
     int Quantity,
     DateTime CreatedAt,

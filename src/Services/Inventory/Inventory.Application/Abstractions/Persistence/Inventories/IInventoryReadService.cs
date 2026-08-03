@@ -9,7 +9,7 @@ public interface IInventoryReadService
 
     Task<PaginatedResult<InventoryStock>> SearchAsync(CriteriaRequest request, CancellationToken ct = default);
 
-    /// <summary>Stock is keyed at (ProductVariationId, WarehouseId) - each product variation per warehouse has one InventoryStock aggregate.</summary>
+    /// <summary>Stock is keyed at (VariantId, WarehouseId) - each product variation per warehouse has one InventoryStock aggregate.</summary>
     Task<InventoryStock?> GetByVariationAndWarehouseAsync(
         Guid productVariationId,
         Guid warehouseId,

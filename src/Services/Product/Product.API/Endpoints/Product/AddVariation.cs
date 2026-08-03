@@ -26,7 +26,7 @@ public sealed class AddVariationEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Add Variation",
         "",
-        "Adds a new ProductVariation to an existing product. DisplayOrder is assigned",
+        "Adds a new Variant to an existing product. DisplayOrder is assigned",
         "automatically (after the current highest). Set MakeDefault to switch the Default over",
         "to the new variation atomically.",
         "",
@@ -57,7 +57,7 @@ public sealed class AddVariationEndpoint : ICarterModule
     {
         var command = new AddVariationCommand(
             productId,
-            new ProductVariationInputDto(
+            new VariantInputDto(
                 request.Sku.Trim(),
                 request.Name.Trim(),
                 request.Price,

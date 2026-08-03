@@ -10,7 +10,7 @@ using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
 namespace SmartEcommerce.Product.API.Endpoints.Product;
 
-public sealed record CreateProductVariationRequest(
+public sealed record CreateVariantRequest(
     string Sku,
     string Name,
     decimal Price,
@@ -28,7 +28,7 @@ public sealed record CreateProductRequest(
     string Name,
     string Description,
     string Slug,
-    IReadOnlyCollection<CreateProductVariationRequest> Variations,
+    IReadOnlyCollection<CreateVariantRequest> Variations,
     IReadOnlyCollection<Guid>? CategoryIds = null,
     IReadOnlyCollection<Guid>? TagIds = null);
 
@@ -39,7 +39,7 @@ public sealed class CreateProductEndpoint : ICarterModule
         "",
         "Creates a new product together with all of its initial variations in a single request -",
         "creating a Product is aggregate initialization, so this is the one place multiple",
-        "variations may be submitted at once. After creation, use the dedicated ProductVariation",
+        "variations may be submitted at once. After creation, use the dedicated Variant",
         "APIs to add/update/remove/reorder variations.",
         "",
         "### Request Body",
@@ -81,7 +81,7 @@ public sealed class CreateProductEndpoint : ICarterModule
             request.Name.Trim(),
             request.Description?.Trim() ?? string.Empty,
             request.Slug.Trim(),
-            [.. request.Variations.Select(v => new ProductVariationInputDto(
+            [.. request.Variations.Select(v => new VariantInputDto(
                 v.Sku.Trim(),
                 v.Name.Trim(),
                 v.Price,

@@ -60,7 +60,7 @@ public static class DependencyInjection
     }
 
     // Product, ProductCategory and ProductTag are independent aggregates - Product references
-    // category/tag ids but doesn't own them, so each is its own root. ProductVariation is an
+    // category/tag ids but doesn't own them, so each is its own root. Variant is an
     // owned child of Product (no independent identity), so it is not registered separately -
     // its changes are already part of Product's own audit snapshot.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)

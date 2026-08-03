@@ -36,7 +36,7 @@ public sealed class AddVariationHandler(
 
         var correlationId = currentUser.GetCorrelationId();
 
-        ProductVariation variation = null!;
+        Variant variation = null!;
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             // Create product variation from DB
@@ -47,7 +47,7 @@ public sealed class AddVariationHandler(
 
             // Publish variation created event bus
             await outboxStore.EnqueueAsync(
-                new ProductVariationCreatedIntegrationEvent(
+                new VariantCreatedIntegrationEvent(
                     variation.ProductId,
                     variation.Id,
                     variation.Sku.Value,
@@ -59,6 +59,6 @@ public sealed class AddVariationHandler(
                 ct);
         }, ct: ct);
 
-        return new AddVariationResponse(ProductVariationResponse.From(variation));
+        return new AddVariationResponse(VariantResponse.From(variation));
     }
 }

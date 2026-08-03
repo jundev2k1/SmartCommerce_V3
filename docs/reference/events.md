@@ -72,7 +72,7 @@ Full retry/backoff/dead-letter mechanics and the exactly-once transaction-safety
 
 ## DOs and DON'Ts
 
-**DO** — keep consumers thin (deserialize → dispatch a Command, nothing else); make consumers idempotent even beyond Inbox dedup where cheap to do (see `User.Application`'s `CreateUserCommandHandler` check-then-create-then-recheck pattern, and Inventory's `GetByVariationAndWarehouseAsync` pre-check in `OnProductVariationCreatedEvent`/`Handler`); use `CorrelationId` for cross-service tracing; enqueue the integration event in the same handler and the same `SaveChangesAsync` call as the aggregate mutation it describes.
+**DO** — keep consumers thin (deserialize → dispatch a Command, nothing else); make consumers idempotent even beyond Inbox dedup where cheap to do (see `User.Application`'s `CreateUserCommandHandler` check-then-create-then-recheck pattern, and Inventory's `GetByVariationAndWarehouseAsync` pre-check in `OnVariantCreatedEvent`/`Handler`); use `CorrelationId` for cross-service tracing; enqueue the integration event in the same handler and the same `SaveChangesAsync` call as the aggregate mutation it describes.
 
 **DON'T** — call `IEventPublisher.PublishAsync` directly from feature code (bypasses the Outbox's atomicity guarantee) — always go through `IOutboxStore.EnqueueAsync`; put business logic in a Kafka consumer; use an Internal event as a substitute for a real integration event when another *service* actually needs to know; call `IIntegrationEventConsumer` implementations directly (they're invoked only by `IntegrationEventConsumerRegistry`); expect a "domain event" hop to exist — it doesn't.
 

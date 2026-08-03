@@ -10,6 +10,6 @@ public sealed record GetProductResponse(
     string Slug,
     IReadOnlyCollection<Guid> CategoryIds,
     IReadOnlyCollection<Guid> TagIds,
-    IReadOnlyCollection<ProductVariationResponse> Variations,
+    IReadOnlyCollection<VariantResponse> Variations,
     DateTime CreatedAt,
     DateTime UpdatedAt);

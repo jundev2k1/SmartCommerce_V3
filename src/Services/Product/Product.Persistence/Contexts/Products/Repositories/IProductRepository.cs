@@ -18,17 +18,17 @@ public interface IProductRepository : IRepository<ProductEntity>
         CancellationToken ct = default);
 
     Task AddVariationAsync(
-        ProductVariation variation,
+        Variant variation,
         CancellationToken ct = default);
 
     Task AddVariationRangeAsync(
-        IEnumerable<ProductVariation> variations,
+        IEnumerable<Variant> variations,
         CancellationToken ct = default);
 
     Task UpdateVariationAsync(
         Guid id,
-        Func<IQueryable<ProductVariation>, IQueryable<ProductVariation>> includes,
-        Func<ProductVariation, Task> updateAction,
+        Func<IQueryable<Variant>, IQueryable<Variant>> includes,
+        Func<Variant, Task> updateAction,
         CancellationToken ct = default);
 
     Task RemoveVariationAsync(Guid id, CancellationToken ct = default);

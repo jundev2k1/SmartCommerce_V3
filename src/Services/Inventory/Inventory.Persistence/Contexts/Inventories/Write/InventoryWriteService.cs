@@ -5,8 +5,8 @@ namespace SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Write;
 
 /// <summary>
 /// Never calls IUnitOfWork itself. AddAsync/DeleteByProductIdAsync/DeleteByVariationIdAsync are
-/// each the sole write in their caller's transaction (OnProductVariationCreated/OnProductDeleted/
-/// OnProductVariationDeleted own ExecuteTransactionAsync themselves). ReceiveStockAsync/DeductStockAsync/
+/// each the sole write in their caller's transaction (OnVariantCreated/OnProductDeleted/
+/// OnVariantDeleted own ExecuteTransactionAsync themselves). ReceiveStockAsync/DeductStockAsync/
 /// AdjustStockAsync are used only by the cross-aggregate stock-mutation handlers (AdjustStock/
 /// DeductStock/RestockStock/StockIn/StockOut), which own IUnitOfWork directly and batch this with
 /// InventoryTransaction writes.

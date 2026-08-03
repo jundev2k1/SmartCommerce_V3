@@ -31,7 +31,7 @@ public sealed class ReceiveInventoryItemValidator : AbstractValidator<ReceiveInv
 {
     public ReceiveInventoryItemValidator()
     {
-        RuleFor(x => x.ProductVariantId)
+        RuleFor(x => x.VariantId)
             .NotEmpty()
             .WithMessage("Product variant ID is required.");
 

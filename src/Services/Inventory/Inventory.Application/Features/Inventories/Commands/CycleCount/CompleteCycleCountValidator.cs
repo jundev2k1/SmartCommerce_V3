@@ -31,7 +31,7 @@ public sealed class CycleCountItemValidator : AbstractValidator<CycleCountItemRe
 {
     public CycleCountItemValidator()
     {
-        RuleFor(x => x.ProductVariantId)
+        RuleFor(x => x.VariantId)
             .NotEmpty()
             .WithMessage("Product variant ID is required.");
 

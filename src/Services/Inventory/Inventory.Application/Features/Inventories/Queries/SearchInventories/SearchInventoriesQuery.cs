@@ -8,7 +8,7 @@ public sealed record SearchInventoriesQuery(CriteriaRequest Criteria) : IQuery<P
 public sealed record SearchInventoriesItemResponse(
     Guid Id,
     Guid ProductId,
-    Guid ProductVariationId,
+    Guid VariantId,
     Guid WarehouseId,
     int Quantity,
     DateTime CreatedAt,

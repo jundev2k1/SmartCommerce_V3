@@ -24,7 +24,7 @@ public sealed class DeleteVariationHandler(
                 ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductVariationDeletedIntegrationEvent(
+                new VariantDeletedIntegrationEvent(
                     request.ProductId,
                     request.VariationId,
                     correlationId),

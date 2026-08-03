@@ -16,7 +16,7 @@ public sealed class TransferInventoryHandler(
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var items = request.Items
-                .Select(i => new ITransferService.TransferItem(i.ProductVariantId, i.Quantity))
+                .Select(i => new ITransferService.TransferItem(i.VariantId, i.Quantity))
                 .ToList();
 
             result = await transferService.TransferAsync(

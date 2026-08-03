@@ -28,7 +28,7 @@ public sealed class InventoryReservationConfig : IEntityTypeConfiguration<Invent
         builder.Property(x => x.InventoryId).IsRequired();
         builder.Property(x => x.WarehouseId).IsRequired();
         builder.Property(x => x.ProductId).IsRequired();
-        builder.Property(x => x.ProductVariantId).IsRequired();
+        builder.Property(x => x.VariantId).IsRequired();
 
         builder.Property(x => x.ReferenceType)
             .HasConversion<short?>();

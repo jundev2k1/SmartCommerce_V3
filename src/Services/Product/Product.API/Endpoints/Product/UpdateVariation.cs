@@ -27,7 +27,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Update Variation",
         "",
-        "Updates a ProductVariation's details (Sku, Name, Barcode, Price, Cost, Weight, Dimensions,",
+        "Updates a Variant's details (Sku, Name, Barcode, Price, Cost, Weight, Dimensions,",
         "Images, Status). Never touches DisplayOrder or IsDefault - use ReorderVariations /",
         "ChangeDefaultVariation for those.",
         "",
@@ -58,7 +58,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
         [FromServices] ISender sender,
         CancellationToken ct = default)
     {
-        if (!Enum.TryParse<ProductVariationStatus>(request.Status.Trim(), out var variationStatus))
+        if (!Enum.TryParse<VariantStatus>(request.Status.Trim(), out var variationStatus))
             throw new BadRequestException($"Variation Status ({request.Status}) is invalid.");
 
         if (request.WeightUnit != null && !Enum.TryParse<WeightUnit>(request.WeightUnit.Trim(), out var _))

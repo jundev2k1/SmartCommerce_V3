@@ -3,7 +3,7 @@ namespace SmartEcommerce.Product.Domain.Entities.Products;
 /// <summary>
 /// Aggregate root. Holds only data shared across every variation - identity, display copy,
 /// category/tag membership, and shared metadata. Everything variation-specific (Sku, price,
-/// stock-affecting attributes, status, ...) lives on <see cref="ProductVariation"/>.
+/// stock-affecting attributes, status, ...) lives on <see cref="Variant"/>.
 /// </summary>
 public sealed class Product : AggregateRoot<Guid>, IAuditable
 {
@@ -13,11 +13,11 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
     public Slug Slug { get; private set; } = null!;
     public ProductMetadata Metadata { get; private set; } = new();
 
-    public ICollection<ProductVariation> Variations { get; private set; } = [];
+    public ICollection<Variant> Variations { get; private set; } = [];
     public ICollection<ProductCategoryMapping> CategoryMappings { get; private set; } = [];
     public ICollection<ProductTagMapping> TagMappings { get; private set; } = [];
 
-    public ProductVariation DefaultVariation => Variations.First(v => v.IsDefault);
+    public Variant DefaultVariation => Variations.First(v => v.IsDefault);
 
     private Product() { }
 
@@ -33,7 +33,7 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
         string description,
         Slug slug,
         ProductMetadata? metadata,
-        IEnumerable<ProductVariation> variations,
+        IEnumerable<Variant> variations,
         IEnumerable<Guid> categoryIds,
         IEnumerable<Guid> tagIds)
     {
@@ -80,7 +80,7 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
             throw ExceptionFactory.InvalidState("Cannot remove the last variation of a product.");
 
         var variation = Variations.FirstOrDefault(v => v.Id == variationId)
-            ?? throw ExceptionFactory.EntityNotFound<ProductVariation>(variationId);
+            ?? throw ExceptionFactory.EntityNotFound<Variant>(variationId);
 
         var wasDefault = variation.IsDefault;
         Variations.Remove(variation);
@@ -96,7 +96,7 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
     public void SetDefaultVariation(Guid variationId)
     {
         var target = Variations.FirstOrDefault(v => v.Id == variationId)
-            ?? throw ExceptionFactory.EntityNotFound<ProductVariation>(variationId);
+            ?? throw ExceptionFactory.EntityNotFound<Variant>(variationId);
 
         if (target.IsDefault)
             return;

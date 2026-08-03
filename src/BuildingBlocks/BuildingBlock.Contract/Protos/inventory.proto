@@ -14,32 +14,32 @@ service InventoryGrpcService {
 message GetProductStockRequest {
   string product_id = 1;
   // Omit (or leave empty) for the whole-product rollup across every variation and warehouse.
-  optional string product_variation_id = 2;
+  optional string variant_id = 2;
 }
 
 message GetProductStockResponse {
   string product_id = 1;
-  string product_variation_id = 2;
+  string variant_id = 2;
   int32 total_quantity = 3;
 }
 
 // Batch rollup across every warehouse for each requested variation - one round trip instead of N.
 // A variation id with no inventory rows at all comes back as total_quantity 0, not omitted.
 message GetProductsStockRequest {
-  repeated string product_variation_ids = 1;
+  repeated string variant_ids = 1;
 }
 
-message ProductVariationStock {
-  string product_variation_id = 1;
+message VariantStock {
+  string variant_id = 1;
   int32 total_quantity = 2;
 }
 
 message GetProductsStockResponse {
-  repeated ProductVariationStock items = 1;
+  repeated VariantStock items = 1;
 }
 
 message DeductStockItem {
-  string product_variation_id = 1;
+  string variant_id = 1;
   int32 quantity = 2;
 }
 
@@ -54,7 +54,7 @@ message DeductStockRequest {
 }
 
 message InsufficientStockItem {
-  string product_variation_id = 1;
+  string variant_id = 1;
   int32 requested_quantity = 2;
   int32 available_quantity = 3;
 }

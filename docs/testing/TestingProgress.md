@@ -4,13 +4,13 @@
 
 ## Current milestone
 
-**Milestone 1 (Foundation) — complete. Milestone 2 (Product.Domain Value Objects) — complete.** Next up: Milestone 3 (Product.Domain entities — `Product`/`ProductVariation` aggregate invariants), see "Current priority".
+**Milestone 1 (Foundation) — complete. Milestone 2 (Product.Domain Value Objects) — complete.** Next up: Milestone 3 (Product.Domain entities — `Product`/`Variant` aggregate invariants), see "Current priority".
 
 ## Overall progress snapshot
 
 - 5 test projects exist beyond the original one: `SimpleShop.TestKit` (shared infra), `BuildingBlock.SharedKernel.Tests`, `BuildingBlock.Domain.Tests`, `Product.Domain.Tests`, `Order.Application.Tests`.
 - 186 tests passing across all 6 test projects (25 + 14 + 35 + 97 + 8 + 7).
-- 1 of 7 services (Product) has partial Domain-layer coverage — all 7 Value Objects done, entities (`Product`, `ProductVariation`) not yet started.
+- 1 of 7 services (Product) has partial Domain-layer coverage — all 7 Value Objects done, entities (`Product`, `Variant`) not yet started.
 - `Order.Application.Tests` (`CancelOrderHandlerTests`, `DeleteOrderHandlerTests`) exists out of Roadmap order — see "Bug-fix exceptions" below. No other Application/Infrastructure/API tests exist yet.
 - **Phase 5 kicked off out of order (2026-07-27):** `tests/integration/Order.IntegrationTests` — the first Testcontainers-backed integration test project — was created ad hoc per a direct user request for a race-condition diagnostic, not because Order's Domain/Application layers were otherwise "solid" per the Roadmap's stated Phase 5 entry condition. See "Out-of-order work" below.
 
@@ -53,14 +53,14 @@ Direct user requests for a specific diagnostic/regression test take priority ove
 
 See [TestingRoadmap.md](TestingRoadmap.md) for the full phase breakdown. Immediate next batches, in order:
 
-1. Product.Domain entities (`Product`, `ProductVariation`) — aggregate invariants, variation-collection rules, default-variation logic. **Current priority.**
+1. Product.Domain entities (`Product`, `Variant`) — aggregate invariants, variation-collection rules, default-variation logic. **Current priority.**
 2. Notification.Domain (richest remaining service).
 3. `BuildingBlock.Application` pure-logic pieces (`ValidationBehavior<,>`, `PaginatedResult`, `ApiResponse`).
 4. Remaining services' Domain layers (Inventory → Auth → User → Order → Audit), per Roadmap order.
 
 ## Current priority
 
-Product.Domain entities — `Product`/`ProductVariation` aggregate invariants (Phase 3, item 1 above).
+Product.Domain entities — `Product`/`Variant` aggregate invariants (Phase 3, item 1 above).
 
 ## Files/folders already covered
 

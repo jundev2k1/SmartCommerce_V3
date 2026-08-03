@@ -82,7 +82,7 @@ public sealed class InventoryDocument : AggregateRoot<Guid>, IAuditable
         {
             document.AddItem(
                 item.ProductId,
-                item.ProductVariantId,
+                item.VariantId,
                 item.Quantity,
                 item.UnitOfMeasure,
                 item.InventoryId,

@@ -10,12 +10,12 @@ public sealed class InventoryClientService(InventoryGrpcService.InventoryGrpcSer
     public async Task<IReadOnlyDictionary<Guid, int>> GetAvailableStockBatchAsync(IReadOnlyCollection<Guid> productVariationIds, CancellationToken ct = default)
     {
         var request = new GetProductsStockRequest();
-        request.ProductVariationIds.AddRange(productVariationIds.Select(id => id.ToString()));
+        request.VariantIds.AddRange(productVariationIds.Select(id => id.ToString()));
 
         var response = await client.GetProductsStockAsync(request, cancellationToken: ct);
 
         return response.Items.ToDictionary(
-            i => Guid.Parse(i.ProductVariationId),
+            i => Guid.Parse(i.VariantId),
             i => i.TotalQuantity);
     }
 
@@ -33,7 +33,7 @@ public sealed class InventoryClientService(InventoryGrpcService.InventoryGrpcSer
 
         request.Items.AddRange(items.Select(i => new DeductStockItem
         {
-            ProductVariationId = i.ProductVariationId.ToString(),
+            VariantId = i.VariantId.ToString(),
             Quantity = i.Quantity,
         }));
 
@@ -41,7 +41,7 @@ public sealed class InventoryClientService(InventoryGrpcService.InventoryGrpcSer
 
         var insufficientItems = response.InsufficientItems
             .Select(i => new InventoryDeductionInsufficientItem(
-                Guid.Parse(i.ProductVariationId), i.RequestedQuantity, i.AvailableQuantity))
+                Guid.Parse(i.VariantId), i.RequestedQuantity, i.AvailableQuantity))
             .ToList();
 
         return new InventoryDeductionResult(

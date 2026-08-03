@@ -61,7 +61,7 @@ public sealed class StartCycleCountEndpoint : ICarterModule
 
 // Complete Cycle Count Endpoint
 public sealed record CountedItemRequest(
-    Guid ProductVariantId,
+    Guid VariantId,
     int ActualQuantity);
 
 public sealed record CompleteCycleCountRequest(
@@ -80,7 +80,7 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
         "### Request Body",
         "- **CountId**: Cycle count ID from start operation (required, must be valid GUID)",
         "- **CountedItems**: Array of counted items (required, minimum 1 item)",
-        "  - **ProductVariantId**: Variant counted (required, must be valid GUID)",
+        "  - **VariantId**: Variant counted (required, must be valid GUID)",
         "  - **ActualQuantity**: Physical quantity counted (required, >= 0)",
         "- **VarianceThresholdPercent**: Min variance % to trigger adjustment (optional, default 5%)",
         "",
@@ -110,7 +110,7 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
     {
         var items = request.CountedItems
             .Select(i => new CycleCountItemRequest(
-                ProductVariantId: i.ProductVariantId,
+                VariantId: i.VariantId,
                 ActualQuantity: i.ActualQuantity))
             .ToList();
 

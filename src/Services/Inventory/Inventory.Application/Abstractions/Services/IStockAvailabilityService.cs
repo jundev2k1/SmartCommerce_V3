@@ -5,7 +5,7 @@ namespace SmartEcommerce.Inventory.Application.Abstractions.Services;
 public interface IStockAvailabilityService : IService
 {
     Task<StockAvailabilityResult> ValidateAsync(
-        IReadOnlyList<(Guid ProductVariationId, int Quantity)> items,
+        IReadOnlyList<(Guid VariantId, int Quantity)> items,
         Guid warehouseId,
         CancellationToken ct = default);
 
@@ -16,7 +16,7 @@ public interface IStockAvailabilityService : IService
 
     public sealed record InsufficientStockError(
         Guid InventoryId,
-        Guid ProductVariationId,
+        Guid VariantId,
         int RequestedQuantity,
         int AvailableQuantity);
 }
