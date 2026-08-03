@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.InventoryLots;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryLots;
 
 public sealed record CreateInventoryLotRequest(
     Guid InventoryId,

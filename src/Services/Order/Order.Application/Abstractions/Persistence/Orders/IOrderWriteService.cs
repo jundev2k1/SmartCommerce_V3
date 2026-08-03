@@ -1,13 +1,13 @@
-using Order.Application.Abstractions.Services;
-using Order.Application.Features.Orders.DTOs;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 
-namespace Order.Application.Abstractions.Persistence.Orders;
+namespace SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
 /// <summary>
 /// Everything CreateOrderHandler needs Persistence to build an Order from - Application resolves
 /// the caller's intent (cart/stock validation, catalog pricing via IOrderItemPreparationService)
 /// but never constructs the Order/OrderOwner/OrderShipping/OrderItem entities itself. Persistence
-/// maps this into Order.Domain's CreateOrderData (see Order.Persistence.Mapping.Orders.OrderMapper)
+/// maps this into SmartEcommerce.Order.Domain's CreateOrderData (see SmartEcommerce.Order.Persistence.Mapping.Orders.OrderMapper)
 /// and lets Order.Create build itself.
 /// </summary>
 public sealed record CreateOrderRequest(

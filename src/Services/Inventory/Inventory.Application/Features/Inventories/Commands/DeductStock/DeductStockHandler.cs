@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 public sealed class DeductStockHandler(
     IWarehouseReadService warehouseReadService,

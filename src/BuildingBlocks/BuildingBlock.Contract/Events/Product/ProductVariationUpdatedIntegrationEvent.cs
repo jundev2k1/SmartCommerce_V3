@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Product;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
 /// <summary>Fired when a variation's Sku/Name/Price/Status changes - the fields catalog consumers (Order) care about.</summary>
 public sealed record ProductVariationUpdatedIntegrationEvent(

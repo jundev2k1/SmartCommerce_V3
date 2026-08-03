@@ -1,6 +1,6 @@
-using Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 
-namespace Inventory.Application.Features.Inventories.Queries.GetProductsStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductsStock;
 
 public sealed class GetProductsStockHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetProductsStockQuery, IReadOnlyCollection<ProductVariationStockResult>>

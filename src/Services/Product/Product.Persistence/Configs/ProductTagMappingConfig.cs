@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Product.Persistence.Configs;
+namespace SmartEcommerce.Product.Persistence.Configs;
 
 public sealed class ProductTagMappingConfig : IEntityTypeConfiguration<ProductTagMapping>
 {

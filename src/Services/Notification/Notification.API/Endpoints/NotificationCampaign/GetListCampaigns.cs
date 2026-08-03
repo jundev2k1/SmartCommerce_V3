@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationCampaigns.Queries.ListNotificationCampaigns;
+using SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.ListNotificationCampaigns;
 
-namespace Notification.API.Endpoints.NotificationCampaign;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationCampaign;
 
 public sealed class GetListCampaigns : ICarterModule
 {

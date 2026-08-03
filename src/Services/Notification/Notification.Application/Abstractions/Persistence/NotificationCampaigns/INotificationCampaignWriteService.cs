@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
 public interface INotificationCampaignWriteService
 {

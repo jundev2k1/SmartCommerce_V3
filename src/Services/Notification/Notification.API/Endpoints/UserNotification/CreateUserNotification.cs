@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
-namespace Notification.API.Endpoints.UserNotification;
+namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Admin-only - no automatic rule/campaign trigger is wired up yet to generate these.</summary>
 public sealed class CreateUserNotification : ICarterModule

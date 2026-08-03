@@ -3,7 +3,7 @@ global using System.Collections.Generic;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using BuildingBlock.Application.Abstractions.CQRS;
-global using BuildingBlock.Application.Abstractions.Persistence;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 
-global using Audit.Domain.Entities;
+global using SmartEcommerce.Audit.Domain.Entities;

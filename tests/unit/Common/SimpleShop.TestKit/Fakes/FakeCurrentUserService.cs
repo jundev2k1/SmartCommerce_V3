@@ -1,4 +1,4 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 namespace SimpleShop.TestKit.Fakes;
 

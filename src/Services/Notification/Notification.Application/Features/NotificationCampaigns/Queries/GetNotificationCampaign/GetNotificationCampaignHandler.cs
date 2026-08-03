@@ -1,8 +1,8 @@
-using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
+namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
 
 public sealed class GetNotificationCampaignHandler(INotificationCampaignReadService notificationCampaignReadService)
     : IQueryHandler<GetNotificationCampaignQuery, GetNotificationCampaignResponse>

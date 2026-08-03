@@ -1,7 +1,7 @@
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Persistence.Engine;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Persistence.Engine;
 
-namespace User.Persistence.Contexts.UserProfiles.Read;
+namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Read;
 
 public sealed class UserProfileReadService(UserDbContext dbContext) : IUserProfileReadService
 {

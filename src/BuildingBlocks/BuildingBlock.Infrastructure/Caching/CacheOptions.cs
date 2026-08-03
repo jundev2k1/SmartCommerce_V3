@@ -1,4 +1,4 @@
-namespace BuildingBlock.Infrastructure.Caching;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Caching;
 
 /// <summary>
 /// Cache options

@@ -1,14 +1,14 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Contract.Events.Product;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace Product.Application.Features.Products.Commands.CreateProduct;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.CreateProduct;
 
 public sealed class CreateProductHandler(
     IProductReadService productReadService,

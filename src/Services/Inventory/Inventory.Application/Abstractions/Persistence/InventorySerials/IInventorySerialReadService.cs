@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace Inventory.Application.Abstractions.Persistence.InventorySerials;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventorySerials;
 
 public interface IInventorySerialReadService
 {

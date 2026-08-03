@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace BuildingBlock.Application.Abstractions.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
 
 /// <summary>
 /// Read-only search/detail surface over dead-lettered Inbox rows, always implicitly scoped to

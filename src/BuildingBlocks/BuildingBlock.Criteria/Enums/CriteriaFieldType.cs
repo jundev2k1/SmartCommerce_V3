@@ -1,4 +1,4 @@
-namespace BuildingBlock.Criteria.Enums;
+namespace SmartEcommerce.BuildingBlock.Criteria.Enums;
 
 public enum CriteriaFieldType
 {

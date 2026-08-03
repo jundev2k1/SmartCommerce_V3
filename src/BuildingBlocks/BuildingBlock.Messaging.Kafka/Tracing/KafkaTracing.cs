@@ -3,7 +3,7 @@ using System.Text;
 
 using KafkaFlow;
 
-namespace BuildingBlock.Messaging.Kafka.Tracing;
+namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
 
 /// <summary>
 /// Manual OTel instrumentation for Kafka produce/consume - there's no mature auto-instrumentation

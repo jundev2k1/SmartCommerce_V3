@@ -1,14 +1,14 @@
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Contract.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Contract.Events;
 
-namespace Order.Persistence.Reliability.Outbox;
+namespace SmartEcommerce.Order.Persistence.Reliability.Outbox;
 
 public sealed class OutboxStore(
-    BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore) : BuildingBlock.Application.Abstractions.Outbox.IOutboxStore
+    SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore) : SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.IOutboxStore
 {
-    private readonly BuildingBlock.Persistence.Outbox.IOutboxStore _primitiveStore = primitiveStore;
+    private readonly SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore _primitiveStore = primitiveStore;
 
     public async Task EnqueueAsync<TEvent>(TEvent integrationEvent, CancellationToken ct = default)
         where TEvent : class, IIntegrationEvent

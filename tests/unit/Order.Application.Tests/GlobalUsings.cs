@@ -1,9 +1,9 @@
 global using Xunit;
 
-global using BuildingBlock.Application.Abstractions.Outbox;
-global using BuildingBlock.Application.Abstractions.Persistence;
-global using BuildingBlock.Application.Exceptions;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+global using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-global using Order.Domain.Enums;
+global using SmartEcommerce.Order.Domain.Enums;
 
-global using OrderEntity = Order.Domain.Entities.Orders.Order;
+global using OrderEntity = SmartEcommerce.Order.Domain.Entities.Orders.Order;

@@ -1,4 +1,4 @@
-namespace BuildingBlock.Web.Swagger.EndpointHeader;
+namespace SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
 
 public sealed class HeadersMetadata(IEnumerable<HeaderDefinition> headers)
 {

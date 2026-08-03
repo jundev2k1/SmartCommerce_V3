@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Contract.Events.Order;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Contract.Events.Order;
 
-using Order.Application.Abstractions.Persistence.Orders;
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Orders.Commands.CancelOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CancelOrder;
 
 public sealed class CancelOrderHandler(
     IOrderWriteService orderWriteService,

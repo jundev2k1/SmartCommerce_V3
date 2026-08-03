@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 
-using BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
 
-namespace BuildingBlock.Criteria.Definition;
+namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
 
 /// <summary>Modifiers for the field most recently configured, plus a passthrough back to `.Field(...)` so the Fluent chain can move on to the next field.</summary>
 public sealed class ConfiguredField<TEntity>

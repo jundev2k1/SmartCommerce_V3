@@ -1,6 +1,6 @@
-using Inventory.Domain.Entities.Warehouses;
+using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
 
-namespace Inventory.Domain.Entities.InventoryCounts;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
 
 public sealed class InventoryCount : AggregateRoot<Guid>, IAuditable
 {

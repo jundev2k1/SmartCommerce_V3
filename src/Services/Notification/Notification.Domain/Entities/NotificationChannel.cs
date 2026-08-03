@@ -1,4 +1,4 @@
-namespace Notification.Domain.Entities;
+namespace SmartEcommerce.Notification.Domain.Entities;
 
 /// <summary>
 /// Runtime configuration for one delivery platform (SMTP host/credentials, a Telegram bot token,

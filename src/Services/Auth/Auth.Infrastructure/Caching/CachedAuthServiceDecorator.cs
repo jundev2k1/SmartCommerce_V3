@@ -1,6 +1,6 @@
-using Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
 
-namespace Auth.Infrastructure.Caching;
+namespace SmartEcommerce.Auth.Infrastructure.Caching;
 
 /// <summary>
 /// Decorator for IAuthService that adds transparent caching for role-related queries.

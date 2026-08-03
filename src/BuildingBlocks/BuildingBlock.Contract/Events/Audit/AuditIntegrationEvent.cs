@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Audit;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 /// <summary>
 /// The single audit event type in the project. Published once per changed Aggregate Root

@@ -1,14 +1,14 @@
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Messaging.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Messaging.Services;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace BuildingBlock.Infrastructure.Messaging;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
 
 /// <summary>
 /// Extensions for registering Inbox/Outbox background infrastructure.

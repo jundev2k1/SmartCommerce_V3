@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Persistence.Ef.Repository;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
 
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Persistence.Engine;
 
-namespace Order.Persistence.Contexts;
+namespace SmartEcommerce.Order.Persistence.Contexts;
 
 public abstract class OrderBaseRepository<TEntity>(OrderDbContext context)
     : GenericRepository<OrderDbContext, TEntity>(context)

@@ -1,4 +1,4 @@
-namespace Product.Domain.ValueObjects;
+namespace SmartEcommerce.Product.Domain.ValueObjects;
 
 /// <summary>Physical shipping dimensions of a ProductVariation, in centimeters.</summary>
 public sealed class Dimensions : ValueObject

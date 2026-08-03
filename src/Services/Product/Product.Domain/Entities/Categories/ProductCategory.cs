@@ -1,4 +1,4 @@
-namespace Product.Domain.Entities.Categories;
+namespace SmartEcommerce.Product.Domain.Entities.Categories;
 
 public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
 {

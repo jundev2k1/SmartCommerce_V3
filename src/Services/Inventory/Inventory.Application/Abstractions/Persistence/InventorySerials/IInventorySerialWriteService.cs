@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.InventorySerials;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventorySerials;
 
 public sealed record CreateInventorySerialRequest(
     Guid InventoryId,

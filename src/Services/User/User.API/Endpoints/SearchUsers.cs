@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using User.Application.Features.Users.Queries.SearchUsers;
+using SmartEcommerce.User.Application.Features.Users.Queries.SearchUsers;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 public sealed class SearchUsersEndpoint : ICarterModule
 {

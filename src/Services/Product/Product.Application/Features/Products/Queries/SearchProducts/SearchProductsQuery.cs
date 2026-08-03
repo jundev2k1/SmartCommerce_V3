@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Product.Application.Features.Products.Queries.SearchProducts;
+namespace SmartEcommerce.Product.Application.Features.Products.Queries.SearchProducts;
 
 /// <summary>
 /// Served entirely from Elasticsearch - never Postgres. See docs/reference/search.md. Only

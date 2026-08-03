@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Monitoring;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Monitoring;
 
 public sealed class InboxDeadLetterMonitorOptions : IJobOptions
 {

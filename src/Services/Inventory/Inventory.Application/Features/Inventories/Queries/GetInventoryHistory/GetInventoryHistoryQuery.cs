@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Inventories.Queries.GetInventoryHistory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetInventoryHistory;
 
 public sealed record GetInventoryHistoryQuery(Guid InventoryId) : IQuery<GetInventoryHistoryResponse>;
 

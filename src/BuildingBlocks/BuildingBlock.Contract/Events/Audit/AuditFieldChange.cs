@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Audit;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 /// <summary>One property's before/after values, already string-formatted by the change-tracking pipeline.</summary>
 public sealed record AuditFieldChange(

@@ -1,13 +1,13 @@
-using Auth.API;
-using Auth.Application;
-using Auth.Infrastructure;
-using Auth.Persistence;
-using Auth.Persistence.Engine;
+using SmartEcommerce.Auth.API;
+using SmartEcommerce.Auth.Application;
+using SmartEcommerce.Auth.Infrastructure;
+using SmartEcommerce.Auth.Persistence;
+using SmartEcommerce.Auth.Persistence.Engine;
 
-using BuildingBlock.Infrastructure.Observability;
-using BuildingBlock.Messaging.Kafka.Tracing;
-using BuildingBlock.Observability.Logging;
-using BuildingBlock.Observability.Tracing;
+using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
+using SmartEcommerce.BuildingBlock.Observability.Logging;
+using SmartEcommerce.BuildingBlock.Observability.Tracing;
 
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
 
-namespace Inventory.Application.Features.InventoryReservations.Search;
+namespace SmartEcommerce.Inventory.Application.Features.InventoryReservations.Search;
 
 public static class InventoryReservationCriteriaDefinition
 {

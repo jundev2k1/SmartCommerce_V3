@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace BuildingBlock.Criteria.Strategies;
+namespace SmartEcommerce.BuildingBlock.Criteria.Strategies;
 
 /// <summary>Splices a standalone field-accessor lambda (`x => x.Prop`) onto a different, shared parameter, so several fields' accessors can be combined into one expression tree.</summary>
 internal sealed class ParameterRebinder : ExpressionVisitor

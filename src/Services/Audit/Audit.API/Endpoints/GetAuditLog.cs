@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
+using SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
-namespace Audit.API.Endpoints;
+namespace SmartEcommerce.Audit.API.Endpoints;
 
 public sealed class GetAuditLogEndpoint : ICarterModule
 {

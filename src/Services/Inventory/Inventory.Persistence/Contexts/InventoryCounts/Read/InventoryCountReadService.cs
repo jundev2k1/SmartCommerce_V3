@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using Inventory.Application.Abstractions.Persistence.InventoryCounts;
-using Inventory.Persistence.Contexts.InventoryCounts.Repositories;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryCounts;
+using SmartEcommerce.Inventory.Persistence.Contexts.InventoryCounts.Repositories;
 
-namespace Inventory.Persistence.Contexts.InventoryCounts.Read;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryCounts.Read;
 
 public sealed class InventoryCountReadService(IInventoryCountRepository repo) : IInventoryCountReadService
 {

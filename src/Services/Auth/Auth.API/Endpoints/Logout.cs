@@ -1,6 +1,6 @@
-using Auth.Application.Features.Auth.Commands.Logout;
+using SmartEcommerce.Auth.Application.Features.Auth.Commands.Logout;
 
-namespace Auth.API.Endpoints;
+namespace SmartEcommerce.Auth.API.Endpoints;
 
 public sealed class Logout : ICarterModule
 {

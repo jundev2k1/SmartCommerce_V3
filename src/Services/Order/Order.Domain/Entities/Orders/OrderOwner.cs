@@ -1,6 +1,6 @@
-using BuildingBlock.SharedKernel.Text;
+using SmartEcommerce.BuildingBlock.SharedKernel.Text;
 
-namespace Order.Domain.Entities.Orders;
+namespace SmartEcommerce.Order.Domain.Entities.Orders;
 
 /// <summary>
 /// Point-in-time snapshot of who placed an order and where it ships - captured once at Create

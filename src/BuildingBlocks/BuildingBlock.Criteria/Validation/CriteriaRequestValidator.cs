@@ -1,10 +1,10 @@
 using System.Text.Json;
 
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace BuildingBlock.Criteria.Validation;
+namespace SmartEcommerce.BuildingBlock.Criteria.Validation;
 
 /// <summary>
 /// Validates a <see cref="CriteriaRequest"/> against a <see cref="CriteriaDefinition{TEntity}"/> before any query is

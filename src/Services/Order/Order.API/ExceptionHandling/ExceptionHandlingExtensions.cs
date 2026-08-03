@@ -1,4 +1,4 @@
-namespace Order.API.ExceptionHandling;
+namespace SmartEcommerce.Order.API.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

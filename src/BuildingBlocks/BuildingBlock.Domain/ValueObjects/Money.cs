@@ -1,7 +1,7 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
-namespace BuildingBlock.Domain.ValueObjects;
+namespace SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
 public sealed class Money : ValueObject
 {

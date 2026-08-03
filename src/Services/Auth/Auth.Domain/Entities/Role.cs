@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Attributes;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Attributes;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Auth.Domain.Entities;
+namespace SmartEcommerce.Auth.Domain.Entities;
 
 public sealed class Role : IdentityRole<Guid>, IEntity, IAuditable
 {

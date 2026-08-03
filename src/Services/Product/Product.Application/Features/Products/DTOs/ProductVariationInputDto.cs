@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.DTOs;
+namespace SmartEcommerce.Product.Application.Features.Products.DTOs;
 
 public sealed record ProductVariationInputDto(
     string Sku,

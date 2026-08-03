@@ -1,8 +1,8 @@
-using BuildingBlock.Persistence.Ef.DbContext;
-using BuildingBlock.Persistence.Ef.Inbox;
-using BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 
-namespace User.Persistence.Engine;
+namespace SmartEcommerce.User.Persistence.Engine;
 
 public sealed class UserDbContext(DbContextOptions<UserDbContext> options)
     : DbContextBase(options),

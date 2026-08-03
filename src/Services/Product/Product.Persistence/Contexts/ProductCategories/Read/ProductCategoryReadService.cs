@@ -1,7 +1,7 @@
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.Persistence.Contexts.ProductCategories.Read;
+namespace SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Read;
 
 public sealed class ProductCategoryReadService(ProductDbContext dbContext) : IProductCategoryReadService
 {

@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationChannels.Commands.EnableNotificationChannel;
+using SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.EnableNotificationChannel;
 
-namespace Notification.API.Endpoints.NotificationChannel;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
 
 public sealed class EnableChannel : ICarterModule
 {

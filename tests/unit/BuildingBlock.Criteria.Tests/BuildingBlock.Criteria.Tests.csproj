@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <RootNamespace>SmartEcommerce.BuildingBlock.Criteria.Tests</RootNamespace>
+    <AssemblyName>SmartEcommerce.BuildingBlock.Criteria.Tests</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />

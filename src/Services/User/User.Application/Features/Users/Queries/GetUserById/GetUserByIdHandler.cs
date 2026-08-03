@@ -1,7 +1,7 @@
-using User.Application.Abstractions.Services;
-using User.Application.Features.Users.Caching;
+using SmartEcommerce.User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Features.Users.Caching;
 
-namespace User.Application.Features.Users.Queries.GetUserById;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
 
 public sealed class GetUserByIdHandler(
     CachedUserProfileReader userProfileReader,

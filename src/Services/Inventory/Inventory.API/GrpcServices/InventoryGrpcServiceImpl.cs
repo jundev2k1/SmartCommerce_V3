@@ -1,15 +1,15 @@
-using BuildingBlock.Contract.Protos.Inventory;
+using SmartEcommerce.BuildingBlock.Contract.Protos.Inventory;
 
 using Grpc.Core;
 
-using Inventory.Application.Features.Inventories.Commands.RestockStock;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.RestockStock;
 
-using AppDeductStockItem = Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockItem;
-using DeductStockCommand = Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockCommand;
-using GetProductStockQuery = Inventory.Application.Features.Inventories.Queries.GetProductStock.GetProductStockQuery;
-using GetProductsStockQuery = Inventory.Application.Features.Inventories.Queries.GetProductsStock.GetProductsStockQuery;
+using AppDeductStockItem = SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockItem;
+using DeductStockCommand = SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockCommand;
+using GetProductStockQuery = SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock.GetProductStockQuery;
+using GetProductsStockQuery = SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductsStock.GetProductsStockQuery;
 
-namespace Inventory.API.GrpcServices;
+namespace SmartEcommerce.Inventory.API.GrpcServices;
 
 /// <summary>Thin adapter for Order Service (or any other gRPC caller) - parses the request, dispatches the same query/commands the REST endpoints use, no business logic here.</summary>
 public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcService.InventoryGrpcServiceBase
@@ -67,7 +67,7 @@ public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcServ
             FailureCode = result.FailureCode ?? string.Empty,
         };
 
-        response.InsufficientItems.AddRange(result.InsufficientItems.Select(i => new BuildingBlock.Contract.Protos.Inventory.InsufficientStockItem
+        response.InsufficientItems.AddRange(result.InsufficientItems.Select(i => new SmartEcommerce.BuildingBlock.Contract.Protos.Inventory.InsufficientStockItem
         {
             ProductVariationId = i.ProductVariationId.ToString(),
             RequestedQuantity = i.RequestedQuantity,

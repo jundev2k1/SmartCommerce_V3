@@ -1,6 +1,6 @@
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.Persistence.Storage.Seeders;
+namespace SmartEcommerce.Product.Persistence.Storage.Seeders;
 
 public sealed class ProductSeeder(ProductDbContext context)
 {

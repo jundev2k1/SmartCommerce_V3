@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Auth.Application.Abstractions.Security.Jwt;
+namespace SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 
 public interface IJwtTokenGenerator
 {

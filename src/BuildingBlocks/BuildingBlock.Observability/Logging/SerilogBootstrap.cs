@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Enrichers.Span;
 
-namespace BuildingBlock.Observability.Logging;
+namespace SmartEcommerce.BuildingBlock.Observability.Logging;
 
 public static class SerilogBootstrap
 {

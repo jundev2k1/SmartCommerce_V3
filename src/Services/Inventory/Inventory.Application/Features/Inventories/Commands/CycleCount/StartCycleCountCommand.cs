@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.CycleCount;
 
 public sealed record StartCycleCountCommand(
     Guid WarehouseId,

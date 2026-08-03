@@ -1,16 +1,16 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Persistence.Ef.Criteria;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
 
 using Microsoft.EntityFrameworkCore;
 
-using AppInboxMessageStatus = BuildingBlock.Application.Abstractions.Outbox.InboxMessageStatus;
-using AppInboxRetryHistoryEntry = BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryEntry;
-using DomainInboxMessageStatus = BuildingBlock.Persistence.Inbox.InboxMessageStatus;
-using DomainInboxRetryHistoryResult = BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult;
+using AppInboxMessageStatus = SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxMessageStatus;
+using AppInboxRetryHistoryEntry = SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryEntry;
+using DomainInboxMessageStatus = SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageStatus;
+using DomainInboxRetryHistoryResult = SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult;
 
-namespace BuildingBlock.Persistence.Ef.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Generic EF implementation of IDeadLetterQueryService, parameterized over the DbContext type.
@@ -71,12 +71,12 @@ public sealed class EfDeadLetterQueryService<TContext>(TContext context) : IDead
         _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
     };
 
-    private static BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult ToApplication(DomainInboxRetryHistoryResult result) => result switch
+    private static SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult ToApplication(DomainInboxRetryHistoryResult result) => result switch
     {
-        DomainInboxRetryHistoryResult.Retrying => BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.Retrying,
-        DomainInboxRetryHistoryResult.Succeeded => BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.Succeeded,
-        DomainInboxRetryHistoryResult.FailedAgain => BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.FailedAgain,
-        DomainInboxRetryHistoryResult.Cancelled => BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.Cancelled,
+        DomainInboxRetryHistoryResult.Retrying => SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.Retrying,
+        DomainInboxRetryHistoryResult.Succeeded => SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.Succeeded,
+        DomainInboxRetryHistoryResult.FailedAgain => SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.FailedAgain,
+        DomainInboxRetryHistoryResult.Cancelled => SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.InboxRetryHistoryResult.Cancelled,
         _ => throw new ArgumentOutOfRangeException(nameof(result), result, null),
     };
 }

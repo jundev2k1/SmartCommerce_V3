@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
+using SmartEcommerce.Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
 
-namespace Notification.API.Endpoints.NotificationRule;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationRule;
 
 public sealed class CreateRule : ICarterModule
 {

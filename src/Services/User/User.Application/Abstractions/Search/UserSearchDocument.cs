@@ -1,4 +1,4 @@
-namespace User.Application.Abstractions.Search;
+namespace SmartEcommerce.User.Application.Abstractions.Search;
 
 /// <summary>
 /// The Elasticsearch read-model document for User Search - deliberately not the UserProfile

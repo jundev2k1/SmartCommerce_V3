@@ -6,4 +6,4 @@ global using System.Threading.Tasks;
 
 global using Microsoft.EntityFrameworkCore;
 
-global using User.Domain.Entities;
+global using SmartEcommerce.User.Domain.Entities;

@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-namespace Inventory.Application.Features.Inventories.Events.OnProductVariationCreated;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnProductVariationCreated;
 
 public sealed record OnProductVariationCreatedEvent(
     Guid ProductId,

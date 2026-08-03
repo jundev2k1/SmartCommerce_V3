@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 
 public interface IInventoryDocumentWriteService
 {

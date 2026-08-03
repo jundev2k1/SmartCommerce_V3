@@ -1,4 +1,4 @@
-namespace BuildingBlock.Persistence.Ef.Outbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 
 public sealed class OutboxMessage
 {

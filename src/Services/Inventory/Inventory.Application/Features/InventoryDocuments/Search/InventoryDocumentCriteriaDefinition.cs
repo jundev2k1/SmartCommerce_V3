@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
 
-namespace Inventory.Application.Features.InventoryDocuments.Search;
+namespace SmartEcommerce.Inventory.Application.Features.InventoryDocuments.Search;
 
 public static class InventoryDocumentCriteriaDefinition
 {

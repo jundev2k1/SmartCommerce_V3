@@ -1,6 +1,6 @@
-using Notification.Application.Abstractions.Persistence.NotificationRules;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
 
-namespace Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
+namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
 
 public sealed class CreateNotificationRuleHandler(
     INotificationRuleWriteService notificationRuleWriteService) : ICommandHandler<CreateNotificationRuleCommand, CreateNotificationRuleResponse>

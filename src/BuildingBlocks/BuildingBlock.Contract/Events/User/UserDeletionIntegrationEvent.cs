@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.User;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.User;
 
 public sealed record UserDeletionIntegrationEvent(
     string UserId,

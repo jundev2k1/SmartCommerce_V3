@@ -1,4 +1,4 @@
-namespace BuildingBlock.SharedKernel.Utilities;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Utilities;
 
 public static class NativeBarcodeGenerator
 {

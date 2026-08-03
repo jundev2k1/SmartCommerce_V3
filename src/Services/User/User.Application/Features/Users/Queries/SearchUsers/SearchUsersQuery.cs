@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace User.Application.Features.Users.Queries.SearchUsers;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.SearchUsers;
 
 public sealed record SearchUsersQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<SearchUsersItemResponse>>;
 

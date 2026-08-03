@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Product.Persistence.Storage.Migrations
+namespace SmartEcommerce.Product.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddInboxRetryHistory : Migration

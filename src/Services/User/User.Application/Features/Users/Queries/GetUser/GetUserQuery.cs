@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Queries.GetUser;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUser;
 
 public sealed record GetUserQuery(Guid UserId) : IQuery<GetUserResponse>;
 

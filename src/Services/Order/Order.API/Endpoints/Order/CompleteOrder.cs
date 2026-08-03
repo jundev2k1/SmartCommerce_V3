@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Orders.Commands.CompleteOrder;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.CompleteOrder;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed class CompleteOrderEndpoint : ICarterModule
 {

@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Persistence.Ef.UnitOfWork;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.UnitOfWork;
 
-namespace Product.Persistence.Engine.UnitOfWork;
+namespace SmartEcommerce.Product.Persistence.Engine.UnitOfWork;
 
 public sealed class UnitOfWork(ProductDbContext context)
     : EfUnitOfWork<ProductDbContext>(context), IUnitOfWork

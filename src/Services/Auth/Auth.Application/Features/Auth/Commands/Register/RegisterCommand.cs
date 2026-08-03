@@ -1,4 +1,4 @@
-namespace Auth.Application.Features.Auth.Commands.Register;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Register;
 
 public record RegisterCommand(
     string Email,

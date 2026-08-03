@@ -1,10 +1,10 @@
-using Auth.Application.Features.Auth.Commands.Register;
+using SmartEcommerce.Auth.Application.Features.Auth.Commands.Register;
 
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.Web.Swagger.EndpointHeader;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
 
-namespace Auth.API.Endpoints;
+namespace SmartEcommerce.Auth.API.Endpoints;
 
 public record RegisterRequest(string Email, string Password, string FirstName, string LastName, string PhoneNumber, string MiddleName = "");
 

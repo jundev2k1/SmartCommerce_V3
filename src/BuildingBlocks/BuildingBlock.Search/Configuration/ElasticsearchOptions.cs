@@ -1,4 +1,4 @@
-namespace BuildingBlock.Search.Configuration;
+namespace SmartEcommerce.BuildingBlock.Search.Configuration;
 
 public sealed class ElasticsearchOptions
 {

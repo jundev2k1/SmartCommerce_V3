@@ -1,10 +1,10 @@
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.Domain.Exceptions;
-using Product.Domain.ValueObjects;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.Product.Domain.ValueObjects;
 using Shouldly;
 using SimpleShop.TestKit.ShouldlyExtensions;
 
-namespace Product.Domain.Tests.ValueObjects;
+namespace SmartEcommerce.Product.Domain.Tests.ValueObjects;
 
 public class BarcodeTests
 {

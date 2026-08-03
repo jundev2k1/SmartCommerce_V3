@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Orders.Commands.DeleteOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.DeleteOrder;
 
 public sealed record DeleteOrderCommand(Guid OrderId) : ICommand<DeleteOrderResponse>;
 

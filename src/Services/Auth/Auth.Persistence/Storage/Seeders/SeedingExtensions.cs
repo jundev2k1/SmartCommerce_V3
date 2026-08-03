@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Persistence.Storage.Seeders;
+namespace SmartEcommerce.Auth.Persistence.Storage.Seeders;
 
 public static class SeedingExtensions
 {

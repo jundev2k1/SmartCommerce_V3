@@ -1,4 +1,4 @@
-namespace Notification.Domain.Entities;
+namespace SmartEcommerce.Notification.Domain.Entities;
 
 /// <summary>
 /// A broadcast notification, sent once or on a recurring schedule to a <see cref="NotificationGroup"/>

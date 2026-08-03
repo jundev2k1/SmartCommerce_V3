@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
 
-namespace Order.Application.Features.Orders.Search;
+namespace SmartEcommerce.Order.Application.Features.Orders.Search;
 
 /// <summary>
 /// Customer-facing order-history whitelist for <see cref="OrderEntity"/> - deliberately narrower

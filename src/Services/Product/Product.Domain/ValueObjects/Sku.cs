@@ -1,7 +1,7 @@
-using BuildingBlock.SharedKernel.Extensions;
-using BuildingBlock.SharedKernel.RegexPatterns;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.SharedKernel.RegexPatterns;
 
-namespace Product.Domain.ValueObjects;
+namespace SmartEcommerce.Product.Domain.ValueObjects;
 
 public sealed class Sku : StringValueObject
 {

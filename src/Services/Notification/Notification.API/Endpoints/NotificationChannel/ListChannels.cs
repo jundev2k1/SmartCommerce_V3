@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationChannels.Queries.ListNotificationChannels;
+using SmartEcommerce.Notification.Application.Features.NotificationChannels.Queries.ListNotificationChannels;
 
-namespace Notification.API.Endpoints.NotificationChannel;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
 
 /// <summary>
-/// Channel rows are seeded by the system (see Notification.Infrastructure) - there is no Create
+/// Channel rows are seeded by the system (see SmartEcommerce.Notification.Infrastructure) - there is no Create
 /// endpoint here on purpose, matching NotificationChannel's domain rule that Admin may configure
 /// but never create/delete a channel row.
 /// </summary>

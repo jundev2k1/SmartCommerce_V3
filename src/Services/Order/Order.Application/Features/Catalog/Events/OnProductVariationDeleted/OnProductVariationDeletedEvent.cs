@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Catalog.Events.OnProductVariationDeleted;
+namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnProductVariationDeleted;
 
 public sealed record OnProductVariationDeletedEvent(
     Guid ProductId,

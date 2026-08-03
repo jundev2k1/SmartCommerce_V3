@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Order.Persistence.Configs;
+namespace SmartEcommerce.Order.Persistence.Configs;
 
 public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
 {

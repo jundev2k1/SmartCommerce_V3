@@ -1,15 +1,15 @@
 using System.Diagnostics;
 
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Infrastructure.Observability;
-using BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace BuildingBlock.Infrastructure.Messaging;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
 
 /// <summary>
 /// Polls the Outbox for unprocessed messages and publishes them to Kafka.

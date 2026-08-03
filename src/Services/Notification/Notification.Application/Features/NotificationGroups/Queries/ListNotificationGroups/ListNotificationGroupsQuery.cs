@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
+namespace SmartEcommerce.Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
 
 public sealed record ListNotificationGroupsQuery(
     string? Search,

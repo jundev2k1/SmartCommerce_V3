@@ -1,16 +1,16 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 
-using Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
-using Notification.Application.Features.UserNotifications.DTOs;
-using Notification.Infrastructure.SignalR.Groups;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+using SmartEcommerce.Notification.Infrastructure.SignalR.Groups;
 
-namespace Notification.Infrastructure.SignalR.Hubs.Global;
+namespace SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
 
 public interface IGlobalHubBase : IAppHub
 {

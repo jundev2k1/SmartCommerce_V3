@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 
-namespace Audit.Persistence.Engine.UnitOfWork;
+namespace SmartEcommerce.Audit.Persistence.Engine.UnitOfWork;
 
 /// <summary>
 /// Mongo writes commit immediately per call (InsertOneAsync, ReplaceOneAsync, ...) - there is

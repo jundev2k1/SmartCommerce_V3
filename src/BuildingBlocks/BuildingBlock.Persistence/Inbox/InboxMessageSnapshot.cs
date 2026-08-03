@@ -1,4 +1,4 @@
-namespace BuildingBlock.Persistence.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
 /// <summary>
 /// Read-only projection of an inbox row. Returned by <see cref="IInboxStore"/> instead of

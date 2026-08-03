@@ -1,15 +1,15 @@
 using System.Text.Json;
 
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Criteria.Validation;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Criteria.Validation;
 
 using Shouldly;
 
-using SortDirection = BuildingBlock.Criteria.Requests.SortDirection;
+using SortDirection = SmartEcommerce.BuildingBlock.Criteria.Requests.SortDirection;
 
-namespace BuildingBlock.Criteria.Tests;
+namespace SmartEcommerce.BuildingBlock.Criteria.Tests;
 
 public class CriteriaRequestValidatorTests
 {

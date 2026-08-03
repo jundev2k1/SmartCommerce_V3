@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationGroups.Queries.GetNotificationGroup;
+using SmartEcommerce.Notification.Application.Features.NotificationGroups.Queries.GetNotificationGroup;
 
-namespace Notification.API.Endpoints.NotificationGroup;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationGroup;
 
 public sealed class GetGroup : ICarterModule
 {

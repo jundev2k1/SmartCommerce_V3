@@ -1,7 +1,7 @@
-namespace Product.Application.Abstractions.Services;
+namespace SmartEcommerce.Product.Application.Abstractions.Services;
 
 /// <summary>
-/// Product-side port onto Inventory Service's gRPC surface. Mirrors Order.Application's
+/// Product-side port onto Inventory Service's gRPC surface. Mirrors SmartEcommerce.Order.Application's
 /// IInventoryClientService (same batch RPC), used only to merge stock availability into
 /// Search Products - Product never deducts/restocks (see docs/services/inventory-service.md).
 /// </summary>

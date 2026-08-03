@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 
-namespace User.Persistence.Contexts.UserProfiles.Write;
+namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Write;
 
 public sealed class UserProfileWriteService(
     IRepository<UserProfile, Guid> repo,

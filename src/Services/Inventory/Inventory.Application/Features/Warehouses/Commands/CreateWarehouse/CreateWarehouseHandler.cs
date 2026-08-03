@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
 
-namespace Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
+namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
 
 public sealed class CreateWarehouseHandler(
     IWarehouseReadService warehouseReadService,

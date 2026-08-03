@@ -1,4 +1,4 @@
-namespace BuildingBlock.Domain.Seeders;
+namespace SmartEcommerce.BuildingBlock.Domain.Seeders;
 
 public static class SeedAuthData
 {

@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 using Shouldly;
 using SimpleShop.TestKit.ShouldlyExtensions;
 
-namespace BuildingBlock.Domain.Tests.Exceptions;
+namespace SmartEcommerce.BuildingBlock.Domain.Tests.Exceptions;
 
 public class ExceptionFactoryTests
 {

@@ -1,8 +1,8 @@
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Inventory.Persistence.Configs;
+namespace SmartEcommerce.Inventory.Persistence.Configs;
 
 public sealed class InventorySerialConfig : IEntityTypeConfiguration<InventorySerial>
 {

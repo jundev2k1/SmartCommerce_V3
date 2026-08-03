@@ -1,14 +1,14 @@
-using Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities;
 
-using BuildingBlock.Persistence.Ef.DbContext;
-using BuildingBlock.Persistence.Ef.Inbox;
-using BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth.Persistence.Engine;
+namespace SmartEcommerce.Auth.Persistence.Engine;
 
 public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
     : IdentityDbContext<
@@ -36,7 +36,7 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
 
     // Identity Claims & Logins
     //
-    // AuthDbContext can't inherit BuildingBlock.Persistence.Ef.DbContext.DbContextBase - it must
+    // AuthDbContext can't inherit SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext.DbContextBase - it must
     // inherit IdentityDbContext instead, for ASP.NET Core Identity's own model configuration. It
     // reuses the same shared helpers DbContextBase uses internally rather than duplicating them.
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

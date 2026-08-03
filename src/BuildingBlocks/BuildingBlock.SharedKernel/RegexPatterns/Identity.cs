@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace BuildingBlock.SharedKernel.RegexPatterns;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.RegexPatterns;
 
 public static partial class RegexPatterns
 {

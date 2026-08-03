@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events;
+namespace SmartEcommerce.BuildingBlock.Contract.Events;
 
 public interface IIntegrationEvent
 {

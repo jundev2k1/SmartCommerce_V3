@@ -1,10 +1,10 @@
-using BuildingBlock.Web.Cors;
-using BuildingBlock.Web.Swagger;
+using SmartEcommerce.BuildingBlock.Web.Cors;
+using SmartEcommerce.BuildingBlock.Web.Swagger;
 
-using Audit.API.ExceptionHandling;
-using Audit.Infrastructure.BackgroundJobs;
+using SmartEcommerce.Audit.API.ExceptionHandling;
+using SmartEcommerce.Audit.Infrastructure.BackgroundJobs;
 
-namespace Audit.API;
+namespace SmartEcommerce.Audit.API;
 
 public static class ApplicationPipeline
 {

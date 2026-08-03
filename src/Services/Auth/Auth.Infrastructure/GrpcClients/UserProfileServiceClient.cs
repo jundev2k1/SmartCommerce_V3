@@ -1,11 +1,11 @@
-using Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
 
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Contract.Protos.User;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Contract.Protos.User;
 
 using Grpc.Core;
 
-namespace Auth.Infrastructure.GrpcClients;
+namespace SmartEcommerce.Auth.Infrastructure.GrpcClients;
 
 public sealed class UserProfileServiceClient(UserGrpcService.UserGrpcServiceClient client) : IUserProfileService
 {

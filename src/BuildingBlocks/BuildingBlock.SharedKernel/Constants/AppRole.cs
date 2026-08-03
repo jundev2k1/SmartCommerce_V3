@@ -1,4 +1,4 @@
-namespace BuildingBlock.SharedKernel.Constants;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 public static class AppRole
 {

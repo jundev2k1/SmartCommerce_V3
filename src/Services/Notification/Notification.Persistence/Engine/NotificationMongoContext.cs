@@ -1,8 +1,8 @@
-using BuildingBlock.Persistence.Mongo.Inbox;
-using BuildingBlock.Persistence.Mongo.MongoContext;
-using BuildingBlock.Persistence.Mongo.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
 
-namespace Notification.Persistence.Engine;
+namespace SmartEcommerce.Notification.Persistence.Engine;
 
 /// <summary>
 /// One collection per aggregate root - NotificationRuleTarget/NotificationCampaignTarget are not

@@ -1,10 +1,10 @@
-using BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
-namespace Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
+namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
 
 /// <summary>
 /// Carries the Contract-shaped audit graph (AuditNode/AuditMetadata) as-is, rather than a third
-/// parallel DTO layer - Application already depends on BuildingBlock.Contract (it's where
+/// parallel DTO layer - Application already depends on SmartEcommerce.BuildingBlock.Contract (it's where
 /// IIntegrationEvent itself lives), so this isn't a new dependency, just reusing it.
 /// </summary>
 public sealed record RecordAuditLogCommand(

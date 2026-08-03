@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Web.CurrentUser;
+namespace SmartEcommerce.BuildingBlock.Web.CurrentUser;
 
 public static class CurrentUserExtensions
 {

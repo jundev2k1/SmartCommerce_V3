@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Queries.GetOrderHistory;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrderHistory;
 
 public sealed class GetOrderHistoryHandler(
     ICurrentUserService currentUser,

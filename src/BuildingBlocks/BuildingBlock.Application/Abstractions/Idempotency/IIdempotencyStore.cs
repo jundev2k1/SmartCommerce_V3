@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
 
 /// <summary>
 /// Stores the outcome of a completed operation, keyed by an idempotency key, so a duplicate

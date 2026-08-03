@@ -1,8 +1,8 @@
-using Notification.Application.Abstractions.Persistence.UserNotifications;
-using Notification.Application.Abstractions.Services;
-using Notification.Application.Features.UserNotifications.DTOs;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
+using SmartEcommerce.Notification.Application.Abstractions.Services;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
 public sealed class CreateUserNotificationHandler(
     IUserNotificationWriteService userNotificationWriteService,

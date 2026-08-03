@@ -1,8 +1,8 @@
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using YarpApiGateway.Configuration;
+using SmartEcommerce.YarpApiGateway.Configuration;
 
-namespace YarpApiGateway.Services;
+namespace SmartEcommerce.YarpApiGateway.Services;
 
 public interface ISwaggerAggregator
 {

@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 
 public sealed class OutboxCleanupOptions : IJobOptions
 {

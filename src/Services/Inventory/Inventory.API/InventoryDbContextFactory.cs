@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using Inventory.Persistence.Engine;
+using SmartEcommerce.Inventory.Persistence.Engine;
 
-namespace Inventory.API;
+namespace SmartEcommerce.Inventory.API;
 
 /// <summary>
 /// Lets `dotnet ef` build <see cref="InventoryDbContext"/> directly, without booting the full app

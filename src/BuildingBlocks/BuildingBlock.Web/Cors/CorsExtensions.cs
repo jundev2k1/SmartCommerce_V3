@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Web.Cors;
+namespace SmartEcommerce.BuildingBlock.Web.Cors;
 
 public static class CorsExtensions
 {

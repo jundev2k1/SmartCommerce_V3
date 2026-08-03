@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Persistence.NotificationChannels;
+namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
 
 public interface INotificationChannelReadService
 {

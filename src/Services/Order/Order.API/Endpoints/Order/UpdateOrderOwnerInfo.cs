@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.Idempotency;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
-using BuildingBlock.Web.Swagger.EndpointHeader;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
 
-using Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed record UpdateOrderOwnerInfoRequest(
     string OwnerName,

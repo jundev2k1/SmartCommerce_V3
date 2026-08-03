@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine;
 
 #nullable disable
 
-namespace Product.Persistence.Storage.Migrations
+namespace SmartEcommerce.Product.Persistence.Storage.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
     [Migration("20260728122521_AddInboxRetryHistory")]
@@ -25,7 +25,7 @@ namespace Product.Persistence.Storage.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
+            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("inbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
+            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("inbox_retry_histories", (string)null);
                 });
 
-            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -223,7 +223,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("outbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.Product", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -285,7 +285,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("products", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductCategory", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -346,7 +346,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_categories", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductCategoryMapping", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductCategoryMapping", b =>
                 {
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid")
@@ -377,7 +377,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_category_mappings", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductTag", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductTag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -418,7 +418,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_tags", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductTagMapping", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductTagMapping", b =>
                 {
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid")
@@ -449,7 +449,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_tag_mappings", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductVariation", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductVariation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -541,25 +541,25 @@ namespace Product.Persistence.Storage.Migrations
                     b.ToTable("product_variations", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductCategory", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductCategory", b =>
                 {
-                    b.HasOne("Product.Domain.Entities.ProductCategory", null)
+                    b.HasOne("SmartEcommerce.Product.Domain.Entities.ProductCategory", null)
                         .WithMany()
                         .HasForeignKey("ParentCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_product_categories_product_categories_parent_category_id");
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductCategoryMapping", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductCategoryMapping", b =>
                 {
-                    b.HasOne("Product.Domain.Entities.ProductCategory", "Category")
+                    b.HasOne("SmartEcommerce.Product.Domain.Entities.ProductCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_product_category_mappings_product_categories_category_id");
 
-                    b.HasOne("Product.Domain.Entities.Product", "Product")
+                    b.HasOne("SmartEcommerce.Product.Domain.Entities.Product", "Product")
                         .WithMany("CategoryMappings")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -571,16 +571,16 @@ namespace Product.Persistence.Storage.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductTagMapping", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductTagMapping", b =>
                 {
-                    b.HasOne("Product.Domain.Entities.Product", "Product")
+                    b.HasOne("SmartEcommerce.Product.Domain.Entities.Product", "Product")
                         .WithMany("TagMappings")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_product_tag_mappings_products_product_id");
 
-                    b.HasOne("Product.Domain.Entities.ProductTag", "Tag")
+                    b.HasOne("SmartEcommerce.Product.Domain.Entities.ProductTag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -592,16 +592,16 @@ namespace Product.Persistence.Storage.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.ProductVariation", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.ProductVariation", b =>
                 {
-                    b.HasOne("Product.Domain.Entities.Product", "Product")
+                    b.HasOne("SmartEcommerce.Product.Domain.Entities.Product", "Product")
                         .WithMany("Variations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_product_variations_products_product_id");
 
-                    b.OwnsOne("Product.Domain.ValueObjects.Dimensions", "Dimensions", b1 =>
+                    b.OwnsOne("SmartEcommerce.Product.Domain.ValueObjects.Dimensions", "Dimensions", b1 =>
                         {
                             b1.Property<Guid>("ProductVariationId")
                                 .HasColumnType("uuid")
@@ -633,7 +633,7 @@ namespace Product.Persistence.Storage.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Product.Domain.Entities.Product", b =>
+            modelBuilder.Entity("SmartEcommerce.Product.Domain.Entities.Product", b =>
                 {
                     b.Navigation("CategoryMappings");
 

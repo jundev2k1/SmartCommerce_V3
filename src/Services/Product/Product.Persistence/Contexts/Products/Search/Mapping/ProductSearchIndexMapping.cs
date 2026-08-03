@@ -1,8 +1,8 @@
 using Elastic.Clients.Elasticsearch.Mapping;
 
-using Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Application.Abstractions.Search;
 
-namespace Product.Persistence.Contexts.Products.Search.Mapping;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Search.Mapping;
 
 /// <summary>
 /// The Product Search index field mapping - the only place ProductSearchDocument's ES schema is

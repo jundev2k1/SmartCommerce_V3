@@ -1,14 +1,14 @@
 using System.Text.Json;
 
-using Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
+using SmartEcommerce.Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Audit;
-using BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 using MediatR;
 
-namespace Audit.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Audit.Infrastructure.Messaging.Consumers;
 
 /// <summary>
 /// The single audit consumer in the project - every other service's AuditInterceptor publishes

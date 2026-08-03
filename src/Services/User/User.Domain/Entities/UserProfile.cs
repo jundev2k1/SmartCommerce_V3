@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.SharedKernel.Text;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.SharedKernel.Text;
 
-using User.Domain.Enums;
+using SmartEcommerce.User.Domain.Enums;
 
-namespace User.Domain.Entities;
+namespace SmartEcommerce.User.Domain.Entities;
 
 public sealed class UserProfile : AggregateRoot<Guid>, IAuditable
 {

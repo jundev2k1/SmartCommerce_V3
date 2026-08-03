@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Abstractions.Services;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Services;
 
-namespace Product.Application.Features.Products.Queries.GetProduct;
+namespace SmartEcommerce.Product.Application.Features.Products.Queries.GetProduct;
 
 public sealed class GetProductHandler(
     IProductReadService productReadService,

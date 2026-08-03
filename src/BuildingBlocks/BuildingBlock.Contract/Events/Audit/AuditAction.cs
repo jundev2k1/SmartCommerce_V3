@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Audit;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 public enum AuditAction
 {

@@ -1,4 +1,4 @@
-using BuildingBlock.Application;
+using SmartEcommerce.BuildingBlock.Application;
 using FluentValidation;
 
 using Mapster;
@@ -7,7 +7,7 @@ using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Audit.Application;
+namespace SmartEcommerce.Audit.Application;
 
 public static class DependencyInjection
 {

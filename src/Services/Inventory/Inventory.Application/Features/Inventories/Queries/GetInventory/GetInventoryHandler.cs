@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 
 using Mapster;
 
-namespace Inventory.Application.Features.Inventories.Queries.GetInventory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetInventory;
 
 public sealed class GetInventoryHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetInventoryQuery, GetInventoryResponse>

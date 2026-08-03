@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace BuildingBlock.Persistence.Audit;
+namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
 
 /// <summary>
 /// Built once, at startup, from whatever <c>ConfigureAuditHierarchy</c> registered. Validates and

@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Orders.Commands.CompleteOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CompleteOrder;
 
 public sealed record CompleteOrderCommand(Guid OrderId) : ICommand<CompleteOrderResponse>;
 

@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Idempotency;
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-namespace BuildingBlock.Infrastructure.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 
 /// <summary>Redis-backed <see cref="IIdempotencyStore"/>, built on the existing <see cref="ICacheService"/> Redis path.</summary>
 internal sealed class RedisIdempotencyStore(ICacheService cacheService) : IIdempotencyStore

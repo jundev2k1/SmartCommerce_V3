@@ -1,4 +1,4 @@
-namespace Notification.Domain.ValueObjects;
+namespace SmartEcommerce.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// Free-form sub-classification of a <see cref="Entities.UserNotification"/> (e.g. "Welcome",

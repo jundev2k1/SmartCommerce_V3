@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
 
-namespace Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
+namespace SmartEcommerce.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
 
 public sealed class RefreshTokenJobOptions : IJobOptions
 {

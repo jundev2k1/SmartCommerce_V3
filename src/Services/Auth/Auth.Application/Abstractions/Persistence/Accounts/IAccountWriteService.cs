@@ -1,4 +1,4 @@
-namespace Auth.Application.Abstractions.Persistence.Accounts;
+namespace SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
 
 public interface IAccountWriteService
 {

@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Product;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
 public sealed record ProductVariationDeletedIntegrationEvent(
     Guid ProductId,

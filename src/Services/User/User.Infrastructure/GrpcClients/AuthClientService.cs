@@ -1,10 +1,10 @@
-using BuildingBlock.Contract.Protos.Auth;
+using SmartEcommerce.BuildingBlock.Contract.Protos.Auth;
 
 using Grpc.Core;
 
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Infrastructure.GrpcClients;
+namespace SmartEcommerce.User.Infrastructure.GrpcClients;
 
 public sealed class AuthClientService(AuthGrpcService.AuthGrpcServiceClient client) : IAuthClientService
 {

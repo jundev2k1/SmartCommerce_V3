@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-using Auth.Application.Features.Auth.Events.OnUserCreated;
+using SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserCreated;
 
-namespace Auth.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Auth.Infrastructure.Messaging.Consumers;
 
 public sealed class UserCreatedIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,

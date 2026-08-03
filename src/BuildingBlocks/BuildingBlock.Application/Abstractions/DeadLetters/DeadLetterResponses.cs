@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
-namespace BuildingBlock.Application.Abstractions.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
 
 /// <summary>Row-level projection for the dead-letter list/search API - no Payload/HeadersJson (see detail response).</summary>
 public sealed record DeadLetterListItemResponse(

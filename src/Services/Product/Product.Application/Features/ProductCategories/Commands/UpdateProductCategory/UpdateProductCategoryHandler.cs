@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
 
 public sealed class UpdateProductCategoryHandler(
     IProductCategoryReadService categoryReadService,

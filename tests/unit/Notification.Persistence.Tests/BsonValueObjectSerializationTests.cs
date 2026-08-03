@@ -1,22 +1,22 @@
-using BuildingBlock.Persistence.Mongo.Serialization;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Serialization;
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
-using Notification.Domain.ValueObjects;
+using SmartEcommerce.Notification.Domain.ValueObjects;
 
 using Shouldly;
 
-namespace Notification.Persistence.Tests;
+namespace SmartEcommerce.Notification.Persistence.Tests;
 
 /// <summary>
 /// Regression coverage for a write-time data-loss bug (docs/tasks/2026-07-22/Task2_notification-list-null-fields.md):
 /// MongoDB's default BsonClassMap.AutoMap() does not serialize get-only properties at all, so
-/// every value object in Notification.Domain (private constructor + get-only properties)
+/// every value object in SmartEcommerce.Notification.Domain (private constructor + get-only properties)
 /// round-tripped as an empty subdocument - confirmed against the real MongoDB.Driver 3.10.0
 /// package, not a stand-in repro. Fixed via BsonImmutableValueObjectRegistrar, registered once
-/// per type here to mirror Notification.Persistence.DependencyInjection's production registration.
+/// per type here to mirror SmartEcommerce.Notification.Persistence.DependencyInjection's production registration.
 /// </summary>
 public sealed class BsonValueObjectSerializationTests
 {
@@ -123,7 +123,7 @@ public sealed class BsonValueObjectSerializationTests
     [Fact]
     public void UserNotification_RoundTrips_WithAllNestedValueObjectFieldsIntact()
     {
-        var notification = Notification.Domain.Entities.UserNotification.Create(
+        var notification = SmartEcommerce.Notification.Domain.Entities.UserNotification.Create(
             Guid.NewGuid(), Guid.NewGuid(),
             NotificationCategory.Create("Order"),
             NotificationType.Create("OrderConfirmed"),

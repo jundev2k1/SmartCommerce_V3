@@ -1,4 +1,4 @@
-namespace Product.Domain.Enums;
+namespace SmartEcommerce.Product.Domain.Enums;
 
 public enum ProductCategoryStatus : short
 {

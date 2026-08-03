@@ -6,7 +6,7 @@ using OpenTelemetry.Trace;
 
 using StackExchange.Redis;
 
-namespace BuildingBlock.Infrastructure.Observability;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Observability;
 
 public static class InfrastructureTracingExtensions
 {

@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Inventories.Commands.AdjustStock;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.AdjustStock;
 
-namespace Inventory.API.Endpoints.Inventory;
+namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed record AdjustStockRequest(int NewQuantity, string Reason);
 

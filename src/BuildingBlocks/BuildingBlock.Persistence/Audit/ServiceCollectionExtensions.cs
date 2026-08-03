@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Persistence.Audit;
+namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
 
 public static class ServiceCollectionExtensions
 {

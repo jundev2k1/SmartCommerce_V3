@@ -1,6 +1,6 @@
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Application.Services;
+namespace SmartEcommerce.User.Application.Services;
 
 public sealed class UserDisplayNameFormatter : IUserDisplayNameFormatter
 {

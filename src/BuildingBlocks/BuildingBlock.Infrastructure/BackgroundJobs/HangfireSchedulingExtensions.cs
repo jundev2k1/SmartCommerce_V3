@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.Infrastructure.BackgroundJobs.Services;
-using BuildingBlock.Infrastructure.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
 
 using Hangfire;
 using Hangfire.Dashboard;
@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs;
 
 /// <summary>
 /// Shared Hangfire bootstrap: storage/server setup, recurring-job discovery and the
 /// scheduled-job dispatcher. A service opts in with one call and passes marker types
 /// for the assemblies that contain its own IRecurringJob implementations - callers that
-/// register jobs from other assemblies (e.g. BuildingBlock.Infrastructure's cleanup jobs)
+/// register jobs from other assemblies (e.g. SmartEcommerce.BuildingBlock.Infrastructure's cleanup jobs)
 /// do so through their own DI registration, independent of the markers passed here.
 /// </summary>
 public static class HangfireSchedulingExtensions

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace BuildingBlock.Infrastructure.Authorization.Requirements;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Authorization.Requirements;
 
 /// <summary>
 /// Authorization requirement to check user role.

@@ -1,4 +1,4 @@
-namespace BuildingBlock.Persistence.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
 /// <summary>
 /// Aggregate view of DeadLetter rows sharing the same (ConsumerName, Topic), returned by

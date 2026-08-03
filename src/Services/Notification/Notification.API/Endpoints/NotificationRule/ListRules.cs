@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
+using SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
 
-namespace Notification.API.Endpoints.NotificationRule;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationRule;
 
 public sealed class ListRules : ICarterModule
 {

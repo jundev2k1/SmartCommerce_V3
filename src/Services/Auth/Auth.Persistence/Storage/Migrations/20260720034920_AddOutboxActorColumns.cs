@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Auth.Persistence.Storage.Migrations
+namespace SmartEcommerce.Auth.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddOutboxActorColumns : Migration

@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
 
 public sealed record ReceiveInventoryItem(
     Guid ProductVariantId,

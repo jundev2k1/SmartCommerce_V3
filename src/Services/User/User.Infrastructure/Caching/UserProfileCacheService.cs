@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.Extensions.Configuration;
 
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Infrastructure.Caching;
+namespace SmartEcommerce.User.Infrastructure.Caching;
 
 /// <summary>
 /// Redis-backed implementation of User's own UserProfile detail cache. Mirrors Auth's

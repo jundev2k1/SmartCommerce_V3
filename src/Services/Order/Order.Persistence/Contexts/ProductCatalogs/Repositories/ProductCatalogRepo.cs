@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Persistence.Engine;
 
-namespace Order.Persistence.Contexts.ProductCatalogs.Repositories;
+namespace SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Repositories;
 
 public sealed class ProductCatalogRepo(OrderDbContext dbContext)
     : OrderBaseRepository<ProductCatalog>(dbContext), IProductCatalogRepository

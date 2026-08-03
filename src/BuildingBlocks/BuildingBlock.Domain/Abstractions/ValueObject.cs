@@ -1,4 +1,4 @@
-namespace BuildingBlock.Domain.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
 public abstract class ValueObject
 {

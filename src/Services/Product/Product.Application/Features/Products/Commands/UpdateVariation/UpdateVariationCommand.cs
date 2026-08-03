@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.Commands.UpdateVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
 
 /// <summary>
 /// Covers every ProductVariation attribute except DisplayOrder and IsDefault, which have their

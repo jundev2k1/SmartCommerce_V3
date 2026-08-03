@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace BuildingBlock.Infrastructure.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 
 public static class IdempotencyEndpointExtensions
 {

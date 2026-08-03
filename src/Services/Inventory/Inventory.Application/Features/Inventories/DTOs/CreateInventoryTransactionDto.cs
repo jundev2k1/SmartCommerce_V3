@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Inventories.DTOs;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
 
 public sealed record CreateInventoryTransactionDto(
     Guid InventoryId,

@@ -6,4 +6,4 @@ global using System.Threading.Tasks;
 
 global using MongoDB.Driver;
 
-global using Audit.Domain.Entities;
+global using SmartEcommerce.Audit.Domain.Entities;

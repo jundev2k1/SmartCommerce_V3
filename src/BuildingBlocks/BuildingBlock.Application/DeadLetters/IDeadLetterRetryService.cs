@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Application.DeadLetters;
 
 public enum DeadLetterRetryOutcome
 {

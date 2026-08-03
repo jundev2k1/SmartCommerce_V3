@@ -1,6 +1,6 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace BuildingBlock.Application.Abstractions.Jobs;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
 
 public interface IRecurringJob
 {

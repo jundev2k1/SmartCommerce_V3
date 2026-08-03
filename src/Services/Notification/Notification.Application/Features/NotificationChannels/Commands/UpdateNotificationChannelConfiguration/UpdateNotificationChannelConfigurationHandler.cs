@@ -1,9 +1,9 @@
-using Notification.Application.Abstractions.Persistence.NotificationChannels;
-using Notification.Application.Abstractions.Services;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using SmartEcommerce.Notification.Application.Abstractions.Services;
 
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Notification.Application.Features.NotificationChannels.Commands.UpdateNotificationChannelConfiguration;
+namespace SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.UpdateNotificationChannelConfiguration;
 
 public sealed class UpdateNotificationChannelConfigurationHandler(
     INotificationChannelReadService notificationChannelReadService,

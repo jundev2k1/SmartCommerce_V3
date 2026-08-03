@@ -1,8 +1,8 @@
-using Auth.Application.Abstractions.Security.Jwt;
+using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Infrastructure.Security.Jwt;
+namespace SmartEcommerce.Auth.Infrastructure.Security.Jwt;
 
 public static class JwtExtensions
 {

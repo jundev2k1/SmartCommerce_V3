@@ -1,4 +1,4 @@
-namespace BuildingBlock.SharedKernel.Constants;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 /// <summary>
 /// Authorization policy names for use with [Authorize(Policy = "...")]

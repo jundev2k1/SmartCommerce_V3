@@ -1,10 +1,10 @@
-namespace User.Application.Abstractions.Services;
+namespace SmartEcommerce.User.Application.Abstractions.Services;
 
 /// <summary>
 /// Flat, JSON-serializable snapshot of a UserProfile for caching purposes. A separate DTO
 /// (rather than caching UserProfile itself) is deliberate: UserProfile's setters are private
 /// (domain encapsulation), so it can't be reconstructed from deserialized JSON outside
-/// User.Domain - the same reasoning that gives Elasticsearch its own read-model document
+/// SmartEcommerce.User.Domain - the same reasoning that gives Elasticsearch its own read-model document
 /// instead of indexing the aggregate directly. See docs/tasks/2026-07-28/Task11_user-detail-cache-scaffold.md.
 /// </summary>
 public sealed record CachedUserProfile(
@@ -37,7 +37,7 @@ public sealed record CachedUserProfile(
 /// <summary>
 /// Owning-service cache primitives for User's own UserProfile detail cache - mirrors Auth's
 /// RoleCacheService shape (Get/Set/Remove, config-driven TTL with a constant fallback). This is
-/// the write-owning side; User.Infrastructure.Caching.UserProfileCacheService is the Redis-backed
+/// the write-owning side; SmartEcommerce.User.Infrastructure.Caching.UserProfileCacheService is the Redis-backed
 /// implementation. See docs/reference/caching.md.
 /// </summary>
 public interface IUserProfileCacheService

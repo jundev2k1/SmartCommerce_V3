@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
-namespace Inventory.Application.Abstractions.Persistence;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence;
 
 /// <summary>
 /// Handles optimistic concurrency conflicts (xmin version mismatches) with automatic retry.

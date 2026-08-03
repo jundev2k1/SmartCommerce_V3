@@ -1,7 +1,7 @@
-using BuildingBlock.Domain.Attributes;
-using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
+using SmartEcommerce.BuildingBlock.Domain.Attributes;
+using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace BuildingBlock.Application.Exceptions;
+namespace SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 public abstract class ApplicationException : Exception
 {

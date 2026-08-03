@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.CQRS;
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Queries;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
 
 public sealed record SearchDeadLettersQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<DeadLetterListItemResponse>>;
 

@@ -2,18 +2,18 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Audit;
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Attributes;
-using BuildingBlock.Persistence.Audit;
-using BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Attributes;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace BuildingBlock.Persistence.Ef.Interceptors;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Interceptors;
 
 /// <summary>
 /// Collects tracked changes into per-Aggregate-Root <see cref="AuditIntegrationEvent"/>s (exactly
@@ -25,7 +25,7 @@ namespace BuildingBlock.Persistence.Ef.Interceptors;
 /// (a dictionary lookup) - both are required so a type can never end up half-configured (marked
 /// but not placed in the graph, or placed without declaring intent). Properties carrying
 /// [AuditIgnore] never reach the change snapshot. All the actual grouping/tree-building logic is
-/// provider-agnostic and lives in <see cref="AuditGraphBuilder"/> (BuildingBlock.Persistence) -
+/// provider-agnostic and lives in <see cref="AuditGraphBuilder"/> (SmartEcommerce.BuildingBlock.Persistence) -
 /// this class's only job is extracting <see cref="AuditTrackedEntity"/> snapshots from EF's
 /// ChangeTracker (primary keys via EF's own metadata, not reflection-guessing) and handing them
 /// off to that shared algorithm.

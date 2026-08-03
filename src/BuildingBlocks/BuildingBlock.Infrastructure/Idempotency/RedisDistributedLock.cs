@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Idempotency;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
 
 using Microsoft.Extensions.Logging;
 
 using StackExchange.Redis;
 
-namespace BuildingBlock.Infrastructure.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 
 /// <summary>
 /// A lock held via a Redis key. Release is a compare-and-delete Lua script keyed on <see cref="_token"/>

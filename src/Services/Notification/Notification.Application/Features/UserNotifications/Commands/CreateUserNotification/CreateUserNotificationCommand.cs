@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
 public sealed record CreateUserNotificationCommand(
     Guid UserId,

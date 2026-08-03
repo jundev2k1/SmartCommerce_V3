@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
 
 public sealed record SearchInventoryTransactionsQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<SearchInventoryTransactionsItemResponse>>;
 

@@ -1,16 +1,16 @@
-using Auth.Application.Abstractions.Auth;
-using Auth.Application.Abstractions.Persistence.Accounts;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
 
-using BuildingBlock.Contract.Protos.Auth;
+using SmartEcommerce.BuildingBlock.Contract.Protos.Auth;
 
 using Grpc.Core;
 
-namespace Auth.API.GrpcServices;
+namespace SmartEcommerce.Auth.API.GrpcServices;
 
 /// <summary>
 /// gRPC adapter for email validation. Presentation-layer only: queries the persistence layer
 /// and maps the result to the wire response - no business logic here.
-/// Exceptions are left to propagate to BuildingBlock.Grpc's ErrorHandlingInterceptor.
+/// Exceptions are left to propagate to SmartEcommerce.BuildingBlock.Grpc's ErrorHandlingInterceptor.
 /// </summary>
 public sealed class AuthGrpcServiceImpl(
     IAccountReadService accountReadService,

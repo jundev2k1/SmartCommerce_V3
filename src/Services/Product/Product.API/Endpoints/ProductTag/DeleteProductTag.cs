@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.ProductTags.Commands.DeleteProductTag;
+using SmartEcommerce.Product.Application.Features.ProductTags.Commands.DeleteProductTag;
 
-namespace Product.API.Endpoints.ProductTag;
+namespace SmartEcommerce.Product.API.Endpoints.ProductTag;
 
 public sealed class DeleteProductTagEndpoint : ICarterModule
 {

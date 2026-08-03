@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Inventory.Persistence.Storage.Migrations
+namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

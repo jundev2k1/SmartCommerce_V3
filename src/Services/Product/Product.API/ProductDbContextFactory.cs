@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.API;
+namespace SmartEcommerce.Product.API;
 
 /// <summary>
 /// Lets `dotnet ef` build <see cref="ProductDbContext"/> directly, without booting the full app host

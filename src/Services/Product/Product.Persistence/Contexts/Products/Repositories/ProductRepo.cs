@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.Persistence.Contexts.Products.Repositories;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
 
 public sealed class ProductRepo(ProductDbContext dbContext)
     : ProductBaseRepository<ProductEntity>(dbContext), IProductRepository

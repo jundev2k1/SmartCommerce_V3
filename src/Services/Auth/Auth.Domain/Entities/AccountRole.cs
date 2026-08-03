@@ -1,8 +1,8 @@
-using BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Auth.Domain.Entities;
+namespace SmartEcommerce.Auth.Domain.Entities;
 
 public class AccountRole : IdentityUserRole<Guid>, IEntity
 {

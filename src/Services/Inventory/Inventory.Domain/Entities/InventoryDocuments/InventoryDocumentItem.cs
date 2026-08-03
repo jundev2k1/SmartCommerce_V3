@@ -1,7 +1,7 @@
-using Inventory.Domain.Entities.Inventories;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventoryDocuments;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
 
 public sealed class InventoryDocumentItem : BaseEntity<long>
 {

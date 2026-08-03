@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
 public sealed record CreateProductCategoryCommand(
     string Code,

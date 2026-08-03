@@ -1,7 +1,7 @@
-using User.Application.Abstractions.Search;
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Search;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Application.Features.Users.Search;
+namespace SmartEcommerce.User.Application.Features.Users.Search;
 
 /// <summary>
 /// The Projection Builder: UserProfile -&gt; UserSearchDocument. The only place a UserSearchDocument

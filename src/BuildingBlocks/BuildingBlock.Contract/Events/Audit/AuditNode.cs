@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Audit;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 /// <summary>
 /// One node in an audit graph - one tracked entity instance within an aggregate. Children are a

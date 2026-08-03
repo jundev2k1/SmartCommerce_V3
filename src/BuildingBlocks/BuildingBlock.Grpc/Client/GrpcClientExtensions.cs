@@ -1,7 +1,7 @@
 using Grpc.Net.Client;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Grpc.Client;
+namespace SmartEcommerce.BuildingBlock.Grpc.Client;
 
 public static class GrpcClientExtensions
 {

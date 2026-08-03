@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using User.Application.Features.Users.Commands.UpdateUser;
+using SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 public sealed record UpdateUserRequest(
     string FirstName,

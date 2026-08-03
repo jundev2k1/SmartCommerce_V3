@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using User.Application.Abstractions.Services;
-using User.Application.Features.Users.Caching;
+using SmartEcommerce.User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Features.Users.Caching;
 
-namespace User.Application.Features.Users.Queries.GetUserDetail;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserDetail;
 
 public sealed class GetUserDetailHandler(
     ICurrentUserService currentUser,

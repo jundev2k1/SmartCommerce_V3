@@ -1,9 +1,9 @@
-using Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace Auth.Infrastructure.Caching;
+namespace SmartEcommerce.Auth.Infrastructure.Caching;
 
 public sealed class RefreshTokenCacheService(ICacheService cacheService)
 {

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Product.Domain.ValueObjects;
+namespace SmartEcommerce.Product.Domain.ValueObjects;
 
 /// <summary>Shared style/model code for a Product, distinct from each variation's own Sku.</summary>
 public sealed partial class ProductCode : StringValueObject

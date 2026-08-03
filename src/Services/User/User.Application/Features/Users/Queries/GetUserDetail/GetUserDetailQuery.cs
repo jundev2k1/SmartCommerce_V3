@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Queries.GetUserDetail;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserDetail;
 
 public sealed record GetUserDetailQuery : IQuery<GetUserDetailResponse>;
 

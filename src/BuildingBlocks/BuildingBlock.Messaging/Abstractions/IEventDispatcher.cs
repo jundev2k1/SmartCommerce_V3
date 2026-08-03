@@ -1,6 +1,6 @@
-using BuildingBlock.Contract.Events;
+using SmartEcommerce.BuildingBlock.Contract.Events;
 
-namespace BuildingBlock.Messaging.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 public interface IEventDispatcher
 {

@@ -1,8 +1,8 @@
 using System.Linq.Expressions;
 
-using BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
-namespace BuildingBlock.Persistence.Repository;
+namespace SmartEcommerce.BuildingBlock.Persistence.Repository;
 
 public interface IRepository<TEntity>
     where TEntity : IEntity

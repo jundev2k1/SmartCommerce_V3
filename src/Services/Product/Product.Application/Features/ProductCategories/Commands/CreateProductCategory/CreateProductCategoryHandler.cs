@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Domain.ValueObjects;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Domain.ValueObjects;
 
-namespace Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
 public sealed class CreateProductCategoryHandler(
     IProductCategoryReadService categoryReadService,

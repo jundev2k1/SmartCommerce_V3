@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Order;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Order;
 
 using MediatR;
 
-using Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
 
-namespace Order.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Order.Infrastructure.Messaging.Consumers;
 
 /// <summary>
 /// Entry point for PHASE 5/6 of the CreateOrder workflow (docs/reference/create-order-saga.md) -

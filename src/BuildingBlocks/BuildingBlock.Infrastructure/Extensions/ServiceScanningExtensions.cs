@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 
-namespace BuildingBlock.Infrastructure.Extensions;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
 
 /// <summary>
 /// Extension methods for automatic dependency injection service registration by scanning assemblies.

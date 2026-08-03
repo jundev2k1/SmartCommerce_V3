@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace BuildingBlock.Persistence.Audit;
+namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
 
 /// <summary>
 /// Read-only lookup of resolved audit hierarchy metadata, built once by <c>ConfigureAuditHierarchy</c>

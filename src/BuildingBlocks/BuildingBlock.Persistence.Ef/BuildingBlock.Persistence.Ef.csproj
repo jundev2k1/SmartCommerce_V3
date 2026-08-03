@@ -6,6 +6,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RootNamespace>SmartEcommerce.BuildingBlock.Persistence.Ef</RootNamespace>
+    <AssemblyName>SmartEcommerce.BuildingBlock.Persistence.Ef</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

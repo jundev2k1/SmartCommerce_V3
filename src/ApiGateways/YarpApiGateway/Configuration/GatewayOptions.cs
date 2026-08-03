@@ -1,4 +1,4 @@
-namespace YarpApiGateway.Configuration;
+namespace SmartEcommerce.YarpApiGateway.Configuration;
 
 public sealed class GatewayOptions
 {

@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Contract.Events.Order;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Contract.Events.Order;
 
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Commands.CompleteOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CompleteOrder;
 
 public sealed class CompleteOrderHandler(
     IOrderWriteService orderWriteService,

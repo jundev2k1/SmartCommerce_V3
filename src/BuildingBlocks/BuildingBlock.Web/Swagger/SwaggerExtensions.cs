@@ -1,10 +1,10 @@
-using BuildingBlock.Web.Swagger.Filters;
+using SmartEcommerce.BuildingBlock.Web.Swagger.Filters;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace BuildingBlock.Web.Swagger;
+namespace SmartEcommerce.BuildingBlock.Web.Swagger;
 
 public static class SwaggerExtensions
 {

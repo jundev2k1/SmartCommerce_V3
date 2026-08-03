@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using Npgsql;
 
-namespace BuildingBlock.Persistence.Ef.Tests;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
 
 /// <summary>
 /// Regression coverage for the AddVariation TOCTOU race (B1): two concurrent requests can both

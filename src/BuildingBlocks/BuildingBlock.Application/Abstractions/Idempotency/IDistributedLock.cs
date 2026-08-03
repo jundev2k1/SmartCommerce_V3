@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
 
 /// <summary>
 /// A held distributed lock. Disposing (or calling <see cref="ReleaseAsync"/>) releases it -

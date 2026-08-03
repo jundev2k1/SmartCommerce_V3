@@ -1,4 +1,4 @@
-namespace Notification.Domain.ValueObjects;
+namespace SmartEcommerce.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// Encapsulates a <see cref="Entities.NotificationCampaign"/>'s execution timing so scheduling

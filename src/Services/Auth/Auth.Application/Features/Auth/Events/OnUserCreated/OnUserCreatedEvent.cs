@@ -1,4 +1,4 @@
-namespace Auth.Application.Features.Auth.Events.OnUserCreated;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserCreated;
 
 public sealed record OnUserCreatedEvent(
     string UserId,

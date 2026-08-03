@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Events;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Features.Users.Events.OnUserSearchSyncRequired;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
 
-namespace User.Application.Features.Users.Events.OnUserInitiated;
+namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserInitiated;
 
 public sealed class OnUserInitiatedHandler(
     IUserProfileWriteService userWriteService,

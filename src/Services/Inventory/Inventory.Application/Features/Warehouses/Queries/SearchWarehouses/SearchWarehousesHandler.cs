@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
 
 using Mapster;
 
-namespace Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
+namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
 
 public sealed class SearchWarehousesHandler(IWarehouseReadService warehouseReadService)
     : IQueryHandler<SearchWarehousesQuery, PaginatedResult<SearchWarehousesItemResponse>>

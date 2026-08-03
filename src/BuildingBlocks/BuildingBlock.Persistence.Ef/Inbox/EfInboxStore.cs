@@ -1,8 +1,8 @@
-using BuildingBlock.Persistence.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace BuildingBlock.Persistence.Ef.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Generic EF implementation of IInboxStore, parameterized over the DbContext type.

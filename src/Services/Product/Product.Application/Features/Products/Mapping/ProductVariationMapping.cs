@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
-namespace Product.Application.Features.Products.Mapping;
+namespace SmartEcommerce.Product.Application.Features.Products.Mapping;
 
 public static class ProductVariationMapping
 {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "BuildingBlock.Contract.Protos.Inventory";
+option csharp_namespace = "SmartEcommerce.BuildingBlock.Contract.Protos.Inventory";
 
 package simpleshop.inventory;
 

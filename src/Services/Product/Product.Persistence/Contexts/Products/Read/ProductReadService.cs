@@ -1,10 +1,10 @@
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Persistence.Contexts.Products.Repositories;
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.Persistence.Contexts.Products.Read;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Read;
 
 public sealed class ProductReadService(
     ProductDbContext dbContext,

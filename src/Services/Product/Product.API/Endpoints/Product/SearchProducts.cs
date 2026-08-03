@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Queries.SearchProducts;
+using SmartEcommerce.Product.Application.Features.Products.Queries.SearchProducts;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 /// <summary>Served entirely from Elasticsearch - see docs/reference/search.md. Product Detail (GetProduct) still reads Postgres.</summary>
 public sealed class SearchProductsEndpoint : ICarterModule

@@ -1,7 +1,7 @@
-using BuildingBlock.Contract.Events.Audit;
-using BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
 
-namespace BuildingBlock.Persistence.Ef.Tests;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
 
 /// <summary>Exercises the provider-agnostic grouping/tree algorithm directly - no EF involved - against the exact scenario from the audit-graph requirements: two Orders (one with two items, one with one item) plus an unrelated User in a single batch.</summary>
 public sealed class AuditGraphBuilderTests

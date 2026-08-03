@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace BuildingBlock.Criteria.Enums;
+namespace SmartEcommerce.BuildingBlock.Criteria.Enums;
 
 /// <summary>Maps the short API-facing operator codes (eq/ne/gt/gte/lt/lte/c/sw/ew/in/nin/between/null/notnull) to/from <see cref="CriteriaOperator"/> so the wire contract never leaks the enum's C# member names.</summary>
 public sealed class CriteriaOperatorJsonConverter : JsonConverter<CriteriaOperator>

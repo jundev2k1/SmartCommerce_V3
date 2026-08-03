@@ -1,26 +1,26 @@
-using Auth.Application.Abstractions.Persistence.Accounts;
-using Auth.Application.Abstractions.Persistence.RefreshTokens;
-using Auth.Domain.Entities;
-using Auth.Persistence.Contexts.Accounts.Read;
-using Auth.Persistence.Contexts.Accounts.Repositories;
-using Auth.Persistence.Contexts.Accounts.Write;
-using Auth.Persistence.Contexts.RefreshTokens.Read;
-using Auth.Persistence.Contexts.RefreshTokens.Write;
-using Auth.Persistence.Engine;
-using Auth.Persistence.Engine.UnitOfWork;
-using Auth.Persistence.Reliability.Inbox;
-using Auth.Persistence.Reliability.Outbox;
-using Auth.Persistence.Storage.Seeders;
+using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
+using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Read;
+using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
+using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Write;
+using SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Read;
+using SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Write;
+using SmartEcommerce.Auth.Persistence.Engine;
+using SmartEcommerce.Auth.Persistence.Engine.UnitOfWork;
+using SmartEcommerce.Auth.Persistence.Reliability.Inbox;
+using SmartEcommerce.Auth.Persistence.Reliability.Outbox;
+using SmartEcommerce.Auth.Persistence.Storage.Seeders;
 
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Extensions;
-using BuildingBlock.Persistence.Audit;
-using BuildingBlock.Persistence.Ef.DependencyInjection;
-using BuildingBlock.Persistence.Ef.Inbox;
-using BuildingBlock.Persistence.Ef.Outbox;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Extensions;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +30,7 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-namespace Auth.Persistence;
+namespace SmartEcommerce.Auth.Persistence;
 
 public static class DependencyInjection
 {
@@ -142,10 +142,10 @@ public static class DependencyInjection
             .AddEfDeadLetterQueryService<AuthDbContext>();
 
         services.AddScoped<IOutboxStore>(sp => new OutboxStore(
-            sp.GetRequiredService<BuildingBlock.Persistence.Outbox.IOutboxStore>(),
+            sp.GetRequiredService<SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore>(),
             "auth-service"));
         services.AddScoped<IInboxStore>(sp => new InboxStore(
-            sp.GetRequiredService<BuildingBlock.Persistence.Inbox.IInboxStore>()));
+            sp.GetRequiredService<SmartEcommerce.BuildingBlock.Persistence.Inbox.IInboxStore>()));
 
         return services;
     }

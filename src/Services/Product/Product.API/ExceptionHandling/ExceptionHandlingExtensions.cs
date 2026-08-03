@@ -1,4 +1,4 @@
-namespace Product.API.ExceptionHandling;
+namespace SmartEcommerce.Product.API.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

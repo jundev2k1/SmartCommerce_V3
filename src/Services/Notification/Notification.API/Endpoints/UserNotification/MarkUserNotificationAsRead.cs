@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
 
-namespace Notification.API.Endpoints.UserNotification;
+namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Scoped to the calling user - enforced in the handler, callers may only mark their own as read.</summary>
 public sealed class MarkUserNotificationAsRead : ICarterModule

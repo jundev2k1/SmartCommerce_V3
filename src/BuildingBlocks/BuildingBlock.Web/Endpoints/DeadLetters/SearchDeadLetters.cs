@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.DeadLetters.Queries;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Carter;
 
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BuildingBlock.Web.Endpoints.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Web.Endpoints.DeadLetters;
 
 /// <summary>
 /// Generic dead-letter management API, identical across every service that owns an Inbox table

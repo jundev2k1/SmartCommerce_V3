@@ -1,12 +1,12 @@
-using Auth.Application.Abstractions.Persistence.RefreshTokens;
-using Auth.Infrastructure.Caching;
+using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using SmartEcommerce.Auth.Infrastructure.Caching;
 
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 
 using Microsoft.Extensions.Options;
 
-namespace Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
+namespace SmartEcommerce.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
 
 /// <summary>
 /// Flushes cached refresh token state to Postgres. Discovery is scan-free end to end:

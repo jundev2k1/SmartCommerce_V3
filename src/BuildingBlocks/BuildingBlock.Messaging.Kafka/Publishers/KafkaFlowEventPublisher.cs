@@ -2,15 +2,15 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
-using BuildingBlock.Contract.Events;
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Messaging.Kafka.Configuration;
-using BuildingBlock.Messaging.Kafka.Tracing;
+using SmartEcommerce.BuildingBlock.Contract.Events;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Configuration;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
 
 using KafkaFlow;
 using KafkaFlow.Producers;
 
-namespace BuildingBlock.Messaging.Kafka.Publishers;
+namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Publishers;
 
 public sealed class KafkaFlowEventPublisher(
     IProducerAccessor producerAccessor) : IEventPublisher

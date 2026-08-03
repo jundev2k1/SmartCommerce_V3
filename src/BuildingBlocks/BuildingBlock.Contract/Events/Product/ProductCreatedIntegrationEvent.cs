@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Product;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
 /// <summary>
 /// Product-level info only - Sku/Price live on ProductVariation now, so stock/catalog

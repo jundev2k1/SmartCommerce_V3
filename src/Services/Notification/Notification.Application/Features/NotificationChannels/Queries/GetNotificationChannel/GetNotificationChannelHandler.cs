@@ -1,8 +1,8 @@
-using Notification.Application.Abstractions.Persistence.NotificationChannels;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
 
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
+namespace SmartEcommerce.Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
 
 public sealed class GetNotificationChannelHandler(INotificationChannelReadService notificationChannelReadService)
     : IQueryHandler<GetNotificationChannelQuery, GetNotificationChannelResponse>

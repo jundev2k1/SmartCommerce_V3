@@ -1,8 +1,8 @@
 using Mapster;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace Product.Application.Features.ProductCategories.Queries.ListProductCategories;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Queries.ListProductCategories;
 
 public sealed class ListProductCategoriesHandler(IProductCategoryReadService categoryReadService)
     : IQueryHandler<ListProductCategoriesQuery, ListProductCategoriesResponse>

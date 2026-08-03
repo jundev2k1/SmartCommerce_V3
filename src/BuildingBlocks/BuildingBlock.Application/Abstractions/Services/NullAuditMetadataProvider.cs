@@ -1,6 +1,6 @@
-using BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
-namespace BuildingBlock.Application.Abstractions.Services;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 /// <summary>Default no-op provider - registered so audit tracking never fails to resolve DI for services that don't configure a real one.</summary>
 public sealed class NullAuditMetadataProvider : IAuditMetadataProvider

@@ -10,6 +10,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RootNamespace>SmartEcommerce.Auth.Domain</RootNamespace>
+    <AssemblyName>SmartEcommerce.Auth.Domain</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

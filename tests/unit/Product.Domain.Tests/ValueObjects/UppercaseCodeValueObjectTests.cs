@@ -1,13 +1,13 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 using Shouldly;
 using SimpleShop.TestKit.ShouldlyExtensions;
 
-namespace Product.Domain.Tests.ValueObjects;
+namespace SmartEcommerce.Product.Domain.Tests.ValueObjects;
 
 /// <summary>
-/// Shared contract test for Product.Domain's uppercase business-code Value Objects
+/// Shared contract test for SmartEcommerce.Product.Domain's uppercase business-code Value Objects
 /// (<c>Sku</c>, <c>ProductCode</c>, <c>CategoryCode</c>, <c>TagCode</c>) - all four have the
 /// identical validation shape: required, max 50 chars, <c>^[A-Z0-9-]+$</c> format, normalized
 /// via <c>Trim().ToUpperInvariant()</c>. One shared test base instead of four near-duplicate

@@ -1,6 +1,6 @@
-using Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
 
-namespace Auth.Application.Features.Auth.Events.OnUserDeletion;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserDeletion;
 
 public sealed class OnUserDeletionHandler(
     IAuthService authService,

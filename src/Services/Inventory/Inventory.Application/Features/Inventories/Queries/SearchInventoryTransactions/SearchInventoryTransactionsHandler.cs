@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
 using Mapster;
 
-namespace Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
 
 public sealed class SearchInventoryTransactionsHandler(IInventoryTransactionReadService transactionReadService)
     : IQueryHandler<SearchInventoryTransactionsQuery, PaginatedResult<SearchInventoryTransactionsItemResponse>>

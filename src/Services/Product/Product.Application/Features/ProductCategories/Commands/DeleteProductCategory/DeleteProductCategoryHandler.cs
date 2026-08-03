@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
-namespace Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
 
 public sealed class DeleteProductCategoryHandler(
     IProductCategoryReadService categoryReadService,

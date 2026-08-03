@@ -1,5 +1,5 @@
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Cart.Queries.GetCart;
+namespace SmartEcommerce.Order.Application.Features.Cart.Queries.GetCart;
 
 public sealed record GetCartQuery : IQuery<CartResponse>;

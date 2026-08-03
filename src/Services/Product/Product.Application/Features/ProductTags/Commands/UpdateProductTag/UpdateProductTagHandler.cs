@@ -1,6 +1,6 @@
-using Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace Product.Application.Features.ProductTags.Commands.UpdateProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.UpdateProductTag;
 
 public sealed class UpdateProductTagHandler(
     IUnitOfWork uow,

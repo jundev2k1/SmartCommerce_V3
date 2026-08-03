@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Persistence.Ef.DbContext;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
 
 public static class DbContextOptionsBuilderExtensions
 {

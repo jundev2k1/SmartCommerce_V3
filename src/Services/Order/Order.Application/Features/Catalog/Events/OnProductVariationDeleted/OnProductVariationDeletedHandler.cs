@@ -1,6 +1,6 @@
-using Order.Application.Abstractions.Persistence.ProductCatalogs;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
-namespace Order.Application.Features.Catalog.Events.OnProductVariationDeleted;
+namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnProductVariationDeleted;
 
 public sealed class OnProductVariationDeletedHandler(
     IUnitOfWork uow,

@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Infrastructure.Caching;
+namespace SmartEcommerce.User.Infrastructure.Caching;
 
 /// <summary>
 /// Reads roles from the shared Redis cache under the same key Auth's

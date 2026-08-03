@@ -1,4 +1,4 @@
-namespace Order.Domain.ValueObjects;
+namespace SmartEcommerce.Order.Domain.ValueObjects;
 
 public sealed class Tax : ValueObject
 {

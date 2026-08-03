@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
 
-namespace Inventory.Application.Features.InventorySerials.Search;
+namespace SmartEcommerce.Inventory.Application.Features.InventorySerials.Search;
 
 public static class InventorySerialCriteriaDefinition
 {

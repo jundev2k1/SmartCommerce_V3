@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Product;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
 /// <summary>
 /// Fired once per ProductVariation - both for each initial variation at Product creation and

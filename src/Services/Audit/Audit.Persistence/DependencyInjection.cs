@@ -1,22 +1,22 @@
-using Audit.Application.Abstractions.Persistence.AuditLogs;
-using Audit.Persistence.Contexts.AuditLogs.Read;
-using Audit.Persistence.Contexts.AuditLogs.Repositories;
-using Audit.Persistence.Contexts.AuditLogs.Write;
-using Audit.Persistence.Engine;
-using Audit.Persistence.Engine.UnitOfWork;
-using Audit.Persistence.Inbox;
-using Audit.Persistence.Outbox;
+using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
+using SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Read;
+using SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Repositories;
+using SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Write;
+using SmartEcommerce.Audit.Persistence.Engine;
+using SmartEcommerce.Audit.Persistence.Engine.UnitOfWork;
+using SmartEcommerce.Audit.Persistence.Inbox;
+using SmartEcommerce.Audit.Persistence.Outbox;
 
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Persistence.Mongo.DependencyInjection;
-using BuildingBlock.Persistence.Mongo.Inbox;
-using BuildingBlock.Persistence.Mongo.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.DependencyInjection;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Audit.Persistence;
+namespace SmartEcommerce.Audit.Persistence;
 
 public static class DependencyInjection
 {

@@ -1,22 +1,22 @@
-using BuildingBlock.Contract.Protos.Auth;
-using BuildingBlock.Grpc.Client;
-using BuildingBlock.Infrastructure.Audit;
-using BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using BuildingBlock.Infrastructure.Extensions;
-using BuildingBlock.Infrastructure.Messaging;
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Messaging.Kafka.Extensions;
+using SmartEcommerce.BuildingBlock.Contract.Protos.Auth;
+using SmartEcommerce.BuildingBlock.Grpc.Client;
+using SmartEcommerce.BuildingBlock.Infrastructure.Audit;
+using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
+using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using User.Application.Abstractions.Services;
-using User.Infrastructure.BackgroundJobs;
-using User.Infrastructure.Caching;
-using User.Infrastructure.GrpcClients;
-using User.Infrastructure.Messaging.Consumers;
+using SmartEcommerce.User.Application.Abstractions.Services;
+using SmartEcommerce.User.Infrastructure.BackgroundJobs;
+using SmartEcommerce.User.Infrastructure.Caching;
+using SmartEcommerce.User.Infrastructure.GrpcClients;
+using SmartEcommerce.User.Infrastructure.Messaging.Consumers;
 
-namespace User.Infrastructure;
+namespace SmartEcommerce.User.Infrastructure;
 
 public static class DependencyInjection
 {

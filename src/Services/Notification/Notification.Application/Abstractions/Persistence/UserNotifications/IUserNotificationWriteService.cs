@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Persistence.UserNotifications;
+namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
 
 public interface IUserNotificationWriteService
 {

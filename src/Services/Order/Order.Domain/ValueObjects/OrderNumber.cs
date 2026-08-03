@@ -1,6 +1,6 @@
-using Order.Domain.Regexes;
+using SmartEcommerce.Order.Domain.Regexes;
 
-namespace Order.Domain.ValueObjects;
+namespace SmartEcommerce.Order.Domain.ValueObjects;
 
 public sealed class OrderNumber : StringValueObject
 {

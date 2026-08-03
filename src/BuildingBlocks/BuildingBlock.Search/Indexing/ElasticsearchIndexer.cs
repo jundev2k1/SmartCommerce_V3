@@ -1,11 +1,11 @@
-using BuildingBlock.Search.Abstractions;
+using SmartEcommerce.BuildingBlock.Search.Abstractions;
 
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 using Elastic.Transport.Products.Elasticsearch;
 
-namespace BuildingBlock.Search.Indexing;
+namespace SmartEcommerce.BuildingBlock.Search.Indexing;
 
 /// <summary>
 /// Every "index name" a caller passes in here is actually an ES alias, not a concrete index - the

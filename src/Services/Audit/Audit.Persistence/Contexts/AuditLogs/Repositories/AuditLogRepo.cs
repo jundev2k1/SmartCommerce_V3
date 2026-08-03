@@ -1,6 +1,6 @@
-using Audit.Persistence.Engine;
+using SmartEcommerce.Audit.Persistence.Engine;
 
-namespace Audit.Persistence.Contexts.AuditLogs.Repositories;
+namespace SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Repositories;
 
 public sealed class AuditLogRepo(AuditMongoContext context) : IAuditLogRepository
 {

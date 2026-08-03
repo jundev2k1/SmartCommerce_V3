@@ -1,7 +1,7 @@
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Validates stock availability for multiple product variations in a single operation.

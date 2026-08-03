@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 
-using BuildingBlock.Infrastructure.Authorization.Requirements;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization.Requirements;
 
-namespace BuildingBlock.Infrastructure.Authorization.Handlers;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Authorization.Handlers;
 
 public sealed class RoleAuthorizationHandler : AuthorizationHandler<RoleRequirement>
 {

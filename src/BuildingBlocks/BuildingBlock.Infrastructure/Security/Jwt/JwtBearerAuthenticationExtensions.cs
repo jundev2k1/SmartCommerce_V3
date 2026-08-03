@@ -1,6 +1,6 @@
 using System.Text;
 
-using BuildingBlock.SharedKernel.Security;
+using SmartEcommerce.BuildingBlock.SharedKernel.Security;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BuildingBlock.Infrastructure.Security.Jwt;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Security.Jwt;
 
 public static class JwtBearerAuthenticationExtensions
 {

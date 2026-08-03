@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Orders.Commands.CreateOrder;
-using Order.Application.Features.Orders.DTOs;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.CreateOrder;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed record AdminCreateOrderOwnerInfoRequest(
     Guid OwnerId,

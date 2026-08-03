@@ -1,4 +1,4 @@
-namespace BuildingBlock.Messaging.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 /// <summary>
 /// Marker interface for integration event consumers.

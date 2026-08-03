@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Exceptions;
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Owns the complete warehouse transfer workflow: validates both warehouses, deducts from source, receives at destination.

@@ -1,14 +1,14 @@
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.Domain.ValueObjects;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
-using Order.Application.Abstractions.Persistence.Orders;
-using Order.Domain.Enums;
-using Order.Domain.ValueObjects;
-using Order.Persistence.Contexts.Orders.Repositories;
-using Order.Persistence.Mapping.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Domain.Enums;
+using SmartEcommerce.Order.Domain.ValueObjects;
+using SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
+using SmartEcommerce.Order.Persistence.Mapping.Orders;
 
-namespace Order.Persistence.Contexts.Orders.Write;
+namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Write;
 
 public sealed class OrderWriteService(IOrderRepository orderRepo) : IOrderWriteService
 {

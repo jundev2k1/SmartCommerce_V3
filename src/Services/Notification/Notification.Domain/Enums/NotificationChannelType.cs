@@ -1,4 +1,4 @@
-namespace Notification.Domain.Enums;
+namespace SmartEcommerce.Notification.Domain.Enums;
 
 /// <summary>
 /// InApp represents the Notification Center itself (a <see cref="Entities.UserNotification"/> row

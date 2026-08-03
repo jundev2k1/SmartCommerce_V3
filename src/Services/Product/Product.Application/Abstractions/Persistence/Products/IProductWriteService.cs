@@ -1,6 +1,6 @@
-using Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
-namespace Product.Application.Abstractions.Persistence.Products;
+namespace SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
 public sealed record CreateProductRequest(
     string Code,

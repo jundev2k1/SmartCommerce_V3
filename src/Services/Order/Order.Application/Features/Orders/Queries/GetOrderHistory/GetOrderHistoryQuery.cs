@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace Order.Application.Features.Orders.Queries.GetOrderHistory;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrderHistory;
 
 public sealed record GetOrderHistoryQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<OrderHistoryItemResponse>>;
 

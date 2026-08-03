@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.Inventories;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 
 public sealed record InventoryAdjustmentResult(InventoryStock Entity, int Delta);
 

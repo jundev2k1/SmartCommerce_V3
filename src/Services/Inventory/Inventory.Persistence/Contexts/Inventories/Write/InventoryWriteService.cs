@@ -1,7 +1,7 @@
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Persistence.Contexts.Inventories.Repositories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Repositories;
 
-namespace Inventory.Persistence.Contexts.Inventories.Write;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Write;
 
 /// <summary>
 /// Never calls IUnitOfWork itself. AddAsync/DeleteByProductIdAsync/DeleteByVariationIdAsync are

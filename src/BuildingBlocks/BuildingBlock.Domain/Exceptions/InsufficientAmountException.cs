@@ -1,6 +1,6 @@
-using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
+using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace BuildingBlock.Domain.Exceptions;
+namespace SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
 /// <summary>
 /// Exception thrown when an operation cannot be completed due to insufficient amount/stock/balance.

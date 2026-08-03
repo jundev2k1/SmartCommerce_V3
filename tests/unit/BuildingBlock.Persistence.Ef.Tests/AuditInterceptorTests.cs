@@ -1,10 +1,10 @@
 using System.Text.Json;
 
-using BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace BuildingBlock.Persistence.Ef.Tests;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
 
 /// <summary>End-to-end through a real DbContext + AuditInterceptor + Outbox, InMemory-provider-backed.</summary>
 public sealed class AuditInterceptorTests

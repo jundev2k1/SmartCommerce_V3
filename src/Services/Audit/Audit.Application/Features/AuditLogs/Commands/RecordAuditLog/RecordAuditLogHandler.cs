@@ -1,8 +1,8 @@
-using Audit.Application.Abstractions.Persistence.AuditLogs;
+using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
 
-using BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
-namespace Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
+namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
 
 public sealed class RecordAuditLogHandler(
     IAuditLogWriteService auditLogWriteService) : ICommandHandler<RecordAuditLogCommand, RecordAuditLogResponse>

@@ -1,8 +1,8 @@
-using BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BuildingBlock.Persistence.Ef.Configurations;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Configurations;
 
 /// <summary>
 /// Reusable EF Core configuration extensions for common entity fields.

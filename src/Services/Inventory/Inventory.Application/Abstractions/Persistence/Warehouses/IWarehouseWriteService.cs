@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.Warehouses;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
 
 public sealed record CreateWarehouseRequest(
     string Code,

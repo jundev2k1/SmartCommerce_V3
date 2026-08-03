@@ -1,14 +1,14 @@
-using BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
-namespace Auth.Persistence.Reliability.Inbox;
+namespace SmartEcommerce.Auth.Persistence.Reliability.Inbox;
 
 /// <summary>
 /// Application-level adapter: delegates to the generic EF store, translating between the two
 /// layers' independently-defined Inbox DTOs/enums (same convention as Outbox's dual snapshot).
 /// </summary>
-public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primitiveStore) : BuildingBlock.Application.Abstractions.Outbox.IInboxStore
+public sealed class InboxStore(SmartEcommerce.BuildingBlock.Persistence.Inbox.IInboxStore primitiveStore) : SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.IInboxStore
 {
-    private readonly BuildingBlock.Persistence.Inbox.IInboxStore _primitiveStore = primitiveStore;
+    private readonly SmartEcommerce.BuildingBlock.Persistence.Inbox.IInboxStore _primitiveStore = primitiveStore;
 
     public async Task<InboxAttemptDecision> BeginAttemptAsync(
         Guid messageId,
@@ -27,7 +27,7 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
 
     public async Task<InboxFailureOutcome> FailAttemptAsync(Guid messageId, string consumerName, string error, InboxRetryPolicy policy, CancellationToken ct = default)
     {
-        var primitivePolicy = new BuildingBlock.Persistence.Inbox.InboxRetryPolicy(
+        var primitivePolicy = new SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryPolicy(
             policy.MaxRetryCount, policy.InitialRetryDelay, policy.RetryBackoffMultiplier, policy.MaximumRetryDelay);
 
         var outcome = await _primitiveStore.FailAttemptAsync(messageId, consumerName, error, primitivePolicy, ct);
@@ -64,33 +64,33 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
     public Task RevertFailedRequeueAsync(Guid inboxMessageId, string error, CancellationToken ct = default) =>
         _primitiveStore.RevertFailedRequeueAsync(inboxMessageId, error, ct);
 
-    private static InboxAttemptDecision ToApplication(BuildingBlock.Persistence.Inbox.InboxAttemptDecision decision) => decision switch
+    private static InboxAttemptDecision ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxAttemptDecision decision) => decision switch
     {
-        BuildingBlock.Persistence.Inbox.InboxAttemptDecision.Proceed => InboxAttemptDecision.Proceed,
-        BuildingBlock.Persistence.Inbox.InboxAttemptDecision.AlreadyProcessed => InboxAttemptDecision.AlreadyProcessed,
-        BuildingBlock.Persistence.Inbox.InboxAttemptDecision.DeadLettered => InboxAttemptDecision.DeadLettered,
-        BuildingBlock.Persistence.Inbox.InboxAttemptDecision.NotDueYet => InboxAttemptDecision.NotDueYet,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxAttemptDecision.Proceed => InboxAttemptDecision.Proceed,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxAttemptDecision.AlreadyProcessed => InboxAttemptDecision.AlreadyProcessed,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxAttemptDecision.DeadLettered => InboxAttemptDecision.DeadLettered,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxAttemptDecision.NotDueYet => InboxAttemptDecision.NotDueYet,
         _ => throw new ArgumentOutOfRangeException(nameof(decision), decision, null),
     };
 
-    private static InboxFailureOutcome ToApplication(BuildingBlock.Persistence.Inbox.InboxFailureOutcome outcome) => outcome switch
+    private static InboxFailureOutcome ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxFailureOutcome outcome) => outcome switch
     {
-        BuildingBlock.Persistence.Inbox.InboxFailureOutcome.AlreadyCommitted => InboxFailureOutcome.AlreadyCommitted,
-        BuildingBlock.Persistence.Inbox.InboxFailureOutcome.WillRetry => InboxFailureOutcome.WillRetry,
-        BuildingBlock.Persistence.Inbox.InboxFailureOutcome.DeadLettered => InboxFailureOutcome.DeadLettered,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxFailureOutcome.AlreadyCommitted => InboxFailureOutcome.AlreadyCommitted,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxFailureOutcome.WillRetry => InboxFailureOutcome.WillRetry,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxFailureOutcome.DeadLettered => InboxFailureOutcome.DeadLettered,
         _ => throw new ArgumentOutOfRangeException(nameof(outcome), outcome, null),
     };
 
-    private static InboxMessageStatus ToApplication(BuildingBlock.Persistence.Inbox.InboxMessageStatus status) => status switch
+    private static InboxMessageStatus ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageStatus status) => status switch
     {
-        BuildingBlock.Persistence.Inbox.InboxMessageStatus.Pending => InboxMessageStatus.Pending,
-        BuildingBlock.Persistence.Inbox.InboxMessageStatus.Retrying => InboxMessageStatus.Retrying,
-        BuildingBlock.Persistence.Inbox.InboxMessageStatus.Processed => InboxMessageStatus.Processed,
-        BuildingBlock.Persistence.Inbox.InboxMessageStatus.DeadLetter => InboxMessageStatus.DeadLetter,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageStatus.Pending => InboxMessageStatus.Pending,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageStatus.Retrying => InboxMessageStatus.Retrying,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageStatus.Processed => InboxMessageStatus.Processed,
+        SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageStatus.DeadLetter => InboxMessageStatus.DeadLetter,
         _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
     };
 
-    private static InboxMessageSnapshot ToApplication(BuildingBlock.Persistence.Inbox.InboxMessageSnapshot snapshot) => new(
+    private static InboxMessageSnapshot ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxMessageSnapshot snapshot) => new(
         snapshot.MessageId,
         snapshot.ConsumerName,
         snapshot.Topic,
@@ -104,29 +104,29 @@ public sealed class InboxStore(BuildingBlock.Persistence.Inbox.IInboxStore primi
         snapshot.LastRetryAt,
         snapshot.LastError);
 
-    private static InboxDeadLetterSummary ToApplication(BuildingBlock.Persistence.Inbox.InboxDeadLetterSummary summary) => new(
+    private static InboxDeadLetterSummary ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxDeadLetterSummary summary) => new(
         summary.ConsumerName, summary.Topic, summary.Count, summary.OldestDeadLetteredAt);
 
-    private static InboxRequeueResult ToApplication(BuildingBlock.Persistence.Inbox.InboxRequeueResult result) => new(
+    private static InboxRequeueResult ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRequeueResult result) => new(
         result.Outcome switch
         {
-            BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.Requeued => InboxRequeueOutcome.Requeued,
-            BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.NotFound => InboxRequeueOutcome.NotFound,
-            BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.NotDeadLetter => InboxRequeueOutcome.NotDeadLetter,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.Requeued => InboxRequeueOutcome.Requeued,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.NotFound => InboxRequeueOutcome.NotFound,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRequeueOutcome.NotDeadLetter => InboxRequeueOutcome.NotDeadLetter,
             _ => throw new ArgumentOutOfRangeException(nameof(result), result.Outcome, null),
         },
         result.Snapshot is null ? null : ToApplication(result.Snapshot),
         result.RetryNumber);
 
-    private static InboxRetryHistoryEntry ToApplication(BuildingBlock.Persistence.Inbox.InboxRetryHistoryEntry entry) => new(
+    private static InboxRetryHistoryEntry ToApplication(SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryHistoryEntry entry) => new(
         entry.Id, entry.InboxMessageId, entry.MessageId, entry.ConsumerName, entry.Topic, entry.RetryNumber,
         entry.StartedAt, entry.FinishedAt, entry.DurationMs, entry.Operator,
         entry.Result switch
         {
-            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Retrying => InboxRetryHistoryResult.Retrying,
-            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Succeeded => InboxRetryHistoryResult.Succeeded,
-            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.FailedAgain => InboxRetryHistoryResult.FailedAgain,
-            BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Cancelled => InboxRetryHistoryResult.Cancelled,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Retrying => InboxRetryHistoryResult.Retrying,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Succeeded => InboxRetryHistoryResult.Succeeded,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.FailedAgain => InboxRetryHistoryResult.FailedAgain,
+            SmartEcommerce.BuildingBlock.Persistence.Inbox.InboxRetryHistoryResult.Cancelled => InboxRetryHistoryResult.Cancelled,
             _ => throw new ArgumentOutOfRangeException(nameof(entry), entry.Result, null),
         },
         entry.Exception);

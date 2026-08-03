@@ -1,4 +1,4 @@
-namespace Product.Domain.Entities.Tags;
+namespace SmartEcommerce.Product.Domain.Entities.Tags;
 
 public sealed class ProductTag : AggregateRoot<Guid>, IAuditable
 {

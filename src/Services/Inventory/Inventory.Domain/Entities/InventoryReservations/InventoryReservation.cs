@@ -1,8 +1,8 @@
-using Inventory.Domain.Entities.Inventories;
-using Inventory.Domain.Entities.Warehouses;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventoryReservations;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryReservations;
 
 public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable
 {

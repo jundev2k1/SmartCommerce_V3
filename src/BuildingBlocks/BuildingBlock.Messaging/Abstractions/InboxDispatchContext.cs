@@ -1,4 +1,4 @@
-namespace BuildingBlock.Messaging.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 /// <summary>
 /// Everything an Inbox-tracked attempt needs: enough to make the dedup/retry decision, and

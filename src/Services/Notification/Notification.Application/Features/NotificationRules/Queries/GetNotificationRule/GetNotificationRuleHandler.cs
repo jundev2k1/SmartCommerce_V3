@@ -1,8 +1,8 @@
-using Notification.Application.Abstractions.Persistence.NotificationRules;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
 
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
+namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
 
 public sealed class GetNotificationRuleHandler(INotificationRuleReadService notificationRuleReadService)
     : IQueryHandler<GetNotificationRuleQuery, GetNotificationRuleResponse>

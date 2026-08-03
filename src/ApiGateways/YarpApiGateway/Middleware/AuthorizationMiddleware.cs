@@ -1,6 +1,6 @@
-using YarpApiGateway.Configuration;
+using SmartEcommerce.YarpApiGateway.Configuration;
 
-namespace YarpApiGateway.Middleware;
+namespace SmartEcommerce.YarpApiGateway.Middleware;
 
 public sealed class AuthorizationMiddleware(RequestDelegate next, GatewayOptions options)
 {

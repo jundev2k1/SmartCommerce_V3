@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.Commands.AssignProductTag;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.AssignProductTag;
 
 public sealed record AssignProductTagCommand(Guid ProductId, Guid TagId) : ICommand<AssignProductTagResponse>;
 

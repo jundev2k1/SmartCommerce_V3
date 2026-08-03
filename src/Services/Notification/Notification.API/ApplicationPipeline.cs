@@ -1,12 +1,12 @@
-using BuildingBlock.Web.Cors;
-using BuildingBlock.Web.Middleware;
-using BuildingBlock.Web.Swagger;
+using SmartEcommerce.BuildingBlock.Web.Cors;
+using SmartEcommerce.BuildingBlock.Web.Middleware;
+using SmartEcommerce.BuildingBlock.Web.Swagger;
 
-using Notification.API.ExceptionHandling;
-using Notification.Infrastructure.BackgroundJobs;
-using Notification.Infrastructure.SignalR.Hubs.Global;
+using SmartEcommerce.Notification.API.ExceptionHandling;
+using SmartEcommerce.Notification.Infrastructure.BackgroundJobs;
+using SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
 
-namespace Notification.API;
+namespace SmartEcommerce.Notification.API;
 
 public static class ApplicationPipeline
 {

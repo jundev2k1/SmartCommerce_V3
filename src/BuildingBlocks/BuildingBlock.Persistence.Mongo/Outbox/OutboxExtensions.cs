@@ -1,11 +1,11 @@
-using BuildingBlock.Persistence.Mongo.MongoContext;
-using BuildingBlock.Persistence.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
+using SmartEcommerce.BuildingBlock.Persistence.Outbox;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Driver;
 
-namespace BuildingBlock.Persistence.Mongo.Outbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
 
 public static class OutboxExtensions
 {

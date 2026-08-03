@@ -1,6 +1,6 @@
-using BuildingBlock.Domain.Metadata;
+using SmartEcommerce.BuildingBlock.Domain.Metadata;
 
-namespace Product.Domain.Metadata;
+namespace SmartEcommerce.Product.Domain.Metadata;
 
 /// <summary>Extensible, strongly-typed metadata specific to a single ProductVariation.</summary>
 public sealed class ProductVariationMetadata : MetadataBase

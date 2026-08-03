@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace User.Persistence.Configs;
+namespace SmartEcommerce.User.Persistence.Configs;
 
 public sealed class UserProfileConfig : IEntityTypeConfiguration<UserProfile>
 {

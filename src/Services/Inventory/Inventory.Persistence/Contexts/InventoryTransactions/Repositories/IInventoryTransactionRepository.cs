@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-namespace Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
 
 public interface IInventoryTransactionRepository : IRepository<InventoryTransaction, Guid>
 {

@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
 
-namespace BuildingBlock.Criteria.Definition;
+namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
 
 /// <summary>Per-type default operator whitelist, per the framework's operator-validation table. `.AllowOperators(...)` narrows or overrides these on a specific field.</summary>
 internal static class DefaultOperators

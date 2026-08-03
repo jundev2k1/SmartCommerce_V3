@@ -1,6 +1,6 @@
-using Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
 
-namespace Inventory.Domain.Entities.InventoryCounts;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
 
 public sealed class InventoryCountItem : BaseEntity<long>
 {

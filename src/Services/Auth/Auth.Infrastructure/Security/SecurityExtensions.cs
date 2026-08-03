@@ -1,9 +1,9 @@
-using Auth.Infrastructure.Security.Jwt;
-using Auth.Infrastructure.Security.RefreshTokens;
+using SmartEcommerce.Auth.Infrastructure.Security.Jwt;
+using SmartEcommerce.Auth.Infrastructure.Security.RefreshTokens;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Infrastructure.Security;
+namespace SmartEcommerce.Auth.Infrastructure.Security;
 
 public static class SecurityExtensions
 {

@@ -1,4 +1,4 @@
-namespace Order.Application.Abstractions.Services;
+namespace SmartEcommerce.Order.Application.Abstractions.Services;
 
 /// <summary>
 /// Single source of truth for "is there enough stock for these variations" - shared by Create

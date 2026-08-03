@@ -1,7 +1,7 @@
-using Auth.Application.Abstractions.Auth;
-using Auth.Application.Features.Auth.Events.OnUserDeletion;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserDeletion;
 
-namespace Auth.Application.Features.Auth.Events.OnUserCreated;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserCreated;
 
 public sealed class OnUserCreatedHandler(
     IAuthService authService,

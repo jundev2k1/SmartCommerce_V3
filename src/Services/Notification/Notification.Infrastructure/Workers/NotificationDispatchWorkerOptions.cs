@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace Notification.Infrastructure.Workers;
+namespace SmartEcommerce.Notification.Infrastructure.Workers;
 
 public sealed class NotificationDispatchWorkerOptions : IJobOptions
 {

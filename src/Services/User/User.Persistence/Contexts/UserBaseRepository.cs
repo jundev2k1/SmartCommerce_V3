@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Persistence.Ef.Repository;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
 
-using User.Persistence.Engine;
+using SmartEcommerce.User.Persistence.Engine;
 
-namespace User.Persistence.Contexts;
+namespace SmartEcommerce.User.Persistence.Contexts;
 
 public abstract class UserBaseRepository<TEntity>(UserDbContext context)
     : GenericRepository<UserDbContext, TEntity>(context)

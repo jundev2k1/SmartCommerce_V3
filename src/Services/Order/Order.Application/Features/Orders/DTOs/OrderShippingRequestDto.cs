@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Orders.DTOs;
+namespace SmartEcommerce.Order.Application.Features.Orders.DTOs;
 
 public sealed record OrderShippingInfoRequestDto(
     ShippingMethod ShippingMethod,

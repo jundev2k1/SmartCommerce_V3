@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-namespace Inventory.Application.Features.Inventories.Events.OnProductVariationDeleted;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnProductVariationDeleted;
 
 public sealed record OnProductVariationDeletedEvent(
     Guid ProductId,

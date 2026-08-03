@@ -1,16 +1,16 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Persistence.Audit;
-using BuildingBlock.Persistence.Ef.DbContext;
-using BuildingBlock.Persistence.Ef.Interceptors;
-using BuildingBlock.Persistence.Ef.Repository;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Interceptors;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace BuildingBlock.Persistence.Ef.DependencyInjection;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Features.Products.DTOs;
-using Product.Application.Features.Products.Mapping;
-using Product.Persistence.Contexts.Products.Repositories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.Mapping;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
 
-namespace Product.Persistence.Contexts.Products.Write;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Write;
 
 public sealed class ProductWriteService(
     IRepository<ProductEntity, Guid> repo,

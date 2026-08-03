@@ -1,7 +1,7 @@
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Contract.Events;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Contract.Events;
 
-namespace BuildingBlock.Messaging.Services;
+namespace SmartEcommerce.BuildingBlock.Messaging.Services;
 
 public sealed class EventDispatcher(IEventPublisher eventPublisher) : IEventDispatcher
 {

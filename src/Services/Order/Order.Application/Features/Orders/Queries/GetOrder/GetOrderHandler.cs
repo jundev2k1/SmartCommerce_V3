@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Queries.GetOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrder;
 
 public sealed class GetOrderHandler(
     ICurrentUserService currentUser,

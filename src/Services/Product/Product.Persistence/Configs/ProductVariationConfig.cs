@@ -1,10 +1,10 @@
-using BuildingBlock.Domain.Metadata;
+using SmartEcommerce.BuildingBlock.Domain.Metadata;
 
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Product.Domain.Metadata;
+using SmartEcommerce.Product.Domain.Metadata;
 
-namespace Product.Persistence.Configs;
+namespace SmartEcommerce.Product.Persistence.Configs;
 
 public sealed class ProductVariationConfig : IEntityTypeConfiguration<ProductVariation>
 {

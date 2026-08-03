@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products;
+namespace SmartEcommerce.Product.Application.Features.Products;
 
 /// <summary>Shared response shape for a ProductVariation, reused across every Products query/command that returns one.</summary>
 public sealed record ProductVariationResponse(

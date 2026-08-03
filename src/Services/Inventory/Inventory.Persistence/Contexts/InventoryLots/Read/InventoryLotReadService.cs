@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using Inventory.Application.Abstractions.Persistence.InventoryLots;
-using Inventory.Persistence.Contexts.InventoryLots.Repositories;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryLots;
+using SmartEcommerce.Inventory.Persistence.Contexts.InventoryLots.Repositories;
 
-namespace Inventory.Persistence.Contexts.InventoryLots.Read;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryLots.Read;
 
 public sealed class InventoryLotReadService(IInventoryLotRepository repo) : IInventoryLotReadService
 {

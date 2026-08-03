@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductTags.Commands.CreateProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.CreateProductTag;
 
 public sealed record CreateProductTagCommand(string Code, string Name) : ICommand<CreateProductTagResponse>;
 

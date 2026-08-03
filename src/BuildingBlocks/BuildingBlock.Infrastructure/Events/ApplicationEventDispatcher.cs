@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
 using MediatR;
 
-namespace BuildingBlock.Infrastructure.Events;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Events;
 
 /// <summary>
 /// MediatR-based implementation of IApplicationEventDispatcher.

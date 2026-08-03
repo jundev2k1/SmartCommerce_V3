@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.UpdateVariation;
-using Product.Domain.Enums;
+using SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
+using SmartEcommerce.Product.Domain.Enums;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed record UpdateVariationRequest(
     string Sku,

@@ -1,4 +1,4 @@
-namespace Notification.Domain.ValueObjects;
+namespace SmartEcommerce.Notification.Domain.ValueObjects;
 
 /// <summary>Title/body pair shown in the Notification Center. Deliberately separate from <see cref="TemplateContent"/> - this is rendered, final copy, not a template with placeholders.</summary>
 public sealed class NotificationContent : ValueObject

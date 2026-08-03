@@ -1,6 +1,6 @@
-using Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 
-namespace Inventory.Application.Features.Inventories.Queries.GetProductStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock;
 
 public sealed class GetProductStockHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetProductStockQuery, GetProductStockResponse>

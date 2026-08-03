@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Order.Domain.Entities.Orders;
+namespace SmartEcommerce.Order.Domain.Entities.Orders;
 
 public sealed class OrderItem : BaseEntity<long>, IAuditable
 {

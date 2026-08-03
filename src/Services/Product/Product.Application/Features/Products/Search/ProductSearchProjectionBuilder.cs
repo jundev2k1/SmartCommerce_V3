@@ -1,6 +1,6 @@
-using Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Application.Abstractions.Search;
 
-namespace Product.Application.Features.Products.Search;
+namespace SmartEcommerce.Product.Application.Features.Products.Search;
 
 /// <summary>
 /// Integration Event -&gt; Search Document. The only place ProductSearchDocument is assembled -

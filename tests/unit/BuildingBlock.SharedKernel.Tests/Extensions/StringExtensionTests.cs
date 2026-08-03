@@ -1,7 +1,7 @@
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 using Shouldly;
 
-namespace BuildingBlock.SharedKernel.Tests.Extensions;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Tests.Extensions;
 
 public class StringExtensionTests
 {

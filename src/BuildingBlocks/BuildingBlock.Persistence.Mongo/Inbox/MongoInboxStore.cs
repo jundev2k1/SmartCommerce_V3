@@ -1,16 +1,16 @@
-using BuildingBlock.Persistence.Inbox;
-using BuildingBlock.Persistence.Mongo.MongoContext;
+using SmartEcommerce.BuildingBlock.Persistence.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
 
 using MongoDB.Driver;
 
-namespace BuildingBlock.Persistence.Mongo.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
 
 /// <summary>
 /// Generic Mongo implementation of IInboxStore, parameterized over the Mongo context type.
 /// Derived contexts must implement IInboxMongoContext to provide access to InboxMessages.
 ///
 /// Unlike EfInboxStore, there is no shared change tracker to stage an optimistic completion
-/// marker into: Audit.Persistence.Engine.UnitOfWork already documents that Mongo writes commit
+/// marker into: SmartEcommerce.Audit.Persistence.Engine.UnitOfWork already documents that Mongo writes commit
 /// immediately per call, with no SaveChanges to flush. CompleteAttemptAsync therefore writes the
 /// Processed status directly once the handler returns, the same small window that existed before
 /// this change - InboxFailureOutcome.AlreadyCommitted (the EF provider's atomic-commit detection)

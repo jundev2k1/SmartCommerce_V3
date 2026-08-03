@@ -1,4 +1,4 @@
-namespace Notification.Domain.Enums;
+namespace SmartEcommerce.Notification.Domain.Enums;
 
 /// <summary>Lifecycle of one <see cref="Entities.NotificationDispatch"/> (Outbox-like delivery request).</summary>
 public enum DispatchStatus

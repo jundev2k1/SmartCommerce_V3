@@ -1,6 +1,6 @@
-using Auth.Application.Features.Auth.Commands.RefreshToken;
+using SmartEcommerce.Auth.Application.Features.Auth.Commands.RefreshToken;
 
-namespace Auth.API.Endpoints;
+namespace SmartEcommerce.Auth.API.Endpoints;
 
 public sealed class RefreshToken : ICarterModule
 {

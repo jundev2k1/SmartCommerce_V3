@@ -1,4 +1,4 @@
-namespace Inventory.API.ExceptionHandling;
+namespace SmartEcommerce.Inventory.API.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

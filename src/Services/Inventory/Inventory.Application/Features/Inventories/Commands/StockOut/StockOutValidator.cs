@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Inventory.Application.Features.Inventories.Commands.StockOut;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.StockOut;
 
 public sealed class StockOutValidator : AbstractValidator<StockOutCommand>
 {

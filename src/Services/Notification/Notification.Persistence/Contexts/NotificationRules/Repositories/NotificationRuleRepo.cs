@@ -1,6 +1,6 @@
-using Notification.Persistence.Engine;
+using SmartEcommerce.Notification.Persistence.Engine;
 
-namespace Notification.Persistence.Contexts.NotificationRules.Repositories;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationRules.Repositories;
 
 public sealed class NotificationRuleRepo(NotificationMongoContext context) : INotificationRuleRepository
 {

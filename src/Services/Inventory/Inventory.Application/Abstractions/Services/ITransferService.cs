@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-namespace Inventory.Application.Abstractions.Services;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Services;
 
 /// <summary>
 /// Warehouse transfer workflow: atomic two-way transfer.

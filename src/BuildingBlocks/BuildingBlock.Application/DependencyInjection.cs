@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Behaviors;
+using SmartEcommerce.BuildingBlock.Application.Behaviors;
 
 using MediatR;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Application;
+namespace SmartEcommerce.BuildingBlock.Application;
 
 public static class DependencyInjection
 {

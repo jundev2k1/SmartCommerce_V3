@@ -1,8 +1,8 @@
-using Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities;
 
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-namespace Auth.Persistence.Contexts.RefreshTokens.Repositories;
+namespace SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Repositories;
 
 public interface IRefreshTokenRepository : IRepository<RefreshToken>
 {

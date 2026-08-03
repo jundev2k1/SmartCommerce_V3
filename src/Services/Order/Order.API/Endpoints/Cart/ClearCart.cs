@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Cart.Commands.ClearCart;
+using SmartEcommerce.Order.Application.Features.Cart.Commands.ClearCart;
 
-namespace Order.API.Endpoints.Cart;
+namespace SmartEcommerce.Order.API.Endpoints.Cart;
 
 public sealed class ClearCartEndpoint : ICarterModule
 {

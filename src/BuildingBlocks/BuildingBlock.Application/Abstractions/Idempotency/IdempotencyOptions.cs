@@ -1,6 +1,6 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace BuildingBlock.Application.Abstractions.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
 
 /// <summary>Configuration for the Idempotency + Distributed Lock framework. Bound from config section "Idempotency".</summary>
 public sealed class IdempotencyOptions

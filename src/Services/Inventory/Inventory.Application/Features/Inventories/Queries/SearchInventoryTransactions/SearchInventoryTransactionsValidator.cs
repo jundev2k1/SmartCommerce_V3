@@ -1,10 +1,10 @@
-using BuildingBlock.Criteria.Validation;
+using SmartEcommerce.BuildingBlock.Criteria.Validation;
 
 using FluentValidation;
 
-using Inventory.Application.Features.Inventories.Search;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Search;
 
-namespace Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
 
 public sealed class SearchInventoryTransactionsValidator : AbstractValidator<SearchInventoryTransactionsQuery>
 {

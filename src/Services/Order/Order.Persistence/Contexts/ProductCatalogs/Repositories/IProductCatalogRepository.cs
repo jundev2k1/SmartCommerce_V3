@@ -1,6 +1,6 @@
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-namespace Order.Persistence.Contexts.ProductCatalogs.Repositories;
+namespace SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Repositories;
 
 public interface IProductCatalogRepository : IRepository<ProductCatalog>
 {

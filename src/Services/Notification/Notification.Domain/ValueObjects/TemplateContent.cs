@@ -1,4 +1,4 @@
-namespace Notification.Domain.ValueObjects;
+namespace SmartEcommerce.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// Raw, unrendered template copy for one <see cref="Entities.NotificationTemplate"/> - Body holds

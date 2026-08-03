@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "BuildingBlock.Contract.Protos.Auth";
+option csharp_namespace = "SmartEcommerce.BuildingBlock.Contract.Protos.Auth";
 
 package simpleshop.auth;
 

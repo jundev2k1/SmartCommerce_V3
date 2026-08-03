@@ -1,4 +1,4 @@
-namespace Auth.Application.Features.Auth.Events.OnUserDeletion;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserDeletion;
 
 public sealed record OnUserDeletionEvent(
     string UserId,

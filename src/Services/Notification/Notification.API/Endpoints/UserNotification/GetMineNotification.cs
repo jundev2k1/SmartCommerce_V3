@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
-namespace Notification.API.Endpoints.UserNotification;
+namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Cursor/lazy-load paginated, scoped to the calling user - enforced in the handler.</summary>
 public sealed class GetMineNotification : ICarterModule

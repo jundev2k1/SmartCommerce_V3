@@ -1,10 +1,10 @@
-namespace Order.Application.Abstractions.Services;
+namespace SmartEcommerce.Order.Application.Abstractions.Services;
 
 /// <summary>
 /// Order-side port onto Inventory Service's gRPC surface. CreateOrderHandler only calls
 /// GetAvailableStockBatchAsync (pre-check, never reserves - see docs/services/order-service.md);
 /// DeductStockAsync/RestockAsync are called by CreateOrderSaga's DeductInventoryStep
-/// (Order.Infrastructure) for the actual reservation and its compensation.
+/// (SmartEcommerce.Order.Infrastructure) for the actual reservation and its compensation.
 /// </summary>
 public interface IInventoryClientService
 {

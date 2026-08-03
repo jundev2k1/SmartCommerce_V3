@@ -1,4 +1,4 @@
-namespace Product.Domain.ValueObjects;
+namespace SmartEcommerce.Product.Domain.ValueObjects;
 
 public sealed class Weight : ValueObject
 {

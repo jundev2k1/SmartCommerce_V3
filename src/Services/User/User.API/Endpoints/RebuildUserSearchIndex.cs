@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using User.Application.Features.Users.Commands.RebuildUserSearchIndex;
+using SmartEcommerce.User.Application.Features.Users.Commands.RebuildUserSearchIndex;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 /// <summary>PostgreSQL -&gt; Projection Builder -&gt; Bulk Index -&gt; Elasticsearch. See docs/reference/search.md.</summary>
 public sealed class RebuildUserSearchIndexEndpoint : ICarterModule

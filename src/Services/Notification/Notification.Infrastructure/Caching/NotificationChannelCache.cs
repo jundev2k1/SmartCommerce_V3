@@ -1,14 +1,14 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
-using Notification.Application.Abstractions.Persistence.NotificationChannels;
-using Notification.Application.Abstractions.Services;
-using Notification.Domain.Entities;
-using Notification.Domain.Enums;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using SmartEcommerce.Notification.Application.Abstractions.Services;
+using SmartEcommerce.Notification.Domain.Entities;
+using SmartEcommerce.Notification.Domain.Enums;
 
-namespace Notification.Infrastructure.Caching;
+namespace SmartEcommerce.Notification.Infrastructure.Caching;
 
 /// <summary>
 /// In-process (not Redis) cache-aside for NotificationChannel lookups. Deliberately not routed

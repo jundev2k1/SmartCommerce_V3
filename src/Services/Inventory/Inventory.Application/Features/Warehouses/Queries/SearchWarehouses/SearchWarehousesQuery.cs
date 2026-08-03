@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
-namespace Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
+namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
 
 public sealed record SearchWarehousesQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<SearchWarehousesItemResponse>>;
 

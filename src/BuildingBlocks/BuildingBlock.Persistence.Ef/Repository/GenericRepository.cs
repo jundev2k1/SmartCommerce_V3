@@ -1,14 +1,14 @@
 using System.Linq.Expressions;
 
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Persistence.Ef.Repository.Helpers;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository.Helpers;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using EfDbContext = Microsoft.EntityFrameworkCore.DbContext;
 
-namespace BuildingBlock.Persistence.Ef.Repository;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
 
 public abstract class GenericRepository<TContext, TEntity>(TContext context) : IRepository<TEntity>
     where TContext : EfDbContext

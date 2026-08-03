@@ -1,15 +1,15 @@
 using System.Diagnostics;
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Domain.Attributes;
-using BuildingBlock.Domain.Exceptions;
-using BuildingBlock.Domain.Extensions;
-using AppException = BuildingBlock.Application.Exceptions.ApplicationException;
-using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
-using DomainEx = BuildingBlock.Domain.Exceptions.DomainException;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Domain.Attributes;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Extensions;
+using AppException = SmartEcommerce.BuildingBlock.Application.Exceptions.ApplicationException;
+using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
+using DomainEx = SmartEcommerce.BuildingBlock.Domain.Exceptions.DomainException;
 
-namespace BuildingBlock.Infrastructure.ExceptionHandling;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.ExceptionHandling;
 
 /// <summary>
 /// Shared exception handling utility for all services.

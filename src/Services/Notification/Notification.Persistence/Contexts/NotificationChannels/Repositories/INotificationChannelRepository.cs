@@ -1,4 +1,4 @@
-namespace Notification.Persistence.Contexts.NotificationChannels.Repositories;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Repositories;
 
 public interface INotificationChannelRepository
 {

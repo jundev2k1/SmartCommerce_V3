@@ -1,4 +1,4 @@
-namespace Product.Domain.Entities.Products;
+namespace SmartEcommerce.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Aggregate root. Holds only data shared across every variation - identity, display copy,

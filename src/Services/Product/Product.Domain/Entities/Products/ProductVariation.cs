@@ -1,4 +1,4 @@
-namespace Product.Domain.Entities.Products;
+namespace SmartEcommerce.Product.Domain.Entities.Products;
 
 public sealed class ProductVariation : BaseEntity<Guid>
 {

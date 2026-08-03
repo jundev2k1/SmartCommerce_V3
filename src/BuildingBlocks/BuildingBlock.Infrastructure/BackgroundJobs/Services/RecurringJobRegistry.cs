@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 using Hangfire;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Services;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Services;
 
 /// <summary>
 /// Discovers every loaded IRecurringJob implementation and registers it with Hangfire.

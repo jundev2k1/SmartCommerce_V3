@@ -1,10 +1,10 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using FluentValidation;
 
-using User.Application.Common.Regex;
+using SmartEcommerce.User.Application.Common.Regex;
 
-namespace User.Application.Features.Users.Commands.CreateUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
 
 public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>
 {

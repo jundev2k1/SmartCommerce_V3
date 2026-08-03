@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
+using SmartEcommerce.Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
 
-namespace Notification.API.Endpoints.NotificationTemplate;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationTemplate;
 
 public sealed class CreateTemplate : ICarterModule
 {

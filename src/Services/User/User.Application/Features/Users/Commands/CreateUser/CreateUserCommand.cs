@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Commands.CreateUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
 
 public sealed record CreateUserCommand(
     string Email,

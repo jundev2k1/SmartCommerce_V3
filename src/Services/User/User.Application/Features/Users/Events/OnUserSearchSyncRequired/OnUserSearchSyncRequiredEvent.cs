@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-namespace User.Application.Features.Users.Events.OnUserSearchSyncRequired;
+namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
 
 /// <summary>
 /// Raised whenever a UserProfile is created or updated (via self-consumption of

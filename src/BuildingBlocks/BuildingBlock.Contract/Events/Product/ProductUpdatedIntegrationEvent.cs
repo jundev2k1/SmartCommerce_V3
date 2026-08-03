@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Product;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
 /// <summary>Fired when Product-level shared info (name/slug) changes - never ProductVariation data.</summary>
 public sealed record ProductUpdatedIntegrationEvent(

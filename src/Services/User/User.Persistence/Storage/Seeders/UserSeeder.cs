@@ -1,8 +1,8 @@
-using BuildingBlock.Domain.Seeders;
+using SmartEcommerce.BuildingBlock.Domain.Seeders;
 
-using User.Persistence.Engine;
+using SmartEcommerce.User.Persistence.Engine;
 
-namespace User.Persistence.Storage.Seeders;
+namespace SmartEcommerce.User.Persistence.Storage.Seeders;
 
 public sealed class UserSeeder(UserDbContext context)
 {

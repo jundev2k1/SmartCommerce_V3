@@ -1,5 +1,5 @@
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Cart.Commands.AddCartItem;
+namespace SmartEcommerce.Order.Application.Features.Cart.Commands.AddCartItem;
 
 public sealed record AddCartItemCommand(Guid VariationId, int Quantity) : ICommand<CartResponse>;

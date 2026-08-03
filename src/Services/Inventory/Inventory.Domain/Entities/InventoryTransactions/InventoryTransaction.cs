@@ -1,10 +1,10 @@
-using Inventory.Domain.Entities.Inventories;
-using Inventory.Domain.Entities.InventoryDocuments;
-using Inventory.Domain.Entities.InventoryReservations;
-using Inventory.Domain.Entities.Warehouses;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
+using SmartEcommerce.Inventory.Domain.Entities.InventoryReservations;
+using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventoryTransactions;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryTransactions;
 
 /// <summary>
 /// Immutable ledger entry recording a single stock movement - never mutated after creation, only

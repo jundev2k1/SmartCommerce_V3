@@ -1,14 +1,14 @@
 using System.Diagnostics;
 using System.Text;
 
-using BuildingBlock.Messaging.Kafka.Tracing;
-using BuildingBlock.Messaging.Services;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
+using SmartEcommerce.BuildingBlock.Messaging.Services;
 
 using KafkaFlow;
 
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Messaging.Kafka.Consumers;
+namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Consumers;
 
 /// <summary>
 /// Bridges KafkaFlow's typed handler pipeline into the broker-agnostic

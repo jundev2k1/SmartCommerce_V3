@@ -1,8 +1,8 @@
-using Inventory.Domain.Entities.InventoryDocuments.Data;
-using Inventory.Domain.Entities.Warehouses;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.Data;
+using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventoryDocuments;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
 
 public sealed class InventoryDocument : AggregateRoot<Guid>, IAuditable
 {

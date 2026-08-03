@@ -1,4 +1,4 @@
-namespace Notification.Domain.Enums;
+namespace SmartEcommerce.Notification.Domain.Enums;
 
 public enum NotificationRuleStatus
 {

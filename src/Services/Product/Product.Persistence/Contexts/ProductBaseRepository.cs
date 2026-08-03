@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Persistence.Ef.Repository;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
 
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.Persistence.Contexts;
+namespace SmartEcommerce.Product.Persistence.Contexts;
 
 public abstract class ProductBaseRepository<TEntity>(ProductDbContext context)
     : GenericRepository<ProductDbContext, TEntity>(context)

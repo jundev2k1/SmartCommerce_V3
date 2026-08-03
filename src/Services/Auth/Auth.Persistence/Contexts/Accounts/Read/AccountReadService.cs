@@ -1,10 +1,10 @@
-using Auth.Application.Abstractions.Persistence.Accounts;
-using Auth.Domain.Entities;
-using Auth.Persistence.Engine;
+using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
+using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Persistence.Engine;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth.Persistence.Contexts.Accounts.Read;
+namespace SmartEcommerce.Auth.Persistence.Contexts.Accounts.Read;
 
 public sealed class AccountReadService(AuthDbContext dbContext) : IAccountReadService
 {

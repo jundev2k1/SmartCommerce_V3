@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Persistence.Contexts.Warehouses.Repositories;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Persistence.Contexts.Warehouses.Repositories;
 
-namespace Inventory.Persistence.Contexts.Warehouses.Read;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.Warehouses.Read;
 
 public sealed class WarehouseReadService(IWarehouseRepository repo) : IWarehouseReadService
 {

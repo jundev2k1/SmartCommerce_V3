@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Persistence.NotificationDispatches;
+namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationDispatches;
 
 public interface INotificationDispatchReadService
 {
@@ -10,6 +10,6 @@ public interface INotificationDispatchReadService
         int pageSize,
         CancellationToken ct = default);
 
-    /// <summary>Rows a worker should attempt next - Pending, or Failed with NextRetryAt due. Not exposed via API - consumed only by Notification.Infrastructure's dispatch worker.</summary>
+    /// <summary>Rows a worker should attempt next - Pending, or Failed with NextRetryAt due. Not exposed via API - consumed only by SmartEcommerce.Notification.Infrastructure's dispatch worker.</summary>
     Task<IReadOnlyList<NotificationDispatch>> GetDueForProcessingAsync(int batchSize, CancellationToken ct = default);
 }

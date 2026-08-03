@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using Product.Domain.ValueObjects;
+using SmartEcommerce.Product.Domain.ValueObjects;
 
-namespace Product.Application.Features.Products.Commands.UpdateVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
 
 public sealed class UpdateVariationValidator : AbstractValidator<UpdateVariationCommand>
 {

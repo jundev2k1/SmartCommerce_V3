@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Contract.Events.User;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Contract.Events.User;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Application.Features.Users.Commands.CreateUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
 
 public sealed class CreateUserHandler(
     IUserProfileWriteService userWriteService,

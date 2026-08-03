@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Exceptions;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Order.Application.Abstractions.Persistence.ProductCatalogs;
-using Order.Application.Abstractions.Services;
-using Order.Domain.Entities.Catalogs;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Domain.Entities.Catalogs;
 
-namespace Order.Infrastructure.Caching;
+namespace SmartEcommerce.Order.Infrastructure.Caching;
 
 /// <summary>
 /// Redis-backed cart, keyed per user. Only {VariationId, Quantity} pairs are stored - name/price/

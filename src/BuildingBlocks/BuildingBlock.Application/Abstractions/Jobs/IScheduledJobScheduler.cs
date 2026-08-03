@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Jobs;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
 
 public interface IScheduledJobScheduler
 {

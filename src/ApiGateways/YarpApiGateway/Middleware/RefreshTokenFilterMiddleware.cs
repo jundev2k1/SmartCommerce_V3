@@ -1,13 +1,13 @@
 using StackExchange.Redis;
 
-using YarpApiGateway.Caching;
-using YarpApiGateway.Configuration;
+using SmartEcommerce.YarpApiGateway.Caching;
+using SmartEcommerce.YarpApiGateway.Configuration;
 
-namespace YarpApiGateway.Middleware;
+namespace SmartEcommerce.YarpApiGateway.Middleware;
 
 /// <summary>
 /// Rejects refresh-token requests early when the token isn't present in the distributed cache,
-/// so obviously invalid refresh attempts never reach Auth.API. Mirrors Auth.API's own design:
+/// so obviously invalid refresh attempts never reach SmartEcommerce.Auth.API. Mirrors SmartEcommerce.Auth.API's own design:
 /// the refresh token itself is the Redis key, and Redis is the source of truth for its validity.
 /// </summary>
 public sealed class RefreshTokenFilterMiddleware(RequestDelegate next, GatewayOptions options, IConnectionMultiplexer redis)

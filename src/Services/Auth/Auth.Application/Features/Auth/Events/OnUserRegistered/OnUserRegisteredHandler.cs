@@ -1,9 +1,9 @@
-using Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
 
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Contract.Events.User;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Contract.Events.User;
 
-namespace Auth.Application.Features.Auth.Events.OnUserRegistered;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserRegistered;
 
 public sealed class OnUserRegisteredHandler(
     IUserProfileService userProfileService,

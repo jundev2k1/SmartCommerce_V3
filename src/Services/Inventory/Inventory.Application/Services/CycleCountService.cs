@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.InventoryCounts;
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryCounts;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Owns the complete cycle count workflow: create count document, record items, calculate variances, auto-adjust stock.

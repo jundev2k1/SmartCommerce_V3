@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
+using SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
 
-namespace Notification.API.Endpoints.NotificationTemplate;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationTemplate;
 
 public sealed class ListTemplates : ICarterModule
 {

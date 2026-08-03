@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
+namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
 
 public sealed record GetNotificationDispatchQuery(Guid DispatchId) : IQuery<GetNotificationDispatchResponse>;
 

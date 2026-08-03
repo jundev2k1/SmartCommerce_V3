@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Events;
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
 
-namespace Inventory.Application.Features.Inventories.Events.OnProductVariationCreated;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnProductVariationCreated;
 
 /// <summary>
 /// Every new ProductVariation needs a stock record before it can be tracked. Defaults new

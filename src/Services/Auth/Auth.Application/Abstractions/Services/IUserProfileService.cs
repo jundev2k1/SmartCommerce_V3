@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Auth.Application.Abstractions.Services;
+namespace SmartEcommerce.Auth.Application.Abstractions.Services;
 
 public interface IUserProfileService
 {

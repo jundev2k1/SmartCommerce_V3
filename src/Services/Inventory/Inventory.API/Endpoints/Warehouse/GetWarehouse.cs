@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
+using SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
 
-namespace Inventory.API.Endpoints.Warehouse;
+namespace SmartEcommerce.Inventory.API.Endpoints.Warehouse;
 
 public sealed class GetWarehouseEndpoint : ICarterModule
 {

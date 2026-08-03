@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace Product.Persistence.Contexts.ProductCategories.Write;
+namespace SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Write;
 
 /// <summary>
 /// CreateAsync/DeleteAsync commit via bare SaveChangesAsync themselves (matching the original

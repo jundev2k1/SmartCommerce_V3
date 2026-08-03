@@ -1,11 +1,11 @@
-using Auth.Application.Abstractions.Auth;
-using Auth.Application.Abstractions.Security.Jwt;
-using Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
 
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-namespace Auth.Application.Features.Auth.Commands.RefreshToken;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.RefreshToken;
 
 public sealed class RefreshTokenHandler(
     IJwtTokenGenerator tokenGenerator,

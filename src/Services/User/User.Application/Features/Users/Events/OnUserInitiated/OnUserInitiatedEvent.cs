@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-namespace User.Application.Features.Users.Events.OnUserInitiated;
+namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserInitiated;
 
 public sealed record OnUserInitiatedEvent(
     Guid AccountId,

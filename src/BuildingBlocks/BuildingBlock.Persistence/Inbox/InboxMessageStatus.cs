@@ -1,4 +1,4 @@
-namespace BuildingBlock.Persistence.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
 /// <summary>
 /// Lifecycle of an Inbox dedup/processing row. DeadLetter is a terminal status on the same

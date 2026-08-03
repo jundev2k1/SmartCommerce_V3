@@ -3,7 +3,7 @@ using Grpc.Core.Interceptors;
 
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Grpc.Interceptors;
+namespace SmartEcommerce.BuildingBlock.Grpc.Interceptors;
 
 /// <summary>
 /// Server-side interceptor for logging gRPC calls.

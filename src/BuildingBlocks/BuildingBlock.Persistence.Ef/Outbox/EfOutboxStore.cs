@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Persistence.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Persistence.Outbox;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace BuildingBlock.Persistence.Ef.Outbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 
 public sealed class EfOutboxStore<TContext>(TContext context, ICurrentUserService currentUser) : IOutboxStore
     where TContext : Microsoft.EntityFrameworkCore.DbContext, IOutboxDbContext

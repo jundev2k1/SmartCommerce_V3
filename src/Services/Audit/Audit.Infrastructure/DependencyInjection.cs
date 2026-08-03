@@ -1,20 +1,20 @@
-using Audit.Application.Abstractions.Services;
-using Audit.Infrastructure.BackgroundJobs;
-using Audit.Infrastructure.GrpcClients;
-using Audit.Infrastructure.Messaging.Consumers;
+using SmartEcommerce.Audit.Application.Abstractions.Services;
+using SmartEcommerce.Audit.Infrastructure.BackgroundJobs;
+using SmartEcommerce.Audit.Infrastructure.GrpcClients;
+using SmartEcommerce.Audit.Infrastructure.Messaging.Consumers;
 
-using BuildingBlock.Contract.Protos.User;
-using BuildingBlock.Grpc.Client;
-using BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using BuildingBlock.Infrastructure.Extensions;
-using BuildingBlock.Infrastructure.Messaging;
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Messaging.Kafka.Extensions;
+using SmartEcommerce.BuildingBlock.Contract.Protos.User;
+using SmartEcommerce.BuildingBlock.Grpc.Client;
+using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
+using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Audit.Infrastructure;
+namespace SmartEcommerce.Audit.Infrastructure;
 
 public static class DependencyInjection
 {

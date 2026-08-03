@@ -1,4 +1,4 @@
-namespace BuildingBlock.Saga.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Saga.Abstractions;
 
 /// <summary>
 /// Orchestrates the execution of a saga workflow.

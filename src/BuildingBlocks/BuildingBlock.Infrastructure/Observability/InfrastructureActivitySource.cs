@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace BuildingBlock.Infrastructure.Observability;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Observability;
 
 /// <summary>
 /// Manual instrumentation source for cross-cutting infrastructure that has no HTTP request to

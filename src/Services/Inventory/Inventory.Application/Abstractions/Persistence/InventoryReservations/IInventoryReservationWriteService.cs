@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.InventoryReservations;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
 
 public sealed record CreateInventoryReservationRequest(
     string Number,

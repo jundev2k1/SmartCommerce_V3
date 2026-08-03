@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Infrastructure.Caching;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.Caching;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using StackExchange.Redis;
 
-namespace BuildingBlock.Infrastructure.Extensions;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
 
 /// <summary>
 /// Caching Extensions

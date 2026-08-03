@@ -1,4 +1,4 @@
-namespace Inventory.Domain.Enums;
+namespace SmartEcommerce.Inventory.Domain.Enums;
 
 public enum WarehouseStatus : byte
 {

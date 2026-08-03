@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Auth.Infrastructure.Caching;
+namespace SmartEcommerce.Auth.Infrastructure.Caching;
 
 /// <summary>
 /// Service for managing user role cache operations.

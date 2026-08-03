@@ -1,6 +1,6 @@
-using Notification.Application.Abstractions.Persistence.NotificationTemplates;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
-namespace Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
+namespace SmartEcommerce.Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
 
 public sealed class CreateNotificationTemplateHandler(
     INotificationTemplateWriteService notificationTemplateWriteService) : ICommandHandler<CreateNotificationTemplateCommand, CreateNotificationTemplateResponse>

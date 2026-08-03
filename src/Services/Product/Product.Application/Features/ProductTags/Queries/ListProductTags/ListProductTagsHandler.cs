@@ -1,8 +1,8 @@
 using Mapster;
 
-using Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace Product.Application.Features.ProductTags.Queries.ListProductTags;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Queries.ListProductTags;
 
 public sealed class ListProductTagsHandler(IProductTagReadService tagReadService)
     : IQueryHandler<ListProductTagsQuery, ListProductTagsResponse>

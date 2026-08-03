@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Catalog.Events.OnProductUpdated;
+namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnProductUpdated;
 
 public sealed record OnProductUpdatedEvent(
     Guid ProductId,

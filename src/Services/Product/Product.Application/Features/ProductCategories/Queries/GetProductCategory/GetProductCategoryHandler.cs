@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 using Mapster;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace Product.Application.Features.ProductCategories.Queries.GetProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Queries.GetProductCategory;
 
 public sealed class GetProductCategoryHandler(IProductCategoryReadService categoryReadService)
     : IQueryHandler<GetProductCategoryQuery, GetProductCategoryResponse>

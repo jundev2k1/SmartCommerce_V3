@@ -1,7 +1,7 @@
-using Order.Application.Abstractions.Persistence.ProductCatalogs;
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using SmartEcommerce.Order.Persistence.Engine;
 
-namespace Order.Persistence.Contexts.ProductCatalogs.Read;
+namespace SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Read;
 
 public sealed class ProductCatalogReadService(OrderDbContext dbContext) : IProductCatalogReadService
 {

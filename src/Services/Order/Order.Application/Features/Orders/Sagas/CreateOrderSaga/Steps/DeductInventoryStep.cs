@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Order;
-using BuildingBlock.Saga.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Order;
+using SmartEcommerce.BuildingBlock.Saga.Abstractions;
 
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
 /// <summary>
 /// Saga Step 1 (see PHASE 6 of the CreateOrder workflow). Calls Inventory's gRPC DeductStock,

@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Events;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Product;
-using BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
-using Order.Application.Features.Catalog.Events.OnProductVariationCreated;
+using SmartEcommerce.Order.Application.Features.Catalog.Events.OnProductVariationCreated;
 
-namespace Order.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Order.Infrastructure.Messaging.Consumers;
 
 public sealed class ProductVariationCreatedIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,

@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
 
 public sealed class ReceiveInventoryHandler(
     IReceivingService receivingService,

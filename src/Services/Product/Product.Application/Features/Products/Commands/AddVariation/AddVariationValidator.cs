@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Product.Application.Features.Products.Commands.AddVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.AddVariation;
 
 public sealed class AddVariationValidator : AbstractValidator<AddVariationCommand>
 {

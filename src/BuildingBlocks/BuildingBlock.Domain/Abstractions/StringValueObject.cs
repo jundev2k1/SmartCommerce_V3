@@ -1,4 +1,4 @@
-namespace BuildingBlock.Domain.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
 /// <summary>
 /// Base for single-string Value Objects (codes, slugs, identifiers) that only need

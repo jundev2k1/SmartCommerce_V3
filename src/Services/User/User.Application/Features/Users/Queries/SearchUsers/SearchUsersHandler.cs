@@ -1,17 +1,17 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.SharedKernel.Text;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.SharedKernel.Text;
 
-using User.Application.Abstractions.Search;
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Search;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Application.Features.Users.Queries.SearchUsers;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.SearchUsers;
 
 /// <summary>
 /// Elasticsearch-backed - one query composing keyword + role + status + phone + pagination +
-/// sort, never a mix of Elasticsearch + PostgreSQL. Replaces the previous Postgres/BuildingBlock.Criteria
+/// sort, never a mix of Elasticsearch + PostgreSQL. Replaces the previous Postgres/SmartEcommerce.BuildingBlock.Criteria
 /// execution path (IUserProfileReadService.SearchAsync); UserCriteriaDefinition/SearchUsersValidator
 /// are kept as a pure request-shape whitelist (field/operator validation), independent of which
 /// engine actually executes the query. See docs/reference/search.md and

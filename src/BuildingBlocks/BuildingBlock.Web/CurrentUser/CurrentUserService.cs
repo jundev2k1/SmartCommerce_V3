@@ -1,11 +1,11 @@
 using System.Security.Claims;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.AspNetCore.Http;
 
-namespace BuildingBlock.Web.CurrentUser;
+namespace SmartEcommerce.BuildingBlock.Web.CurrentUser;
 
 public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
 {

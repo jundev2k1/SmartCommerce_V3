@@ -1,8 +1,8 @@
-using BuildingBlock.Contract.Protos.Inventory;
+using SmartEcommerce.BuildingBlock.Contract.Protos.Inventory;
 
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Infrastructure.GrpcClients;
+namespace SmartEcommerce.Order.Infrastructure.GrpcClients;
 
 /// <summary>Thin adapter over InventoryGrpcService - maps Order's own Application-layer DTOs to/from the generated proto types, no business logic here (see docs/services/inventory-service.md).</summary>
 public sealed class InventoryClientService(InventoryGrpcService.InventoryGrpcServiceClient client) : IInventoryClientService
