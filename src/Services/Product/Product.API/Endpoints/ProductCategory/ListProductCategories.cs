@@ -20,7 +20,7 @@ public sealed class ListProductCategoriesEndpoint : ICarterModule
     {
         app.MapGet("/categories", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("ListProductCategories")
             .WithDisplayName("List Product Categories API")
             .WithDescription(API_DESC.JoinToString("\n"))

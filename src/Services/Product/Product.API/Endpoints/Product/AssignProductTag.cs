@@ -26,7 +26,7 @@ public sealed class AssignProductTagEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/tags/{tagId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("AssignProductTag")
             .WithDisplayName("Assign Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -26,7 +26,7 @@ public sealed class DeleteProductTagEndpoint : ICarterModule
     {
         app.MapDelete("/tags/{tagId}", Handle)
             .WithTags("ProductTag")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("DeleteProductTag")
             .WithDisplayName("Delete Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

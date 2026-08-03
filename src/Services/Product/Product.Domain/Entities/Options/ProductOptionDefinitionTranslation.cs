@@ -3,31 +3,31 @@ using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 namespace SmartEcommerce.Product.Domain.Entities.Options;
 
 /// <summary>
-/// Owned child of ProductOption - a locale-specific display name/description for the option
-/// dimension. Composite-keyed by (ProductOptionId, LanguageCode): one entry per language.
+/// Owned child of ProductOptionDefinition - a locale-specific display name/description for the
+/// shared option dimension. Composite-keyed by (ProductOptionDefinitionId, LanguageCode): one
+/// entry per language, no independent identity.
 /// </summary>
-public sealed class ProductOptionTranslation : BaseEntity<Guid>
+public sealed class ProductOptionDefinitionTranslation : BaseEntity
 {
-    public Guid ProductOptionId { get; private set; }
-    public ProductOption ProductOption { get; private set; } = default!;
+    public Guid ProductOptionDefinitionId { get; private set; }
+    public ProductOptionDefinition ProductOptionDefinition { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
 
-    private ProductOptionTranslation() { }
+    private ProductOptionDefinitionTranslation() { }
 
-    internal static ProductOptionTranslation Create(
-        Guid productOptionId,
+    internal static ProductOptionDefinitionTranslation Create(
+        Guid productOptionDefinitionId,
         LanguageCode languageCode,
         string name,
         string? description = null)
     {
         ValidateName(name);
 
-        return new ProductOptionTranslation
+        return new ProductOptionDefinitionTranslation
         {
-            Id = Guid.CreateVersion7(),
-            ProductOptionId = productOptionId,
+            ProductOptionDefinitionId = productOptionDefinitionId,
             LanguageCode = languageCode,
             Name = name,
             Description = description,

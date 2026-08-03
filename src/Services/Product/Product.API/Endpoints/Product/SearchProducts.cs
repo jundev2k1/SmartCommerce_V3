@@ -29,7 +29,7 @@ public sealed class SearchProductsEndpoint : ICarterModule
     {
         app.MapGet("/products", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("SearchProducts")
             .WithDisplayName("Search Products API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,86 +1,65 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 using ProductEntity = SmartEcommerce.Product.Domain.Entities.Products.Product;
 
 namespace SmartEcommerce.Product.Domain.Entities.Options;
 
 /// <summary>
-/// Owned child of Product - a configurable dimension of the product (e.g. "Color", "Size").
-/// When <see cref="IsVariantDimension"/> is true, its values combine with other dimensions to
-/// produce Variants via <see cref="VariantOptionValue"/>; otherwise it is purely informational.
+/// Owned child of Product - the usage of a shared <see cref="ProductOptionDefinition"/> (e.g.
+/// "Color") within this Product. Defines no data of its own; the option's identity, name, and
+/// translations live entirely on the definition. Its <see cref="Values"/> collection selects
+/// which of the definition's ValueDefinitions this Product makes available.
 /// </summary>
 public sealed class ProductOption : BaseEntity<Guid>
 {
     public Guid ProductId { get; private set; }
     public ProductEntity Product { get; private set; } = default!;
-    public string Name { get; private set; } = string.Empty;
-    public string Description { get; private set; } = string.Empty;
-    public string DisplayName { get; private set; } = string.Empty;
+    public Guid ProductOptionDefinitionId { get; private set; }
+    public ProductOptionDefinition OptionDefinition { get; private set; } = default!;
     public int DisplayOrder { get; private set; }
-    public bool IsRequired { get; private set; }
-    public bool IsVariantDimension { get; private set; }
     public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
 
     public ICollection<ProductOptionValue> Values { get; private set; } = [];
-    public ICollection<ProductOptionTranslation> Translations { get; private set; } = [];
 
     private ProductOption() { }
 
     public static ProductOption Create(
         Guid productId,
-        string name,
-        string description,
-        string displayName,
-        int displayOrder,
-        bool isRequired = false,
-        bool isVariantDimension = false,
+        Guid productOptionDefinitionId,
+        int displayOrder = 0,
         CatalogStatus status = CatalogStatus.Active)
     {
-        ValidateName(name);
-
         return new ProductOption
         {
             Id = Guid.CreateVersion7(),
             ProductId = productId,
-            Name = name,
-            Description = description,
-            DisplayName = displayName,
+            ProductOptionDefinitionId = productOptionDefinitionId,
             DisplayOrder = displayOrder,
-            IsRequired = isRequired,
-            IsVariantDimension = isVariantDimension,
             Status = status,
         };
     }
 
     // ============================================================================
-    // Option Values
-    // Owns the selectable ProductOptionValue collection for this dimension:
-    // creation, removal, and display-order sequencing. ProductOptionValue is
-    // never constructed outside this entity.
+    // Values
+    // Manages which of the OptionDefinition's ValueDefinitions this Product makes
+    // available (e.g. only "Red"/"Blue" out of the full "Color" catalog):
+    // selection, removal, and display-order sequencing.
     // ============================================================================
 
-    #region Option Values
+    #region Values
 
-    public ProductOptionValue CreateOptionValue(
-        string value,
-        string? colorCode = null,
-        Guid? imageId = null,
-        CatalogStatus status = CatalogStatus.Active)
+    public ProductOptionValue SelectValue(Guid valueDefinitionId)
     {
+        var existing = Values.FirstOrDefault(v => v.ProductOptionValueDefinitionId == valueDefinitionId);
+        if (existing is not null)
+            return existing;
+
         var displayOrder = Values.Count == 0 ? 0 : Values.Max(v => v.DisplayOrder) + 1;
+        var value = ProductOptionValue.Create(Id, valueDefinitionId, displayOrder);
+        Values.Add(value);
 
-        var optionValue = ProductOptionValue.Create(
-            Id,
-            value,
-            displayOrder,
-            colorCode,
-            imageId,
-            status);
-        Values.Add(optionValue);
-
-        return optionValue;
+        return value;
     }
 
-    public void RemoveOptionValue(Guid valueId)
+    public void DeselectValue(Guid valueId)
     {
         var value = Values.FirstOrDefault(v => v.Id == valueId);
         if (value is null)
@@ -89,7 +68,7 @@ public sealed class ProductOption : BaseEntity<Guid>
         Values.Remove(value);
     }
 
-    public void ReorderOptionValues(IEnumerable<Guid> orderedValueIds)
+    public void ReorderValues(IEnumerable<Guid> orderedValueIds)
     {
         var idsInOrder = orderedValueIds.ToArray();
 
@@ -104,83 +83,16 @@ public sealed class ProductOption : BaseEntity<Guid>
     #endregion
 
     // ============================================================================
-    // Translations
-    // Manages the per-language display name/description override for this
-    // option dimension, one entry per language code.
-    // ============================================================================
-
-    #region Translations
-
-    public void Translate(
-        LanguageCode languageCode,
-        string displayName,
-        string description)
-    {
-        ValidateName(displayName);
-
-        var existingTranslation = Translations
-            .FirstOrDefault(t => t.LanguageCode == languageCode);
-        if (existingTranslation != null)
-        {
-            existingTranslation.UpdateContent(displayName, description);
-            return;
-        }
-
-        var translation = ProductOptionTranslation.Create(
-            Id,
-            languageCode,
-            displayName,
-            description);
-
-        Translations.Add(translation);
-    }
-
-    #endregion
-
-    // ============================================================================
     // Details & lifecycle
-    // Core descriptive fields (name, description, display name, display order),
-    // Required/VariantDimension/Active status transitions, and the shared
-    // name-validation rule.
+    // Display ordering and Active/Inactive status transitions for this
+    // Product's usage of the option.
     // ============================================================================
 
     #region Details & lifecycle
 
-    public void UpdateDetails(
-        string name,
-        string description,
-        string displayName)
-    {
-        ValidateName(name);
-
-        Name = name;
-        Description = description;
-        DisplayName = displayName;
-    }
-
     public void ChangeDisplayOrder(int displayOrder)
     {
         DisplayOrder = displayOrder;
-    }
-
-    public void MarkAsRequired()
-    {
-        IsRequired = true;
-    }
-
-    public void MarkAsOptional()
-    {
-        IsRequired = false;
-    }
-
-    public void MarkAsVariantDimension()
-    {
-        IsVariantDimension = true;
-    }
-
-    public void UnmarkAsVariantDimension()
-    {
-        IsVariantDimension = false;
     }
 
     public void Activate()
@@ -191,14 +103,6 @@ public sealed class ProductOption : BaseEntity<Guid>
     public void Deactivate()
     {
         Status = CatalogStatus.Inactive;
-    }
-
-    public static bool IsValidName(string? name) => !string.IsNullOrWhiteSpace(name);
-
-    private static void ValidateName(string name)
-    {
-        if (!IsValidName(name))
-            throw ExceptionFactory.RequiredField("Option name cannot be empty.");
     }
 
     #endregion

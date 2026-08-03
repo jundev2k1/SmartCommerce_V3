@@ -60,9 +60,9 @@ public sealed class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .Headers([
-                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this product is only created once, even if the request is retried")
+                new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this product is only created once, even if the request is retried")
             ])
             .RequireIdempotency()
             .WithName("CreateProduct")

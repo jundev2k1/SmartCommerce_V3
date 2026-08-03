@@ -1,78 +1,36 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
-
 namespace SmartEcommerce.Product.Domain.Entities.Options;
 
 /// <summary>
-/// Owned child of ProductOption - one selectable value (e.g. "Red" for the "Color" option).
+/// Owned child of ProductOption - selects one of the OptionDefinition's ValueDefinitions (e.g.
+/// "Red") as available for this Product. Never defines its own value data; that lives on
+/// <see cref="ProductOptionValueDefinition"/>.
 /// </summary>
 public sealed class ProductOptionValue : BaseEntity<Guid>
 {
     public Guid ProductOptionId { get; private set; }
     public ProductOption ProductOption { get; private set; } = default!;
-    public string Value { get; private set; } = string.Empty;
-    public string? ColorCode { get; private set; }
-    public Guid? ImageId { get; private set; }
+    public Guid ProductOptionValueDefinitionId { get; private set; }
+    public ProductOptionValueDefinition ValueDefinition { get; private set; } = default!;
     public int DisplayOrder { get; private set; }
-    public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
+
     private ProductOptionValue() { }
 
     internal static ProductOptionValue Create(
         Guid productOptionId,
-        string value,
-        int displayOrder,
-        string? colorCode = null,
-        Guid? imageId = null,
-        CatalogStatus status = CatalogStatus.Active)
+        Guid productOptionValueDefinitionId,
+        int displayOrder)
     {
-        ValidateValue(value);
-
         return new ProductOptionValue
         {
             Id = Guid.CreateVersion7(),
             ProductOptionId = productOptionId,
-            Value = value,
-            ColorCode = colorCode,
-            ImageId = imageId,
+            ProductOptionValueDefinitionId = productOptionValueDefinitionId,
             DisplayOrder = displayOrder,
-            Status = status,
         };
     }
 
-    public void UpdateValue(string value)
-    {
-        ValidateValue(value);
-
-        Value = value;
-    }
-
-    public void UpdateAppearance(
-        string? colorCode,
-        Guid? imageId)
-    {
-        ColorCode = colorCode;
-        ImageId = imageId;
-    }
-
-    public void ChangeDisplayOrder(int displayOrder)
+    internal void ChangeDisplayOrder(int displayOrder)
     {
         DisplayOrder = displayOrder;
-    }
-
-    public void Activate()
-    {
-        Status = CatalogStatus.Active;
-    }
-
-    public void Deactivate()
-    {
-        Status = CatalogStatus.Inactive;
-    }
-
-    public static bool IsValidValue(string? value) => value.IsNotNullOrWhiteSpace();
-
-    private static void ValidateValue(string value)
-    {
-        if (!IsValidValue(value))
-            throw ExceptionFactory.RequiredField("Option value cannot be empty.");
     }
 }

@@ -29,7 +29,7 @@ public sealed class DeleteVariationEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId}/variations/{variationId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("DeleteVariation")
             .WithDisplayName("Delete Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))

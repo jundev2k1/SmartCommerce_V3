@@ -48,14 +48,14 @@ public sealed class ProductRepo(ProductDbContext dbContext)
     }
 
     public async Task AddVariationAsync(
-        Variant variation,
+        ProductVariant variation,
         CancellationToken ct = default)
     {
         await _dbContext.Variants.AddAsync(variation, ct);
     }
 
     public async Task AddVariationRangeAsync(
-        IEnumerable<Variant> variations,
+        IEnumerable<ProductVariant> variations,
         CancellationToken ct = default)
     {
         await _dbContext.Variants.AddRangeAsync(variations, ct);
@@ -63,13 +63,13 @@ public sealed class ProductRepo(ProductDbContext dbContext)
 
     public async Task UpdateVariationAsync(
         Guid id,
-        Func<IQueryable<Variant>, IQueryable<Variant>> includes,
-        Func<Variant, Task> updateAction,
+        Func<IQueryable<ProductVariant>, IQueryable<ProductVariant>> includes,
+        Func<ProductVariant, Task> updateAction,
         CancellationToken ct = default)
     {
         var query = includes(_dbContext.Variants);
         var variation = await query.FirstOrDefaultAsync(p => p.Id!.Equals(id), ct)
-            ?? throw new NotFoundException(nameof(Variant), id!);
+            ?? throw new NotFoundException(nameof(ProductVariant), id!);
 
         await updateAction(variation);
     }
@@ -78,7 +78,7 @@ public sealed class ProductRepo(ProductDbContext dbContext)
     {
         var variation = await _dbContext.Variants
             .FirstOrDefaultAsync(v => v.Id == id, ct)
-            ?? throw new NotFoundException(nameof(Variant), id!);
+            ?? throw new NotFoundException(nameof(ProductVariant), id!);
 
         _dbContext.Remove(variation);
     }

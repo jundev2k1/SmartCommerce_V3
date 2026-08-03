@@ -44,7 +44,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
     {
         app.MapPut("/products/{productId}/variations/{variationId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateVariation")
             .WithDisplayName("Update Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -29,7 +29,7 @@ public sealed class CreateProductTagEndpoint : ICarterModule
     {
         app.MapPost("/tags", Handle)
             .WithTags("ProductTag")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateProductTag")
             .WithDisplayName("Create Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

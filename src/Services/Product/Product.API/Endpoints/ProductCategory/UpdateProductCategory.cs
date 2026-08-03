@@ -37,7 +37,7 @@ public sealed class UpdateProductCategoryEndpoint : ICarterModule
     {
         app.MapPut("/categories/{categoryId}", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateProductCategory")
             .WithDisplayName("Update Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

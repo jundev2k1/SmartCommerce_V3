@@ -50,7 +50,7 @@ public sealed class ProductWriteService(
         await uow.SaveChangesAsync(ct);
     }
 
-    public async Task<Variant> AddVariationAsync(
+    public async Task<ProductVariant> AddVariationAsync(
         Guid productId,
         VariantInputDto variation,
         CancellationToken ct = default)
@@ -63,7 +63,7 @@ public sealed class ProductWriteService(
         return entity;
     }
 
-    public async Task<Variant[]> AddVariationsAsync(
+    public async Task<ProductVariant[]> AddVariationsAsync(
         Guid productId,
         IEnumerable<VariantInputDto> variations,
         CancellationToken ct = default)
@@ -76,7 +76,7 @@ public sealed class ProductWriteService(
         return [.. entities];
     }
 
-    public async Task<Variant> UpdateVariationInformationAsync(
+    public async Task<ProductVariant> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -89,7 +89,7 @@ public sealed class ProductWriteService(
         VariantStatus? status = null,
         CancellationToken ct = default)
     {
-        Variant updated = null!;
+        ProductVariant updated = null!;
         await productRepo.UpdateVariationAsync(
             variationId,
             query => query.Include(q => q.Product),

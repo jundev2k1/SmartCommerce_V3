@@ -19,7 +19,7 @@ public sealed class ListProductTagsEndpoint : ICarterModule
     {
         app.MapGet("/tags", Handle)
             .WithTags("ProductTag")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("ListProductTags")
             .WithDisplayName("List Product Tags API")
             .WithDescription(API_DESC.JoinToString("\n"))

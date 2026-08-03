@@ -26,7 +26,7 @@ public sealed class AssignProductCategoryEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/categories/{categoryId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("AssignProductCategory")
             .WithDisplayName("Assign Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -31,7 +31,7 @@ public sealed class ReorderVariationsEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/variations/reorder", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ReorderVariations")
             .WithDisplayName("Reorder Variations API")
             .WithDescription(API_DESC.JoinToString("\n"))

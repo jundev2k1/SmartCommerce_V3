@@ -27,7 +27,7 @@ public sealed class UpdateProductTagEndpoint : ICarterModule
     {
         app.MapPut("/tags/{tagId}", Handle)
             .WithTags("ProductTag")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateProductTag")
             .WithDisplayName("Update Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -26,7 +26,7 @@ public sealed class RemoveProductCategoryEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId}/categories/{categoryId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RemoveProductCategory")
             .WithDisplayName("Remove Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

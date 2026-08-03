@@ -23,17 +23,17 @@ public interface IProductWriteService
         Slug slug,
         CancellationToken ct = default);
 
-    Task<Variant> AddVariationAsync(
+    Task<ProductVariant> AddVariationAsync(
         Guid productId,
         VariantInputDto variation,
         CancellationToken ct = default);
 
-    Task<Variant[]> AddVariationsAsync(
+    Task<ProductVariant[]> AddVariationsAsync(
         Guid productId,
         IEnumerable<VariantInputDto> variations,
         CancellationToken ct = default);
 
-    Task<Variant> UpdateVariationInformationAsync(
+    Task<ProductVariant> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,

@@ -16,20 +16,20 @@ public sealed class UpdateVariationValidator : AbstractValidator<UpdateVariation
             .WithMessage("Sku must be 1-50 characters and contain only letters, digits, and hyphens");
 
         RuleFor(x => x.Name)
-            .Must(Variant.IsValidName)
+            .Must(ProductVariant.IsValidName)
             .WithMessage("Variation name is required")
             .MaximumLength(200).WithMessage("Variation name must not exceed 200 characters");
 
         RuleFor(x => x.Price)
-            .Must(Variant.IsValidPrice)
+            .Must(ProductVariant.IsValidPrice)
             .WithMessage("Price cannot be negative");
 
         RuleFor(x => x.Cost)
-            .Must(Variant.IsValidCost)
+            .Must(ProductVariant.IsValidCost)
             .WithMessage("Cost cannot be negative");
 
         RuleFor(x => x.Weight)
-            .Must(Variant.IsValidWeight)
+            .Must(ProductVariant.IsValidWeight)
             .WithMessage("Weight must be greater than zero when specified");
 
         RuleFor(x => x.Barcode)

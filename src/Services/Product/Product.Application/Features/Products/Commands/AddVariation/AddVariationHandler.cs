@@ -36,7 +36,7 @@ public sealed class AddVariationHandler(
 
         var correlationId = currentUser.GetCorrelationId();
 
-        Variant variation = null!;
+        ProductVariant variation = null!;
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             // Create product variation from DB

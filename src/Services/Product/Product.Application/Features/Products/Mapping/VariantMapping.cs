@@ -6,12 +6,12 @@ namespace SmartEcommerce.Product.Application.Features.Products.Mapping;
 
 public static class VariantMapping
 {
-    public static Variant MapInputToEntity(
+    public static ProductVariant MapInputToEntity(
         this VariantInputDto dto,
         Guid productId,
         int displayOrder)
     {
-        return Variant.Create(
+        return ProductVariant.Create(
             productId: productId,
             sku: Sku.Create(dto.Sku),
             name: dto.Name,
@@ -32,7 +32,7 @@ public static class VariantMapping
             metadata: null);
     }
 
-    public static IEnumerable<Variant> MapInputToEntities(
+    public static IEnumerable<ProductVariant> MapInputToEntities(
         this IEnumerable<VariantInputDto> dtos,
         Guid productId,
         int beginDisplayOrder = 1)

@@ -26,7 +26,7 @@ public sealed class SetDefaultVariationEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/variations/{variationId}/default", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("SetDefaultVariation")
             .WithDisplayName("Change Default Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))

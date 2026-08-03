@@ -18,7 +18,7 @@ public sealed record VariantResponse(
     int DisplayOrder,
     int? AvailableStock = null)
 {
-    public static VariantResponse From(Variant variation, int? availableStock = null) => new(
+    public static VariantResponse From(ProductVariant variation, int? availableStock = null) => new(
         variation.Id,
         variation.Sku.Value,
         variation.Name,

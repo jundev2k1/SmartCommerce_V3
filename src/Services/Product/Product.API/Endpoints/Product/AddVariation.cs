@@ -42,7 +42,7 @@ public sealed class AddVariationEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/variations", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("AddVariation")
             .WithDisplayName("Add Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))

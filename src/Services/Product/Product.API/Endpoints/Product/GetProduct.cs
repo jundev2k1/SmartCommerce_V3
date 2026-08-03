@@ -27,7 +27,7 @@ public sealed class GetProductEndpoint : ICarterModule
     {
         app.MapGet("/products/{productId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetProduct")
             .WithDisplayName("Get Product API")
             .WithDescription(API_DESC.JoinToString("\n"))

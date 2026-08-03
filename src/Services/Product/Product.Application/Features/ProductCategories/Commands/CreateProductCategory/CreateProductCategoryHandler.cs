@@ -1,11 +1,12 @@
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 using SmartEcommerce.BuildingBlock.Application.Exceptions;
-
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
-using SmartEcommerce.Product.Domain.ValueObjects;
 
 namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
 public sealed class CreateProductCategoryHandler(
+    ICurrentLocaleService currentLocaleService,
     IProductCategoryReadService categoryReadService,
     IProductCategoryWriteService categoryWriteService) : ICommandHandler<CreateProductCategoryCommand, CreateProductCategoryResponse>
 {
@@ -23,9 +24,15 @@ public sealed class CreateProductCategoryHandler(
         var category = ProductCategory.Create(
             Guid.CreateVersion7(),
             CategoryCode.Create(request.Code),
-            request.Name.Trim(),
-            request.Description.Trim(),
-            request.ParentCategoryId);
+            request.Name,
+            request.Description,
+            request.ParentCategoryId,
+            note: request.Note ?? string.Empty);
+        var locale = currentLocaleService.GetLocale();
+        category.Translate(
+            LanguageCode.Create(locale),
+            request.Name,
+            request.Description);
         await categoryWriteService.CreateAsync(category, ct);
 
         return new CreateProductCategoryResponse(category.Id);
