@@ -1,11 +1,11 @@
+using BuildingBlock.Application.DeadLetters;
 using BuildingBlock.Grpc.Server;
 using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.CurrentUser;
-using BuildingBlock.Infrastructure.DeadLetters;
 using BuildingBlock.Infrastructure.Security.Jwt;
 using BuildingBlock.Web;
 using BuildingBlock.Web.Carter;
 using BuildingBlock.Web.Cors;
+using BuildingBlock.Web.CurrentUser;
 using BuildingBlock.Web.HealthChecks;
 using BuildingBlock.Web.Swagger;
 
@@ -37,16 +37,13 @@ public static class DependencyInjection
             .AddJwtBearerAuthentication(configuration)
             .AddSwaggerDocumentation(WebOptions)
             .AddCorsPolicy(WebOptions.CorsPolicyName)
-            // Dead-letter management endpoints/handlers are generic and live in
-            // BuildingBlock.Infrastructure - scanned here (the composition root) alongside this
-            // service's own assembly, rather than duplicated per service.
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IDeadLetterRetryService).Assembly))
             .AddDeadLetterManagement()
             .AddCarterModules(typeof(DependencyInjection), typeof(IDeadLetterRetryService))
             .AddHealthCheckServices()
             .AddGrpcServices()
             .AddCommonAuthorizationPolicies()
-            .AddAuthorization(options => AuthorizationExtensions.ConfigureCommonPolicies(options));
+            .AddAuthorization(AuthorizationExtensions.ConfigureCommonPolicies);
 
         return services;
     }
