@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuildingBlock.SharedKernel\BuildingBlock.SharedKernel.csproj" />
+    <ProjectReference Include="..\BuildingBlock.Application\BuildingBlock.Application.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
