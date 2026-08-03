@@ -106,6 +106,8 @@ Dated, per-task bug/gap tracking (not architecture, not workflows) — see [task
 
 ## Decisions (ADRs)
 
+See [decisions/README.md](decisions/README.md) for the convention (when to write one, section shape).
+
 - [decisions/event-messaging-refactor.md](decisions/event-messaging-refactor.md)
 - [decisions/buildingblock-web-extraction.md](decisions/buildingblock-web-extraction.md)
 
