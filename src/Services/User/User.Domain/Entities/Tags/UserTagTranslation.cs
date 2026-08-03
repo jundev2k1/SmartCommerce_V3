@@ -6,7 +6,6 @@ namespace SmartEcommerce.User.Domain.Entities.Tags;
 /// </summary>
 public sealed class UserTagTranslation : BaseEntity<Guid>, IAuditable
 {
-    public Guid UserTagId { get; private set; }
     public UserTag UserTag { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string DisplayName { get; private set; } = string.Empty;
@@ -15,7 +14,6 @@ public sealed class UserTagTranslation : BaseEntity<Guid>, IAuditable
     private UserTagTranslation() { }
 
     public static UserTagTranslation Create(
-        Guid id,
         Guid userTagId,
         LanguageCode languageCode,
         string displayName,
@@ -25,8 +23,7 @@ public sealed class UserTagTranslation : BaseEntity<Guid>, IAuditable
 
         return new UserTagTranslation
         {
-            Id = id,
-            UserTagId = userTagId,
+            Id = userTagId,
             LanguageCode = languageCode,
             DisplayName = displayName,
             Description = description,

@@ -76,7 +76,6 @@ public sealed class UserRole : AggregateRoot<Guid>, IAuditable
         }
 
         var translation = UserRoleTranslation.Create(
-            Guid.CreateVersion7(),
             Id,
             languageCode,
             displayName,

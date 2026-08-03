@@ -7,7 +7,6 @@ namespace SmartEcommerce.User.Domain.Entities.Roles;
 /// </summary>
 public sealed class UserRoleTranslation : BaseEntity<Guid>, IAuditable
 {
-    public Guid RoleId { get; private set; }
     public UserRole Role { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string DisplayName { get; private set; } = string.Empty;
@@ -16,7 +15,6 @@ public sealed class UserRoleTranslation : BaseEntity<Guid>, IAuditable
     private UserRoleTranslation() { }
 
     public static UserRoleTranslation Create(
-        Guid id,
         Guid roleId,
         LanguageCode languageCode,
         string displayName,
@@ -26,8 +24,7 @@ public sealed class UserRoleTranslation : BaseEntity<Guid>, IAuditable
 
         return new UserRoleTranslation
         {
-            Id = id,
-            RoleId = roleId,
+            Id = roleId,
             LanguageCode = languageCode,
             DisplayName = displayName,
             Description = description,

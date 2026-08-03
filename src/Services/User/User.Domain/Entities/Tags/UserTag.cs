@@ -57,7 +57,6 @@ public sealed class UserTag : AggregateRoot<Guid>, IAuditable
         }
 
         var translation = UserTagTranslation.Create(
-            Guid.CreateVersion7(),
             Id,
             languageCode,
             displayName,
