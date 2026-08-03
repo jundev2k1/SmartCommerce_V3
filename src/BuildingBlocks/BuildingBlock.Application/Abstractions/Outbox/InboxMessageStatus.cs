@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Outbox;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Lifecycle of an Inbox dedup/processing row. DeadLetter is a terminal status on the same

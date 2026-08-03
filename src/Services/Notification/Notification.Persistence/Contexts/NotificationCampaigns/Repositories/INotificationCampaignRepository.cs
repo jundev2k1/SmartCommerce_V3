@@ -1,4 +1,4 @@
-namespace Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
 
 public interface INotificationCampaignRepository
 {

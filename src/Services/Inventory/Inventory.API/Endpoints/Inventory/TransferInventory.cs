@@ -1,13 +1,14 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Inventories.Commands.TransferInventory;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
-namespace Inventory.API.Endpoints.Inventory;
+namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed record TransferInventoryItemRequest(
-    string ProductVariantId,
+    string VariantId,
     int Quantity);
 
 public sealed record TransferInventoryRequest(
@@ -29,7 +30,7 @@ public sealed class TransferInventoryEndpoint : ICarterModule
         "- **SourceWarehouseId**: Warehouse to transfer from (required, must be valid GUID)",
         "- **DestinationWarehouseId**: Warehouse to transfer to (required, must be valid GUID)",
         "- **Items**: Array of items to transfer (required, minimum 1 item)",
-        "  - **ProductVariantId**: Variant being transferred (required, must be valid GUID)",
+        "  - **VariantId**: Variant being transferred (required, must be valid GUID)",
         "  - **Quantity**: Amount to transfer (required, must be > 0)",
         "- **Reason**: Transfer reason/notes (required, max 500 chars)",
         "",
@@ -48,7 +49,7 @@ public sealed class TransferInventoryEndpoint : ICarterModule
     {
         app.MapPost("/inventories/transfer", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("TransferInventory")
             .WithDisplayName("Transfer Inventory API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -62,7 +63,7 @@ public sealed class TransferInventoryEndpoint : ICarterModule
     {
         var items = request.Items
             .Select(i => new TransferInventoryItem(
-                ProductVariantId: Guid.Parse(i.ProductVariantId),
+                VariantId: Guid.Parse(i.VariantId),
                 Quantity: i.Quantity))
             .ToList();
 

@@ -1,6 +1,6 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace BuildingBlock.Application.Abstractions.Jobs;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
 
 public interface IRecurringJob
 {
@@ -8,7 +8,7 @@ public interface IRecurringJob
 
     string CronExpression { get; }
 
-    string Queue => JobQueue.DEFAULT;
+    string Queue => JobQueueConstant.DEFAULT;
 
     bool IsInit { get; }
 

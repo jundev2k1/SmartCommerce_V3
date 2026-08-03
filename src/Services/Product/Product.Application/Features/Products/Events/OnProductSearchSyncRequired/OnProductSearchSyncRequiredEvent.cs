@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-namespace Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
+namespace SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
 
 /// <summary>
 /// Raised by every Product Search consumer except the Deleted one (see

@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
+using SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
 
-namespace Notification.API.Endpoints.NotificationCampaign;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationCampaign;
 
 public sealed class GetCampaign : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class GetCampaign : ICarterModule
     {
         app.MapGet("/notification-campaigns/{campaignId}", HandleAsync)
             .WithTags("NotificationCampaign")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationCampaign")
             .WithDisplayName("Get Notification Campaign API")
             .Produces<ApiResponse<GetNotificationCampaignResponse>>(StatusCodes.Status200OK);

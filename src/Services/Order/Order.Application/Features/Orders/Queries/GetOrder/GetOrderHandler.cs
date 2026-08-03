@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Queries.GetOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrder;
 
 public sealed class GetOrderHandler(
     ICurrentUserService currentUser,
@@ -17,7 +17,7 @@ public sealed class GetOrderHandler(
         // Endpoint only requires RequireAuthenticated (any logged-in user), not RequireAdmin, so
         // the owner-vs-admin distinction has to happen here: an admin dashboard needs to view any
         // order, but a regular customer may only view their own.
-        var isAdmin = currentUser.IsInRole(AppRole.Admin) || currentUser.IsInRole(AppRole.Root);
+        var isAdmin = currentUser.IsInRole(AppRoleConstant.Admin) || currentUser.IsInRole(AppRoleConstant.Root);
         if (!isAdmin && order.Owner.OwnerId != currentUser.GetUserId())
             throw new ForbiddenException();
 

@@ -1,8 +1,8 @@
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.Domain.Extensions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Domain.Extensions;
 using Shouldly;
 
-namespace BuildingBlock.Domain.Tests.Extensions;
+namespace SmartEcommerce.BuildingBlock.Domain.Tests.Extensions;
 
 public class MessageCodeExtensionTests
 {

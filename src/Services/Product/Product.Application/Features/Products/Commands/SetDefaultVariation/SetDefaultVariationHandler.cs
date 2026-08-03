@@ -1,6 +1,6 @@
-using Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
-namespace Product.Application.Features.Products.Commands.SetDefaultVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.SetDefaultVariation;
 
 public sealed class SetDefaultVariationHandler(
     IProductWriteService productWriteService) : ICommandHandler<SetDefaultVariationCommand, SetDefaultVariationResponse>

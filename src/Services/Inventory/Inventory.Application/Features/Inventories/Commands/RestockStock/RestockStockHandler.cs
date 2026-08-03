@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Persistence;
-using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Features.Inventories.Commands.RestockStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.RestockStock;
 
 public sealed class RestockStockHandler(
     IInventoryDocumentReadService documentReadService,

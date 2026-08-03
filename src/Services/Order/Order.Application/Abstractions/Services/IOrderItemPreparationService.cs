@@ -1,6 +1,6 @@
-using Order.Application.Features.Orders.DTOs;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 
-namespace Order.Application.Abstractions.Services;
+namespace SmartEcommerce.Order.Application.Abstractions.Services;
 
 /// <summary>
 /// Validates+resolves the items on a CreateOrder request into fully catalog-priced lines, before

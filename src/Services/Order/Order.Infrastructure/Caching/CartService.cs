@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Exceptions;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Order.Application.Abstractions.Persistence.ProductCatalogs;
-using Order.Application.Abstractions.Services;
-using Order.Domain.Entities.Catalogs;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Domain.Entities.Catalogs;
 
-namespace Order.Infrastructure.Caching;
+namespace SmartEcommerce.Order.Infrastructure.Caching;
 
 /// <summary>
 /// Redis-backed cart, keyed per user. Only {VariationId, Quantity} pairs are stored - name/price/
@@ -22,7 +22,7 @@ public sealed class CartService(
     IProductCatalogReadService catalogReadService,
     IStockAvailabilityService stockAvailabilityService) : ICartService
 {
-    private static readonly TimeSpan Ttl = TimeSpan.FromMinutes(CacheKeys.Cart.DefaultTtlMinutes);
+    private static readonly TimeSpan Ttl = TimeSpan.FromMinutes(CacheKeyConstant.Cart.DefaultTtlMinutes);
 
     public async Task<(ProductCatalog[] Catalogs, CartResponse Cart)> GetCartAsync(
         Guid userId,
@@ -97,7 +97,7 @@ public sealed class CartService(
 
     public async Task ClearCartAsync(Guid userId, CancellationToken ct = default)
     {
-        await cacheService.RemoveAsync(CacheKeys.Cart.Key(userId), ct);
+        await cacheService.RemoveAsync(CacheKeyConstant.Cart.Key(userId), ct);
     }
 
     /// <summary>Checked on every add/update-quantity - resultingQuantity is the line's total quantity AFTER this mutation (existing + delta for Add, the new absolute value for Update), never just the delta, so stock is validated against what the cart would actually hold.</summary>
@@ -126,13 +126,13 @@ public sealed class CartService(
 
     private async Task<CartData> LoadAsync(Guid userId, CancellationToken ct)
     {
-        var data = await cacheService.GetAsync<CartData>(CacheKeys.Cart.Key(userId), ct);
+        var data = await cacheService.GetAsync<CartData>(CacheKeyConstant.Cart.Key(userId), ct);
         return data ?? new CartData([]);
     }
 
     private async Task SaveAsync(Guid userId, CartData data, CancellationToken ct)
     {
-        await cacheService.SetAsync(CacheKeys.Cart.Key(userId), data, Ttl, ct);
+        await cacheService.SetAsync(CacheKeyConstant.Cart.Key(userId), data, Ttl, ct);
     }
 
     /// <summary>

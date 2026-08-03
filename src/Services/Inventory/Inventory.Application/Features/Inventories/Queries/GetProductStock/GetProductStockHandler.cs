@@ -1,16 +1,16 @@
-using Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 
-namespace Inventory.Application.Features.Inventories.Queries.GetProductStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock;
 
 public sealed class GetProductStockHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetProductStockQuery, GetProductStockResponse>
 {
     public async Task<GetProductStockResponse> Handle(GetProductStockQuery request, CancellationToken ct = default)
     {
-        var total = request.ProductVariationId is not null
-            ? await inventoryReadService.GetTotalStockByVariationIdAsync(request.ProductVariationId.Value, ct)
+        var total = request.VariantId is not null
+            ? await inventoryReadService.GetTotalStockByVariationIdAsync(request.VariantId.Value, ct)
             : await inventoryReadService.GetTotalStockByProductIdAsync(request.ProductId, ct);
 
-        return new GetProductStockResponse(request.ProductId, request.ProductVariationId, total);
+        return new GetProductStockResponse(request.ProductId, request.VariantId, total);
     }
 }

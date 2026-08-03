@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 public sealed class DeductStockHandler(
     IWarehouseReadService warehouseReadService,
@@ -43,7 +43,7 @@ public sealed class DeductStockHandler(
         CancellationToken ct)
     {
         var reasonText = request.Reason is null ? "Order deduction" : $"Order deduction: {request.Reason}";
-        var items = request.Items.Select(i => (i.ProductVariationId, i.Quantity)).ToList();
+        var items = request.Items.Select(i => (i.VariantId, i.Quantity)).ToList();
 
         var validation = await availabilityService.ValidateAsync(items, warehouseId, ct);
 
@@ -66,7 +66,7 @@ public sealed class DeductStockHandler(
                 "InsufficientStock",
                 [.. validation.InsufficientItems
                     .Select(i => new InsufficientStockItem(
-                        i.ProductVariationId,
+                        i.VariantId,
                         i.RequestedQuantity,
                         i.AvailableQuantity))]);
         }
@@ -76,7 +76,7 @@ public sealed class DeductStockHandler(
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var deductionItems = request.Items
-                .Select(ri => (ri.ProductVariationId, ri.Quantity))
+                .Select(ri => (ri.VariantId, ri.Quantity))
                 .Zip(validation.AvailableInventories)
                 .Select(pair => (
                     pair.Second.Id,

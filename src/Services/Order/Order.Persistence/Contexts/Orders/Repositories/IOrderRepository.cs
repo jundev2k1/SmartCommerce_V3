@@ -1,6 +1,6 @@
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-namespace Order.Persistence.Contexts.Orders.Repositories;
+namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
 
 public interface IOrderRepository : IRepository<OrderEntity, Guid>
 {

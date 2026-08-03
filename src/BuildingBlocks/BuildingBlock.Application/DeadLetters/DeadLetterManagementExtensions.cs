@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Idempotency;
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Infrastructure.DeadLetters;
-using BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Application.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Application.DeadLetters;
 
 public static class DeadLetterManagementExtensions
 {

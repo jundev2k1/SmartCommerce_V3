@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Persistence.Engine;
 
-namespace Order.API;
+namespace SmartEcommerce.Order.API;
 
 /// <summary>
 /// Lets `dotnet ef` build <see cref="OrderDbContext"/> directly, without booting the full app host

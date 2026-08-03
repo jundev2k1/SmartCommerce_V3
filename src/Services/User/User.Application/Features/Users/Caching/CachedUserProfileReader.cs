@@ -1,7 +1,7 @@
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Application.Features.Users.Caching;
+namespace SmartEcommerce.User.Application.Features.Users.Caching;
 
 /// <summary>
 /// Read-through orchestration for the User Detail cache: cache -&gt; DB on miss -&gt; refresh cache -&gt; return.

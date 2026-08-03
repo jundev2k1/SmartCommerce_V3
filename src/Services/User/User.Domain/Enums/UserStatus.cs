@@ -1,4 +1,4 @@
-namespace User.Domain.Enums;
+namespace SmartEcommerce.User.Domain.Enums;
 
 public enum UserStatus
 {

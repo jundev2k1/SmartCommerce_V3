@@ -1,6 +1,6 @@
-using Notification.Application.Abstractions.Persistence.NotificationDispatches;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationDispatches;
 
-namespace Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
+namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
 
 public sealed class CreateNotificationDispatchHandler(
     IUnitOfWork uow,

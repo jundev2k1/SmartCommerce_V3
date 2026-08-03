@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-using BuildingBlock.Saga.Abstractions;
+using SmartEcommerce.BuildingBlock.Saga.Abstractions;
 
-namespace Order.Persistence.Reliability.Saga;
+namespace SmartEcommerce.Order.Persistence.Reliability.Saga;
 
 /// <summary>
 /// EF row backing EfSagaStore - a plain persistence-layer record, not a domain aggregate (SagaId

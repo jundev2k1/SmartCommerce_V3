@@ -1,8 +1,8 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using StackExchange.Redis;
 
-namespace YarpApiGateway.Caching;
+namespace SmartEcommerce.YarpApiGateway.Caching;
 
 /// <summary>
 /// Minimal, read-only Redis lookup for refresh token existence. Local to the Gateway since it's
@@ -25,6 +25,6 @@ public static class RefreshTokenCacheExtensions
         CancellationToken ct = default)
     {
         var db = redis.GetDatabase();
-        return await db.KeyExistsAsync(CacheKeys.RefreshTokens.ByTokenString(refreshToken));
+        return await db.KeyExistsAsync(CacheKeyConstant.RefreshTokens.ByTokenString(refreshToken));
     }
 }

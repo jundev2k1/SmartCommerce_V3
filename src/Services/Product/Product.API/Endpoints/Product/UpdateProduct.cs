@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.UpdateProduct;
+using SmartEcommerce.Product.Application.Features.Products.Commands.UpdateProduct;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed record UpdateProductRequest(string Name, string Description, string Slug);
 
@@ -14,7 +15,7 @@ public sealed class UpdateProductEndpoint : ICarterModule
         "## Update Product",
         "",
         "Updates Product-level shared information only (Name/Description/Slug). Never touches",
-        "ProductVariation data - use the dedicated ProductVariation APIs for that.",
+        "Variant data - use the dedicated Variant APIs for that.",
         "",
         "### Route Parameters",
         "- **productId**: Unique identifier of the product (required, must be valid GUID)",
@@ -34,7 +35,7 @@ public sealed class UpdateProductEndpoint : ICarterModule
     {
         app.MapPut("/products/{productId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateProduct")
             .WithDisplayName("Update Product API")
             .WithDescription(API_DESC.JoinToString("\n"))

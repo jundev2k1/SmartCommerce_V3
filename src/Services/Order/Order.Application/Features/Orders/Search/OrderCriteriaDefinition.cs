@@ -1,7 +1,7 @@
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Strategies;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Strategies;
 
-namespace Order.Application.Features.Orders.Search;
+namespace SmartEcommerce.Order.Application.Features.Orders.Search;
 
 /// <summary>Admin search whitelist for <see cref="OrderEntity"/>. Built once (static singleton) - no per-request reflection scan.</summary>
 public static class OrderCriteriaDefinition

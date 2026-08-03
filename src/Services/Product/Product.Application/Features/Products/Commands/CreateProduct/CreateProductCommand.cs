@@ -1,13 +1,13 @@
-using Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
-namespace Product.Application.Features.Products.Commands.CreateProduct;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.CreateProduct;
 
 public sealed record CreateProductCommand(
     string Code,
     string Name,
     string Description,
     string Slug,
-    IReadOnlyCollection<ProductVariationInputDto> Variations,
+    IReadOnlyCollection<VariantInputDto> Variations,
     IReadOnlyCollection<Guid>? CategoryIds = null,
     IReadOnlyCollection<Guid>? TagIds = null) : ICommand<CreateProductResponse>;
 

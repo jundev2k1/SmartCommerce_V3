@@ -1,9 +1,9 @@
 using MongoDB.Driver;
 
-namespace BuildingBlock.Persistence.Mongo.MongoContext;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
 
 /// <summary>
-/// Thin Mongo equivalent of BuildingBlock.Persistence.Ef's DbContextBase.
+/// Thin Mongo equivalent of SmartEcommerce.BuildingBlock.Persistence.Ef's DbContextBase.
 /// Mongo has no per-request change tracker, so this only exposes the database handle
 /// collections are pulled from by derived contexts.
 /// </summary>

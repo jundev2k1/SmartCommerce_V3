@@ -1,10 +1,10 @@
-using Auth.Application.Abstractions.Persistence.RefreshTokens;
-using Auth.Application.Abstractions.Services;
-using Auth.Infrastructure.Caching;
+using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Infrastructure.Caching;
 
 using Microsoft.Extensions.Logging;
 
-namespace Auth.Infrastructure.Security.RefreshTokens.Initialization;
+namespace SmartEcommerce.Auth.Infrastructure.Security.RefreshTokens.Initialization;
 
 public sealed class RefreshTokenInitializationService(
     IRefreshTokenReadService refreshTokenReadService,

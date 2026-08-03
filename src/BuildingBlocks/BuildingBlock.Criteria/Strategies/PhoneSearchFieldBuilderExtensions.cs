@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
 
-namespace BuildingBlock.Criteria.Strategies;
+namespace SmartEcommerce.BuildingBlock.Criteria.Strategies;
 
 public static class PhoneSearchFieldBuilderExtensions
 {

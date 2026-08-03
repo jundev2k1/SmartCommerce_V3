@@ -8,7 +8,7 @@ An aggregate root owns its collections and everything reachable through them. Ev
 
 ## 1. Aggregate creation takes the collection directly, not a Spec wrapper
 
-When an aggregate root naturally owns a collection and requires at least one element to exist meaningfully (e.g. `Product` requires ≥1 `ProductVariation`), its `Create` factory accepts the collection directly:
+When an aggregate root naturally owns a collection and requires at least one element to exist meaningfully (e.g. `Product` requires ≥1 `Variant`), its `Create` factory accepts the collection directly:
 
 ```csharp
 public static Product Create(
@@ -17,7 +17,7 @@ public static Product Create(
     string name,
     string description,
     Slug slug,
-    IEnumerable<ProductVariationCreateModel> variations,
+    IEnumerable<VariantCreateModel> variations,
     ProductMetadata? metadata = null)
 ```
 
@@ -33,8 +33,8 @@ Callers never construct a temporary "first item" plus "remaining items" split �
 Domain methods that operate on **one** entity take flat parameters, however long the list gets:
 
 ```csharp
-// ProductVariation.Create (internal - only Product may call it)
-internal static ProductVariation Create(
+// Variant.Create (internal - only Product may call it)
+internal static Variant Create(
     Guid id,
     Guid productId,
     Sku sku,
@@ -45,8 +45,8 @@ internal static ProductVariation Create(
     decimal? weight = null,
     Dimensions? dimensions = null,
     IEnumerable<string>? images = null,
-    ProductVariationStatus status = ProductVariationStatus.Active,
-    ProductVariationMetadata? metadata = null)
+    VariantStatus status = VariantStatus.Active,
+    VariantMetadata? metadata = null)
 ```
 
 Rationale: call sites stay explicit at the call site (you can see every argument being passed without opening a second file), adding/removing a parameter only touches the methods that actually use it instead of every place that constructs a wrapper object, and no DTO-shaped type leaks into the Domain layer.
@@ -55,22 +55,22 @@ Rationale: call sites stay explicit at the call site (you can see every argument
 
 ### The one intentional exception: collection-element shapes for Rule 1
 
-`ProductVariationCreateModel` (`Product.Domain/Entities/ProductVariationCreateModel.cs`) is a record, used only as the element type of the `IEnumerable<...>` a bulk-`Create` factory accepts (Rule 1). This is **not** a violation of Rule 2 — Rule 2 targets methods that construct/mutate a single entity and could trivially take flat parameters instead; a *collection* of N structured items has no flat-parameter equivalent (you cannot flatten "N variations" into positional arguments). Every single-item Domain method (`ProductVariation.Create`, `Product.AddVariation`, `UpdatePricing`, `UpdateIdentifiers`, ...) still takes flat parameters per Rule 2 — only the bulk-`Create` entry point takes the collection-of-create-models shape, and only because Rule 1 explicitly asks for it.
+`VariantCreateModel` (`Product.Domain/Entities/VariantCreateModel.cs`) is a record, used only as the element type of the `IEnumerable<...>` a bulk-`Create` factory accepts (Rule 1). This is **not** a violation of Rule 2 — Rule 2 targets methods that construct/mutate a single entity and could trivially take flat parameters instead; a *collection* of N structured items has no flat-parameter equivalent (you cannot flatten "N variations" into positional arguments). Every single-item Domain method (`Variant.Create`, `Product.AddVariation`, `UpdatePricing`, `UpdateIdentifiers`, ...) still takes flat parameters per Rule 2 — only the bulk-`Create` entry point takes the collection-of-create-models shape, and only because Rule 1 explicitly asks for it.
 
 ## 3. Aggregate collections are normal navigation properties, not backing-field wrappers
 
 ```csharp
-public ICollection<ProductVariation> Variations { get; private set; } = [];
+public ICollection<Variant> Variations { get; private set; } = [];
 ```
 
 — not:
 
 ```csharp
-private readonly List<ProductVariation> _variations = [];
-public IReadOnlyCollection<ProductVariation> Variations => _variations.AsReadOnly();
+private readonly List<Variant> _variations = [];
+public IReadOnlyCollection<Variant> Variations => _variations.AsReadOnly();
 ```
 
-Consistency is protected through named methods on the aggregate (`AddVariation`, `RemoveVariation`, `SetDefaultVariation`, `AssignCategory`, `RemoveCategory`, `AssignTag`, `RemoveTag`, ...), not by hiding the collection behind a read-only wrapper — callers *can* technically reach `product.Variations.Add(...)` directly, but the private setter plus the fact that `ProductVariation.Create`/`MarkAsDefault`/`UnmarkAsDefault` are `internal` (assembly-scoped) means a caller outside `Product.Domain` cannot construct a valid variation to add in the first place. The invariant is protected by what can be *constructed*, not by what can be *seen*.
+Consistency is protected through named methods on the aggregate (`AddVariation`, `RemoveVariation`, `SetDefaultVariation`, `AssignCategory`, `RemoveCategory`, `AssignTag`, `RemoveTag`, ...), not by hiding the collection behind a read-only wrapper — callers *can* technically reach `product.Variations.Add(...)` directly, but the private setter plus the fact that `Variant.Create`/`MarkAsDefault`/`UnmarkAsDefault` are `internal` (assembly-scoped) means a caller outside `Product.Domain` cannot construct a valid variation to add in the first place. The invariant is protected by what can be *constructed*, not by what can be *seen*.
 
 This also simplifies EF Core mapping — a plain `{ get; private set; }` auto-property is usable via normal property access (EF invokes the private setter directly), so owned-collection configs no longer need `builder.Navigation(x => x.Variations).UsePropertyAccessMode(PropertyAccessMode.Field)`.
 
@@ -115,7 +115,7 @@ public sealed partial class Sku : StringValueObject
 
 `GetValidationError` is the single place the actual rule lives; `Create` throws it (construction still enforces correctness - this never becomes optional), `IsValid`/`TryCreate` just check whether it's `null`. FluentValidation validators call `Sku.IsValid(...)`/`ProductCode.IsValid(...)`/etc. — never `.Length(1, 50)` or a hand-rolled regex that could silently drift from the Domain's own rule.
 
-This pattern extends past formal Value Objects to any Domain-level validation an upper layer needs to check ahead of construction — e.g. `ProductVariation.IsValidPrice(decimal)`/`IsValidCost`/`IsValidWeight` and `Product.IsValidName(string?)`/`ProductCategory.IsValidName`/`ProductTag.IsValidName`, even though `Price`/`Name` aren't wrapped Value Objects. The goal (one rule, reused everywhere, no divergence between API-level and Domain-level validation) applies regardless of whether the validated thing happens to be a formal VO.
+This pattern extends past formal Value Objects to any Domain-level validation an upper layer needs to check ahead of construction — e.g. `Variant.IsValidPrice(decimal)`/`IsValidCost`/`IsValidWeight` and `Product.IsValidName(string?)`/`ProductCategory.IsValidName`/`ProductTag.IsValidName`, even though `Price`/`Name` aren't wrapped Value Objects. The goal (one rule, reused everywhere, no divergence between API-level and Domain-level validation) applies regardless of whether the validated thing happens to be a formal VO.
 
 Each VO stays self-contained (its own `GetValidationError`/`Normalize`/regex) rather than sharing a generic template-method base — the six string VOs in `Product.Domain/ValueObjects/` have different normalization (uppercase codes vs. lowercase slug) and different format rules, so a shared abstraction would mostly exist to save a few lines of structurally-similar-but-not-identical code. Consistent with this codebase's general aversion to introducing abstraction ahead of a second concrete need for it.
 
@@ -123,8 +123,8 @@ Each VO stays self-contained (its own `GetValidationError`/`Normalize`/regex) ra
 
 | Before | After |
 |---|---|
-| `Product.Create(..., ProductVariationSpec initialVariation)` + caller-side default-index splitting | `Product.Create(..., IEnumerable<ProductVariationCreateModel> variations)` — Domain resolves the Default internally |
-| `ProductVariationSpec` record passed to `ProductVariation.Create`/`Product.AddVariation` | Flat parameters on both |
+| `Product.Create(..., VariantSpec initialVariation)` + caller-side default-index splitting | `Product.Create(..., IEnumerable<VariantCreateModel> variations)` — Domain resolves the Default internally |
+| `VariantSpec` record passed to `Variant.Create`/`Product.AddVariation` | Flat parameters on both |
 | `private readonly List<T> _x = []; IReadOnlyCollection<T> X => _x.AsReadOnly();` | `ICollection<T> X { get; private set; } = [];` |
 | `Product.CategoryIds`/`TagIds` as `HashSet<Guid>`, persisted as a `jsonb` array, membership queries via raw SQL `jsonb @>` | `ProductCategoryMapping`/`ProductTagMapping` entities, `ICollection<TMapping>` navigations, plain LINQ `.Any(...)` |
 | VO `Create` only; validation logic inline, re-declared by FluentValidation | VO `Create`/`TryCreate`/`IsValid`, single shared `GetValidationError`; FluentValidation calls `IsValid` |

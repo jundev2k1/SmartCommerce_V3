@@ -1,8 +1,8 @@
-using BuildingBlock.Infrastructure.ExceptionHandling;
+using SmartEcommerce.BuildingBlock.Infrastructure.ExceptionHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace Auth.API.ExceptionHandling;
+namespace SmartEcommerce.Auth.API.ExceptionHandling;
 
 public class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger) : IExceptionHandler

@@ -1,13 +1,13 @@
 using System.Linq.Expressions;
 
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Building;
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Building;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace BuildingBlock.Persistence.Ef.Criteria;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
 
 /// <summary>
 /// The EF-specific half of the Criteria pipeline: Request -> Validation -> Definition -> (this) EF Criteria Builder.

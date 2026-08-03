@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
+using SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
-namespace Audit.API.Endpoints;
+namespace SmartEcommerce.Audit.API.Endpoints;
 
 public sealed class GetAuditLogEndpoint : ICarterModule
 {
@@ -24,7 +25,7 @@ public sealed class GetAuditLogEndpoint : ICarterModule
     {
         app.MapGet("/audit-logs/{auditLogId}", Handle)
             .WithTags("Audit")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetAuditLog")
             .WithDisplayName("Get Audit Log API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Queries.GetUserById;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
 
 /// <summary>Shared response shape for the gRPC GetUser/GetUsers RPCs - see docs/reference/grpc.md.</summary>
 public sealed record UserLookupResult(

@@ -1,8 +1,8 @@
-using BuildingBlock.Domain.Exceptions;
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Owns inventory adjustment workflow: validates inventory, applies adjustment, records transaction, documents change.

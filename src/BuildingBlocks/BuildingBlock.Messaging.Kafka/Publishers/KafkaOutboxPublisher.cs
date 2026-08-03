@@ -1,14 +1,14 @@
 using System.Diagnostics;
 using System.Text;
 
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Messaging.Kafka.Configuration;
-using BuildingBlock.Messaging.Kafka.Tracing;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Configuration;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
 
 using KafkaFlow;
 using KafkaFlow.Producers;
 
-namespace BuildingBlock.Messaging.Kafka.Publishers;
+namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Publishers;
 
 /// <summary>
 /// Kafka-based implementation of IOutboxPublisher.

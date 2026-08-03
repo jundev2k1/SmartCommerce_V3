@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Order.Application.Features.Cart.Commands.AddCartItem;
+namespace SmartEcommerce.Order.Application.Features.Cart.Commands.AddCartItem;
 
 public sealed class AddCartItemValidator : AbstractValidator<AddCartItemCommand>
 {

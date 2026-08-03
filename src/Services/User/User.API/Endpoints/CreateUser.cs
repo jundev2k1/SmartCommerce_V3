@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.Idempotency;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
-using BuildingBlock.Web.Swagger.EndpointHeader;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
 
-using User.Application.Features.Users.Commands.CreateUser;
+using SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 public sealed record CreateUserRequest(
     string Email,
@@ -57,10 +57,10 @@ public sealed class CreateUserEndpoint : ICarterModule
     {
         app.MapPost("/profiles", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .Headers([
-                new HeaderDefinition(HeaderKeys.CorrelationId, true),
-                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this user is only created once, even if the request is retried")
+                new HeaderDefinition(HeaderKeyConstant.CorrelationId, true),
+                new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this user is only created once, even if the request is retried")
             ])
             .RequireIdempotency()
             .WithName("CreateUser")

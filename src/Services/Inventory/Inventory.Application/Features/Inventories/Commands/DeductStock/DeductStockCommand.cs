@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Inventories.Commands.DeductStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 /// <summary>
 /// DeductionId is the idempotency key for this whole batch (Order Service passes its OrderId).
@@ -9,9 +9,9 @@ public sealed record DeductStockCommand(
     IReadOnlyCollection<DeductStockItem> Items,
     string? Reason = null) : ICommand<DeductStockResult>;
 
-public sealed record DeductStockItem(Guid ProductVariationId, int Quantity);
+public sealed record DeductStockItem(Guid VariantId, int Quantity);
 
-public sealed record InsufficientStockItem(Guid ProductVariationId, int RequestedQuantity, int AvailableQuantity);
+public sealed record InsufficientStockItem(Guid VariantId, int RequestedQuantity, int AvailableQuantity);
 
 public sealed record DeductStockResult(
     bool Success,

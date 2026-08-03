@@ -1,4 +1,4 @@
-namespace Auth.Application.Abstractions.Auth;
+namespace SmartEcommerce.Auth.Application.Abstractions.Auth;
 
 public interface IAuthService
 {

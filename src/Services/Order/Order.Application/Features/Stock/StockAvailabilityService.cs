@@ -1,6 +1,6 @@
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Stock;
+namespace SmartEcommerce.Order.Application.Features.Stock;
 
 public sealed class StockAvailabilityService(IInventoryClientService inventoryClient) : IStockAvailabilityService
 {

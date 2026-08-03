@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
 
 public sealed record UpdateProductCategoryCommand(
     Guid ProductCategoryId,

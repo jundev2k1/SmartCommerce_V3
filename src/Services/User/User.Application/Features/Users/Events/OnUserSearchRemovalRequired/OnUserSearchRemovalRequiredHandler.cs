@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-using User.Application.Abstractions.Search;
+using SmartEcommerce.User.Application.Abstractions.Search;
 
-namespace User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
+namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
 
 public sealed class OnUserSearchRemovalRequiredHandler(IUserSearchIndexer searchIndexer)
     : IInternalEventHandler<OnUserSearchRemovalRequiredEvent>

@@ -1,4 +1,4 @@
-using BuildingBlock.Persistence.Mongo.MongoContext;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +9,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 
-namespace BuildingBlock.Persistence.Mongo.DependencyInjection;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

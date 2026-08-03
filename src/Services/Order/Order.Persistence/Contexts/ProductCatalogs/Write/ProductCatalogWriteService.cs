@@ -1,12 +1,12 @@
-using BuildingBlock.Domain.ValueObjects;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-using Order.Application.Abstractions.Persistence.ProductCatalogs;
-using Order.Domain.Enums;
-using Order.Domain.ValueObjects;
-using Order.Persistence.Contexts.ProductCatalogs.Repositories;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using SmartEcommerce.Order.Domain.Enums;
+using SmartEcommerce.Order.Domain.ValueObjects;
+using SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Repositories;
 
-namespace Order.Persistence.Contexts.ProductCatalogs.Write;
+namespace SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Write;
 
 /// <summary>
 /// Never calls IUnitOfWork itself - every one of this catalog's 5 event handlers owns a bare

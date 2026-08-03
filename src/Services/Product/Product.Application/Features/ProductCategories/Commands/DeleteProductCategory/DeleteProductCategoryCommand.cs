@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
 
 public sealed record DeleteProductCategoryCommand(Guid ProductCategoryId) : ICommand<DeleteProductCategoryResponse>;
 

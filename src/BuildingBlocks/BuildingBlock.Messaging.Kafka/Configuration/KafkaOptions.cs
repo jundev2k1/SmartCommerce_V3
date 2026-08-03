@@ -1,4 +1,4 @@
-namespace BuildingBlock.Messaging.Kafka.Configuration;
+namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Configuration;
 
 /// <summary>
 /// Configuration options for Kafka producer and consumer.

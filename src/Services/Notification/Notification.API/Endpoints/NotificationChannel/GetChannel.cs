@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
+using SmartEcommerce.Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
 
-namespace Notification.API.Endpoints.NotificationChannel;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
 
 public sealed class GetChannel : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class GetChannel : ICarterModule
     {
         app.MapGet("/notification-channels/{channelId}", GetAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationChannel")
             .WithDisplayName("Get Notification Channel API")
             .Produces<ApiResponse<GetNotificationChannelResponse>>(StatusCodes.Status200OK);

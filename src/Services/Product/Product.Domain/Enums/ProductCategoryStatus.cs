@@ -1,6 +1,6 @@
-namespace Product.Domain.Enums;
+namespace SmartEcommerce.Product.Domain.Enums;
 
-public enum ProductCategoryStatus : short
+public enum ProductCategoryStatus : byte
 {
     Active = 1,
     Inactive = 2,

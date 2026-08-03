@@ -61,7 +61,7 @@ sequenceDiagram
 
 - **Idempotency** — if the request carries an `IdempotencyKey`, `(CustomerId, IdempotencyKey)` is looked up first (unique partial index on `orders`); a match short-circuits and returns the existing order instead of creating a duplicate. Guards against double-submit (double-click, client retry after a timed-out-but-actually-succeeded response).
 - **Item validation** — `CreateOrderValidator` (FluentValidation) rejects empty/duplicate/oversized item lists and out-of-range quantities before the handler runs at all (max 50 items/order, 1-100 qty/item, no duplicate ProductId per order).
-- **Product validation** — every requested `ProductId` (semantically a `ProductVariationId` — see the naming note in [services/order-service.md](../services/order-service.md)) is resolved against the locally-synced `OrderProductCatalog`, never trusted from the request. Missing → 404. Present but `Status != "Active"` (`OrderProductCatalog.IsOrderable`) → rejected immediately (`InvalidStateException`, 400). Name/price are always taken from the catalog snapshot.
+- **Product validation** — every requested `ProductId` (semantically a `VariantId` — see the naming note in [services/order-service.md](../services/order-service.md)) is resolved against the locally-synced `OrderProductCatalog`, never trusted from the request. Missing → 404. Present but `Status != "Active"` (`OrderProductCatalog.IsOrderable`) → rejected immediately (`InvalidStateException`, 400). Name/price are always taken from the catalog snapshot.
 - **Inventory validation** — a read-only `GetProductStock` gRPC call per item confirms `TotalQuantity >= requested`. **This never reserves anything** — it's a fast-fail UX check; the actual deduction happens later, in the saga, and is the only place that's authoritative (see "the TOCTOU gap" below).
 - If everything passes: the Order (`Pending`) + `OrderItem`s are persisted and `OrderCreatedIntegrationEvent` is enqueued to the Outbox, in the same `SaveChangesAsync` call — atomic, and the HTTP response (**202 Accepted**) returns immediately without waiting on inventory deduction or confirmation.
 
@@ -100,7 +100,7 @@ This is deliberate, not an oversight: routing customer/admin notifications throu
 
 ## Events (all in `BuildingBlock.Contract.Events.Order`)
 
-- **`OrderCreatedIntegrationEvent`** — `OrderId`, `CustomerId`, `Items` (`ProductVariationId`/`ProductName`/`Quantity`/`UnitPrice`), `TotalAmount`. Fires the saga *and* the admin-queue notification.
+- **`OrderCreatedIntegrationEvent`** — `OrderId`, `CustomerId`, `Items` (`VariantId`/`ProductName`/`Quantity`/`UnitPrice`), `TotalAmount`. Fires the saga *and* the admin-queue notification.
 - **`OrderConfirmedIntegrationEvent`** — `OrderId`, `CustomerId`, `TotalAmount`. Fires the customer "confirmed" notification.
 - **`OrderCancelledIntegrationEvent`** — `OrderId`, `CustomerId`, `Reason`. Fires the customer "cancelled" notification; used both by the saga's compensation path (`Reason: "OutOfStock"`) and by the manual `CancelOrder` command (`Reason: "CancelledByCustomer"`, or whatever the caller passes) — same event, same downstream reaction, regardless of which path cancelled the order.
 

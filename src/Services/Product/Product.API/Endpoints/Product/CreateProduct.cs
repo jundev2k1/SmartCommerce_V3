@@ -1,16 +1,16 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.Idempotency;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
-using BuildingBlock.Web.Swagger.EndpointHeader;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
 
-using Product.Application.Features.Products.Commands.CreateProduct;
-using Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.Commands.CreateProduct;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
-public sealed record CreateProductVariationRequest(
+public sealed record CreateVariantRequest(
     string Sku,
     string Name,
     decimal Price,
@@ -28,7 +28,7 @@ public sealed record CreateProductRequest(
     string Name,
     string Description,
     string Slug,
-    IReadOnlyCollection<CreateProductVariationRequest> Variations,
+    IReadOnlyCollection<CreateVariantRequest> Variations,
     IReadOnlyCollection<Guid>? CategoryIds = null,
     IReadOnlyCollection<Guid>? TagIds = null);
 
@@ -39,7 +39,7 @@ public sealed class CreateProductEndpoint : ICarterModule
         "",
         "Creates a new product together with all of its initial variations in a single request -",
         "creating a Product is aggregate initialization, so this is the one place multiple",
-        "variations may be submitted at once. After creation, use the dedicated ProductVariation",
+        "variations may be submitted at once. After creation, use the dedicated Variant",
         "APIs to add/update/remove/reorder variations.",
         "",
         "### Request Body",
@@ -60,9 +60,9 @@ public sealed class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .Headers([
-                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this product is only created once, even if the request is retried")
+                new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this product is only created once, even if the request is retried")
             ])
             .RequireIdempotency()
             .WithName("CreateProduct")
@@ -81,7 +81,7 @@ public sealed class CreateProductEndpoint : ICarterModule
             request.Name.Trim(),
             request.Description?.Trim() ?? string.Empty,
             request.Slug.Trim(),
-            [.. request.Variations.Select(v => new ProductVariationInputDto(
+            [.. request.Variations.Select(v => new VariantInputDto(
                 v.Sku.Trim(),
                 v.Name.Trim(),
                 v.Price,

@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.CQRS;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Infrastructure.DeadLetters;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters;
 
-namespace BuildingBlock.Application.DeadLetters.Commands;
+namespace SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
 
 public sealed record RetryDeadLetterCommand(Guid Id) : ICommand<RetryDeadLetterResponse>;
 

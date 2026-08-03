@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Order;
-using BuildingBlock.Saga.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Order;
+using SmartEcommerce.BuildingBlock.Saga.Abstractions;
 
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
 /// <summary>
 /// Saga Step 2 - moves the order Pending -> Confirmed and enqueues OrderConfirmedIntegrationEvent

@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Idempotency;
-using BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Infrastructure.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 
 /// <summary>
 /// Enforces idempotency for endpoints marked with <see cref="IdempotencyMetadata"/> (via

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Product.Application.Features.Products.Commands.AddVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.AddVariation;
 
 public sealed class AddVariationValidator : AbstractValidator<AddVariationCommand>
 {
@@ -13,20 +13,20 @@ public sealed class AddVariationValidator : AbstractValidator<AddVariationComman
             .WithMessage("Sku must be 1-50 characters and contain only letters, digits, and hyphens");
 
         RuleFor(x => x.VariationInput.Name)
-            .Must(ProductVariation.IsValidName)
+            .Must(ProductVariant.IsValidName)
             .WithMessage("Variation name is required")
             .MaximumLength(200).WithMessage("Variation name must not exceed 200 characters");
 
         RuleFor(x => x.VariationInput.Price)
-            .Must(ProductVariation.IsValidPrice)
+            .Must(ProductVariant.IsValidPrice)
             .WithMessage("Price cannot be negative");
 
         RuleFor(x => x.VariationInput.Cost)
-            .Must(ProductVariation.IsValidCost)
+            .Must(ProductVariant.IsValidCost)
             .WithMessage("Cost cannot be negative");
 
         RuleFor(x => x.VariationInput.Weight)
-            .Must(ProductVariation.IsValidWeight)
+            .Must(ProductVariant.IsValidWeight)
             .WithMessage("Weight must be greater than zero when specified");
 
         RuleFor(x => x.VariationInput.Barcode)

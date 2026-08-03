@@ -1,8 +1,8 @@
-namespace BuildingBlock.Application.Abstractions.Outbox;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Read-only projection of an outbox row, translated from the primitive
-/// BuildingBlock.Persistence.Outbox.OutboxMessageSnapshot by the per-service adapter.
+/// SmartEcommerce.BuildingBlock.Persistence.Outbox.OutboxMessageSnapshot by the per-service adapter.
 /// </summary>
 public sealed record OutboxMessageSnapshot(
     Guid Id,

@@ -1,8 +1,8 @@
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using Inventory.Application.Abstractions.Services;
-using Inventory.Application.Features.Inventories.DTOs;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Records inventory transactions alongside stock changes.
@@ -29,7 +29,7 @@ public sealed class InventoryTransactionService(
         var dto = new CreateInventoryTransactionDto(
             InventoryId: inventoryId,
             ProductId: productId,
-            ProductVariantId: productVariantId,
+            VariantId: productVariantId,
             WarehouseId: warehouseId,
             Type: type,
             Quantity: quantity,
@@ -47,7 +47,7 @@ public sealed class InventoryTransactionService(
         IReadOnlyList<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,

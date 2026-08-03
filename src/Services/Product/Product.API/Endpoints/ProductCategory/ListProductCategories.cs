@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.ProductCategories.Queries.ListProductCategories;
+using SmartEcommerce.Product.Application.Features.ProductCategories.Queries.ListProductCategories;
 
-namespace Product.API.Endpoints.ProductCategory;
+namespace SmartEcommerce.Product.API.Endpoints.ProductCategory;
 
 public sealed class ListProductCategoriesEndpoint : ICarterModule
 {
@@ -19,7 +20,7 @@ public sealed class ListProductCategoriesEndpoint : ICarterModule
     {
         app.MapGet("/categories", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("ListProductCategories")
             .WithDisplayName("List Product Categories API")
             .WithDescription(API_DESC.JoinToString("\n"))

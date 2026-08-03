@@ -1,7 +1,7 @@
-using Inventory.Application.Abstractions.Persistence.InventoryCounts;
-using Inventory.Persistence.Contexts.InventoryCounts.Repositories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryCounts;
+using SmartEcommerce.Inventory.Persistence.Contexts.InventoryCounts.Repositories;
 
-namespace Inventory.Persistence.Contexts.InventoryCounts.Write;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryCounts.Write;
 
 /// <summary>
 /// Never calls IUnitOfWork itself - always invoked from within a caller-owned

@@ -1,13 +1,13 @@
 using NSubstitute;
 
-using Order.Application.Abstractions.Persistence.Orders;
-using Order.Application.Abstractions.Services;
-using Order.Application.Features.Orders.Commands.DeleteOrder;
-using Order.Domain.Entities;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.DeleteOrder;
+using SmartEcommerce.Order.Domain.Entities;
 
 using Shouldly;
 
-namespace Order.Application.Tests;
+namespace SmartEcommerce.Order.Application.Tests;
 
 /// <summary>
 /// Regression coverage for B2's narrower variant: a Pending order can already have had stock

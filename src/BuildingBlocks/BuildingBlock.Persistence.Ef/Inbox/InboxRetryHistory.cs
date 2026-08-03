@@ -1,6 +1,6 @@
-using BuildingBlock.Persistence.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
-namespace BuildingBlock.Persistence.Ef.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Append-only record of one manually-triggered retry attempt against a dead-lettered

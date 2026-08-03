@@ -1,9 +1,9 @@
-using Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace Auth.Infrastructure.Caching;
+namespace SmartEcommerce.Auth.Infrastructure.Caching;
 
 public sealed class RefreshTokenCacheService(ICacheService cacheService)
 {
@@ -17,7 +17,7 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
             return;
 
         var now = DateTime.UtcNow;
-        var tokenKey = CacheKeys.RefreshTokens.ByTokenString(token.Token);
+        var tokenKey = CacheKeyConstant.RefreshTokens.ByTokenString(token.Token);
         var cacheEntry = new CachedRefreshToken
         {
             Id = token.Id,
@@ -31,7 +31,7 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
 
         await cacheService.SetAsync(tokenKey, cacheEntry, expiration, ct);
 
-        var userKey = CacheKeys.RefreshTokens.UserTokens(token.AccountId);
+        var userKey = CacheKeyConstant.RefreshTokens.UserTokens(token.AccountId);
         await cacheService.HashSetAsync(userKey, token.Token, new UserRefreshTokenIndex
         {
             SyncStatus = status,
@@ -39,11 +39,11 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
             ExpiryDate = token.ExpiryDate
         }, ct);
 
-        await cacheService.SetAddAsync(CacheKeys.RefreshTokens.ActiveUsers, token.AccountId.ToString(), ct);
+        await cacheService.SetAddAsync(CacheKeyConstant.RefreshTokens.ActiveUsers, token.AccountId.ToString(), ct);
     }
 
     public Task<CachedRefreshToken?> GetByTokenStringAsync(string token, CancellationToken ct = default)
-        => cacheService.GetAsync<CachedRefreshToken>(CacheKeys.RefreshTokens.ByTokenString(token), ct);
+        => cacheService.GetAsync<CachedRefreshToken>(CacheKeyConstant.RefreshTokens.ByTokenString(token), ct);
 
     public async Task RevokeByTokenStringAsync(string token, CancellationToken ct = default)
     {
@@ -88,7 +88,7 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
     /// <summary>All user IDs that currently own at least one active refresh token (SMEMBERS, single round trip).</summary>
     public async Task<IReadOnlyList<Guid>> GetActiveUserIdsAsync(CancellationToken ct = default)
     {
-        var members = await cacheService.SetMembersAsync(CacheKeys.RefreshTokens.ActiveUsers, ct);
+        var members = await cacheService.SetMembersAsync(CacheKeyConstant.RefreshTokens.ActiveUsers, ct);
         var userIds = new List<Guid>(members.Count);
         foreach (var member in members)
         {
@@ -100,7 +100,7 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
 
     /// <summary>Lightweight per-user token index (HGETALL, single round trip).</summary>
     public Task<IDictionary<string, UserRefreshTokenIndex?>> GetUserTokenIndexAsync(Guid userId, CancellationToken ct = default)
-        => cacheService.HashGetAllAsync<UserRefreshTokenIndex>(CacheKeys.RefreshTokens.UserTokens(userId), ct);
+        => cacheService.HashGetAllAsync<UserRefreshTokenIndex>(CacheKeyConstant.RefreshTokens.UserTokens(userId), ct);
 
     /// <summary>Bulk fetch of full cached token payloads via MGET (single round trip per batch).</summary>
     public async Task<IDictionary<string, CachedRefreshToken?>> GetManyByTokenStringAsync(
@@ -112,11 +112,11 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
             return new Dictionary<string, CachedRefreshToken?>();
 
         var keyed = await cacheService.GetManyAsync<CachedRefreshToken>(
-            tokensList.Select(CacheKeys.RefreshTokens.ByTokenString), ct);
+            tokensList.Select(CacheKeyConstant.RefreshTokens.ByTokenString), ct);
 
         var result = new Dictionary<string, CachedRefreshToken?>(tokensList.Count);
         foreach (var token in tokensList)
-            result[token] = keyed.TryGetValue(CacheKeys.RefreshTokens.ByTokenString(token), out var v) ? v : null;
+            result[token] = keyed.TryGetValue(CacheKeyConstant.RefreshTokens.ByTokenString(token), out var v) ? v : null;
 
         return result;
     }
@@ -131,20 +131,20 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
     /// <summary>Hard-removes a token from cache: the full entry and its user-index field. Idempotent.</summary>
     public async Task RemoveAsync(Guid userId, string token, CancellationToken ct = default)
     {
-        await cacheService.RemoveAsync(CacheKeys.RefreshTokens.ByTokenString(token), ct);
-        await cacheService.HashDeleteAsync(CacheKeys.RefreshTokens.UserTokens(userId), token, ct);
+        await cacheService.RemoveAsync(CacheKeyConstant.RefreshTokens.ByTokenString(token), ct);
+        await cacheService.HashDeleteAsync(CacheKeyConstant.RefreshTokens.UserTokens(userId), token, ct);
     }
 
     /// <summary>Drops a user from the active-users set once they own no more tokens.</summary>
     public Task RemoveActiveUserAsync(Guid userId, CancellationToken ct = default)
-        => cacheService.SetRemoveAsync(CacheKeys.RefreshTokens.ActiveUsers, userId.ToString(), ct);
+        => cacheService.SetRemoveAsync(CacheKeyConstant.RefreshTokens.ActiveUsers, userId.ToString(), ct);
 
     /// <summary>
     /// Live HLEN check (not derived from a snapshot) - used right before dropping a user from
     /// active_users so a token added mid-sync-run isn't lost by acting on stale counts.
     /// </summary>
     public Task<long> GetUserTokenCountAsync(Guid userId, CancellationToken ct = default)
-        => cacheService.HashLengthAsync(CacheKeys.RefreshTokens.UserTokens(userId), ct);
+        => cacheService.HashLengthAsync(CacheKeyConstant.RefreshTokens.UserTokens(userId), ct);
 
     private async Task WriteBackAsync(string token, CachedRefreshToken cached, CancellationToken ct)
     {
@@ -155,8 +155,8 @@ public sealed class RefreshTokenCacheService(ICacheService cacheService)
             return;
         }
 
-        await cacheService.SetAsync(CacheKeys.RefreshTokens.ByTokenString(token), cached, expiration, ct);
-        await cacheService.HashSetAsync(CacheKeys.RefreshTokens.UserTokens(cached.UserId), token, new UserRefreshTokenIndex
+        await cacheService.SetAsync(CacheKeyConstant.RefreshTokens.ByTokenString(token), cached, expiration, ct);
+        await cacheService.HashSetAsync(CacheKeyConstant.RefreshTokens.UserTokens(cached.UserId), token, new UserRefreshTokenIndex
         {
             SyncStatus = cached.SyncStatus,
             CachedAt = cached.CachedAt,

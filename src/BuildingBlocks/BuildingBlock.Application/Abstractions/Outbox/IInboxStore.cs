@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Outbox;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Outcome of <see cref="IInboxStore.BeginAttemptAsync"/> - tells the caller whether it should
@@ -101,7 +101,7 @@ public interface IInboxStore
 
     /// <summary>
     /// Atomically flips a row from DeadLetter back to Retrying and records a new retry-history
-    /// entry. See BuildingBlock.Persistence.Inbox.IInboxStore.RequeueDeadLetterAsync for the
+    /// entry. See SmartEcommerce.BuildingBlock.Persistence.Inbox.IInboxStore.RequeueDeadLetterAsync for the
     /// concurrency-safety rationale.
     /// </summary>
     Task<InboxRequeueResult> RequeueDeadLetterAsync(Guid inboxMessageId, string? operatorId, CancellationToken ct = default);

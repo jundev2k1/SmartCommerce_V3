@@ -1,7 +1,7 @@
 using System.Text.Json;
 
-using BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
 
-namespace BuildingBlock.Criteria.Requests;
+namespace SmartEcommerce.BuildingBlock.Criteria.Requests;
 
 public sealed record CriteriaFilter(string Field, CriteriaOperator Operator, JsonElement? Value);

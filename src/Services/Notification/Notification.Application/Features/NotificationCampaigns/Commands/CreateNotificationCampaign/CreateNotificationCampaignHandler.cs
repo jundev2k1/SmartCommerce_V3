@@ -1,6 +1,6 @@
-using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
-namespace Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
+namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
 
 public sealed class CreateNotificationCampaignHandler(
     INotificationCampaignWriteService notificationCampaignWriteService) : ICommandHandler<CreateNotificationCampaignCommand, CreateNotificationCampaignResponse>

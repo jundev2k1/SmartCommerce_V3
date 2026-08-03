@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Persistence.NotificationGroups;
+namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
 
 public interface INotificationGroupReadService
 {

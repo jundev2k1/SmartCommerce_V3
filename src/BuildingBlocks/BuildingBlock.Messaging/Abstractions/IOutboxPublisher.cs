@@ -1,4 +1,4 @@
-namespace BuildingBlock.Messaging.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
 /// <summary>
 /// Publishes outbox messages to the message broker with outbox-specific headers

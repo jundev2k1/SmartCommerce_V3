@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Features.Products.DTOs;
-using Product.Application.Features.Products.Mapping;
-using Product.Persistence.Contexts.Products.Repositories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.Mapping;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
 
-namespace Product.Persistence.Contexts.Products.Write;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Write;
 
 public sealed class ProductWriteService(
     IRepository<ProductEntity, Guid> repo,
@@ -50,9 +50,9 @@ public sealed class ProductWriteService(
         await uow.SaveChangesAsync(ct);
     }
 
-    public async Task<ProductVariation> AddVariationAsync(
+    public async Task<ProductVariant> AddVariationAsync(
         Guid productId,
-        ProductVariationInputDto variation,
+        VariantInputDto variation,
         CancellationToken ct = default)
     {
         var displayOrder = await productRepo.GetNextVariationDisplayOrderAsync(productId, ct);
@@ -63,9 +63,9 @@ public sealed class ProductWriteService(
         return entity;
     }
 
-    public async Task<ProductVariation[]> AddVariationsAsync(
+    public async Task<ProductVariant[]> AddVariationsAsync(
         Guid productId,
-        IEnumerable<ProductVariationInputDto> variations,
+        IEnumerable<VariantInputDto> variations,
         CancellationToken ct = default)
     {
         var displayOrder = await productRepo.GetNextVariationDisplayOrderAsync(productId, ct);
@@ -76,7 +76,7 @@ public sealed class ProductWriteService(
         return [.. entities];
     }
 
-    public async Task<ProductVariation> UpdateVariationInformationAsync(
+    public async Task<ProductVariant> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -86,10 +86,10 @@ public sealed class ProductWriteService(
         Weight? weight,
         Dimensions? dimensions,
         IReadOnlyCollection<string>? images,
-        ProductVariationStatus? status = null,
+        VariantStatus? status = null,
         CancellationToken ct = default)
     {
-        ProductVariation updated = null!;
+        ProductVariant updated = null!;
         await productRepo.UpdateVariationAsync(
             variationId,
             query => query.Include(q => q.Product),
@@ -103,13 +103,13 @@ public sealed class ProductWriteService(
 
                 switch (status)
                 {
-                    case ProductVariationStatus.Active:
+                    case VariantStatus.Active:
                         variation.Activate();
                         break;
-                    case ProductVariationStatus.Inactive:
+                    case VariantStatus.Inactive:
                         variation.Deactivate();
                         break;
-                    case ProductVariationStatus.Discontinued:
+                    case VariantStatus.Discontinued:
                         variation.Discontinue();
                         break;
                 }

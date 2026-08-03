@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.ProductTags.Queries.GetProductTag;
+using SmartEcommerce.Product.Application.Features.ProductTags.Queries.GetProductTag;
 
-namespace Product.API.Endpoints.ProductTag;
+namespace SmartEcommerce.Product.API.Endpoints.ProductTag;
 
 public sealed class GetProductTagEndpoint : ICarterModule
 {
@@ -24,7 +25,7 @@ public sealed class GetProductTagEndpoint : ICarterModule
     {
         app.MapGet("/tags/{tagId}", Handle)
             .WithTags("ProductTag")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetProductTag")
             .WithDisplayName("Get Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using User.Persistence.Engine;
+using SmartEcommerce.User.Persistence.Engine;
 
 #nullable disable
 
-namespace User.Persistence.Storage.Migrations
+namespace SmartEcommerce.User.Persistence.Storage.Migrations
 {
     [DbContext(typeof(UserDbContext))]
     [Migration("20260710114308_InitialCreate")]
@@ -25,7 +25,7 @@ namespace User.Persistence.Storage.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("User.Domain.Entities.UserProfile", b =>
+            modelBuilder.Entity("SmartEcommerce.User.Domain.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

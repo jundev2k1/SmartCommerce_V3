@@ -1,6 +1,6 @@
-using Order.Domain.Metadata;
+using SmartEcommerce.Order.Domain.Metadata;
 
-namespace Order.Domain.Entities.Orders;
+namespace SmartEcommerce.Order.Domain.Entities.Orders;
 
 public sealed class OrderDiscount : BaseEntity<long>, IAuditable
 {

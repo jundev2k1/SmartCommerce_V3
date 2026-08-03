@@ -1,4 +1,4 @@
-using BuildingBlock.Application;
+using SmartEcommerce.BuildingBlock.Application;
 using FluentValidation;
 
 using Mapster;
@@ -7,12 +7,12 @@ using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using User.Application.Abstractions.Services;
-using User.Application.Features.Users.Caching;
-using User.Application.Features.Users.Search;
-using User.Application.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Features.Users.Caching;
+using SmartEcommerce.User.Application.Features.Users.Search;
+using SmartEcommerce.User.Application.Services;
 
-namespace User.Application;
+namespace SmartEcommerce.User.Application;
 
 public static class DependencyInjection
 {

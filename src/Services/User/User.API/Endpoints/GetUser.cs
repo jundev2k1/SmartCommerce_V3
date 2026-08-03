@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using User.Application.Features.Users.Queries.GetUser;
+using SmartEcommerce.User.Application.Features.Users.Queries.GetUser;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 public sealed class GetUserEndpoint : ICarterModule
 {
@@ -37,7 +38,7 @@ public sealed class GetUserEndpoint : ICarterModule
     {
         app.MapGet("/profiles/{userId}", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetUser")
             .WithDisplayName("Get User API")
             .WithDescription(API_DESC.JoinToString("\n"))

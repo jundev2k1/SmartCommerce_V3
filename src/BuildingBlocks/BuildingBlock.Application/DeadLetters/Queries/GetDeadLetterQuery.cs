@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.CQRS;
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace BuildingBlock.Infrastructure.DeadLetters.Queries;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
 
 public sealed record GetDeadLetterQuery(Guid Id) : IQuery<DeadLetterDetailResponse>;
 

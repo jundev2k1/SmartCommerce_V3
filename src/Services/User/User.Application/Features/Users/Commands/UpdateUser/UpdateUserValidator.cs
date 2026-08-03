@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using User.Application.Common.Regex;
+using SmartEcommerce.User.Application.Common.Regex;
 
-namespace User.Application.Features.Users.Commands.UpdateUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {

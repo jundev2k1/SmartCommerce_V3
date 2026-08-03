@@ -1,14 +1,14 @@
-namespace BuildingBlock.Web;
+namespace SmartEcommerce.BuildingBlock.Web;
 
 /// <summary>
-/// Shared settings consumed by the individual BuildingBlock.Web Add*/Use* extensions.
+/// Shared settings consumed by the individual SmartEcommerce.BuildingBlock.Web Add*/Use* extensions.
 /// Each service composes only the extensions it needs and passes the slice of this
 /// options object that extension requires — there is no single "call everything" method,
 /// since not every future service will need every piece (Swagger/Carter/JWT/etc.).
 /// </summary>
 public sealed class BuildingBlockWebOptions
 {
-    // ---- Swagger (BuildingBlock.Web.Swagger) ----
+    // ---- Swagger (SmartEcommerce.BuildingBlock.Web.Swagger) ----
     public required string ServiceTitle { get; init; }
     public required string ServiceDescription { get; init; }
     public required string SwaggerRoutePrefix { get; init; }
@@ -20,7 +20,7 @@ public sealed class BuildingBlockWebOptions
     public required string SwaggerUiTitle { get; init; }
     public bool IncludeJwtBearerSwaggerAuth { get; init; }
 
-    // ---- CORS (BuildingBlock.Web.Cors) ----
+    // ---- CORS (SmartEcommerce.BuildingBlock.Web.Cors) ----
 
     /// <summary>
     /// CORS policy name registered via AddCors.

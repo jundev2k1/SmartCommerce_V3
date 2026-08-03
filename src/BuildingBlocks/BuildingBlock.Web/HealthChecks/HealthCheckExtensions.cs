@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Web.HealthChecks;
+namespace SmartEcommerce.BuildingBlock.Web.HealthChecks;
 
 public static class HealthCheckExtensions
 {

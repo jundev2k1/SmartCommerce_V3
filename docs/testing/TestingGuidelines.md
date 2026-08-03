@@ -41,7 +41,7 @@ Reach for a `TestDataBuilder<T>` subclass (see `SimpleShop.TestKit.Builders`) wh
 public sealed class ProductBuilder : TestDataBuilder<Product>
 {
     private string _name = "Test Product";
-    private readonly List<ProductVariationCreateModel> _variations = [DefaultVariation()];
+    private readonly List<VariantCreateModel> _variations = [DefaultVariation()];
 
     public ProductBuilder WithName(string name) { _name = name; return this; }
 

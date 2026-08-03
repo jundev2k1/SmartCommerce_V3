@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
-namespace Product.Application.Features.Products.Commands.AssignProductCategory;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.AssignProductCategory;
 
 public sealed class AssignProductCategoryHandler(
     IProductWriteService productWriteService,

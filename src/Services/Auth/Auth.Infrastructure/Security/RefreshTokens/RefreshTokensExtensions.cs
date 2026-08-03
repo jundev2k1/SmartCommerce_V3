@@ -1,9 +1,9 @@
-using Auth.Application.Abstractions.Services;
-using Auth.Infrastructure.Caching;
-using Auth.Infrastructure.Security.RefreshTokens.Initialization;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Infrastructure.Caching;
+using SmartEcommerce.Auth.Infrastructure.Security.RefreshTokens.Initialization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Infrastructure.Security.RefreshTokens;
+namespace SmartEcommerce.Auth.Infrastructure.Security.RefreshTokens;
 
 public static class RefreshTokensExtensions
 {

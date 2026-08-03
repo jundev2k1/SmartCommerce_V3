@@ -1,10 +1,10 @@
-using BuildingBlock.Criteria.Validation;
+using SmartEcommerce.BuildingBlock.Criteria.Validation;
 
 using FluentValidation;
 
-using User.Application.Features.Users.Search;
+using SmartEcommerce.User.Application.Features.Users.Search;
 
-namespace User.Application.Features.Users.Queries.SearchUsers;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.SearchUsers;
 
 public sealed class SearchUsersValidator : AbstractValidator<SearchUsersQuery>
 {

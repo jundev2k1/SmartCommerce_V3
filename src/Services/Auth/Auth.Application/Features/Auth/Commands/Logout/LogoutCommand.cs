@@ -1,3 +1,3 @@
-namespace Auth.Application.Features.Auth.Commands.Logout;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Logout;
 
 public record LogoutCommand : ICommand;

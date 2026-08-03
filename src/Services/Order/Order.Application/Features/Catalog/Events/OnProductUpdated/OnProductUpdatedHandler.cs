@@ -1,6 +1,6 @@
-using Order.Application.Abstractions.Persistence.ProductCatalogs;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
-namespace Order.Application.Features.Catalog.Events.OnProductUpdated;
+namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnProductUpdated;
 
 /// <summary>A Product's Name is shared across every one of its variations, so this refreshes every ProductCatalog row for the product, not just one.</summary>
 public sealed class OnProductUpdatedHandler(

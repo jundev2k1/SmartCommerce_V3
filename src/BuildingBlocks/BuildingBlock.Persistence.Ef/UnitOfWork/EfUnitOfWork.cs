@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 using Npgsql;
 
-namespace BuildingBlock.Persistence.Ef.UnitOfWork;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.UnitOfWork;
 
 public abstract class EfUnitOfWork<TDbContext>(TDbContext context) : IAsyncDisposable
     where TDbContext : Microsoft.EntityFrameworkCore.DbContext

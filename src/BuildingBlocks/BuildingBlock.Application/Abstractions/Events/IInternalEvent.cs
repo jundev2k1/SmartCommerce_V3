@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace BuildingBlock.Application.Abstractions.Events;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
 /// <summary>
 /// Represents an internal application event handled synchronously via MediatR.

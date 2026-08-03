@@ -1,8 +1,8 @@
-using BuildingBlock.Persistence.Mongo.Inbox;
-using BuildingBlock.Persistence.Mongo.MongoContext;
-using BuildingBlock.Persistence.Mongo.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
 
-namespace Audit.Persistence.Engine;
+namespace SmartEcommerce.Audit.Persistence.Engine;
 
 public sealed class AuditMongoContext : MongoContextBase, IOutboxMongoContext, IInboxMongoContext
 {

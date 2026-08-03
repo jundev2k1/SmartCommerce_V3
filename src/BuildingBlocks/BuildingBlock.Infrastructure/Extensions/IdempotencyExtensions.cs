@@ -1,5 +1,5 @@
-using BuildingBlock.Application.Abstractions.Idempotency;
-using BuildingBlock.Infrastructure.Idempotency;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
+using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using StackExchange.Redis;
 
-namespace BuildingBlock.Infrastructure.Extensions;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
 
 /// <summary>
 /// DI/pipeline registration for the shared Idempotency + Distributed Lock framework. Requires

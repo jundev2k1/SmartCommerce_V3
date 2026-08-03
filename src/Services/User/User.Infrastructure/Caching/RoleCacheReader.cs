@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Infrastructure.Caching;
+namespace SmartEcommerce.User.Infrastructure.Caching;
 
 /// <summary>
 /// Reads roles from the shared Redis cache under the same key Auth's
@@ -18,7 +18,7 @@ public sealed class RoleCacheReader(
 {
     public async Task<IReadOnlyList<string>> GetUserRolesAsync(Guid userId, CancellationToken ct = default)
     {
-        var key = CacheKeys.Roles.UserRoles(userId);
+        var key = CacheKeyConstant.Roles.UserRoles(userId);
         var cached = await cacheService.GetAsync<List<string>>(key, ct);
 
         if (cached is null)

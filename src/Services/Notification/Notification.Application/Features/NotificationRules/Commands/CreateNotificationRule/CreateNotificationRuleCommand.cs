@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
+namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
 
 public sealed record CreateNotificationRuleCommand(
     string Name,

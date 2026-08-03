@@ -1,6 +1,6 @@
-using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
+using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace BuildingBlock.Application.Exceptions;
+namespace SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 public sealed class ValidationException(
     List<ValidationError> validationErrors,

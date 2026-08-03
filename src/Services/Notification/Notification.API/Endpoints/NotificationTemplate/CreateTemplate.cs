@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
+using SmartEcommerce.Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
 
-namespace Notification.API.Endpoints.NotificationTemplate;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationTemplate;
 
 public sealed class CreateTemplate : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class CreateTemplate : ICarterModule
     {
         app.MapPost("/notification-templates", CreateAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateNotificationTemplate")
             .WithDisplayName("Create Notification Template API")
             .WithDescription("Creates a reusable, channel-scoped template selected by rules/campaigns.")

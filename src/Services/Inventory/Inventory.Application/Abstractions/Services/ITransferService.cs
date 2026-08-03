@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-namespace Inventory.Application.Abstractions.Services;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Services;
 
 /// <summary>
 /// Warehouse transfer workflow: atomic two-way transfer.
@@ -16,7 +16,7 @@ public interface ITransferService : IService
         CancellationToken ct = default);
 
     public sealed record TransferItem(
-        Guid ProductVariantId,
+        Guid VariantId,
         int Quantity);
 
     public sealed record TransferResult(

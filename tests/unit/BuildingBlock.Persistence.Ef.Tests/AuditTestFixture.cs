@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Persistence.Audit;
-using BuildingBlock.Persistence.Ef.Interceptors;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Interceptors;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Persistence.Ef.Tests;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
 
 internal static class AuditTestFixture
 {

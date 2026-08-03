@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.RemoveProductCategory;
+using SmartEcommerce.Product.Application.Features.Products.Commands.RemoveProductCategory;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed class RemoveProductCategoryEndpoint : ICarterModule
 {
@@ -25,7 +26,7 @@ public sealed class RemoveProductCategoryEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId}/categories/{categoryId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RemoveProductCategory")
             .WithDisplayName("Remove Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

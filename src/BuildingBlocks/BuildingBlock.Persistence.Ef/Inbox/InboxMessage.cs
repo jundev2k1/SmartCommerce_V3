@@ -1,6 +1,6 @@
-using BuildingBlock.Persistence.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
-namespace BuildingBlock.Persistence.Ef.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Dedup + retry marker: one row per (MessageId, ConsumerName) pair. Keyed per-consumer so

@@ -1,8 +1,8 @@
-using Notification.Application.Abstractions.Persistence.NotificationGroups;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
 
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Notification.Application.Features.NotificationGroups.Queries.GetNotificationGroup;
+namespace SmartEcommerce.Notification.Application.Features.NotificationGroups.Queries.GetNotificationGroup;
 
 public sealed class GetNotificationGroupHandler(INotificationGroupReadService notificationGroupReadService)
     : IQueryHandler<GetNotificationGroupQuery, GetNotificationGroupResponse>

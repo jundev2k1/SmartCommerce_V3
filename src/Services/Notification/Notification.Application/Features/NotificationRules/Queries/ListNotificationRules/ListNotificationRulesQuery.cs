@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
+namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
 
 public sealed record ListNotificationRulesQuery(
     string? EventType,

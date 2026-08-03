@@ -1,10 +1,10 @@
-namespace Order.Application.Abstractions.Services;
+namespace SmartEcommerce.Order.Application.Abstractions.Services;
 
 /// <summary>
 /// Order-side port onto Inventory Service's gRPC surface. CreateOrderHandler only calls
 /// GetAvailableStockBatchAsync (pre-check, never reserves - see docs/services/order-service.md);
 /// DeductStockAsync/RestockAsync are called by CreateOrderSaga's DeductInventoryStep
-/// (Order.Infrastructure) for the actual reservation and its compensation.
+/// (SmartEcommerce.Order.Infrastructure) for the actual reservation and its compensation.
 /// </summary>
 public interface IInventoryClientService
 {
@@ -20,9 +20,9 @@ public interface IInventoryClientService
     Task RestockAsync(Guid deductionId, string? reason, CancellationToken ct = default);
 }
 
-public sealed record InventoryDeductionItem(Guid ProductVariationId, int Quantity);
+public sealed record InventoryDeductionItem(Guid VariantId, int Quantity);
 
-public sealed record InventoryDeductionInsufficientItem(Guid ProductVariationId, int RequestedQuantity, int AvailableQuantity);
+public sealed record InventoryDeductionInsufficientItem(Guid VariantId, int RequestedQuantity, int AvailableQuantity);
 
 public sealed record InventoryDeductionResult(
     bool Success,

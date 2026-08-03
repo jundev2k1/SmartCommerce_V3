@@ -1,8 +1,8 @@
-using Notification.Application.Abstractions.Persistence.NotificationDispatches;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationDispatches;
 
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-namespace Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
+namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
 
 public sealed class GetNotificationDispatchHandler(INotificationDispatchReadService notificationDispatchReadService)
     : IQueryHandler<GetNotificationDispatchQuery, GetNotificationDispatchResponse>

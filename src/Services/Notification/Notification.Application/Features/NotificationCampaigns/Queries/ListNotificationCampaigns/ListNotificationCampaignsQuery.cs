@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Notification.Application.Features.NotificationCampaigns.Queries.ListNotificationCampaigns;
+namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.ListNotificationCampaigns;
 
 public sealed record ListNotificationCampaignsQuery(
     CampaignStatus? Status,

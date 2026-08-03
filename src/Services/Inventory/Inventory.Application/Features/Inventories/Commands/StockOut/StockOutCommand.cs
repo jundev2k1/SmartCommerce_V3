@@ -1,4 +1,4 @@
-namespace Inventory.Application.Features.Inventories.Commands.StockOut;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.StockOut;
 
 public sealed record StockOutCommand(
     Guid InventoryId,

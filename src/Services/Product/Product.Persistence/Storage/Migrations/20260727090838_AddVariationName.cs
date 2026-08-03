@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Product.Persistence.Storage.Migrations
+namespace SmartEcommerce.Product.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddVariationName : Migration

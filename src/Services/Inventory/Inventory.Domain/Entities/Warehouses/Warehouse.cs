@@ -1,6 +1,6 @@
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.Warehouses;
+namespace SmartEcommerce.Inventory.Domain.Entities.Warehouses;
 
 public sealed class Warehouse : AggregateRoot<Guid>, IAuditable
 {

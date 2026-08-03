@@ -1,6 +1,6 @@
-using Auth.Application.Features.Auth.Commands.Login;
+using SmartEcommerce.Auth.Application.Features.Auth.Commands.Login;
 
-namespace Auth.API.Endpoints;
+namespace SmartEcommerce.Auth.API.Endpoints;
 
 public record LoginRequest(string Email, string Password);
 

@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Services;
+namespace SmartEcommerce.Notification.Application.Abstractions.Services;
 
 /// <summary>
 /// Cache-aside lookup for <see cref="NotificationChannel"/> by <see cref="NotificationChannelType"/>.

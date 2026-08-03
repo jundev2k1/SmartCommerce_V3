@@ -1,23 +1,23 @@
-using BuildingBlock.Contract.Protos.Inventory;
+using SmartEcommerce.BuildingBlock.Contract.Protos.Inventory;
 
 using Grpc.Core;
 
-using Inventory.Application.Features.Inventories.Commands.RestockStock;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.RestockStock;
 
-using AppDeductStockItem = Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockItem;
-using DeductStockCommand = Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockCommand;
-using GetProductStockQuery = Inventory.Application.Features.Inventories.Queries.GetProductStock.GetProductStockQuery;
-using GetProductsStockQuery = Inventory.Application.Features.Inventories.Queries.GetProductsStock.GetProductsStockQuery;
+using AppDeductStockItem = SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockItem;
+using DeductStockCommand = SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockCommand;
+using GetProductStockQuery = SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock.GetProductStockQuery;
+using GetProductsStockQuery = SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductsStock.GetProductsStockQuery;
 
-namespace Inventory.API.GrpcServices;
+namespace SmartEcommerce.Inventory.API.GrpcServices;
 
 /// <summary>Thin adapter for Order Service (or any other gRPC caller) - parses the request, dispatches the same query/commands the REST endpoints use, no business logic here.</summary>
 public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcService.InventoryGrpcServiceBase
 {
     public override async Task<GetProductStockResponse> GetProductStock(GetProductStockRequest request, ServerCallContext context)
     {
-        Guid? productVariationId = request.HasProductVariationId && !string.IsNullOrEmpty(request.ProductVariationId)
-            ? Guid.Parse(request.ProductVariationId)
+        Guid? productVariationId = request.HasVariantId && !string.IsNullOrEmpty(request.VariantId)
+            ? Guid.Parse(request.VariantId)
             : null;
 
         var query = new GetProductStockQuery(Guid.Parse(request.ProductId), productVariationId);
@@ -26,22 +26,22 @@ public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcServ
         return new GetProductStockResponse
         {
             ProductId = result.ProductId.ToString(),
-            ProductVariationId = result.ProductVariationId?.ToString() ?? string.Empty,
+            VariantId = result.VariantId?.ToString() ?? string.Empty,
             TotalQuantity = result.TotalQuantity,
         };
     }
 
     public override async Task<GetProductsStockResponse> GetProductsStock(GetProductsStockRequest request, ServerCallContext context)
     {
-        var variationIds = request.ProductVariationIds.Select(Guid.Parse).ToArray();
+        var variationIds = request.VariantIds.Select(Guid.Parse).ToArray();
 
         var query = new GetProductsStockQuery(variationIds);
         var result = await sender.Send(query, context.CancellationToken);
 
         var response = new GetProductsStockResponse();
-        response.Items.AddRange(result.Select(r => new ProductVariationStock
+        response.Items.AddRange(result.Select(r => new VariantStock
         {
-            ProductVariationId = r.ProductVariationId.ToString(),
+            VariantId = r.VariantId.ToString(),
             TotalQuantity = r.TotalQuantity,
         }));
 
@@ -51,7 +51,7 @@ public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcServ
     public override async Task<DeductStockResponse> DeductStock(DeductStockRequest request, ServerCallContext context)
     {
         var items = request.Items
-            .Select(i => new AppDeductStockItem(Guid.Parse(i.ProductVariationId), i.Quantity))
+            .Select(i => new AppDeductStockItem(Guid.Parse(i.VariantId), i.Quantity))
             .ToList();
 
         var command = new DeductStockCommand(
@@ -67,9 +67,9 @@ public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcServ
             FailureCode = result.FailureCode ?? string.Empty,
         };
 
-        response.InsufficientItems.AddRange(result.InsufficientItems.Select(i => new BuildingBlock.Contract.Protos.Inventory.InsufficientStockItem
+        response.InsufficientItems.AddRange(result.InsufficientItems.Select(i => new SmartEcommerce.BuildingBlock.Contract.Protos.Inventory.InsufficientStockItem
         {
-            ProductVariationId = i.ProductVariationId.ToString(),
+            VariantId = i.VariantId.ToString(),
             RequestedQuantity = i.RequestedQuantity,
             AvailableQuantity = i.AvailableQuantity,
         }));

@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RootNamespace>SmartEcommerce.BuildingBlock.Web</RootNamespace>
+    <AssemblyName>SmartEcommerce.BuildingBlock.Web</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

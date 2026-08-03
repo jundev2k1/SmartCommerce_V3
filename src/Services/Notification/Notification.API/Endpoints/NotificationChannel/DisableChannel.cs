@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationChannels.Commands.DisableNotificationChannel;
+using SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.DisableNotificationChannel;
 
-namespace Notification.API.Endpoints.NotificationChannel;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
 
 public sealed class DisableChannel : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class DisableChannel : ICarterModule
     {
         app.MapPost("/notification-channels/{channelId}/disable", DisableAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("DisableNotificationChannel")
             .WithDisplayName("Disable Notification Channel API")
             .Produces<ApiResponse<object>>(StatusCodes.Status200OK);

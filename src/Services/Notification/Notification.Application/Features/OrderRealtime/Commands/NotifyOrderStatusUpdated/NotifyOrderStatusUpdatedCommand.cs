@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.OrderRealtime.Commands.NotifyOrderStatusUpdated;
+namespace SmartEcommerce.Notification.Application.Features.OrderRealtime.Commands.NotifyOrderStatusUpdated;
 
 /// <summary>
 /// Dispatched by NotificationTriggerConsumer on OrderConfirmedIntegrationEvent/

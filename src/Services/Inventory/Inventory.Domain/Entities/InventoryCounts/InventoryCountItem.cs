@@ -1,6 +1,6 @@
-using Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
 
-namespace Inventory.Domain.Entities.InventoryCounts;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
 
 public sealed class InventoryCountItem : BaseEntity<long>
 {
@@ -8,7 +8,7 @@ public sealed class InventoryCountItem : BaseEntity<long>
     public InventoryCount InventoryCount { get; private set; } = default!;
     public Guid InventoryId { get; private set; }
     public InventoryStock Inventory { get; private set; } = default!;
-    public Guid ProductVariantId { get; private set; }
+    public Guid VariantId { get; private set; }
     public Quantity ExpectedQuantity { get; private set; } = default!;
     public Quantity? ActualQuantity { get; private set; }
     public int DifferenceQuantity { get; private set; }
@@ -23,7 +23,7 @@ public sealed class InventoryCountItem : BaseEntity<long>
         {
             InventoryCountId = inventoryCountId,
             InventoryId = inventoryId,
-            ProductVariantId = productVariantId,
+            VariantId = productVariantId,
             ExpectedQuantity = Quantity.Create(expectedQuantity),
         };
     }

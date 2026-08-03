@@ -1,8 +1,8 @@
-using Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using Inventory.Application.Features.Inventories.DTOs;
-using Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
+using SmartEcommerce.Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
 
-namespace Inventory.Persistence.Contexts.InventoryTransactions.Write;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryTransactions.Write;
 
 public sealed class InventoryTransactionWriteService(
     IInventoryTransactionRepository repo) : IInventoryTransactionWriteService
@@ -13,7 +13,7 @@ public sealed class InventoryTransactionWriteService(
             inventoryId: request.InventoryId,
             warehouseId: request.WarehouseId,
             productId: request.ProductId,
-            variantId: request.ProductVariantId,
+            variantId: request.VariantId,
             type: request.Type,
             quantity: request.Quantity,
             beforeOnHandQuantity: request.QuantityAfter - request.Quantity,

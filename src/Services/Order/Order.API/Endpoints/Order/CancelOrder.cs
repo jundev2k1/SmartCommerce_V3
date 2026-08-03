@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Orders.Commands.CancelOrder;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.CancelOrder;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed class CancelOrderEndpoint : ICarterModule
 {
@@ -25,7 +26,7 @@ public sealed class CancelOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/{orderId}/cancel", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("CancelOrder")
             .WithDisplayName("Cancel Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

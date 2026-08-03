@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-namespace Inventory.Application.Abstractions.Services;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Services;
 
 /// <summary>
 /// Stock deduction workflow: validates, deducts, records, documents.
@@ -13,7 +13,7 @@ public interface IStockDeductionService : IService
         InventoryDocumentType documentType,
         InventoryDocumentReason documentReason,
         Guid sourceWarehouseId,
-        IReadOnlyList<(Guid InventoryId, Guid ProductId, Guid ProductVariantId, int Quantity)> items,
+        IReadOnlyList<(Guid InventoryId, Guid ProductId, Guid VariantId, int Quantity)> items,
         string description,
         CancellationToken ct = default);
 

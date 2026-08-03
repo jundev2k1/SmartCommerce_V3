@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Events;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Product;
-using BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
-using Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
+using SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
 
-namespace Product.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Product.Infrastructure.Messaging.Consumers;
 
 /// <summary>Product self-consumes its own integration events to keep the Search index in sync - see docs/reference/search.md.</summary>
 public sealed class ProductCreatedIntegrationEventConsumer(

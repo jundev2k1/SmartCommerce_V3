@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.DeadLetters.Queries;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Carter;
 
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BuildingBlock.Web.Endpoints.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Web.Endpoints.DeadLetters;
 
 /// <summary>
 /// Generic dead-letter management API, identical across every service that owns an Inbox table
@@ -27,7 +27,7 @@ public sealed class SearchDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/search", Search)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("SearchDeadLetters")
             .WithDisplayName("Search Dead Letters API")
             .WithDescription("Paged/filtered/sorted list of dead-lettered Inbox messages.")

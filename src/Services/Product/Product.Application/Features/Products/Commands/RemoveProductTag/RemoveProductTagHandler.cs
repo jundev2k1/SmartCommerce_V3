@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
-using Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
-namespace Product.Application.Features.Products.Commands.RemoveProductTag;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.RemoveProductTag;
 
 public sealed class RemoveProductTagHandler(
     IProductWriteService productWriteService,

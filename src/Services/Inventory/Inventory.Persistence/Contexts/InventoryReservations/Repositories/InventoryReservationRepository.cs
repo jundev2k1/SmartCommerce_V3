@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Persistence.Ef.Criteria;
-using Inventory.Application.Features.Inventories.Search;
-using Inventory.Application.Features.InventoryReservations.Search;
-using Inventory.Persistence.Engine;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Search;
+using SmartEcommerce.Inventory.Application.Features.InventoryReservations.Search;
+using SmartEcommerce.Inventory.Persistence.Engine;
 
-namespace Inventory.Persistence.Contexts.InventoryReservations.Repositories;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
 
 public sealed class InventoryReservationRepository(InventoryDbContext dbContext)
     : InventoryBaseRepository<InventoryReservation, Guid>(dbContext), IInventoryReservationRepository

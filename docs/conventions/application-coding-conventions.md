@@ -126,7 +126,7 @@ Existing hand-mapped features (all of Auth/User's current handlers, and Product/
 ## Validation
 
 - FluentValidation, one validator class per command/query, co-located in the same feature folder (unchanged from [04-coding-rules.md](../04-coding-rules.md#validation)).
-- **Reuse Domain validation.** If the field being validated has a Domain-level rule (a Value Object, or an entity's `IsValid*` method — see [conventions/domain-coding-conventions.md](domain-coding-conventions.md#5-value-object-validation-is-reusable-outside-the-constructor)), call it (`Must(Sku.IsValid)`, `Must(ProductVariation.IsValidPrice)`) instead of re-declaring the rule (a hand-rolled regex, a duplicated length check). The Domain stays the single source of truth; a validator only re-implements a rule when it's genuinely HTTP/input-shape-specific (e.g. a `MaximumLength` on a free-text field the Domain itself doesn't bound).
+- **Reuse Domain validation.** If the field being validated has a Domain-level rule (a Value Object, or an entity's `IsValid*` method — see [conventions/domain-coding-conventions.md](domain-coding-conventions.md#5-value-object-validation-is-reusable-outside-the-constructor)), call it (`Must(Sku.IsValid)`, `Must(Variant.IsValidPrice)`) instead of re-declaring the rule (a hand-rolled regex, a duplicated length check). The Domain stays the single source of truth; a validator only re-implements a rule when it's genuinely HTTP/input-shape-specific (e.g. a `MaximumLength` on a free-text field the Domain itself doesn't bound).
 - Shared validation logic that isn't tied to one command (a rule reused across several validators, not owned by Domain) lives in `Common/Validations/`, not copy-pasted into each validator.
 
 ## Constants

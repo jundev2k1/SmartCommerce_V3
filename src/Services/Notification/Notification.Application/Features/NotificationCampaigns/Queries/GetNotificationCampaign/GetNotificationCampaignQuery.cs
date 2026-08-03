@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
+namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
 
 public sealed record GetNotificationCampaignQuery(Guid CampaignId) : IQuery<GetNotificationCampaignResponse>;
 

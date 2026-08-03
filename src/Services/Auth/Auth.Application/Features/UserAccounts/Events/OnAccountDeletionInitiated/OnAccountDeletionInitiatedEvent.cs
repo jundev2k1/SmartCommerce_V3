@@ -1,4 +1,4 @@
-namespace Auth.Application.Features.UserAccounts.Events.OnAccountDeletionInitiated;
+namespace SmartEcommerce.Auth.Application.Features.UserAccounts.Events.OnAccountDeletionInitiated;
 
 public sealed record OnAccountDeletionInitiatedEvent(
     Guid AccountId) : IInternalEvent

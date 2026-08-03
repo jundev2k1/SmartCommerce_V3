@@ -1,3 +1,3 @@
-namespace Notification.Application.Features.NotificationChannels.Commands.EnableNotificationChannel;
+namespace SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.EnableNotificationChannel;
 
 public sealed record EnableNotificationChannelCommand(Guid ChannelId) : ICommand;

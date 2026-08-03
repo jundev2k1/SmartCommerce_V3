@@ -1,4 +1,4 @@
-namespace BuildingBlock.SharedKernel.Security;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Security;
 
 public sealed class JwtSettings
 {

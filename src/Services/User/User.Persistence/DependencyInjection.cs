@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Extensions;
-using BuildingBlock.Persistence.Audit;
-using BuildingBlock.Persistence.Ef.DependencyInjection;
-using BuildingBlock.Persistence.Ef.Inbox;
-using BuildingBlock.Persistence.Ef.Outbox;
-using BuildingBlock.Persistence.Repository;
-using BuildingBlock.Search.DependencyInjection;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Extensions;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Search.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,18 +16,18 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Abstractions.Search;
-using User.Persistence.Contexts.UserProfiles.Read;
-using User.Persistence.Contexts.UserProfiles.Search.Indexers;
-using User.Persistence.Contexts.UserProfiles.Search.Repositories;
-using User.Persistence.Contexts.UserProfiles.Write;
-using User.Persistence.Engine;
-using User.Persistence.Engine.UnitOfWork;
-using User.Persistence.Reliability.Inbox;
-using User.Persistence.Reliability.Outbox;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Search;
+using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Read;
+using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Indexers;
+using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Repositories;
+using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Write;
+using SmartEcommerce.User.Persistence.Engine;
+using SmartEcommerce.User.Persistence.Engine.UnitOfWork;
+using SmartEcommerce.User.Persistence.Reliability.Inbox;
+using SmartEcommerce.User.Persistence.Reliability.Outbox;
 
-namespace User.Persistence;
+namespace SmartEcommerce.User.Persistence;
 
 public static class DependencyInjection
 {
@@ -52,7 +52,7 @@ public static class DependencyInjection
         return services;
     }
 
-    // Mirrors Product.Persistence's AddProductSearchServices - a business-capability-named
+    // Mirrors SmartEcommerce.Product.Persistence's AddProductSearchServices - a business-capability-named
     // method (not AddElasticsearchPersistence) called from AddPersistence, never a separate
     // Program.cs step. See docs/reference/search.md.
     private static IServiceCollection AddUserSearchServices(this IServiceCollection services, IConfiguration configuration)

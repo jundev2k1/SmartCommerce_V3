@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Persistence.Ef.Criteria;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace BuildingBlock.Persistence.Ef.Tests;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
 
 public class CriteriaQueryableExtensionsTests
 {

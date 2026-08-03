@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductCategories.Queries.ListProductCategories;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Queries.ListProductCategories;
 
 /// <summary>
 /// Returns the full flat category set (not paginated - category counts are small reference

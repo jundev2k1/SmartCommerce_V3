@@ -1,6 +1,6 @@
 using Mapster;
 
-namespace Product.Application.Features.Products.Mapping;
+namespace SmartEcommerce.Product.Application.Features.Products.Mapping;
 
 public sealed class MapsterConfig : IRegister
 {

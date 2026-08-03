@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Common;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
 /// <summary>Cursor/lazy-load sibling of <see cref="PaginatedResult{T}"/> - no page number or total count, just the next opaque cursor to pass back in (null when there's nothing more).</summary>
 public class CursorPaginatedResult<T>

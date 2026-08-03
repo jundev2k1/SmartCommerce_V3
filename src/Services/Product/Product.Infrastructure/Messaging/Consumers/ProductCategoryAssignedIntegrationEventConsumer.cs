@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using BuildingBlock.Application.Abstractions.Events;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Product;
-using BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
 
-using Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
+using SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
 
-namespace Product.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Product.Infrastructure.Messaging.Consumers;
 
 public sealed class ProductCategoryAssignedIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,

@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Features.Products.Mapping;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Features.Products.Mapping;
 
-namespace Product.Application.Features.Products.Commands.UpdateVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
 
 public sealed class UpdateVariationHandler(
     IProductReadService productReadService,
@@ -35,13 +35,13 @@ public sealed class UpdateVariationHandler(
                 request.Name,
                 Money.Create(request.Price),
                 request.Barcode is null ? null : Barcode.Create(request.Barcode),
-                ProductVariationMapping.MapWeight(request.Weight, request.WeightUnit),
+                VariantMapping.MapWeight(request.Weight, request.WeightUnit),
                 dimensions,
                 request.Images,
                 ct: ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductVariationUpdatedIntegrationEvent(
+                new VariantUpdatedIntegrationEvent(
                     variation.ProductId,
                     variation.Id,
                     variation.Product.Name,

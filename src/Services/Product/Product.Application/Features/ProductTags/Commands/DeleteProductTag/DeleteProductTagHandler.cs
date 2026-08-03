@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace Product.Application.Features.ProductTags.Commands.DeleteProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.DeleteProductTag;
 
 public sealed class DeleteProductTagHandler(
     IProductTagReadService tagReadService,

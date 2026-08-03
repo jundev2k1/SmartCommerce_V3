@@ -1,4 +1,4 @@
-namespace BuildingBlock.Criteria.Tests;
+namespace SmartEcommerce.BuildingBlock.Criteria.Tests;
 
 public sealed class CriteriaTestEntity
 {

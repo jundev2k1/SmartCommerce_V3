@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace BuildingBlock.Persistence.Mongo.Outbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
 
 /// <summary>
 /// Marker interface for Mongo context implementations that provide access to the Outbox collection.

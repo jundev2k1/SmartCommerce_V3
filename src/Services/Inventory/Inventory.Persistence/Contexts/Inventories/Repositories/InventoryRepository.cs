@@ -1,8 +1,8 @@
-using BuildingBlock.Persistence.Ef.Criteria;
-using Inventory.Application.Features.Inventories.Search;
-using Inventory.Persistence.Engine;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Search;
+using SmartEcommerce.Inventory.Persistence.Engine;
 
-namespace Inventory.Persistence.Contexts.Inventories.Repositories;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Repositories;
 
 public sealed class InventoryRepository(InventoryDbContext dbContext)
     : InventoryBaseRepository<InventoryStock, Guid>(dbContext), IInventoryRepository

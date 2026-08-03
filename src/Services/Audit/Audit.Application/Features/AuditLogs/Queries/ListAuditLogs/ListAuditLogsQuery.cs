@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Audit.Application.Features.AuditLogs.Queries.ListAuditLogs;
+namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.ListAuditLogs;
 
 public sealed record ListAuditLogsQuery(
     string? Service,

@@ -1,14 +1,14 @@
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
-using Notification.Application.Abstractions.Persistence.NotificationChannels;
-using Notification.Application.Abstractions.Services;
-using Notification.Domain.Entities;
-using Notification.Domain.Enums;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using SmartEcommerce.Notification.Application.Abstractions.Services;
+using SmartEcommerce.Notification.Domain.Entities;
+using SmartEcommerce.Notification.Domain.Enums;
 
-namespace Notification.Infrastructure.Caching;
+namespace SmartEcommerce.Notification.Infrastructure.Caching;
 
 /// <summary>
 /// In-process (not Redis) cache-aside for NotificationChannel lookups. Deliberately not routed
@@ -25,11 +25,11 @@ public sealed class NotificationChannelCache(
 {
     private readonly TimeSpan _ttl = TimeSpan.FromMinutes(
         configuration.GetSection("Caching:EntityTtl:NotificationChannels:MinutesToExpire").Get<int?>()
-            ?? CacheKeys.NotificationChannels.DefaultTtlMinutes);
+            ?? CacheKeyConstant.NotificationChannels.DefaultTtlMinutes);
 
     public async Task<NotificationChannel?> GetByChannelTypeAsync(NotificationChannelType channelType, CancellationToken ct = default)
     {
-        var key = CacheKeys.NotificationChannels.ByType(channelType.ToString());
+        var key = CacheKeyConstant.NotificationChannels.ByType(channelType.ToString());
         if (cache.TryGetValue(key, out NotificationChannel? cached))
             return cached;
 
@@ -40,14 +40,14 @@ public sealed class NotificationChannelCache(
 
     public Task InvalidateAsync(NotificationChannelType channelType, CancellationToken ct = default)
     {
-        cache.Remove(CacheKeys.NotificationChannels.ByType(channelType.ToString()));
+        cache.Remove(CacheKeyConstant.NotificationChannels.ByType(channelType.ToString()));
         return Task.CompletedTask;
     }
 
     public Task InvalidateAllAsync(CancellationToken ct = default)
     {
         foreach (var channelType in Enum.GetValues<NotificationChannelType>())
-            cache.Remove(CacheKeys.NotificationChannels.ByType(channelType.ToString()));
+            cache.Remove(CacheKeyConstant.NotificationChannels.ByType(channelType.ToString()));
 
         return Task.CompletedTask;
     }

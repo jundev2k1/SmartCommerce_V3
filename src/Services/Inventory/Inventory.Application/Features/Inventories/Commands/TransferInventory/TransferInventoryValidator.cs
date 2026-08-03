@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Inventory.Application.Features.Inventories.Commands.TransferInventory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
 public sealed class TransferInventoryValidator : AbstractValidator<TransferInventoryCommand>
 {
@@ -39,7 +39,7 @@ public sealed class TransferInventoryItemValidator : AbstractValidator<TransferI
 {
     public TransferInventoryItemValidator()
     {
-        RuleFor(x => x.ProductVariantId)
+        RuleFor(x => x.VariantId)
             .NotEmpty()
             .WithMessage("Product variant ID is required.");
 

@@ -1,10 +1,10 @@
 #pragma warning disable CS1591
 
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Infrastructure.Logging;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Logging;
 
 public sealed class AppLogger<T>(ILogger<T> logger) : IAppLogger<T>
 {

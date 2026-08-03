@@ -1,4 +1,4 @@
-namespace User.Application.Abstractions.Services;
+namespace SmartEcommerce.User.Application.Abstractions.Services;
 
 /// <summary>
 /// Validates email existence against the Auth service via gRPC.

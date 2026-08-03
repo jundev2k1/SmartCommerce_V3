@@ -1,10 +1,10 @@
-using BuildingBlock.Contract.Events.Order;
+using SmartEcommerce.BuildingBlock.Contract.Events.Order;
 
-using Order.Application.Abstractions.Persistence.Orders;
-using Order.Application.Abstractions.Services;
-using Order.Application.Features.Orders.DTOs;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 
-namespace Order.Application.Features.Orders.Commands.CreateOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CreateOrder;
 
 public sealed class CreateOrderHandler(
     ICurrentUserService currentUser,

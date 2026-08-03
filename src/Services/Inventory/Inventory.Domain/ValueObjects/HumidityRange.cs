@@ -1,4 +1,4 @@
-namespace Inventory.Domain.ValueObjects;
+namespace SmartEcommerce.Inventory.Domain.ValueObjects;
 
 public sealed class HumidityRange : ValueObject
 {

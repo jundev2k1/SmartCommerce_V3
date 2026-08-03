@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Abstractions;
-using BuildingBlock.Domain.Exceptions;
-using BuildingBlock.SharedKernel.Extensions;
-using BuildingBlock.SharedKernel.RegexPatterns;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.SharedKernel.RegexPatterns;
 
-namespace BuildingBlock.Domain.ValueObjects;
+namespace SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
 public sealed class Email : StringValueObject
 {

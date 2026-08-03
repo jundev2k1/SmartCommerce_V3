@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
 
-namespace Inventory.Application.Features.InventoryLots.Search;
+namespace SmartEcommerce.Inventory.Application.Features.InventoryLots.Search;
 
 public static class InventoryLotCriteriaDefinition
 {

@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.Product;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
 /// <summary>Fired when a tag is assigned to a product. Consumed by Product's own Search sync (see docs/reference/search.md).</summary>
 public sealed record ProductTagAssignedIntegrationEvent(

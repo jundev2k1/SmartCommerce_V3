@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Commands.DeleteUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.DeleteUser;
 
 public sealed record DeleteUserCommand(
     Guid UserId,

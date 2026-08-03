@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
+using SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
 
-namespace Notification.API.Endpoints.NotificationTemplate;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationTemplate;
 
 public sealed class GetTemplate : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class GetTemplate : ICarterModule
     {
         app.MapGet("/notification-templates/{templateId}", GetAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationTemplate")
             .WithDisplayName("Get Notification Template API")
             .Produces<ApiResponse<GetNotificationTemplateResponse>>(StatusCodes.Status200OK);

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
+namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
 
 public sealed class UpdateProductCategoryCommandValidator : AbstractValidator<UpdateProductCategoryCommand>
 {

@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.UserNotifications.DTOs;
+namespace SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
 
 public sealed record NotificationDto(
     Guid UserId,

@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Features.Inventories.Commands.TransferInventory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
 public sealed class TransferInventoryHandler(
     ITransferService transferService,
@@ -16,7 +16,7 @@ public sealed class TransferInventoryHandler(
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var items = request.Items
-                .Select(i => new ITransferService.TransferItem(i.ProductVariantId, i.Quantity))
+                .Select(i => new ITransferService.TransferItem(i.VariantId, i.Quantity))
                 .ToList();
 
             result = await transferService.TransferAsync(

@@ -1,7 +1,7 @@
-using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Owns document lifecycle operations: creation, submission, approval, completion.

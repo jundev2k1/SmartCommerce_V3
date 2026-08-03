@@ -1,6 +1,6 @@
-using BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
-namespace Auth.Domain.Entities;
+namespace SmartEcommerce.Auth.Domain.Entities;
 
 public sealed class RefreshToken : BaseEntity<Guid>
 {

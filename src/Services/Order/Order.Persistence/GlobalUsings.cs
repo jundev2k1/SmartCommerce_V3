@@ -6,9 +6,9 @@ global using System.Threading.Tasks;
 
 global using Microsoft.EntityFrameworkCore;
 
-global using Order.Domain.Entities.Catalogs;
-global using Order.Domain.Entities.Orders;
+global using SmartEcommerce.Order.Domain.Entities.Catalogs;
+global using SmartEcommerce.Order.Domain.Entities.Orders;
 
-// "Order" collides with this project's own root namespace (Order.Persistence, Order.Domain, ...) -
+// "Order" collides with this project's own root namespace (SmartEcommerce.Order.Persistence, SmartEcommerce.Order.Domain, ...) -
 // C# resolves the bare identifier to the namespace before the imported type, so the entity needs an alias.
-global using OrderEntity = Order.Domain.Entities.Orders.Order;
+global using OrderEntity = SmartEcommerce.Order.Domain.Entities.Orders.Order;

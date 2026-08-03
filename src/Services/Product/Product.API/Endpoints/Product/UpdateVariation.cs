@@ -1,12 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.UpdateVariation;
-using Product.Domain.Enums;
+using SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
+using SmartEcommerce.Product.Domain.Enums;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed record UpdateVariationRequest(
     string Sku,
@@ -26,7 +27,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Update Variation",
         "",
-        "Updates a ProductVariation's details (Sku, Name, Barcode, Price, Cost, Weight, Dimensions,",
+        "Updates a Variant's details (Sku, Name, Barcode, Price, Cost, Weight, Dimensions,",
         "Images, Status). Never touches DisplayOrder or IsDefault - use ReorderVariations /",
         "ChangeDefaultVariation for those.",
         "",
@@ -43,7 +44,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
     {
         app.MapPut("/products/{productId}/variations/{variationId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateVariation")
             .WithDisplayName("Update Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -57,7 +58,7 @@ public sealed class UpdateVariationEndpoint : ICarterModule
         [FromServices] ISender sender,
         CancellationToken ct = default)
     {
-        if (!Enum.TryParse<ProductVariationStatus>(request.Status.Trim(), out var variationStatus))
+        if (!Enum.TryParse<VariantStatus>(request.Status.Trim(), out var variationStatus))
             throw new BadRequestException($"Variation Status ({request.Status}) is invalid.");
 
         if (request.WeightUnit != null && !Enum.TryParse<WeightUnit>(request.WeightUnit.Trim(), out var _))

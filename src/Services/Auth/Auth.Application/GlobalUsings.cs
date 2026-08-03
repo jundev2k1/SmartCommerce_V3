@@ -1,10 +1,10 @@
-global using Auth.Application.Abstractions.Persistence.Accounts;
-global using Auth.Application.Abstractions.Persistence.RefreshTokens;
-global using Auth.Domain.Entities;
+global using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
+global using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
+global using SmartEcommerce.Auth.Domain.Entities;
 
-global using BuildingBlock.Application.Abstractions.CQRS;
-global using BuildingBlock.Application.Abstractions.Events;
-global using BuildingBlock.Application.Abstractions.Persistence;
-global using BuildingBlock.Application.Abstractions.Services;
-global using BuildingBlock.Application.Exceptions;
-global using BuildingBlock.SharedKernel.Constants;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+global using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+global using SmartEcommerce.BuildingBlock.Application.Exceptions;
+global using SmartEcommerce.BuildingBlock.SharedKernel.Constants;

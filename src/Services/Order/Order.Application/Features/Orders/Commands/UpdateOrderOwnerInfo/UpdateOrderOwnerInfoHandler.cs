@@ -1,6 +1,6 @@
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 public sealed class UpdateOrderOwnerInfoHandler(
     ICurrentUserService currentUser,

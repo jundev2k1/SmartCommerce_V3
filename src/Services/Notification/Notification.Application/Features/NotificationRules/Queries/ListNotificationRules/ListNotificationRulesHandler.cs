@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Notification.Application.Abstractions.Persistence.NotificationRules;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
 
-namespace Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
+namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
 
 public sealed class ListNotificationRulesHandler(INotificationRuleReadService notificationRuleReadService)
     : IQueryHandler<ListNotificationRulesQuery, PaginatedResult<NotificationRuleSummaryResponse>>

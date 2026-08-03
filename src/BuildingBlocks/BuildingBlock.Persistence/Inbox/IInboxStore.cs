@@ -1,4 +1,4 @@
-namespace BuildingBlock.Persistence.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Inbox;
 
 /// <summary>
 /// Outcome of <see cref="IInboxStore.FailAttemptAsync"/>.

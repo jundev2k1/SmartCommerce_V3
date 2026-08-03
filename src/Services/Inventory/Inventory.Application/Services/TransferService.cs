@@ -1,9 +1,9 @@
-using BuildingBlock.Domain.Exceptions;
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Owns the complete warehouse transfer workflow: validates both warehouses, deducts from source, receives at destination.
@@ -42,7 +42,7 @@ public sealed class TransferService(
         var sourceTransactions = new List<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,
@@ -51,7 +51,7 @@ public sealed class TransferService(
         var destinationTransactions = new List<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,
@@ -63,29 +63,29 @@ public sealed class TransferService(
         {
             // Get source inventory and validate
             var sourceInventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
-                item.ProductVariantId, sourceWarehouseId, ct);
+                item.VariantId, sourceWarehouseId, ct);
 
             if (sourceInventory is null)
             {
                 throw ExceptionFactory.EntityNotFound(
-                    $"Inventory for variant {item.ProductVariantId} in source warehouse not found.");
+                    $"Inventory for variant {item.VariantId} in source warehouse not found.");
             }
 
             if (sourceInventory.AvailableQuantity < item.Quantity)
             {
                 throw ExceptionFactory.InsufficientStock(
-                    $"Insufficient stock for variant {item.ProductVariantId}. " +
+                    $"Insufficient stock for variant {item.VariantId}. " +
                     $"Available: {sourceInventory.AvailableQuantity}, Required: {item.Quantity}");
             }
 
             // Get or create destination inventory
             var destinationInventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
-                item.ProductVariantId, destinationWarehouseId, ct);
+                item.VariantId, destinationWarehouseId, ct);
 
             if (destinationInventory is null)
             {
                 throw ExceptionFactory.EntityNotFound(
-                    $"Inventory for variant {item.ProductVariantId} in destination warehouse not found. " +
+                    $"Inventory for variant {item.VariantId} in destination warehouse not found. " +
                     "Create inventory records in destination warehouse first.");
             }
 
@@ -144,18 +144,18 @@ public sealed class TransferService(
         // Add items to documents
         foreach (var item in items)
         {
-            var sourceInv = sourceInventories.First(i => i.VariantId == item.ProductVariantId);
+            var sourceInv = sourceInventories.First(i => i.VariantId == item.VariantId);
             sourceDocument.AddItem(
                 productId: sourceInv.ProductId,
-                productVariantId: item.ProductVariantId,
+                productVariantId: item.VariantId,
                 quantity: item.Quantity,
                 unitOfMeasure: "EA",
                 description: $"Transfer to {destinationWarehouse.Name}");
 
-            var destInv = destinationInventories.First(i => i.VariantId == item.ProductVariantId);
+            var destInv = destinationInventories.First(i => i.VariantId == item.VariantId);
             destinationDocument.AddItem(
                 productId: destInv.ProductId,
-                productVariantId: item.ProductVariantId,
+                productVariantId: item.VariantId,
                 quantity: item.Quantity,
                 unitOfMeasure: "EA",
                 description: $"Transfer from {sourceWarehouse.Name}");

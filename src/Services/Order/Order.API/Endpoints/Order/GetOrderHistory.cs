@@ -1,11 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Orders.Queries.GetOrderHistory;
+using SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrderHistory;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed class GetOrderHistoryEndpoint : ICarterModule
 {
@@ -30,7 +31,7 @@ public sealed class GetOrderHistoryEndpoint : ICarterModule
     {
         app.MapPost("/orders/history", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetOrderHistory")
             .WithDisplayName("Order History API")
             .WithDescription(API_DESC.JoinToString("\n"))

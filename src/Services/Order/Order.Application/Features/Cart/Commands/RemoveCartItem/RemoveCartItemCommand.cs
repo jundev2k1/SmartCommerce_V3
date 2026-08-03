@@ -1,5 +1,5 @@
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Cart.Commands.RemoveCartItem;
+namespace SmartEcommerce.Order.Application.Features.Cart.Commands.RemoveCartItem;
 
 public sealed record RemoveCartItemCommand(Guid VariationId) : ICommand<CartResponse>;

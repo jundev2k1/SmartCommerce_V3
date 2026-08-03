@@ -3,13 +3,13 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-using Auth.Application.Abstractions.Security.Jwt;
+using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 
-using BuildingBlock.SharedKernel.Security;
+using SmartEcommerce.BuildingBlock.SharedKernel.Security;
 
 using Microsoft.IdentityModel.Tokens;
 
-namespace Auth.Infrastructure.Security.Jwt;
+namespace SmartEcommerce.Auth.Infrastructure.Security.Jwt;
 
 public sealed class JwtTokenGenerator(JwtSettings settings) : IJwtTokenGenerator
 {

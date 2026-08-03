@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RootNamespace>SmartEcommerce.BuildingBlock.Grpc</RootNamespace>
+    <AssemblyName>SmartEcommerce.BuildingBlock.Grpc</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

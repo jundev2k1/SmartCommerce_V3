@@ -1,14 +1,14 @@
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 
-using Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Application.Abstractions.Search;
 
-namespace Product.Persistence.Contexts.Products.Search.Repositories;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Search.Repositories;
 
 /// <summary>
 /// IProductSearchRepository impl - query-only against Elasticsearch, never Postgres. Builds the
 /// query DSL directly against ElasticsearchClient (too Product-specific to push into
-/// BuildingBlock.Search). See docs/reference/search.md.
+/// SmartEcommerce.BuildingBlock.Search). See docs/reference/search.md.
 /// </summary>
 public sealed class ProductSearchRepository(ElasticsearchClient client) : IProductSearchRepository
 {

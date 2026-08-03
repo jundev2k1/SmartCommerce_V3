@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.RemoveProductTag;
+using SmartEcommerce.Product.Application.Features.Products.Commands.RemoveProductTag;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed class RemoveProductTagEndpoint : ICarterModule
 {
@@ -25,7 +26,7 @@ public sealed class RemoveProductTagEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId}/tags/{tagId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RemoveProductTag")
             .WithDisplayName("Remove Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

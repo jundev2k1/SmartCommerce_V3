@@ -1,11 +1,11 @@
 using System.Diagnostics;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 using Microsoft.AspNetCore.Http;
 
-namespace BuildingBlock.Infrastructure.Audit;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Audit;
 
 /// <summary>
 /// HTTP-request-aware <see cref="IAuditMetadataProvider"/> - reuses <see cref="ICurrentUserService"/>

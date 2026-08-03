@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.DeadLetters.Commands;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Carter;
 
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BuildingBlock.Web.Endpoints.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Web.Endpoints.DeadLetters;
 
 public sealed class RetryDeadLetter : ICarterModule
 {
@@ -19,7 +19,7 @@ public sealed class RetryDeadLetter : ICarterModule
     {
         app.MapPost("/deadletters/{id:guid}/retry", RetryOne)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RetryDeadLetter")
             .WithDisplayName("Retry Dead Letter API")
             .WithDescription("Requeues one dead-lettered message and republishes it through the normal Kafka pipeline.")

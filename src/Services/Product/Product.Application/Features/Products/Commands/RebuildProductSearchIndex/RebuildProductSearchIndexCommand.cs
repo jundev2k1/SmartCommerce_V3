@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.Commands.RebuildProductSearchIndex;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.RebuildProductSearchIndex;
 
 public sealed record RebuildProductSearchIndexCommand : ICommand<RebuildProductSearchIndexResponse>;
 

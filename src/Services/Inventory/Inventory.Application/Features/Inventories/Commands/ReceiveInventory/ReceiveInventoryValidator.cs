@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
 
 public sealed class ReceiveInventoryValidator : AbstractValidator<ReceiveInventoryCommand>
 {
@@ -31,7 +31,7 @@ public sealed class ReceiveInventoryItemValidator : AbstractValidator<ReceiveInv
 {
     public ReceiveInventoryItemValidator()
     {
-        RuleFor(x => x.ProductVariantId)
+        RuleFor(x => x.VariantId)
             .NotEmpty()
             .WithMessage("Product variant ID is required.");
 

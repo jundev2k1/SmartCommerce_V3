@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.SignalR;
 
-using Notification.Infrastructure.SignalR.Groups;
+using SmartEcommerce.Notification.Infrastructure.SignalR.Groups;
 
-namespace Notification.Infrastructure.SignalR.Facade;
+namespace SmartEcommerce.Notification.Infrastructure.SignalR.Facade;
 
 public sealed class ActorHubFacade<THub, TRoot, TSite>(IHubContext<THub, TRoot> hub)
     where THub : Hub<TRoot>
@@ -12,8 +12,8 @@ public sealed class ActorHubFacade<THub, TRoot, TSite>(IHubContext<THub, TRoot> 
     public TSite All() => hub.Clients.All;
 
     public TSite Root(Guid userId) => hub.Clients.Group(ActorGroups.Root(userId));
-    public TSite AdminAll() => hub.Clients.Group(ActorGroups.Broadcast(AppRole.Admin));
-    public TSite MemberAll() => hub.Clients.Group(ActorGroups.Broadcast(AppRole.User));
+    public TSite AdminAll() => hub.Clients.Group(ActorGroups.Broadcast(AppRoleConstant.Admin));
+    public TSite MemberAll() => hub.Clients.Group(ActorGroups.Broadcast(AppRoleConstant.User));
     public TSite Admin(Guid userId) => hub.Clients.Group(ActorGroups.Admin(userId));
     public TSite Member(Guid userId) => hub.Clients.Group(ActorGroups.Member(userId));
 }

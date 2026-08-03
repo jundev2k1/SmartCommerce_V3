@@ -1,4 +1,4 @@
-namespace Auth.Persistence.Storage.Seeders;
+namespace SmartEcommerce.Auth.Persistence.Storage.Seeders;
 
 public static class SeedData
 {

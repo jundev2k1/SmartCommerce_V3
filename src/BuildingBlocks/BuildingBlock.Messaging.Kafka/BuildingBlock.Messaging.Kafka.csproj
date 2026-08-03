@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RootNamespace>SmartEcommerce.BuildingBlock.Messaging.Kafka</RootNamespace>
+    <AssemblyName>SmartEcommerce.BuildingBlock.Messaging.Kafka</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

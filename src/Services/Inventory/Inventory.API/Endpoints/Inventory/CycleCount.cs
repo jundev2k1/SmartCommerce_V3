@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Inventories.Commands.CycleCount;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.CycleCount;
 
-namespace Inventory.API.Endpoints.Inventory;
+namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 // Start Cycle Count Endpoint
 public sealed record StartCycleCountRequest(
@@ -35,7 +36,7 @@ public sealed class StartCycleCountEndpoint : ICarterModule
     {
         app.MapPost("/inventories/cycle-count/start", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("StartCycleCount")
             .WithDisplayName("Start Cycle Count API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -60,7 +61,7 @@ public sealed class StartCycleCountEndpoint : ICarterModule
 
 // Complete Cycle Count Endpoint
 public sealed record CountedItemRequest(
-    Guid ProductVariantId,
+    Guid VariantId,
     int ActualQuantity);
 
 public sealed record CompleteCycleCountRequest(
@@ -79,7 +80,7 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
         "### Request Body",
         "- **CountId**: Cycle count ID from start operation (required, must be valid GUID)",
         "- **CountedItems**: Array of counted items (required, minimum 1 item)",
-        "  - **ProductVariantId**: Variant counted (required, must be valid GUID)",
+        "  - **VariantId**: Variant counted (required, must be valid GUID)",
         "  - **ActualQuantity**: Physical quantity counted (required, >= 0)",
         "- **VarianceThresholdPercent**: Min variance % to trigger adjustment (optional, default 5%)",
         "",
@@ -95,7 +96,7 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
     {
         app.MapPost("/inventories/cycle-count/complete", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CompleteCycleCount")
             .WithDisplayName("Complete Cycle Count API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -109,7 +110,7 @@ public sealed class CompleteCycleCountEndpoint : ICarterModule
     {
         var items = request.CountedItems
             .Select(i => new CycleCountItemRequest(
-                ProductVariantId: i.ProductVariantId,
+                VariantId: i.VariantId,
                 ActualQuantity: i.ActualQuantity))
             .ToList();
 

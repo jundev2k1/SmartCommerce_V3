@@ -1,11 +1,11 @@
-using Auth.Domain.Entities;
-using Auth.Persistence.Engine;
+using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Persistence.Engine;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Auth.Persistence.Storage.Seeders;
+namespace SmartEcommerce.Auth.Persistence.Storage.Seeders;
 
 public class DatabaseSeeder(
     AuthDbContext context,

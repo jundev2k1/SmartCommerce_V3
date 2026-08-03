@@ -1,8 +1,8 @@
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Abstractions.Search;
-using User.Application.Features.Users.Search;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Search;
+using SmartEcommerce.User.Application.Features.Users.Search;
 
-namespace User.Application.Features.Users.Commands.RebuildUserSearchIndex;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.RebuildUserSearchIndex;
 
 /// <summary>
 /// PostgreSQL -&gt; Projection Builder -&gt; Bulk Index -&gt; Elasticsearch. Reuses the exact same

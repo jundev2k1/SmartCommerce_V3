@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 /// <summary>
 /// OwnerEmail/OwnerPhone are Value Objects by the time they reach here - Email.Create/

@@ -1,11 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Abstractions.Services;
-using Order.Application.Features.Cart.Commands.AddCartItem;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Features.Cart.Commands.AddCartItem;
 
-namespace Order.API.Endpoints.Cart;
+namespace SmartEcommerce.Order.API.Endpoints.Cart;
 
 public sealed record AddCartItemRequest(Guid VariationId, int Quantity);
 
@@ -32,7 +33,7 @@ public sealed class AddCartItemEndpoint : ICarterModule
     {
         app.MapPost("/cart/items", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("AddCartItem")
             .WithDisplayName("Add Cart Item API")
             .WithDescription(API_DESC.JoinToString("\n"))

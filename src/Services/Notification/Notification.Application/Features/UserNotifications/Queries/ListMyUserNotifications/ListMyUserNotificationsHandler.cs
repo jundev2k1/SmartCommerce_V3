@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Notification.Application.Abstractions.Persistence.UserNotifications;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
 
-namespace Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
+namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
 public sealed class ListMyUserNotificationsHandler(
     ICurrentUserService currentUser,

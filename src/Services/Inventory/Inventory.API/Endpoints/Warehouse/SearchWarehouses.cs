@@ -1,11 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
+using SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
 
-namespace Inventory.API.Endpoints.Warehouse;
+namespace SmartEcommerce.Inventory.API.Endpoints.Warehouse;
 
 public sealed class SearchWarehousesEndpoint : ICarterModule
 {
@@ -34,7 +35,7 @@ public sealed class SearchWarehousesEndpoint : ICarterModule
     {
         app.MapPost("/warehouses/search", Handle)
             .WithTags("Warehouse")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("SearchWarehouses")
             .WithDisplayName("Search Warehouses API")
             .WithDescription(API_DESC.JoinToString("\n"))

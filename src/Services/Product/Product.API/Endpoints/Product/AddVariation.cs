@@ -1,11 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.AddVariation;
-using Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.Commands.AddVariation;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed record AddVariationRequest(
     string Sku,
@@ -25,7 +26,7 @@ public sealed class AddVariationEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Add Variation",
         "",
-        "Adds a new ProductVariation to an existing product. DisplayOrder is assigned",
+        "Adds a new Variant to an existing product. DisplayOrder is assigned",
         "automatically (after the current highest). Set MakeDefault to switch the Default over",
         "to the new variation atomically.",
         "",
@@ -41,7 +42,7 @@ public sealed class AddVariationEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/variations", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("AddVariation")
             .WithDisplayName("Add Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -56,7 +57,7 @@ public sealed class AddVariationEndpoint : ICarterModule
     {
         var command = new AddVariationCommand(
             productId,
-            new ProductVariationInputDto(
+            new VariantInputDto(
                 request.Sku.Trim(),
                 request.Name.Trim(),
                 request.Price,

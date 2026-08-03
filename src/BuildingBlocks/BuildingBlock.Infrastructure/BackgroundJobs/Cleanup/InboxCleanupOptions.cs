@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 
 public sealed class InboxCleanupOptions : IJobOptions
 {
@@ -9,7 +9,7 @@ public sealed class InboxCleanupOptions : IJobOptions
 
     public string JobId { get; set; } = "inbox-cleanup";
     public string CronExpression { get; set; } = "0 3 * * *";
-    public string Queue { get; set; } = JobQueue.DEFAULT;
+    public string Queue { get; set; } = JobQueueConstant.DEFAULT;
     public bool IsInit { get; set; }
 
     /// <summary>Whether the job actually deletes anything when it runs. Off = no-op, cron stays registered.</summary>

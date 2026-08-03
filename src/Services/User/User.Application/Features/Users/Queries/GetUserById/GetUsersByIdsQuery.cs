@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Queries.GetUserById;
+namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
 
 /// <summary>
 /// Backs the gRPC GetUsers batch RPC. Never falls back to a loop of single lookups - exactly

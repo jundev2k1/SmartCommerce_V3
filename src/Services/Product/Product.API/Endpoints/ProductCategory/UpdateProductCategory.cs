@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
+using SmartEcommerce.Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
 
-namespace Product.API.Endpoints.ProductCategory;
+namespace SmartEcommerce.Product.API.Endpoints.ProductCategory;
 
 public sealed record UpdateProductCategoryRequest(
     string Name,
@@ -36,7 +37,7 @@ public sealed class UpdateProductCategoryEndpoint : ICarterModule
     {
         app.MapPut("/categories/{categoryId}", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateProductCategory")
             .WithDisplayName("Update Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationChannels.Commands.UpdateNotificationChannelConfiguration;
+using SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.UpdateNotificationChannelConfiguration;
 
-namespace Notification.API.Endpoints.NotificationChannel;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
 
 public sealed class UpdateChannelConfiguration : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class UpdateChannelConfiguration : ICarterModule
     {
         app.MapPut("/notification-channels/{channelId}/configuration", UpdateConfigurationAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateNotificationChannelConfiguration")
             .WithDisplayName("Update Notification Channel Configuration API")
             .WithDescription("Replaces a channel's runtime configuration (SMTP host, bot token, ...). Resets ValidationStatus to NotValidated.")

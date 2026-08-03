@@ -1,4 +1,4 @@
-namespace Inventory.Application.Abstractions.Persistence.InventoryReservations;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
 
 public sealed record CreateInventoryReservationRequest(
     string Number,
@@ -6,7 +6,7 @@ public sealed record CreateInventoryReservationRequest(
     Guid InventoryId,
     Guid WarehouseId,
     Guid ProductId,
-    Guid ProductVariantId,
+    Guid VariantId,
     int Quantity,
     InventoryReferenceType? ReferenceType = null,
     Guid? ReferenceId = null,

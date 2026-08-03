@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.Commands.RemoveProductCategory;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.RemoveProductCategory;
 
 public sealed record RemoveProductCategoryCommand(Guid ProductId, Guid CategoryId) : ICommand<RemoveProductCategoryResponse>;
 

@@ -1,4 +1,4 @@
-namespace Auth.Application.Abstractions.Services;
+namespace SmartEcommerce.Auth.Application.Abstractions.Services;
 
 /// <summary>
 /// Initializes the refresh token cache on application startup.

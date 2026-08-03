@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.Commands.SetDefaultVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.SetDefaultVariation;
 
 public sealed record SetDefaultVariationCommand(Guid ProductId, Guid VariationId) : ICommand<SetDefaultVariationResponse>;
 

@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-namespace Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
+namespace SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
 
 public sealed record ListNotificationTemplatesQuery(
     NotificationChannelType? Channel,

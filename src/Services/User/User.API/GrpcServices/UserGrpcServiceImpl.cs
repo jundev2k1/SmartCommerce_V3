@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.Events;
-using BuildingBlock.Contract.Protos.User;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Contract.Protos.User;
 
 using Grpc.Core;
 
-using User.Application.Features.Users.Events.OnUserInitiated;
-using User.Application.Features.Users.Queries.GetUserById;
+using SmartEcommerce.User.Application.Features.Users.Events.OnUserInitiated;
+using SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
 
-namespace User.API.GrpcServices;
+namespace SmartEcommerce.User.API.GrpcServices;
 
 public sealed class UserGrpcServiceImpl(
     IInternalEventDispatcher eventDispatcher,

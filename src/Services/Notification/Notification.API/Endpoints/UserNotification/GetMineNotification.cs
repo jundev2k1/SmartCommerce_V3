@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
-namespace Notification.API.Endpoints.UserNotification;
+namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Cursor/lazy-load paginated, scoped to the calling user - enforced in the handler.</summary>
 public sealed class GetMineNotification : ICarterModule
@@ -12,7 +13,7 @@ public sealed class GetMineNotification : ICarterModule
     {
         app.MapGet("/user-notifications/me", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPolicies.RequireUser)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
             .WithName("ListMyUserNotifications")
             .WithDisplayName("List My User Notifications API")
             .WithDescription("Cursor-paginated, filterable (status) list of the caller's own Notification Center entries, newest first. Pass the previous response's nextCursor to fetch the next page; omit for the first page.")

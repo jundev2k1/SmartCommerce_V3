@@ -1,7 +1,7 @@
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Validates stock availability for multiple product variations in a single operation.
@@ -14,14 +14,14 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
     /// Returns structured result with available inventories and insufficient items.
     /// </summary>
     public async Task<IStockAvailabilityService.StockAvailabilityResult> ValidateAsync(
-        IReadOnlyList<(Guid ProductVariationId, int Quantity)> items,
+        IReadOnlyList<(Guid VariantId, int Quantity)> items,
         Guid warehouseId,
         CancellationToken ct = default)
     {
         if (items.Count == 0)
             return new IStockAvailabilityService.StockAvailabilityResult(true, [], []);
 
-        var variationIds = items.Select(i => i.ProductVariationId).Distinct().ToList();
+        var variationIds = items.Select(i => i.VariantId).Distinct().ToList();
         var inventories = await readService.GetByVariationAndWarehouseAsync(variationIds, warehouseId, ct);
 
         var available = new List<InventoryStock>();
@@ -35,7 +35,7 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
             {
                 insufficient.Add(new IStockAvailabilityService.InsufficientStockError(
                     InventoryId: Guid.Empty,
-                    ProductVariationId: variationId,
+                    VariantId: variationId,
                     RequestedQuantity: requested,
                     AvailableQuantity: 0));
                 continue;
@@ -45,7 +45,7 @@ public sealed class StockAvailabilityService(IInventoryReadService readService) 
             {
                 insufficient.Add(new IStockAvailabilityService.InsufficientStockError(
                     InventoryId: inventory.Id,
-                    ProductVariationId: variationId,
+                    VariantId: variationId,
                     RequestedQuantity: requested,
                     AvailableQuantity: inventory.AvailableQuantity));
                 continue;

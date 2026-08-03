@@ -1,6 +1,6 @@
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-namespace User.Persistence.Contexts.UserProfiles.Repositories;
+namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Repositories;
 
 public interface IUserProfileRepository : IRepository<UserProfile>
 {

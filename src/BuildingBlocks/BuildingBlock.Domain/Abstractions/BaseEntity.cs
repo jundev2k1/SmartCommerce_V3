@@ -1,6 +1,6 @@
-using BuildingBlock.Domain.Attributes;
+using SmartEcommerce.BuildingBlock.Domain.Attributes;
 
-namespace BuildingBlock.Domain.Abstractions;
+namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
 public abstract class BaseEntity<T> : IEntity<T>
 {

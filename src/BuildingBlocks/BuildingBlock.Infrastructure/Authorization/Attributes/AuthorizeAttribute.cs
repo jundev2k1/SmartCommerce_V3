@@ -1,4 +1,4 @@
-namespace BuildingBlock.Infrastructure.Authorization.Attributes;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Authorization.Attributes;
 
 /// <summary>
 /// Marks an endpoint as requiring authentication.

@@ -1,6 +1,6 @@
-using BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
 
-namespace Product.Persistence.Contexts.Products.Repositories;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
 
 public interface IProductRepository : IRepository<ProductEntity>
 {
@@ -18,17 +18,17 @@ public interface IProductRepository : IRepository<ProductEntity>
         CancellationToken ct = default);
 
     Task AddVariationAsync(
-        ProductVariation variation,
+        ProductVariant variation,
         CancellationToken ct = default);
 
     Task AddVariationRangeAsync(
-        IEnumerable<ProductVariation> variations,
+        IEnumerable<ProductVariant> variations,
         CancellationToken ct = default);
 
     Task UpdateVariationAsync(
         Guid id,
-        Func<IQueryable<ProductVariation>, IQueryable<ProductVariation>> includes,
-        Func<ProductVariation, Task> updateAction,
+        Func<IQueryable<ProductVariant>, IQueryable<ProductVariant>> includes,
+        Func<ProductVariant, Task> updateAction,
         CancellationToken ct = default);
 
     Task RemoveVariationAsync(Guid id, CancellationToken ct = default);

@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Product.Application.Abstractions.Persistence.ProductTags;
-using Product.Domain.ValueObjects;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Domain.ValueObjects;
 
-namespace Product.Application.Features.ProductTags.Commands.CreateProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.CreateProductTag;
 
 public sealed class CreateProductTagHandler(
     IProductTagReadService tagReadService,

@@ -1,4 +1,4 @@
-namespace BuildingBlock.Domain.Attributes;
+namespace SmartEcommerce.BuildingBlock.Domain.Attributes;
 
 /// <summary>
 /// Marks a property as excluded from audit comparison. The change-tracking pipeline never

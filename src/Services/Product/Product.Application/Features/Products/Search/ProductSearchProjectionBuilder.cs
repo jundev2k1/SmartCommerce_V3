@@ -1,6 +1,6 @@
-using Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Application.Abstractions.Search;
 
-namespace Product.Application.Features.Products.Search;
+namespace SmartEcommerce.Product.Application.Features.Products.Search;
 
 /// <summary>
 /// Integration Event -&gt; Search Document. The only place ProductSearchDocument is assembled -
@@ -42,13 +42,13 @@ public sealed class ProductSearchProjectionBuilder()
             // Active only - a Discontinued/Inactive variation's name shouldn't surface a product
             // in keyword search results the customer can't actually buy that variant from.
             VariationNames = [.. product.Variations
-                .Where(v => v.Status == ProductVariationStatus.Active)
+                .Where(v => v.Status == VariantStatus.Active)
                 .Select(v => v.Name)
                 .Distinct()],
             // Every Active variation's id, not just the Default's - lets SearchProductsHandler
             // compute "is ANY variation in stock" instead of only checking the default.
             VariationIds = [.. product.Variations
-                .Where(v => v.Status == ProductVariationStatus.Active)
+                .Where(v => v.Status == VariantStatus.Active)
                 .Select(v => v.Id)],
             CategoryIds = categoryIds,
             CategoryNames = [.. product.CategoryMappings.Select(cm => cm.Category.Name)],

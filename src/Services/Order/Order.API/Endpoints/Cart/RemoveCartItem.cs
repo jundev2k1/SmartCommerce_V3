@@ -1,11 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Abstractions.Services;
-using Order.Application.Features.Cart.Commands.RemoveCartItem;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Features.Cart.Commands.RemoveCartItem;
 
-namespace Order.API.Endpoints.Cart;
+namespace SmartEcommerce.Order.API.Endpoints.Cart;
 
 public sealed class RemoveCartItemEndpoint : ICarterModule
 {
@@ -23,7 +24,7 @@ public sealed class RemoveCartItemEndpoint : ICarterModule
     {
         app.MapDelete("/cart/items/{variationId}", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("RemoveCartItem")
             .WithDisplayName("Remove Cart Item API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
+using SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
 
-namespace Notification.API.Endpoints.NotificationTemplate;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationTemplate;
 
 public sealed class ListTemplates : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class ListTemplates : ICarterModule
     {
         app.MapGet("/notification-templates", ListAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationTemplates")
             .WithDisplayName("List Notification Templates API")
             .Produces<ApiResponse<PaginatedResult<NotificationTemplateSummaryResponse>>>(StatusCodes.Status200OK);

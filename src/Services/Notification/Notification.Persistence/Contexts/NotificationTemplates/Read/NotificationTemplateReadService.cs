@@ -1,7 +1,7 @@
-using Notification.Application.Abstractions.Persistence.NotificationTemplates;
-using Notification.Persistence.Engine;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
+using SmartEcommerce.Notification.Persistence.Engine;
 
-namespace Notification.Persistence.Contexts.NotificationTemplates.Read;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationTemplates.Read;
 
 public sealed class NotificationTemplateReadService(NotificationMongoContext context) : INotificationTemplateReadService
 {

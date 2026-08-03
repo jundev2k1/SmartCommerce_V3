@@ -1,6 +1,6 @@
-using Notification.Application.Features.UserNotifications.DTOs;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace Notification.Application.Abstractions.Services;
+namespace SmartEcommerce.Notification.Application.Abstractions.Services;
 
 /// <summary>
 /// Port onto the realtime push side (SignalR today) - kept separate from IChannelSender/

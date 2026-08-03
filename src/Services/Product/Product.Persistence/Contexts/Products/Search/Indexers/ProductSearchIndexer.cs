@@ -1,13 +1,13 @@
-using BuildingBlock.Search.Abstractions;
+using SmartEcommerce.BuildingBlock.Search.Abstractions;
 
-using Product.Application.Abstractions.Search;
-using Product.Persistence.Contexts.Products.Search.Mapping;
+using SmartEcommerce.Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Search.Mapping;
 
-namespace Product.Persistence.Contexts.Products.Search.Indexers;
+namespace SmartEcommerce.Product.Persistence.Contexts.Products.Search.Indexers;
 
 /// <summary>
 /// IProductSearchIndexer impl - fixes the Product index name/mapping on top of
-/// BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;. The name passed
+/// SmartEcommerce.BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;. The name passed
 /// through here is an ES alias, not a concrete index - EnsureIndexAsync/RecreateIndexAsync
 /// manage the versioned index + alias swap underneath; this class stays unaware of that detail.
 /// </summary>

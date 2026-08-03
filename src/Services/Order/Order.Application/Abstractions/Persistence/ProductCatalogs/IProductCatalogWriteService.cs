@@ -1,4 +1,4 @@
-namespace Order.Application.Abstractions.Persistence.ProductCatalogs;
+namespace SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
 public interface IProductCatalogWriteService
 {

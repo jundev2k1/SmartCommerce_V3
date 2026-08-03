@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.CycleCount;
 
 public sealed class CompleteCycleCountHandler(
     ICycleCountService cycleCountService,
@@ -16,7 +16,7 @@ public sealed class CompleteCycleCountHandler(
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             var items = request.CountedItems
-                .Select(i => new ICycleCountService.CountItem(i.ProductVariantId, i.ActualQuantity))
+                .Select(i => new ICycleCountService.CountItem(i.VariantId, i.ActualQuantity))
                 .ToList();
 
             result = await cycleCountService.CompleteCountAsync(
@@ -42,7 +42,7 @@ public sealed class CompleteCycleCountHandler(
             TotalVarianceValue: totalVariance,
             Variances: result.Variances
                 .Select(v => new VarianceItem(
-                    ProductVariantId: v.ProductVariantId,
+                    VariantId: v.VariantId,
                     ExpectedQuantity: v.ExpectedQuantity,
                     ActualQuantity: v.ActualQuantity,
                     Variance: v.Variance,

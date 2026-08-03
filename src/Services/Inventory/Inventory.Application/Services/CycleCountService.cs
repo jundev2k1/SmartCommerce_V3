@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.InventoryCounts;
-using Inventory.Application.Abstractions.Persistence.Inventories;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Application.Abstractions.Services;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryCounts;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Services;
 
-namespace Inventory.Application.Services;
+namespace SmartEcommerce.Inventory.Application.Services;
 
 /// <summary>
 /// Owns the complete cycle count workflow: create count document, record items, calculate variances, auto-adjust stock.
@@ -65,7 +65,7 @@ public sealed class CycleCountService(
         var transactions = new List<(
             Guid InventoryId,
             Guid ProductId,
-            Guid ProductVariantId,
+            Guid VariantId,
             Guid WarehouseId,
             InventoryTransactionType Type,
             int Quantity,
@@ -76,7 +76,7 @@ public sealed class CycleCountService(
         foreach (var countedItem in countedItems)
         {
             var inventory = await inventoryReadService.GetByVariationAndWarehouseAsync(
-                countedItem.ProductVariantId, count.WarehouseId, ct);
+                countedItem.VariantId, count.WarehouseId, ct);
 
             if (inventory is null)
                 continue;
@@ -90,7 +90,7 @@ public sealed class CycleCountService(
 
             variances.Add(new ICycleCountService.CountVariance(
                 InventoryId: inventory.Id,
-                ProductVariantId: countedItem.ProductVariantId,
+                VariantId: countedItem.VariantId,
                 ExpectedQuantity: expected,
                 ActualQuantity: actual,
                 Variance: variance,
@@ -113,7 +113,7 @@ public sealed class CycleCountService(
 
                 adjustmentDoc.AddItem(
                     productId: inventory.ProductId,
-                    productVariantId: countedItem.ProductVariantId,
+                    productVariantId: countedItem.VariantId,
                     quantity: Math.Abs(variance),
                     unitOfMeasure: "EA",
                     description: $"Cycle count adjustment");
@@ -144,7 +144,7 @@ public sealed class CycleCountService(
         await countWriteService.UpdateAsync(count.Id, c =>
         {
             foreach (var variance in variances)
-                c.AddItem(variance.InventoryId, variance.ProductVariantId, variance.ExpectedQuantity);
+                c.AddItem(variance.InventoryId, variance.VariantId, variance.ExpectedQuantity);
 
             c.StartCounting();
 

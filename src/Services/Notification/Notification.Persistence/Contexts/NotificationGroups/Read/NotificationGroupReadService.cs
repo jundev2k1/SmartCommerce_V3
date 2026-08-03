@@ -1,7 +1,7 @@
-using Notification.Application.Abstractions.Persistence.NotificationGroups;
-using Notification.Persistence.Engine;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
+using SmartEcommerce.Notification.Persistence.Engine;
 
-namespace Notification.Persistence.Contexts.NotificationGroups.Read;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationGroups.Read;
 
 public sealed class NotificationGroupReadService(NotificationMongoContext context) : INotificationGroupReadService
 {

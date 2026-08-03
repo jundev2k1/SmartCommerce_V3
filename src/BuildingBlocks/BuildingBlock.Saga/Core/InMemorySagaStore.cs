@@ -1,6 +1,6 @@
-using BuildingBlock.Saga.Abstractions;
+using SmartEcommerce.BuildingBlock.Saga.Abstractions;
 
-namespace BuildingBlock.Saga.Core;
+namespace SmartEcommerce.BuildingBlock.Saga.Core;
 
 /// <summary>
 /// In-memory implementation of ISagaStore for development and testing.

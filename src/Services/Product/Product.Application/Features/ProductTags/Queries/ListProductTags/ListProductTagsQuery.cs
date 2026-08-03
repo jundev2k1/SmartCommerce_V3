@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductTags.Queries.ListProductTags;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Queries.ListProductTags;
 
 public sealed record ListProductTagsQuery : IQuery<ListProductTagsResponse>;
 

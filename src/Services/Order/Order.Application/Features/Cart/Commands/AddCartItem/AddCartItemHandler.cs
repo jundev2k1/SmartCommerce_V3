@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Abstractions.Services;
 
-namespace Order.Application.Features.Cart.Commands.AddCartItem;
+namespace SmartEcommerce.Order.Application.Features.Cart.Commands.AddCartItem;
 
 public sealed class AddCartItemHandler(
     ICurrentUserService currentUser,

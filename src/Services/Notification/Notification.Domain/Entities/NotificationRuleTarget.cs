@@ -1,4 +1,4 @@
-namespace Notification.Domain.Entities;
+namespace SmartEcommerce.Notification.Domain.Entities;
 
 /// <summary>
 /// The element type NotificationRule.Create's bulk factory accepts (see Product.Create /

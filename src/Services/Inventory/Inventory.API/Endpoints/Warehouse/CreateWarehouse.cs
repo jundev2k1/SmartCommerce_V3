@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
-using Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
-using Inventory.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
+using SmartEcommerce.Inventory.Domain.Enums;
 
-namespace Inventory.API.Endpoints.Warehouse;
+namespace SmartEcommerce.Inventory.API.Endpoints.Warehouse;
 
 public sealed record CreateWarehouseRequest(
     string Code,
@@ -49,7 +50,7 @@ public sealed class CreateWarehouseEndpoint : ICarterModule
     {
         app.MapPost("/warehouses", Handle)
             .WithTags("Warehouse")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateWarehouse")
             .WithDisplayName("Create Warehouse API")
             .WithDescription(API_DESC.JoinToString("\n"))

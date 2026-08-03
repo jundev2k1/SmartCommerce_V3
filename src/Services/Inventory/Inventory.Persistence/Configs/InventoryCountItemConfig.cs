@@ -1,8 +1,8 @@
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Inventory.Persistence.Configs;
+namespace SmartEcommerce.Inventory.Persistence.Configs;
 
 public sealed class InventoryCountItemConfig : IEntityTypeConfiguration<InventoryCountItem>
 {
@@ -16,7 +16,7 @@ public sealed class InventoryCountItemConfig : IEntityTypeConfiguration<Inventor
             .IsRequired();
         builder.Property(x => x.InventoryId)
             .IsRequired();
-        builder.Property(x => x.ProductVariantId)
+        builder.Property(x => x.VariantId)
             .IsRequired();
 
         builder.Property(x => x.ExpectedQuantity)

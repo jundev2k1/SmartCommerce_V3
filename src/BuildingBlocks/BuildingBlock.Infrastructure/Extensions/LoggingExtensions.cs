@@ -1,11 +1,11 @@
 #pragma warning disable CS1591
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Infrastructure.Logging;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Infrastructure.Extensions;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
 
 public static class LoggingExtensions
 {

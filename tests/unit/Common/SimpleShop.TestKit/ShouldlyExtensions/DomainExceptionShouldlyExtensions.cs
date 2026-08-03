@@ -1,5 +1,5 @@
-using BuildingBlock.Domain.Enums;
-using BuildingBlock.Domain.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Domain.Exceptions;
 using Shouldly;
 
 namespace SimpleShop.TestKit.ShouldlyExtensions;

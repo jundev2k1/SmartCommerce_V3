@@ -1,15 +1,15 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
-using Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
-
-namespace Product.API.Endpoints.ProductCategory;
+namespace SmartEcommerce.Product.API.Endpoints.ProductCategory;
 
 public sealed record CreateProductCategoryRequest(
     string Code,
     string Name,
     string Description,
+    string Note = "",
     Guid? ParentCategoryId = null);
 
 public sealed class CreateProductCategoryEndpoint : ICarterModule
@@ -35,7 +35,7 @@ public sealed class CreateProductCategoryEndpoint : ICarterModule
     {
         app.MapPost("/categories", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("CreateProductCategory")
             .WithDisplayName("Create Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))
@@ -51,6 +51,7 @@ public sealed class CreateProductCategoryEndpoint : ICarterModule
             request.Code.Trim(),
             request.Name.Trim(),
             request.Description?.Trim() ?? string.Empty,
+            request.Note?.Trim() ?? string.Empty,
             request.ParentCategoryId);
 
         var response = await sender.Send(command, ct);

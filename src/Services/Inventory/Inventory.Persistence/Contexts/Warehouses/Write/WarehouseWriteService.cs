@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Persistence.Repository;
-using Inventory.Application.Abstractions.Persistence.Warehouses;
-using Inventory.Domain.ValueObjects;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Domain.ValueObjects;
 
-namespace Inventory.Persistence.Contexts.Warehouses.Write;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.Warehouses.Write;
 
 public sealed class WarehouseWriteService(
     IRepository<Warehouse> repo,

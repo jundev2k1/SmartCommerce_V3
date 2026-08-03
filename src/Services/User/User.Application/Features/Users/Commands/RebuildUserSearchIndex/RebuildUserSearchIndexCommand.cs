@@ -1,4 +1,4 @@
-namespace User.Application.Features.Users.Commands.RebuildUserSearchIndex;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.RebuildUserSearchIndex;
 
 public sealed record RebuildUserSearchIndexCommand : ICommand<RebuildUserSearchIndexResponse>;
 

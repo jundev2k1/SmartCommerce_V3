@@ -1,8 +1,8 @@
-using BuildingBlock.SharedKernel.Text;
+using SmartEcommerce.BuildingBlock.SharedKernel.Text;
 
 using Shouldly;
 
-namespace BuildingBlock.SharedKernel.Tests.Text;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Tests.Text;
 
 public class PhoneNormalizerTests
 {

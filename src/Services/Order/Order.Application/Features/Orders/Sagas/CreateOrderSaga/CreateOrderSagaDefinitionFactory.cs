@@ -1,9 +1,9 @@
-using BuildingBlock.Saga.Abstractions;
-using BuildingBlock.Saga.Core;
+using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using SmartEcommerce.BuildingBlock.Saga.Core;
 
-using Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+using SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
-namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga;
+namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga;
 
 /// <summary>
 /// Builds the CreateOrderSaga workflow: DeductInventory -> ConfirmOrder. Kept as its own factory

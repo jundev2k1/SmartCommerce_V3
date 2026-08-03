@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Inventories.Queries.GetProductStock;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock;
 
-namespace Inventory.API.Endpoints.Inventory;
+namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed class GetProductStockEndpoint : ICarterModule
 {
@@ -12,7 +13,7 @@ public sealed class GetProductStockEndpoint : ICarterModule
         "## Get Product Stock",
         "",
         "Returns total stock for a product. ProductId alone rolls up every variation and",
-        "warehouse; adding ProductVariationId narrows the rollup to that single variation.",
+        "warehouse; adding VariantId narrows the rollup to that single variation.",
         "This is the same query the gRPC stock lookup (consumed by Order Service) is backed by.",
         "",
         "### Route Parameters",
@@ -26,7 +27,7 @@ public sealed class GetProductStockEndpoint : ICarterModule
     {
         app.MapGet("/products/{productId}/stock", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .WithName("GetProductStock")
             .WithDisplayName("Get Product Stock API")
             .WithDescription(API_DESC.JoinToString("\n"))

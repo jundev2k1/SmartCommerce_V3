@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Strategies;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Strategies;
 
-namespace BuildingBlock.Criteria.Definition;
+namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
 
 public sealed record CriteriaFieldMetadata<TEntity>
 {

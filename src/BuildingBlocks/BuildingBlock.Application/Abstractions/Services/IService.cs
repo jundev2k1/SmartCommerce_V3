@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Services;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 /// <summary>
 /// Marker interface for application business services.

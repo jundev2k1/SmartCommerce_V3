@@ -1,6 +1,6 @@
-using BuildingBlock.Contract.Events.Audit;
+using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
-namespace Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
+namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
 public sealed record GetAuditLogQuery(Guid AuditLogId) : IQuery<GetAuditLogResponse>;
 

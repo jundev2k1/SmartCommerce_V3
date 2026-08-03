@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Exceptions;
-using BuildingBlock.Domain.Enums;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Domain.Enums;
 
-using Order.Domain.Entities.Orders.Data;
+using SmartEcommerce.Order.Domain.Entities.Orders.Data;
 
-namespace Order.Domain.Entities.Orders;
+namespace SmartEcommerce.Order.Domain.Entities.Orders;
 
 public sealed class Order : AggregateRoot<Guid>, IAuditable
 {

@@ -1,4 +1,4 @@
-namespace Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
+namespace SmartEcommerce.Notification.Application.Features.NotificationTemplates.Commands.CreateNotificationTemplate;
 
 public sealed record CreateNotificationTemplateCommand(
     string Name,

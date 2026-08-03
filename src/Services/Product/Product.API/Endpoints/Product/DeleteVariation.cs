@@ -1,17 +1,18 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Product.Application.Features.Products.Commands.DeleteVariation;
+using SmartEcommerce.Product.Application.Features.Products.Commands.DeleteVariation;
 
-namespace Product.API.Endpoints.Product;
+namespace SmartEcommerce.Product.API.Endpoints.Product;
 
 public sealed class DeleteVariationEndpoint : ICarterModule
 {
     private readonly string[] API_DESC = [
         "## Delete Variation",
         "",
-        "Removes a ProductVariation. The last remaining variation of a product can never be",
+        "Removes a Variant. The last remaining variation of a product can never be",
         "removed. Removing the current Default auto-promotes the remaining variation with the",
         "lowest DisplayOrder.",
         "",
@@ -28,7 +29,7 @@ public sealed class DeleteVariationEndpoint : ICarterModule
     {
         app.MapDelete("/products/{productId}/variations/{variationId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("DeleteVariation")
             .WithDisplayName("Delete Variation API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Services;
+namespace SmartEcommerce.Notification.Application.Abstractions.Services;
 
 /// <summary>
 /// Delivers one <see cref="NotificationDispatch"/> through its <see cref="NotificationChannelType"/>.

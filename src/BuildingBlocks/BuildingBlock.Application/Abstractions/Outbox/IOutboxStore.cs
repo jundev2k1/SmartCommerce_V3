@@ -1,6 +1,6 @@
-using BuildingBlock.Contract.Events;
+using SmartEcommerce.BuildingBlock.Contract.Events;
 
-namespace BuildingBlock.Application.Abstractions.Outbox;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Write and read sides of the transactional outbox. EnqueueAsync is called by command

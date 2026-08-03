@@ -1,14 +1,14 @@
-using Inventory.Domain.Entities.Inventories;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventoryDocuments;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
 
 public sealed class InventoryDocumentItem : BaseEntity<long>
 {
     public Guid InventoryDocumentId { get; private set; }
     public InventoryDocument Document { get; private set; } = default!;
     public Guid ProductId { get; private set; }
-    public Guid ProductVariantId { get; private set; }
+    public Guid VariantId { get; private set; }
     public Guid? InventoryId { get; private set; }
     public InventoryStock? Inventory { get; private set; }
     public Quantity Quantity { get; private set; } = default!;
@@ -39,7 +39,7 @@ public sealed class InventoryDocumentItem : BaseEntity<long>
         {
             InventoryDocumentId = inventoryDocumentId,
             ProductId = productId,
-            ProductVariantId = productVariantId,
+            VariantId = productVariantId,
             Quantity = Quantity.Create(quantity),
             UnitOfMeasure = unitOfMeasure.Trim(),
             InventoryId = inventoryId,

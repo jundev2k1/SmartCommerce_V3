@@ -1,8 +1,8 @@
-using Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
 
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-namespace Auth.Application.Features.Auth.Commands.Logout;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Logout;
 
 public sealed class LogoutHandler(
     ICurrentUserService currentUserService,

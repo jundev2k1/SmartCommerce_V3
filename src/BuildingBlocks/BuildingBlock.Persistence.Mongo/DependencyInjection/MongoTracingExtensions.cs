@@ -1,6 +1,6 @@
 using OpenTelemetry.Trace;
 
-namespace BuildingBlock.Persistence.Mongo.DependencyInjection;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.DependencyInjection;
 
 public static class MongoTracingExtensions
 {

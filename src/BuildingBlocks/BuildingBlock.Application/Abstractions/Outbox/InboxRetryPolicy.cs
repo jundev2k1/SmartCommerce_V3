@@ -1,7 +1,7 @@
-namespace BuildingBlock.Application.Abstractions.Outbox;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
-/// Retry/backoff policy, passed in by the caller (owned by BuildingBlock.Infrastructure's
+/// Retry/backoff policy, passed in by the caller (owned by SmartEcommerce.BuildingBlock.Infrastructure's
 /// InboxRetryOptions) rather than read from configuration here - this project stays
 /// infrastructure-agnostic.
 /// </summary>

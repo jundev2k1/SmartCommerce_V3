@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Inventories.Queries.GetInventoryHistory;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetInventoryHistory;
 
-namespace Inventory.API.Endpoints.Inventory;
+namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed class GetInventoryHistoryEndpoint : ICarterModule
 {
@@ -25,7 +26,7 @@ public sealed class GetInventoryHistoryEndpoint : ICarterModule
     {
         app.MapGet("/inventories/{inventoryId}/history", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetInventoryHistory")
             .WithDisplayName("Get Inventory History API")
             .WithDescription(API_DESC.JoinToString("\n"))

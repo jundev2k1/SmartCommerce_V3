@@ -1,4 +1,4 @@
-namespace Product.Application.Abstractions.Search;
+namespace SmartEcommerce.Product.Application.Abstractions.Search;
 
 /// <summary>
 /// The Elasticsearch read-model document for Product Search - deliberately not the Product

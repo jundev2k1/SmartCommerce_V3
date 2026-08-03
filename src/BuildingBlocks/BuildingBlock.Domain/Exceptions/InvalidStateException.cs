@@ -1,6 +1,6 @@
-using MessageCodeEnum = BuildingBlock.Domain.Enums.MessageCode;
+using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace BuildingBlock.Domain.Exceptions;
+namespace SmartEcommerce.BuildingBlock.Domain.Exceptions;
 
 /// <summary>
 /// Exception thrown when an entity is in an invalid state for the requested operation.

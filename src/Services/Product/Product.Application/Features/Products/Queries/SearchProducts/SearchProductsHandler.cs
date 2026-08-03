@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using Product.Application.Abstractions.Search;
-using Product.Application.Abstractions.Services;
+using SmartEcommerce.Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Application.Abstractions.Services;
 
-namespace Product.Application.Features.Products.Queries.SearchProducts;
+namespace SmartEcommerce.Product.Application.Features.Products.Queries.SearchProducts;
 
 public sealed class SearchProductsHandler(
     IProductSearchRepository searchRepo,

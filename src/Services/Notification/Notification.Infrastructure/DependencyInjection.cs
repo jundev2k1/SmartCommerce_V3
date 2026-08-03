@@ -1,22 +1,22 @@
-using BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using BuildingBlock.Infrastructure.Extensions;
-using BuildingBlock.Infrastructure.Messaging;
-using BuildingBlock.Messaging.Abstractions;
-using BuildingBlock.Messaging.Kafka.Extensions;
+using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
+using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
+using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Notification.Application.Abstractions.Services;
-using Notification.Infrastructure.BackgroundJobs;
-using Notification.Infrastructure.Caching;
-using Notification.Infrastructure.Delivery;
-using Notification.Infrastructure.Messaging.Consumers;
-using Notification.Infrastructure.SignalR.Facade;
-using Notification.Infrastructure.SignalR.Hubs.Global;
-using Notification.Infrastructure.Workers;
+using SmartEcommerce.Notification.Application.Abstractions.Services;
+using SmartEcommerce.Notification.Infrastructure.BackgroundJobs;
+using SmartEcommerce.Notification.Infrastructure.Caching;
+using SmartEcommerce.Notification.Infrastructure.Delivery;
+using SmartEcommerce.Notification.Infrastructure.Messaging.Consumers;
+using SmartEcommerce.Notification.Infrastructure.SignalR.Facade;
+using SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
+using SmartEcommerce.Notification.Infrastructure.Workers;
 
-namespace Notification.Infrastructure;
+namespace SmartEcommerce.Notification.Infrastructure;
 
 public static class DependencyInjection
 {

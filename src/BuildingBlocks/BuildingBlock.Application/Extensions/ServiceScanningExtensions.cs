@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Application.Extensions;
+namespace SmartEcommerce.BuildingBlock.Application.Extensions;
 
 public static class ServiceScanningExtensions
 {

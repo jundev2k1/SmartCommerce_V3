@@ -1,14 +1,14 @@
-using Auth.API.ExceptionHandling;
-using Auth.API.GrpcServices;
-using Auth.Application.Abstractions.Services;
-using Auth.Infrastructure.BackgroundJobs;
-using Auth.Persistence.Storage.Seeders;
+using SmartEcommerce.Auth.API.ExceptionHandling;
+using SmartEcommerce.Auth.API.GrpcServices;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Infrastructure.BackgroundJobs;
+using SmartEcommerce.Auth.Persistence.Storage.Seeders;
 
-using BuildingBlock.Web.Cors;
-using BuildingBlock.Web.Middleware;
-using BuildingBlock.Web.Swagger;
+using SmartEcommerce.BuildingBlock.Web.Cors;
+using SmartEcommerce.BuildingBlock.Web.Middleware;
+using SmartEcommerce.BuildingBlock.Web.Swagger;
 
-namespace Auth.API;
+namespace SmartEcommerce.Auth.API;
 
 public static class ApplicationPipeline
 {

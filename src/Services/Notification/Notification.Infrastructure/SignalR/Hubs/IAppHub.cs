@@ -1,4 +1,4 @@
-namespace Notification.Infrastructure.SignalR.Hubs;
+namespace SmartEcommerce.Notification.Infrastructure.SignalR.Hubs;
 
 public interface IAppHub
 {

@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Application.Extensions;
-using BuildingBlock.Persistence.Audit;
-using BuildingBlock.Persistence.Ef.DependencyInjection;
-using BuildingBlock.Persistence.Ef.Inbox;
-using BuildingBlock.Persistence.Ef.Outbox;
-using BuildingBlock.Persistence.Repository;
-using BuildingBlock.Search.DependencyInjection;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Extensions;
+using SmartEcommerce.BuildingBlock.Persistence.Audit;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using SmartEcommerce.BuildingBlock.Search.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,24 +16,24 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-using Product.Application.Abstractions.Persistence.ProductCategories;
-using Product.Application.Abstractions.Persistence.Products;
-using Product.Application.Abstractions.Persistence.ProductTags;
-using Product.Application.Abstractions.Search;
-using Product.Persistence.Contexts.ProductCategories.Read;
-using Product.Persistence.Contexts.ProductCategories.Write;
-using Product.Persistence.Contexts.Products.Read;
-using Product.Persistence.Contexts.Products.Search.Indexers;
-using Product.Persistence.Contexts.Products.Search.Repositories;
-using Product.Persistence.Contexts.Products.Write;
-using Product.Persistence.Contexts.ProductTags.Read;
-using Product.Persistence.Contexts.ProductTags.Write;
-using Product.Persistence.Engine;
-using Product.Persistence.Engine.UnitOfWork;
-using Product.Persistence.Reliability.Inbox;
-using Product.Persistence.Reliability.Outbox;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Abstractions.Search;
+using SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Read;
+using SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Write;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Read;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Search.Indexers;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Search.Repositories;
+using SmartEcommerce.Product.Persistence.Contexts.Products.Write;
+using SmartEcommerce.Product.Persistence.Contexts.ProductTags.Read;
+using SmartEcommerce.Product.Persistence.Contexts.ProductTags.Write;
+using SmartEcommerce.Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine.UnitOfWork;
+using SmartEcommerce.Product.Persistence.Reliability.Inbox;
+using SmartEcommerce.Product.Persistence.Reliability.Outbox;
 
-namespace Product.Persistence;
+namespace SmartEcommerce.Product.Persistence;
 
 public static class DependencyInjection
 {
@@ -60,7 +60,7 @@ public static class DependencyInjection
     }
 
     // Product, ProductCategory and ProductTag are independent aggregates - Product references
-    // category/tag ids but doesn't own them, so each is its own root. ProductVariation is an
+    // category/tag ids but doesn't own them, so each is its own root. Variant is an
     // owned child of Product (no independent identity), so it is not registered separately -
     // its changes are already part of Product's own audit snapshot.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)

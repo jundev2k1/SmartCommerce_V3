@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 
-using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
-using Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
 
-namespace Notification.Persistence.Contexts.NotificationCampaigns.Write;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Write;
 
 public sealed class NotificationCampaignWriteService(
     INotificationCampaignRepository repo,

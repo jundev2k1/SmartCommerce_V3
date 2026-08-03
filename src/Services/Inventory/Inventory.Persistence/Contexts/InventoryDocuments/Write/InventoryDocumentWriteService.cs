@@ -1,7 +1,7 @@
-using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
-using Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+using SmartEcommerce.Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
 
-namespace Inventory.Persistence.Contexts.InventoryDocuments.Write;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryDocuments.Write;
 
 /// <summary>
 /// Never calls IUnitOfWork itself - callers (InventoryDocumentService) build and mutate the

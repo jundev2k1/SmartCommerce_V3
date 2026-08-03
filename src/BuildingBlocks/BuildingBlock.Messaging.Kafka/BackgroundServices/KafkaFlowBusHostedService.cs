@@ -3,7 +3,7 @@ using KafkaFlow;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Messaging.Kafka.BackgroundServices;
+namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.BackgroundServices;
 
 /// <summary>
 /// Starts and stops the KafkaFlow bus with the application lifetime.

@@ -1,8 +1,8 @@
-using Inventory.Domain.Entities.Inventories;
-using Inventory.Domain.Entities.Warehouses;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventoryReservations;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventoryReservations;
 
 public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable
 {
@@ -14,7 +14,7 @@ public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable
     public Guid WarehouseId { get; private set; }
     public Warehouse Warehouse { get; private set; } = default!;
     public Guid ProductId { get; private set; }
-    public Guid ProductVariantId { get; private set; }
+    public Guid VariantId { get; private set; }
     public InventoryReferenceType? ReferenceType { get; private set; }
     public Guid? ReferenceId { get; private set; }
     public string ExternalReference { get; private set; } = string.Empty;
@@ -52,7 +52,7 @@ public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable
             InventoryId = inventoryId,
             WarehouseId = warehouseId,
             ProductId = productId,
-            ProductVariantId = productVariantId,
+            VariantId = productVariantId,
             Quantity = Quantity.Create(quantity),
             ReferenceType = referenceType,
             ReferenceId = referenceId,

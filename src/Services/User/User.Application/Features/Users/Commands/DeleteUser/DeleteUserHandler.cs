@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 
-namespace User.Application.Features.Users.Commands.DeleteUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.DeleteUser;
 
 public sealed class DeleteUserHandler(
     IUserProfileReadService userReadService,

@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Orders.Sagas.CreateOrderSaga;
+namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga;
 
 /// <summary>
 /// Thrown by DeductInventoryStep when Inventory reports a business failure (insufficient stock,

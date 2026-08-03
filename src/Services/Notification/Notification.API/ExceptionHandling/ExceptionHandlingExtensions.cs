@@ -1,4 +1,4 @@
-namespace Notification.API.ExceptionHandling;
+namespace SmartEcommerce.Notification.API.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

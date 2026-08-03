@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
+using SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
 
-namespace Inventory.API.Endpoints.Warehouse;
+namespace SmartEcommerce.Inventory.API.Endpoints.Warehouse;
 
 public sealed class GetWarehouseEndpoint : ICarterModule
 {
@@ -25,7 +26,7 @@ public sealed class GetWarehouseEndpoint : ICarterModule
     {
         app.MapGet("/warehouses/{warehouseId}", Handle)
             .WithTags("Warehouse")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetWarehouse")
             .WithDisplayName("Get Warehouse API")
             .WithDescription(API_DESC.JoinToString("\n"))

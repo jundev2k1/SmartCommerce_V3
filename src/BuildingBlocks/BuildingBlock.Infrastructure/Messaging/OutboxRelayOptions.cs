@@ -1,4 +1,4 @@
-namespace BuildingBlock.Infrastructure.Messaging;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
 
 public sealed class OutboxRelayOptions
 {

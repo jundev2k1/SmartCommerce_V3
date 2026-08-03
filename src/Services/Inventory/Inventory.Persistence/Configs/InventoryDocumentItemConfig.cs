@@ -1,8 +1,8 @@
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Inventory.Persistence.Configs;
+namespace SmartEcommerce.Inventory.Persistence.Configs;
 
 public sealed class InventoryDocumentItemConfig : IEntityTypeConfiguration<InventoryDocumentItem>
 {
@@ -16,7 +16,7 @@ public sealed class InventoryDocumentItemConfig : IEntityTypeConfiguration<Inven
             .IsRequired();
         builder.Property(x => x.ProductId)
             .IsRequired();
-        builder.Property(x => x.ProductVariantId)
+        builder.Property(x => x.VariantId)
             .IsRequired();
         builder.Property(x => x.InventoryId)
             .IsRequired();
@@ -61,6 +61,6 @@ public sealed class InventoryDocumentItemConfig : IEntityTypeConfiguration<Inven
         // Indexes
         builder.HasIndex(x => x.InventoryDocumentId);
         builder.HasIndex(x => x.InventoryId);
-        builder.HasIndex(x => x.ProductVariantId);
+        builder.HasIndex(x => x.VariantId);
     }
 }

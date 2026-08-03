@@ -1,4 +1,4 @@
-namespace BuildingBlock.Infrastructure.Authorization;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 
 /// <summary>
 /// Marker interface for authorization policies.

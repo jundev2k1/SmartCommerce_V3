@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.CycleCount;
 
 public sealed class CompleteCycleCountValidator : AbstractValidator<CompleteCycleCountCommand>
 {
@@ -31,7 +31,7 @@ public sealed class CycleCountItemValidator : AbstractValidator<CycleCountItemRe
 {
     public CycleCountItemValidator()
     {
-        RuleFor(x => x.ProductVariantId)
+        RuleFor(x => x.VariantId)
             .NotEmpty()
             .WithMessage("Product variant ID is required.");
 

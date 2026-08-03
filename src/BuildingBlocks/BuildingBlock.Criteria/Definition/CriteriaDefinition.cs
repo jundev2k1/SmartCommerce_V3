@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace BuildingBlock.Criteria.Definition;
+namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
 
 /// <summary>
 /// The Fluent field whitelist for one entity's Admin search. A field is reachable by a <c>CriteriaRequest</c> filter

@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
 
-namespace Order.Application.Features.Orders.Queries.SearchOrders;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.SearchOrders;
 
 public sealed class SearchOrdersHandler(IOrderReadService orderReadService)
     : IQueryHandler<SearchOrdersQuery, PaginatedResult<SearchOrdersItemResponse>>

@@ -1,3 +1,3 @@
 global using Xunit;
 
-global using Notification.Domain.Enums;
+global using SmartEcommerce.Notification.Domain.Enums;

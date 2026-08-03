@@ -1,8 +1,8 @@
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Strategies;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Strategies;
 
-namespace User.Application.Features.Users.Search;
+namespace SmartEcommerce.User.Application.Features.Users.Search;
 
 /// <summary>
 /// Admin search request-shape whitelist for <see cref="UserProfile"/> - field names, allowed

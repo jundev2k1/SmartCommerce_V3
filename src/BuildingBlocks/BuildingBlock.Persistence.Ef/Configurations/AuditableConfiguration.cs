@@ -1,4 +1,4 @@
-namespace BuildingBlock.Persistence.Ef.Configurations;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Configurations;
 
 public class AuditableConfiguration
 {

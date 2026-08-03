@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
+using SmartEcommerce.Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
 
-namespace Notification.API.Endpoints.NotificationGroup;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationGroup;
 
 public sealed class ListGroups : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class ListGroups : ICarterModule
     {
         app.MapGet("/notification-groups", ListAsync)
             .WithTags("NotificationGroup")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationGroups")
             .WithDisplayName("List Notification Groups API")
             .Produces<ApiResponse<PaginatedResult<NotificationGroupSummaryResponse>>>(StatusCodes.Status200OK);

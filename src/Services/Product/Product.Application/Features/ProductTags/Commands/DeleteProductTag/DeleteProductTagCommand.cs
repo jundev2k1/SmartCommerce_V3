@@ -1,4 +1,4 @@
-namespace Product.Application.Features.ProductTags.Commands.DeleteProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.DeleteProductTag;
 
 public sealed record DeleteProductTagCommand(Guid ProductTagId) : ICommand<DeleteProductTagResponse>;
 

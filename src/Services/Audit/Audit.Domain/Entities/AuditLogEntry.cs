@@ -1,6 +1,6 @@
-using BuildingBlock.Domain.Abstractions;
+using SmartEcommerce.BuildingBlock.Domain.Abstractions;
 
-namespace Audit.Domain.Entities;
+namespace SmartEcommerce.Audit.Domain.Entities;
 
 /// <summary>
 /// One recorded Aggregate Root audit graph, consumed from the project's single

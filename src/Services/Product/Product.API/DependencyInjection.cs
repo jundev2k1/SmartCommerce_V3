@@ -1,16 +1,16 @@
-using BuildingBlock.Application.DeadLetters;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.Security.Jwt;
-using BuildingBlock.Web;
-using BuildingBlock.Web.Carter;
-using BuildingBlock.Web.Cors;
-using BuildingBlock.Web.CurrentUser;
-using BuildingBlock.Web.HealthChecks;
-using BuildingBlock.Web.Swagger;
+using SmartEcommerce.BuildingBlock.Application.DeadLetters;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Infrastructure.Security.Jwt;
+using SmartEcommerce.BuildingBlock.Web;
+using SmartEcommerce.BuildingBlock.Web.Carter;
+using SmartEcommerce.BuildingBlock.Web.Cors;
+using SmartEcommerce.BuildingBlock.Web.CurrentUser;
+using SmartEcommerce.BuildingBlock.Web.HealthChecks;
+using SmartEcommerce.BuildingBlock.Web.Swagger;
 
-using Product.API.ExceptionHandling;
+using SmartEcommerce.Product.API.ExceptionHandling;
 
-namespace Product.API;
+namespace SmartEcommerce.Product.API;
 
 public static class DependencyInjection
 {

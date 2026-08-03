@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Audit.Application.Abstractions.Persistence.AuditLogs;
+using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
 
 using Mapster;
 
-namespace Audit.Application.Features.AuditLogs.Queries.ListAuditLogs;
+namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.ListAuditLogs;
 
 public sealed class ListAuditLogsHandler(IAuditLogReadService auditLogReadService)
     : IQueryHandler<ListAuditLogsQuery, PaginatedResult<AuditLogSummaryResponse>>

@@ -1,8 +1,8 @@
-using Audit.Application.Abstractions.Services;
+using SmartEcommerce.Audit.Application.Abstractions.Services;
 
-using BuildingBlock.Contract.Protos.User;
+using SmartEcommerce.BuildingBlock.Contract.Protos.User;
 
-namespace Audit.Infrastructure.GrpcClients;
+namespace SmartEcommerce.Audit.Infrastructure.GrpcClients;
 
 /// <summary>
 /// Thin adapter over UserGrpcService's new GetUser RPC (see docs/tasks/2026-07-28/Task13_grpc-proto-getuser-getusers.md)

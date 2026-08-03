@@ -1,9 +1,9 @@
-using BuildingBlock.Criteria.Validation;
+using SmartEcommerce.BuildingBlock.Criteria.Validation;
 using FluentValidation;
 
-using Order.Application.Features.Orders.Search;
+using SmartEcommerce.Order.Application.Features.Orders.Search;
 
-namespace Order.Application.Features.Orders.Queries.SearchOrders;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.SearchOrders;
 
 public sealed class SearchOrdersValidator : AbstractValidator<SearchOrdersQuery>
 {

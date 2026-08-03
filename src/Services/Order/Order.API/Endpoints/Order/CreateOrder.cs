@@ -1,15 +1,15 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.Infrastructure.Idempotency;
-using BuildingBlock.SharedKernel.Constants;
-using BuildingBlock.SharedKernel.Extensions;
-using BuildingBlock.Web.Swagger.EndpointHeader;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
 
-using Order.Application.Features.Orders.Commands.CreateOrder;
-using Order.Application.Features.Orders.DTOs;
+using SmartEcommerce.Order.Application.Features.Orders.Commands.CreateOrder;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed record CreateOrderOwnerInfoRequest(
     string OwnerName,
@@ -67,9 +67,9 @@ public sealed class CreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAuthenticated)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
             .Headers([
-                new HeaderDefinition(HeaderKeys.IdempotencyKey, true, "Ensures this order is only created once, even if the request is retried")
+                new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this order is only created once, even if the request is retried")
             ])
             .RequireIdempotency()
             .WithName("CreateOrder")

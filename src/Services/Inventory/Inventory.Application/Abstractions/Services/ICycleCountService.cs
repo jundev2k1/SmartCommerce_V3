@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-namespace Inventory.Application.Abstractions.Services;
+namespace SmartEcommerce.Inventory.Application.Abstractions.Services;
 
 /// <summary>
 /// Cycle count workflow: variance calculation and auto-adjustment.
@@ -21,12 +21,12 @@ public interface ICycleCountService : IService
         CancellationToken ct = default);
 
     public sealed record CountItem(
-        Guid ProductVariantId,
+        Guid VariantId,
         int ActualQuantity);
 
     public sealed record CountVariance(
         Guid InventoryId,
-        Guid ProductVariantId,
+        Guid VariantId,
         int ExpectedQuantity,
         int ActualQuantity,
         int Variance,

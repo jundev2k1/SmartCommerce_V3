@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
+using SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
 
-namespace Notification.API.Endpoints.NotificationDispatch;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationDispatch;
 
 public sealed class ListDispatches : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class ListDispatches : ICarterModule
     {
         app.MapGet("/notification-dispatches", ListAsync)
             .WithTags("NotificationDispatch")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("ListNotificationDispatches")
             .WithDisplayName("List Notification Dispatches API")
             .Produces<ApiResponse<PaginatedResult<NotificationDispatchSummaryResponse>>>(StatusCodes.Status200OK);

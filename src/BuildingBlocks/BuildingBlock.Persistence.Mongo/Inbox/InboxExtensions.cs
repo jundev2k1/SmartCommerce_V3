@@ -1,12 +1,12 @@
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Persistence.Inbox;
-using BuildingBlock.Persistence.Mongo.MongoContext;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Persistence.Inbox;
+using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Driver;
 
-namespace BuildingBlock.Persistence.Mongo.Inbox;
+namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
 
 public static class InboxExtensions
 {

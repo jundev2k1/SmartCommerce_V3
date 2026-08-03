@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Events;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Abstractions.Services;
-using User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
 
-namespace User.Application.Features.Users.Events.OnUserDeletion;
+namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserDeletion;
 
 public sealed class OnUserDeletionHandler(
     IUserProfileWriteService userWriteService,

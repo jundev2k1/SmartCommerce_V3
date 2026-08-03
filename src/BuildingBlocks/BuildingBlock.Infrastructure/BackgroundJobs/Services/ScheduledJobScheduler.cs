@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
 
 using Hangfire;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Services;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Services;
 
 public sealed class ScheduledJobScheduler(
     IBackgroundJobClient backgroundJobClient,

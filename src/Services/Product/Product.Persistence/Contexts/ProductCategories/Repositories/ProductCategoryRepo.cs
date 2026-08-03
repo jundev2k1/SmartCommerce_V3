@@ -1,6 +1,6 @@
-using Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Engine;
 
-namespace Product.Persistence.Contexts.ProductCategories.Repositories;
+namespace SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Repositories;
 
 public sealed class ProductCategoryRepo(ProductDbContext dbContext)
     : ProductBaseRepository<ProductCategory>(dbContext), IProductCategoryRepository

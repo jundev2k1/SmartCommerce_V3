@@ -1,4 +1,4 @@
-namespace Order.Domain.Enums;
+namespace SmartEcommerce.Order.Domain.Enums;
 
 public enum OrderStatus : short
 {

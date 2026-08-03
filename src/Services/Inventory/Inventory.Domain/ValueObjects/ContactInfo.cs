@@ -1,6 +1,6 @@
-using BuildingBlock.Domain.ValueObjects;
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
-namespace Inventory.Domain.ValueObjects;
+namespace SmartEcommerce.Inventory.Domain.ValueObjects;
 
 public sealed class ContactInfo : ValueObject
 {

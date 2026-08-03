@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <RootNamespace>SmartEcommerce.BuildingBlock.Contract</RootNamespace>
+    <AssemblyName>SmartEcommerce.BuildingBlock.Contract</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

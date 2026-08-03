@@ -1,4 +1,4 @@
-namespace BuildingBlock.SharedKernel.Extensions;
+namespace SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
 public static class ArrayExtension
 {

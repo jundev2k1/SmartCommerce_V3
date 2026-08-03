@@ -1,4 +1,4 @@
-namespace Product.Application.Features.Products.Queries.GetProduct;
+namespace SmartEcommerce.Product.Application.Features.Products.Queries.GetProduct;
 
 public sealed record GetProductQuery(Guid ProductId) : IQuery<GetProductResponse>;
 
@@ -10,6 +10,6 @@ public sealed record GetProductResponse(
     string Slug,
     IReadOnlyCollection<Guid> CategoryIds,
     IReadOnlyCollection<Guid> TagIds,
-    IReadOnlyCollection<ProductVariationResponse> Variations,
+    IReadOnlyCollection<VariantResponse> Variations,
     DateTime CreatedAt,
     DateTime UpdatedAt);

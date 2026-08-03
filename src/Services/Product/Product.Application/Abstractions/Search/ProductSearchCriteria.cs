@@ -1,4 +1,4 @@
-namespace Product.Application.Abstractions.Search;
+namespace SmartEcommerce.Product.Application.Abstractions.Search;
 
 /// <summary>
 /// Query params for Product Search. Extending this later with e.g. PriceMin/PriceMax/Brand is

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Product.Application.Features.ProductTags.Commands.UpdateProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.UpdateProductTag;
 
 public sealed class UpdateProductTagValidator : AbstractValidator<UpdateProductTagCommand>
 {

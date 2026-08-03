@@ -1,9 +1,9 @@
-using Auth.Application.Abstractions.Auth;
-using Auth.Application.Abstractions.Security.Jwt;
-using Auth.Application.Abstractions.Services;
-using Auth.Application.Features.Auth.Events.OnUserRegistered;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserRegistered;
 
-namespace Auth.Application.Features.Auth.Commands.Register;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Register;
 
 public sealed class RegisterHandler(
     IUnitOfWork unitOfWork,
@@ -35,7 +35,7 @@ public sealed class RegisterHandler(
 
                 var roleAssigned = await authService.AssignRoleAsync(
                     account.Id,
-                    AppRole.User,
+                    AppRoleConstant.User,
                     ct);
                 if (!roleAssigned)
 

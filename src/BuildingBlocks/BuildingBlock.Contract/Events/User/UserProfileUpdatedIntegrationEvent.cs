@@ -1,4 +1,4 @@
-namespace BuildingBlock.Contract.Events.User;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.User;
 
 /// <summary>
 /// Fired whenever UpdateUserHandler changes a UserProfile. Today's only consumer is User's own

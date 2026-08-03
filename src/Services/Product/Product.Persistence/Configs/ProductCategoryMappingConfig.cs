@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Product.Persistence.Configs;
+namespace SmartEcommerce.Product.Persistence.Configs;
 
 public sealed class ProductCategoryMappingConfig : IEntityTypeConfiguration<ProductCategoryMapping>
 {
@@ -12,15 +12,9 @@ public sealed class ProductCategoryMappingConfig : IEntityTypeConfiguration<Prod
         // Properties
         builder.HasKey(x => new { x.ProductId, x.CategoryId });
 
-        builder.Property(x => x.ProductId)
-            .IsRequired();
-        builder.Property(x => x.CategoryId)
-            .IsRequired();
-
-        builder.Property(x => x.CreatedAt)
-            .HasDefaultValueSql("now()");
-        builder.Property(x => x.UpdatedAt)
-            .HasDefaultValueSql("now()");
+        builder.Property(x => x.DisplayOrder)
+            .IsRequired()
+            .HasDefaultValue(0);
 
         // Relationships
         builder.HasOne(x => x.Product)
@@ -35,5 +29,8 @@ public sealed class ProductCategoryMappingConfig : IEntityTypeConfiguration<Prod
 
         // Indexes
         builder.HasIndex(x => x.CategoryId);
+
+        // Audit & Concurrency
+        builder.ConfigureCommonFields();
     }
 }

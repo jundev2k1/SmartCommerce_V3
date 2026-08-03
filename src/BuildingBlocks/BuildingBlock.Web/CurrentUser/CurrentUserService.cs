@@ -1,11 +1,11 @@
 using System.Security.Claims;
 
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.AspNetCore.Http;
 
-namespace BuildingBlock.Web.CurrentUser;
+namespace SmartEcommerce.BuildingBlock.Web.CurrentUser;
 
 public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
 {
@@ -40,7 +40,7 @@ public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor)
 
     public bool IsInRole(string role)
     {
-        return _httpContext?.User.IsInRole(AppRole.Root) == true
+        return _httpContext?.User.IsInRole(AppRoleConstant.Root) == true
             || _httpContext?.User.IsInRole(role) == true;
     }
 
@@ -98,7 +98,7 @@ public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor)
             return Guid.NewGuid().ToString();
 
         return _httpContextAccessor.HttpContext.Request.Headers.TryGetValue(
-            HeaderKeys.CorrelationId,
+            HeaderKeyConstant.CorrelationId,
             out var correlationIdValue)
                 ? correlationIdValue.ToString()
                 : Guid.NewGuid().ToString();
@@ -110,7 +110,7 @@ public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor)
             return null;
 
         return _httpContextAccessor.HttpContext.Request.Headers.TryGetValue(
-            HeaderKeys.IdempotencyKey,
+            HeaderKeyConstant.IdempotencyKey,
             out var idempotencyKeyValue)
                 ? idempotencyKeyValue.ToString()
                 : null;

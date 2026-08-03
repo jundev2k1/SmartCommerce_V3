@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace BuildingBlock.Persistence.Audit;
+namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
 
 /// <summary>
 /// Strongly-typed, expression-based, compile-time-safe registration surface for the audit

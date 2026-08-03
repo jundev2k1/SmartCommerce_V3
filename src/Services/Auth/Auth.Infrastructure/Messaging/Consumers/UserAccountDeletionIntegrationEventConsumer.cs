@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-using Auth.Application.Features.UserAccounts.Events.OnAccountDeletionInitiated;
+using SmartEcommerce.Auth.Application.Features.UserAccounts.Events.OnAccountDeletionInitiated;
 
-namespace Auth.Infrastructure.Messaging.Consumers;
+namespace SmartEcommerce.Auth.Infrastructure.Messaging.Consumers;
 
 public sealed class UserAccountDeletionIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,
@@ -19,7 +19,7 @@ public sealed class UserAccountDeletionIntegrationEventConsumer(
         CancellationToken ct = default)
     {
         // Deliberately not caught here: the Inbox attempt executor (see
-        // BuildingBlock.Infrastructure.Messaging.InboxAttemptExecutor) needs the exception to
+        // SmartEcommerce.BuildingBlock.Infrastructure.Messaging.InboxAttemptExecutor) needs the exception to
         // propagate so it can record the failure and schedule a retry. Swallowing it here would
         // make every attempt look like a success and the message would never be retried.
         var data = JsonSerializer.Deserialize<UserDeletionIntegrationEvent>(message)

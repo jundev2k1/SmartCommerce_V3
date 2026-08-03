@@ -1,14 +1,14 @@
-using BuildingBlock.Infrastructure.Extensions;
-using BuildingBlock.Web.Cors;
-using BuildingBlock.Web.Middleware;
-using BuildingBlock.Web.Swagger;
+using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
+using SmartEcommerce.BuildingBlock.Web.Cors;
+using SmartEcommerce.BuildingBlock.Web.Middleware;
+using SmartEcommerce.BuildingBlock.Web.Swagger;
 
-using Product.API.ExceptionHandling;
-using Product.Infrastructure.BackgroundJobs;
-using Product.Persistence.Engine;
-using Product.Persistence.Storage.Seeders;
+using SmartEcommerce.Product.API.ExceptionHandling;
+using SmartEcommerce.Product.Infrastructure.BackgroundJobs;
+using SmartEcommerce.Product.Persistence.Engine;
+using SmartEcommerce.Product.Persistence.Storage.Seeders;
 
-namespace Product.API;
+namespace SmartEcommerce.Product.API;
 
 public static class ApplicationPipeline
 {

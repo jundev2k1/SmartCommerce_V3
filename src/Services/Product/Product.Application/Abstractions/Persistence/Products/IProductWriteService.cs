@@ -1,19 +1,19 @@
-using Product.Application.Features.Products.DTOs;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
-namespace Product.Application.Abstractions.Persistence.Products;
+namespace SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
 public sealed record CreateProductRequest(
     string Code,
     string Name,
     string Description,
     string Slug,
-    IReadOnlyCollection<ProductVariationInputDto> Variations,
+    IReadOnlyCollection<VariantInputDto> Variations,
     IReadOnlyCollection<Guid> CategoryIds,
     IReadOnlyCollection<Guid> TagIds);
 
 public interface IProductWriteService
 {
-    /// <summary>Returns the created ProductEntity - CreateProductHandler needs it whole (Id, DefaultVariation, every variation) to build ProductCreatedIntegrationEvent/ProductVariationCreatedIntegrationEvent per variation.</summary>
+    /// <summary>Returns the created ProductEntity - CreateProductHandler needs it whole (Id, DefaultVariation, every variation) to build ProductCreatedIntegrationEvent/VariantCreatedIntegrationEvent per variation.</summary>
     Task<ProductEntity> CreateAsync(CreateProductRequest request, CancellationToken ct = default);
 
     Task UpdateDetailsAsync(
@@ -23,17 +23,17 @@ public interface IProductWriteService
         Slug slug,
         CancellationToken ct = default);
 
-    Task<ProductVariation> AddVariationAsync(
+    Task<ProductVariant> AddVariationAsync(
         Guid productId,
-        ProductVariationInputDto variation,
+        VariantInputDto variation,
         CancellationToken ct = default);
 
-    Task<ProductVariation[]> AddVariationsAsync(
+    Task<ProductVariant[]> AddVariationsAsync(
         Guid productId,
-        IEnumerable<ProductVariationInputDto> variations,
+        IEnumerable<VariantInputDto> variations,
         CancellationToken ct = default);
 
-    Task<ProductVariation> UpdateVariationInformationAsync(
+    Task<ProductVariant> UpdateVariationInformationAsync(
         Guid productId,
         Guid variationId,
         Sku sku,
@@ -43,7 +43,7 @@ public interface IProductWriteService
         Weight? weight,
         Dimensions? dimensions,
         IReadOnlyCollection<string>? images,
-        ProductVariationStatus? status = null,
+        VariantStatus? status = null,
         CancellationToken ct = default);
 
     Task DeleteVariationAsync(Guid variationId, CancellationToken ct = default);

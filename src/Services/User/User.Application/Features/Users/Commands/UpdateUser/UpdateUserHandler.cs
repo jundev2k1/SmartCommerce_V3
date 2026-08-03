@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.User;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.User;
 
-using User.Application.Abstractions.Persistence.UserProfiles;
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Application.Features.Users.Commands.UpdateUser;
+namespace SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserHandler(
     IUserProfileWriteService userWriteService,

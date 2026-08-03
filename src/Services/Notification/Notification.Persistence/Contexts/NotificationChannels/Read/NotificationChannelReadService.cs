@@ -1,7 +1,7 @@
-using Notification.Application.Abstractions.Persistence.NotificationChannels;
-using Notification.Persistence.Engine;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using SmartEcommerce.Notification.Persistence.Engine;
 
-namespace Notification.Persistence.Contexts.NotificationChannels.Read;
+namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Read;
 
 public sealed class NotificationChannelReadService(NotificationMongoContext context) : INotificationChannelReadService
 {

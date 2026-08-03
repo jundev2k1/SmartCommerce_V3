@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationChannels.Commands.EnableNotificationChannel;
+using SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.EnableNotificationChannel;
 
-namespace Notification.API.Endpoints.NotificationChannel;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
 
 public sealed class EnableChannel : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class EnableChannel : ICarterModule
     {
         app.MapPost("/notification-channels/{channelId}/enable", EnableAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("EnableNotificationChannel")
             .WithDisplayName("Enable Notification Channel API")
             .WithDescription("Enables a channel. Requires the configuration to already be Valid (see RecordValidationResult).")

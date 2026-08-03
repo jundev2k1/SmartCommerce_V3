@@ -1,8 +1,8 @@
-using BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 
-using Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
-namespace Notification.Application.Features.NotificationCampaigns.Queries.ListNotificationCampaigns;
+namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.ListNotificationCampaigns;
 
 public sealed class ListNotificationCampaignsHandler(INotificationCampaignReadService notificationCampaignReadService)
     : IQueryHandler<ListNotificationCampaignsQuery, PaginatedResult<NotificationCampaignSummaryResponse>>

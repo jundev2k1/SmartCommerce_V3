@@ -1,4 +1,4 @@
-namespace Audit.Persistence.Contexts.AuditLogs.Repositories;
+namespace SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Repositories;
 
 public interface IAuditLogRepository
 {

@@ -1,6 +1,6 @@
-using BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
 
-namespace Inventory.Application.Features.Warehouses.Search;
+namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Search;
 
 /// <summary>Admin search whitelist for <see cref="Warehouse"/>. Built once (static singleton) - no per-request reflection scan.</summary>
 public static class WarehouseCriteriaDefinition

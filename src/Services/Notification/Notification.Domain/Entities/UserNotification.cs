@@ -1,4 +1,4 @@
-namespace Notification.Domain.Entities;
+namespace SmartEcommerce.Notification.Domain.Entities;
 
 /// <summary>
 /// One Notification Center entry for a specific user. Has nothing to do with Email/Telegram/any

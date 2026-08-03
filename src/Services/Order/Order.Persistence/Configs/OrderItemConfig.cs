@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Order.Persistence.Configs;
+namespace SmartEcommerce.Order.Persistence.Configs;
 
 public sealed class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
 {
@@ -30,7 +30,7 @@ public sealed class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
             .HasDefaultValueSql("now()");
 
         // Relationships
-        // OrderItem has no Order navigation property (see Order.Domain remarks - Order.Items is
+        // OrderItem has no Order navigation property (see SmartEcommerce.Order.Domain remarks - Order.Items is
         // one-directional), so the "one" side is a shadow reference rather than x => x.Order.
         builder.HasOne<OrderEntity>()
             .WithMany(o => o.Items)

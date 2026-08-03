@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Product.Domain.ValueObjects;
+namespace SmartEcommerce.Product.Domain.ValueObjects;
 
 /// <summary>Unique business code identifying a ProductCategory.</summary>
 public sealed partial class CategoryCode : StringValueObject

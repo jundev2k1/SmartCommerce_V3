@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace User.Persistence.Storage.Migrations
+namespace SmartEcommerce.User.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddUserProfileMiddleName : Migration

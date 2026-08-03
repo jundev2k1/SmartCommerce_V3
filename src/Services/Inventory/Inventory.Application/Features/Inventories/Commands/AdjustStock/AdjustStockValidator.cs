@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Inventory.Application.Features.Inventories.Commands.AdjustStock;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.AdjustStock;
 
 public sealed class AdjustStockValidator : AbstractValidator<AdjustStockCommand>
 {

@@ -1,4 +1,6 @@
-namespace Product.Domain.Entities.Categories;
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+
+namespace SmartEcommerce.Product.Domain.Entities.Categories;
 
 public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
 {
@@ -7,6 +9,9 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
     public string Description { get; private set; } = string.Empty;
     public ProductCategoryStatus Status { get; private set; }
     public Guid? ParentCategoryId { get; private set; }
+    public string Note { get; private set; } = string.Empty;
+
+    public IEnumerable<ProductCategoryTranslation> Translation { get; private set; } = [];
 
     private ProductCategory() { }
 
@@ -16,7 +21,8 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
         string name,
         string description,
         Guid? parentCategoryId = null,
-        ProductCategoryStatus status = ProductCategoryStatus.Active)
+        ProductCategoryStatus status = ProductCategoryStatus.Active,
+        string note = "")
     {
         ValidateName(name);
 
@@ -31,15 +37,59 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
             Description = description,
             ParentCategoryId = parentCategoryId,
             Status = status,
+            Note = note,
         };
     }
 
-    public void UpdateDetails(string name, string description)
+    // ============================================================================
+    // Translations
+    // Manages the per-language name/description/note override for this
+    // category, upserting by language code.
+    // ============================================================================
+
+    #region Translations
+
+    public void Translate(
+        LanguageCode languageCode,
+        string name,
+        string description)
+    {
+        ValidateName(name);
+
+        var existingTranslation = Translation
+            .FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existingTranslation != null)
+        {
+            existingTranslation.UpdateDetails(name, description);
+            return;
+        }
+
+        var translation = ProductCategoryTranslation.Create(
+            Id,
+            languageCode,
+            name,
+            description);
+
+        Translation = Translation.Append(translation);
+    }
+
+    #endregion
+
+    // ============================================================================
+    // Details & lifecycle
+    // Core descriptive fields, parent-category reassignment, and Active/Inactive
+    // status transitions, plus the shared name-validation rule.
+    // ============================================================================
+
+    #region Details & lifecycle
+
+    public void UpdateDetails(string name, string description, string note)
     {
         ValidateName(name);
 
         Name = name;
         Description = description;
+        Note = note;
     }
 
     /// <summary>
@@ -74,4 +124,6 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
         if (!IsValidName(name))
             throw ExceptionFactory.RequiredField("Category name cannot be empty.");
     }
+
+    #endregion
 }

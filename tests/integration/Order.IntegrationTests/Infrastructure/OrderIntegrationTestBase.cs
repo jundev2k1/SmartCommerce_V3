@@ -1,5 +1,5 @@
-using BuildingBlock.Application.Abstractions.Persistence;
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 using MediatR;
 
@@ -9,15 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 using NSubstitute;
 
-using Order.Application;
-using Order.Application.Abstractions.Persistence.Orders;
-using Order.Application.Abstractions.Services;
-using Order.Application.Features.Orders.DTOs;
-using Order.Domain.Entities.Catalogs;
-using Order.Domain.Enums;
-using Order.Domain.ValueObjects;
-using Order.Persistence;
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Application;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Abstractions.Services;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
+using SmartEcommerce.Order.Domain.Entities.Catalogs;
+using SmartEcommerce.Order.Domain.Enums;
+using SmartEcommerce.Order.Domain.ValueObjects;
+using SmartEcommerce.Order.Persistence;
+using SmartEcommerce.Order.Persistence.Engine;
 
 using SimpleShop.TestKit.Fakes;
 
@@ -25,26 +25,26 @@ using Testcontainers.PostgreSql;
 
 using Xunit;
 
-using OrderEntity = Order.Domain.Entities.Orders.Order;
+using OrderEntity = SmartEcommerce.Order.Domain.Entities.Orders.Order;
 
-namespace Order.IntegrationTests.Infrastructure;
+namespace SmartEcommerce.Order.IntegrationTests.Infrastructure;
 
 /// <summary>
-/// Shared harness for Order.IntegrationTests: a real Postgres (Testcontainers), wired through the
-/// exact same <c>Order.Persistence</c>/<c>Order.Application</c> DI extensions Order.API itself
-/// uses (<see cref="Order.Persistence.DependencyInjection.AddPersistence"/> and
-/// <see cref="Order.Application.DependencyInjection.AddApplication"/>) - so concurrency behavior
+/// Shared harness for SmartEcommerce.Order.IntegrationTests: a real Postgres (Testcontainers), wired through the
+/// exact same <c>SmartEcommerce.Order.Persistence</c>/<c>SmartEcommerce.Order.Application</c> DI extensions SmartEcommerce.Order.API itself
+/// uses (<see cref="SmartEcommerce.Order.Persistence.DependencyInjection.AddPersistence"/> and
+/// <see cref="SmartEcommerce.Order.Application.DependencyInjection.AddApplication"/>) - so concurrency behavior
 /// (xmin optimistic concurrency, transaction/rollback semantics, MediatR pipeline) is exactly
 /// what production runs, not a simplified stand-in.
 ///
-/// Deliberately NOT a WebApplicationFactory/real-HTTP host: <c>Order.Infrastructure.AddInfrastructure</c>
+/// Deliberately NOT a WebApplicationFactory/real-HTTP host: <c>SmartEcommerce.Order.Infrastructure.AddInfrastructure</c>
 /// eagerly wires Kafka, Redis, and a gRPC channel to Inventory Service, none of which are relevant
 /// to whether two concurrent UpdateOrder requests corrupt the same Order aggregate - that's purely
 /// an EF Core + Postgres question. <see cref="IInventoryClientService"/> (real impl needs a live
 /// Inventory gRPC endpoint) is substituted with an ample-stock fake; <see cref="ICurrentUserService"/>
 /// (real impl reads HttpContext) with the TestKit's <see cref="FakeCurrentUserService"/>. Every other
 /// moving part - OrderDbContext, OrderRepo, OrderWriteService, EfUnitOfWork, the real
-/// UpdateOrderHandler/OrderItemPreparationService - is exactly what Order.API runs.
+/// UpdateOrderHandler/OrderItemPreparationService - is exactly what SmartEcommerce.Order.API runs.
 ///
 /// One Postgres container for the whole test class (expensive to start); callers are responsible
 /// for keeping test data isolated per test/iteration (a fresh Order per iteration, not a fresh

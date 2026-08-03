@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Orders.Queries.GetOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrder;
 
 public sealed record GetOrderQuery(Guid OrderId) : IQuery<GetOrderResponse>;
 

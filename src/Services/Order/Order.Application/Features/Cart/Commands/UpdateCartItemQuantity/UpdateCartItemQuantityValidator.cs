@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Order.Application.Features.Cart.Commands.UpdateCartItemQuantity;
+namespace SmartEcommerce.Order.Application.Features.Cart.Commands.UpdateCartItemQuantity;
 
 public sealed class UpdateCartItemQuantityValidator : AbstractValidator<UpdateCartItemQuantityCommand>
 {

@@ -1,4 +1,4 @@
-namespace User.Application.Abstractions.Persistence.UserProfiles;
+namespace SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 
 public sealed record CreateUserProfileRequest(
     Guid Id,

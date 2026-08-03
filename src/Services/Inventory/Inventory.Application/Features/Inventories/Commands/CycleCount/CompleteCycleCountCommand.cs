@@ -1,7 +1,7 @@
-namespace Inventory.Application.Features.Inventories.Commands.CycleCount;
+namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.CycleCount;
 
 public sealed record CycleCountItemRequest(
-    Guid ProductVariantId,
+    Guid VariantId,
     int ActualQuantity);
 
 public sealed record CompleteCycleCountCommand(
@@ -10,7 +10,7 @@ public sealed record CompleteCycleCountCommand(
     decimal VarianceThresholdPercent = 5m) : ICommand<CompleteCycleCountResponse>;
 
 public sealed record VarianceItem(
-    Guid ProductVariantId,
+    Guid VariantId,
     int ExpectedQuantity,
     int ActualQuantity,
     int Variance,

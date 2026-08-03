@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
+using SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
 
-namespace Notification.API.Endpoints.NotificationRule;
+namespace SmartEcommerce.Notification.API.Endpoints.NotificationRule;
 
 public sealed class GetRule : ICarterModule
 {
@@ -11,7 +12,7 @@ public sealed class GetRule : ICarterModule
     {
         app.MapGet("/notification-rules/{ruleId}", GetAsync)
             .WithTags("NotificationRule")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetNotificationRule")
             .WithDisplayName("Get Notification Rule API")
             .Produces<ApiResponse<GetNotificationRuleResponse>>(StatusCodes.Status200OK);

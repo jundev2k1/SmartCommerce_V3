@@ -1,6 +1,6 @@
-using BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 
-namespace BuildingBlock.Infrastructure.Messaging;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
 
 public sealed class InboxRetryOptions
 {

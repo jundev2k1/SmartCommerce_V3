@@ -1,6 +1,6 @@
-using BuildingBlock.Domain.Metadata;
+using SmartEcommerce.BuildingBlock.Domain.Metadata;
 
-namespace Order.Domain.Metadata;
+namespace SmartEcommerce.Order.Domain.Metadata;
 
 public sealed class DiscountMetadata : MetadataBase
 {

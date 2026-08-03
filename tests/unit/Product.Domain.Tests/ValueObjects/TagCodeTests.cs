@@ -1,6 +1,6 @@
-using Product.Domain.ValueObjects;
+using SmartEcommerce.Product.Domain.ValueObjects;
 
-namespace Product.Domain.Tests.ValueObjects;
+namespace SmartEcommerce.Product.Domain.Tests.ValueObjects;
 
 public class TagCodeTests : UppercaseCodeValueObjectTests<TagCode>
 {

@@ -1,10 +1,10 @@
-namespace BuildingBlock.Contract.Events.Audit;
+namespace SmartEcommerce.BuildingBlock.Contract.Events.Audit;
 
 /// <summary>
 /// Optional, extensible context captured alongside an audit graph. Every field is nullable and
 /// additive by design - new context (e.g. a future field) is a new optional property here, never
 /// a breaking change to <see cref="AuditIntegrationEvent"/> or the entities that produce it.
-/// Populated by an <c>IAuditMetadataProvider</c> (BuildingBlock.Application) - deliberately not
+/// Populated by an <c>IAuditMetadataProvider</c> (SmartEcommerce.BuildingBlock.Application) - deliberately not
 /// coupled to EF or any other persistence provider.
 /// </summary>
 public sealed record AuditMetadata

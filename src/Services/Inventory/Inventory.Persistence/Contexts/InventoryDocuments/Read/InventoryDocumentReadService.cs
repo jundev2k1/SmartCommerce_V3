@@ -1,9 +1,9 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using Inventory.Application.Abstractions.Persistence.InventoryDocuments;
-using Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+using SmartEcommerce.Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
 
-namespace Inventory.Persistence.Contexts.InventoryDocuments.Read;
+namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryDocuments.Read;
 
 public sealed class InventoryDocumentReadService(IInventoryDocumentRepository repo) : IInventoryDocumentReadService
 {

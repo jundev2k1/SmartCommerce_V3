@@ -1,4 +1,4 @@
-namespace Order.Application.Features.Orders.Commands.CancelOrder;
+namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CancelOrder;
 
 public sealed record CancelOrderCommand(Guid OrderId, string Reason = "CancelledByCustomer") : ICommand<CancelOrderResponse>;
 

@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Jobs;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
 
 /// <summary>
 /// Defines a one-time scheduled job that runs after a delay.

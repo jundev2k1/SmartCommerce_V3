@@ -1,9 +1,10 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
 
-namespace Notification.API.Endpoints.UserNotification;
+namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Scoped to the calling user - enforced in the handler, callers may only mark their own as read.</summary>
 public sealed class MarkUserNotificationAsRead : ICarterModule
@@ -12,7 +13,7 @@ public sealed class MarkUserNotificationAsRead : ICarterModule
     {
         app.MapPost("/user-notifications/{notificationId}/read", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPolicies.RequireUser)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
             .WithName("MarkUserNotificationAsRead")
             .WithDisplayName("Mark User Notification As Read API")
             .WithDescription("Marks one of the caller's own Notification Center entries as read.")

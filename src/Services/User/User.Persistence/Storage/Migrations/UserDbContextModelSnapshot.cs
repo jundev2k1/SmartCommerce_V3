@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using User.Persistence.Engine;
+using SmartEcommerce.User.Persistence.Engine;
 
 #nullable disable
 
-namespace User.Persistence.Storage.Migrations
+namespace SmartEcommerce.User.Persistence.Storage.Migrations
 {
     [DbContext(typeof(UserDbContext))]
     partial class UserDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace User.Persistence.Storage.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
+            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace User.Persistence.Storage.Migrations
                     b.ToTable("inbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
+            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace User.Persistence.Storage.Migrations
                     b.ToTable("inbox_retry_histories", (string)null);
                 });
 
-            modelBuilder.Entity("BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +227,7 @@ namespace User.Persistence.Storage.Migrations
                     b.ToTable("outbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("User.Domain.Entities.UserProfile", b =>
+            modelBuilder.Entity("SmartEcommerce.User.Domain.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

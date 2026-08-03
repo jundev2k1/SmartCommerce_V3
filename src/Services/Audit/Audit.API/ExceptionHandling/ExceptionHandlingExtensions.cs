@@ -1,4 +1,4 @@
-namespace Audit.API.ExceptionHandling;
+namespace SmartEcommerce.Audit.API.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

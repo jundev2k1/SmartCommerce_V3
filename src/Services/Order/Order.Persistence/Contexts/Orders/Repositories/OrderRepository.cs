@@ -1,6 +1,6 @@
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Persistence.Engine;
 
-namespace Order.Persistence.Contexts.Orders.Repositories;
+namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
 
 public sealed class OrderRepo(OrderDbContext dbContext)
     : OrderBaseRepository<OrderEntity, Guid>(dbContext), IOrderRepository

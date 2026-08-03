@@ -1,4 +1,4 @@
-namespace Notification.Application.Abstractions.Persistence.NotificationTemplates;
+namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
 public interface INotificationTemplateWriteService
 {

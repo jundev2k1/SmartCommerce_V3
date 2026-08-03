@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using User.Application.Features.Users.Commands.RebuildUserSearchIndex;
+using SmartEcommerce.User.Application.Features.Users.Commands.RebuildUserSearchIndex;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 /// <summary>PostgreSQL -&gt; Projection Builder -&gt; Bulk Index -&gt; Elasticsearch. See docs/reference/search.md.</summary>
 public sealed class RebuildUserSearchIndexEndpoint : ICarterModule
@@ -25,7 +26,7 @@ public sealed class RebuildUserSearchIndexEndpoint : ICarterModule
     {
         app.MapPost("/users/search/rebuild", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("RebuildUserSearchIndex")
             .WithDisplayName("Rebuild User Search Index API")
             .WithDescription(API_DESC.JoinToString("\n"))

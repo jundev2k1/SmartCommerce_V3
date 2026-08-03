@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
 
 /// <summary>
 /// Provides mutual exclusion across service instances. Purely about "only one caller holds this

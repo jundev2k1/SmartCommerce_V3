@@ -1,4 +1,4 @@
-namespace Product.Application.Abstractions.Persistence.ProductTags;
+namespace SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
 
 public interface IProductTagWriteService
 {

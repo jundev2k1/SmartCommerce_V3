@@ -1,9 +1,9 @@
-using Audit.Application.Abstractions.Persistence.AuditLogs;
-using Audit.Persistence.Contexts.AuditLogs.Repositories;
+using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
+using SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Repositories;
 
-using BuildingBlock.Application.Abstractions.Persistence;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 
-namespace Audit.Persistence.Contexts.AuditLogs.Write;
+namespace SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Write;
 
 public sealed class AuditLogWriteService(
     IAuditLogRepository repo,

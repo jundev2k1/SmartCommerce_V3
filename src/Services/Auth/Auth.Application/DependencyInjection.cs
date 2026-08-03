@@ -1,4 +1,4 @@
-using BuildingBlock.Application;
+using SmartEcommerce.BuildingBlock.Application;
 
 using FluentValidation;
 
@@ -8,7 +8,7 @@ using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Application;
+namespace SmartEcommerce.Auth.Application;
 
 public static class DependencyInjection
 {

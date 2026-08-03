@@ -1,8 +1,8 @@
-using BuildingBlock.Saga.Abstractions;
-using BuildingBlock.Saga.Core;
+using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using SmartEcommerce.BuildingBlock.Saga.Core;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Saga.Extensions;
+namespace SmartEcommerce.BuildingBlock.Saga.Extensions;
 
 /// <summary>
 /// Extension methods for registering saga services.

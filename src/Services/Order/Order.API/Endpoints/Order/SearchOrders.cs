@@ -1,11 +1,12 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Order.Application.Features.Orders.Queries.SearchOrders;
+using SmartEcommerce.Order.Application.Features.Orders.Queries.SearchOrders;
 
-namespace Order.API.Endpoints.Order;
+namespace SmartEcommerce.Order.API.Endpoints.Order;
 
 public sealed class SearchOrdersEndpoint : ICarterModule
 {
@@ -30,7 +31,7 @@ public sealed class SearchOrdersEndpoint : ICarterModule
     {
         app.MapPost("/orders/search", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("SearchOrders")
             .WithDisplayName("Search Orders API")
             .WithDescription(API_DESC.JoinToString("\n"))

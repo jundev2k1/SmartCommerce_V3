@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.Extensions.Configuration;
 
-using User.Application.Abstractions.Services;
+using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace User.Infrastructure.Caching;
+namespace SmartEcommerce.User.Infrastructure.Caching;
 
 /// <summary>
 /// Redis-backed implementation of User's own UserProfile detail cache. Mirrors Auth's
@@ -19,11 +19,11 @@ public sealed class UserProfileCacheService(
     private readonly TimeSpan _defaultTtl = TimeSpan.FromMinutes(
         configuration
             .GetSection("Caching:EntityTtl:UserProfiles:MinutesToExpire")
-            .Get<int?>() ?? CacheKeys.UserProfiles.DefaultTtlMinutes);
+            .Get<int?>() ?? CacheKeyConstant.UserProfiles.DefaultTtlMinutes);
 
     public async Task<CachedUserProfile?> GetAsync(Guid userId, CancellationToken ct = default)
     {
-        var key = CacheKeys.UserProfiles.Detail(userId);
+        var key = CacheKeyConstant.UserProfiles.Detail(userId);
         return await cacheService.GetAsync<CachedUserProfile>(key, ct);
     }
 
@@ -32,7 +32,7 @@ public sealed class UserProfileCacheService(
         if (userIds.Count == 0)
             return new Dictionary<Guid, CachedUserProfile>();
 
-        var idsByKey = userIds.ToDictionary(CacheKeys.UserProfiles.Detail, id => id);
+        var idsByKey = userIds.ToDictionary(CacheKeyConstant.UserProfiles.Detail, id => id);
         var cached = await cacheService.GetManyAsync<CachedUserProfile>(idsByKey.Keys, ct);
 
         var result = new Dictionary<Guid, CachedUserProfile>();
@@ -47,7 +47,7 @@ public sealed class UserProfileCacheService(
 
     public async Task SetAsync(CachedUserProfile profile, CancellationToken ct = default)
     {
-        var key = CacheKeys.UserProfiles.Detail(profile.Id);
+        var key = CacheKeyConstant.UserProfiles.Detail(profile.Id);
         await cacheService.SetAsync(key, profile, _defaultTtl, ct);
     }
 
@@ -56,13 +56,13 @@ public sealed class UserProfileCacheService(
         if (profiles.Count == 0)
             return;
 
-        var items = profiles.ToDictionary(p => CacheKeys.UserProfiles.Detail(p.Id), p => p);
+        var items = profiles.ToDictionary(p => CacheKeyConstant.UserProfiles.Detail(p.Id), p => p);
         await cacheService.SetManyAsync(items, _defaultTtl, ct);
     }
 
     public async Task RemoveAsync(Guid userId, CancellationToken ct = default)
     {
-        var key = CacheKeys.UserProfiles.Detail(userId);
+        var key = CacheKeyConstant.UserProfiles.Detail(userId);
         await cacheService.RemoveAsync(key, ct);
     }
 }

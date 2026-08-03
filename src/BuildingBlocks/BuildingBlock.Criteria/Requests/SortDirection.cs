@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BuildingBlock.Criteria.Requests;
+namespace SmartEcommerce.BuildingBlock.Criteria.Requests;
 
 [JsonConverter(typeof(LowerCaseStringEnumConverter<SortDirection>))]
 public enum SortDirection

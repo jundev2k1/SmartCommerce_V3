@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.Options;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 
 /// <summary>
 /// Recurring job that deletes obsolete Inbox dedup rows in batches. Invokes only the

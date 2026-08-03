@@ -1,11 +1,11 @@
-using BuildingBlock.Persistence.Ef.Outbox;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace BuildingBlock.Persistence.Ef.Tests;
+namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
 
-// Fully-qualified DbContext: this project's namespace nests under BuildingBlock.Persistence.Ef,
-// which also contains a sibling BuildingBlock.Persistence.Ef.DbContext *namespace* - the bare
+// Fully-qualified DbContext: this project's namespace nests under SmartEcommerce.BuildingBlock.Persistence.Ef,
+// which also contains a sibling SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext *namespace* - the bare
 // name would otherwise resolve there instead of Microsoft.EntityFrameworkCore.DbContext, same
 // reason DbContextBase.cs in the main project fully-qualifies it too.
 public sealed class TestDbContext(DbContextOptions<TestDbContext> options)

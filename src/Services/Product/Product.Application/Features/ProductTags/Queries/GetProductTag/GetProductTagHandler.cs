@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 using Mapster;
 
-using Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace Product.Application.Features.ProductTags.Queries.GetProductTag;
+namespace SmartEcommerce.Product.Application.Features.ProductTags.Queries.GetProductTag;
 
 public sealed class GetProductTagHandler(IProductTagReadService tagReadService)
     : IQueryHandler<GetProductTagQuery, GetProductTagResponse>

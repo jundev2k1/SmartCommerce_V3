@@ -1,6 +1,6 @@
-using Notification.Application.Features.UserNotifications.DTOs;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace Notification.Infrastructure.SignalR.Hubs.Global;
+namespace SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
 
 public interface IClientSiteActions : IGlobalHubBase
 {

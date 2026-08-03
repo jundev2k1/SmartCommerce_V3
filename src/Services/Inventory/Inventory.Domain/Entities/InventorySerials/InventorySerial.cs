@@ -1,9 +1,9 @@
-using Inventory.Domain.Entities.Inventories;
-using Inventory.Domain.Entities.InventoryDocuments;
-using Inventory.Domain.Entities.InventoryReservations;
-using Inventory.Domain.Metadata;
+using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
+using SmartEcommerce.Inventory.Domain.Entities.InventoryReservations;
+using SmartEcommerce.Inventory.Domain.Metadata;
 
-namespace Inventory.Domain.Entities.InventorySerials;
+namespace SmartEcommerce.Inventory.Domain.Entities.InventorySerials;
 
 public sealed class InventorySerial : AggregateRoot<Guid>, IAuditable
 {

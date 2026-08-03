@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using BuildingBlock.Criteria.Building;
-using BuildingBlock.Criteria.Definition;
-using BuildingBlock.Criteria.Enums;
-using BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Criteria.Building;
+using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
 
 using Shouldly;
 
-namespace BuildingBlock.Criteria.Tests;
+namespace SmartEcommerce.BuildingBlock.Criteria.Tests;
 
 public class CriteriaPredicateBuilderTests
 {

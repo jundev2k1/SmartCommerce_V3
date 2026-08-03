@@ -1,7 +1,7 @@
-using Notification.Application.Abstractions.Services;
-using Notification.Application.Features.UserNotifications.DTOs;
+using SmartEcommerce.Notification.Application.Abstractions.Services;
+using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace Notification.Application.Features.OrderRealtime.Commands.NotifyOrderStatusUpdated;
+namespace SmartEcommerce.Notification.Application.Features.OrderRealtime.Commands.NotifyOrderStatusUpdated;
 
 public sealed class NotifyOrderStatusUpdatedHandler(IRealtimeNotifier realtimeNotifier)
     : ICommandHandler<NotifyOrderStatusUpdatedCommand>

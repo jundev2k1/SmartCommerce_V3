@@ -1,9 +1,9 @@
-namespace Audit.Domain.Entities;
+namespace SmartEcommerce.Audit.Domain.Entities;
 
 /// <summary>
 /// One node of a persisted audit graph - the Mongo-embedded mirror of
-/// BuildingBlock.Contract.Events.Audit.AuditNode. Kept as its own type (not a shared reference to
-/// the Contract record) so Audit.Domain stays free of a Contract dependency, same reasoning as
+/// SmartEcommerce.BuildingBlock.Contract.Events.Audit.AuditNode. Kept as its own type (not a shared reference to
+/// the Contract record) so SmartEcommerce.Audit.Domain stays free of a Contract dependency, same reasoning as
 /// every other entity in this project. Persisted as a real nested document (not a serialized
 /// string), so MongoDB can query into <see cref="EntityType"/>/<see cref="EntityId"/> at any
 /// depth if ever needed - <see cref="Children"/> is a true recursive hierarchy, not a flat list.

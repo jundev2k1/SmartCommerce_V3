@@ -1,7 +1,7 @@
-using Inventory.Domain.ValueObjects;
-using Inventory.Persistence.Engine;
+using SmartEcommerce.Inventory.Domain.ValueObjects;
+using SmartEcommerce.Inventory.Persistence.Engine;
 
-namespace Inventory.Persistence.Storage.Seeders;
+namespace SmartEcommerce.Inventory.Persistence.Storage.Seeders;
 
 public sealed class InventorySeeder(InventoryDbContext context)
 {

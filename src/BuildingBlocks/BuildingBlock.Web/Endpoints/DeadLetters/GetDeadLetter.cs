@@ -1,7 +1,7 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Application.Abstractions.DeadLetters;
-using BuildingBlock.Infrastructure.DeadLetters.Queries;
-using BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using Carter;
 
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BuildingBlock.Web.Endpoints.DeadLetters;
+namespace SmartEcommerce.BuildingBlock.Web.Endpoints.DeadLetters;
 
 public sealed class GetDeadLetter : ICarterModule
 {
@@ -20,7 +20,7 @@ public sealed class GetDeadLetter : ICarterModule
     {
         app.MapGet("/deadletters/{id:guid}", GetById)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("GetDeadLetter")
             .WithDisplayName("Get Dead Letter API")
             .WithDescription("Full detail for one dead-lettered row, including its retry history.")

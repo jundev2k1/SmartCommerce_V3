@@ -1,4 +1,4 @@
-namespace Audit.Application.Abstractions.Persistence.AuditLogs;
+namespace SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
 
 public interface IAuditLogReadService
 {

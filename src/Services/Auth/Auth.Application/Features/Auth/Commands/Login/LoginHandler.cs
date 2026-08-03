@@ -1,8 +1,8 @@
-using Auth.Application.Abstractions.Auth;
-using Auth.Application.Abstractions.Security.Jwt;
-using Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
+using SmartEcommerce.Auth.Application.Abstractions.Services;
 
-namespace Auth.Application.Features.Auth.Commands.Login;
+namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Login;
 
 public sealed class LoginHandler(
     IAuthService authService,

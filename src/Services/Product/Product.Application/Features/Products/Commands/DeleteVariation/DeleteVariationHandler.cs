@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Abstractions.Outbox;
-using BuildingBlock.Application.Abstractions.Services;
-using BuildingBlock.Contract.Events.Product;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Contract.Events.Product;
 
-using Product.Application.Abstractions.Persistence.Products;
+using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
-namespace Product.Application.Features.Products.Commands.DeleteVariation;
+namespace SmartEcommerce.Product.Application.Features.Products.Commands.DeleteVariation;
 
 /// <summary>Aggregate enforces "cannot remove the last variation" and auto-promotes a new Default if needed - see Product.RemoveVariation.</summary>
 public sealed class DeleteVariationHandler(
@@ -24,7 +24,7 @@ public sealed class DeleteVariationHandler(
                 ct);
 
             await outboxStore.EnqueueAsync(
-                new ProductVariationDeletedIntegrationEvent(
+                new VariantDeletedIntegrationEvent(
                     request.ProductId,
                     request.VariationId,
                     correlationId),

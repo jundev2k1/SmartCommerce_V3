@@ -1,8 +1,8 @@
-using Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Auth.Persistence.Configs;
+namespace SmartEcommerce.Auth.Persistence.Configs;
 
 public sealed class AccountRoleConfig : IEntityTypeConfiguration<AccountRole>
 {

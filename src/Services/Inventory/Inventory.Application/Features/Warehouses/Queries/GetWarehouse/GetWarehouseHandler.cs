@@ -1,10 +1,10 @@
-using BuildingBlock.Application.Exceptions;
+using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
-using Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
 
 using Mapster;
 
-namespace Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
+namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
 
 public sealed class GetWarehouseHandler(IWarehouseReadService warehouseReadService)
     : IQueryHandler<GetWarehouseQuery, GetWarehouseResponse>

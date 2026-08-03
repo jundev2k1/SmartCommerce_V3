@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using User.Application.Features.Users.Commands.UpdateUser;
+using SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
 
-namespace User.API.Endpoints;
+namespace SmartEcommerce.User.API.Endpoints;
 
 public sealed record UpdateUserRequest(
     string FirstName,
@@ -49,7 +50,7 @@ public sealed class UpdateUserEndpoint : ICarterModule
     {
         app.MapPut("/profiles/{userId}", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("UpdateUser")
             .WithDisplayName("Update User API")
             .WithDescription(API_DESC.JoinToString("\n"))

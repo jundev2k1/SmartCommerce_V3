@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Idempotency;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
 
 /// <summary>A previously-completed execution's response, cached so a duplicate request can replay it verbatim.</summary>
 public sealed record IdempotencyRecord(

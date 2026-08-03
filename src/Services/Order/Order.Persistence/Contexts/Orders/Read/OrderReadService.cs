@@ -1,13 +1,13 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Criteria.Requests;
-using BuildingBlock.Persistence.Ef.Criteria;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
 
-using Order.Application.Abstractions.Persistence.Orders;
-using Order.Application.Features.Orders.Search;
-using Order.Persistence.Contexts.Orders.Repositories;
-using Order.Persistence.Engine;
+using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Features.Orders.Search;
+using SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
+using SmartEcommerce.Order.Persistence.Engine;
 
-namespace Order.Persistence.Contexts.Orders.Read;
+namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Read;
 
 public sealed class OrderReadService(
     IOrderRepository orderRepo,

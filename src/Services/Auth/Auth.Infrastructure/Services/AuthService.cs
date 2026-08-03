@@ -1,8 +1,8 @@
-using Auth.Application.Abstractions.Auth;
+using SmartEcommerce.Auth.Application.Abstractions.Auth;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Auth.Infrastructure.Services;
+namespace SmartEcommerce.Auth.Infrastructure.Services;
 
 public sealed class AuthService(UserManager<Account> userManager) : IAppService, IAuthService
 {

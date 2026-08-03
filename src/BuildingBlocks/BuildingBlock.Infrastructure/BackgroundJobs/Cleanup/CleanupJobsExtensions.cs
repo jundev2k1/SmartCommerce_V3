@@ -1,11 +1,11 @@
-using BuildingBlock.Application.Abstractions.Jobs;
-using BuildingBlock.Infrastructure.BackgroundJobs.Monitoring;
-using BuildingBlock.Infrastructure.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Monitoring;
+using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 
 /// <summary>
 /// Opt-in registration for the Inbox/Outbox cleanup recurring jobs, plus the Inbox

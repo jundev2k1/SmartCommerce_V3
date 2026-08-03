@@ -1,4 +1,4 @@
-namespace BuildingBlock.Application.Abstractions.Events;
+namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
 /// <summary>
 /// Dispatches application events synchronously to registered MediatR handlers.

@@ -1,10 +1,11 @@
-using BuildingBlock.Application.Abstractions.Common;
-using BuildingBlock.Infrastructure.Authorization;
-using BuildingBlock.SharedKernel.Extensions;
+using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 
-using Inventory.Application.Features.Inventories.Commands.StockIn;
+using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.StockIn;
 
-namespace Inventory.API.Endpoints.Inventory;
+namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
 
 public sealed record StockInRequest(int Quantity, string Reason);
 
@@ -31,7 +32,7 @@ public sealed class StockInEndpoint : ICarterModule
     {
         app.MapPost("/inventories/{inventoryId}/stock-in", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPolicies.RequireAdmin)
+            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
             .WithName("StockIn")
             .WithDisplayName("Stock In API")
             .WithDescription(API_DESC.JoinToString("\n"))
