@@ -3,15 +3,8 @@ using BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.AspNetCore.Http;
 
-namespace BuildingBlock.Infrastructure.CurrentUser;
+namespace BuildingBlock.Web.CurrentUser;
 
-/// <summary>
-/// Reads the caller's locale off the Accept-Language header, mirroring <see cref="CurrentUserService"/>'s
-/// ambient-context shape (IHttpContextAccessor-backed, scoped, no per-endpoint boilerplate needed).
-/// Only the first, bare locale tag is parsed (e.g. "en" out of "en-US,en;q=0.9") - this app has a small,
-/// known set of supported locales and no server-side content-negotiation need, so a full RFC 4647
-/// quality-value parser would be unused complexity.
-/// </summary>
 public sealed class CurrentLocaleService(IHttpContextAccessor httpContextAccessor) : ICurrentLocaleService
 {
     public const string DefaultLocale = "en";

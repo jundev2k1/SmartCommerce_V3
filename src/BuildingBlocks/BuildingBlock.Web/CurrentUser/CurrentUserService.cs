@@ -5,7 +5,7 @@ using BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.AspNetCore.Http;
 
-namespace BuildingBlock.Infrastructure.CurrentUser;
+namespace BuildingBlock.Web.CurrentUser;
 
 public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
 {

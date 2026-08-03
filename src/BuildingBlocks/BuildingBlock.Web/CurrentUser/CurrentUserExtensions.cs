@@ -2,7 +2,7 @@ using BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Infrastructure.CurrentUser;
+namespace BuildingBlock.Web.CurrentUser;
 
 public static class CurrentUserExtensions
 {

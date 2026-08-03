@@ -1,4 +1,4 @@
-namespace BuildingBlock.Infrastructure.Authorization;
+namespace BuildingBlock.SharedKernel.Constants;
 
 /// <summary>
 /// Authorization policy names for use with [Authorize(Policy = "...")]
