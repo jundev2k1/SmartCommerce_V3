@@ -1,5 +1,6 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.SharedKernel.Constants;
 
 using Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
 

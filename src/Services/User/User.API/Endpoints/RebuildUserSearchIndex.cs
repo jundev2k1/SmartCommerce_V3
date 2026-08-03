@@ -1,5 +1,6 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
 
 using User.Application.Features.Users.Commands.RebuildUserSearchIndex;

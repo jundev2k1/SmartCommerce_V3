@@ -1,6 +1,7 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Application.Abstractions.Services;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
 
 using Order.Application.Features.Orders.Commands.CreateOrder;

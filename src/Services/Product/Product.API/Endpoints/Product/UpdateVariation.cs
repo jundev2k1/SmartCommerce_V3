@@ -1,6 +1,7 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Application.Exceptions;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
 
 using Product.Application.Features.Products.Commands.UpdateVariation;

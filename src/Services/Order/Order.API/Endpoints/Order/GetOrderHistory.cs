@@ -1,6 +1,7 @@
 using BuildingBlock.Application.Abstractions.Common;
 using BuildingBlock.Criteria.Requests;
 using BuildingBlock.Infrastructure.Authorization;
+using BuildingBlock.SharedKernel.Constants;
 using BuildingBlock.SharedKernel.Extensions;
 
 using Order.Application.Features.Orders.Queries.GetOrderHistory;
