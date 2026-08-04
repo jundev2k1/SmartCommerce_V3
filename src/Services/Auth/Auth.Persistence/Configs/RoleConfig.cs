@@ -1,4 +1,4 @@
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Roles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

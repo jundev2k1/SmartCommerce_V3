@@ -1,4 +1,4 @@
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Accounts;
 using SmartEcommerce.Auth.Persistence.Engine;
 
 using Microsoft.AspNetCore.Identity;

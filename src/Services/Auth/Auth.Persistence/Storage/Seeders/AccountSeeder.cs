@@ -1,8 +1,9 @@
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Accounts;
 using SmartEcommerce.Auth.Domain.Enums;
 using SmartEcommerce.Auth.Persistence.Engine;
 
 using SmartEcommerce.BuildingBlock.Domain.Seeders;
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ public class AccountSeeder(AuthDbContext context, UserManager<Account> userManag
 
         foreach (var (id, username, email, password, roles) in SeedAuthData.Accounts.Default)
         {
-            var account = Account.Create(username, email, UserStatus.Active);
+            var account = Account.Create(username, Email.Create(email), AccountStatus.Active);
             account.Id = id;
             account.ConfirmEmail();
 

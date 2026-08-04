@@ -1,5 +1,7 @@
 using SmartEcommerce.Auth.Application.Abstractions.Auth;
 
+using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+
 using Microsoft.AspNetCore.Identity;
 
 namespace SmartEcommerce.Auth.Infrastructure.Services;
@@ -28,10 +30,10 @@ public sealed class AuthService(UserManager<Account> userManager) : IAppService,
     }
 
     public Task<Account?> CreateUserAsync(string email, string username, string password, CancellationToken ct = default)
-        => CreateUserInternalAsync(Account.Create(username, email), password);
+        => CreateUserInternalAsync(Account.Create(username, Email.Create(email)), password);
 
     public Task<Account?> CreateUserAsync(Guid id, string email, string username, string password, CancellationToken ct = default)
-        => CreateUserInternalAsync(Account.Create(id, username, email), password);
+        => CreateUserInternalAsync(Account.Create(id, username, Email.Create(email)), password);
 
     private async Task<Account?> CreateUserInternalAsync(Account user, string password)
     {

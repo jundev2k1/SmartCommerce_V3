@@ -1,5 +1,3 @@
-using SmartEcommerce.Auth.Domain.Entities;
-
 namespace SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
 
 public interface IRefreshTokenReadService

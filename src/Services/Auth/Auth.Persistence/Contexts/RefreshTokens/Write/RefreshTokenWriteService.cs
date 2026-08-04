@@ -1,5 +1,5 @@
 using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Accounts;
 
 using SmartEcommerce.BuildingBlock.Persistence.Repository;
 

@@ -1,4 +1,3 @@
-using SmartEcommerce.Auth.Domain.Entities;
 
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;

@@ -1,4 +1,5 @@
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Roles;
+using SmartEcommerce.Auth.Domain.ValueObjects;
 using SmartEcommerce.Auth.Persistence.Engine;
 
 using SmartEcommerce.BuildingBlock.Domain.Seeders;
@@ -15,7 +16,7 @@ public class RoleSeeder(AuthDbContext context)
             return;
 
         var roles = SeedAuthData.Roles.Default
-            .Select(r => Role.Create(r.Name, r.Description))
+            .Select(r => Role.Create(r.Name, RoleCode.Create(r.Name), r.Description, isSystemRole: true))
             .ToList();
 
         await context.Roles.AddRangeAsync(roles);

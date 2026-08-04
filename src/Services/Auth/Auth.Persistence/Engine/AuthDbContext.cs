@@ -1,4 +1,5 @@
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Accounts;
+using SmartEcommerce.Auth.Domain.Entities.Roles;
 
 using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
 using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;

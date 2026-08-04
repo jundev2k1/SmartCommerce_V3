@@ -1,6 +1,7 @@
 using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
 using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
-using SmartEcommerce.Auth.Domain.Entities;
+using SmartEcommerce.Auth.Domain.Entities.Accounts;
+using SmartEcommerce.Auth.Domain.Entities.Roles;
 using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Read;
 using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
 using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Write;

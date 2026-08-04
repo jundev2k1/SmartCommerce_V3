@@ -1,4 +1,5 @@
 using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using SmartEcommerce.Auth.Domain.Enums;
 using SmartEcommerce.Auth.Infrastructure.Caching;
 
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
@@ -186,7 +187,7 @@ public sealed class RefreshTokenSyncService(
                 if (await TryPersistAsync(() => refreshTokenWriteService.UpdateAsync(cached.Id, rt =>
                     {
                         if (cached.IsRevoked && !rt.IsRevoked)
-                            rt.Revoke();
+                            rt.Revoke(RevocationReason.Superseded);
                         return Task.CompletedTask;
                     }, ct), cached.JwtId, "update"))
                 {
@@ -201,7 +202,7 @@ public sealed class RefreshTokenSyncService(
                 if (await TryPersistAsync(() => refreshTokenWriteService.UpdateAsync(cached.Id, rt =>
                     {
                         if (!rt.IsRevoked)
-                            rt.Revoke();
+                            rt.Revoke(RevocationReason.Superseded);
                         return Task.CompletedTask;
                     }, ct), cached.JwtId, "revoke"))
                 {

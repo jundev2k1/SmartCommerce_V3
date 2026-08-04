@@ -1,6 +1,5 @@
 using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 using SmartEcommerce.Auth.Application.Abstractions.Services;
-using SmartEcommerce.Auth.Domain.Entities;
 using SmartEcommerce.Auth.Infrastructure.Caching;
 
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;

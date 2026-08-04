@@ -1,4 +1,5 @@
-global using SmartEcommerce.Auth.Domain.Entities;
+global using SmartEcommerce.Auth.Domain.Entities.Accounts;
+global using SmartEcommerce.Auth.Domain.Entities.Roles;
 
 global using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 global using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
