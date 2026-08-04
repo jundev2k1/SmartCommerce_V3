@@ -11,7 +11,7 @@ public sealed class UpdateUserHandler(
     IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser,
-    IUserProfileCacheService userProfileCache) : ICommandHandler<UpdateUserCommand, UpdateUserResponse>
+    IUserProfileDetailCache userProfileCache) : ICommandHandler<UpdateUserCommand, UpdateUserResponse>
 {
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken ct = default)
     {
@@ -33,7 +33,11 @@ public sealed class UpdateUserHandler(
             await outboxStore.EnqueueAsync(integrationEvent, ct);
         }, ct: ct);
 
-        await userProfileCache.RemoveAsync(request.UserId, ct);
+        // Only now, after the transaction has actually committed, is it safe to invalidate -
+        // doing this inside the transaction delegate above would drop the cache before the write
+        // is durable, so a concurrent read could repopulate it with pre-commit (or, on rollback,
+        // permanently wrong) data.
+        await userProfileCache.InvalidateAsync(request.UserId, ct);
 
         return new UpdateUserResponse();
     }

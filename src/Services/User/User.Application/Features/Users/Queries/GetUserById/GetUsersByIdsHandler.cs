@@ -1,19 +1,18 @@
 using SmartEcommerce.User.Application.Abstractions.Services;
-using SmartEcommerce.User.Application.Features.Users.Caching;
 
 namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
 
 public sealed class GetUsersByIdsHandler(
-    CachedUserProfileReader userProfileReader,
+    IUserProfileDetailCache userProfileCache,
     IUserDisplayNameFormatter displayNameFormatter) : IQueryHandler<GetUsersByIdsQuery, IReadOnlyDictionary<Guid, UserLookupResult>>
 {
     private const string GrpcDisplayLocale = "en";
 
     public async Task<IReadOnlyDictionary<Guid, UserLookupResult>> Handle(GetUsersByIdsQuery request, CancellationToken ct = default)
     {
-        var profiles = await userProfileReader.GetManyAsync(request.UserIds, ct);
+        var users = await userProfileCache.GetByIdsAsync(request.UserIds, ct);
 
-        return profiles.ToDictionary(
+        return users.ToDictionary(
             kv => kv.Key,
             kv => new UserLookupResult(
                 kv.Value.Id,
@@ -24,7 +23,7 @@ public sealed class GetUsersByIdsHandler(
                 kv.Value.MiddleName,
                 kv.Value.LastName,
                 displayNameFormatter.Format(kv.Value.FirstName, kv.Value.MiddleName, kv.Value.LastName, GrpcDisplayLocale),
-                kv.Value.Status,
+                kv.Value.Status.ToString(),
                 kv.Value.Roles));
     }
 }

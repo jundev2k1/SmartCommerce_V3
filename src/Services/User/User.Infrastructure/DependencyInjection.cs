@@ -12,7 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SmartEcommerce.User.Application.Abstractions.Services;
 using SmartEcommerce.User.Infrastructure.BackgroundJobs;
-using SmartEcommerce.User.Infrastructure.Caching;
+using SmartEcommerce.User.Infrastructure.Caching.Roles;
+using SmartEcommerce.User.Infrastructure.Caching.Users;
 using SmartEcommerce.User.Infrastructure.GrpcClients;
 using SmartEcommerce.User.Infrastructure.Messaging.Consumers;
 
@@ -28,7 +29,7 @@ public static class DependencyInjection
             .AddRedisCache(configuration)
             .AddIdempotency(configuration)
             .AddScoped<IRoleCacheReader, RoleCacheReader>()
-            .AddScoped<IUserProfileCacheService, UserProfileCacheService>()
+            .AddScoped<IUserProfileDetailCache, UserProfileDetailCache>()
             .AddBackgroundJobs(configuration)
             .AddInboxOutboxCleanupJobs(configuration)
             .AddHttpAuditMetadataProvider("User");

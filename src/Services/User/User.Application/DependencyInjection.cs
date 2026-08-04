@@ -8,7 +8,6 @@ using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 using SmartEcommerce.User.Application.Abstractions.Services;
-using SmartEcommerce.User.Application.Features.Users.Caching;
 using SmartEcommerce.User.Application.Features.Users.Search;
 using SmartEcommerce.User.Application.Services;
 
@@ -24,8 +23,7 @@ public static class DependencyInjection
             .AddMapster()
             .AddFluentValidation()
             .AddSingleton<IUserDisplayNameFormatter, UserDisplayNameFormatter>()
-            .AddScoped<UserSearchProjectionBuilder>()
-            .AddScoped<CachedUserProfileReader>();
+            .AddScoped<UserSearchProjectionBuilder>();
 
         return services;
     }

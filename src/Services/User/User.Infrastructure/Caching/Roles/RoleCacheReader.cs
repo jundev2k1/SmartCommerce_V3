@@ -3,7 +3,7 @@ using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
 using SmartEcommerce.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Infrastructure.Caching;
+namespace SmartEcommerce.User.Infrastructure.Caching.Roles;
 
 /// <summary>
 /// Reads roles from the shared Redis cache under the same key Auth's
