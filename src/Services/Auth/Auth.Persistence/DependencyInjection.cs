@@ -1,6 +1,9 @@
 using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
 using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
 using SmartEcommerce.Auth.Domain.Entities.Accounts;
+using SmartEcommerce.Auth.Domain.Entities.Invitations;
+using SmartEcommerce.Auth.Domain.Entities.Permissions;
+using SmartEcommerce.Auth.Domain.Entities.Positions;
 using SmartEcommerce.Auth.Domain.Entities.Roles;
 using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Read;
 using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
@@ -55,14 +58,26 @@ public static class DependencyInjection
         return services;
     }
 
-    // Account and Role are independent aggregates (many-to-many via AccountRole, which isn't
-    // itself audited - a join row has no single owning parent this model can express).
+    // Account, Role, Position, PermissionGroup, PermissionDefinition and Invitation are
+    // independent aggregates. AccountPosition is a genuine history-tracked child of Account (like
+    // Order's OrderItem/OrderOwner) - registered via BelongsTo so its Assign/Revoke/Expire
+    // transitions are audited under the owning Account. AccountRole/RolePermission/PositionRole
+    // (pure mapping, no independent lifecycle) and every *Translation entity are intentionally
+    // left unregistered - none of the former are IAuditable, and translations are not audited
+    // individually project-wide (see docs/conventions/domain-coding-conventions.md).
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
         {
             builder.Entity<Account>().IsRoot(x => x.Id);
+            builder.Entity<AccountPosition>()
+                .BelongsTo<Account>(x => x.AccountId);
+
             builder.Entity<Role>().IsRoot(x => x.Id);
+            builder.Entity<Position>().IsRoot(x => x.Id);
+            builder.Entity<PermissionGroup>().IsRoot(x => x.Id);
+            builder.Entity<PermissionDefinition>().IsRoot(x => x.Id);
+            builder.Entity<Invitation>().IsRoot(x => x.Id);
         });
 
         return services;
