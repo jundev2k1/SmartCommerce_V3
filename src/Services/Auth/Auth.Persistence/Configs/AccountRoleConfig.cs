@@ -9,9 +9,13 @@ public sealed class AccountRoleConfig : IEntityTypeConfiguration<AccountRole>
 {
     public void Configure(EntityTypeBuilder<AccountRole> builder)
     {
+        // Table
         builder.ToTable("user_roles");
+
+        // Properties
         builder.HasKey(ar => new { ar.UserId, ar.RoleId });
 
+        // Relationships
         builder.HasOne(ar => ar.Account)
             .WithMany(a => a.AccountRoles)
             .HasForeignKey(ar => ar.UserId)
@@ -23,5 +27,8 @@ public sealed class AccountRoleConfig : IEntityTypeConfiguration<AccountRole>
             .HasForeignKey(ar => ar.RoleId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Audit & Concurrency
+        builder.ConfigureCommonFields();
     }
 }

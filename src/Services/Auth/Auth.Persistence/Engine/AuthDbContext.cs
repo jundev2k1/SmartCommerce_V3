@@ -1,5 +1,9 @@
 using SmartEcommerce.Auth.Domain.Entities.Accounts;
+using SmartEcommerce.Auth.Domain.Entities.Invitations;
+using SmartEcommerce.Auth.Domain.Entities.Permissions;
+using SmartEcommerce.Auth.Domain.Entities.Positions;
 using SmartEcommerce.Auth.Domain.Entities.Roles;
+using SmartEcommerce.Auth.Domain.Entities.TokenBlacklists;
 
 using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
 using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
@@ -29,6 +33,30 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
     public override DbSet<Role> Roles { get; set; } = null!;
     public override DbSet<AccountRole> UserRoles { get; set; } = null!;
     public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+    public DbSet<Session> Sessions { get; set; } = null!;
+    public DbSet<Device> Devices { get; set; } = null!;
+    public DbSet<LoginHistory> LoginHistories { get; set; } = null!;
+    public DbSet<PasswordHistory> PasswordHistories { get; set; } = null!;
+    public DbSet<MfaMethod> MfaMethods { get; set; } = null!;
+    public DbSet<MfaBackupCode> MfaBackupCodes { get; set; } = null!;
+    public DbSet<ExternalIdentity> ExternalIdentities { get; set; } = null!;
+    public DbSet<AccountPosition> AccountPositions { get; set; } = null!;
+    public DbSet<AccountPermission> AccountPermissions { get; set; } = null!;
+
+    public DbSet<Position> Positions { get; set; } = null!;
+    public DbSet<PositionRole> PositionRoles { get; set; } = null!;
+    public DbSet<PositionTranslation> PositionTranslations { get; set; } = null!;
+
+    public DbSet<RolePermission> RolePermissions { get; set; } = null!;
+    public DbSet<RoleTranslation> RoleTranslations { get; set; } = null!;
+
+    public DbSet<PermissionGroup> PermissionGroups { get; set; } = null!;
+    public DbSet<PermissionGroupTranslation> PermissionGroupTranslations { get; set; } = null!;
+    public DbSet<PermissionDefinition> PermissionDefinitions { get; set; } = null!;
+    public DbSet<PermissionDefinitionTranslation> PermissionDefinitionTranslations { get; set; } = null!;
+
+    public DbSet<Invitation> Invitations { get; set; } = null!;
+    public DbSet<TokenBlacklist> TokenBlacklists { get; set; } = null!;
 
     // Outbox and Inbox - required by IOutboxDbContext and IInboxDbContext
     public DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
