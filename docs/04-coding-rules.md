@@ -231,6 +231,18 @@ var result = service.Execute(
     cancellationToken);
 ```
 
+**Ternary expressions** — once a ternary's single-line form runs long (roughly more than 3/4 of the editor's width), split it across three lines: condition, `? trueBranch`, `: falseBranch`, each indented one level under the assignment.
+
+```csharp
+return isActive
+    ? AccountStatus.Active
+    : AccountStatus.Inactive;
+```
+
+Short ternaries stay on one line — this is about readability once the expression is genuinely long, not a blanket ban on inline ternaries (`Status = Status == AccountStatus.Locked ? AccountStatus.Active : Status;` is fine as-is).
+
+**Modern C# syntax** — prefer collection expressions over the classic constructor syntax wherever the target type is already known: `List<string> roles = [];` / `public ICollection<T> X { get; private set; } = [];`, not `new List<string>()` / `new()` for a collection type specifically. (Target-typed `new()` for a non-collection class — `public ProductMetadata Metadata { get; private set; } = new();` — is unrelated to this rule and stays as-is.) Reach for other .NET 10/C# 13 syntax the same way whenever it's a strict readability win over the older equivalent — this isn't an exhaustive list, just the pattern to default to when a newer and older spelling both work.
+
 ## Async
 
 All I/O-bound methods are `async Task`/`async Task<T>`, `ct` threaded through every call down to the EF Core / Redis / HTTP call. No `.Result`/`.Wait()` in request-handling code paths (the two known exceptions — `SeedDatabase`/`InitializeRefreshTokenCache` in `Auth.API/ApplicationPipeline.cs` calling `.Wait()` — are startup-only, not request-time, and are an accepted exception to this rule, not a pattern to copy elsewhere).

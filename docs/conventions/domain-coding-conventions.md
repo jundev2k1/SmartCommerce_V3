@@ -4,7 +4,7 @@
 
 ## 0. Aggregates protect invariants through methods, not through exposed state
 
-An aggregate root owns its collections and everything reachable through them. Every state change — adding/removing a child, changing which one is "the" default, attaching/detaching a many-to-many relationship — goes through a named method on the aggregate (`AddVariation`, `RemoveVariation`, `SetDefaultVariation`, `AssignCategory`, `RemoveCategory`, `AssignTag`, `RemoveTag`), never through a public setter or a caller mutating a collection directly. A method's name says what business action happened, not `Update{Field}`. This is the umbrella rule the other five rules below all serve — flat parameters, plain navigation collections, and mapping entities all exist so that the invariant-protecting *methods* stay the only reachable way to mutate the aggregate, without Domain having to lean on DTO objects or hidden collection types to enforce it.
+An aggregate root owns its collections and everything reachable through them. Every state change — adding/removing a child, changing which one is "the" default, attaching/detaching a many-to-many relationship — goes through a named method on the aggregate (`AddVariation`, `RemoveVariation`, `SetDefaultVariation`, `AssignCategory`, `RemoveCategory`, `AssignTag`, `RemoveTag`), never through a public setter or a caller mutating a collection directly. A method's name says what business action happened, not `Update{Field}`. This is the umbrella rule the other six rules below all serve — flat parameters, plain navigation collections, and mapping entities all exist so that the invariant-protecting *methods* stay the only reachable way to mutate the aggregate, without Domain having to lean on DTO objects or hidden collection types to enforce it.
 
 ## 1. Aggregate creation takes the collection directly, not a Spec wrapper
 
@@ -79,7 +79,7 @@ This also simplifies EF Core mapping — a plain `{ get; private set; }` auto-pr
 Two independent aggregate roots that reference each other many-to-many (e.g. `Product`↔`ProductCategory`, `Product`↔`ProductTag`) are linked through an explicit mapping entity:
 
 ```csharp
-public sealed class ProductCategoryMapping : BaseEntity<Guid>
+public sealed class ProductCategoryMapping : BaseEntity
 {
     public Guid ProductId { get; private set; }
     public Guid CategoryId { get; private set; }
@@ -89,9 +89,32 @@ public sealed class ProductCategoryMapping : BaseEntity<Guid>
 
 not `HashSet<Guid> CategoryIds`/`List<Guid> CategoryIds`. The owning aggregate exposes the mapping collection (`ICollection<ProductCategoryMapping> CategoryMappings`) and mediates every change through `AssignCategory`/`RemoveCategory`-shaped methods (Rule 3 applies here too — same pattern, same private-setter + internal-construction protection).
 
-Rationale: a mapping entity is a real row with an id/timestamps like every other entity in this codebase (consistent with `BaseEntity<Guid>` everywhere), maps to a genuine relational join table instead of a JSON/array column, and — concretely — lets Persistence-layer queries use plain LINQ (`p.CategoryMappings.Any(m => m.CategoryId == categoryId)`) instead of a raw-SQL workaround for a LINQ-untranslatable converted-property predicate. The prior JSONB-array-of-ids approach for `Product.CategoryIds`/`TagIds` (see `docs/services/product-service.md`'s revision history) is superseded by this rule — do not reintroduce it.
+**No surrogate `Id` on a pure mapping entity.** `ProductCategoryMapping`/`ProductTagMapping`/`ProductCollectionMapping` extend the non-generic `BaseEntity` (no `Id` property at all, only `CreatedAt`/`UpdatedAt`) — the composite key is the two foreign keys themselves, configured in Persistence via `builder.HasKey(x => new { x.ProductId, x.CategoryId })` (see `ProductCategoryMappingConfig`). Only reach for a surrogate `Id` (`BaseEntity<Guid>`) when the mapping entity has its own independent lifecycle or business identity beyond the pairing itself — `UserRoleAssignment` (`User.Domain/Entities/Users/`) is that case: it tracks grant history (`AssignedAt`/`ExpiredAt`/`Status`) rather than just recording that a pairing exists, so a User can accumulate multiple historical rows for the same `(UserId, RoleId)` pair and genuinely needs its own `Id`. A plain existence-mapping (`UserTagMapping`) does not, and stays `BaseEntity` with no `Id`, same as the Product examples above.
 
-## 5. Value Object validation is reusable outside the constructor
+Rationale: a mapping entity is a real row with timestamps like every other entity in this codebase, maps to a genuine relational join table instead of a JSON/array column, and — concretely — lets Persistence-layer queries use plain LINQ (`p.CategoryMappings.Any(m => m.CategoryId == categoryId)`) instead of a raw-SQL workaround for a LINQ-untranslatable converted-property predicate. The prior JSONB-array-of-ids approach for `Product.CategoryIds`/`TagIds` (see `docs/services/product-service.md`'s revision history) is superseded by this rule — do not reintroduce it.
+
+## 5. One-to-one relationships reuse the parent's primary key — no surrogate `Id`
+
+When an entity is a strict 1:1 extension of another aggregate (a "detail table" — e.g. `OrderOwner` for `Order`, or `UserProfile`/`UserAvatar`/`UserSetting`/`UserSecuritySetting`/`UserPrivacySetting`/`UserNotificationSetting`/`UserPreference`/`UserActivitySummary`/`UserPermissionSnapshot` for `User`), the child's own primary key **is** the parent's id — never a separately generated `Guid.CreateVersion7()` alongside a redundant `ParentId` column that always holds the same value as some other row's key:
+
+```csharp
+public sealed class OrderOwner : BaseEntity
+{
+    public Guid OrderId { get; private set; }   // the primary key - shared with Order, not a surrogate
+    public Guid OwnerId { get; private set; }
+    // ...
+}
+```
+
+```csharp
+public static OrderOwner Create(Guid orderId, ...) => new OrderOwner { OrderId = orderId, ... };
+```
+
+Persistence configures this as a shared-PK 1:1 association: `builder.HasKey(x => x.OrderId)` plus `builder.HasOne<Order>().WithOne(o => o.Owner).HasForeignKey<OrderOwner>(x => x.OrderId)` (see `OrderOwnerConfig`) — no separate `Id` column, no separate unique index needed to fake uniqueness. The parent never needs a redundant shadow property either (`Order` does not also carry an `OwnerId` — the `Owner` navigation is enough); if the parent needs a quick existence check without loading the child, add a method to the child's Read Service instead of duplicating the key back onto the parent as an extra column (this is what the `User`/`UserAvatar` fix removed — `User.AvatarId` was a redundant shadow copy of `UserAvatar.UserId`, which is already the `Avatar` navigation's key).
+
+Translation entities (see [conventions/persistence-coding-conventions.md](persistence-coding-conventions.md) for the EF side) are the one variant of this rule: since a parent can have *many* translations (one per language), the translation's `Id` still reuses the parent's id, but the primary key is the composite `(Id, LanguageCode)`, not `Id` alone — see `RoleTranslation`/`ProductTranslation`/`UserRoleTranslation`'s `Create(parentId, languageCode, ...)` factories, which do `Id = parentId` and never generate a fresh `Guid`.
+
+## 6. Value Object validation is reusable outside the constructor
 
 Every Value Object with validation logic exposes that logic through a shared, single source of truth so upper layers (FluentValidation) call into the Domain's own rule instead of re-declaring it:
 
