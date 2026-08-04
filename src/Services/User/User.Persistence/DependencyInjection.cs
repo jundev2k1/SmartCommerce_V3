@@ -1,3 +1,10 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+using Npgsql;
+
+using OpenTelemetry.Trace;
+
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
@@ -8,19 +15,8 @@ using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
 using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 using SmartEcommerce.BuildingBlock.Persistence.Repository;
 using SmartEcommerce.BuildingBlock.Search.DependencyInjection;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-using Npgsql;
-
-using OpenTelemetry.Trace;
-
 using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Search;
-using SmartEcommerce.User.Domain.Entities.Roles;
-using SmartEcommerce.User.Domain.Entities.Tags;
-using SmartEcommerce.User.Domain.Entities.Users;
 using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Read;
 using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Indexers;
 using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Repositories;
@@ -89,33 +85,33 @@ public static class DependencyInjection
     {
         services.ConfigureAuditHierarchy(builder =>
         {
-            builder.Entity<User>().IsRoot(x => x.Id);
+            builder.Entity<UserEntity>().IsRoot(x => x.Id);
             builder.Entity<UserProfile>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserAvatar>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserSetting>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserSecuritySetting>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserPrivacySetting>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserNotificationSetting>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserPreference>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserActivitySummary>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserAddress>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserContact>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserPaymentMethod>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserVerification>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
             builder.Entity<UserRoleAssignment>()
-                .BelongsTo<User>(x => x.UserId);
+                .BelongsTo<UserEntity>(x => x.UserId);
 
             builder.Entity<UserRole>().IsRoot(x => x.Id);
             builder.Entity<UserRoleTranslation>()
