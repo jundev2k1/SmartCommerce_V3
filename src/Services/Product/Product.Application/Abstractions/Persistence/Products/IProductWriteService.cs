@@ -2,15 +2,6 @@ using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
 namespace SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 
-public sealed record CreateProductRequest(
-    string Code,
-    string Name,
-    string Description,
-    string Slug,
-    IReadOnlyCollection<VariantInputDto> Variations,
-    IReadOnlyCollection<Guid> CategoryIds,
-    IReadOnlyCollection<Guid> TagIds);
-
 public interface IProductWriteService
 {
     /// <summary>Returns the created ProductEntity - CreateProductHandler needs it whole (Id, DefaultVariation, every variation) to build ProductCreatedIntegrationEvent/VariantCreatedIntegrationEvent per variation.</summary>

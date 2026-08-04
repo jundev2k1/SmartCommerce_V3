@@ -1,4 +1,5 @@
 using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventorySerials;
+using SmartEcommerce.Inventory.Application.Features.InventorySerials.DTOs;
 using SmartEcommerce.Inventory.Persistence.Contexts.InventorySerials.Repositories;
 
 namespace SmartEcommerce.Inventory.Persistence.Contexts.InventorySerials.Write;

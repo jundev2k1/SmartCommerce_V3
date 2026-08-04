@@ -1,4 +1,5 @@
 using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryLots;
+using SmartEcommerce.Inventory.Application.Features.InventoryLots.DTOs;
 using SmartEcommerce.Inventory.Persistence.Contexts.InventoryLots.Repositories;
 
 namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryLots.Write;

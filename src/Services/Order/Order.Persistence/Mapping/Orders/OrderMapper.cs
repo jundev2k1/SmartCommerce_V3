@@ -1,6 +1,7 @@
 using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
 using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 using SmartEcommerce.Order.Domain.Entities.Orders.Data;
 using SmartEcommerce.Order.Domain.ValueObjects;
 

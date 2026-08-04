@@ -15,6 +15,9 @@ global using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inven
 global using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
 global using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventorySerials;
 global using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+global using SmartEcommerce.Inventory.Application.Features.InventoryLots.DTOs;
+global using SmartEcommerce.Inventory.Application.Features.InventoryReservations.DTOs;
+global using SmartEcommerce.Inventory.Application.Features.InventorySerials.DTOs;
 global using SmartEcommerce.Inventory.Domain.Entities;
 global using SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
 global using SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;

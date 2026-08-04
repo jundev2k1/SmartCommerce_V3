@@ -3,6 +3,7 @@ using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
 using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
 using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
 
 namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnVariantCreated;
 

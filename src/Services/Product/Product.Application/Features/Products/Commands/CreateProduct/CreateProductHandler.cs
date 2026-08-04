@@ -7,6 +7,7 @@ using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
 using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
 using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
+using SmartEcommerce.Product.Application.Features.Products.DTOs;
 
 namespace SmartEcommerce.Product.Application.Features.Products.Commands.CreateProduct;
 

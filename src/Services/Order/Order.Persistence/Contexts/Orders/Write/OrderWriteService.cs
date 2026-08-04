@@ -3,6 +3,7 @@ using SmartEcommerce.BuildingBlock.Domain.Enums;
 using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
 
 using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using SmartEcommerce.Order.Application.Features.Orders.DTOs;
 using SmartEcommerce.Order.Domain.Enums;
 using SmartEcommerce.Order.Domain.ValueObjects;
 using SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;

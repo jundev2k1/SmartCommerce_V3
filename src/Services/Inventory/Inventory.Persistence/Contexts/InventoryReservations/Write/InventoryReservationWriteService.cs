@@ -1,4 +1,5 @@
 using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
+using SmartEcommerce.Inventory.Application.Features.InventoryReservations.DTOs;
 using SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
 
 namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Write;

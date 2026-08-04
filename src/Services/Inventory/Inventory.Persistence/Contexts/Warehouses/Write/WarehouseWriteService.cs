@@ -1,6 +1,7 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
 using SmartEcommerce.BuildingBlock.Persistence.Repository;
 using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using SmartEcommerce.Inventory.Application.Features.Warehouses.DTOs;
 using SmartEcommerce.Inventory.Domain.ValueObjects;
 
 namespace SmartEcommerce.Inventory.Persistence.Contexts.Warehouses.Write;

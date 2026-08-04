@@ -1,12 +1,6 @@
+using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
+
 namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
-
-public sealed record InventoryAdjustmentResult(InventoryStock Entity, int Delta);
-
-public sealed record CreateInventoryRequest(
-    Guid ProductId,
-    Guid VariationId,
-    Guid WarehouseId,
-    int Quantity = 0);
 
 public interface IInventoryWriteService
 {

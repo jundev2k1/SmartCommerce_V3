@@ -17,11 +17,3 @@ public interface IOrderItemPreparationService
         OrderItemRequestDto[] items,
         CancellationToken ct = default);
 }
-
-public sealed record PreparedOrderItem(
-    Guid ProductId,
-    Guid VariationId,
-    string ProductName,
-    string VariationName,
-    decimal UnitPrice,
-    int Quantity);

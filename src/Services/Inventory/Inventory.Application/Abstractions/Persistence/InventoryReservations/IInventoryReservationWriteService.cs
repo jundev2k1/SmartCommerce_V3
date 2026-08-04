@@ -1,19 +1,5 @@
 namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
 
-public sealed record CreateInventoryReservationRequest(
-    string Number,
-    InventoryReservationType Type,
-    Guid InventoryId,
-    Guid WarehouseId,
-    Guid ProductId,
-    Guid VariantId,
-    int Quantity,
-    InventoryReferenceType? ReferenceType = null,
-    Guid? ReferenceId = null,
-    string ExternalReference = "",
-    DateTime? ExpiredAt = null,
-    string Reason = "");
-
 public interface IInventoryReservationWriteService
 {
     Task AddAsync(CreateInventoryReservationRequest request, CancellationToken ct = default);
