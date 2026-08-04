@@ -1,19 +1,29 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
 
-namespace SmartEcommerce.Auth.Domain.Entities;
-
+/// <summary>
+/// Owned child of Account - a refresh token used to obtain new access tokens.
+/// </summary>
 public sealed class RefreshToken : BaseEntity<Guid>
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = null!;
+    public Guid? SessionId { get; private set; }
+    public Session? Session { get; private set; }
     public Guid JwtId { get; private set; }
     public string Token { get; private set; } = string.Empty;
     public DateTime ExpiryDate { get; private set; }
     public bool IsRevoked { get; private set; }
+    public DateTime? RevokedAt { get; private set; }
+    public RevocationReason? RevokedReason { get; private set; }
 
     private RefreshToken() { }
 
-    public static RefreshToken Create(Guid jwtId, string token, DateTime expiryDate, Guid userId)
+    public static RefreshToken Create(
+        Guid jwtId,
+        string token,
+        DateTime expiryDate,
+        Guid userId,
+        Guid? sessionId = null)
     {
         return new RefreshToken
         {
@@ -22,14 +32,20 @@ public sealed class RefreshToken : BaseEntity<Guid>
             Token = token,
             ExpiryDate = expiryDate,
             AccountId = userId,
+            SessionId = sessionId,
             IsRevoked = false,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
         };
     }
 
-    public void Revoke()
+    public void Revoke(RevocationReason reason)
     {
+        if (IsRevoked)
+            return;
+
         IsRevoked = true;
+        RevokedAt = DateTime.UtcNow;
+        RevokedReason = reason;
     }
 }
