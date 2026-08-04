@@ -6,60 +6,74 @@ public sealed class UserProfileConfig : IEntityTypeConfiguration<UserProfile>
 {
     public void Configure(EntityTypeBuilder<UserProfile> builder)
     {
-        builder.HasKey(x => x.Id);
+        // Table
+        builder.ToTable("user_profiles");
 
-        builder.Property(x => x.Email)
-            .HasMaxLength(256)
+        // Properties
+        // Shared primary key (1:1 with User) - no surrogate Id, exactly one profile row per user.
+        builder.HasKey(x => x.UserId);
+
+        builder.OwnsOne(x => x.PersonalName, name =>
+        {
+            name.Property(n => n.FirstName)
+                .HasColumnName("first_name")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            name.Property(n => n.MiddleName)
+                .HasColumnName("middle_name")
+                .HasMaxLength(100);
+
+            name.Property(n => n.LastName)
+                .HasColumnName("last_name")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            name.Property(n => n.FullName)
+                .HasColumnName("full_name")
+                .HasMaxLength(300)
+                .IsRequired();
+        });
+
+        builder.Navigation(x => x.PersonalName).IsRequired();
+
+        builder.Property(x => x.Birthday);
+
+        builder.Property(x => x.Gender)
+            .IsRequired()
+            .HasConversion<short>()
+            .HasDefaultValue(Gender.Unknown);
+
+        builder.Property(x => x.Biography)
+            .HasMaxLength(2000)
             .IsRequired();
 
-        builder.Property(x => x.UserName)
-            .HasMaxLength(256)
-            .IsRequired();
+        builder.Property(x => x.Occupation)
+            .HasMaxLength(200);
 
-        builder.Property(x => x.PhoneNumber)
-            .HasMaxLength(20)
-            .IsRequired();
+        builder.Property(x => x.Company)
+            .HasMaxLength(200);
 
-        builder.Property(x => x.PhoneSearch)
-            .HasMaxLength(20)
-            .IsRequired();
+        builder.Property(x => x.Website)
+            .HasMaxLength(500);
 
-        builder.Property(x => x.PhoneReverse)
-            .HasMaxLength(20)
-            .IsRequired();
+        builder.Property(x => x.Language)
+            .HasConversion(
+                x => x == null ? null : x.Value,
+                x => x == null ? null : LanguageCode.Create(x))
+            .HasMaxLength(10);
 
-        builder.Property(x => x.FirstName)
-            .HasMaxLength(256)
-            .IsRequired();
+        builder.Property(x => x.TimeZone)
+            .HasMaxLength(50);
 
-        builder.Property(x => x.MiddleName)
-            .HasMaxLength(50)
-            .IsRequired();
+        builder.Property(x => x.CountryCode)
+            .HasMaxLength(2);
 
-        builder.Property(x => x.LastName)
-            .HasMaxLength(256)
-            .IsRequired();
+        // Relationships
+        // No Profile navigation property on User's side of the shared key beyond what's already
+        // configured on UserConfig (HasOne<UserProfile>().WithOne(p => p.User) there).
 
-        builder.Property(x => x.Status)
-            .HasConversion<int>();
-
-        builder.Property(x => x.Roles)
-            .IsRequired();
-
-        builder.Property(x => x.CreatedAt)
-            .HasDefaultValueSql("now()");
-
-        builder.Property(x => x.UpdatedAt)
-            .HasDefaultValueSql("now()");
-
-        builder.HasIndex(x => x.Email).IsUnique();
-        builder.HasIndex(x => x.UserName).IsUnique();
-        builder.HasIndex(x => x.Status);
-        builder.HasIndex(x => x.PhoneSearch);
-        builder.HasIndex(x => x.PhoneReverse);
-
-        // GIN index for array-containment queries (role filter uses `Roles.Contains(x)`, which
-        // Npgsql translates to `@>`/`= ANY`) - a btree index (the default) can't serve those.
-        builder.HasIndex(x => x.Roles).HasMethod("gin");
+        // Audit & Concurrency
+        builder.ConfigureCommonFields();
     }
 }
