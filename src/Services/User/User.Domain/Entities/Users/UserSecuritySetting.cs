@@ -1,7 +1,7 @@
 namespace SmartEcommerce.User.Domain.Entities.Users;
 
 /// <summary>Owned 1:1 extension of User holding account-security policy and recovery contacts.</summary>
-public sealed class UserSecuritySetting : BaseEntity<Guid>, IAuditable
+public sealed class UserSecuritySetting : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -25,7 +25,6 @@ public sealed class UserSecuritySetting : BaseEntity<Guid>, IAuditable
     {
         return new UserSecuritySetting
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             TwoFactorEnabled = twoFactorEnabled,
             RequirePasswordRotation = requirePasswordRotation,

@@ -10,7 +10,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// cache, not user-authored business data. UpdatedAt is the inherited BaseEntity property,
 /// touched on every Rebuild rather than duplicated as a separate field.
 /// </summary>
-public sealed class UserPermissionSnapshot : BaseEntity<Guid>
+public sealed class UserPermissionSnapshot : BaseEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -23,7 +23,6 @@ public sealed class UserPermissionSnapshot : BaseEntity<Guid>
     {
         return new UserPermissionSnapshot
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             Permissions = PermissionCollection.Empty,
             Version = 0,

@@ -5,7 +5,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// itself so the aggregate root stays lean (identity/status/type) while richer, rarely-queried
 /// profile data lives separately.
 /// </summary>
-public sealed class UserProfile : BaseEntity<Guid>, IAuditable
+public sealed class UserProfile : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -37,7 +37,6 @@ public sealed class UserProfile : BaseEntity<Guid>, IAuditable
     {
         return new UserProfile
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             PersonalName = personalName,
             Birthday = birthday,

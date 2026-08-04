@@ -5,7 +5,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// and SearchHistory are capped, most-recent-first lists - unbounded growth would turn this row
 /// into an ever-growing log rather than a personalization signal.
 /// </summary>
-public sealed class UserPreference : BaseEntity<Guid>, IAuditable
+public sealed class UserPreference : BaseEntity, IAuditable
 {
     private const int MaxRecentlyViewedProducts = 50;
     private const int MaxSearchHistoryEntries = 50;
@@ -29,7 +29,6 @@ public sealed class UserPreference : BaseEntity<Guid>, IAuditable
     {
         return new UserPreference
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             PreferredWarehouseCode = preferredWarehouseCode,
         };

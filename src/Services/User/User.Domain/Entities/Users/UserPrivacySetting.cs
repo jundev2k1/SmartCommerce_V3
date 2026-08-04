@@ -4,7 +4,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// Owned 1:1 extension of User holding profile-visibility and data-usage consent flags. All
 /// default to disabled - visibility and data usage require explicit opt-in, not opt-out.
 /// </summary>
-public sealed class UserPrivacySetting : BaseEntity<Guid>, IAuditable
+public sealed class UserPrivacySetting : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -28,7 +28,6 @@ public sealed class UserPrivacySetting : BaseEntity<Guid>, IAuditable
     {
         return new UserPrivacySetting
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             ShowBirthday = showBirthday,
             ShowEmail = showEmail,

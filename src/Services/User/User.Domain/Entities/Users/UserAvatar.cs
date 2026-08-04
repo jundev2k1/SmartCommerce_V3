@@ -5,7 +5,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// replacement so downstream consumers (CDN/cache) can bust cached copies without a MediaId
 /// change forcing a full re-upload.
 /// </summary>
-public sealed class UserAvatar : BaseEntity<Guid>, IAuditable
+public sealed class UserAvatar : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -27,7 +27,6 @@ public sealed class UserAvatar : BaseEntity<Guid>, IAuditable
 
         return new UserAvatar
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             MediaId = mediaId,
             ThumbnailMediaId = thumbnailMediaId,

@@ -6,7 +6,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// (the category the user buys from most) - distinct from UserPreference.FavoriteCategories,
 /// which is the user's own explicit, self-curated list.
 /// </summary>
-public sealed class UserActivitySummary : BaseEntity<Guid>, IAuditable
+public sealed class UserActivitySummary : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -24,7 +24,6 @@ public sealed class UserActivitySummary : BaseEntity<Guid>, IAuditable
     {
         return new UserActivitySummary
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
         };
     }

@@ -1,7 +1,7 @@
 namespace SmartEcommerce.User.Domain.Entities.Users;
 
 /// <summary>Owned 1:1 extension of User holding display/locale/UI preferences.</summary>
-public sealed class UserSetting : BaseEntity<Guid>, IAuditable
+public sealed class UserSetting : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -35,7 +35,6 @@ public sealed class UserSetting : BaseEntity<Guid>, IAuditable
 
         return new UserSetting
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             Theme = theme,
             Language = language,

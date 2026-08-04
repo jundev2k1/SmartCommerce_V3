@@ -13,7 +13,6 @@ public sealed class User : AggregateRoot<Guid>, IAuditable
     public string DisplayName { get; private set; } = string.Empty;
     public UserStatus Status { get; private set; }
     public UserType UserType { get; private set; }
-    public Guid? AvatarId { get; private set; }
     public UserAvatar? Avatar { get; private set; }
     public DateTime? LastSeenAt { get; private set; }
     public UserMetadata Metadata { get; private set; } = new();
@@ -126,13 +125,11 @@ public sealed class User : AggregateRoot<Guid>, IAuditable
     {
         var nextVersion = (Avatar?.Version ?? 0) + 1;
         Avatar = UserAvatar.Create(Id, mediaId, nextVersion, thumbnailMediaId, displayMode);
-        AvatarId = Avatar.Id;
     }
 
     public void RemoveAvatar()
     {
         Avatar = null;
-        AvatarId = null;
     }
 
     #endregion

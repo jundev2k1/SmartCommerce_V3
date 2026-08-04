@@ -5,7 +5,7 @@ namespace SmartEcommerce.User.Domain.Entities.Users;
 /// Order/Security default to enabled since those are transactional, not marketing; the rest
 /// default to disabled, requiring explicit opt-in.
 /// </summary>
-public sealed class UserNotificationSetting : BaseEntity<Guid>, IAuditable
+public sealed class UserNotificationSetting : BaseEntity, IAuditable
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -33,7 +33,6 @@ public sealed class UserNotificationSetting : BaseEntity<Guid>, IAuditable
     {
         return new UserNotificationSetting
         {
-            Id = Guid.CreateVersion7(),
             UserId = userId,
             EmailEnabled = emailEnabled,
             SmsEnabled = smsEnabled,
