@@ -6,7 +6,7 @@ namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
 /// Owned child of Account - one enrolled second factor (TOTP app, SMS, email, or a backup-code
 /// set). An Account may hold several; IsPrimary marks the one offered first at login.
 /// </summary>
-public sealed class MfaMethod : BaseEntity<Guid>
+public sealed class MfaMethod : BaseEntity<Guid>, IAuditable
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;

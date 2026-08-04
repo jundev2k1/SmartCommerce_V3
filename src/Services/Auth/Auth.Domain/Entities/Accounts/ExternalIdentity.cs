@@ -7,7 +7,7 @@ namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
 /// several providers, each with its own lifecycle (link/unlink), so this is a full entity rather
 /// than a value object.
 /// </summary>
-public sealed class ExternalIdentity : BaseEntity<Guid>
+public sealed class ExternalIdentity : BaseEntity<Guid>, IAuditable
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
