@@ -5,7 +5,7 @@ namespace SmartEcommerce.Product.Domain.Entities.Options;
 /// "Color" dimension) shared across every Product that opts into the option via
 /// <see cref="ProductOption"/>.
 /// </summary>
-public sealed class ProductOptionValueDefinition : BaseEntity<Guid>
+public sealed class ProductOptionValueDefinition : BaseEntity<Guid>, IAuditable
 {
     public Guid ProductOptionDefinitionId { get; private set; }
     public ProductOptionDefinition ProductOptionDefinition { get; private set; } = default!;

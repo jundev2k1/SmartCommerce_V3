@@ -61,22 +61,55 @@ public static class DependencyInjection
 
     // Product, ProductCategory, ProductTag, ProductBrand, ProductCollection, ProductOptionDefinition,
     // SpecificationGroup, SpecificationDefinition and WarrantyPolicy are all independent aggregates -
-    // Product references their ids but doesn't own them, so each is its own root. Variant/
-    // ProductTranslation/mapping entities are owned children with no independent identity
-    // (and aren't IAuditable), so they are not registered separately - their changes are already
-    // part of Product's own audit snapshot.
+    // Product references their ids but doesn't own them, so each is its own root. Variant and every
+    // Translation entity hold real business content (pricing/SKU, admin-facing display copy) an
+    // administrator would expect to see change history for, so they're registered via BelongsTo
+    // even though they're owned children, not roots. Pure mapping entities (ProductCategoryMapping/
+    // ProductTagMapping/ProductCollectionMapping/ProductOption/ProductOptionValue/VariantOptionValue)
+    // aren't IAuditable and stay unregistered - they carry no content of their own beyond the
+    // relationship + display order.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
         {
             builder.Entity<ProductEntity>().IsRoot(x => x.Id);
+            builder.Entity<ProductVariant>()
+                .BelongsTo<ProductEntity>(x => x.ProductId);
+            builder.Entity<ProductTranslation>()
+                .BelongsTo<ProductEntity>(x => x.Id);
+
             builder.Entity<ProductCategory>().IsRoot(x => x.Id);
+            builder.Entity<ProductCategoryTranslation>()
+                .BelongsTo<ProductCategory>(x => x.Id);
+
             builder.Entity<ProductTag>().IsRoot(x => x.Id);
+            builder.Entity<ProductTagTranslation>()
+                .BelongsTo<ProductTag>(x => x.Id);
+
             builder.Entity<ProductBrand>().IsRoot(x => x.Id);
+            builder.Entity<ProductBrandTranslation>()
+                .BelongsTo<ProductBrand>(x => x.Id);
+
             builder.Entity<ProductCollection>().IsRoot(x => x.Id);
+            builder.Entity<ProductCollectionTranslation>()
+                .BelongsTo<ProductCollection>(x => x.Id);
+
             builder.Entity<ProductOptionDefinition>().IsRoot(x => x.Id);
+            builder.Entity<ProductOptionDefinitionTranslation>()
+                .BelongsTo<ProductOptionDefinition>(x => x.ProductOptionDefinitionId);
+            builder.Entity<ProductOptionValueDefinition>()
+                .BelongsTo<ProductOptionDefinition>(x => x.ProductOptionDefinitionId);
+            builder.Entity<ProductOptionValueDefinitionTranslation>()
+                .BelongsTo<ProductOptionValueDefinition>(x => x.ProductOptionValueDefinitionId);
+
             builder.Entity<SpecificationGroup>().IsRoot(x => x.Id);
+            builder.Entity<SpecificationGroupTranslation>()
+                .BelongsTo<SpecificationGroup>(x => x.SpecificationGroupId);
+
             builder.Entity<SpecificationDefinition>().IsRoot(x => x.Id);
+            builder.Entity<SpecificationDefinitionTranslation>()
+                .BelongsTo<SpecificationDefinition>(x => x.SpecificationDefinitionId);
+
             builder.Entity<WarrantyPolicy>().IsRoot(x => x.Id);
         });
 

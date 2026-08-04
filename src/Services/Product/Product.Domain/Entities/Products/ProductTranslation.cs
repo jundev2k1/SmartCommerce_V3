@@ -5,7 +5,7 @@ namespace SmartEcommerce.Product.Domain.Entities.Products;
 /// <summary>
 /// Owned child of Product - a locale-specific override of the product's display copy.
 /// </summary>
-public sealed class ProductTranslation : BaseEntity<Guid>
+public sealed class ProductTranslation : BaseEntity<Guid>, IAuditable
 {
     public Product Product { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;

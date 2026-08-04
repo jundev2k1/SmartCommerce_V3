@@ -11,7 +11,7 @@ namespace SmartEcommerce.Product.Domain.Entities.Products;
 /// A Variant is identified only by its selected ProductOptionValues (via
 /// <see cref="SelectedOptionValues"/>); it never owns or duplicates option data itself.
 /// </summary>
-public sealed class ProductVariant : BaseEntity<Guid>
+public sealed class ProductVariant : BaseEntity<Guid>, IAuditable
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
