@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -17,7 +18,7 @@ public sealed class ListChannels : ICarterModule
     {
         app.MapGet("/notification-channels", ListAsync)
             .WithTags("NotificationChannel")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("ListNotificationChannels")
             .WithDisplayName("List Notification Channels API")
             .Produces<ApiResponse<IReadOnlyList<NotificationChannelSummaryResponse>>>(StatusCodes.Status200OK);

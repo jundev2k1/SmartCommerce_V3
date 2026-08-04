@@ -2,6 +2,7 @@ using SmartEcommerce.Auth.Application.Abstractions.Auth;
 using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 using SmartEcommerce.Auth.Application.Abstractions.Services;
 using SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserRegistered;
+using SmartEcommerce.Auth.Application.Security;
 
 namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Register;
 
@@ -67,11 +68,13 @@ public sealed class RegisterHandler(
         // Generate AccessToken and Refresh Token which are set to HttpOnly
         var jwtId = Guid.NewGuid();
         var roles = await authService.GetUserRolesAsync(account.Id, ct);
+        var permissions = RolePermissionMap.Resolve(roles);
         var accessToken = tokenGenerator.GenerateAccessToken(
             account.Id,
             account.Email!,
             account.UserName!,
             roles,
+            permissions,
             jwtId);
         var refreshToken = await refreshTokenService.GenerateRefreshTokenAsync(
             account.Id,

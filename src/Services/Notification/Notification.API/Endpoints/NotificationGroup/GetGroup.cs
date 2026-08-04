@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class GetGroup : ICarterModule
     {
         app.MapGet("/notification-groups/{groupId}", GetAsync)
             .WithTags("NotificationGroup")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("GetNotificationGroup")
             .WithDisplayName("Get Notification Group API")
             .Produces<ApiResponse<GetNotificationGroupResponse>>(StatusCodes.Status200OK);

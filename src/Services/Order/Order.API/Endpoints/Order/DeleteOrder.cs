@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -28,7 +29,7 @@ public sealed class DeleteOrderEndpoint : ICarterModule
     {
         app.MapDelete("/orders/{orderId}", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Order.Manage)
             .WithName("DeleteOrder")
             .WithDisplayName("Delete Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

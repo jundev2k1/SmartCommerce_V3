@@ -1,3 +1,4 @@
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
@@ -19,7 +20,7 @@ public sealed class RetryDeadLetter : ICarterModule
     {
         app.MapPost("/deadletters/{id:guid}/retry", RetryOne)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.System.Manage)
             .WithName("RetryDeadLetter")
             .WithDisplayName("Retry Dead Letter API")
             .WithDescription("Requeues one dead-lettered message and republishes it through the normal Kafka pipeline.")

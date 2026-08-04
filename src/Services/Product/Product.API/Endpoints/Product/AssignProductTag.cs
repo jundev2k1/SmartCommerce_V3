@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -26,7 +27,7 @@ public sealed class AssignProductTagEndpoint : ICarterModule
     {
         app.MapPost("/products/{productId}/tags/{tagId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Product.Manage)
             .WithName("AssignProductTag")
             .WithDisplayName("Assign Product Tag API")
             .WithDescription(API_DESC.JoinToString("\n"))

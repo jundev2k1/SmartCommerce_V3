@@ -1,5 +1,6 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -42,7 +43,7 @@ public sealed class SearchUsersEndpoint : ICarterModule
     {
         app.MapPost("/users/search", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Users.Manage)
             .WithName("SearchUsers")
             .WithDisplayName("Search Users API")
             .WithDescription(API_DESC.JoinToString("\n"))

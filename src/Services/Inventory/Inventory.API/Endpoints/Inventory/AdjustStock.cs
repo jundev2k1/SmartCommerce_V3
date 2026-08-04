@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -33,7 +34,7 @@ public sealed class AdjustStockEndpoint : ICarterModule
     {
         app.MapPost("/inventories/{inventoryId}/adjust", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Inventory.Manage)
             .WithName("AdjustStock")
             .WithDisplayName("Adjust Stock API")
             .WithDescription(API_DESC.JoinToString("\n"))

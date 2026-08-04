@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -35,7 +36,7 @@ public sealed class UpdateProductEndpoint : ICarterModule
     {
         app.MapPut("/products/{productId}", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Product.Manage)
             .WithName("UpdateProduct")
             .WithDisplayName("Update Product API")
             .WithDescription(API_DESC.JoinToString("\n"))

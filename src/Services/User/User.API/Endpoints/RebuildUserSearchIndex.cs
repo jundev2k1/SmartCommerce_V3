@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -13,7 +14,7 @@ public sealed class RebuildUserSearchIndexEndpoint : ICarterModule
     private readonly string[] API_DESC = [
         "## Rebuild User Search Index",
         "",
-        "**Requires Admin or Root** (RequireAdmin authorization policy) - documented explicitly here",
+        "**Requires the users:manage permission** (or users:full / system:root) - documented explicitly here",
         "from day one, unlike the equivalent Product endpoint which initially shipped without this",
         "note despite the code already enforcing it.",
         "",
@@ -26,7 +27,7 @@ public sealed class RebuildUserSearchIndexEndpoint : ICarterModule
     {
         app.MapPost("/users/search/rebuild", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Users.Manage)
             .WithName("RebuildUserSearchIndex")
             .WithDisplayName("Rebuild User Search Index API")
             .WithDescription(API_DESC.JoinToString("\n"))

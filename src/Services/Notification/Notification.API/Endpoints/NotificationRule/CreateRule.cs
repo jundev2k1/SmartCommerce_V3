@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class CreateRule : ICarterModule
     {
         app.MapPost("/notification-rules", CreateAsync)
             .WithTags("NotificationRule")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("CreateNotificationRule")
             .WithDisplayName("Create Notification Rule API")
             .WithDescription("Defines what notification actions to create when a given business event occurs (e.g. OrderCreated -> User Notification + Email + Telegram).")

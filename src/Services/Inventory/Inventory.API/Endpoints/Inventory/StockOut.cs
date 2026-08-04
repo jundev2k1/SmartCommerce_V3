@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -32,7 +33,7 @@ public sealed class StockOutEndpoint : ICarterModule
     {
         app.MapPost("/inventories/{inventoryId}/stock-out", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Inventory.Manage)
             .WithName("StockOut")
             .WithDisplayName("Stock Out API")
             .WithDescription(API_DESC.JoinToString("\n"))

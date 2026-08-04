@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
@@ -60,7 +61,7 @@ public sealed class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Product.Manage)
             .Headers([
                 new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this product is only created once, even if the request is retried")
             ])

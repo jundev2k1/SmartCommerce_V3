@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class CreateGroup : ICarterModule
     {
         app.MapPost("/notification-groups", CreateAsync)
             .WithTags("NotificationGroup")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("CreateNotificationGroup")
             .WithDisplayName("Create Notification Group API")
             .WithDescription("Creates a target audience (role, specific users, segment, ...) that campaigns broadcast to.")

@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -26,7 +27,7 @@ public sealed class CompleteOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/{orderId}/complete", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Order.Manage)
             .WithName("CompleteOrder")
             .WithDisplayName("Complete Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -14,7 +14,7 @@ public sealed class GetOrderHandler(
         var order = await orderReadService.GetByIdAsync(request.OrderId, ct)
             ?? throw new NotFoundException("Order", request.OrderId);
 
-        // Endpoint only requires RequireAuthenticated (any logged-in user), not RequireAdmin, so
+        // Endpoint only requires RequireAuthenticated (any logged-in user), not a permission, so
         // the owner-vs-admin distinction has to happen here: an admin dashboard needs to view any
         // order, but a regular customer may only view their own.
         var isAdmin = currentUser.IsInRole(AppRoleConstant.Admin) || currentUser.IsInRole(AppRoleConstant.Root);

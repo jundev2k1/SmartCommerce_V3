@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -13,7 +14,7 @@ public sealed class CreateUserNotification : ICarterModule
     {
         app.MapPost("/user-notifications", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("CreateUserNotification")
             .WithDisplayName("Create User Notification API")
             .WithDescription("Creates a Notification Center entry for a user. Admin only - no automatic rule/campaign trigger is wired up yet.")

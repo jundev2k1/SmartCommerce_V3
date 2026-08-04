@@ -1,3 +1,4 @@
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
@@ -19,7 +20,7 @@ public sealed class RetryDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/retry", RetryMany)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.System.Manage)
             .WithName("RetryDeadLetters")
             .WithDisplayName("Retry Selected Dead Letters API")
             .WithDescription("Retries a caller-supplied set of dead-lettered messages.")

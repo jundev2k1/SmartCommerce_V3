@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class GetListCampaigns : ICarterModule
     {
         app.MapGet("/notification-campaigns", HandleAsync)
             .WithTags("NotificationCampaign")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("ListNotificationCampaigns")
             .WithDisplayName("List Notification Campaigns API")
             .Produces<ApiResponse<PaginatedResult<NotificationCampaignSummaryResponse>>>(StatusCodes.Status200OK);

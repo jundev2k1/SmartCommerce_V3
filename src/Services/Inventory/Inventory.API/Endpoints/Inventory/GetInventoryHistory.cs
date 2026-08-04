@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -26,7 +27,7 @@ public sealed class GetInventoryHistoryEndpoint : ICarterModule
     {
         app.MapGet("/inventories/{inventoryId}/history", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Inventory.Manage)
             .WithName("GetInventoryHistory")
             .WithDisplayName("Get Inventory History API")
             .WithDescription(API_DESC.JoinToString("\n"))

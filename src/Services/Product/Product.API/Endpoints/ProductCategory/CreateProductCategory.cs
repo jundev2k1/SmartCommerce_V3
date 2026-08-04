@@ -1,4 +1,6 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
+using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
 using SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
@@ -35,7 +37,7 @@ public sealed class CreateProductCategoryEndpoint : ICarterModule
     {
         app.MapPost("/categories", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Product.Manage)
             .WithName("CreateProductCategory")
             .WithDisplayName("Create Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

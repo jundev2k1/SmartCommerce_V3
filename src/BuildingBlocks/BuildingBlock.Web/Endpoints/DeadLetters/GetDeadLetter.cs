@@ -1,3 +1,4 @@
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
 using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
@@ -20,7 +21,7 @@ public sealed class GetDeadLetter : ICarterModule
     {
         app.MapGet("/deadletters/{id:guid}", GetById)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.System.Manage)
             .WithName("GetDeadLetter")
             .WithDisplayName("Get Dead Letter API")
             .WithDescription("Full detail for one dead-lettered row, including its retry history.")

@@ -39,7 +39,6 @@ public static class DependencyInjection
             .AddDeadLetterManagement()
             .AddCarterModules(typeof(DependencyInjection), typeof(IDeadLetterRetryService))
             .AddHealthCheckServices()
-            .AddCommonAuthorizationPolicies()
             .AddAuthorization(AuthorizationExtensions.ConfigureCommonPolicies)
             .AddSignalR();
 

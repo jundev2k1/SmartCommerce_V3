@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
@@ -40,7 +41,7 @@ public sealed class UpdateOrderOwnerInfoEndpoint : ICarterModule
     {
         app.MapPatch("/orders/{orderId}/owner-info", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Order.Manage)
             .Headers([
                 new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures a retried update is applied only once")
             ])

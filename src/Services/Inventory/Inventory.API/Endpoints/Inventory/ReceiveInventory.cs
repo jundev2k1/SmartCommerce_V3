@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -52,7 +53,7 @@ public sealed class ReceiveInventoryEndpoint : ICarterModule
     {
         app.MapPost("/inventories/receive", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Inventory.Manage)
             .WithName("ReceiveInventory")
             .WithDisplayName("Receive Inventory API")
             .WithDescription(API_DESC.JoinToString("\n"))

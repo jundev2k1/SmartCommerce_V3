@@ -1,6 +1,7 @@
 using SmartEcommerce.Auth.Application.Abstractions.Auth;
 using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 using SmartEcommerce.Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Security;
 
 using SmartEcommerce.BuildingBlock.Domain.Enums;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -28,11 +29,13 @@ public sealed class RefreshTokenHandler(
 
         var jwtId = Guid.NewGuid();
         var roles = await authService.GetUserRolesAsync(user.Id, ct);
+        var permissions = RolePermissionMap.Resolve(roles);
         var accessToken = tokenGenerator.GenerateAccessToken(
             user.Id,
             user.Email!,
             user.UserName!,
             roles,
+            permissions,
             jwtId);
         var newRefreshToken = await refreshTokenService.GenerateRefreshTokenAsync(user.Id, jwtId, ct);
 

@@ -4,8 +4,8 @@ namespace SmartEcommerce.Auth.Domain.ValueObjects;
 
 /// <summary>
 /// Permission identifier baked into JWT claims and checked by every service's
-/// [Authorize(Policy = ...)]. Permission keys are code-first, not user input - declared once in
-/// PermissionKeyConstant - so validation is set membership against PermissionKeyConstant.SupportedValues,
+/// RequirePermissions(...) endpoint declaration. Permission keys are code-first, not user input -
+/// declared once in Permissions - so validation is set membership against Permissions.SupportedValues,
 /// not a runtime format/regex check.
 /// </summary>
 public sealed class PermissionKey : StringValueObject
@@ -42,7 +42,7 @@ public sealed class PermissionKey : StringValueObject
         if (string.IsNullOrWhiteSpace(value))
             return ExceptionFactory.RequiredField("Permission key cannot be empty.");
 
-        if (!PermissionKeyConstant.SupportedValues.Contains(Normalize(value)))
+        if (!Permissions.SupportedValues.Contains(Normalize(value)))
             return ExceptionFactory.InvalidRange($"\"{value}\" is not a supported permission key.");
 
         return null;

@@ -1,3 +1,4 @@
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
 using SmartEcommerce.BuildingBlock.Criteria.Requests;
@@ -20,7 +21,7 @@ public sealed class RetryAllDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/retry-all", RetryAll)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.System.Manage)
             .WithName("RetryAllDeadLetters")
             .WithDisplayName("Retry All Dead Letters API")
             .WithDescription("Retries every DeadLetter row matching an optional filter, capped at 500 per call.")

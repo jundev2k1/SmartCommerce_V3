@@ -5,6 +5,7 @@ using System.Text;
 
 using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Security;
 
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +17,13 @@ public sealed class JwtTokenGenerator(JwtSettings settings) : IJwtTokenGenerator
     private readonly JwtSettings _settings = settings;
     private readonly SymmetricSecurityKey _key = new(Encoding.UTF8.GetBytes(settings.SecretKey));
 
-    public string GenerateAccessToken(Guid userId, string email, string username, IEnumerable<string> roles, Guid? jwtId = null)
+    public string GenerateAccessToken(
+        Guid userId,
+        string email,
+        string username,
+        IEnumerable<string> roles,
+        IEnumerable<string> permissions,
+        Guid? jwtId = null)
     {
         var claims = new List<Claim>
         {
@@ -29,6 +36,7 @@ public sealed class JwtTokenGenerator(JwtSettings settings) : IJwtTokenGenerator
             claims.Add(new Claim("jti", jwtId.Value.ToString()));
 
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        claims.AddRange(permissions.Select(permission => new Claim(PermissionClaimsExtensions.PermissionClaimType, permission)));
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(

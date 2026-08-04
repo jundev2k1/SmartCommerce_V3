@@ -1,3 +1,4 @@
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
 using SmartEcommerce.BuildingBlock.Criteria.Requests;
@@ -27,7 +28,7 @@ public sealed class SearchDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/search", Search)
             .WithTags("DeadLetter")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.System.Manage)
             .WithName("SearchDeadLetters")
             .WithDisplayName("Search Dead Letters API")
             .WithDescription("Paged/filtered/sorted list of dead-lettered Inbox messages.")

@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class CreateCampaign : ICarterModule
     {
         app.MapPost("/notification-campaigns", HandleAsync)
             .WithTags("NotificationCampaign")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("CreateNotificationCampaign")
             .WithDisplayName("Create Notification Campaign API")
             .WithDescription("Creates a broadcast campaign (once or recurring) targeting a NotificationGroup audience. Starts in Draft - call Activate separately once execution is implemented.")

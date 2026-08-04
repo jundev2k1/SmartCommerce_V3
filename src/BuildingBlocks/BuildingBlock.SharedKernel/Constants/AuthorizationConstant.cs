@@ -6,6 +6,5 @@ namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 public static class AuthorizationPoliciesConstant
 {
     public const string RequireAuthenticated = "RequireAuthenticated";
-    public const string RequireAdmin = "RequireAdmin";
     public const string RequireUser = "RequireUser";
 }

@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class ListRules : ICarterModule
     {
         app.MapGet("/notification-rules", ListAsync)
             .WithTags("NotificationRule")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("ListNotificationRules")
             .WithDisplayName("List Notification Rules API")
             .Produces<ApiResponse<PaginatedResult<NotificationRuleSummaryResponse>>>(StatusCodes.Status200OK);

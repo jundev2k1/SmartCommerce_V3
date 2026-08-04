@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -13,7 +14,7 @@ public sealed class GetDispatch : ICarterModule
     {
         app.MapGet("/notification-dispatches/{dispatchId}", GetAsync)
             .WithTags("NotificationDispatch")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("GetNotificationDispatch")
             .WithDisplayName("Get Notification Dispatch API")
             .Produces<ApiResponse<GetNotificationDispatchResponse>>(StatusCodes.Status200OK);

@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -25,7 +26,7 @@ public sealed class ListAuditLogsEndpoint : ICarterModule
     {
         app.MapGet("/audit-logs", Handle)
             .WithTags("Audit")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Audit.View)
             .WithName("ListAuditLogs")
             .WithDisplayName("List Audit Logs API")
             .WithDescription(API_DESC.JoinToString("\n"))

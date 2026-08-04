@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -27,7 +28,7 @@ public sealed class DeleteProductCategoryEndpoint : ICarterModule
     {
         app.MapDelete("/categories/{categoryId}", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Product.Manage)
             .WithName("DeleteProductCategory")
             .WithDisplayName("Delete Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

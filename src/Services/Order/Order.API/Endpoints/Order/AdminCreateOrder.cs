@@ -1,5 +1,6 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -63,7 +64,7 @@ public sealed class AdminCreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/admin", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Order.Manage)
             .WithName("AdminCreateOrder")
             .WithDisplayName("Admin Create Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

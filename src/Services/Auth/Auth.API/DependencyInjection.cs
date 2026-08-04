@@ -40,7 +40,6 @@ public static class DependencyInjection
             .AddCarterModules(typeof(DependencyInjection), typeof(IDeadLetterRetryService))
             .AddHealthCheckServices()
             .AddGrpcServer()
-            .AddCommonAuthorizationPolicies()
             .AddAuthorization(AuthorizationExtensions.ConfigureCommonPolicies);
 
         return services;

@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
@@ -50,7 +51,7 @@ public sealed class UpdateUserEndpoint : ICarterModule
     {
         app.MapPut("/profiles/{userId}", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Users.Manage)
             .WithName("UpdateUser")
             .WithDisplayName("Update User API")
             .WithDescription(API_DESC.JoinToString("\n"))

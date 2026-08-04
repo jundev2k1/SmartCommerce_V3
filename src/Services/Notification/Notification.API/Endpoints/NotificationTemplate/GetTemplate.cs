@@ -1,4 +1,5 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using SmartEcommerce.BuildingBlock.Application.Authorization;
 using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
 using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
@@ -12,7 +13,7 @@ public sealed class GetTemplate : ICarterModule
     {
         app.MapGet("/notification-templates/{templateId}", GetAsync)
             .WithTags("NotificationTemplate")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAdmin)
+            .RequirePermissions(Permissions.Notification.Manage)
             .WithName("GetNotificationTemplate")
             .WithDisplayName("Get Notification Template API")
             .Produces<ApiResponse<GetNotificationTemplateResponse>>(StatusCodes.Status200OK);

@@ -1,6 +1,7 @@
 using SmartEcommerce.Auth.Application.Abstractions.Auth;
 using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
 using SmartEcommerce.Auth.Application.Abstractions.Services;
+using SmartEcommerce.Auth.Application.Security;
 
 namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Login;
 
@@ -21,11 +22,13 @@ public sealed class LoginHandler(
 
         var jwtId = Guid.NewGuid();
         var roles = await authService.GetUserRolesAsync(user.Id, ct);
+        var permissions = RolePermissionMap.Resolve(roles);
         var accessToken = tokenGenerator.GenerateAccessToken(
             user.Id,
             user.Email!,
             user.UserName!,
             roles,
+            permissions,
             jwtId);
         var refreshToken = await refreshTokenService.GenerateRefreshTokenAsync(user.Id, jwtId, ct);
 
