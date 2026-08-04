@@ -156,8 +156,10 @@ public static class DependencyInjection
     }
 
     // InventoryStock (root), Warehouse (independent root - a physical location, not owned by
-    // InventoryStock), InventoryTransaction (append-only log entry, belongs to the InventoryStock record
-    // it happened against).
+    // InventoryStock), InventoryTransaction (append-only log entry, belongs to the InventoryStock
+    // record it happened against). InventoryLot/InventorySerial/InventoryReservation/
+    // InventoryCount/InventoryDocument are all independent aggregates in their own right - they
+    // reference InventoryStock/Warehouse ids but aren't owned by them.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
@@ -167,6 +169,12 @@ public static class DependencyInjection
                 .BelongsTo<InventoryStock>(x => x.InventoryId);
 
             builder.Entity<Warehouse>().IsRoot(x => x.Id);
+
+            builder.Entity<InventoryLot>().IsRoot(x => x.Id);
+            builder.Entity<InventorySerial>().IsRoot(x => x.Id);
+            builder.Entity<InventoryReservation>().IsRoot(x => x.Id);
+            builder.Entity<InventoryCount>().IsRoot(x => x.Id);
+            builder.Entity<InventoryDocument>().IsRoot(x => x.Id);
         });
 
         return services;
