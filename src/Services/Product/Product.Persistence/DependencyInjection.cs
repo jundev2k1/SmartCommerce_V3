@@ -59,10 +59,12 @@ public static class DependencyInjection
         return services;
     }
 
-    // Product, ProductCategory and ProductTag are independent aggregates - Product references
-    // category/tag ids but doesn't own them, so each is its own root. Variant is an
-    // owned child of Product (no independent identity), so it is not registered separately -
-    // its changes are already part of Product's own audit snapshot.
+    // Product, ProductCategory, ProductTag, ProductBrand, ProductCollection, ProductOptionDefinition,
+    // SpecificationGroup, SpecificationDefinition and WarrantyPolicy are all independent aggregates -
+    // Product references their ids but doesn't own them, so each is its own root. Variant/
+    // ProductTranslation/mapping entities are owned children with no independent identity
+    // (and aren't IAuditable), so they are not registered separately - their changes are already
+    // part of Product's own audit snapshot.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
@@ -70,6 +72,12 @@ public static class DependencyInjection
             builder.Entity<ProductEntity>().IsRoot(x => x.Id);
             builder.Entity<ProductCategory>().IsRoot(x => x.Id);
             builder.Entity<ProductTag>().IsRoot(x => x.Id);
+            builder.Entity<ProductBrand>().IsRoot(x => x.Id);
+            builder.Entity<ProductCollection>().IsRoot(x => x.Id);
+            builder.Entity<ProductOptionDefinition>().IsRoot(x => x.Id);
+            builder.Entity<SpecificationGroup>().IsRoot(x => x.Id);
+            builder.Entity<SpecificationDefinition>().IsRoot(x => x.Id);
+            builder.Entity<WarrantyPolicy>().IsRoot(x => x.Id);
         });
 
         return services;
