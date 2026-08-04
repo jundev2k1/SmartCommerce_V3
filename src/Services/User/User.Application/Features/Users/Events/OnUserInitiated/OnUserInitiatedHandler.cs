@@ -1,29 +1,26 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
 
 namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserInitiated;
 
 public sealed class OnUserInitiatedHandler(
-    IUserProfileWriteService userWriteService,
+    IUserWriteService userWriteService,
     IInternalEventDispatcher eventDispatcher) : IInternalEventHandler<OnUserInitiatedEvent>
 {
     public async Task Handle(OnUserInitiatedEvent @event, CancellationToken ct = default)
     {
-        // Create user profile. This flow is only reached via Auth's self-registration path
-        // (RegisterHandler), which always assigns exactly AppRole.User - never Admin.
+        // Mirrors the Account Auth already created (self-registration path) into a local User -
+        // role assignment is Auth's own concern (AccountRole), not replicated here.
         var user = await userWriteService.SyncFromAccountInitiationAsync(
-            new SyncUserProfileRequest(
+            new SyncUserRequest(
                 @event.AccountId,
-                @event.Email,
                 @event.UserName,
+                @event.Email,
                 @event.PhoneNumber,
                 @event.FirstName,
                 @event.MiddleName,
-                @event.LastName,
-                [AppRoleConstant.User]),
+                @event.LastName),
             ct);
 
         // Search sync trigger - dispatched inline rather than via Outbox/Kafka self-consumption,

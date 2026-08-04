@@ -1,4 +1,3 @@
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Search;
 using SmartEcommerce.User.Application.Features.Users.Search;
 
@@ -11,7 +10,7 @@ namespace SmartEcommerce.User.Application.Features.Users.Commands.RebuildUserSea
 /// not this orchestration. See docs/reference/search.md.
 /// </summary>
 public sealed class RebuildUserSearchIndexHandler(
-    IUserProfileReadService userReadService,
+    IUserReadService userReadService,
     UserSearchProjectionBuilder projectionBuilder,
     IUserSearchIndexer searchIndexer) : ICommandHandler<RebuildUserSearchIndexCommand, RebuildUserSearchIndexResponse>
 {
@@ -24,7 +23,7 @@ public sealed class RebuildUserSearchIndexHandler(
 
         var indexed = 0;
         var skip = 0;
-        IReadOnlyList<UserProfile> batch;
+        IReadOnlyList<UserReadModel> batch;
 
         do
         {

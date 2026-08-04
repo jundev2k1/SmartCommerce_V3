@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search;
+namespace SmartEcommerce.User.Persistence.Contexts.Users.Search;
 
 /// <summary>
 /// The only place the literal User Search index name lives. Since <see cref="SmartEcommerce.BuildingBlock.Search.Indexing.ElasticsearchIndexer{TDocument}"/>'s

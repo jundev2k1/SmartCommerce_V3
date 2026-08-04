@@ -3,7 +3,7 @@ using Elastic.Clients.Elasticsearch.Mapping;
 
 using SmartEcommerce.User.Application.Abstractions.Search;
 
-namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Mapping;
+namespace SmartEcommerce.User.Persistence.Contexts.Users.Search.Mapping;
 
 /// <summary>
 /// The User Search index settings + field mapping - the only place UserSearchDocument's ES

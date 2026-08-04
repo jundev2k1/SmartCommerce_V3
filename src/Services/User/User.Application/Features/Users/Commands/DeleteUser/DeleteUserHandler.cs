@@ -1,12 +1,10 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
-
 namespace SmartEcommerce.User.Application.Features.Users.Commands.DeleteUser;
 
 public sealed class DeleteUserHandler(
-    IUserProfileReadService userReadService,
-    IUserProfileWriteService userWriteService,
+    IUserReadService userReadService,
+    IUserWriteService userWriteService,
     IAppLogger<DeleteUserHandler> logger)
     : ICommandHandler<DeleteUserCommand, DeleteUserProfileResponse>
 {

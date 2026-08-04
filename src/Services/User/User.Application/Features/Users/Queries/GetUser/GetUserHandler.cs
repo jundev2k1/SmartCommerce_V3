@@ -3,13 +3,12 @@ using SmartEcommerce.BuildingBlock.Application.Exceptions;
 
 using Mapster;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Services;
 
 namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUser;
 
 public sealed class GetUserHandler(
-    IUserProfileReadService userReadService,
+    IUserReadService userReadService,
     IUserDisplayNameFormatter displayNameFormatter,
     ICurrentLocaleService currentLocale) : IQueryHandler<GetUserQuery, GetUserResponse>
 {

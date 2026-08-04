@@ -2,15 +2,13 @@ using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 using SmartEcommerce.BuildingBlock.Application.Exceptions;
 using SmartEcommerce.BuildingBlock.Contract.Events.User;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Services;
 
 namespace SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
 
 public sealed class CreateUserHandler(
-    IUserProfileWriteService userWriteService,
+    IUserWriteService userWriteService,
     IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     IAuthClientService authClient,
@@ -21,26 +19,29 @@ public sealed class CreateUserHandler(
         // Check existing email
         var isExistEmail = await authClient.EmailExistsAsync(request.Email, ct);
         if (isExistEmail)
-            throw new ConflictException("UserProfile {UserId} already exists, returning existing profile (idempotent)");
+            throw new ConflictException("User {UserId} already exists, returning existing profile (idempotent)");
 
-        // Check valid roles from input
-        EnsureCallerMayGrantRoles(request.Roles);
+        // Role/position grant authorization used to be enforced here against AppRoleConstant's
+        // fixed Root/Admin/User set - removed along with that constant. Once Auth's Role/Position
+        // admin APIs back this field for real, authorization belongs there (Auth already knows
+        // which roles/positions the caller may grant), not re-implemented against a hardcoded set
+        // here. See CreateUserCommand's doc comment.
 
         var correlationId = currentUser.GetCorrelationId();
-        UserProfile user = null!;
+        UserReadModel user = null!;
 
         await unitOfWork.ExecuteTransactionAsync(async () =>
         {
             user = await userWriteService.CreateAsync(
-                new CreateUserProfileRequest(
-                    Guid.CreateVersion7(),
-                    request.Email,
+                new CreateUserRequest(
                     request.UserName,
+                    $"{request.FirstName} {request.LastName}".Trim(),
+                    UserType.Customer,
+                    request.Email,
                     request.PhoneNumber,
                     request.FirstName,
                     request.MiddleName,
-                    request.LastName,
-                    request.Roles),
+                    request.LastName),
                 ct);
             await PublishProfileCreatedEventAsync(
                 user,
@@ -53,17 +54,8 @@ public sealed class CreateUserHandler(
         return new CreateUserResponse(user.Id);
     }
 
-    private void EnsureCallerMayGrantRoles(string[] roles)
-    {
-        if (roles.Contains(AppRoleConstant.Root))
-            throw new ForbiddenException("Cannot assign the Root role.");
-
-        if (roles.Any(r => r != AppRoleConstant.User) && !currentUser.IsInRole(AppRoleConstant.Root))
-            throw new ForbiddenException("Only Root can assign the Admin role.");
-    }
-
     private async Task PublishProfileCreatedEventAsync(
-        UserProfile createdUser,
+        UserReadModel createdUser,
         string[] roles,
         string tempPassword,
         string correlationId,

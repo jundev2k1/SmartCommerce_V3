@@ -5,7 +5,7 @@ using Elastic.Clients.Elasticsearch.QueryDsl;
 
 using SmartEcommerce.User.Application.Abstractions.Search;
 
-namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Repositories;
+namespace SmartEcommerce.User.Persistence.Contexts.Users.Search.Repositories;
 
 /// <summary>
 /// IUserSearchRepository impl - query-only against Elasticsearch, never Postgres. Composes

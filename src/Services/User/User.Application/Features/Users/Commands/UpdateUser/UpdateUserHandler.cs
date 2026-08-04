@@ -2,13 +2,12 @@ using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 using SmartEcommerce.BuildingBlock.Contract.Events.User;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Services;
 
 namespace SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserHandler(
-    IUserProfileWriteService userWriteService,
+    IUserWriteService userWriteService,
     IUnitOfWork unitOfWork,
     IOutboxStore outboxStore,
     ICurrentUserService currentUser,

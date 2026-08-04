@@ -42,13 +42,17 @@ public sealed class User : AggregateRoot<Guid>, IAuditable
         string username,
         string displayName,
         UserType userType,
-        UserStatus status = UserStatus.PendingVerification)
+        UserStatus status = UserStatus.PendingVerification,
+        Guid? id = null)
     {
         ValidateUsername(username);
 
         return new User
         {
-            Id = Guid.CreateVersion7(),
+            // Defaults to a fresh id, but SyncFromAccountInitiation needs this User's id to equal
+            // the Account's id already minted by Auth - the two rows are correlated by sharing the
+            // same id, not by a separate foreign key.
+            Id = id ?? Guid.CreateVersion7(),
             Username = username,
             DisplayName = displayName,
             UserType = userType,

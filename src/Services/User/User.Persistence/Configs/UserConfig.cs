@@ -1,12 +1,13 @@
+using SmartEcommerce.BuildingBlock.Domain.Metadata;
 using SmartEcommerce.User.Domain.Metadata;
 
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace SmartEcommerce.User.Persistence.Configs;
 
-public sealed class UserConfig : IEntityTypeConfiguration<User>
+public sealed class UserConfig : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         // Table
         builder.ToTable("users");

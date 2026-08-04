@@ -8,22 +8,23 @@ public sealed class UserSeeder(UserDbContext context)
 {
     public async Task SeedAsync()
     {
-        if (await context.UserProfiles.AnyAsync())
+        if (await context.Users.AnyAsync())
             return;
 
         var users = SeedAuthData.Accounts.Default
-            .Select(account => UserProfile.Create(
-                account.Id,
-                account.Email,
-                account.Username,
-                "1234567890",
-                account.Username,
-                string.Empty,
-                account.Username,
-                account.Roles))
+            .Select(account =>
+            {
+                // Shares the Account's id, same correlation rule OnUserInitiated uses for
+                // self-registered accounts - see User.Create's id override.
+                var user = UserEntity.Create(account.Username, account.Username, UserType.Administrator, id: account.Id);
+                user.UpdateProfile(PersonalName.Create(account.Username, null, account.Username));
+                user.AddContact(ContactType.Email, account.Email, isPrimary: true);
+                user.AddContact(ContactType.Phone, "1234567890", isPrimary: true);
+                return user;
+            })
             .ToArray();
 
-        context.UserProfiles.AddRange(users);
+        context.Users.AddRange(users);
         await context.SaveChangesAsync();
     }
 }

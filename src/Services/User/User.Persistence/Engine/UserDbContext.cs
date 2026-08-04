@@ -9,7 +9,7 @@ public sealed class UserDbContext(DbContextOptions<UserDbContext> options)
     IOutboxDbContext,
     IInboxDbContext
 {
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<UserEntity> Users { get; set; } = null!;
     public DbSet<UserProfile> UserProfiles { get; set; } = null!;
     public DbSet<UserAvatar> UserAvatars { get; set; } = null!;
     public DbSet<UserAddress> UserAddresses { get; set; } = null!;

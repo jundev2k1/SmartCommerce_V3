@@ -1,9 +1,9 @@
 using SmartEcommerce.BuildingBlock.Search.Abstractions;
 
 using SmartEcommerce.User.Application.Abstractions.Search;
-using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Mapping;
+using SmartEcommerce.User.Persistence.Contexts.Users.Search.Mapping;
 
-namespace SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Indexers;
+namespace SmartEcommerce.User.Persistence.Contexts.Users.Search.Indexers;
 
 /// <summary>
 /// IUserSearchIndexer impl - fixes the User index name/mapping/settings on top of

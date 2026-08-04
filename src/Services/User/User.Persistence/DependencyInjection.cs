@@ -15,12 +15,12 @@ using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
 using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
 using SmartEcommerce.BuildingBlock.Persistence.Repository;
 using SmartEcommerce.BuildingBlock.Search.DependencyInjection;
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
+using SmartEcommerce.User.Application.Abstractions.Persistence.Users;
 using SmartEcommerce.User.Application.Abstractions.Search;
-using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Read;
-using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Indexers;
-using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Repositories;
-using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Write;
+using SmartEcommerce.User.Persistence.Contexts.Users.Read;
+using SmartEcommerce.User.Persistence.Contexts.Users.Search.Indexers;
+using SmartEcommerce.User.Persistence.Contexts.Users.Search.Repositories;
+using SmartEcommerce.User.Persistence.Contexts.Users.Write;
 using SmartEcommerce.User.Persistence.Engine;
 using SmartEcommerce.User.Persistence.Engine.UnitOfWork;
 using SmartEcommerce.User.Persistence.Reliability.Inbox;
@@ -42,7 +42,7 @@ public static class DependencyInjection
         services
             .AddDatabaseContext(configuration)
             .AddApplicationServices()
-            .AddUserProfilePersistence()
+            .AddUserPersistence()
             .AddUnitOfWork()
             .AddOutboxAndInbox()
             .AddAuditHierarchy()
@@ -131,15 +131,14 @@ public static class DependencyInjection
         return services;
     }
 
-    // UserProfileRepo implements the generic IRepository<T> again - AsImplementedInterfaces()
-    // registers it against both IRepository<UserProfile> and the specific IUserProfileRepository
-    // in one scan call.
-    private static IServiceCollection AddUserProfilePersistence(this IServiceCollection services)
+    // UserRepo implements the generic IRepository<T> - AsImplementedInterfaces() registers it
+    // against both IRepository<User> and the specific IUserRepository in one scan call.
+    private static IServiceCollection AddUserPersistence(this IServiceCollection services)
     {
         services.AddScopedByInterface(typeof(IRepository<>), typeof(UserDbContext));
 
-        services.AddScoped<IUserProfileReadService, UserProfileReadService>();
-        services.AddScoped<IUserProfileWriteService, UserProfileWriteService>();
+        services.AddScoped<IUserReadService, UserReadService>();
+        services.AddScoped<IUserWriteService, UserWriteService>();
         return services;
     }
 

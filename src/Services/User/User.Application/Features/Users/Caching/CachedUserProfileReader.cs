@@ -1,4 +1,3 @@
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Services;
 
 namespace SmartEcommerce.User.Application.Features.Users.Caching;
@@ -7,12 +6,12 @@ namespace SmartEcommerce.User.Application.Features.Users.Caching;
 /// Read-through orchestration for the User Detail cache: cache -&gt; DB on miss -&gt; refresh cache -&gt; return.
 /// Single lookup and batch lookup both live here so both GetUserDetailHandler (REST) and the
 /// gRPC GetUser/GetUsers RPCs (Task 14) share one implementation. The batch path never falls
-/// back to a loop of single lookups - exactly one IUserProfileReadService.GetByIdsAsync call for
+/// back to a loop of single lookups - exactly one IUserReadService.GetByIdsAsync call for
 /// whatever wasn't already cached. See docs/tasks/2026-07-28/Task11_user-detail-cache-scaffold.md.
 /// </summary>
 public sealed class CachedUserProfileReader(
     IUserProfileCacheService cache,
-    IUserProfileReadService userReadService)
+    IUserReadService userReadService)
 {
     public async Task<CachedUserProfile?> GetAsync(Guid userId, CancellationToken ct = default)
     {

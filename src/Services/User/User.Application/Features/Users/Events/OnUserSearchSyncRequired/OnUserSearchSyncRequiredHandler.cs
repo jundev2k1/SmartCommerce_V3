@@ -1,7 +1,6 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Search;
 using SmartEcommerce.User.Application.Features.Users.Search;
 
@@ -9,7 +8,7 @@ namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSync
 
 /// <summary>The Search sync reaction: rebuild the document from current Postgres state and upsert it. See docs/reference/search.md.</summary>
 public sealed class OnUserSearchSyncRequiredHandler(
-    IUserProfileReadService userReadService,
+    IUserReadService userReadService,
     UserSearchProjectionBuilder projectionBuilder,
     IUserSearchIndexer searchIndexer,
     IAppLogger<OnUserSearchSyncRequiredHandler> logger) : IInternalEventHandler<OnUserSearchSyncRequiredEvent>

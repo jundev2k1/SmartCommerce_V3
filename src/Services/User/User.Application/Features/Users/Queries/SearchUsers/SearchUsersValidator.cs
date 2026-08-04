@@ -12,7 +12,7 @@ public sealed class SearchUsersValidator : AbstractValidator<SearchUsersQuery>
     {
         RuleFor(x => x.Criteria).Custom((criteria, context) =>
         {
-            var errors = CriteriaRequestValidator<UserProfile>.Validate(UserCriteriaDefinition.Instance, criteria);
+            var errors = CriteriaRequestValidator<UserReadModel>.Validate(UserCriteriaDefinition.Instance, criteria);
             foreach (var error in errors)
                 context.AddFailure(error);
         });

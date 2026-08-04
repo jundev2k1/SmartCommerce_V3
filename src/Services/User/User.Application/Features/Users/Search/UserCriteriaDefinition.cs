@@ -5,7 +5,7 @@ using SmartEcommerce.BuildingBlock.Criteria.Strategies;
 namespace SmartEcommerce.User.Application.Features.Users.Search;
 
 /// <summary>
-/// Admin search request-shape whitelist for <see cref="UserProfile"/> - field names, allowed
+/// Admin search request-shape whitelist for <see cref="UserReadModel"/> - field names, allowed
 /// operators, and sortability. Built once (static singleton) - no per-request reflection scan.
 ///
 /// Since the 2026-07-28 Elasticsearch cutover (see docs/reference/search.md,
@@ -19,7 +19,7 @@ namespace SmartEcommerce.User.Application.Features.Users.Search;
 /// </summary>
 public static class UserCriteriaDefinition
 {
-    public static readonly CriteriaDefinition<UserProfile> Instance = CriteriaDefinition<UserProfile>.Create()
+    public static readonly CriteriaDefinition<UserReadModel> Instance = CriteriaDefinition<UserReadModel>.Create()
         .Field(x => x.UserName).String().Sortable().AllowOperators()
         .Field(x => x.Email).String().Sortable().AllowOperators()
         .Field(x => x.Status).Enum()
@@ -29,6 +29,6 @@ public static class UserCriteriaDefinition
         .Field(x => x.UpdatedAt).DateTime().Sortable().AllowOperators()
         // Not Sortable() - Roles is multi-valued, sorting by an array column isn't a coherent request.
         .Field(x => x.Roles, name: "role").UseStrategy(
-            new StringCollectionContainsStrategy<UserProfile>(x => x.Roles), CriteriaOperator.Eq, CriteriaOperator.Ne)
+            new StringCollectionContainsStrategy<UserReadModel>(x => x.Roles), CriteriaOperator.Eq, CriteriaOperator.Ne)
         .Build();
 }

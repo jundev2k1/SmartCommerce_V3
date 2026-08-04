@@ -4,7 +4,7 @@ using SmartEcommerce.User.Application.Abstractions.Services;
 namespace SmartEcommerce.User.Application.Features.Users.Search;
 
 /// <summary>
-/// The Projection Builder: UserProfile -&gt; UserSearchDocument. The only place a UserSearchDocument
+/// The Projection Builder: UserReadModel -&gt; UserSearchDocument. The only place a UserSearchDocument
 /// is assembled - both the live sync path and the rebuild path call into it, so a future schema
 /// change touches exactly one class. See docs/reference/search.md.
 /// </summary>
@@ -15,13 +15,13 @@ public sealed class UserSearchProjectionBuilder(IUserDisplayNameFormatter displa
     // docs/tasks/2026-07-28/Task8_projection-builder-and-sync-events.md.
     private const string IndexDisplayLocale = "en";
 
-    public Task<UserSearchDocument> BuildAsync(UserProfile user, CancellationToken ct = default) =>
+    public Task<UserSearchDocument> BuildAsync(UserReadModel user, CancellationToken ct = default) =>
         Task.FromResult(Build(user));
 
-    public Task<IReadOnlyList<UserSearchDocument>> BuildManyAsync(IReadOnlyList<UserProfile> users, CancellationToken ct = default) =>
+    public Task<IReadOnlyList<UserSearchDocument>> BuildManyAsync(IReadOnlyList<UserReadModel> users, CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<UserSearchDocument>>(users.Select(Build).ToList());
 
-    private UserSearchDocument Build(UserProfile user) => new()
+    private UserSearchDocument Build(UserReadModel user) => new()
     {
         UserId = user.Id,
         FirstName = user.FirstName,

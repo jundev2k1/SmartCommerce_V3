@@ -1,5 +1,3 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-
 using FluentValidation;
 
 using SmartEcommerce.User.Application.Common.Regex;
@@ -33,9 +31,11 @@ public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>
             .NotEmpty().WithMessage("LastName is required")
             .Length(1, 50).WithMessage("LastName must be between 1 and 50 characters");
 
+        // Valid role names are Auth's own Identity roles (AccountRole/Role.Name) - User service has
+        // no local catalog to validate against until the cross-service Role/Position admin
+        // provisioning workflow exists (see CreateUserCommand). Shape-only validation for now.
         RuleFor(x => x.Roles)
-            .NotEmpty().WithMessage("Roles is required")
-            .Must(x => x.All(AppRoleConstant.SupportedRoles.Contains)).WithMessage("One or more roles is not supported.");
+            .NotEmpty().WithMessage("Roles is required");
 
         RuleFor(x => x.TempPassword)
             .MinimumLength(6).WithMessage("TempPassword must be at least 6 characters")

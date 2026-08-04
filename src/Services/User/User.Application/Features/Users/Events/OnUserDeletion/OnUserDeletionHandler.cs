@@ -1,13 +1,12 @@
 using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Services;
 using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
 
 namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserDeletion;
 
 public sealed class OnUserDeletionHandler(
-    IUserProfileWriteService userWriteService,
+    IUserWriteService userWriteService,
     IInternalEventDispatcher eventDispatcher,
     IUserProfileCacheService userProfileCache) : IInternalEventHandler<OnUserDeletionEvent>
 {

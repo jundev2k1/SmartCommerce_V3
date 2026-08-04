@@ -20,7 +20,7 @@ public sealed record CachedUserProfile(
     DateTime CreatedAt,
     DateTime UpdatedAt)
 {
-    public static CachedUserProfile FromEntity(UserProfile user) => new(
+    public static CachedUserProfile FromEntity(UserReadModel user) => new(
         user.Id,
         user.Email,
         user.UserName,
