@@ -18,6 +18,9 @@ using OpenTelemetry.Trace;
 
 using SmartEcommerce.User.Application.Abstractions.Persistence.UserProfiles;
 using SmartEcommerce.User.Application.Abstractions.Search;
+using SmartEcommerce.User.Domain.Entities.Roles;
+using SmartEcommerce.User.Domain.Entities.Tags;
+using SmartEcommerce.User.Domain.Entities.Users;
 using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Read;
 using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Indexers;
 using SmartEcommerce.User.Persistence.Contexts.UserProfiles.Search.Repositories;
@@ -73,11 +76,55 @@ public static class DependencyInjection
         return services;
     }
 
-    // UserProfile is a flat aggregate - no children today - so it's registered as a root with no
-    // BelongsTo declarations. Its audit graph is just a single node, same shape as any other root.
+    // User, UserRole and UserTag are the independent aggregates from the identity-model redesign -
+    // UserProfile/UserAvatar/UserSetting/UserSecuritySetting/UserPrivacySetting/
+    // UserNotificationSetting/UserPreference/UserActivitySummary/UserAddress/UserContact/
+    // UserPaymentMethod/UserVerification/UserRoleAssignment are all owned children with real
+    // business content (contact/security/privacy settings, KYC verification, role-grant history),
+    // so each is registered via BelongsTo. UserRoleTranslation/UserTagTranslation are registered
+    // the same way - admin-facing display copy is real content. UserTagMapping (pure mapping) and
+    // UserPermissionSnapshot (denormalized permission cache) are intentionally not IAuditable and
+    // stay unregistered.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
-        services.ConfigureAuditHierarchy(builder => builder.Entity<UserProfile>().IsRoot(x => x.Id));
+        services.ConfigureAuditHierarchy(builder =>
+        {
+            builder.Entity<User>().IsRoot(x => x.Id);
+            builder.Entity<UserProfile>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserAvatar>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserSetting>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserSecuritySetting>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserPrivacySetting>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserNotificationSetting>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserPreference>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserActivitySummary>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserAddress>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserContact>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserPaymentMethod>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserVerification>()
+                .BelongsTo<User>(x => x.UserId);
+            builder.Entity<UserRoleAssignment>()
+                .BelongsTo<User>(x => x.UserId);
+
+            builder.Entity<UserRole>().IsRoot(x => x.Id);
+            builder.Entity<UserRoleTranslation>()
+                .BelongsTo<UserRole>(x => x.Id);
+
+            builder.Entity<UserTag>().IsRoot(x => x.Id);
+            builder.Entity<UserTagTranslation>()
+                .BelongsTo<UserTag>(x => x.Id);
+        });
 
         return services;
     }
