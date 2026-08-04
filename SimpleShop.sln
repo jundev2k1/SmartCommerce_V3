@@ -7,155 +7,157 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{077B97DF-112
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{7E695F2E-E568-46F4-A00F-4B0AC45D6B89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Domain", "src\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{97E73DFF-484E-477A-96DD-76D56C988131}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Domain", "src\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{97E73DFF-484E-477A-96DD-76D56C988131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Application", "src\BuildingBlocks\BuildingBlock.Application\BuildingBlock.Application.csproj", "{43DC23FA-DCE7-4FC1-B24A-123557CB659D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Application", "src\BuildingBlocks\BuildingBlock.Application\BuildingBlock.Application.csproj", "{43DC23FA-DCE7-4FC1-B24A-123557CB659D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Infrastructure", "src\BuildingBlocks\BuildingBlock.Infrastructure\BuildingBlock.Infrastructure.csproj", "{1580622E-B51F-4768-9E45-7EAB4AB52221}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Infrastructure", "src\BuildingBlocks\BuildingBlock.Infrastructure\BuildingBlock.Infrastructure.csproj", "{1580622E-B51F-4768-9E45-7EAB4AB52221}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.SharedKernel", "src\BuildingBlocks\BuildingBlock.SharedKernel\BuildingBlock.SharedKernel.csproj", "{8F061D72-EA30-4CAF-B9AC-C3E4FC1DE9A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Infrastructure.Mail", "src\BuildingBlocks\BuildingBlock.Infrastructure.Mail\BuildingBlock.Infrastructure.Mail.csproj", "{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Persistence", "src\BuildingBlocks\BuildingBlock.Persistence\BuildingBlock.Persistence.csproj", "{87FCE8EE-C35E-48D2-977F-6F7DB293080B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.SharedKernel", "src\BuildingBlocks\BuildingBlock.SharedKernel\BuildingBlock.SharedKernel.csproj", "{8F061D72-EA30-4CAF-B9AC-C3E4FC1DE9A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Persistence.Ef", "src\BuildingBlocks\BuildingBlock.Persistence.Ef\BuildingBlock.Persistence.Ef.csproj", "{39BE9B8F-04AB-477B-9533-0E952F63F4E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Persistence", "src\BuildingBlocks\BuildingBlock.Persistence\BuildingBlock.Persistence.csproj", "{87FCE8EE-C35E-48D2-977F-6F7DB293080B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Web", "src\BuildingBlocks\BuildingBlock.Web\BuildingBlock.Web.csproj", "{B52C9F28-AE44-49A3-B9F5-59A526568998}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Persistence.Ef", "src\BuildingBlocks\BuildingBlock.Persistence.Ef\BuildingBlock.Persistence.Ef.csproj", "{39BE9B8F-04AB-477B-9533-0E952F63F4E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Contract", "src\BuildingBlocks\BuildingBlock.Contract\BuildingBlock.Contract.csproj", "{149B96F5-B5DA-4BC6-8AC0-C7DD5FBD9FFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Web", "src\BuildingBlocks\BuildingBlock.Web\BuildingBlock.Web.csproj", "{B52C9F28-AE44-49A3-B9F5-59A526568998}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Grpc", "src\BuildingBlocks\BuildingBlock.Grpc\BuildingBlock.Grpc.csproj", "{D624BECF-AB06-4573-B614-25845C43CFB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Contract", "src\BuildingBlocks\BuildingBlock.Contract\BuildingBlock.Contract.csproj", "{149B96F5-B5DA-4BC6-8AC0-C7DD5FBD9FFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Saga", "src\BuildingBlocks\BuildingBlock.Saga\BuildingBlock.Saga.csproj", "{12BDED53-5EDB-4DF1-B0B0-92982C11C5BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Grpc", "src\BuildingBlocks\BuildingBlock.Grpc\BuildingBlock.Grpc.csproj", "{D624BECF-AB06-4573-B614-25845C43CFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Messaging", "src\BuildingBlocks\BuildingBlock.Messaging\BuildingBlock.Messaging.csproj", "{4B0627DC-5849-4742-A2EA-0C41744A7D46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Saga", "src\BuildingBlocks\BuildingBlock.Saga\BuildingBlock.Saga.csproj", "{12BDED53-5EDB-4DF1-B0B0-92982C11C5BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Messaging.Kafka", "src\BuildingBlocks\BuildingBlock.Messaging.Kafka\BuildingBlock.Messaging.Kafka.csproj", "{6D9152AD-EB40-40CF-AB95-C7E734985933}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Messaging", "src\BuildingBlocks\BuildingBlock.Messaging\BuildingBlock.Messaging.csproj", "{4B0627DC-5849-4742-A2EA-0C41744A7D46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Messaging.Kafka", "src\BuildingBlocks\BuildingBlock.Messaging.Kafka\BuildingBlock.Messaging.Kafka.csproj", "{6D9152AD-EB40-40CF-AB95-C7E734985933}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{D72C7DAE-3966-4F2D-A881-588B6C079A31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.YarpApiGateway", "src\ApiGateways\YarpApiGateway\YarpApiGateway.csproj", "{47062435-A061-4865-B3D6-3D213707E853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YarpApiGateway", "src\ApiGateways\YarpApiGateway\YarpApiGateway.csproj", "{47062435-A061-4865-B3D6-3D213707E853}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3A69DF5F-2BB9-492E-BDB6-D5F4195AE211}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{52EB34D0-0504-467A-B9CE-B7E941C180F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Auth.Domain", "src\Services\Auth\Auth.Domain\Auth.Domain.csproj", "{B195E1C3-B1AD-460B-BF0A-F59A01FE48EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Domain", "src\Services\Auth\Auth.Domain\Auth.Domain.csproj", "{B195E1C3-B1AD-460B-BF0A-F59A01FE48EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Auth.Application", "src\Services\Auth\Auth.Application\Auth.Application.csproj", "{6AAFD962-6538-4B99-A323-55AE63DAC1AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Application", "src\Services\Auth\Auth.Application\Auth.Application.csproj", "{6AAFD962-6538-4B99-A323-55AE63DAC1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Auth.Persistence", "src\Services\Auth\Auth.Persistence\Auth.Persistence.csproj", "{D4F5C227-375E-4345-A5FB-ECE9859D48E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Persistence", "src\Services\Auth\Auth.Persistence\Auth.Persistence.csproj", "{D4F5C227-375E-4345-A5FB-ECE9859D48E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Auth.Infrastructure", "src\Services\Auth\Auth.Infrastructure\Auth.Infrastructure.csproj", "{E923D95A-CA69-4EC3-B12E-8D599A53E243}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Infrastructure", "src\Services\Auth\Auth.Infrastructure\Auth.Infrastructure.csproj", "{E923D95A-CA69-4EC3-B12E-8D599A53E243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Auth.API", "src\Services\Auth\Auth.API\Auth.API.csproj", "{C6C4F361-8283-4832-B18D-EF115E33ADD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.API", "src\Services\Auth\Auth.API\Auth.API.csproj", "{C6C4F361-8283-4832-B18D-EF115E33ADD3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{4A45BBF7-A629-F262-AE07-69B9726010C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.User.Domain", "src\Services\User\User.Domain\User.Domain.csproj", "{38CA15A4-3B1E-4A6C-B8A9-F7CD5534FA04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Domain", "src\Services\User\User.Domain\User.Domain.csproj", "{38CA15A4-3B1E-4A6C-B8A9-F7CD5534FA04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.User.Application", "src\Services\User\User.Application\User.Application.csproj", "{B47DC2CA-1F6B-4027-A31C-17F07DA35BD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Application", "src\Services\User\User.Application\User.Application.csproj", "{B47DC2CA-1F6B-4027-A31C-17F07DA35BD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.User.Persistence", "src\Services\User\User.Persistence\User.Persistence.csproj", "{18B5DE0A-E5F7-444E-89F7-B75E404DCF18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Persistence", "src\Services\User\User.Persistence\User.Persistence.csproj", "{18B5DE0A-E5F7-444E-89F7-B75E404DCF18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.User.Infrastructure", "src\Services\User\User.Infrastructure\User.Infrastructure.csproj", "{B667D8B1-A167-46BB-B218-4DA759F20651}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Infrastructure", "src\Services\User\User.Infrastructure\User.Infrastructure.csproj", "{B667D8B1-A167-46BB-B218-4DA759F20651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.User.API", "src\Services\User\User.API\User.API.csproj", "{8C120278-4168-4995-8448-9D1B2A9194B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.API", "src\Services\User\User.API\User.API.csproj", "{8C120278-4168-4995-8448-9D1B2A9194B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{5854FF58-B8C5-05C6-5BF2-ACE42193F22B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Product", "Product", "{B06B848F-2C60-96F4-F472-51BA1E48B7CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Product.Domain", "src\Services\Product\Product.Domain\Product.Domain.csproj", "{C81443C1-8484-4802-971F-C4DD399FDA8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Domain", "src\Services\Product\Product.Domain\Product.Domain.csproj", "{C81443C1-8484-4802-971F-C4DD399FDA8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Product.Application", "src\Services\Product\Product.Application\Product.Application.csproj", "{923E38FD-33B7-42CD-8974-6209281E9968}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Application", "src\Services\Product\Product.Application\Product.Application.csproj", "{923E38FD-33B7-42CD-8974-6209281E9968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Product.Infrastructure", "src\Services\Product\Product.Infrastructure\Product.Infrastructure.csproj", "{30509D74-056E-4475-A409-3733C215D640}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Infrastructure", "src\Services\Product\Product.Infrastructure\Product.Infrastructure.csproj", "{30509D74-056E-4475-A409-3733C215D640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Product.Persistence", "src\Services\Product\Product.Persistence\Product.Persistence.csproj", "{791E38C2-D212-4DF2-B8FE-7A9281A96189}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Persistence", "src\Services\Product\Product.Persistence\Product.Persistence.csproj", "{791E38C2-D212-4DF2-B8FE-7A9281A96189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Product.API", "src\Services\Product\Product.API\Product.API.csproj", "{A37B3F0F-63C6-48E7-85CA-F1A2FF112168}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.API", "src\Services\Product\Product.API\Product.API.csproj", "{A37B3F0F-63C6-48E7-85CA-F1A2FF112168}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{E968773F-A3F0-8B5A-CFB8-BE121AA8E63F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Inventory.Domain", "src\Services\Inventory\Inventory.Domain\Inventory.Domain.csproj", "{54D1991E-C30B-4097-89F4-8D02EFB6A8EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Domain", "src\Services\Inventory\Inventory.Domain\Inventory.Domain.csproj", "{54D1991E-C30B-4097-89F4-8D02EFB6A8EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Inventory.Application", "src\Services\Inventory\Inventory.Application\Inventory.Application.csproj", "{AFE81B9A-82BD-4B45-BFB9-735E95E04B10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Application", "src\Services\Inventory\Inventory.Application\Inventory.Application.csproj", "{AFE81B9A-82BD-4B45-BFB9-735E95E04B10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Inventory.Infrastructure", "src\Services\Inventory\Inventory.Infrastructure\Inventory.Infrastructure.csproj", "{FE509362-89BB-4C4E-A3E6-1059FDA030AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Infrastructure", "src\Services\Inventory\Inventory.Infrastructure\Inventory.Infrastructure.csproj", "{FE509362-89BB-4C4E-A3E6-1059FDA030AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Inventory.Persistence", "src\Services\Inventory\Inventory.Persistence\Inventory.Persistence.csproj", "{6FF341C6-CE75-4BC6-8A80-D4473E50F6CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Persistence", "src\Services\Inventory\Inventory.Persistence\Inventory.Persistence.csproj", "{6FF341C6-CE75-4BC6-8A80-D4473E50F6CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Inventory.API", "src\Services\Inventory\Inventory.API\Inventory.API.csproj", "{94F889DD-37AB-49D5-8576-D516B9512894}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.API", "src\Services\Inventory\Inventory.API\Inventory.API.csproj", "{94F889DD-37AB-49D5-8576-D516B9512894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Persistence.Mongo", "src\BuildingBlocks\BuildingBlock.Persistence.Mongo\BuildingBlock.Persistence.Mongo.csproj", "{4C4E5DC4-E04B-462E-843F-F308E4191EBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Persistence.Mongo", "src\BuildingBlocks\BuildingBlock.Persistence.Mongo\BuildingBlock.Persistence.Mongo.csproj", "{4C4E5DC4-E04B-462E-843F-F308E4191EBD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{9C6C2E8D-B123-D6B1-AB18-2FEDF06AAB5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.Domain", "src\Services\Order\Order.Domain\Order.Domain.csproj", "{F4F0E601-AB7D-48C2-9E36-BB7111E3B37F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Domain", "src\Services\Order\Order.Domain\Order.Domain.csproj", "{F4F0E601-AB7D-48C2-9E36-BB7111E3B37F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.Application", "src\Services\Order\Order.Application\Order.Application.csproj", "{574AF9A7-BAB3-478C-AF00-DDD6BF07CC40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Application", "src\Services\Order\Order.Application\Order.Application.csproj", "{574AF9A7-BAB3-478C-AF00-DDD6BF07CC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.Persistence", "src\Services\Order\Order.Persistence\Order.Persistence.csproj", "{15A4E5E3-D912-4EA0-A424-254E214CBBCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Persistence", "src\Services\Order\Order.Persistence\Order.Persistence.csproj", "{15A4E5E3-D912-4EA0-A424-254E214CBBCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.Infrastructure", "src\Services\Order\Order.Infrastructure\Order.Infrastructure.csproj", "{33B706B2-3D6C-4E92-93A5-175CA5839C27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Infrastructure", "src\Services\Order\Order.Infrastructure\Order.Infrastructure.csproj", "{33B706B2-3D6C-4E92-93A5-175CA5839C27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.API", "src\Services\Order\Order.API\Order.API.csproj", "{1E0833AD-D443-42C9-8BF7-DEE7B6FC08EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.API", "src\Services\Order\Order.API\Order.API.csproj", "{1E0833AD-D443-42C9-8BF7-DEE7B6FC08EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Audit", "Audit", "{6ED955B7-AB36-72EE-BA5E-A53FE8CE0FC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Audit.Domain", "src\Services\Audit\Audit.Domain\Audit.Domain.csproj", "{C5A42A0A-B289-4CEF-9A46-98A9D01F9EF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit.Domain", "src\Services\Audit\Audit.Domain\Audit.Domain.csproj", "{C5A42A0A-B289-4CEF-9A46-98A9D01F9EF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Audit.Application", "src\Services\Audit\Audit.Application\Audit.Application.csproj", "{5B18B363-59B4-47E7-BF13-F32895526FD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit.Application", "src\Services\Audit\Audit.Application\Audit.Application.csproj", "{5B18B363-59B4-47E7-BF13-F32895526FD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Audit.Persistence", "src\Services\Audit\Audit.Persistence\Audit.Persistence.csproj", "{FD09815C-6A69-4EB5-9ED6-BEB8DAA55A63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit.Persistence", "src\Services\Audit\Audit.Persistence\Audit.Persistence.csproj", "{FD09815C-6A69-4EB5-9ED6-BEB8DAA55A63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Audit.Infrastructure", "src\Services\Audit\Audit.Infrastructure\Audit.Infrastructure.csproj", "{50AF7F70-6852-4C09-943C-C2001A633791}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit.Infrastructure", "src\Services\Audit\Audit.Infrastructure\Audit.Infrastructure.csproj", "{50AF7F70-6852-4C09-943C-C2001A633791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Audit.API", "src\Services\Audit\Audit.API\Audit.API.csproj", "{D7508EFF-D88F-4406-96CC-C4F2F0EE293F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit.API", "src\Services\Audit\Audit.API\Audit.API.csproj", "{D7508EFF-D88F-4406-96CC-C4F2F0EE293F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Persistence.Ef.Tests", "tests\unit\BuildingBlock.Persistence.Ef.Tests\BuildingBlock.Persistence.Ef.Tests.csproj", "{54308E5A-0DDE-44DB-A050-6E980642B115}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Persistence.Ef.Tests", "tests\unit\BuildingBlock.Persistence.Ef.Tests\BuildingBlock.Persistence.Ef.Tests.csproj", "{54308E5A-0DDE-44DB-A050-6E980642B115}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notification", "Notification", "{AA9EE0C7-4E1A-44BC-243C-C4E356DC2F3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Notification.Domain", "src\Services\Notification\Notification.Domain\Notification.Domain.csproj", "{000ED243-DB42-4994-9926-8F8486C7865F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Domain", "src\Services\Notification\Notification.Domain\Notification.Domain.csproj", "{000ED243-DB42-4994-9926-8F8486C7865F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Notification.Application", "src\Services\Notification\Notification.Application\Notification.Application.csproj", "{8927E8CB-24F7-4FF5-A15E-622E0411CA52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Application", "src\Services\Notification\Notification.Application\Notification.Application.csproj", "{8927E8CB-24F7-4FF5-A15E-622E0411CA52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Notification.Infrastructure", "src\Services\Notification\Notification.Infrastructure\Notification.Infrastructure.csproj", "{4533C78E-CCEF-4822-8A15-F9C5E76CD313}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Infrastructure", "src\Services\Notification\Notification.Infrastructure\Notification.Infrastructure.csproj", "{4533C78E-CCEF-4822-8A15-F9C5E76CD313}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Notification.Persistence", "src\Services\Notification\Notification.Persistence\Notification.Persistence.csproj", "{713AB70E-9C34-4114-9A74-DAFBACDC0952}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Persistence", "src\Services\Notification\Notification.Persistence\Notification.Persistence.csproj", "{713AB70E-9C34-4114-9A74-DAFBACDC0952}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Notification.API", "src\Services\Notification\Notification.API\Notification.API.csproj", "{D8B1EF8B-9267-4C82-8B9C-BD448C8EAB70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.API", "src\Services\Notification\Notification.API\Notification.API.csproj", "{D8B1EF8B-9267-4C82-8B9C-BD448C8EAB70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Search", "src\BuildingBlocks\BuildingBlock.Search\BuildingBlock.Search.csproj", "{954A01EE-8CF7-440C-90DE-9E147B91ECFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Search", "src\BuildingBlocks\BuildingBlock.Search\BuildingBlock.Search.csproj", "{954A01EE-8CF7-440C-90DE-9E147B91ECFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.SharedKernel.Tests", "tests\unit\BuildingBlock.SharedKernel.Tests\BuildingBlock.SharedKernel.Tests.csproj", "{6261DDAC-E425-4E53-8357-A6D53AB766A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.SharedKernel.Tests", "tests\unit\BuildingBlock.SharedKernel.Tests\BuildingBlock.SharedKernel.Tests.csproj", "{6261DDAC-E425-4E53-8357-A6D53AB766A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Domain.Tests", "tests\unit\BuildingBlock.Domain.Tests\BuildingBlock.Domain.Tests.csproj", "{756B722E-BB53-4BEF-870D-F286F8830B01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Domain.Tests", "tests\unit\BuildingBlock.Domain.Tests\BuildingBlock.Domain.Tests.csproj", "{756B722E-BB53-4BEF-870D-F286F8830B01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleShop.TestKit", "tests\unit\Common\SimpleShop.TestKit\SimpleShop.TestKit.csproj", "{D90C8C7C-1EA1-4B57-BD1B-F583C6DA4F34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Product.Domain.Tests", "tests\unit\Product.Domain.Tests\Product.Domain.Tests.csproj", "{2D1D9B4B-4EBA-481B-87C0-A1C12AFE6B7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Domain.Tests", "tests\unit\Product.Domain.Tests\Product.Domain.Tests.csproj", "{2D1D9B4B-4EBA-481B-87C0-A1C12AFE6B7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Criteria", "src\BuildingBlocks\BuildingBlock.Criteria\BuildingBlock.Criteria.csproj", "{9D1D15A2-400F-4F9C-9C11-A25A2A83938C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Criteria", "src\BuildingBlocks\BuildingBlock.Criteria\BuildingBlock.Criteria.csproj", "{9D1D15A2-400F-4F9C-9C11-A25A2A83938C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{9D556B49-86D1-93A7-9596-FFAAB74EC556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Criteria.Tests", "tests\unit\BuildingBlock.Criteria.Tests\BuildingBlock.Criteria.Tests.csproj", "{F1E820B0-60F0-47D3-8484-C03C1F427E91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Criteria.Tests", "tests\unit\BuildingBlock.Criteria.Tests\BuildingBlock.Criteria.Tests.csproj", "{F1E820B0-60F0-47D3-8484-C03C1F427E91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Observability", "src\BuildingBlocks\BuildingBlock.Observability\BuildingBlock.Observability.csproj", "{B7D4A06B-3F50-4AC0-B236-1A21226A58F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Observability", "src\BuildingBlocks\BuildingBlock.Observability\BuildingBlock.Observability.csproj", "{B7D4A06B-3F50-4AC0-B236-1A21226A58F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.Application.Tests", "tests\unit\Order.Application.Tests\Order.Application.Tests.csproj", "{81BE22A1-0871-4E0C-88B2-87924ABFAC71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Application.Tests", "tests\unit\Order.Application.Tests\Order.Application.Tests.csproj", "{81BE22A1-0871-4E0C-88B2-87924ABFAC71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Notification.Persistence.Tests", "tests\unit\Notification.Persistence.Tests\Notification.Persistence.Tests.csproj", "{7DFCE8D2-3811-41B1-AD65-72DDFA5652DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Persistence.Tests", "tests\unit\Notification.Persistence.Tests\Notification.Persistence.Tests.csproj", "{7DFCE8D2-3811-41B1-AD65-72DDFA5652DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integration", "integration", "{28A6993C-471E-82FE-7D9E-AD3B1EC22BD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.Order.IntegrationTests", "tests\integration\Order.IntegrationTests\Order.IntegrationTests.csproj", "{ACBD62FB-6E0E-4731-9202-341C610BFA2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.IntegrationTests", "tests\integration\Order.IntegrationTests\Order.IntegrationTests.csproj", "{ACBD62FB-6E0E-4731-9202-341C610BFA2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartEcommerce.BuildingBlock.Infrastructure.Tests", "tests\unit\BuildingBlock.Infrastructure.Tests\BuildingBlock.Infrastructure.Tests.csproj", "{236476CD-29B5-42BB-8F50-4BDBC57010F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Infrastructure.Tests", "tests\unit\BuildingBlock.Infrastructure.Tests\BuildingBlock.Infrastructure.Tests.csproj", "{236476CD-29B5-42BB-8F50-4BDBC57010F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -911,6 +913,18 @@ Global
 		{236476CD-29B5-42BB-8F50-4BDBC57010F4}.Release|x64.Build.0 = Release|Any CPU
 		{236476CD-29B5-42BB-8F50-4BDBC57010F4}.Release|x86.ActiveCfg = Release|Any CPU
 		{236476CD-29B5-42BB-8F50-4BDBC57010F4}.Release|x86.Build.0 = Release|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Debug|x64.Build.0 = Debug|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Debug|x86.Build.0 = Debug|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Release|x64.ActiveCfg = Release|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Release|x64.Build.0 = Release|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Release|x86.ActiveCfg = Release|Any CPU
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -989,5 +1003,6 @@ Global
 		{28A6993C-471E-82FE-7D9E-AD3B1EC22BD9} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{ACBD62FB-6E0E-4731-9202-341C610BFA2E} = {28A6993C-471E-82FE-7D9E-AD3B1EC22BD9}
 		{236476CD-29B5-42BB-8F50-4BDBC57010F4} = {9D556B49-86D1-93A7-9596-FFAAB74EC556}
+		{DE91CB5F-EFCF-41D1-BB12-B95CC74A7EBF} = {7E695F2E-E568-46F4-A00F-4B0AC45D6B89}
 	EndGlobalSection
 EndGlobal
