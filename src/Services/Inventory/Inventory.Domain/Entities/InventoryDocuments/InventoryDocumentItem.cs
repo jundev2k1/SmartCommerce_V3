@@ -3,7 +3,7 @@ using SmartEcommerce.Inventory.Domain.Metadata;
 
 namespace SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
 
-public sealed class InventoryDocumentItem : BaseEntity<long>
+public sealed class InventoryDocumentItem : BaseEntity<long>, IAuditable
 {
     public Guid InventoryDocumentId { get; private set; }
     public InventoryDocument Document { get; private set; } = default!;

@@ -159,7 +159,10 @@ public static class DependencyInjection
     // InventoryStock), InventoryTransaction (append-only log entry, belongs to the InventoryStock
     // record it happened against). InventoryLot/InventorySerial/InventoryReservation/
     // InventoryCount/InventoryDocument are all independent aggregates in their own right - they
-    // reference InventoryStock/Warehouse ids but aren't owned by them.
+    // reference InventoryStock/Warehouse ids but aren't owned by them. WarehouseZone,
+    // InventoryCountItem and InventoryDocumentItem hold real business content (capacity/
+    // environment settings, expected-vs-actual discrepancy quantities) an administrator would
+    // expect change history for, so they're registered via BelongsTo despite being owned children.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
@@ -169,12 +172,20 @@ public static class DependencyInjection
                 .BelongsTo<InventoryStock>(x => x.InventoryId);
 
             builder.Entity<Warehouse>().IsRoot(x => x.Id);
+            builder.Entity<WarehouseZone>()
+                .BelongsTo<Warehouse>(x => x.WarehouseId);
 
             builder.Entity<InventoryLot>().IsRoot(x => x.Id);
             builder.Entity<InventorySerial>().IsRoot(x => x.Id);
             builder.Entity<InventoryReservation>().IsRoot(x => x.Id);
+
             builder.Entity<InventoryCount>().IsRoot(x => x.Id);
+            builder.Entity<InventoryCountItem>()
+                .BelongsTo<InventoryCount>(x => x.InventoryCountId);
+
             builder.Entity<InventoryDocument>().IsRoot(x => x.Id);
+            builder.Entity<InventoryDocumentItem>()
+                .BelongsTo<InventoryDocument>(x => x.InventoryDocumentId);
         });
 
         return services;

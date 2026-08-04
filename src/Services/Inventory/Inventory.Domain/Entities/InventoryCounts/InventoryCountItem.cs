@@ -2,7 +2,7 @@ using SmartEcommerce.Inventory.Domain.Entities.Inventories;
 
 namespace SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
 
-public sealed class InventoryCountItem : BaseEntity<long>
+public sealed class InventoryCountItem : BaseEntity<long>, IAuditable
 {
     public Guid InventoryCountId { get; private set; }
     public InventoryCount InventoryCount { get; private set; } = default!;
