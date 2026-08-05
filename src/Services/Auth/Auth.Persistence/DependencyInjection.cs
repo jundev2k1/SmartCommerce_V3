@@ -1,15 +1,25 @@
 using NovaCore.Auth.Application.Abstractions.Persistence.Accounts;
 using NovaCore.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using NovaCore.Auth.Application.Abstractions.Persistence.Scopes;
+using NovaCore.Auth.Application.Abstractions.Persistence.Tenants;
 using NovaCore.Auth.Domain.Entities.Accounts;
 using NovaCore.Auth.Domain.Entities.Invitations;
 using NovaCore.Auth.Domain.Entities.Permissions;
 using NovaCore.Auth.Domain.Entities.Positions;
 using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.Auth.Domain.Entities.Scopes;
+using NovaCore.Auth.Domain.Entities.Tenants;
 using NovaCore.Auth.Persistence.Contexts.Accounts.Read;
 using NovaCore.Auth.Persistence.Contexts.Accounts.Repositories;
 using NovaCore.Auth.Persistence.Contexts.Accounts.Write;
 using NovaCore.Auth.Persistence.Contexts.RefreshTokens.Read;
 using NovaCore.Auth.Persistence.Contexts.RefreshTokens.Write;
+using NovaCore.Auth.Persistence.Contexts.Scopes.Read;
+using NovaCore.Auth.Persistence.Contexts.Scopes.Repositories;
+using NovaCore.Auth.Persistence.Contexts.Scopes.Write;
+using NovaCore.Auth.Persistence.Contexts.Tenants.Read;
+using NovaCore.Auth.Persistence.Contexts.Tenants.Repositories;
+using NovaCore.Auth.Persistence.Contexts.Tenants.Write;
 using NovaCore.Auth.Persistence.Engine;
 using NovaCore.Auth.Persistence.Engine.UnitOfWork;
 using NovaCore.Auth.Persistence.Reliability.Inbox;
@@ -58,17 +68,18 @@ public static class DependencyInjection
         return services;
     }
 
-    // Account, Role, Position, PermissionGroup, PermissionDefinition and Invitation are
-    // independent aggregates. AccountPosition (personnel/position grant history),
+    // Account, Role, Position, PermissionGroup, PermissionDefinition, Invitation, Tenant and
+    // Scope are independent aggregates. AccountPosition (personnel/position grant history),
     // ExternalIdentity (OAuth link configuration) and MfaMethod (MFA configuration) are all
     // genuine business-critical children an administrator would expect change history for, so
     // they're registered via BelongsTo despite being owned by Account rather than roots
     // themselves. Every *Translation entity is registered the same way - admin-facing display
-    // copy is real content, not structural scaffolding. AccountRole/RolePermission/PositionRole
-    // (pure mapping, no content beyond the relationship) and RefreshToken/Session/LoginHistory/
-    // PasswordHistory/MfaBackupCode/Device/AccountPermission (generated artifacts, high-churn
-    // tracking records, or a denormalized cache) are intentionally not IAuditable and stay
-    // unregistered.
+    // copy is real content, not structural scaffolding. TenantLocale (bootstrap resource
+    // content) is registered the same way for the same reason. AccountRole/RolePermission/
+    // PositionRole (pure mapping, no content beyond the relationship) and RefreshToken/Session/
+    // LoginHistory/PasswordHistory/MfaBackupCode/Device/AccountPermission (generated artifacts,
+    // high-churn tracking records, or a denormalized cache) are intentionally not IAuditable and
+    // stay unregistered.
     private static IServiceCollection AddAuditHierarchy(this IServiceCollection services)
     {
         services.ConfigureAuditHierarchy(builder =>
@@ -98,6 +109,14 @@ public static class DependencyInjection
                 .BelongsTo<PermissionDefinition>(x => x.Id);
 
             builder.Entity<Invitation>().IsRoot(x => x.Id);
+
+            builder.Entity<Tenant>().IsRoot(x => x.Id);
+            builder.Entity<TenantLocale>()
+                .BelongsTo<Tenant>(x => x.TenantId);
+
+            builder.Entity<Scope>().IsRoot(x => x.Id);
+            builder.Entity<ScopeTranslation>()
+                .BelongsTo<Scope>(x => x.Id);
         });
 
         return services;
@@ -151,6 +170,15 @@ public static class DependencyInjection
 
         services.AddScoped<IRefreshTokenReadService, RefreshTokenReadService>();
         services.AddScoped<IRefreshTokenWriteService, RefreshTokenWriteService>();
+
+        // TenantRepo/ScopeRepo implement the generic IRepository<T> in full (via
+        // AuthBaseRepository), so - like RefreshTokenRepo - they're Scrutor-scanned; only their
+        // one-per-aggregate Read/Write services are registered explicitly.
+        services.AddScoped<ITenantReadService, TenantReadService>();
+        services.AddScoped<ITenantWriteService, TenantWriteService>();
+
+        services.AddScoped<IScopeReadService, ScopeReadService>();
+        services.AddScoped<IScopeWriteService, ScopeWriteService>();
 
         return services;
     }
