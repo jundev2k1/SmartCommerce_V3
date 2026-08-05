@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Services;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using MediatR;
@@ -22,7 +21,7 @@ public interface IGlobalHubClient
 {
 }
 
-[Authorize(Policy = AuthorizationPoliciesConstant.RequireAuthenticated)]
+[Authorize]
 public partial class GlobalHub(
     ISender sender,
     IAppLogger<GlobalHub> logger) : HubBase<IGlobalHubClient>

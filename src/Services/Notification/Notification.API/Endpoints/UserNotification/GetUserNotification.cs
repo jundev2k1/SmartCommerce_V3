@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using NovaCore.Notification.Application.Features.UserNotifications.Queries.GetUserNotification;
@@ -13,7 +12,7 @@ public sealed class GetUserNotification : ICarterModule
     {
         app.MapGet("/user-notifications/{notificationId}", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
+            .RequireAuthorization()
             .WithName("GetUserNotification")
             .WithDisplayName("Get User Notification API")
             .WithDescription("Fetches one Notification Center entry. Callers may only fetch their own.")

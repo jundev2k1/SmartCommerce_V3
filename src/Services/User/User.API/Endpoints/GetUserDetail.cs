@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -38,7 +37,7 @@ public sealed class GetUserDetailEndpoint : ICarterModule
     {
         app.MapGet("/profiles/current/detail", Handle)
             .WithTags("User")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("GetUserDetail")
             .WithDisplayName("Get User Detail API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -2,7 +2,6 @@ using NovaCore.Auth.API.ExceptionHandling;
 
 using NovaCore.BuildingBlock.Application.DeadLetters;
 using NovaCore.BuildingBlock.Grpc.Server;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.Infrastructure.Security.Jwt;
 using NovaCore.BuildingBlock.Web;
 using NovaCore.BuildingBlock.Web.Carter;
@@ -40,7 +39,7 @@ public static class DependencyInjection
             .AddCarterModules(typeof(DependencyInjection), typeof(IDeadLetterRetryService))
             .AddHealthCheckServices()
             .AddGrpcServer()
-            .AddAuthorization(AuthorizationExtensions.ConfigureCommonPolicies);
+            .AddAuthorization();
 
         return services;
     }

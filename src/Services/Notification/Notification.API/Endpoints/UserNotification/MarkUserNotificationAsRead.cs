@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using NovaCore.Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
@@ -13,7 +12,7 @@ public sealed class MarkUserNotificationAsRead : ICarterModule
     {
         app.MapPost("/user-notifications/{notificationId}/read", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
+            .RequireAuthorization()
             .WithName("MarkUserNotificationAsRead")
             .WithDisplayName("Mark User Notification As Read API")
             .WithDescription("Marks one of the caller's own Notification Center entries as read.")

@@ -1,6 +1,5 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
 using NovaCore.BuildingBlock.Application.Abstractions.Services;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.Infrastructure.Idempotency;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
@@ -67,7 +66,7 @@ public sealed class CreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .Headers([
                 new HeaderDefinition(HeaderKeyConstant.IdempotencyKey, true, "Ensures this order is only created once, even if the request is retried")
             ])

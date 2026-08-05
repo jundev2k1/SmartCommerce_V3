@@ -1,7 +1,6 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
 using NovaCore.BuildingBlock.Application.Exceptions;
 using NovaCore.BuildingBlock.Application.Authorization;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 

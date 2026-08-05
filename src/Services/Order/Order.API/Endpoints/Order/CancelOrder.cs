@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -26,7 +25,7 @@ public sealed class CancelOrderEndpoint : ICarterModule
     {
         app.MapPost("/orders/{orderId}/cancel", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("CancelOrder")
             .WithDisplayName("Cancel Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

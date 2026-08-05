@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -19,7 +18,7 @@ public sealed class ListProductTagsEndpoint : ICarterModule
     {
         app.MapGet("/tags", Handle)
             .WithTags("ProductTag")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("ListProductTags")
             .WithDisplayName("List Product Tags API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,6 +1,5 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
 using NovaCore.BuildingBlock.Criteria.Requests;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -31,7 +30,7 @@ public sealed class GetOrderHistoryEndpoint : ICarterModule
     {
         app.MapPost("/orders/history", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("GetOrderHistory")
             .WithDisplayName("Order History API")
             .WithDescription(API_DESC.JoinToString("\n"))

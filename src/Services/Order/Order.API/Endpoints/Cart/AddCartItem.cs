@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -33,7 +32,7 @@ public sealed class AddCartItemEndpoint : ICarterModule
     {
         app.MapPost("/cart/items", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("AddCartItem")
             .WithDisplayName("Add Cart Item API")
             .WithDescription(API_DESC.JoinToString("\n"))

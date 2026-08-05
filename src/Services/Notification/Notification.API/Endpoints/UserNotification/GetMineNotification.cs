@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using NovaCore.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
@@ -13,7 +12,7 @@ public sealed class GetMineNotification : ICarterModule
     {
         app.MapGet("/user-notifications/me", HandleAsync)
             .WithTags("UserNotification")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireUser)
+            .RequireAuthorization()
             .WithName("ListMyUserNotifications")
             .WithDisplayName("List My User Notifications API")
             .WithDescription("Cursor-paginated, filterable (status) list of the caller's own Notification Center entries, newest first. Pass the previous response's nextCursor to fetch the next page; omit for the first page.")

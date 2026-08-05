@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -26,7 +25,7 @@ public sealed class GetOrderEndpoint : ICarterModule
     {
         app.MapGet("/orders/{orderId}", Handle)
             .WithTags("Order")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("GetOrder")
             .WithDisplayName("Get Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

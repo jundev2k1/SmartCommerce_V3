@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -24,7 +23,7 @@ public sealed class RemoveCartItemEndpoint : ICarterModule
     {
         app.MapDelete("/cart/items/{variationId}", Handle)
             .WithTags("Cart")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("RemoveCartItem")
             .WithDisplayName("Remove Cart Item API")
             .WithDescription(API_DESC.JoinToString("\n"))

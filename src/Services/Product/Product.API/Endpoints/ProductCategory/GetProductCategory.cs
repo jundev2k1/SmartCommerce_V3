@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -26,7 +25,7 @@ public sealed class GetProductCategoryEndpoint : ICarterModule
     {
         app.MapGet("/categories/{categoryId}", Handle)
             .WithTags("ProductCategory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("GetProductCategory")
             .WithDisplayName("Get Product Category API")
             .WithDescription(API_DESC.JoinToString("\n"))

@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -26,7 +25,7 @@ public sealed class GetInventoryEndpoint : ICarterModule
     {
         app.MapGet("/inventories/{inventoryId}", Handle)
             .WithTags("Inventory")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("GetInventory")
             .WithDisplayName("Get Inventory API")
             .WithDescription(API_DESC.JoinToString("\n"))

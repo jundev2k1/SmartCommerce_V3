@@ -32,7 +32,7 @@ public sealed class Logout : ICarterModule
             return ApiResponse<object>.Ok();
         })
         .WithTags("Authentication")
-        .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+        .RequireAuthorization()
         .WithSummary("Auth_Logout")
         .WithDisplayName("Logout API")
         .WithDescription(API_DESC.JoinToString("\n"))

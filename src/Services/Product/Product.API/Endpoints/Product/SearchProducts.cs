@@ -1,5 +1,4 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Infrastructure.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
@@ -29,7 +28,7 @@ public sealed class SearchProductsEndpoint : ICarterModule
     {
         app.MapGet("/products", Handle)
             .WithTags("Product")
-            .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
+            .RequireAuthorization()
             .WithName("SearchProducts")
             .WithDisplayName("Search Products API")
             .WithDescription(API_DESC.JoinToString("\n"))
