@@ -3,11 +3,15 @@
 **Scope:** what each `src/BuildingBlocks/BuildingBlock.*` project is for, its key types, and its DI extension methods. This is a lookup table, not a tutorial — for usage patterns and gotchas, follow the links into `reference/`. Dependency graph: [01-architecture-map.md](01-architecture-map.md#buildingblocks).
 
 ## SharedKernel
-Zero-dependency constants/POCOs. Root of the dependency graph.
-- `Constants/CacheKeys.cs` — centralized Redis key builders (`Roles`, `Users`, `RefreshTokens`, `Products`, `Categories`)
-- `Constants/AppRole.cs` — Root/Admin/User role strings
+Zero-dependency constants/POCOs/extensions. Root of the dependency graph — transport- and framework-agnostic, referenced by every layer including Infrastructure implementations that must not depend on `BuildingBlock.Web`.
+- `Constants/CacheKeyConstant.cs` — centralized Redis key builders
+- `Constants/AppRoleConstant.cs` — Root/Admin/User role strings, used for role-to-permission seeding and `IsInRole` checks
+- `Constants/Permissions.cs` — the permission key catalog, grouped by business module, each with a `Full` aggregate; see [reference/authorization.md](reference/authorization.md)
+- `Constants/AppClaimTypes.cs` — custom claim type key constants only (e.g. `Permission`) — no logic, no extension methods
+- `Extensions/ClaimsPrincipalExtension.cs` — reads raw claim values off `ClaimsPrincipal` (e.g. `GetPermissions()`) — no authorization decisions; those live in `BuildingBlock.Web.Authorization`
 - `Security/JwtSettings.cs` — shared JWT config POCO (SecretKey/Issuer/Audience/expirations)
 - `Serialization/JsonSerializerConfiguration.cs` — `JsonSerializerOptions.Default` used everywhere JSON is (de)serialized
+- Must never contain: authorization/permission-evaluation logic, HTTP-specific behavior, or ASP.NET infrastructure — those belong in `BuildingBlock.Web`.
 - No DI, no interfaces.
 
 ## Domain
@@ -29,15 +33,13 @@ Framework-agnostic application-layer contracts. Depended on by every service's A
 - **DI**: `AddApplicationBehaviors()` registers `ValidationBehavior<,>` as open-generic `IPipelineBehavior<,>`. Does not register MediatR itself — each service does that.
 
 ## Infrastructure
-Concrete implementations of the Application contracts above, plus authorization and DI-scanning helpers.
+Concrete implementations of the Application contracts above, plus DI-scanning and other non-Web infrastructure helpers. Does **not** contain ASP.NET exception handling or authorization infrastructure — those live in `BuildingBlock.Web` (see below and [reference/authorization.md](reference/authorization.md)), since Infrastructure must stay usable by non-Web consumers (e.g. `Auth.Infrastructure`'s JWT token generation).
 - `Caching/RedisCacheService.cs` (`ICacheService` impl) + `CacheOptions.cs` (bound from config section `"Cache"`)
 - `Events/ApplicationEventDispatcher.cs` — thin `IMediator.Publish` wrapper implementing `IInternalEventDispatcher` (registers as `InternalEventDispatcher`; the file/DI-method name `AddApplicationEventDispatcher()` predates a rename and is legacy naming, not a second mechanism — see [reference/events.md](reference/events.md))
-- `ExceptionHandling/ExceptionHandlerHelper.cs` — single exception→`ApiResponse`+status mapping point (see [reference/exceptions.md](reference/exceptions.md))
 - `Logging/AppLogger.cs` — `IAppLogger<T>` wrapping `ILogger<T>`
-- `Authorization/` — custom `AuthorizeAttribute`/`AuthorizeRoleAttribute`/`AllowAnonymousAttribute`, `RoleAuthorizationHandler`/`AnyRoleAuthorizationHandler`, `ClaimsPrincipalExtensions` (`HasRole` grants Root superuser bypass), `IAuthorizationPolicy` marker for custom per-service policies. See [reference/authorization.md](reference/authorization.md).
 - `Extensions/ServiceScanningExtensions.cs` — Scrutor-based marker-interface assembly scanning (`AddScopedByInterface<T>`, `AddSingletonByInterface<T>`, `*AndConcrete` variants) — the mechanism repositories, background jobs, etc. auto-register through
 - `BackgroundJobs/HangfireSchedulingExtensions.cs` — shared Hangfire bootstrap (storage/server setup, `RecurringJobRegistry` job discovery, `ScheduledJobScheduler`), reused by every service that runs recurring jobs (currently Auth and User). `BackgroundJobs/Cleanup/` — the Inbox/Outbox cleanup jobs (`OutboxCleanupJob`/`InboxCleanupJob`), opt-in per service via `AddInboxOutboxCleanupJobs(configuration)`, independent of `AddHangfireScheduling`'s own job-assembly markers. See [reference/inbox-outbox-runtime.md](reference/inbox-outbox-runtime.md#cleanup) and [workflows/add-background-job.md](workflows/add-background-job.md).
-- **DI**: `AddRedisCache(...)`, `AddApplicationEventDispatcher()` (registers `IInternalEventDispatcher`), `AddAppLogger()`, `AddCommonAuthorizationPolicies()` + `ConfigureCommonPolicies(options)`, `AddCustomAuthorizationPolicies(markerType)`, `AddHangfireScheduling(configuration, jobAssemblyMarkers)`, `AddInboxOutboxCleanupJobs(configuration)`
+- **DI**: `AddRedisCache(...)`, `AddApplicationEventDispatcher()` (registers `IInternalEventDispatcher`), `AddAppLogger()`, `AddHangfireScheduling(configuration, jobAssemblyMarkers)`, `AddInboxOutboxCleanupJobs(configuration)`
 
 ## Persistence, Persistence.Ef, Persistence.Mongo
 Framework-agnostic persistence contracts, split from their provider implementations so multiple providers can plug in without touching either the contracts or each other. Two providers exist today: `Persistence.Ef` (EF Core + Npgsql, used by every service except Audit) and `Persistence.Mongo` (MongoDB.Driver, used by Audit Service) — true peers, neither referenced by the other.
@@ -66,13 +68,14 @@ Framework-agnostic persistence contracts, split from their provider implementati
 - **Service `*.Persistence` adapters** (`Auth.Persistence`, `User.Persistence`, `Order.Persistence`, `Audit.Persistence`, ...) sit one layer up: they implement `BuildingBlock.Application.Abstractions.Outbox.IOutboxStore`/`IInboxStore` by wrapping the primitive `BuildingBlock.Persistence` store, translating typed `IIntegrationEvent`s ⇄ primitive rows on the way in/out (`OutboxStore.cs`, `InboxStore.cs`) — this adapter code is byte-identical whether the underlying store is EF- or Mongo-backed, since it only ever touches the provider-agnostic primitive interface. See [reference/inbox-outbox-runtime.md](reference/inbox-outbox-runtime.md) for the full runtime flow.
 
 ## Web
-API-layer (ASP.NET Core host) building blocks. Newest project — see [decisions/buildingblock-web-extraction.md](decisions/buildingblock-web-extraction.md). Single composition entry point: `AddBuildingBlockWeb(configuration, BuildingBlockWebOptions)` / `UseBuildingBlockWeb(options)`.
+API-layer (ASP.NET Core host) building blocks — everything that only participates in the ASP.NET request pipeline lives here, never in `Infrastructure` or `SharedKernel`. See [decisions/buildingblock-web-extraction.md](decisions/buildingblock-web-extraction.md).
 - `CurrentUser/CurrentUserService.cs` — `ICurrentUserService` impl, HttpContext-backed (claims + AccessToken/RefreshToken HttpOnly cookies)
-- `ExceptionHandling/GlobalExceptionHandler.cs` — `IExceptionHandler` impl, delegates to `Infrastructure.ExceptionHandlerHelper`
+- `ExceptionHandling/` — `ExceptionHandlerHelper.cs` (single exception→`ApiResponse`+status mapping point, see [reference/exceptions.md](reference/exceptions.md)) + `GlobalExceptionHandler.cs` (`IExceptionHandler` impl delegating to it) + `ExceptionHandlingExtensions.cs` (`AddExceptionHandling()`/`UseGlobalExceptionHandling()`) — all self-contained here, since exception→HTTP mapping only participates in the ASP.NET request pipeline
+- `Authorization/` — `AppClaimTypes`/`ClaimsPrincipalExtension` come from `SharedKernel`; this folder owns everything ASP.NET-specific built on top: `PermissionAuthorization.HasAnyPermission` (evaluation), `PermissionEndpointExtensions.RequirePermissions(...)` (endpoint declaration), `AuthorizationExtensions.AddBuildingBlockAuthorization()` (DI registration). See [reference/authorization.md](reference/authorization.md).
 - `Security/Jwt/JwtBearerAuthenticationExtensions.cs` — binds `"Jwt"` config section to `SharedKernel.Security.JwtSettings`, configures cookie-aware JWT bearer auth
 - `Swagger/SwaggerExtensions.cs`, `Cors/CorsExtensions.cs`, `Carter/CarterExtensions.cs`, `HealthChecks/HealthCheckExtensions.cs` — thin, parameterized wrappers (title/description/route-prefix/policy-name driven by `BuildingBlockWebOptions`)
 - `RefreshTokens/RefreshTokenCacheExtensions.cs` — **deliberately bypasses `ICacheService`**; raw `IConnectionMultiplexer` + a single `EXISTS refresh_token_by_string:{token}` check, used by the Gateway
-- **DI**: `AddBuildingBlockWeb(configuration, options)` chains `AddCurrentUserServices → AddGlobalExceptionHandling → AddJwtBearerAuthentication → AddSwaggerDocumentation → AddCorsPolicy → AddCarterModules → AddHealthCheckServices`. Every piece is also individually callable.
+- **DI**: each service chains the pieces it needs individually in its own `AddPresentation` (`AddExceptionHandling()`, `AddBuildingBlockAuthorization()`, `AddCurrentUser()`, `AddJwtBearerAuthentication(...)`, `AddSwaggerDocumentation(...)`, `AddCorsPolicy(...)`, `AddCarterModules(...)`, `AddHealthCheckServices()`) — there is no single composed `AddBuildingBlockWeb` entry point today.
 
 ## Contract
 Cross-service wire contracts — the only BuildingBlock meant to be referenced across service *boundaries*.
