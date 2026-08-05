@@ -34,7 +34,7 @@ public sealed class AdjustStockEndpoint : ICarterModule
     {
         app.MapPost("/inventories/{inventoryId}/adjust", Handle)
             .WithTags("Inventory")
-            .RequirePermissions(Permissions.Inventory.Manage)
+            .RequirePermissions(Permissions.Inventory.Adjust)
             .WithName("AdjustStock")
             .WithDisplayName("Adjust Stock API")
             .WithDescription(API_DESC.JoinToString("\n"))

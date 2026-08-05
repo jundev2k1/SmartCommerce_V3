@@ -13,7 +13,7 @@ public sealed class GetRule : ICarterModule
     {
         app.MapGet("/notification-rules/{ruleId}", GetAsync)
             .WithTags("NotificationRule")
-            .RequirePermissions(Permissions.Notification.Manage)
+            .RequirePermissions(Permissions.Notification.View)
             .WithName("GetNotificationRule")
             .WithDisplayName("Get Notification Rule API")
             .Produces<ApiResponse<GetNotificationRuleResponse>>(StatusCodes.Status200OK);

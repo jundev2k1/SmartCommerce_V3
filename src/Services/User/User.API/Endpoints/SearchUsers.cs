@@ -43,7 +43,7 @@ public sealed class SearchUsersEndpoint : ICarterModule
     {
         app.MapPost("/users/search", Handle)
             .WithTags("User")
-            .RequirePermissions(Permissions.Users.Manage)
+            .RequirePermissions(Permissions.Users.View)
             .WithName("SearchUsers")
             .WithDisplayName("Search Users API")
             .WithDescription(API_DESC.JoinToString("\n"))

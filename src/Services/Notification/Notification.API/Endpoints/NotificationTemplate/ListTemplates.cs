@@ -13,7 +13,7 @@ public sealed class ListTemplates : ICarterModule
     {
         app.MapGet("/notification-templates", ListAsync)
             .WithTags("NotificationTemplate")
-            .RequirePermissions(Permissions.Notification.Manage)
+            .RequirePermissions(Permissions.Notification.View)
             .WithName("ListNotificationTemplates")
             .WithDisplayName("List Notification Templates API")
             .Produces<ApiResponse<PaginatedResult<NotificationTemplateSummaryResponse>>>(StatusCodes.Status200OK);

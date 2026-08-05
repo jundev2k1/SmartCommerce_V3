@@ -13,7 +13,7 @@ public sealed class ListRules : ICarterModule
     {
         app.MapGet("/notification-rules", ListAsync)
             .WithTags("NotificationRule")
-            .RequirePermissions(Permissions.Notification.Manage)
+            .RequirePermissions(Permissions.Notification.View)
             .WithName("ListNotificationRules")
             .WithDisplayName("List Notification Rules API")
             .Produces<ApiResponse<PaginatedResult<NotificationRuleSummaryResponse>>>(StatusCodes.Status200OK);

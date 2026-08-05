@@ -23,7 +23,7 @@ public sealed class RebuildProductSearchIndexEndpoint : ICarterModule
     {
         app.MapPost("/products/search/rebuild", Handle)
             .WithTags("Product")
-            .RequirePermissions(Permissions.Product.Manage)
+            .RequirePermissions(Permissions.Product.Reindex)
             .WithName("RebuildProductSearchIndex")
             .WithDisplayName("Rebuild Product Search Index API")
             .WithDescription(API_DESC.JoinToString("\n"))

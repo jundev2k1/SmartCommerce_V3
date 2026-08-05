@@ -27,7 +27,7 @@ public sealed class RebuildUserSearchIndexEndpoint : ICarterModule
     {
         app.MapPost("/users/search/rebuild", Handle)
             .WithTags("User")
-            .RequirePermissions(Permissions.Users.Manage)
+            .RequirePermissions(Permissions.Users.Reindex)
             .WithName("RebuildUserSearchIndex")
             .WithDisplayName("Rebuild User Search Index API")
             .WithDescription(API_DESC.JoinToString("\n"))

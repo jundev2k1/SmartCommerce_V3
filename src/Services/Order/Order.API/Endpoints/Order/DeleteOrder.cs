@@ -29,7 +29,7 @@ public sealed class DeleteOrderEndpoint : ICarterModule
     {
         app.MapDelete("/orders/{orderId}", Handle)
             .WithTags("Order")
-            .RequirePermissions(Permissions.Order.Manage)
+            .RequirePermissions(Permissions.Order.Delete)
             .WithName("DeleteOrder")
             .WithDisplayName("Delete Order API")
             .WithDescription(API_DESC.JoinToString("\n"))

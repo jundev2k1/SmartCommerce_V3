@@ -13,7 +13,7 @@ public sealed class UpdateChannelConfiguration : ICarterModule
     {
         app.MapPut("/notification-channels/{channelId}/configuration", UpdateConfigurationAsync)
             .WithTags("NotificationChannel")
-            .RequirePermissions(Permissions.Notification.Manage)
+            .RequirePermissions(Permissions.Notification.ChannelConfigure)
             .WithName("UpdateNotificationChannelConfiguration")
             .WithDisplayName("Update Notification Channel Configuration API")
             .WithDescription("Replaces a channel's runtime configuration (SMTP host, bot token, ...). Resets ValidationStatus to NotValidated.")

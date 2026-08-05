@@ -13,7 +13,7 @@ public sealed class EnableChannel : ICarterModule
     {
         app.MapPost("/notification-channels/{channelId}/enable", EnableAsync)
             .WithTags("NotificationChannel")
-            .RequirePermissions(Permissions.Notification.Manage)
+            .RequirePermissions(Permissions.Notification.ChannelToggle)
             .WithName("EnableNotificationChannel")
             .WithDisplayName("Enable Notification Channel API")
             .WithDescription("Enables a channel. Requires the configuration to already be Valid (see RecordValidationResult).")

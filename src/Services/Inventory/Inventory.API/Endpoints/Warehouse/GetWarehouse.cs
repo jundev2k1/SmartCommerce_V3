@@ -27,7 +27,7 @@ public sealed class GetWarehouseEndpoint : ICarterModule
     {
         app.MapGet("/warehouses/{warehouseId}", Handle)
             .WithTags("Warehouse")
-            .RequirePermissions(Permissions.Warehouse.Manage)
+            .RequirePermissions(Permissions.Warehouse.View)
             .WithName("GetWarehouse")
             .WithDisplayName("Get Warehouse API")
             .WithDescription(API_DESC.JoinToString("\n"))

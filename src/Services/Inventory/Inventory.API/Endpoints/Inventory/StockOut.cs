@@ -33,7 +33,7 @@ public sealed class StockOutEndpoint : ICarterModule
     {
         app.MapPost("/inventories/{inventoryId}/stock-out", Handle)
             .WithTags("Inventory")
-            .RequirePermissions(Permissions.Inventory.Manage)
+            .RequirePermissions(Permissions.Inventory.StockMove)
             .WithName("StockOut")
             .WithDisplayName("Stock Out API")
             .WithDescription(API_DESC.JoinToString("\n"))

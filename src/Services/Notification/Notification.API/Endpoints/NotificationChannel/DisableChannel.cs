@@ -13,7 +13,7 @@ public sealed class DisableChannel : ICarterModule
     {
         app.MapPost("/notification-channels/{channelId}/disable", DisableAsync)
             .WithTags("NotificationChannel")
-            .RequirePermissions(Permissions.Notification.Manage)
+            .RequirePermissions(Permissions.Notification.ChannelToggle)
             .WithName("DisableNotificationChannel")
             .WithDisplayName("Disable Notification Channel API")
             .Produces<ApiResponse<object>>(StatusCodes.Status200OK);

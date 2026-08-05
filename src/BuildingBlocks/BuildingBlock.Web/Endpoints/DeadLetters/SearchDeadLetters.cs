@@ -28,7 +28,7 @@ public sealed class SearchDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/search", Search)
             .WithTags("DeadLetter")
-            .RequirePermissions(Permissions.System.Manage)
+            .RequirePermissions(Permissions.System.MessagingView)
             .WithName("SearchDeadLetters")
             .WithDisplayName("Search Dead Letters API")
             .WithDescription("Paged/filtered/sorted list of dead-lettered Inbox messages.")

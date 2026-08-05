@@ -10,7 +10,7 @@ namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
 ///
 /// Root bypasses every check. Each module's "Full" key is an aggregate that implicitly grants
 /// every other permission in that module - this is resolved centrally by
-/// ClaimsPrincipalExtensions.HasAnyPermission, endpoints never need to declare it explicitly.
+/// PermissionClaimsExtensions.HasAnyPermission, endpoints never need to declare it explicitly.
 /// </summary>
 public static class Permissions
 {
@@ -19,24 +19,35 @@ public static class Permissions
     public static class Product
     {
         public const string Manage = "product:manage";
+        public const string Reindex = "product:reindex";
         public const string Full = "product:full";
     }
 
     public static class Inventory
     {
-        public const string Manage = "inventory:manage";
+        public const string View = "inventory:view";
+        public const string StockMove = "inventory:stock-move";
+        public const string Adjust = "inventory:adjust";
+        public const string Receive = "inventory:receive";
+        public const string Transfer = "inventory:transfer";
+        public const string CycleCount = "inventory:cycle-count";
         public const string Full = "inventory:full";
     }
 
     public static class Warehouse
     {
+        public const string View = "warehouse:view";
         public const string Manage = "warehouse:manage";
         public const string Full = "warehouse:full";
     }
 
     public static class Order
     {
+        public const string View = "order:view";
         public const string Manage = "order:manage";
+        public const string Fulfill = "order:fulfill";
+        public const string Delete = "order:delete";
+        public const string CreateOnBehalf = "order:create-on-behalf";
         public const string Full = "order:full";
     }
 
@@ -48,33 +59,41 @@ public static class Permissions
 
     public static class Notification
     {
+        public const string View = "notification:view";
         public const string Manage = "notification:manage";
+        public const string ChannelToggle = "notification:channel-toggle";
+        public const string ChannelConfigure = "notification:channel-configure";
+        public const string CampaignManage = "notification:campaign-manage";
+        public const string Send = "notification:send";
         public const string Full = "notification:full";
     }
 
     public static class Users
     {
+        public const string View = "users:view";
         public const string Manage = "users:manage";
+        public const string Reindex = "users:reindex";
         public const string Full = "users:full";
     }
 
     /// <summary>Platform-operational capabilities (e.g. dead-letter queue management) not owned by any single business module.</summary>
     public static class System
     {
-        public const string Manage = "system:manage";
+        public const string MessagingView = "system:messaging-view";
+        public const string MessagingRequeue = "system:messaging-requeue";
         public const string Full = "system:full";
     }
 
     public static readonly FrozenSet<string> SupportedValues = new[]
     {
         Root,
-        Product.Manage, Product.Full,
-        Inventory.Manage, Inventory.Full,
-        Warehouse.Manage, Warehouse.Full,
-        Order.Manage, Order.Full,
+        Product.Manage, Product.Reindex, Product.Full,
+        Inventory.View, Inventory.StockMove, Inventory.Adjust, Inventory.Receive, Inventory.Transfer, Inventory.CycleCount, Inventory.Full,
+        Warehouse.View, Warehouse.Manage, Warehouse.Full,
+        Order.View, Order.Manage, Order.Fulfill, Order.Delete, Order.CreateOnBehalf, Order.Full,
         Audit.View, Audit.Full,
-        Notification.Manage, Notification.Full,
-        Users.Manage, Users.Full,
-        System.Manage, System.Full,
+        Notification.View, Notification.Manage, Notification.ChannelToggle, Notification.ChannelConfigure, Notification.CampaignManage, Notification.Send, Notification.Full,
+        Users.View, Users.Manage, Users.Reindex, Users.Full,
+        System.MessagingView, System.MessagingRequeue, System.Full,
     }.ToFrozenSet();
 }

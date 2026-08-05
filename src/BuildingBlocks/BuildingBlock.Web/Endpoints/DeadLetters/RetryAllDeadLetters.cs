@@ -21,7 +21,7 @@ public sealed class RetryAllDeadLetters : ICarterModule
     {
         app.MapPost("/deadletters/retry-all", RetryAll)
             .WithTags("DeadLetter")
-            .RequirePermissions(Permissions.System.Manage)
+            .RequirePermissions(Permissions.System.MessagingRequeue)
             .WithName("RetryAllDeadLetters")
             .WithDisplayName("Retry All Dead Letters API")
             .WithDescription("Retries every DeadLetter row matching an optional filter, capped at 500 per call.")

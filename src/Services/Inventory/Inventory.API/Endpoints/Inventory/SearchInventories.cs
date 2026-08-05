@@ -34,7 +34,7 @@ public sealed class SearchInventoriesEndpoint : ICarterModule
     {
         app.MapPost("/inventories/search", Handle)
             .WithTags("Inventory")
-            .RequirePermissions(Permissions.Inventory.Manage)
+            .RequirePermissions(Permissions.Inventory.View)
             .WithName("SearchInventories")
             .WithDisplayName("Search Inventory Records API")
             .WithDescription(API_DESC.JoinToString("\n"))
