@@ -10,6 +10,7 @@ namespace NovaCore.User.Application.Features.Users.DTOs;
 /// </summary>
 public sealed record UserReadModel(
     Guid Id,
+    Guid TenantId,
     string UserName,
     string DisplayName,
     string Email,

@@ -1,4 +1,8 @@
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Persistence.Tenancy;
+
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 
@@ -12,7 +16,8 @@ namespace NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 /// the same ModelBuilderExtensions/DbContextOptionsBuilderExtensions helpers this class uses,
 /// explicitly, from its own OnConfiguring/OnModelCreating.
 /// </summary>
-public abstract class DbContextBase(DbContextOptions options) : Microsoft.EntityFrameworkCore.DbContext(options)
+public abstract class DbContextBase(DbContextOptions options)
+    : Microsoft.EntityFrameworkCore.DbContext(options), ITenantAwareDbContext
 {
     protected sealed override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,6 +32,7 @@ public abstract class DbContextBase(DbContextOptions options) : Microsoft.Entity
 
         modelBuilder.ApplyPersistenceConfigurations(GetType().Assembly);
         modelBuilder.ApplyOutboxInboxConfiguration(this);
+        modelBuilder.ApplyTenantConvention(this, this.GetService<ITenantConventionRegistry>());
 
         ConfigureModel(modelBuilder);
     }
@@ -37,4 +43,7 @@ public abstract class DbContextBase(DbContextOptions options) : Microsoft.Entity
     }
 
     public bool IsDisableTimestamps { get; set; }
+
+    /// <summary>Resolved fresh on every access (never cached) - see ITenantAwareDbContext for why this must stay a live instance member.</summary>
+    public Guid CurrentTenantId => this.GetService<ICurrentTenantService>().TenantId;
 }

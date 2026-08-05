@@ -7,7 +7,7 @@ namespace NovaCore.Product.Domain.Entities.Options;
 /// "Size") that Products opt into via <see cref="ProductOption"/> instead of redefining. Owns
 /// the reusable <see cref="ProductOptionValueDefinition"/> catalog for that dimension.
 /// </summary>
-public sealed class ProductOptionDefinition : AggregateRoot<Guid>, IAuditable
+public sealed class ProductOptionDefinition : AggregateRoot<Guid>, IAuditable, IGlobalEntity
 {
     public string Code { get; private set; } = string.Empty;
     public int DisplayOrder { get; private set; }

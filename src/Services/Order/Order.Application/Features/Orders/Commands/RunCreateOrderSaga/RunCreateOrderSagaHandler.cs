@@ -75,9 +75,9 @@ public sealed class RunCreateOrderSagaHandler(
 
     private async Task CancelOrderAsync(Guid orderId, Guid customerId, string reason, CancellationToken ct)
     {
-        await orderWriteService.CancelAsync(orderId, reason, ct);
+        var (tenantId, _) = await orderWriteService.CancelAsync(orderId, reason, ct);
 
-        await outboxStore.EnqueueAsync(new OrderCancelledIntegrationEvent(orderId, customerId, reason), ct);
+        await outboxStore.EnqueueAsync(new OrderCancelledIntegrationEvent(tenantId, orderId, customerId, reason), ct);
 
         await uow.SaveChangesAsync(ct);
 

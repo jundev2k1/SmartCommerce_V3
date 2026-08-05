@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NovaCore.Inventory.Persistence.Engine;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace NovaCore.Inventory.Persistence.Storage.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    [Migration("20260803044806_RenameProductVariantToVariant")]
-    partial class RenameProductVariantToVariant
+    [Migration("20260805113256_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -296,6 +296,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue((short)1)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -324,6 +328,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_inventory_stocks_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_stocks_tenant_id");
 
                     b.HasIndex("WarehouseId")
                         .HasDatabaseName("ix_inventory_stocks_warehouse_id");
@@ -379,6 +386,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue((short)1)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -407,6 +418,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_inventory_counts_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_counts_tenant_id");
 
                     b.HasIndex("WarehouseId")
                         .HasDatabaseName("ix_inventory_counts_warehouse_id");
@@ -456,6 +470,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue("")
                         .HasColumnName("note");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
@@ -472,6 +490,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("InventoryId")
                         .HasDatabaseName("ix_inventory_count_items_inventory_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_count_items_tenant_id");
 
                     b.ToTable("inventory_count_items", (string)null);
                 });
@@ -537,6 +558,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue((short)1)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<short>("Type")
                         .HasColumnType("smallint")
                         .HasColumnName("type");
@@ -568,6 +593,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_inventory_documents_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_documents_tenant_id");
 
                     b.HasIndex("Type")
                         .HasDatabaseName("ix_inventory_documents_type");
@@ -624,6 +652,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("quantity");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<string>("UnitOfMeasure")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -646,6 +678,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("InventoryId")
                         .HasDatabaseName("ix_inventory_document_items_inventory_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_document_items_tenant_id");
 
                     b.HasIndex("VariantId")
                         .HasDatabaseName("ix_inventory_document_items_variant_id");
@@ -713,6 +748,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue("")
                         .HasColumnName("supplier_lot_number");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -739,6 +778,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_inventory_lots_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_lots_tenant_id");
 
                     b.ToTable("inventory_lots", (string)null);
                 });
@@ -811,6 +853,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue((short)1)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<short>("Type")
                         .HasColumnType("smallint")
                         .HasColumnName("type");
@@ -850,6 +896,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_inventory_reservations_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_reservations_tenant_id");
 
                     b.HasIndex("WarehouseId")
                         .HasDatabaseName("ix_inventory_reservations_warehouse_id");
@@ -902,6 +951,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue((short)1)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -932,6 +985,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_inventory_serials_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_serials_tenant_id");
 
                     b.ToTable("inventory_serials", (string)null);
                 });
@@ -1006,6 +1062,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("quantity");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<short>("Type")
                         .HasColumnType("smallint")
                         .HasColumnName("type");
@@ -1035,6 +1095,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("ProductId")
                         .HasDatabaseName("ix_inventory_transactions_product_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_inventory_transactions_tenant_id");
 
                     b.HasIndex("Type")
                         .HasDatabaseName("ix_inventory_transactions_type");
@@ -1139,6 +1202,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("supports_transfer");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<string>("TimeZone")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -1172,6 +1239,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_warehouses_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_warehouses_tenant_id");
 
                     b.HasIndex("Type")
                         .HasDatabaseName("ix_warehouses_type");
@@ -1238,6 +1308,10 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .HasDefaultValue((short)1)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<short>("Type")
                         .HasColumnType("smallint")
                         .HasColumnName("type");
@@ -1263,6 +1337,9 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_warehouse_zones_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_warehouse_zones_tenant_id");
 
                     b.HasIndex("Type")
                         .HasDatabaseName("ix_warehouse_zones_type");

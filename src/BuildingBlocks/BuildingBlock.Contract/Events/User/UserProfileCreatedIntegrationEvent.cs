@@ -1,6 +1,7 @@
 namespace NovaCore.BuildingBlock.Contract.Events.User;
 
 public sealed record UserProfileCreatedIntegrationEvent(
+    Guid TenantId,
     Guid UserId,
     string Email,
     string UserName,

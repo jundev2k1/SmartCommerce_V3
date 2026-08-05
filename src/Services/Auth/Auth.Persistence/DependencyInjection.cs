@@ -110,7 +110,7 @@ public static class DependencyInjection
 
             builder.Entity<Invitation>().IsRoot(x => x.Id);
 
-            builder.Entity<Tenant>().IsRoot(x => x.Id);
+            builder.Entity<Tenant>().IsRoot(x => x.TenantId);
             builder.Entity<TenantLocale>()
                 .BelongsTo<Tenant>(x => x.TenantId);
 

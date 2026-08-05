@@ -7,6 +7,7 @@ namespace NovaCore.BuildingBlock.Contract.Events.Order;
 /// and Notification Service (pushes an instant "new order" realtime ping to the admin queue).
 /// </summary>
 public sealed record OrderCreatedIntegrationEvent(
+    Guid TenantId,
     Guid OrderId,
     Guid CustomerId,
     IReadOnlyCollection<OrderCreatedItem> Items,

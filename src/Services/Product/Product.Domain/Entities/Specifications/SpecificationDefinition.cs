@@ -8,7 +8,7 @@ namespace NovaCore.Product.Domain.Entities.Specifications;
 /// definition via <see cref="Products.ProductSpecification.SpecificationDefinitionId"/> and only
 /// supply the value; the field's name and data shape are owned entirely by this entity.
 /// </summary>
-public sealed class SpecificationDefinition : AggregateRoot<Guid>, IAuditable
+public sealed class SpecificationDefinition : AggregateRoot<Guid>, IAuditable, IGlobalEntity
 {
     public Guid SpecificationGroupId { get; private set; }
     public SpecificationGroup Group { get; private set; } = default!;

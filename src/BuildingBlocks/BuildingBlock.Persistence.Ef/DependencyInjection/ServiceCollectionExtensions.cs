@@ -4,6 +4,7 @@ using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 using NovaCore.BuildingBlock.Persistence.Ef.Interceptors;
 using NovaCore.BuildingBlock.Persistence.Ef.Repository;
 using NovaCore.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Tenancy;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -28,6 +29,14 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IAuditMetadataProvider, NullAuditMetadataProvider>();
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, AuditInterceptor>());
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TimestampInterceptor>());
+
+        // Tenant Convention defaults - real ICurrentTenantService (JWT tenant claim, message-header
+        // propagation for consumers) is later work; NullCurrentTenantService keeps every entity's
+        // TenantId (and the query filter) inertly defaulted to Guid.Empty until then.
+        services.TryAddSingleton<ITenantConventionRegistry, TenantConventionRegistry>();
+        services.TryAddScoped<ICurrentTenantService, NullCurrentTenantService>();
+        services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TenantAssignmentInterceptor>());
+
         services.TryAddScoped(typeof(IRepository<>), typeof(GenericRepository<,>));
         services.TryAddScoped(typeof(IRepository<,>), typeof(EntityGenericRepository<,,>));
 

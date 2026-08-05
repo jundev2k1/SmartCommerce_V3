@@ -16,9 +16,10 @@ public sealed class CancelOrderHandler(
     {
         await uow.ExecuteTransactionAsync(async () =>
         {
-            var customerId = await orderWriteService.CancelAsync(request.OrderId, request.Reason, ct);
+            var (tenantId, customerId) = await orderWriteService.CancelAsync(request.OrderId, request.Reason, ct);
 
             var orderCancelledEvent = new OrderCancelledIntegrationEvent(
+                tenantId,
                 request.OrderId,
                 customerId,
                 request.Reason);

@@ -30,9 +30,9 @@ public sealed class ConfirmOrderStep(
 
         await uow.ExecuteTransactionAsync(async () =>
         {
-            var totalAmount = await orderWriteService.ConfirmAsync(orderId, ct);
+            var (tenantId, totalAmount) = await orderWriteService.ConfirmAsync(orderId, ct);
 
-            await outboxStore.EnqueueAsync(new OrderConfirmedIntegrationEvent(orderId, customerId, totalAmount), ct);
+            await outboxStore.EnqueueAsync(new OrderConfirmedIntegrationEvent(tenantId, orderId, customerId, totalAmount), ct);
         },
         ct: ct);
 

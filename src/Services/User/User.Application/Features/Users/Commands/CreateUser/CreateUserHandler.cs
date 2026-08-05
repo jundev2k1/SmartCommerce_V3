@@ -62,6 +62,7 @@ public sealed class CreateUserHandler(
         CancellationToken ct)
     {
         var integrationEvent = new UserProfileCreatedIntegrationEvent(
+            createdUser.TenantId,
             createdUser.Id,
             createdUser.Email,
             createdUser.UserName,

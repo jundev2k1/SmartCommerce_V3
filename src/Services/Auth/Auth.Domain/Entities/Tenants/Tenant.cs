@@ -10,7 +10,7 @@ namespace NovaCore.Auth.Domain.Entities.Tenants;
 /// TenantId. Carries only bootstrap/branding identity - subscription, billing, licensing and
 /// feature management are explicitly out of scope for this aggregate.
 /// </summary>
-public sealed class Tenant : AggregateRoot<Guid>, IAuditable
+public sealed class Tenant : AggregateRoot, IAuditable, IGlobalEntity
 {
     public TenantCode Code { get; private set; } = null!;
     public string Name { get; private set; } = string.Empty;
@@ -33,9 +33,8 @@ public sealed class Tenant : AggregateRoot<Guid>, IAuditable
     {
         ValidateName(name);
 
-        return new Tenant
+        var tenant = new Tenant
         {
-            Id = Guid.CreateVersion7(),
             Code = code,
             Name = name,
             LogoUrl = logoUrl,
@@ -44,6 +43,12 @@ public sealed class Tenant : AggregateRoot<Guid>, IAuditable
             Metadata = metadata ?? new TenantMetadata(),
             IsActive = true,
         };
+        // A Tenant's own identity is its TenantId (see class doc comment / TenantConfig) - there
+        // is no separate Id, so this is the sanctioned way to assign it (the inherited setter is
+        // private to BaseEntity).
+        tenant.AssignTenant(Guid.CreateVersion7());
+
+        return tenant;
     }
 
     // ============================================================================
@@ -68,7 +73,7 @@ public sealed class Tenant : AggregateRoot<Guid>, IAuditable
         }
 
         var locale = TenantLocale.Create(
-            Id,
+            TenantId,
             languageCode,
             configurationJson,
             dictionaryJson);

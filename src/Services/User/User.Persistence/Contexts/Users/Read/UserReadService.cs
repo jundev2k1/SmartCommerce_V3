@@ -44,6 +44,7 @@ public sealed class UserReadService(UserDbContext dbContext) : IUserReadService
     // of that type if none is marked primary) - the aggregate no longer stores them as columns.
     private static readonly System.Linq.Expressions.Expression<Func<UserEntity, UserReadModel>> ToReadModel = u => new UserReadModel(
         u.Id,
+        u.TenantId,
         u.Username,
         u.DisplayName,
         u.Contacts

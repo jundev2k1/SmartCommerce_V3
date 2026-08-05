@@ -20,9 +20,9 @@ public sealed class ScopeConfig : IEntityTypeConfiguration<Scope>
         // Properties
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.TenantId)
-            .IsRequired();
-
+        // TenantId itself is mapped/indexed/query-filtered automatically by the Tenant
+        // Convention (see ModelBuilderExtensions.ApplyTenantConvention) - only the FK
+        // relationship to Tenant and the (TenantId, Code) uniqueness are Scope-specific.
         builder.Property(x => x.Code)
             .HasConversion(x => x.Value, x => ScopeCode.Create(x))
             .HasMaxLength(100)

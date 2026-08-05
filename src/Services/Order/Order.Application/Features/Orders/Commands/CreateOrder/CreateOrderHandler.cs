@@ -92,6 +92,7 @@ public sealed class CreateOrderHandler(
                 .ToArray();
 
             var eventBus = new OrderCreatedIntegrationEvent(
+                order.TenantId,
                 order.Id,
                 owner.OwnerId,
                 orderCreatedItems,

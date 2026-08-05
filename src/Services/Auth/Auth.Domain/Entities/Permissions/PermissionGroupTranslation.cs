@@ -8,7 +8,7 @@ namespace NovaCore.Auth.Domain.Entities.Permissions;
 /// display copy. Id doubles as the owning PermissionGroup's Id (one row per language, see
 /// PermissionGroupTranslationConfig for the composite (Id, LanguageCode) key).
 /// </summary>
-public sealed class PermissionGroupTranslation : BaseEntity<Guid>, IAuditable
+public sealed class PermissionGroupTranslation : BaseEntity<Guid>, IAuditable, IGlobalEntity
 {
     public PermissionGroup PermissionGroup { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;

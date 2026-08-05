@@ -99,6 +99,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     allow_negative_stock = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -120,6 +121,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     approved_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, defaultValue: ""),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -151,6 +153,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     completed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -191,6 +194,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     maximum_stock = table.Column<int>(type: "integer", nullable: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -221,6 +225,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     allow_mixed_lot = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -243,11 +248,12 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     inventory_count_id = table.Column<Guid>(type: "uuid", nullable: false),
                     inventory_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_variant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    variant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     expected_quantity = table.Column<int>(type: "integer", nullable: false),
                     actual_quantity = table.Column<int>(type: "integer", nullable: true),
                     difference_quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     note = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, defaultValue: ""),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -276,7 +282,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     inventory_document_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_variant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    variant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     inventory_id = table.Column<Guid>(type: "uuid", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
                     unit_of_measure = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -284,6 +290,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     inventory_serial_id = table.Column<Guid>(type: "uuid", nullable: true),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, defaultValue: ""),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -319,6 +326,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     quantity = table.Column<int>(type: "integer", nullable: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -344,7 +352,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     inventory_id = table.Column<Guid>(type: "uuid", nullable: false),
                     warehouse_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_variant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    variant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     reference_type = table.Column<short>(type: "smallint", nullable: true),
                     reference_id = table.Column<Guid>(type: "uuid", nullable: true),
                     external_reference = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true, defaultValue: ""),
@@ -353,6 +361,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     reason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, defaultValue: ""),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -385,6 +394,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     inventory_document_id = table.Column<Guid>(type: "uuid", nullable: true),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -430,6 +440,7 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     after_reserved_quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false, defaultValue: ""),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -494,6 +505,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 column: "inventory_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_inventory_count_items_tenant_id",
+                table: "inventory_count_items",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_inventory_counts_count_date",
                 table: "inventory_counts",
                 column: "count_date");
@@ -508,6 +524,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 name: "ix_inventory_counts_status",
                 table: "inventory_counts",
                 column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_inventory_counts_tenant_id",
+                table: "inventory_counts",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_counts_warehouse_id",
@@ -525,9 +546,14 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 column: "inventory_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_inventory_document_items_product_variant_id",
+                name: "ix_inventory_document_items_tenant_id",
                 table: "inventory_document_items",
-                column: "product_variant_id");
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_inventory_document_items_variant_id",
+                table: "inventory_document_items",
+                column: "variant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_documents_destination_warehouse_id",
@@ -549,6 +575,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 name: "ix_inventory_documents_status",
                 table: "inventory_documents",
                 column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_inventory_documents_tenant_id",
+                table: "inventory_documents",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_documents_type",
@@ -576,6 +607,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
+                name: "ix_inventory_lots_tenant_id",
+                table: "inventory_lots",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_inventory_reservations_expired_at",
                 table: "inventory_reservations",
                 column: "expired_at");
@@ -600,6 +636,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 name: "ix_inventory_reservations_status",
                 table: "inventory_reservations",
                 column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_inventory_reservations_tenant_id",
+                table: "inventory_reservations",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_reservations_warehouse_id",
@@ -633,6 +674,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
+                name: "ix_inventory_serials_tenant_id",
+                table: "inventory_serials",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_inventory_stocks_product_id",
                 table: "inventory_stocks",
                 column: "product_id");
@@ -641,6 +687,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 name: "ix_inventory_stocks_status",
                 table: "inventory_stocks",
                 column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_inventory_stocks_tenant_id",
+                table: "inventory_stocks",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_inventory_stocks_variant_id_warehouse_id",
@@ -674,6 +725,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_inventory_transactions_tenant_id",
+                table: "inventory_transactions",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_inventory_transactions_type",
                 table: "inventory_transactions",
                 column: "type");
@@ -700,6 +756,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
+                name: "ix_warehouse_zones_tenant_id",
+                table: "warehouse_zones",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_warehouse_zones_type",
                 table: "warehouse_zones",
                 column: "type");
@@ -720,6 +781,11 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                 name: "ix_warehouses_status",
                 table: "warehouses",
                 column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_warehouses_tenant_id",
+                table: "warehouses",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_warehouses_type",

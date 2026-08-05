@@ -15,7 +15,6 @@ namespace NovaCore.Auth.Domain.Entities.Scopes;
 /// </summary>
 public sealed class Scope : AggregateRoot<Guid>, IAuditable
 {
-    public Guid TenantId { get; private set; }
     public Guid? ParentScopeId { get; private set; }
     public ScopeCode Code { get; private set; } = null!;
     public string Name { get; private set; } = string.Empty;
@@ -48,10 +47,9 @@ public sealed class Scope : AggregateRoot<Guid>, IAuditable
         if (parentScopeId == id)
             throw ExceptionFactory.InvalidState("A scope cannot be its own parent.");
 
-        return new Scope
+        var scope = new Scope
         {
             Id = id,
-            TenantId = tenantId,
             ParentScopeId = parentScopeId,
             Code = code,
             Name = name,
@@ -62,6 +60,8 @@ public sealed class Scope : AggregateRoot<Guid>, IAuditable
             SortOrder = sortOrder,
             IsActive = true,
         };
+        scope.AssignTenant(tenantId);
+        return scope;
     }
 
     // ============================================================================

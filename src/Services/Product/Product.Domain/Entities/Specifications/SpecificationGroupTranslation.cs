@@ -6,7 +6,7 @@ namespace NovaCore.Product.Domain.Entities.Specifications;
 /// Owned child of SpecificationGroup - a locale-specific display name/description for the group.
 /// Composite-keyed by (SpecificationGroupId, LanguageCode): one entry per language.
 /// </summary>
-public sealed class SpecificationGroupTranslation : BaseEntity<Guid>, IAuditable
+public sealed class SpecificationGroupTranslation : BaseEntity<Guid>, IAuditable, IGlobalEntity
 {
     public Guid SpecificationGroupId { get; private set; }
     public SpecificationGroup SpecificationGroup { get; private set; } = default!;

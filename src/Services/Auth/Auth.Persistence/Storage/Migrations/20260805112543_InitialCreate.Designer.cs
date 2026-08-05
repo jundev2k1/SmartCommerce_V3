@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NovaCore.Auth.Persistence.Storage.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20260805093334_InitialCreate")]
+    [Migration("20260805112543_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -292,6 +292,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("source_role_id");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -300,6 +304,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_account_permissions");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_account_permissions_tenant_id");
 
                     b.HasIndex("AccountId", "PermissionKey")
                         .IsUnique()
@@ -351,6 +358,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasDefaultValue((short)0)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -371,6 +382,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("PositionId")
                         .HasDatabaseName("ix_account_positions_position_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_account_positions_tenant_id");
 
                     b.HasIndex("AccountId", "PositionId", "Status")
                         .HasDatabaseName("ix_account_positions_account_id_position_id_status");
@@ -463,6 +477,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("platform");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -477,6 +495,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_devices");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_devices_tenant_id");
 
                     b.HasIndex("AccountId", "Fingerprint")
                         .IsUnique()
@@ -520,6 +541,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("provider_user_id");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -534,6 +559,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_external_identities");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_external_identities_tenant_id");
 
                     b.HasIndex("AccountId", "Provider")
                         .IsUnique()
@@ -581,6 +609,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("result");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -600,6 +632,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("AttemptedAt")
                         .HasDatabaseName("ix_login_histories_attempted_at");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_login_histories_tenant_id");
 
                     b.ToTable("login_histories", (string)null);
                 });
@@ -633,6 +668,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("mfa_method_id");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -654,6 +693,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("MfaMethodId")
                         .HasDatabaseName("ix_mfa_backup_codes_mfa_method_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_mfa_backup_codes_tenant_id");
 
                     b.ToTable("mfa_backup_codes", (string)null);
                 });
@@ -697,6 +739,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("secret_encrypted");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<short>("Type")
                         .HasColumnType("smallint")
                         .HasColumnName("type");
@@ -718,6 +764,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("AccountId")
                         .HasDatabaseName("ix_mfa_methods_account_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_mfa_methods_tenant_id");
 
                     b.HasIndex("AccountId", "IsPrimary")
                         .HasDatabaseName("ix_mfa_methods_account_id_is_primary");
@@ -748,6 +797,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("password_hash");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -759,6 +812,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("AccountId")
                         .HasDatabaseName("ix_password_histories_account_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_password_histories_tenant_id");
 
                     b.ToTable("password_histories", (string)null);
                 });
@@ -807,6 +863,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("session_id");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -837,6 +897,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("SessionId")
                         .HasDatabaseName("idx_refresh_tokens_session_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_refresh_tokens_tenant_id");
 
                     b.ToTable("refresh_tokens", (string)null);
                 });
@@ -894,6 +957,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasDefaultValue((short)0)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -925,6 +992,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_sessions_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_sessions_tenant_id");
 
                     b.ToTable("sessions", (string)null);
                 });
@@ -970,6 +1040,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasDefaultValue((short)0)
                         .HasColumnName("status");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -1002,6 +1076,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_invitations_status");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_invitations_tenant_id");
 
                     b.HasIndex("Token")
                         .IsUnique()
@@ -1242,6 +1319,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1260,6 +1341,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("ix_positions_code");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_positions_tenant_id");
 
                     b.ToTable("positions", (string)null);
                 });
@@ -1280,6 +1364,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1297,6 +1385,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_position_roles_role_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_position_roles_tenant_id");
 
                     b.ToTable("position_roles", (string)null);
                 });
@@ -1329,6 +1420,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("display_name");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1343,6 +1438,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasKey("Id", "LanguageCode")
                         .HasName("pk_position_translations");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_position_translations_tenant_id");
 
                     b.ToTable("position_translations", (string)null);
                 });
@@ -1436,6 +1534,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1453,6 +1555,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasIndex("PermissionDefinitionId")
                         .HasDatabaseName("ix_role_permissions_permission_definition_id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_role_permissions_tenant_id");
 
                     b.ToTable("role_permissions", (string)null);
                 });
@@ -1485,6 +1590,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("display_name");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1499,6 +1608,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
 
                     b.HasKey("Id", "LanguageCode")
                         .HasName("pk_role_translations");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_role_translations_tenant_id");
 
                     b.ToTable("role_translations", (string)null);
                 });
@@ -1591,6 +1703,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     b.HasIndex("ParentScopeId")
                         .HasDatabaseName("ix_scopes_parent_scope_id");
 
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_scopes_tenant_id");
+
                     b.HasIndex("TenantId", "Code")
                         .IsUnique()
                         .HasDatabaseName("ix_scopes_tenant_id_code");
@@ -1626,6 +1741,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1641,12 +1760,15 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     b.HasKey("Id", "LanguageCode")
                         .HasName("pk_scope_translations");
 
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_scope_translations_tenant_id");
+
                     b.ToTable("scope_translations", (string)null);
                 });
 
             modelBuilder.Entity("NovaCore.Auth.Domain.Entities.Tenants.Tenant", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("TenantId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -1708,7 +1830,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("xid")
                         .HasColumnName("xmin");
 
-                    b.HasKey("Id")
+                    b.HasKey("TenantId")
                         .HasName("pk_tenants");
 
                     b.HasIndex("Code")
@@ -1769,13 +1891,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasName("pk_tenant_locales");
 
                     b.HasIndex("TenantId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_tenant_locales_tenant_id_fallback")
-                        .HasFilter("language_code IS NULL");
-
-                    b.HasIndex("TenantId", "LanguageCode")
-                        .IsUnique()
-                        .HasDatabaseName("ix_tenant_locales_tenant_id_language_code");
+                        .HasDatabaseName("ix_tenant_locales_tenant_id");
 
                     b.ToTable("tenant_locales", (string)null);
                 });
@@ -1813,6 +1929,10 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("reason");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1831,6 +1951,9 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     b.HasIndex("Jti")
                         .IsUnique()
                         .HasDatabaseName("ix_token_blacklists_jti");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_token_blacklists_tenant_id");
 
                     b.ToTable("token_blacklists", (string)null);
                 });

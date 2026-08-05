@@ -1,10 +1,8 @@
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using NovaCore.Auth.Domain.Entities.Tenants;
 using NovaCore.Auth.Domain.Metadata;
 using NovaCore.Auth.Domain.ValueObjects;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using NovaCore.BuildingBlock.Domain.Metadata;
 
 namespace NovaCore.Auth.Persistence.Configs;
@@ -17,10 +15,16 @@ public sealed class TenantConfig : IEntityTypeConfiguration<Tenant>
         builder.ToTable("tenants");
 
         // Properties
-        builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.TenantId);
+
+        builder.Property(x => x.TenantId)
+            .HasColumnName("id")
+            .IsRequired();
 
         builder.Property(x => x.Code)
-            .HasConversion(x => x.Value, x => TenantCode.Create(x))
+            .HasConversion(
+                x => x.Value,
+                x => TenantCode.Create(x))
             .HasMaxLength(100)
             .IsRequired();
 

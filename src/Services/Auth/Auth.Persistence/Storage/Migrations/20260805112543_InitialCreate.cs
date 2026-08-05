@@ -104,6 +104,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     is_system_position = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -163,6 +164,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     reason = table.Column<short>(type: "smallint", nullable: false),
                     expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     blacklisted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -257,6 +259,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     display_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -278,6 +281,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     position_id = table.Column<Guid>(type: "uuid", nullable: false),
                     role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -328,6 +332,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     display_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -347,7 +352,6 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     parent_scope_id = table.Column<Guid>(type: "uuid", nullable: true),
                     code = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
@@ -358,6 +362,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     sort_order = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -411,6 +416,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     permission_key = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     source_role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     cached_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -438,6 +444,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     revoked_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     status = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)0),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -471,6 +478,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     is_trusted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     last_seen_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -496,6 +504,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     linked_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     last_login_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -523,6 +532,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     accepted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -554,6 +564,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     user_agent = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     result = table.Column<short>(type: "smallint", nullable: false),
                     attempted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -580,6 +591,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     is_primary = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     last_used_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -601,6 +613,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     account_id = table.Column<Guid>(type: "uuid", nullable: false),
                     password_hash = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -733,6 +746,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     role_id = table.Column<Guid>(type: "uuid", nullable: false),
                     permission_definition_id = table.Column<Guid>(type: "uuid", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -762,6 +776,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -792,6 +807,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     revoked_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     revoked_reason = table.Column<short>(type: "smallint", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -822,6 +838,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     is_used = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     used_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -850,6 +867,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     revoked_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     revoked_reason = table.Column<short>(type: "smallint", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -877,6 +895,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "ix_account_permissions_tenant_id",
+                table: "account_permissions",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_account_positions_account_id",
                 table: "account_positions",
                 column: "account_id");
@@ -892,10 +915,20 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 column: "position_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_account_positions_tenant_id",
+                table: "account_positions",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_devices_account_id_fingerprint",
                 table: "devices",
                 columns: new[] { "account_id", "fingerprint" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_devices_tenant_id",
+                table: "devices",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_external_identities_account_id_provider",
@@ -908,6 +941,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 table: "external_identities",
                 columns: new[] { "provider", "provider_user_id" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_external_identities_tenant_id",
+                table: "external_identities",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_inbox_message_consumer_unique",
@@ -951,6 +989,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
+                name: "ix_invitations_tenant_id",
+                table: "invitations",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_invitations_token",
                 table: "invitations",
                 column: "token",
@@ -967,9 +1010,19 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 column: "attempted_at");
 
             migrationBuilder.CreateIndex(
+                name: "ix_login_histories_tenant_id",
+                table: "login_histories",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_mfa_backup_codes_mfa_method_id",
                 table: "mfa_backup_codes",
                 column: "mfa_method_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_mfa_backup_codes_tenant_id",
+                table: "mfa_backup_codes",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_mfa_methods_account_id",
@@ -980,6 +1033,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 name: "ix_mfa_methods_account_id_is_primary",
                 table: "mfa_methods",
                 columns: new[] { "account_id", "is_primary" });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_mfa_methods_tenant_id",
+                table: "mfa_methods",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_outbox_processed_at",
@@ -996,6 +1054,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 name: "ix_password_histories_account_id",
                 table: "password_histories",
                 column: "account_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_password_histories_tenant_id",
+                table: "password_histories",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_permission_definitions_key",
@@ -1025,10 +1088,25 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_position_roles_tenant_id",
+                table: "position_roles",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_position_translations_tenant_id",
+                table: "position_translations",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_positions_code",
                 table: "positions",
                 column: "code",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_positions_tenant_id",
+                table: "positions",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_refresh_tokens_jwt_id",
@@ -1047,6 +1125,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 column: "account_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_refresh_tokens_tenant_id",
+                table: "refresh_tokens",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_role_claims_role_id",
                 table: "role_claims",
                 column: "role_id");
@@ -1055,6 +1138,16 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 name: "ix_role_permissions_permission_definition_id",
                 table: "role_permissions",
                 column: "permission_definition_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_permissions_tenant_id",
+                table: "role_permissions",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_translations_tenant_id",
+                table: "role_translations",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_roles_code",
@@ -1069,6 +1162,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "ix_scope_translations_tenant_id",
+                table: "scope_translations",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_scopes_is_active",
                 table: "scopes",
                 column: "is_active");
@@ -1077,6 +1175,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 name: "ix_scopes_parent_scope_id",
                 table: "scopes",
                 column: "parent_scope_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_scopes_tenant_id",
+                table: "scopes",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_scopes_tenant_id_code",
@@ -1105,17 +1208,14 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
-                name: "ix_tenant_locales_tenant_id_fallback",
-                table: "tenant_locales",
-                column: "tenant_id",
-                unique: true,
-                filter: "language_code IS NULL");
+                name: "ix_sessions_tenant_id",
+                table: "sessions",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_tenant_locales_tenant_id_language_code",
+                name: "ix_tenant_locales_tenant_id",
                 table: "tenant_locales",
-                columns: new[] { "tenant_id", "language_code" },
-                unique: true);
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_tenants_code",
@@ -1143,6 +1243,11 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                 table: "token_blacklists",
                 column: "jti",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_token_blacklists_tenant_id",
+                table: "token_blacklists",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_user_claims_user_id",

@@ -12,7 +12,7 @@ namespace NovaCore.Auth.Domain.Entities.Tenants;
 /// structured/queryable columns, so they are stored and validated as raw JSON text rather
 /// than mapped through a strongly-typed metadata bag (see docs/services/auth-service.md).
 /// </summary>
-public sealed class TenantLocale : BaseEntity<Guid>, IAuditable
+public sealed class TenantLocale : BaseEntity<Guid>, IAuditable, IGlobalEntity
 {
     public Guid TenantId { get; private set; }
     public Tenant Tenant { get; private set; } = default!;

@@ -8,6 +8,7 @@ namespace NovaCore.BuildingBlock.Contract.Events.Order;
 /// recipient without a callback to Order Service.
 /// </summary>
 public sealed record OrderCancelledIntegrationEvent(
+    Guid TenantId,
     Guid OrderId,
     Guid CustomerId,
     string Reason,

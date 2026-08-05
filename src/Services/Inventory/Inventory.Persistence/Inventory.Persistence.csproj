@@ -19,6 +19,10 @@
   <ItemGroup>
     <PackageReference Include="System.Security.Cryptography.Xml" />
     <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

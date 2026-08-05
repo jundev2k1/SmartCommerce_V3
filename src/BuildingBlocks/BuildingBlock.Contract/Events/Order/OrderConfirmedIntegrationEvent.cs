@@ -7,6 +7,7 @@ namespace NovaCore.BuildingBlock.Contract.Events.Order;
 /// "order confirmed" update to the customer - see docs/reference/create-order-saga.md.
 /// </summary>
 public sealed record OrderConfirmedIntegrationEvent(
+    Guid TenantId,
     Guid OrderId,
     Guid CustomerId,
     decimal TotalAmount,

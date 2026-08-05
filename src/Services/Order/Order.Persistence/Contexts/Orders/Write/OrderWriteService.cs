@@ -42,21 +42,24 @@ public sealed class OrderWriteService(IOrderRepository orderRepo) : IOrderWriteS
             ct);
     }
 
-    public async Task<decimal> ConfirmAsync(Guid orderId, CancellationToken ct = default)
+    public async Task<(Guid TenantId, decimal TotalAmount)> ConfirmAsync(Guid orderId, CancellationToken ct = default)
     {
+        var tenantId = Guid.Empty;
         var totalAmount = 0m;
 
         await orderRepo.UpdateAsync(orderId, order =>
         {
             order.Accept();
+            tenantId = order.TenantId;
             totalAmount = order.GrandTotal.Value;
         }, ct);
 
-        return totalAmount;
+        return (tenantId, totalAmount);
     }
 
-    public async Task<Guid> CancelAsync(Guid orderId, string reason, CancellationToken ct = default)
+    public async Task<(Guid TenantId, Guid CustomerId)> CancelAsync(Guid orderId, string reason, CancellationToken ct = default)
     {
+        var tenantId = Guid.Empty;
         var customerId = Guid.Empty;
 
         await orderRepo.UpdateAsync(orderId, order =>
@@ -65,10 +68,11 @@ public sealed class OrderWriteService(IOrderRepository orderRepo) : IOrderWriteS
                 throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
             order.Cancel(reason);
+            tenantId = order.TenantId;
             customerId = order.Owner.OwnerId;
         }, ct);
 
-        return customerId;
+        return (tenantId, customerId);
     }
 
     public async Task<Guid> CompleteAsync(Guid orderId, CancellationToken ct = default)

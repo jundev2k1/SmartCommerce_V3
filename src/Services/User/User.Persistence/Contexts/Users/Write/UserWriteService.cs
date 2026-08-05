@@ -68,6 +68,7 @@ public sealed class UserWriteService(
     // neither CreateUserHandler nor OnUserInitiatedHandler read Roles off the returned model.
     private static UserReadModel ToReadModel(UserEntity user) => new(
         user.Id,
+        user.TenantId,
         user.Username,
         user.DisplayName,
         user.Contacts.FirstOrDefault(c => c.ContactType == ContactType.Email)?.Value ?? string.Empty,

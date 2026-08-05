@@ -21,9 +21,9 @@ public interface IOrderWriteService
         string idempotencyKey,
         CancellationToken ct = default);
 
-    Task<decimal> ConfirmAsync(Guid orderId, CancellationToken ct = default);
+    Task<(Guid TenantId, decimal TotalAmount)> ConfirmAsync(Guid orderId, CancellationToken ct = default);
 
-    Task<Guid> CancelAsync(Guid orderId, string reason, CancellationToken ct = default);
+    Task<(Guid TenantId, Guid CustomerId)> CancelAsync(Guid orderId, string reason, CancellationToken ct = default);
 
     Task<Guid> CompleteAsync(Guid orderId, CancellationToken ct = default);
 
