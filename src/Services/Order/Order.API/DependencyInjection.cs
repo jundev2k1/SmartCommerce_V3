@@ -1,6 +1,7 @@
 using NovaCore.BuildingBlock.Application.DeadLetters;
 using NovaCore.BuildingBlock.Infrastructure.Security.Jwt;
 using NovaCore.BuildingBlock.Web;
+using NovaCore.BuildingBlock.Web.Authorization;
 using NovaCore.BuildingBlock.Web.Carter;
 using NovaCore.BuildingBlock.Web.Cors;
 using NovaCore.BuildingBlock.Web.CurrentUser;
@@ -38,7 +39,7 @@ public static class DependencyInjection
             .AddDeadLetterManagement()
             .AddCarterModules(typeof(DependencyInjection), typeof(IDeadLetterRetryService))
             .AddHealthCheckServices()
-            .AddAuthorization();
+            .AddBuildingBlockAuthorization();
 
         return services;
     }

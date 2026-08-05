@@ -1,5 +1,5 @@
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
-using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Web.Authorization;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using NovaCore.Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;

@@ -1,4 +1,4 @@
-using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Web.Authorization;
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
 using NovaCore.BuildingBlock.Application.DeadLetters.Commands;
 using NovaCore.BuildingBlock.SharedKernel.Constants;

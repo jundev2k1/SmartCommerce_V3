@@ -1,7 +1,9 @@
+using NovaCore.BuildingBlock.Application.Authorization;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 
-namespace NovaCore.BuildingBlock.Application.Authorization;
+namespace NovaCore.BuildingBlock.Web.Authorization;
 
 public static class PermissionEndpointExtensions
 {
