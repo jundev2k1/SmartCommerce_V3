@@ -10,7 +10,7 @@ namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 ///
 /// Root bypasses every check. Each module's "Full" key is an aggregate that implicitly grants
 /// every other permission in that module - this is resolved centrally by
-/// PermissionClaimsExtensions.HasAnyPermission, endpoints never need to declare it explicitly.
+/// AppClaimTypes.HasAnyPermission, endpoints never need to declare it explicitly.
 /// </summary>
 public static class Permissions
 {

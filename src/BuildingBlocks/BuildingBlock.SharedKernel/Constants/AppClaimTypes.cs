@@ -1,16 +1,19 @@
 using System.Security.Claims;
 
-using NovaCore.BuildingBlock.SharedKernel.Constants;
+namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace NovaCore.BuildingBlock.Application.Authorization;
-
-public static class PermissionClaimsExtensions
+/// <summary>
+/// Custom claim type keys used across the platform, plus the ClaimsPrincipal helpers built on
+/// them. Named "App" to avoid colliding with System.Security.Claims.ClaimTypes. Add new claim
+/// type keys here as they're introduced.
+/// </summary>
+public static class AppClaimTypes
 {
     /// <summary>Claim type carrying one permission key per claim - see Permissions.</summary>
-    public const string PermissionClaimType = "permission";
+    public const string Permission = "permission";
 
     public static IEnumerable<string> GetPermissions(this ClaimsPrincipal principal)
-        => principal.FindAll(PermissionClaimType).Select(c => c.Value);
+        => principal.FindAll(Permission).Select(c => c.Value);
 
     /// <summary>
     /// Centralized permission resolution: Root bypasses everything, then each required permission

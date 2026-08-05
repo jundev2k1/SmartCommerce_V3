@@ -1,6 +1,5 @@
-using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 
 namespace NovaCore.BuildingBlock.Web.Authorization;
@@ -10,7 +9,7 @@ public static class PermissionEndpointExtensions
     /// <summary>
     /// Declares the permissions an endpoint accepts, OR-matched: the caller succeeds if they own
     /// any one of the listed permissions (exactly, via Permissions.Root, or via that permission's
-    /// module aggregate "{module}:full" - see PermissionClaimsExtensions.HasAnyPermission). This is
+    /// module aggregate "{module}:full" - see AppClaimTypes.HasAnyPermission). This is
     /// the standard way to declare endpoint authorization across the project.
     /// </summary>
     public static TBuilder RequirePermissions<TBuilder>(this TBuilder builder, params string[] permissions)

@@ -5,7 +5,7 @@ using System.Text;
 
 using NovaCore.Auth.Application.Abstractions.Security.Jwt;
 
-using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 using NovaCore.BuildingBlock.SharedKernel.Security;
 
 using Microsoft.IdentityModel.Tokens;
@@ -36,7 +36,7 @@ public sealed class JwtTokenGenerator(JwtSettings settings) : IJwtTokenGenerator
             claims.Add(new Claim("jti", jwtId.Value.ToString()));
 
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-        claims.AddRange(permissions.Select(permission => new Claim(PermissionClaimsExtensions.PermissionClaimType, permission)));
+        claims.AddRange(permissions.Select(permission => new Claim(AppClaimTypes.Permission, permission)));
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
