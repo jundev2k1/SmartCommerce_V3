@@ -1,4 +1,4 @@
-using NovaCore.Auth.API.ExceptionHandling;
+using NovaCore.BuildingBlock.Web.ExceptionHandling;
 
 using NovaCore.BuildingBlock.Application.DeadLetters;
 using NovaCore.BuildingBlock.Grpc.Server;

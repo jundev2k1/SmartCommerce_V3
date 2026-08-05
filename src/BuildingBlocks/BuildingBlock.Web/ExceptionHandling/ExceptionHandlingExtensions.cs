@@ -1,4 +1,7 @@
-namespace NovaCore.Product.API.ExceptionHandling;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace NovaCore.BuildingBlock.Web.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

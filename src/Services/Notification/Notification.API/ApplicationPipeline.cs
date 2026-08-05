@@ -2,7 +2,7 @@ using NovaCore.BuildingBlock.Web.Cors;
 using NovaCore.BuildingBlock.Web.Middleware;
 using NovaCore.BuildingBlock.Web.Swagger;
 
-using NovaCore.Notification.API.ExceptionHandling;
+using NovaCore.BuildingBlock.Web.ExceptionHandling;
 using NovaCore.Notification.Infrastructure.BackgroundJobs;
 using NovaCore.Notification.Infrastructure.SignalR.Hubs.Global;
 

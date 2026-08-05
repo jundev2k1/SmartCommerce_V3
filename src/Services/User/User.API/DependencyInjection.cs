@@ -8,7 +8,7 @@ using NovaCore.BuildingBlock.Web.CurrentUser;
 using NovaCore.BuildingBlock.Web.HealthChecks;
 using NovaCore.BuildingBlock.Web.Swagger;
 
-using NovaCore.User.API.ExceptionHandling;
+using NovaCore.BuildingBlock.Web.ExceptionHandling;
 
 namespace NovaCore.User.API;
 

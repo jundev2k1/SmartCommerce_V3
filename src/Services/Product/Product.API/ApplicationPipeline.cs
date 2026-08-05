@@ -3,7 +3,7 @@ using NovaCore.BuildingBlock.Web.Cors;
 using NovaCore.BuildingBlock.Web.Middleware;
 using NovaCore.BuildingBlock.Web.Swagger;
 
-using NovaCore.Product.API.ExceptionHandling;
+using NovaCore.BuildingBlock.Web.ExceptionHandling;
 using NovaCore.Product.Infrastructure.BackgroundJobs;
 using NovaCore.Product.Persistence.Engine;
 using NovaCore.Product.Persistence.Storage.Seeders;

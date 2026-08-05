@@ -1,4 +1,4 @@
-using NovaCore.Auth.API.ExceptionHandling;
+using NovaCore.BuildingBlock.Web.ExceptionHandling;
 using NovaCore.Auth.API.GrpcServices;
 using NovaCore.Auth.Application.Abstractions.Services;
 using NovaCore.Auth.Infrastructure.BackgroundJobs;

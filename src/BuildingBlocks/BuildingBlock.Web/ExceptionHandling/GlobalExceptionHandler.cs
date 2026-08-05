@@ -1,8 +1,8 @@
-using NovaCore.BuildingBlock.Infrastructure.ExceptionHandling;
-
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
-namespace NovaCore.Product.API.ExceptionHandling;
+namespace NovaCore.BuildingBlock.Web.ExceptionHandling;
 
 public class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger) : IExceptionHandler

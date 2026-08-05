@@ -1,7 +1,7 @@
 using NovaCore.BuildingBlock.Web.Cors;
 using NovaCore.BuildingBlock.Web.Swagger;
 
-using NovaCore.Audit.API.ExceptionHandling;
+using NovaCore.BuildingBlock.Web.ExceptionHandling;
 using NovaCore.Audit.Infrastructure.BackgroundJobs;
 
 namespace NovaCore.Audit.API;

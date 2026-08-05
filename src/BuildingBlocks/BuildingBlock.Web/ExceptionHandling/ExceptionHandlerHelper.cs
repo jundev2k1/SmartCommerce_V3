@@ -9,7 +9,7 @@ using AppException = NovaCore.BuildingBlock.Application.Exceptions.ApplicationEx
 using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
 using DomainEx = NovaCore.BuildingBlock.Domain.Exceptions.DomainException;
 
-namespace NovaCore.BuildingBlock.Infrastructure.ExceptionHandling;
+namespace NovaCore.BuildingBlock.Web.ExceptionHandling;
 
 /// <summary>
 /// Shared exception handling utility for all services.
