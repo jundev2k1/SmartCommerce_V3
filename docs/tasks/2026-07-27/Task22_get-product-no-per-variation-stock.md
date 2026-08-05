@@ -12,7 +12,7 @@ SmartCommerce V3 Search/Cart/Stock checklist audit, 2026-07-27 (read-only, no fi
 
 ## Why this matters
 
-Checklist requirement: Product Detail must show every variation's own stock state and disable out-of-stock variations in the selector, preventing selection of unavailable variations. This is structurally impossible today — there's no stock field on the DTO to check, not just a missing UI check (the frontend side of this, SimpleShopUI Task 16, is blocked on this).
+Checklist requirement: Product Detail must show every variation's own stock state and disable out-of-stock variations in the selector, preventing selection of unavailable variations. This is structurally impossible today — there's no stock field on the DTO to check, not just a missing UI check (the frontend side of this, NovaCoreUI Task 16, is blocked on this).
 
 ## Suggested acceptance criteria
 
@@ -30,4 +30,4 @@ Resolved via direct gRPC, same decision as Task 21. `ProductVariationResponse` g
 
 Same caching/latency caveat as Task 21 - not pursued speculatively. No live verification against a running Inventory service this session.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task16_product-detail-no-per-variation-stock-ui.md`. Related: Task 21 (same underlying data need, different endpoint).
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task16_product-detail-no-per-variation-stock-ui.md`. Related: Task 21 (same underlying data need, different endpoint).

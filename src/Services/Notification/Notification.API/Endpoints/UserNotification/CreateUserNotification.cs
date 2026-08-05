@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+using NovaCore.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
-namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
+namespace NovaCore.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Admin-only - no automatic rule/campaign trigger is wired up yet to generate these.</summary>
 public sealed class CreateUserNotification : ICarterModule

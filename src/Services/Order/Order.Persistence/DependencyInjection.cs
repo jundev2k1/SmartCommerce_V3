@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Extensions;
-using SmartEcommerce.BuildingBlock.Persistence.Audit;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Extensions;
+using NovaCore.BuildingBlock.Persistence.Audit;
+using NovaCore.BuildingBlock.Persistence.Ef.DependencyInjection;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Saga.Abstractions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,19 +16,19 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Read;
-using SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Write;
-using SmartEcommerce.Order.Persistence.Contexts.Orders.Read;
-using SmartEcommerce.Order.Persistence.Contexts.Orders.Write;
-using SmartEcommerce.Order.Persistence.Engine;
-using SmartEcommerce.Order.Persistence.Engine.UnitOfWork;
-using SmartEcommerce.Order.Persistence.Reliability.Inbox;
-using SmartEcommerce.Order.Persistence.Reliability.Outbox;
-using SmartEcommerce.Order.Persistence.Reliability.Saga;
+using NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Persistence.Contexts.ProductCatalogs.Read;
+using NovaCore.Order.Persistence.Contexts.ProductCatalogs.Write;
+using NovaCore.Order.Persistence.Contexts.Orders.Read;
+using NovaCore.Order.Persistence.Contexts.Orders.Write;
+using NovaCore.Order.Persistence.Engine;
+using NovaCore.Order.Persistence.Engine.UnitOfWork;
+using NovaCore.Order.Persistence.Reliability.Inbox;
+using NovaCore.Order.Persistence.Reliability.Outbox;
+using NovaCore.Order.Persistence.Reliability.Saga;
 
-namespace SmartEcommerce.Order.Persistence;
+namespace NovaCore.Order.Persistence;
 
 public static class DependencyInjection
 {
@@ -53,7 +53,7 @@ public static class DependencyInjection
         return services;
     }
 
-    // Singleton to match SagaOrchestrator's own lifetime (SmartEcommerce.BuildingBlock.Saga.Extensions.SagaExtensions)
+    // Singleton to match SagaOrchestrator's own lifetime (NovaCore.BuildingBlock.Saga.Extensions.SagaExtensions)
     // - EfSagaStore opens its own DI scope per call rather than taking OrderDbContext directly, see
     // its remarks.
     private static IServiceCollection AddSagaStore(this IServiceCollection services)

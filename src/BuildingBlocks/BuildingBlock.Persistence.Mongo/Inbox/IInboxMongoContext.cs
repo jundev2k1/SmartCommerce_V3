@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Inbox;
 
 /// <summary>
 /// Marker interface for Mongo context implementations that provide access to the Inbox collection.

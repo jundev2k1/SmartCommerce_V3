@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Domain.Entities.Categories;
+using NovaCore.Product.Domain.Entities.Categories;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 public sealed class ProductCategoryMapping : BaseEntity
 {

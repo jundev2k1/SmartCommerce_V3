@@ -1,10 +1,10 @@
-using SmartEcommerce.Auth.Domain.Entities.Permissions;
-using SmartEcommerce.Auth.Domain.ValueObjects;
+using NovaCore.Auth.Domain.Entities.Permissions;
+using NovaCore.Auth.Domain.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class PermissionDefinitionConfig : IEntityTypeConfiguration<PermissionDefinition>
 {

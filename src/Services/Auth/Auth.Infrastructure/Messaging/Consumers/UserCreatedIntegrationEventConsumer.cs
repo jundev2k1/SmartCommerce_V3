@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-using SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserCreated;
+using NovaCore.Auth.Application.Features.Auth.Events.OnUserCreated;
 
-namespace SmartEcommerce.Auth.Infrastructure.Messaging.Consumers;
+namespace NovaCore.Auth.Infrastructure.Messaging.Consumers;
 
 public sealed class UserCreatedIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,

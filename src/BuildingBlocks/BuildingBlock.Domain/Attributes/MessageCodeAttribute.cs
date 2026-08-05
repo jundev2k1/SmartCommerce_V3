@@ -1,8 +1,8 @@
 using System.Reflection;
 
-using SmartEcommerce.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.Domain.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Attributes;
+namespace NovaCore.BuildingBlock.Domain.Attributes;
 
 [AttributeUsage(AttributeTargets.All)]
 public sealed class MessageCodeAttribute(string code, string message) : Attribute

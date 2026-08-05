@@ -1,6 +1,6 @@
-using SmartEcommerce.Auth.Application.Features.Auth.Commands.Login;
+using NovaCore.Auth.Application.Features.Auth.Commands.Login;
 
-namespace SmartEcommerce.Auth.API.Endpoints;
+namespace NovaCore.Auth.API.Endpoints;
 
 public record LoginRequest(string Email, string Password);
 

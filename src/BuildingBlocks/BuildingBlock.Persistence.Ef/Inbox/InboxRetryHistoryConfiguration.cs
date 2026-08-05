@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 
 public sealed class InboxRetryHistoryConfiguration : IEntityTypeConfiguration<InboxRetryHistory>
 {

@@ -1,6 +1,6 @@
-using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
+using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace SmartEcommerce.BuildingBlock.Application.Exceptions;
+namespace NovaCore.BuildingBlock.Application.Exceptions;
 
 public class NotFoundException : ApplicationException
 {

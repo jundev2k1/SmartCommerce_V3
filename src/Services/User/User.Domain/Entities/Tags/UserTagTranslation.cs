@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Tags;
+namespace NovaCore.User.Domain.Entities.Tags;
 
 /// <summary>
 /// Owned child of UserTag - a locale-specific override of the tag's display text. UserTag.Name

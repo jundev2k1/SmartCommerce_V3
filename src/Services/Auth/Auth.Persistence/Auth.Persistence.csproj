@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Auth.Persistence</RootNamespace>
-    <AssemblyName>SmartEcommerce.Auth.Persistence</AssemblyName>
+    <RootNamespace>NovaCore.Auth.Persistence</RootNamespace>
+    <AssemblyName>NovaCore.Auth.Persistence</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

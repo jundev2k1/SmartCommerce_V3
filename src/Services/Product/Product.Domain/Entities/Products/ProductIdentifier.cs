@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Owned child of Variant,

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SmartEcommerce.Order.Persistence.Reliability.Saga;
+using NovaCore.Order.Persistence.Reliability.Saga;
 
-namespace SmartEcommerce.Order.Persistence.Configs;
+namespace NovaCore.Order.Persistence.Configs;
 
 public sealed class SagaExecutionRecordConfig : IEntityTypeConfiguration<SagaExecutionRecordEntity>
 {

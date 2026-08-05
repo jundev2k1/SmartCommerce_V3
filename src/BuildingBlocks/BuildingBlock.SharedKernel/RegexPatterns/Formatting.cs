@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.BuildingBlock.SharedKernel.RegexPatterns;
+namespace NovaCore.BuildingBlock.SharedKernel.RegexPatterns;
 
 public static partial class RegexPatterns
 {

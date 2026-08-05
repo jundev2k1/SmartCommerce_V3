@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.UpdateProductTag;
+namespace NovaCore.Product.Application.Features.ProductTags.Commands.UpdateProductTag;
 
 public sealed class UpdateProductTagHandler(
     IUnitOfWork uow,

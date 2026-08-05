@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Entities;
+namespace NovaCore.Notification.Domain.Entities;
 
 /// <summary>Represents a target audience (a role, a set of specific users, a segment, ...) that a <see cref="NotificationCampaign"/> broadcasts to.</summary>
 public sealed class NotificationGroup : AggregateRoot<Guid>, IAuditable

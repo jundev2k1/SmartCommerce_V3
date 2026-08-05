@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Domain.Entities.Orders;
+namespace NovaCore.Order.Domain.Entities.Orders;
 
 public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
 {

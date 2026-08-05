@@ -1,12 +1,12 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Product;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Product;
 
-using SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantUpdated;
+using NovaCore.Order.Application.Features.Catalog.Events.OnVariantUpdated;
 
-namespace SmartEcommerce.Order.Infrastructure.Messaging.Consumers;
+namespace NovaCore.Order.Infrastructure.Messaging.Consumers;
 
 public sealed class VariantUpdatedIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,

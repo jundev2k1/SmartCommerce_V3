@@ -11,7 +11,7 @@ PASS=0
 FAIL=0
 
 echo -e "${YELLOW}========================================${NC}"
-echo -e "${YELLOW}SimpleShop Docker Setup Validator${NC}"
+echo -e "${YELLOW}NovaCore Docker Setup Validator${NC}"
 echo -e "${YELLOW}========================================${NC}"
 echo ""
 

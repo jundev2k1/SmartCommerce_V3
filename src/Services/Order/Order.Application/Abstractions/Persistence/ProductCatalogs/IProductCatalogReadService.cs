@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+namespace NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
 public interface IProductCatalogReadService
 {

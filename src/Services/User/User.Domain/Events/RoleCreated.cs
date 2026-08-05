@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Events;
+namespace NovaCore.User.Domain.Events;
 
 /// <summary>
 /// Payload shape for "a UserRole was created". No IDomainEvent base exists yet anywhere in this

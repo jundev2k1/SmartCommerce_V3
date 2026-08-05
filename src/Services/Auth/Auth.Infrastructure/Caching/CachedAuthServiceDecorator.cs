@@ -1,6 +1,6 @@
-using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using NovaCore.Auth.Application.Abstractions.Auth;
 
-namespace SmartEcommerce.Auth.Infrastructure.Caching;
+namespace NovaCore.Auth.Infrastructure.Caching;
 
 /// <summary>
 /// Decorator for IAuthService that adds transparent caching for role-related queries.

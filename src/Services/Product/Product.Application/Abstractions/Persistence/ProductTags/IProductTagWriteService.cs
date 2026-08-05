@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
+namespace NovaCore.Product.Application.Abstractions.Persistence.ProductTags;
 
 public interface IProductTagWriteService
 {

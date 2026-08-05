@@ -1,4 +1,4 @@
-# SimpleShop - Credentials & Access Information
+# NovaCore - Credentials & Access Information
 
 **⚠️ IMPORTANT:** These are development credentials. Change them in `.env` before deploying to production!
 
@@ -11,12 +11,12 @@
 Host:     localhost
 Port:     5432
 Username: postgres
-Password: SimpleShop@Postgres2024
+Password: NovaCore@Postgres2024
 ```
 
 **Connection String (Development):**
 ```
-Server=localhost;Port=5432;Database=auth_db;User Id=postgres;Password=SimpleShop@Postgres2024;
+Server=localhost;Port=5432;Database=auth_db;User Id=postgres;Password=NovaCore@Postgres2024;
 ```
 
 ---
@@ -26,12 +26,12 @@ Server=localhost;Port=5432;Database=auth_db;User Id=postgres;Password=SimpleShop
 Host:     localhost
 Port:     27017
 Username: admin
-Password: SimpleShop@MongoDB2024
+Password: NovaCore@MongoDB2024
 ```
 
 **Connection String (Development):**
 ```
-mongodb://admin:SimpleShop@MongoDB2024@localhost:27017/
+mongodb://admin:NovaCore@MongoDB2024@localhost:27017/
 ```
 
 ---
@@ -48,8 +48,8 @@ Note:     No authentication required for local development
 ### PgAdmin (PostgreSQL Management)
 ```
 URL:      http://localhost:5050
-Email:    admin@simpleshop.local
-Password: SimpleShop@PgAdmin2024
+Email:    admin@novacore.local
+Password: NovaCore@PgAdmin2024
 ```
 
 ### Mongo Express (MongoDB Management)
@@ -92,10 +92,10 @@ Note:     Auto-authenticated with MongoDB credentials
 
 **Key variables:**
 ```env
-POSTGRES_PASSWORD=SimpleShop@Postgres2024
-MONGO_INITDB_ROOT_PASSWORD=SimpleShop@MongoDB2024
-SEQ_FIRSTRUN_ADMINPASSWORD=SimpleShop@Seq2024
-PGADMIN_DEFAULT_PASSWORD=SimpleShop@PgAdmin2024
+POSTGRES_PASSWORD=NovaCore@Postgres2024
+MONGO_INITDB_ROOT_PASSWORD=NovaCore@MongoDB2024
+SEQ_FIRSTRUN_ADMINPASSWORD=NovaCore@Seq2024
+PGADMIN_DEFAULT_PASSWORD=NovaCore@PgAdmin2024
 ```
 
 ---
@@ -112,7 +112,7 @@ curl http://localhost:8081
 
 # Via command line
 psql -h localhost -U postgres -d auth_db
-mongosh --authenticationDatabase admin -u admin -p SimpleShop@MongoDB2024
+mongosh --authenticationDatabase admin -u admin -p NovaCore@MongoDB2024
 ```
 
 ### View Logs
@@ -131,7 +131,7 @@ docker-compose logs -f auth-api
 docker exec postgres psql -U postgres -c "SELECT version();"
 
 # MongoDB
-docker exec mongo mongosh --authenticationDatabase admin -u admin -p SimpleShop@MongoDB2024 --eval "db.adminCommand('ping')"
+docker exec mongo mongosh --authenticationDatabase admin -u admin -p NovaCore@MongoDB2024 --eval "db.adminCommand('ping')"
 
 # Redis
 docker exec redis redis-cli ping
@@ -207,7 +207,7 @@ docker exec mongo mongosh --version
 
 ### Forgot a password?
 1. Stop the service: `docker-compose down`
-2. Remove the volume: `docker volume rm simpleshop_postgres_data` (or mongo_data, etc.)
+2. Remove the volume: `docker volume rm novacore_postgres_data` (or mongo_data, etc.)
 3. Update `.env` with new password
 4. Start services: `docker-compose up -d`
 

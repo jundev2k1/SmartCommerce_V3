@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
-using SmartEcommerce.Product.Persistence.Engine;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductTags;
+using NovaCore.Product.Persistence.Engine;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.ProductTags.Read;
+namespace NovaCore.Product.Persistence.Contexts.ProductTags.Read;
 
 public sealed class ProductTagReadService(
     IRepository<ProductTag, Guid> repo,

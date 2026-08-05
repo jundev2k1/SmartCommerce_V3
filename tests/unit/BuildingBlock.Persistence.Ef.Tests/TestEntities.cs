@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Tests;
 
 public sealed class TestOrder : BaseEntity<Guid>, IAuditable
 {

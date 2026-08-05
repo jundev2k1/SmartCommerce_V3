@@ -1,15 +1,15 @@
 using System.Diagnostics;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-using SmartEcommerce.BuildingBlock.Domain.Extensions;
-using AppException = SmartEcommerce.BuildingBlock.Application.Exceptions.ApplicationException;
-using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
-using DomainEx = SmartEcommerce.BuildingBlock.Domain.Exceptions.DomainException;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.Domain.Extensions;
+using AppException = NovaCore.BuildingBlock.Application.Exceptions.ApplicationException;
+using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
+using DomainEx = NovaCore.BuildingBlock.Domain.Exceptions.DomainException;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.ExceptionHandling;
+namespace NovaCore.BuildingBlock.Infrastructure.ExceptionHandling;
 
 /// <summary>
 /// Shared exception handling utility for all services.

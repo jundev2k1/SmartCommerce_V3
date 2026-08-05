@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventorySerials;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventorySerials;
 
 public interface IInventorySerialWriteService
 {

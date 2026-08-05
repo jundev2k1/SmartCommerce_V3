@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Criteria.Validation;
+using NovaCore.BuildingBlock.Criteria.Validation;
 
 using FluentValidation;
 
-using SmartEcommerce.Inventory.Application.Features.Inventories.Search;
+using NovaCore.Inventory.Application.Features.Inventories.Search;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.SearchInventories;
+namespace NovaCore.Inventory.Application.Features.Inventories.Queries.SearchInventories;
 
 public sealed class SearchInventoriesValidator : AbstractValidator<SearchInventoriesQuery>
 {

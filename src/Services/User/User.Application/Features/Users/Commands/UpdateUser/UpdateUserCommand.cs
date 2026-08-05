@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
+namespace NovaCore.User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed record UpdateUserCommand(
     Guid UserId,

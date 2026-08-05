@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Domain.Exceptions;
 
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence;
 
 /// <summary>
 /// Handles optimistic concurrency conflicts (xmin version mismatches) with automatic retry.

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 
 public static class HeaderKeyConstant
 {
@@ -10,7 +10,7 @@ public static class HeaderKeyConstant
 
     /// <summary>
     /// Reuses the standard HTTP header rather than inventing a custom one - the frontend already
-    /// sends `Accept-Language` on every request (see SimpleShopUI's shared Axios client), so no
+    /// sends `Accept-Language` on every request (see NovaCoreUI's shared Axios client), so no
     /// frontend change is needed for this to start flowing.
     /// </summary>
     public const string Locale = "Accept-Language";

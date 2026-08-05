@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
+using NovaCore.Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
 
-namespace SmartEcommerce.Notification.API.Endpoints.NotificationDispatch;
+namespace NovaCore.Notification.API.Endpoints.NotificationDispatch;
 
 /// <summary>Ops visibility only - no Create endpoint. Dispatches are meant to be produced internally when a NotificationRule/NotificationCampaign executes (not implemented yet).</summary>
 public sealed class GetDispatch : ICarterModule

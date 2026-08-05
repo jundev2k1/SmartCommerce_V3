@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Saga.Abstractions;
 
-using SmartEcommerce.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+namespace NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
 /// <summary>
 /// Saga Step 1 (see PHASE 6 of the CreateOrder workflow). Calls Inventory's gRPC DeductStock,

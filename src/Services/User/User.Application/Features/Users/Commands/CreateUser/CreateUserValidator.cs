@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using SmartEcommerce.User.Application.Common.Regex;
+using NovaCore.User.Application.Common.Regex;
 
-namespace SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
+namespace NovaCore.User.Application.Features.Users.Commands.CreateUser;
 
 public sealed class CreateUserValidator : AbstractValidator<CreateUserCommand>
 {

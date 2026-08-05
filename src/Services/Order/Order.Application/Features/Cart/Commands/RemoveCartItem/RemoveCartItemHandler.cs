@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Order.Application.Features.Cart.Commands.RemoveCartItem;
+namespace NovaCore.Order.Application.Features.Cart.Commands.RemoveCartItem;
 
 public sealed class RemoveCartItemHandler(
     ICurrentUserService currentUser,

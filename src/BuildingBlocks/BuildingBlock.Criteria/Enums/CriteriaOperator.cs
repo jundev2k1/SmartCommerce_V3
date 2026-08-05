@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Enums;
+namespace NovaCore.BuildingBlock.Criteria.Enums;
 
 [JsonConverter(typeof(CriteriaOperatorJsonConverter))]
 public enum CriteriaOperator

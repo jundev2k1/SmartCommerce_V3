@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
 
 public sealed class ReceiveInventoryValidator : AbstractValidator<ReceiveInventoryCommand>
 {

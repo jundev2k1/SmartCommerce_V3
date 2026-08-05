@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Contract.Events.Order;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Abstractions.Services;
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Features.Orders.DTOs;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CreateOrder;
+namespace NovaCore.Order.Application.Features.Orders.Commands.CreateOrder;
 
 public sealed class CreateOrderHandler(
     ICurrentUserService currentUser,

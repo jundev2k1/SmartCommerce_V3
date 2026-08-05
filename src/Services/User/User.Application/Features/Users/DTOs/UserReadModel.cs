@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Text;
+using NovaCore.BuildingBlock.SharedKernel.Text;
 
-namespace SmartEcommerce.User.Application.Features.Users.DTOs;
+namespace NovaCore.User.Application.Features.Users.DTOs;
 
 /// <summary>
 /// Flat read-model projection of the User aggregate (Username/DisplayName + Profile.PersonalName

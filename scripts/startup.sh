@@ -9,7 +9,7 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}"
 echo "╔════════════════════════════════════════╗"
-echo "║   SimpleShop Docker Startup Script     ║"
+echo "║   NovaCore Docker Startup Script     ║"
 echo "╚════════════════════════════════════════╝"
 echo -e "${NC}"
 

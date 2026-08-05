@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Domain.Regexes;
+using NovaCore.Order.Domain.Regexes;
 
-namespace SmartEcommerce.Order.Domain.ValueObjects;
+namespace NovaCore.Order.Domain.ValueObjects;
 
 public sealed class OrderNumber : StringValueObject
 {

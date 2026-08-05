@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Persistence.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Outbox;
 
 /// <summary>
 /// Broker-agnostic, persistence-level outbox store interface.

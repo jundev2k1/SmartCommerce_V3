@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.ProductTags.Queries.GetProductTag;
+namespace NovaCore.Product.Application.Features.ProductTags.Queries.GetProductTag;
 
 public sealed record GetProductTagQuery(Guid ProductTagId) : IQuery<GetProductTagResponse>;
 

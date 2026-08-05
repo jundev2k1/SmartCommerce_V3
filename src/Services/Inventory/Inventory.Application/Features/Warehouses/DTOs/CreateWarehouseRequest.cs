@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.DTOs;
+namespace NovaCore.Inventory.Application.Features.Warehouses.DTOs;
 
 public sealed record CreateWarehouseRequest(
     string Code,

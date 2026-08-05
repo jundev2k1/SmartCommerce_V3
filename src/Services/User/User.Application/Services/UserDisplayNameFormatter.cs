@@ -1,6 +1,6 @@
-using SmartEcommerce.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Application.Services;
+namespace NovaCore.User.Application.Services;
 
 public sealed class UserDisplayNameFormatter : IUserDisplayNameFormatter
 {

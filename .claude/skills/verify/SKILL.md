@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Production readiness verification for SimpleShop — deterministic rule/architecture/pattern violation detection with severity classification, across any target from a single handler to the whole solution
+description: Production readiness verification for NovaCore — deterministic rule/architecture/pattern violation detection with severity classification, across any target from a single handler to the whole solution
 ---
 
 ## Purpose

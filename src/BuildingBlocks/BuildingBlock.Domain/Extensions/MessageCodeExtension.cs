@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using SmartEcommerce.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Extensions;
+namespace NovaCore.BuildingBlock.Domain.Extensions;
 
 public static class MessageCodeExtension
 {

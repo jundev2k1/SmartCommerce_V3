@@ -26,4 +26,4 @@ Confirmed on the frontend side too: `UsersPage.tsx:105-109` renders a disabled `
 - `DELETE /profiles/{userId}` exists, admin-only, returns success on delete.
 - Behavior with existing Orders referencing the user is explicit and tested (not left ambiguous).
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task5_customer-delete-button-disabled.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task5_customer-delete-button-disabled.md`.

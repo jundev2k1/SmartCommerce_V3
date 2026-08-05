@@ -2,7 +2,7 @@ using Carter;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Web.Carter;
+namespace NovaCore.BuildingBlock.Web.Carter;
 
 public static class CarterExtensions
 {

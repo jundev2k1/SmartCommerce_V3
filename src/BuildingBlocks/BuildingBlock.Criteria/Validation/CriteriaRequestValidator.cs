@@ -1,10 +1,10 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Validation;
+namespace NovaCore.BuildingBlock.Criteria.Validation;
 
 /// <summary>
 /// Validates a <see cref="CriteriaRequest"/> against a <see cref="CriteriaDefinition{TEntity}"/> before any query is

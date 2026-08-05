@@ -1,30 +1,30 @@
-using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
-using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Domain.Entities.Invitations;
-using SmartEcommerce.Auth.Domain.Entities.Permissions;
-using SmartEcommerce.Auth.Domain.Entities.Positions;
-using SmartEcommerce.Auth.Domain.Entities.Roles;
-using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Read;
-using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
-using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Write;
-using SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Read;
-using SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Write;
-using SmartEcommerce.Auth.Persistence.Engine;
-using SmartEcommerce.Auth.Persistence.Engine.UnitOfWork;
-using SmartEcommerce.Auth.Persistence.Reliability.Inbox;
-using SmartEcommerce.Auth.Persistence.Reliability.Outbox;
-using SmartEcommerce.Auth.Persistence.Storage.Seeders;
+using NovaCore.Auth.Application.Abstractions.Persistence.Accounts;
+using NovaCore.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.Entities.Invitations;
+using NovaCore.Auth.Domain.Entities.Permissions;
+using NovaCore.Auth.Domain.Entities.Positions;
+using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.Auth.Persistence.Contexts.Accounts.Read;
+using NovaCore.Auth.Persistence.Contexts.Accounts.Repositories;
+using NovaCore.Auth.Persistence.Contexts.Accounts.Write;
+using NovaCore.Auth.Persistence.Contexts.RefreshTokens.Read;
+using NovaCore.Auth.Persistence.Contexts.RefreshTokens.Write;
+using NovaCore.Auth.Persistence.Engine;
+using NovaCore.Auth.Persistence.Engine.UnitOfWork;
+using NovaCore.Auth.Persistence.Reliability.Inbox;
+using NovaCore.Auth.Persistence.Reliability.Outbox;
+using NovaCore.Auth.Persistence.Storage.Seeders;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Extensions;
-using SmartEcommerce.BuildingBlock.Persistence.Audit;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Extensions;
+using NovaCore.BuildingBlock.Persistence.Audit;
+using NovaCore.BuildingBlock.Persistence.Ef.DependencyInjection;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,7 +34,7 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-namespace SmartEcommerce.Auth.Persistence;
+namespace NovaCore.Auth.Persistence;
 
 public static class DependencyInjection
 {
@@ -178,10 +178,10 @@ public static class DependencyInjection
             .AddEfDeadLetterQueryService<AuthDbContext>();
 
         services.AddScoped<IOutboxStore>(sp => new OutboxStore(
-            sp.GetRequiredService<SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore>(),
+            sp.GetRequiredService<NovaCore.BuildingBlock.Persistence.Outbox.IOutboxStore>(),
             "auth-service"));
         services.AddScoped<IInboxStore>(sp => new InboxStore(
-            sp.GetRequiredService<SmartEcommerce.BuildingBlock.Persistence.Inbox.IInboxStore>()));
+            sp.GetRequiredService<NovaCore.BuildingBlock.Persistence.Inbox.IInboxStore>()));
 
         return services;
     }

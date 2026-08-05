@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
+namespace NovaCore.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 public sealed class UpdateOrderOwnerInfoHandler(
     ICurrentUserService currentUser,

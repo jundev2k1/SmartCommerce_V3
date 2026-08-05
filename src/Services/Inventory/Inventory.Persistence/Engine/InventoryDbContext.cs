@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Persistence.Engine;
+namespace NovaCore.Inventory.Persistence.Engine;
 
 public sealed class InventoryDbContext(DbContextOptions<InventoryDbContext> options)
     : DbContextBase(options),

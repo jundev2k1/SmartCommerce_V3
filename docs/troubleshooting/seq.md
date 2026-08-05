@@ -24,7 +24,7 @@ Then check the emitting service: confirm its `SEQ_URL` env var resolves to `http
 
 ```bash
 docker-compose down
-docker volume rm simpleshop_seq_data   # only if you're OK losing existing logs
+docker volume rm novacore_seq_data   # only if you're OK losing existing logs
 docker-compose up -d seq
 ```
 

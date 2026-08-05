@@ -1,4 +1,4 @@
-using SmartEcommerce.BuildingBlock.Grpc.Interceptors;
+using NovaCore.BuildingBlock.Grpc.Interceptors;
 
 using Grpc.AspNetCore.Server;
 using Grpc.Health.V1;
@@ -7,7 +7,7 @@ using Grpc.HealthCheck;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Grpc.Server;
+namespace NovaCore.BuildingBlock.Grpc.Server;
 
 /// <summary>
 /// Extension methods for registering gRPC server services.

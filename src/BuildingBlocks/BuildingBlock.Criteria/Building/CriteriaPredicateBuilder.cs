@@ -2,12 +2,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Criteria.Strategies;
+using NovaCore.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Criteria.Strategies;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Building;
+namespace NovaCore.BuildingBlock.Criteria.Building;
 
 /// <summary>
 /// Turns a <see cref="CriteriaRequest"/> + <see cref="CriteriaDefinition{TEntity}"/> into a plain

@@ -1,6 +1,6 @@
 # Task 5: Add list/search endpoints for Warehouse, Inventory, and stock transactions
 
-**Scope:** SimpleShopUI's `docs/tasks/2026-07-22/Task7_inventory-warehouse-notification-integration-gaps.md` (item 2) reports Warehouse/Inventory/Stock-Transaction admin list pages sourced from browser `localStorage` id-tracking instead of the backend, because "the backend has no list/search endpoint for Warehouse or Inventory at all." Confirmed true by re-reading `Inventory.API/Endpoints/` directly — genuinely no `Search`/`List` file exists there, unlike User (see Task 4 — User's equivalent gap turned out to already be fixed; Inventory's has not been touched at all).
+**Scope:** NovaCoreUI's `docs/tasks/2026-07-22/Task7_inventory-warehouse-notification-integration-gaps.md` (item 2) reports Warehouse/Inventory/Stock-Transaction admin list pages sourced from browser `localStorage` id-tracking instead of the backend, because "the backend has no list/search endpoint for Warehouse or Inventory at all." Confirmed true by re-reading `Inventory.API/Endpoints/` directly — genuinely no `Search`/`List` file exists there, unlike User (see Task 4 — User's equivalent gap turned out to already be fixed; Inventory's has not been touched at all).
 
 ## Confirmed gap
 
@@ -10,7 +10,7 @@ The Read-service abstractions already have the same shape User's had *before* it
 
 - `IWarehouseReadService` (`Inventory.Application/Abstractions/Persistence/Warehouses/IWarehouseReadService.cs`): `GetByIdAsync`, `GetByCodeAsync`.
 - `IInventoryReadService` (`Inventory.Application/Abstractions/Persistence/Inventories/IInventoryReadService.cs`): id/product-scoped lookups only (backs `GetInventory`/`GetProductStock`).
-- `IInventoryTransactionReadService` (`Inventory.Application/Abstractions/Persistence/InventoryTransactions/IInventoryTransactionReadService.cs`): backs `GetInventoryHistory`, scoped to one `inventoryId` — there is no cross-inventory transaction list. SimpleShopUI's `inventory.queries.ts` (`useTransactionsForInventoryIds`) already works around this by calling `GetInventoryHistory` once per known inventory id and merging client-side — its own comment says outright: *"there's no single 'list all transactions' endpoint."*
+- `IInventoryTransactionReadService` (`Inventory.Application/Abstractions/Persistence/InventoryTransactions/IInventoryTransactionReadService.cs`): backs `GetInventoryHistory`, scoped to one `inventoryId` — there is no cross-inventory transaction list. NovaCoreUI's `inventory.queries.ts` (`useTransactionsForInventoryIds`) already works around this by calling `GetInventoryHistory` once per known inventory id and merging client-side — its own comment says outright: *"there's no single 'list all transactions' endpoint."*
 
 So this is really **three** missing list/search surfaces, not one: Warehouses, Inventory records, and Inventory transactions (stock movements) each need their own.
 
@@ -39,10 +39,10 @@ No new design needed — copy the shape that already ships for User, using the s
 
 ## Open decision: authorization policy
 
-Every existing Inventory mutation endpoint (`CreateWarehouse`, `StockIn`/`StockOut`/`AdjustStock`, `GetWarehouse`) is `RequireAdmin`; `GetInventory`/`GetProductStock` are `RequireAuthenticated` (broader — any logged-in caller can check stock). User's `SearchUsers` is `RequireAdmin`. Since SimpleShopUI's Warehouse/Inventory/Stock-Transaction *list* pages are admin-dashboard-only screens (not customer-facing, unlike Shop/Cart), `RequireAdmin` on all three new search endpoints is the consistent default — flag if a broader read audience turns out to be needed.
+Every existing Inventory mutation endpoint (`CreateWarehouse`, `StockIn`/`StockOut`/`AdjustStock`, `GetWarehouse`) is `RequireAdmin`; `GetInventory`/`GetProductStock` are `RequireAuthenticated` (broader — any logged-in caller can check stock). User's `SearchUsers` is `RequireAdmin`. Since NovaCoreUI's Warehouse/Inventory/Stock-Transaction *list* pages are admin-dashboard-only screens (not customer-facing, unlike Shop/Cart), `RequireAdmin` on all three new search endpoints is the consistent default — flag if a broader read audience turns out to be needed.
 
 ## Status
 
 Done. Built exactly as scoped: `SearchAsync` added to `IWarehouseReadService`/`IInventoryReadService`/`IInventoryTransactionReadService`, one `CriteriaDefinition` per aggregate, three Query/Handler/Validator triads, three Carter endpoints (`POST /warehouses/search`, `POST /inventories/search`, `POST /inventory-transactions/search`), all `RequireAdmin` as recommended. Added supporting indexes (migration `AddSearchIndexes`): `WarehouseId` on `Inventory`; `ProductId`/`ProductVariationId`/`WarehouseId`/`Type` on `InventoryTransaction`. `Inventory.Application` needed a new `BuildingBlock.Criteria` project reference (User already had it). Also added `InventoryDbContextFactory` (`Inventory.API`) - Inventory was the one service missing a design-time `IDesignTimeDbContextFactory`, so `dotnet ef migrations add` was booting the full app host (Kafka, Hangfire, ...) and failing; now matches Order/User's existing pattern. `docs/services/inventory-service.md` updated (routes table + new bullet under "Inventory-specific building blocks").
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-22/Task7_inventory-warehouse-notification-integration-gaps.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-22/Task7_inventory-warehouse-notification-integration-gaps.md`.

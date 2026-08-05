@@ -2,12 +2,12 @@ using System.Reflection;
 
 using MongoDB.Bson.Serialization;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Serialization;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Serialization;
 
 /// <summary>
 /// Registers a BsonClassMap for a Domain value object shaped like this codebase's convention:
 /// public get-only properties, populated only through a private constructor (see e.g.
-/// SmartEcommerce.Notification.Domain.ValueObjects.NotificationCategory). Without this, MongoDB's default
+/// NovaCore.Notification.Domain.ValueObjects.NotificationCategory). Without this, MongoDB's default
 /// BsonClassMap.AutoMap() does not map get-only properties at all - the value object round-trips
 /// as an empty subdocument, silently dropping every field on write (confirmed empirically against
 /// MongoDB.Driver 3.10.0 - see docs/tasks/2026-07-22/Task2_notification-list-null-fields.md).

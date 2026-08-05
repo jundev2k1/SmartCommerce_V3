@@ -1,7 +1,7 @@
-using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
-using SmartEcommerce.Inventory.Domain.Metadata;
+using NovaCore.Inventory.Domain.Entities.Warehouses;
+using NovaCore.Inventory.Domain.Metadata;
 
-namespace SmartEcommerce.Inventory.Domain.Entities.Inventories;
+namespace NovaCore.Inventory.Domain.Entities.Inventories;
 
 /// <summary>Per-warehouse stock level for a single product variant.</summary>
 public sealed class InventoryStock : AggregateRoot<Guid>, IAuditable

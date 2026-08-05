@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationGroups;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
+namespace NovaCore.Notification.Application.Features.NotificationGroups.Queries.ListNotificationGroups;
 
 public sealed class ListNotificationGroupsHandler(INotificationGroupReadService notificationGroupReadService)
     : IQueryHandler<ListNotificationGroupsQuery, PaginatedResult<NotificationGroupSummaryResponse>>

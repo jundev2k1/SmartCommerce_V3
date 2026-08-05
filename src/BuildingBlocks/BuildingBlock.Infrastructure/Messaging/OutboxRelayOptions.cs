@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
+namespace NovaCore.BuildingBlock.Infrastructure.Messaging;
 
 public sealed class OutboxRelayOptions
 {

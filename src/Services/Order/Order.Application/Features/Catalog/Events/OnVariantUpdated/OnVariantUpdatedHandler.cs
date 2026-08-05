@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantUpdated;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnVariantUpdated;
 
 public sealed class OnVariantUpdatedHandler(
     IUnitOfWork uow,

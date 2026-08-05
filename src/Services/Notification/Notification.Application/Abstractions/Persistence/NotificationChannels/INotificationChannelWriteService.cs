@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
+namespace NovaCore.Notification.Application.Abstractions.Persistence.NotificationChannels;
 
 public interface INotificationChannelWriteService
 {

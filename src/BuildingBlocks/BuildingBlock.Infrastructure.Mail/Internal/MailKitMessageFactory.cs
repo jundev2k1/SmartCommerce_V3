@@ -1,7 +1,7 @@
 using MimeKit;
 using MimeKit.Utils;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Internal;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Internal;
 
 internal static class MailKitMessageFactory
 {

@@ -1,9 +1,9 @@
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Facade;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Application.Features.UserNotifications.DTOs;
+using NovaCore.Notification.Infrastructure.SignalR.Facade;
+using NovaCore.Notification.Infrastructure.SignalR.Hubs.Global;
 
-namespace SmartEcommerce.Notification.Infrastructure.Delivery;
+namespace NovaCore.Notification.Infrastructure.Delivery;
 
 public sealed class SignalRRealtimeNotifier(
     ActorHubFacade<GlobalHub, IGlobalHubClient, IGlobalHubClient> hub) : IRealtimeNotifier

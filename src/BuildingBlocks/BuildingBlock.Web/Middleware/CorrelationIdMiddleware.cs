@@ -1,11 +1,11 @@
 using System.Diagnostics;
 
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.BuildingBlock.Web.Middleware;
+namespace NovaCore.BuildingBlock.Web.Middleware;
 
 public sealed class CorrelationIdMiddleware(RequestDelegate next)
 {

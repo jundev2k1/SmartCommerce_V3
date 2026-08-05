@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Abstractions.Services;
+namespace NovaCore.User.Application.Abstractions.Services;
 
 /// <summary>
 /// Formats a person's name for display, locale-aware, without ever persisting the formatted result -

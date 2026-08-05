@@ -1,4 +1,4 @@
-using SmartEcommerce.BuildingBlock.Application;
+using NovaCore.BuildingBlock.Application;
 using FluentValidation;
 
 using Mapster;
@@ -7,7 +7,7 @@ using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Notification.Application;
+namespace NovaCore.Notification.Application;
 
 public static class DependencyInjection
 {

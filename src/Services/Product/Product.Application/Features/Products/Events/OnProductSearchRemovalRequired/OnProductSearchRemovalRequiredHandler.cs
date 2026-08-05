@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-using SmartEcommerce.Product.Application.Abstractions.Search;
+using NovaCore.Product.Application.Abstractions.Search;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchRemovalRequired;
+namespace NovaCore.Product.Application.Features.Products.Events.OnProductSearchRemovalRequired;
 
 public sealed class OnProductSearchRemovalRequiredHandler(IProductSearchIndexer searchIndexer)
     : IInternalEventHandler<OnProductSearchRemovalRequiredEvent>

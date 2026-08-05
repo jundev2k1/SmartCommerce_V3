@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Users;
+namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>
 /// Owned 1:1 extension of User holding optional personal/demographic details. Split from User

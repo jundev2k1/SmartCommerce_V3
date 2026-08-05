@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Repository.Helpers;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Repository.Helpers;
 
 public static class PredicateExpressionBuilder
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Queries.GetProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Queries.GetProductCategory;
 
 public sealed record GetProductCategoryQuery(Guid ProductCategoryId) : IQuery<GetProductCategoryResponse>;
 

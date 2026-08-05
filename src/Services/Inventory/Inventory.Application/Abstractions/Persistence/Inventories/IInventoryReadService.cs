@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
 
 public interface IInventoryReadService
 {

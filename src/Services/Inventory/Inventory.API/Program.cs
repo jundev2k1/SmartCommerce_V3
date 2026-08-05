@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
-using SmartEcommerce.BuildingBlock.Observability.Logging;
-using SmartEcommerce.BuildingBlock.Observability.Tracing;
+using NovaCore.BuildingBlock.Infrastructure.Observability;
+using NovaCore.BuildingBlock.Messaging.Kafka.Tracing;
+using NovaCore.BuildingBlock.Observability.Logging;
+using NovaCore.BuildingBlock.Observability.Tracing;
 
 using Serilog;
 
-using SmartEcommerce.Inventory.API;
-using SmartEcommerce.Inventory.Application;
-using SmartEcommerce.Inventory.Infrastructure;
-using SmartEcommerce.Inventory.Persistence;
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.Inventory.API;
+using NovaCore.Inventory.Application;
+using NovaCore.Inventory.Infrastructure;
+using NovaCore.Inventory.Persistence;
+using NovaCore.Inventory.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "inventory-api"));

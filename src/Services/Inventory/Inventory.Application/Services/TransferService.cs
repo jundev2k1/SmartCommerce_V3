@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
-using SmartEcommerce.Inventory.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Domain.Exceptions;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
+using NovaCore.Inventory.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Inventory.Application.Services;
+namespace NovaCore.Inventory.Application.Services;
 
 /// <summary>
 /// Owns the complete warehouse transfer workflow: validates both warehouses, deducts from source, receives at destination.

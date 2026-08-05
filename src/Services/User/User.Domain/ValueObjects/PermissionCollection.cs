@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>
 /// Immutable set of permission strings (e.g. "product.product.read", "inventory.stock.adjust").

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Abstractions.Services;
+namespace NovaCore.Auth.Application.Abstractions.Services;
 
 /// <summary>
 /// Initializes the refresh token cache on application startup.

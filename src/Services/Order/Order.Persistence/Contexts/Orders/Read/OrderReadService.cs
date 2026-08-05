@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Persistence.Ef.Criteria;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Features.Orders.Search;
-using SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
-using SmartEcommerce.Order.Persistence.Engine;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Features.Orders.Search;
+using NovaCore.Order.Persistence.Contexts.Orders.Repositories;
+using NovaCore.Order.Persistence.Engine;
 
-namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Read;
+namespace NovaCore.Order.Persistence.Contexts.Orders.Read;
 
 public sealed class OrderReadService(
     IOrderRepository orderRepo,

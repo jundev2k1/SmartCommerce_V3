@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserDetail;
+namespace NovaCore.User.Application.Features.Users.Queries.GetUserDetail;
 
 public sealed class GetUserDetailHandler(
     ICurrentUserService currentUser,

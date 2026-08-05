@@ -6,5 +6,5 @@ global using System.Threading.Tasks;
 
 global using MongoDB.Driver;
 
-global using SmartEcommerce.Notification.Domain.Entities;
-global using SmartEcommerce.Notification.Domain.Enums;
+global using NovaCore.Notification.Domain.Entities;
+global using NovaCore.Notification.Domain.Enums;

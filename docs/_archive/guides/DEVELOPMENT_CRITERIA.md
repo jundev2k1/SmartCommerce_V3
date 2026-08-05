@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-07-09  
 **Purpose:** Establish consistent, measurable criteria for service development quality  
-**Applies to:** All microservice development in SimpleShop
+**Applies to:** All microservice development in NovaCore
 
 ---
 

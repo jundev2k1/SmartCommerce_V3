@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.Commands.DeleteUser;
+namespace NovaCore.User.Application.Features.Users.Commands.DeleteUser;
 
 public sealed record DeleteUserCommand(
     Guid UserId,

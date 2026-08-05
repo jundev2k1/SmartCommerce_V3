@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events;
+namespace NovaCore.BuildingBlock.Contract.Events;
 
 public interface IIntegrationEvent
 {

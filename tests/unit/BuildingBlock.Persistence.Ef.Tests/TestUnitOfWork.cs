@@ -1,5 +1,5 @@
-using SmartEcommerce.BuildingBlock.Persistence.Ef.UnitOfWork;
+using NovaCore.BuildingBlock.Persistence.Ef.UnitOfWork;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Tests;
 
 internal sealed class TestUnitOfWork(TestDbContext context) : EfUnitOfWork<TestDbContext>(context);

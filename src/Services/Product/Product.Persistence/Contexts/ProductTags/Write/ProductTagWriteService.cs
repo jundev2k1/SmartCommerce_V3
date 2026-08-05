@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductTags;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.ProductTags.Write;
+namespace NovaCore.Product.Persistence.Contexts.ProductTags.Write;
 
 public sealed class ProductTagWriteService(
     IRepository<ProductTag, Guid> repo,

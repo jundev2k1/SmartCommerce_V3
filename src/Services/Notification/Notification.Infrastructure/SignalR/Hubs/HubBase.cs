@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
-namespace SmartEcommerce.Notification.Infrastructure.SignalR.Hubs;
+namespace NovaCore.Notification.Infrastructure.SignalR.Hubs;
 
 public abstract class HubBase<T>()
     : Hub<T> where T : class, IAppHub

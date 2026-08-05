@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantCreated;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnVariantCreated;
 
 /// <summary>Keeps a local variation name/sku/price snapshot so CreateOrderHandler can validate and price requested variations without a synchronous call to Product Service.</summary>
 public sealed class OnVariantCreatedHandler(

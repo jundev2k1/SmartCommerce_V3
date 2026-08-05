@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.ListAuditLogs;
+namespace NovaCore.Audit.Application.Features.AuditLogs.Queries.ListAuditLogs;
 
 public sealed record ListAuditLogsQuery(
     string? Service,

@@ -4,10 +4,10 @@ global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-global using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-global using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+global using NovaCore.BuildingBlock.Domain.Abstractions;
+global using NovaCore.BuildingBlock.Domain.Exceptions;
+global using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-global using SmartEcommerce.User.Domain.Enums;
-global using SmartEcommerce.User.Domain.Metadata;
-global using SmartEcommerce.User.Domain.ValueObjects;
+global using NovaCore.User.Domain.Enums;
+global using NovaCore.User.Domain.Metadata;
+global using NovaCore.User.Domain.ValueObjects;

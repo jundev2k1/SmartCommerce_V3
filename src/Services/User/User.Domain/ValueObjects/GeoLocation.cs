@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>Geographic coordinates pinning a UserAddress on a map, e.g. for delivery routing.</summary>
 public sealed class GeoLocation : ValueObject

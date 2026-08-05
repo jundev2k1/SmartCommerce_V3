@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Domain.Metadata;
-using SmartEcommerce.User.Domain.Metadata;
+using NovaCore.BuildingBlock.Domain.Metadata;
+using NovaCore.User.Domain.Metadata;
 
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.User.Persistence.Configs;
+namespace NovaCore.User.Persistence.Configs;
 
 public sealed class UserConfig : IEntityTypeConfiguration<UserEntity>
 {

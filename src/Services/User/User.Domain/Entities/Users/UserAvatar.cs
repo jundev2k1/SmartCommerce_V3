@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Users;
+namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>
 /// Owned 1:1 pointer to the media asset used as the user's avatar. Version increments on every

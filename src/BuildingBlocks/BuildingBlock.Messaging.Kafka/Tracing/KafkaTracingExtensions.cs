@@ -1,6 +1,6 @@
 using OpenTelemetry.Trace;
 
-namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
+namespace NovaCore.BuildingBlock.Messaging.Kafka.Tracing;
 
 public static class KafkaTracingExtensions
 {

@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
-using SmartEcommerce.BuildingBlock.Persistence.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Persistence.Mongo.MongoContext;
+using NovaCore.BuildingBlock.Persistence.Outbox;
 
 using MongoDB.Driver;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Outbox;
 
 public sealed class MongoOutboxStore<TContext>(TContext context, ICurrentUserService currentUser) : IOutboxStore
     where TContext : MongoContextBase, IOutboxMongoContext

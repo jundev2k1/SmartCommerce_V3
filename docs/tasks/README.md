@@ -21,7 +21,7 @@ docs/tasks/
 
 - One task = one file. Filename: `Task<N>_<kebab-slug>.md`; `N` restarts at 1 in each new date folder.
 - A task file should state: the report as given (verbatim request/response payloads if any were provided), the grounded investigation (exact file:line citations, not paraphrase), and an explicit "open questions / not yet confirmed" section rather than papering over gaps.
-- Cross-reference the paired frontend task (SimpleShopUI's `docs/tasks/<date>/TaskN_*.md`) when a task originates from or affects the other repo — link it by relative description, both repos are siblings under `workspace/projects/`.
+- Cross-reference the paired frontend task (NovaCoreUI's `docs/tasks/<date>/TaskN_*.md`) when a task originates from or affects the other repo — link it by relative description, both repos are siblings under `workspace/projects/`.
 - Update the date folder's `PROGRESS.md` whenever a task's status changes. Keep it a todo list, not prose.
 - Update the top-level `PROGRESS.md` at the end of a session: one line per still-open task across all dates. No per-task detail — that belongs in the task file itself.
 - Once every task in a date folder is Done, leave the folder in place as a historical record; mark it closed in the top-level `PROGRESS.md` rather than deleting it.

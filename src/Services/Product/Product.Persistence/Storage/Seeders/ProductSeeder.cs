@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Persistence.Engine;
+using NovaCore.Product.Persistence.Engine;
 
-namespace SmartEcommerce.Product.Persistence.Storage.Seeders;
+namespace NovaCore.Product.Persistence.Storage.Seeders;
 
 public sealed class ProductSeeder(ProductDbContext context)
 {

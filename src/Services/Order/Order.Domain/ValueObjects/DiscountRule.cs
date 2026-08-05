@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Domain.ValueObjects;
+namespace NovaCore.Order.Domain.ValueObjects;
 
 public sealed class DiscountRule : ValueObject
 {

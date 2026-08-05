@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Owned child of Account - one enrolled second factor (TOTP app, SMS, email, or a backup-code

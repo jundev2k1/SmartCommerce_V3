@@ -1,8 +1,8 @@
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
-using SmartEcommerce.Inventory.Application.Features.InventoryReservations.DTOs;
-using SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventoryReservations;
+using NovaCore.Inventory.Application.Features.InventoryReservations.DTOs;
+using NovaCore.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Write;
+namespace NovaCore.Inventory.Persistence.Contexts.InventoryReservations.Write;
 
 /// <summary>
 /// Never calls IUnitOfWork itself - always invoked from within a caller-owned

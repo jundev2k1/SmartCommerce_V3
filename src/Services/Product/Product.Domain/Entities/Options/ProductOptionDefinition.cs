@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Options;
+namespace NovaCore.Product.Domain.Entities.Options;
 
 /// <summary>
 /// Independent, reusable catalog lookup - a globally shared option dimension (e.g. "Color",

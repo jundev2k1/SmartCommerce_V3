@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Product.Application.Features.Products.DTOs;
+using NovaCore.Product.Application.Features.Products.DTOs;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Mapping;
+namespace NovaCore.Product.Application.Features.Products.Mapping;
 
 public static class VariantMapping
 {

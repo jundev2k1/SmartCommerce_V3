@@ -1,8 +1,8 @@
-namespace SmartEcommerce.User.Application.Abstractions.Search;
+namespace NovaCore.User.Application.Abstractions.Search;
 
 /// <summary>
 /// Write-only access to the User Search index - the only place User's search sync/rebuild code
-/// is allowed to mutate Elasticsearch. Wraps SmartEcommerce.BuildingBlock.Search's generic indexer with the
+/// is allowed to mutate Elasticsearch. Wraps NovaCore.BuildingBlock.Search's generic indexer with the
 /// User index name/mapping/settings. See docs/reference/search.md.
 /// </summary>
 public interface IUserSearchIndexer

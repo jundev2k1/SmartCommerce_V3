@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Text;
+namespace NovaCore.BuildingBlock.SharedKernel.Text;
 
 public static class PhoneNormalizer
 {

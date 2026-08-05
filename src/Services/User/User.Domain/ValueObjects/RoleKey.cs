@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>Lowercase snake_case internal key for a UserRole (e.g. "warehouse_manager"). Language-independent,
 /// never translated, and never changed after creation - the localized display text lives on

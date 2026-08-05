@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Entities;
+namespace NovaCore.Notification.Domain.Entities;
 
 /// <summary>
 /// Answers "when EventType occurs, what notification actions should be created?" - e.g.

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
+namespace NovaCore.Notification.Application.Abstractions.Persistence.UserNotifications;
 
 public interface IUserNotificationReadService
 {

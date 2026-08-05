@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Users;
+namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>
 /// Owned child of User representing one saved delivery/billing location. A user may hold many;

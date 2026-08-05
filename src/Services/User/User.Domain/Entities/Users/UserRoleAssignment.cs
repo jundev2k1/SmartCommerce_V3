@@ -1,6 +1,6 @@
-using SmartEcommerce.User.Domain.Entities.Roles;
+using NovaCore.User.Domain.Entities.Roles;
 
-namespace SmartEcommerce.User.Domain.Entities.Users;
+namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>
 /// Owned child of User recording one grant of an independent UserRole - User never holds a Role

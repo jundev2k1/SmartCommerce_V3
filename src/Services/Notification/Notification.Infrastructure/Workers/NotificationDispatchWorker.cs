@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Jobs;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.Options;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationDispatches;
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Domain.Entities;
-using SmartEcommerce.Notification.Domain.Enums;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationDispatches;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Domain.Entities;
+using NovaCore.Notification.Domain.Enums;
 
-namespace SmartEcommerce.Notification.Infrastructure.Workers;
+namespace NovaCore.Notification.Infrastructure.Workers;
 
 /// <summary>
 /// Recurring job draining the NotificationDispatch queue (Pending, or Failed rows whose

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Abstractions;
 
 public abstract class AggregateRoot<TId> : BaseEntity<TId>
 {

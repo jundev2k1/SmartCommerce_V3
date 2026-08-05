@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateProduct;
+namespace NovaCore.Product.Application.Features.Products.Commands.UpdateProduct;
 
 public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {

@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
-using SmartEcommerce.BuildingBlock.Contract.Events;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Contract.Events;
 
-namespace SmartEcommerce.BuildingBlock.Messaging.Services;
+namespace NovaCore.BuildingBlock.Messaging.Services;
 
 public sealed class EventDispatcher(IEventPublisher eventPublisher) : IEventDispatcher
 {

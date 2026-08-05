@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Aggregate view of DeadLetter rows sharing the same (ConsumerName, Topic), returned by

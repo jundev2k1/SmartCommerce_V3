@@ -1,11 +1,11 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Persistence.Engine;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.Auth.Persistence.Storage.Seeders;
+namespace NovaCore.Auth.Persistence.Storage.Seeders;
 
 public class DatabaseSeeder(
     AuthDbContext context,

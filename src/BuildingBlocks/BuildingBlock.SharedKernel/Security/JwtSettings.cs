@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Security;
+namespace NovaCore.BuildingBlock.SharedKernel.Security;
 
 public sealed class JwtSettings
 {

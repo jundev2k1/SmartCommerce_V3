@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.Auth.Domain.ValueObjects;
+namespace NovaCore.Auth.Domain.ValueObjects;
 
 /// <summary>
 /// Permission identifier baked into JWT claims and checked by every service's

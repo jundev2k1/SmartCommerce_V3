@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
+using NovaCore.User.Application.Features.Users.Commands.UpdateUser;
 
-namespace SmartEcommerce.User.API.Endpoints;
+namespace NovaCore.User.API.Endpoints;
 
 public sealed record UpdateUserRequest(
     string FirstName,

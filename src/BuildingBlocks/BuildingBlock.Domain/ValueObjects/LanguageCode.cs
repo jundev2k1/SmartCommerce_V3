@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+namespace NovaCore.BuildingBlock.Domain.ValueObjects;
 
 public sealed class LanguageCode : StringValueObject
 {

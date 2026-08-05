@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Entities;
+namespace NovaCore.Notification.Domain.Entities;
 
 /// <summary>Element type for NotificationCampaign.Create's bulk factory - see RuleTargetCreateModel, same reasoning, campaign-scoped.</summary>
 public sealed record CampaignTargetCreateModel(NotificationChannelType Channel, Guid TemplateId, NotificationPriority Priority);

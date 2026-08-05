@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.Order.Application.Features.Orders.Commands.CreateOrder;
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Application.Features.Orders.Commands.CreateOrder;
+using NovaCore.Order.Application.Features.Orders.DTOs;
 
-namespace SmartEcommerce.Order.API.Endpoints.Order;
+namespace NovaCore.Order.API.Endpoints.Order;
 
 public sealed record AdminCreateOrderOwnerInfoRequest(
     Guid OwnerId,

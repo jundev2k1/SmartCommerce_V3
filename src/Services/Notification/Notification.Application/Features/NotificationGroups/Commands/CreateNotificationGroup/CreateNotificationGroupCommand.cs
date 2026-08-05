@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationGroups.Commands.CreateNotificationGroup;
+namespace NovaCore.Notification.Application.Features.NotificationGroups.Commands.CreateNotificationGroup;
 
 public sealed record CreateNotificationGroupCommand(
     string Name,

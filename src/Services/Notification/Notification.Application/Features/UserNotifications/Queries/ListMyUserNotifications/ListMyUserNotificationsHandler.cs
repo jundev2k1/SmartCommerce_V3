@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
+using NovaCore.Notification.Application.Abstractions.Persistence.UserNotifications;
 
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
 public sealed class ListMyUserNotificationsHandler(
     ICurrentUserService currentUser,

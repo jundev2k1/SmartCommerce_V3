@@ -1,11 +1,11 @@
-using SmartEcommerce.Auth.Domain.Entities.Permissions;
+using NovaCore.Auth.Domain.Entities.Permissions;
 
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class PermissionGroupTranslationConfig : IEntityTypeConfiguration<PermissionGroupTranslation>
 {

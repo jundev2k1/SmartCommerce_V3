@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.ReceiveInventory;
 
 public sealed record ReceiveInventoryItem(
     Guid VariantId,

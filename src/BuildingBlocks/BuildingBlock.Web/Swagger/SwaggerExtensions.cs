@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Web.Swagger.Filters;
+using NovaCore.BuildingBlock.Web.Swagger.Filters;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace SmartEcommerce.BuildingBlock.Web.Swagger;
+namespace NovaCore.BuildingBlock.Web.Swagger;
 
 public static class SwaggerExtensions
 {
@@ -22,7 +22,7 @@ public static class SwaggerExtensions
                 Description = options.ServiceDescription,
                 Contact = new OpenApiContact
                 {
-                    Name = "SimpleShop",
+                    Name = "NovaCore",
                     Url = new Uri(options.ContactUrl)
                 }
             });

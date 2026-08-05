@@ -1,19 +1,19 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Domain.Entities.Invitations;
-using SmartEcommerce.Auth.Domain.Entities.Permissions;
-using SmartEcommerce.Auth.Domain.Entities.Positions;
-using SmartEcommerce.Auth.Domain.Entities.Roles;
-using SmartEcommerce.Auth.Domain.Entities.TokenBlacklists;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.Entities.Invitations;
+using NovaCore.Auth.Domain.Entities.Permissions;
+using NovaCore.Auth.Domain.Entities.Positions;
+using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.Auth.Domain.Entities.TokenBlacklists;
 
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.Auth.Persistence.Engine;
+namespace NovaCore.Auth.Persistence.Engine;
 
 public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
     : IdentityDbContext<
@@ -65,7 +65,7 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
 
     // Identity Claims & Logins
     //
-    // AuthDbContext can't inherit SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext.DbContextBase - it must
+    // AuthDbContext can't inherit NovaCore.BuildingBlock.Persistence.Ef.DbContext.DbContextBase - it must
     // inherit IdentityDbContext instead, for ASP.NET Core Identity's own model configuration. It
     // reuses the same shared helpers DbContextBase uses internally rather than duplicating them.
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

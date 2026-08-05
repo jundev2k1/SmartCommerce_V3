@@ -1,6 +1,6 @@
 # Event Architecture
 
-SimpleShop uses a three-tier event architecture to decouple infrastructure concerns from business logic and enable async communication between services, plus an explicit consumer pattern for inbound Kafka messages.
+NovaCore uses a three-tier event architecture to decouple infrastructure concerns from business logic and enable async communication between services, plus an explicit consumer pattern for inbound Kafka messages.
 
 ## Event Type Hierarchy
 

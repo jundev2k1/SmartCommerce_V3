@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Application.Features.Products.DTOs;
+using NovaCore.Product.Application.Features.Products.DTOs;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.AddVariation;
+namespace NovaCore.Product.Application.Features.Products.Commands.AddVariation;
 
 public sealed record AddVariationCommand(
     Guid ProductId,

@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Strategies;
+namespace NovaCore.BuildingBlock.Criteria.Strategies;
 
 /// <summary>
 /// Encapsulates how a field with non-trivial query behavior (Phone, and future FullText/Json/Composite/Computed

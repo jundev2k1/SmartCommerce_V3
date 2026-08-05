@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Definition;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Admin search field whitelist for dead-lettered InboxMessage rows. Filters only cover native

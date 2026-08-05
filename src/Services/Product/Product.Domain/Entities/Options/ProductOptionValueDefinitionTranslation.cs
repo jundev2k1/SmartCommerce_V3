@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Options;
+namespace NovaCore.Product.Domain.Entities.Options;
 
 /// <summary>
 /// Owned child of ProductOptionValueDefinition - a locale-specific display name for the reusable

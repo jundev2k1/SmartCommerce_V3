@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
-using SmartEcommerce.BuildingBlock.Persistence.Inbox;
+using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
+using NovaCore.BuildingBlock.Persistence.Inbox;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 
 public static class InboxExtensions
 {

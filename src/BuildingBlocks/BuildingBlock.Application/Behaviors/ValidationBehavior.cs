@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 using FluentValidation;
 using MediatR;
 
-namespace SmartEcommerce.BuildingBlock.Application.Behaviors;
+namespace NovaCore.BuildingBlock.Application.Behaviors;
 
 public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>

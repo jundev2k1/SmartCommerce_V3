@@ -546,12 +546,12 @@ public static class DependencyInjection
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "SimpleShop User Service",
+                Title = "NovaCore User Service",
                 Version = "v1",
                 Description = "User Management Service API",
                 Contact = new OpenApiContact
                 {
-                    Name = "SimpleShop",
+                    Name = "NovaCore",
                     Url = new Uri("http://localhost:5101")
                 }
             });
@@ -707,7 +707,7 @@ Logging__Seq__Url=http://seq:5341
     - postgres
     - seq
   networks:
-    - simpleshop
+    - novacore
 ```
 
 ---

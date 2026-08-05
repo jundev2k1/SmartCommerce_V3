@@ -1,6 +1,6 @@
 # Task 1: Verify AddVariation contract against the frontend's "cannot create variation" report
 
-**Scope:** Backend-side double-check of Frontend Task 2 (SimpleShopUI `docs/tasks/2026-07-22/Task2_add-variation-cannot-create.md`) — confirm whether the Product service itself rejects the reported payload, and why.
+**Scope:** Backend-side double-check of Frontend Task 2 (NovaCoreUI `docs/tasks/2026-07-22/Task2_add-variation-cannot-create.md`) — confirm whether the Product service itself rejects the reported payload, and why.
 
 ## Reported payload (from the frontend session)
 
@@ -77,4 +77,4 @@ Investigating this surfaced a genuine TOCTOU race: `AddVariationHandler.cs`'s `S
 
 **Resolved.** Both open questions answered; the TOCTOU race (the more likely actual cause of an intermittent repro) fixed and tested; error message improved. If "cannot create variation" still reproduces after this fix, it's a new/different issue — re-open with an actual captured HTTP status + response body next time.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-22/Task2_add-variation-cannot-create.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-22/Task2_add-variation-cannot-create.md`.

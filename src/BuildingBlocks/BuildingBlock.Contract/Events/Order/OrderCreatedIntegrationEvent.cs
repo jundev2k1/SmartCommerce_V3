@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Order;
+namespace NovaCore.BuildingBlock.Contract.Events.Order;
 
 /// <summary>
 /// Fired the moment a Pending order + its items are persisted (CreateOrderHandler), inside the

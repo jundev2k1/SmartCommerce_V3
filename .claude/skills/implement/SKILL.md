@@ -1,6 +1,6 @@
 ---
 name: implement
-description: Implement complete, production-ready SimpleShop features against existing architecture — CQRS, entities, endpoints, consumers, and more — TODO-marking only genuinely unknowable business rules
+description: Implement complete, production-ready NovaCore features against existing architecture — CQRS, entities, endpoints, consumers, and more — TODO-marking only genuinely unknowable business rules
 ---
 
 ## Purpose
@@ -32,7 +32,7 @@ Resolved per `<target>` against `../../framework/pattern-library.md` (always) �
 | `caching` | `docs/reference/caching.md`, `docs/04-coding-rules.md` (Caching section) | — |
 | `search` | `docs/reference/search.md` | — |
 
-**Always Forbidden:** the frontend repository (`SimpleShopUI`), any service other than the one named/inferable from `<Name>`'s context, `docs/_archive/**`.
+**Always Forbidden:** the frontend repository (`NovaCoreUI`), any service other than the one named/inferable from `<Name>`'s context, `docs/_archive/**`.
 
 ## Execution Rules
 1. **Resolve target and scope.** Parse `<target>` and `<Name>`; infer the target service from context (existing similar features, or ask if genuinely ambiguous).

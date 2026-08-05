@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Criteria</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Criteria</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Criteria</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Criteria</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

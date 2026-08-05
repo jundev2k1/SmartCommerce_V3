@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.StockIn;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.StockIn;
 
 public sealed record StockInCommand(
     Guid InventoryId,

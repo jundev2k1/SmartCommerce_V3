@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
-using SmartEcommerce.BuildingBlock.Observability.Logging;
-using SmartEcommerce.BuildingBlock.Observability.Tracing;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.DependencyInjection;
+using NovaCore.BuildingBlock.Infrastructure.Observability;
+using NovaCore.BuildingBlock.Messaging.Kafka.Tracing;
+using NovaCore.BuildingBlock.Observability.Logging;
+using NovaCore.BuildingBlock.Observability.Tracing;
+using NovaCore.BuildingBlock.Persistence.Mongo.DependencyInjection;
 
 using Serilog;
 
-using SmartEcommerce.Notification.API;
-using SmartEcommerce.Notification.Application;
-using SmartEcommerce.Notification.Infrastructure;
-using SmartEcommerce.Notification.Persistence;
+using NovaCore.Notification.API;
+using NovaCore.Notification.Application;
+using NovaCore.Notification.Infrastructure;
+using NovaCore.Notification.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "notification-api"));
@@ -42,7 +42,7 @@ app.UseRedisTracing();
 // No migration step here - Mongo is schemaless. The "notifications" collection and its indexes
 // are created once by scripts/mongodb/init-mongo.js when the mongo container first initializes;
 // Outbox/Inbox collection indexes are created by NotificationMongoContext's constructor instead
-// (see SmartEcommerce.BuildingBlock.Persistence.Mongo's Outbox/Inbox EnsureXIndexes() extensions).
+// (see NovaCore.BuildingBlock.Persistence.Mongo's Outbox/Inbox EnsureXIndexes() extensions).
 
 app.UseApplication();
 

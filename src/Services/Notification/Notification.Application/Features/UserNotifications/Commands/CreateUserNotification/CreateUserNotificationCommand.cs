@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
 public sealed record CreateUserNotificationCommand(
     Guid UserId,

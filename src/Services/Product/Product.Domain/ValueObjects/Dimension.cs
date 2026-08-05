@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.ValueObjects;
+namespace NovaCore.Product.Domain.ValueObjects;
 
 /// <summary>Physical shipping dimensions, expressed in a single unit shared by all three measurements.</summary>
 public sealed class Dimension : ValueObject

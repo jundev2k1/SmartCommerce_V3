@@ -1,10 +1,10 @@
-using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Persistence.Engine;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Read;
+namespace NovaCore.Auth.Persistence.Contexts.RefreshTokens.Read;
 
 public sealed class RefreshTokenReadService(AuthDbContext dbContext) : IRefreshTokenReadService
 {

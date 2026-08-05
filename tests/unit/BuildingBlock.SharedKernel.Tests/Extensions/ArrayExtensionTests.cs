@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 using Shouldly;
 
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Tests.Extensions;
+namespace NovaCore.BuildingBlock.SharedKernel.Tests.Extensions;
 
 public class ArrayExtensionTests
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Events;
+namespace NovaCore.User.Domain.Events;
 
 /// <summary>
 /// Payload shape for "a UserRole's PermissionCollection changed" - carries the role's full

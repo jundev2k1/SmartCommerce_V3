@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.Products.DTOs;
+namespace NovaCore.Product.Application.Features.Products.DTOs;
 
 public sealed record VariantInputDto(
     string Sku,

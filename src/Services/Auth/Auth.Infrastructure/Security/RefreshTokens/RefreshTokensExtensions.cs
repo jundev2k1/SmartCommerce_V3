@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Application.Abstractions.Services;
-using SmartEcommerce.Auth.Infrastructure.Caching;
-using SmartEcommerce.Auth.Infrastructure.Security.RefreshTokens.Initialization;
+using NovaCore.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Infrastructure.Caching;
+using NovaCore.Auth.Infrastructure.Security.RefreshTokens.Initialization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Auth.Infrastructure.Security.RefreshTokens;
+namespace NovaCore.Auth.Infrastructure.Security.RefreshTokens;
 
 public static class RefreshTokensExtensions
 {

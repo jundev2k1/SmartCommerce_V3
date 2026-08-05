@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
 using Shouldly;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Tests.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Tests.Abstractions;
 
 file sealed class TestAggregate : AggregateRoot<Guid>;
 
 public class BaseEntityTests
 {
-    // Method is named "Tourch" (typo) in SmartEcommerce.BuildingBlock.Domain.Abstractions.BaseEntity<T> - test
+    // Method is named "Tourch" (typo) in NovaCore.BuildingBlock.Domain.Abstractions.BaseEntity<T> - test
     // matches the actual production API rather than the intended spelling.
     [Fact]
     public void Tourch_UpdatesUpdatedAt_ButNotCreatedAt()

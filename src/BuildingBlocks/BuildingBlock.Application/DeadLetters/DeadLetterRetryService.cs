@@ -1,14 +1,14 @@
 using System.Diagnostics;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Idempotency;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.BuildingBlock.Application.DeadLetters;
+namespace NovaCore.BuildingBlock.Application.DeadLetters;
 
 public sealed class DeadLetterRetryService(
     IInboxStore inboxStore,
@@ -83,7 +83,7 @@ public sealed class DeadLetterRetryService(
 
     /// <summary>
     /// Recovers the fields KafkaOutboxPublisher originally wrote as headers (see
-    /// SmartEcommerce.BuildingBlock.Messaging.Kafka.Publishers.KafkaOutboxPublisher) from the dedup-header JSON
+    /// NovaCore.BuildingBlock.Messaging.Kafka.Publishers.KafkaOutboxPublisher) from the dedup-header JSON
     /// captured on first delivery, so the republish carries the same event-type/correlation/actor
     /// metadata as the original publish.
     /// </summary>

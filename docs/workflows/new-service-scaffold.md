@@ -4,7 +4,7 @@
 
 ## 1. Projects
 
-Create five projects under `src/Services/{Service}/`, matching Auth's exact set: `{Service}.Domain`, `{Service}.Application`, `{Service}.Infrastructure`, `{Service}.Persistence`, `{Service}.API`. Add them to `SimpleShop.sln`. Reference chain per [02-architecture-rules.md](../02-architecture-rules.md#dependency-direction-must-never-be-violated):
+Create five projects under `src/Services/{Service}/`, matching Auth's exact set: `{Service}.Domain`, `{Service}.Application`, `{Service}.Infrastructure`, `{Service}.Persistence`, `{Service}.API`. Add them to `NovaCore.sln`. Reference chain per [02-architecture-rules.md](../02-architecture-rules.md#dependency-direction-must-never-be-violated):
 
 - `Domain` → `BuildingBlock.Domain`
 - `Application` → `Domain` + `BuildingBlock.Application`
@@ -49,5 +49,5 @@ Add a `Gateway:Services:{Key}` entry to `src/ApiGateways/YarpApiGateway/appsetti
 - [ ] Ports are `8080`/`5002` internal, nothing published directly (only the Gateway is)
 - [ ] `AddPresentation`/`UseApplication` use `AddBuildingBlockWeb`/`UseBuildingBlockWeb` — no hand-rolled Swagger/CORS/Carter/exception-handler code
 - [ ] `appsettings.json` has zero secrets/environment values
-- [ ] Registered in `SimpleShop.sln`, `docker-compose.yml`, `docker-compose.override.yml`, `.env`/`.env.template`, and the Gateway's `appsettings.json`
+- [ ] Registered in `NovaCore.sln`, `docker-compose.yml`, `docker-compose.override.yml`, `.env`/`.env.template`, and the Gateway's `appsettings.json`
 - [ ] `docs/services/{service}.md` created, following the shape of `services/auth-service.md`, and linked from `docs/README.md`

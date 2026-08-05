@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using NovaCore.BuildingBlock.Contract.Events.Audit;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
+namespace NovaCore.BuildingBlock.Persistence.Audit;
 
 /// <summary>
 /// Pure, provider-agnostic algorithm: turns a flat set of tracked entities into one <see cref="AuditGraphResult"/>

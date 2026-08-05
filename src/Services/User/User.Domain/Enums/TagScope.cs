@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Enums;
+namespace NovaCore.User.Domain.Enums;
 
 public enum TagScope : byte
 {

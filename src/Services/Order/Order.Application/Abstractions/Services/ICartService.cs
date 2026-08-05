@@ -1,7 +1,7 @@
-namespace SmartEcommerce.Order.Application.Abstractions.Services;
+namespace NovaCore.Order.Application.Abstractions.Services;
 
 /// <summary>
-/// Redis-backed per-user cart (see SmartEcommerce.Order.Infrastructure.Caching.CartService). Every operation is
+/// Redis-backed per-user cart (see NovaCore.Order.Infrastructure.Caching.CartService). Every operation is
 /// keyed by userId only - callers must resolve it from ICurrentUserService, never trust it from
 /// a request body/query param.
 /// </summary>

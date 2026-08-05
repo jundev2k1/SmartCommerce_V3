@@ -1,6 +1,6 @@
 ---
 name: inspect
-description: Single-aspect deep-dive inspection of SimpleShop code — performance, security, dependency, transaction, caching, architecture, cqrs, ddd, event, or persistence — current state, risks, recommendations
+description: Single-aspect deep-dive inspection of NovaCore code — performance, security, dependency, transaction, caching, architecture, cqrs, ddd, event, or persistence — current state, risks, recommendations
 ---
 
 ## Purpose

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 
-using SmartEcommerce.Auth.Domain.Entities.Roles;
+using NovaCore.Auth.Domain.Entities.Roles;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Owned child of Account - a many-to-many join between Account and Role, with a surrogate Id

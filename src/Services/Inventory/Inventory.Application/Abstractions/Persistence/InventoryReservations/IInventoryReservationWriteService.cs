@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventoryReservations;
 
 public interface IInventoryReservationWriteService
 {

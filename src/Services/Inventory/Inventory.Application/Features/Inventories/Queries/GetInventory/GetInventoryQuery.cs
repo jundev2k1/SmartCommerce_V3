@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetInventory;
+namespace NovaCore.Inventory.Application.Features.Inventories.Queries.GetInventory;
 
 public sealed record GetInventoryQuery(Guid InventoryId) : IQuery<GetInventoryResponse>;
 

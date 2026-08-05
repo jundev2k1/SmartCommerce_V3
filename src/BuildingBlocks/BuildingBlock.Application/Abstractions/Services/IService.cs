@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Services;
 
 /// <summary>
 /// Marker interface for application business services.

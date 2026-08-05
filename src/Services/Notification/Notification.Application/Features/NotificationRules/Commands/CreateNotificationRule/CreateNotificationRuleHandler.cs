@@ -1,6 +1,6 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationRules;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
+namespace NovaCore.Notification.Application.Features.NotificationRules.Commands.CreateNotificationRule;
 
 public sealed class CreateNotificationRuleHandler(
     INotificationRuleWriteService notificationRuleWriteService) : ICommandHandler<CreateNotificationRuleCommand, CreateNotificationRuleResponse>

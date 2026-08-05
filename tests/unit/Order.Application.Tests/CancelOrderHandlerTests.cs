@@ -1,13 +1,13 @@
 using NSubstitute;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Abstractions.Services;
-using SmartEcommerce.Order.Application.Features.Orders.Commands.CancelOrder;
-using SmartEcommerce.Order.Domain.Entities;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Features.Orders.Commands.CancelOrder;
+using NovaCore.Order.Domain.Entities;
 
 using Shouldly;
 
-namespace SmartEcommerce.Order.Application.Tests;
+namespace NovaCore.Order.Application.Tests;
 
 /// <summary>
 /// Regression coverage for B2: cancelling a Confirmed order (stock already deducted by

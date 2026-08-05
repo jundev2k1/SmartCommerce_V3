@@ -1,13 +1,13 @@
-using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
-using SmartEcommerce.Auth.Domain.Enums;
-using SmartEcommerce.Auth.Infrastructure.Caching;
+using NovaCore.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using NovaCore.Auth.Domain.Enums;
+using NovaCore.Auth.Infrastructure.Caching;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Jobs;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
 using Microsoft.Extensions.Options;
 
-namespace SmartEcommerce.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
+namespace NovaCore.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
 
 /// <summary>
 /// Flushes cached refresh token state to Postgres. Discovery is scan-free end to end:

@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Configurations;
-using SmartEcommerce.Inventory.Domain.Entities.Inventories;
-using SmartEcommerce.Inventory.Domain.Metadata;
+using NovaCore.BuildingBlock.Persistence.Ef.Configurations;
+using NovaCore.Inventory.Domain.Entities.Inventories;
+using NovaCore.Inventory.Domain.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Inventory.Persistence.Configs;
+namespace NovaCore.Inventory.Persistence.Configs;
 
 public sealed class InventoryConfig : IEntityTypeConfiguration<InventoryStock>
 {

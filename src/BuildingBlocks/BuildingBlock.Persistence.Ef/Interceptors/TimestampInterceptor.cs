@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
+using NovaCore.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Interceptors;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Interceptors;
 
 public sealed class TimestampInterceptor : ISaveChangesInterceptor
 {

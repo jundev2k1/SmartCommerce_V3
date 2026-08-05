@@ -1,11 +1,11 @@
 using Mapster;
 
-using SmartEcommerce.Product.Domain.ValueObjects;
+using NovaCore.Product.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Application.Common.Mapping;
+namespace NovaCore.Product.Application.Common.Mapping;
 
 /// <summary>
-/// Shared Value-Object-to-string conversion rules, reused by every SmartEcommerce.Product.Application feature
+/// Shared Value-Object-to-string conversion rules, reused by every NovaCore.Product.Application feature
 /// that maps a Domain entity carrying one of these VOs to a response DTO. Auto-discovered by
 /// Mapster's assembly scan (TypeAdapterConfig.GlobalSettings.Scan in DependencyInjection.cs) -
 /// no manual registration needed at each call site.

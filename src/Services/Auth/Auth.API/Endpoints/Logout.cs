@@ -1,8 +1,8 @@
-using SmartEcommerce.Auth.Application.Features.Auth.Commands.Logout;
+using NovaCore.Auth.Application.Features.Auth.Commands.Logout;
 
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.Auth.API.Endpoints;
+namespace NovaCore.Auth.API.Endpoints;
 
 public sealed class Logout : ICarterModule
 {

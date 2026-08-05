@@ -1,8 +1,8 @@
-namespace SmartEcommerce.Order.Domain.Entities.Orders.Data;
+namespace NovaCore.Order.Domain.Entities.Orders.Data;
 
 /// <summary>
 /// Everything Order.Create needs to build itself plus its Owner/Shipping/Items in one call - the
-/// Application/Persistence boundary builds this (see SmartEcommerce.Order.Persistence.Mapping.Orders.OrderMapper)
+/// Application/Persistence boundary builds this (see NovaCore.Order.Persistence.Mapping.Orders.OrderMapper)
 /// so Order.cs owns constructing its own child entities instead of receiving them pre-built.
 /// </summary>
 public sealed record CreateOrderData(

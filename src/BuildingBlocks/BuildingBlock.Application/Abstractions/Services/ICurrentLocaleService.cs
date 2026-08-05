@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Services;
 
 public interface ICurrentLocaleService
 {

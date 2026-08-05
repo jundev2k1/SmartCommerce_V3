@@ -1,5 +1,5 @@
-using SmartEcommerce.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Order.Application.Features.Cart.Queries.GetCart;
+namespace NovaCore.Order.Application.Features.Cart.Queries.GetCart;
 
 public sealed record GetCartQuery : IQuery<CartResponse>;

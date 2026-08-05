@@ -1,14 +1,14 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Domain.Enums;
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.Enums;
+using NovaCore.Auth.Persistence.Engine;
 
-using SmartEcommerce.BuildingBlock.Domain.Seeders;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.Seeders;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.Auth.Persistence.Storage.Seeders;
+namespace NovaCore.Auth.Persistence.Storage.Seeders;
 
 public class AccountSeeder(AuthDbContext context, UserManager<Account> userManager)
 {

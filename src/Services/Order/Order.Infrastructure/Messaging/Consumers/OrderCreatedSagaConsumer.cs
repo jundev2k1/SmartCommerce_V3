@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Order;
 
 using MediatR;
 
-using SmartEcommerce.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
+using NovaCore.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
 
-namespace SmartEcommerce.Order.Infrastructure.Messaging.Consumers;
+namespace NovaCore.Order.Infrastructure.Messaging.Consumers;
 
 /// <summary>
 /// Entry point for PHASE 5/6 of the CreateOrder workflow (docs/reference/create-order-saga.md) -

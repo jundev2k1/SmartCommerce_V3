@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.Products.Queries.GetProduct;
+namespace NovaCore.Product.Application.Features.Products.Queries.GetProduct;
 
 public sealed record GetProductQuery(Guid ProductId) : IQuery<GetProductResponse>;
 

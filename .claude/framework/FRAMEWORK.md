@@ -4,7 +4,7 @@
 
 ## What this is
 
-A foundation layer that makes future AI-driven work on SimpleShop deterministic instead of free-form: before writing or changing anything, the relevant Pattern (why), Template (what shape), and Rules (what's binding) are looked up, not re-derived from reading source code cold. It exists because `docs/` already holds nearly everything needed — this framework's job is to index it precisely enough that an AI command loads the minimum necessary and never guesses at something already decided.
+A foundation layer that makes future AI-driven work on NovaCore deterministic instead of free-form: before writing or changing anything, the relevant Pattern (why), Template (what shape), and Rules (what's binding) are looked up, not re-derived from reading source code cold. It exists because `docs/` already holds nearly everything needed — this framework's job is to index it precisely enough that an AI command loads the minimum necessary and never guesses at something already decided.
 
 11 Skills and 1 non-Skill utility command now exist on top of this foundation — see `INDEX.md` (the Command Registry) for the full list, and "Relationship to Skills" and "Commands & the Command Registry" below.
 

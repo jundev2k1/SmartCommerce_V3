@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Exceptions;
+namespace NovaCore.BuildingBlock.Domain.Exceptions;
 
 /// <summary>
 /// Base class for domain layer exceptions.

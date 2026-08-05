@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Auth.Application</RootNamespace>
-    <AssemblyName>SmartEcommerce.Auth.Application</AssemblyName>
+    <RootNamespace>NovaCore.Auth.Application</RootNamespace>
+    <AssemblyName>NovaCore.Auth.Application</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

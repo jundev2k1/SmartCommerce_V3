@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Jobs;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
 using Microsoft.Extensions.Options;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Monitoring;
+namespace NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Monitoring;
 
 /// <summary>
 /// Recurring job that surfaces Inbox rows stuck in DeadLetter - today the only signal that a

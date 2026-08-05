@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.User;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.User;
 
-using SmartEcommerce.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
+namespace NovaCore.User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserHandler(
     IUserWriteService userWriteService,

@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.BuildingBlock.Messaging.Services;
+namespace NovaCore.BuildingBlock.Messaging.Services;
 
 /// <summary>
 /// Filters registered integration event consumers by topic and dispatches messages to them.
 /// Broker adapters (e.g. KafkaFlow message handlers) resolve this per-message from a DI scope.
 /// Delegates the actual Inbox dedup/retry bookkeeping to <c>executeWithInboxAsync</c> (built by
-/// SmartEcommerce.BuildingBlock.Infrastructure) so this project never needs to depend on the Application or
+/// NovaCore.BuildingBlock.Infrastructure) so this project never needs to depend on the Application or
 /// Persistence layers - it just supplies the callback that invokes the consumer.
 /// </summary>
 public sealed class IntegrationEventConsumerRegistry(

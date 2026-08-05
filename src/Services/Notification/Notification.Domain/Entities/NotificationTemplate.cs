@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Entities;
+namespace NovaCore.Notification.Domain.Entities;
 
 /// <summary>
 /// A reusable, channel-scoped template selected by <see cref="NotificationRule"/> or

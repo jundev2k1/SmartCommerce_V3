@@ -3,12 +3,12 @@ global using System.Collections.Generic;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+global using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+global using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
-global using SmartEcommerce.User.Domain.Entities;
-global using SmartEcommerce.User.Domain.Entities.Users;
-global using SmartEcommerce.User.Domain.Enums;
+global using NovaCore.User.Domain.Entities;
+global using NovaCore.User.Domain.Entities.Users;
+global using NovaCore.User.Domain.Enums;
 
-global using SmartEcommerce.User.Application.Abstractions.Persistence.Users;
-global using SmartEcommerce.User.Application.Features.Users.DTOs;
+global using NovaCore.User.Application.Abstractions.Persistence.Users;
+global using NovaCore.User.Application.Features.Users.DTOs;

@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Notification.Application.Features.NotificationChannels.Queries.ListNotificationChannels;
+using NovaCore.Notification.Application.Features.NotificationChannels.Queries.ListNotificationChannels;
 
-namespace SmartEcommerce.Notification.API.Endpoints.NotificationChannel;
+namespace NovaCore.Notification.API.Endpoints.NotificationChannel;
 
 /// <summary>
-/// Channel rows are seeded by the system (see SmartEcommerce.Notification.Infrastructure) - there is no Create
+/// Channel rows are seeded by the system (see NovaCore.Notification.Infrastructure) - there is no Create
 /// endpoint here on purpose, matching NotificationChannel's domain rule that Admin may configure
 /// but never create/delete a channel row.
 /// </summary>

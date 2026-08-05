@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters.Queries;
+namespace NovaCore.BuildingBlock.Infrastructure.DeadLetters.Queries;
 
 public sealed record GetDeadLetterQuery(Guid Id) : IQuery<DeadLetterDetailResponse>;
 

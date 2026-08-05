@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Building;
+namespace NovaCore.BuildingBlock.Criteria.Building;
 
 /// <summary>Converts the wire-level <see cref="JsonElement"/> filter value into the CLR type of the field's own property, based on the field's declared <see cref="CriteriaFieldType"/>.</summary>
 internal static class CriteriaValueConverter

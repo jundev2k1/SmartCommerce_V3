@@ -1,6 +1,6 @@
 ---
 name: complete
-description: Complete partially written SimpleShop code — a file or a selection — using the matching project pattern and template, inferring only what's safe from convention
+description: Complete partially written NovaCore code — a file or a selection — using the matching project pattern and template, inferring only what's safe from convention
 ---
 
 ## Purpose

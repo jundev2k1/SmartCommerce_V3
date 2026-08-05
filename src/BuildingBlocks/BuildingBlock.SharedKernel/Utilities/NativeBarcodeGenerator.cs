@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Utilities;
+namespace NovaCore.BuildingBlock.SharedKernel.Utilities;
 
 public static class NativeBarcodeGenerator
 {

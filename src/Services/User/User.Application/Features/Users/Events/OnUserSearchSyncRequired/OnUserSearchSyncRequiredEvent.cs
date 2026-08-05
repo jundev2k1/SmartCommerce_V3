@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
+namespace NovaCore.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
 
 /// <summary>
 /// Raised whenever a UserProfile is created or updated (via self-consumption of

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using SmartEcommerce.Product.Persistence.Engine;
+using NovaCore.Product.Persistence.Engine;
 
-namespace SmartEcommerce.Product.API;
+namespace NovaCore.Product.API;
 
 /// <summary>
 /// Lets `dotnet ef` build <see cref="ProductDbContext"/> directly, without booting the full app host
@@ -16,7 +16,7 @@ public sealed class ProductDbContextFactory : IDesignTimeDbContextFactory<Produc
     public ProductDbContext CreateDbContext(string[] args)
     {
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
-            ?? "Server=localhost;Port=5432;Database=product_db;User Id=postgres;Password=SimpleShop@Postgres2026;";
+            ?? "Server=localhost;Port=5432;Database=product_db;User Id=postgres;Password=NovaCore@Postgres2026;";
 
         var optionsBuilder = new DbContextOptionsBuilder<ProductDbContext>();
         optionsBuilder.UseNpgsql(connectionString);

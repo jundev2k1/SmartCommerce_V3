@@ -1,6 +1,6 @@
 # Pattern Library
 
-**Scope:** the philosophy layer — *why* SimpleShop shapes a construct the way it does. Distinct from `template-library.md` (the literal file shape) and from `docs/conventions/*.md` (the full rule text this library indexes, not restates). Load a pattern entry before writing any code of that kind; load the Template Library entry it points to for the literal starting shape.
+**Scope:** the philosophy layer — *why* NovaCore shapes a construct the way it does. Distinct from `template-library.md` (the literal file shape) and from `docs/conventions/*.md` (the full rule text this library indexes, not restates). Load a pattern entry before writing any code of that kind; load the Template Library entry it points to for the literal starting shape.
 
 Each entry's Reading Contract format follows `reading-contracts.md`. "Real example" cites the same reference files `docs/06-implementation-templates.md` already names as ground truth — open the actual file, not just the template prose, when in doubt.
 

@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
 
 using Mapster;
 
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
+namespace NovaCore.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
 
 public sealed class GetWarehouseHandler(IWarehouseReadService warehouseReadService)
     : IQueryHandler<GetWarehouseQuery, GetWarehouseResponse>

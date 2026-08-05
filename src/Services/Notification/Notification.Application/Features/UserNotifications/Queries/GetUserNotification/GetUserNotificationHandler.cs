@@ -1,9 +1,9 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
+using NovaCore.Notification.Application.Abstractions.Persistence.UserNotifications;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.GetUserNotification;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Queries.GetUserNotification;
 
 public sealed class GetUserNotificationHandler(
     ICurrentUserService currentUser,

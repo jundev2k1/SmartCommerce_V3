@@ -1,6 +1,6 @@
-using SmartEcommerce.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
+namespace NovaCore.User.Application.Features.Users.Queries.GetUserById;
 
 public sealed class GetUserByIdHandler(
     IUserProfileDetailCache userProfileCache,

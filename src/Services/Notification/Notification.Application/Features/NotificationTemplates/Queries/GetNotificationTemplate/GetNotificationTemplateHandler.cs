@@ -1,8 +1,8 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
+namespace NovaCore.Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
 
 public sealed class GetNotificationTemplateHandler(INotificationTemplateReadService notificationTemplateReadService)
     : IQueryHandler<GetNotificationTemplateQuery, GetNotificationTemplateResponse>

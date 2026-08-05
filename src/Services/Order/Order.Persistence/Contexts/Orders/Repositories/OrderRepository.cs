@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Persistence.Engine;
+using NovaCore.Order.Persistence.Engine;
 
-namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
+namespace NovaCore.Order.Persistence.Contexts.Orders.Repositories;
 
 public sealed class OrderRepo(OrderDbContext dbContext)
     : OrderBaseRepository<OrderEntity, Guid>(dbContext), IOrderRepository

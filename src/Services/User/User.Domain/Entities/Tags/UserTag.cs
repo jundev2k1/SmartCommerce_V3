@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Tags;
+namespace NovaCore.User.Domain.Entities.Tags;
 
 /// <summary>
 /// Independent, reusable segmentation lookup - flat, no hierarchy. Not a membership level or

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
+namespace NovaCore.Notification.Application.Abstractions.Persistence.NotificationRules;
 
 public interface INotificationRuleWriteService
 {

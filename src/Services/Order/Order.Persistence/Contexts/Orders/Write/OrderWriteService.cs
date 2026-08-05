@@ -1,15 +1,15 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Domain.Enums;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
-using SmartEcommerce.Order.Domain.Enums;
-using SmartEcommerce.Order.Domain.ValueObjects;
-using SmartEcommerce.Order.Persistence.Contexts.Orders.Repositories;
-using SmartEcommerce.Order.Persistence.Mapping.Orders;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Domain.Enums;
+using NovaCore.Order.Domain.ValueObjects;
+using NovaCore.Order.Persistence.Contexts.Orders.Repositories;
+using NovaCore.Order.Persistence.Mapping.Orders;
 
-namespace SmartEcommerce.Order.Persistence.Contexts.Orders.Write;
+namespace NovaCore.Order.Persistence.Contexts.Orders.Write;
 
 public sealed class OrderWriteService(IOrderRepository orderRepo) : IOrderWriteService
 {

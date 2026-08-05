@@ -1,6 +1,6 @@
 ---
 name: align
-description: Bring existing SimpleShop code (AI-generated, legacy, or inconsistent) back to production standards — structure only, never business behavior
+description: Bring existing NovaCore code (AI-generated, legacy, or inconsistent) back to production standards — structure only, never business behavior
 ---
 
 ## Purpose

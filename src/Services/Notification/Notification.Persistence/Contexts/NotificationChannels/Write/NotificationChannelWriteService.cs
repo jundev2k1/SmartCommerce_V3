@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Repositories;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using NovaCore.Notification.Persistence.Contexts.NotificationChannels.Repositories;
 
-namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Write;
+namespace NovaCore.Notification.Persistence.Contexts.NotificationChannels.Write;
 
 public sealed class NotificationChannelWriteService(
     INotificationChannelRepository repo,

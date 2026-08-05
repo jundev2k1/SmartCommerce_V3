@@ -19,4 +19,4 @@ Total Quantity is one of three explicitly named fields for "Order information," 
 - `TotalQuantity` (sum of item quantities) computed on the `Order` aggregate, alongside `TotalAmount`.
 - Exposed on both `GetOrderResponse` and `SearchOrdersItemResponse`.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task9_order-total-quantity-display.md` (blocked on this task).
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task9_order-total-quantity-display.md` (blocked on this task).

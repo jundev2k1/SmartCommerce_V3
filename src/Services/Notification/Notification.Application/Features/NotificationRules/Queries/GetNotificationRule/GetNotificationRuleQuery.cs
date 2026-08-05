@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
+namespace NovaCore.Notification.Application.Features.NotificationRules.Queries.GetNotificationRule;
 
 public sealed record GetNotificationRuleQuery(Guid RuleId) : IQuery<GetNotificationRuleResponse>;
 

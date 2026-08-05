@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Abstractions;
 
 public interface IEntity<T> : IEntity
 {

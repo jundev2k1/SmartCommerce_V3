@@ -1,9 +1,9 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
-using SmartEcommerce.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using NovaCore.Notification.Application.Abstractions.Services;
 
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationChannels.Commands.DisableNotificationChannel;
+namespace NovaCore.Notification.Application.Features.NotificationChannels.Commands.DisableNotificationChannel;
 
 public sealed class DisableNotificationChannelHandler(
     INotificationChannelReadService notificationChannelReadService,

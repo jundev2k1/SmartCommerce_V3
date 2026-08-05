@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Saga.Abstractions;
 
-namespace SmartEcommerce.BuildingBlock.Saga.Core;
+namespace NovaCore.BuildingBlock.Saga.Core;
 
 /// <summary>
 /// Fluent builder for defining sagas using chain-of-responsibility pattern.

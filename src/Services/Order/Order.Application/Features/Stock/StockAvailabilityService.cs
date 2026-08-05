@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Order.Application.Features.Stock;
+namespace NovaCore.Order.Application.Features.Stock;
 
 public sealed class StockAvailabilityService(IInventoryClientService inventoryClient) : IStockAvailabilityService
 {

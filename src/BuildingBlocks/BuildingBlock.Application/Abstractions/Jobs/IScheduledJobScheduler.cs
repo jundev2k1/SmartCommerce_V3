@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Jobs;
 
 public interface IScheduledJobScheduler
 {

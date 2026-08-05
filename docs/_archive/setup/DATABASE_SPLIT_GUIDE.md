@@ -146,7 +146,7 @@ docker-compose up -d pg-user user-api
 ### Connection String Template
 
 ```env
-[SERVICE]_DB_CONNECTION=Server=pg-[SERVICE];Port=5432;Database=[service]_db;User Id=postgres;Password=SimpleShop@Postgres2026;
+[SERVICE]_DB_CONNECTION=Server=pg-[SERVICE];Port=5432;Database=[service]_db;User Id=postgres;Password=NovaCore@Postgres2026;
 ```
 
 ### Volume Template (at end of docker-compose.yml)

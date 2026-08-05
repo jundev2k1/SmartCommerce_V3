@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
+namespace NovaCore.BuildingBlock.Contract.Events.Product;
 
 public sealed record ProductDeletedIntegrationEvent(
     Guid ProductId,

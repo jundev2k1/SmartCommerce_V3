@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
-using SmartEcommerce.Inventory.Application.Features.InventoryDocuments.Search;
-using SmartEcommerce.Inventory.Application.Features.Inventories.Search;
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Persistence.Ef.Criteria;
+using NovaCore.Inventory.Application.Features.InventoryDocuments.Search;
+using NovaCore.Inventory.Application.Features.Inventories.Search;
+using NovaCore.Inventory.Persistence.Engine;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
+namespace NovaCore.Inventory.Persistence.Contexts.InventoryDocuments.Repositories;
 
 public sealed class InventoryDocumentRepository(InventoryDbContext dbContext)
     : InventoryBaseRepository<InventoryDocument, Guid>(dbContext), IInventoryDocumentRepository

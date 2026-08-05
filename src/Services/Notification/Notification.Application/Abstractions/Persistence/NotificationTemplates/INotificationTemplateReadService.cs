@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
+namespace NovaCore.Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
 public interface INotificationTemplateReadService
 {

@@ -1,6 +1,6 @@
 # New Service Integration Workflow
 
-**Complete checklist for adding a new microservice to SimpleShop**
+**Complete checklist for adding a new microservice to NovaCore**
 
 ---
 

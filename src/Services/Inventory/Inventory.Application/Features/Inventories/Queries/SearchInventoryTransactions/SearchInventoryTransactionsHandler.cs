@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
 using Mapster;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
+namespace NovaCore.Inventory.Application.Features.Inventories.Queries.SearchInventoryTransactions;
 
 public sealed class SearchInventoryTransactionsHandler(IInventoryTransactionReadService transactionReadService)
     : IQueryHandler<SearchInventoryTransactionsQuery, PaginatedResult<SearchInventoryTransactionsItemResponse>>

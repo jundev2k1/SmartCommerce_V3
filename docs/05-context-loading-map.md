@@ -47,7 +47,7 @@ Use this if you already know which fact you need rather than which task you're d
 | `reference/saga.md` | Whether to use saga orchestration (currently: don't, unless you have a real multi-step compensable workflow) |
 | `reference/authorization.md` | Policy names, `[Authorize]`/`[AuthorizeRole]` usage, claims helpers |
 | `testing/TestingGuidelines.md` | How to write/name a test, mocking rules, when to use a `TestDataBuilder` |
-| `testing/TestingArchitecture.md` | The `/tests` project layout, central package management, `SimpleShop.TestKit` contents |
+| `testing/TestingArchitecture.md` | The `/tests` project layout, central package management, `NovaCore.TestKit` contents |
 | `testing/TestingRoadmap.md` / `testing/TestingProgress.md` | What's tested, what's next, and why something was skipped |
 | `setup/*.md`, `troubleshooting/seq.md` | Local environment / Docker / logging operational questions |
 | `decisions/*.md` | *Why* something is architected the way it is, before changing it |

@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Builders.HtmlComponents;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Builders.HtmlComponents;
 
 internal static class DataTable
 {

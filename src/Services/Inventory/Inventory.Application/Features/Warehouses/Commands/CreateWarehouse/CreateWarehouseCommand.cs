@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
+namespace NovaCore.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
 
 public sealed record CreateWarehouseCommand(
     string Code,

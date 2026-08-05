@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Search.Configuration;
+namespace NovaCore.BuildingBlock.Search.Configuration;
 
 public sealed class ElasticsearchOptions
 {

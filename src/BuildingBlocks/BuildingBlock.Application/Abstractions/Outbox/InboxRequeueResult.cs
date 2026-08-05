@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Outcome of <see cref="IInboxStore.RequeueDeadLetterAsync"/>.

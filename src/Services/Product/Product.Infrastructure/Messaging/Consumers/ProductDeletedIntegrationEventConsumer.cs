@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Product;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Product;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
-using SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchRemovalRequired;
+using NovaCore.Product.Application.Features.Products.Events.OnProductSearchRemovalRequired;
 
-namespace SmartEcommerce.Product.Infrastructure.Messaging.Consumers;
+namespace NovaCore.Product.Infrastructure.Messaging.Consumers;
 
 /// <summary>The product no longer exists in Postgres - reacts with a Search index delete, not a rebuild.</summary>
 public sealed class ProductDeletedIntegrationEventConsumer(

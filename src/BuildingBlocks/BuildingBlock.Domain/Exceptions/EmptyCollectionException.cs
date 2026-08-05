@@ -1,6 +1,6 @@
-using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
+using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Exceptions;
+namespace NovaCore.BuildingBlock.Domain.Exceptions;
 
 /// <summary>
 /// Exception thrown when a collection/list is empty but should contain items.

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Domain.Entities.Catalogs;
+namespace NovaCore.Order.Domain.Entities.Catalogs;
 
 /// <summary>
 /// Local read-model of variation name/sku/price, kept in sync via the Product/Variant

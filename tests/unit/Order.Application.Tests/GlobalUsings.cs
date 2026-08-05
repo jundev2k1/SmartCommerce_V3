@@ -1,9 +1,9 @@
 global using Xunit;
 
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-global using SmartEcommerce.BuildingBlock.Application.Exceptions;
+global using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+global using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+global using NovaCore.BuildingBlock.Application.Exceptions;
 
-global using SmartEcommerce.Order.Domain.Enums;
+global using NovaCore.Order.Domain.Enums;
 
-global using OrderEntity = SmartEcommerce.Order.Domain.Entities.Orders.Order;
+global using OrderEntity = NovaCore.Order.Domain.Entities.Orders.Order;

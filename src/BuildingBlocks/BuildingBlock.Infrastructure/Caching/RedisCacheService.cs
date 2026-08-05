@@ -1,11 +1,11 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.SharedKernel.Serialization;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.SharedKernel.Serialization;
 
 using StackExchange.Redis;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Caching;
+namespace NovaCore.BuildingBlock.Infrastructure.Caching;
 
 internal sealed class RedisCacheService(IConnectionMultiplexer connectionMultiplexer) : ICacheService
 {

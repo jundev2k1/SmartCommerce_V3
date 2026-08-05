@@ -1,13 +1,13 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Domain.Entities.Invitations;
-using SmartEcommerce.Auth.Domain.Entities.Roles;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.Entities.Invitations;
+using NovaCore.Auth.Domain.Entities.Roles;
 
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class InvitationConfig : IEntityTypeConfiguration<Invitation>
 {

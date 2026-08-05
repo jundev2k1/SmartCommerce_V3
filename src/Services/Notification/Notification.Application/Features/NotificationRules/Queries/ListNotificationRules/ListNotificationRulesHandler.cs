@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationRules;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
+namespace NovaCore.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
 
 public sealed class ListNotificationRulesHandler(INotificationRuleReadService notificationRuleReadService)
     : IQueryHandler<ListNotificationRulesQuery, PaginatedResult<NotificationRuleSummaryResponse>>

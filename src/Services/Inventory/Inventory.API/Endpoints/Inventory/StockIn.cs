@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.StockIn;
+using NovaCore.Inventory.Application.Features.Inventories.Commands.StockIn;
 
-namespace SmartEcommerce.Inventory.API.Endpoints.Inventory;
+namespace NovaCore.Inventory.API.Endpoints.Inventory;
 
 public sealed record StockInRequest(int Quantity, string Reason);
 

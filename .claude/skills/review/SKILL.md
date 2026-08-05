@@ -1,6 +1,6 @@
 ---
 name: review
-description: Engineering-quality code review of SimpleShop's current diff — scored, holistic, strengths/weaknesses — distinct from /verify's rule-compliance checking
+description: Engineering-quality code review of NovaCore's current diff — scored, holistic, strengths/weaknesses — distinct from /verify's rule-compliance checking
 ---
 
 ## Purpose

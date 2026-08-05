@@ -1,6 +1,6 @@
-using SmartEcommerce.Inventory.Application.Features.Warehouses.DTOs;
+using NovaCore.Inventory.Application.Features.Warehouses.DTOs;
 
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
 
 public interface IWarehouseWriteService
 {

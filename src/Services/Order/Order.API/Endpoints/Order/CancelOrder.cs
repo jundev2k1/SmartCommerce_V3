@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.Order.Application.Features.Orders.Commands.CancelOrder;
+using NovaCore.Order.Application.Features.Orders.Commands.CancelOrder;
 
-namespace SmartEcommerce.Order.API.Endpoints.Order;
+namespace NovaCore.Order.API.Endpoints.Order;
 
 public sealed class CancelOrderEndpoint : ICarterModule
 {

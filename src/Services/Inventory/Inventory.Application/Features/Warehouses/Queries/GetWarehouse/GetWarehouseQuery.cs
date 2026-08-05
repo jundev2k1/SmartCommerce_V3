@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
+namespace NovaCore.Inventory.Application.Features.Warehouses.Queries.GetWarehouse;
 
 public sealed record GetWarehouseQuery(Guid WarehouseId) : IQuery<GetWarehouseResponse>;
 

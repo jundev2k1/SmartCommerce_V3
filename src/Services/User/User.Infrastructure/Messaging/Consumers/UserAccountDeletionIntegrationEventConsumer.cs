@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.User;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.User;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
-using SmartEcommerce.User.Application.Features.Users.Events.OnUserDeletion;
+using NovaCore.User.Application.Features.Users.Events.OnUserDeletion;
 
-namespace SmartEcommerce.User.Infrastructure.Messaging.Consumers;
+namespace NovaCore.User.Infrastructure.Messaging.Consumers;
 
 public sealed class UserAccountDeletionIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,
@@ -24,7 +24,7 @@ public sealed class UserAccountDeletionIntegrationEventConsumer(
         CancellationToken ct = default)
     {
         // Deliberately not caught here: the Inbox attempt executor (see
-        // SmartEcommerce.BuildingBlock.Infrastructure.Messaging.InboxAttemptExecutor) needs the exception to
+        // NovaCore.BuildingBlock.Infrastructure.Messaging.InboxAttemptExecutor) needs the exception to
         // propagate so it can record the failure and schedule a retry. Swallowing it here would
         // make every attempt look like a success and the message would never be retried.
         var integrationEvent = JsonSerializer.Deserialize<UserDeletionIntegrationEvent>(message)

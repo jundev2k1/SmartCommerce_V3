@@ -1,4 +1,4 @@
-# SimpleShop API Gateway
+# NovaCore API Gateway
 
 A centralized YARP-based API Gateway for managing microservices with JWT authentication, route aggregation, and unified Swagger documentation.
 
@@ -52,8 +52,8 @@ Services are configured in `appsettings.json` under the `Gateway` section:
     },
     "Jwt": {
       "SecretKey": "your-secret-key-min-32-characters",
-      "Issuer": "SimpleShop.Auth",
-      "Audience": "SimpleShop.API"
+      "Issuer": "NovaCore.Auth",
+      "Audience": "NovaCore.API"
     }
   }
 }

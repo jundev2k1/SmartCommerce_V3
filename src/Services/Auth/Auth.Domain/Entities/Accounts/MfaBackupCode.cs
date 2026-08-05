@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Owned child of MfaMethod - a single one-time backup code.

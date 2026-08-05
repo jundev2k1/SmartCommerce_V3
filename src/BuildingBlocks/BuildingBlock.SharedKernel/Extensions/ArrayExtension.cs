@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+namespace NovaCore.BuildingBlock.SharedKernel.Extensions;
 
 public static class ArrayExtension
 {

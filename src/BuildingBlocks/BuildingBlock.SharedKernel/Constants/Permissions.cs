@@ -1,6 +1,6 @@
 using System.Collections.Frozen;
 
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 
 /// <summary>
 /// Every permission key the platform recognizes, grouped by business capability. Permission keys

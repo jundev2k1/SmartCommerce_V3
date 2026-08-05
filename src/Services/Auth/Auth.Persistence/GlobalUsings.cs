@@ -6,6 +6,6 @@ global using System.Threading.Tasks;
 
 global using Microsoft.EntityFrameworkCore;
 
-global using SmartEcommerce.BuildingBlock.Persistence.Ef.Configurations;
+global using NovaCore.BuildingBlock.Persistence.Ef.Configurations;
 
-global using SmartEcommerce.Auth.Domain.Enums;
+global using NovaCore.Auth.Domain.Enums;

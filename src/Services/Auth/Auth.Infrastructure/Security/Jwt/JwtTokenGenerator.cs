@@ -3,14 +3,14 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
+using NovaCore.Auth.Application.Abstractions.Security.Jwt;
 
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Security;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Security;
 
 using Microsoft.IdentityModel.Tokens;
 
-namespace SmartEcommerce.Auth.Infrastructure.Security.Jwt;
+namespace NovaCore.Auth.Infrastructure.Security.Jwt;
 
 public sealed class JwtTokenGenerator(JwtSettings settings) : IJwtTokenGenerator
 {

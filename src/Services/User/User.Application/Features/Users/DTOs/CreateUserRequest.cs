@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.DTOs;
+namespace NovaCore.User.Application.Features.Users.DTOs;
 
 /// <summary>
 /// Used by (admin-invoked) CreateUser. Role/Position assignment is deliberately absent here -

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
+namespace NovaCore.Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
 
 public sealed record CreateNotificationCampaignCommand(
     string Name,

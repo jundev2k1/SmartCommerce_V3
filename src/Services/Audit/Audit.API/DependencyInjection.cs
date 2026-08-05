@@ -1,22 +1,22 @@
-using SmartEcommerce.Audit.API.ExceptionHandling;
+using NovaCore.Audit.API.ExceptionHandling;
 
-using SmartEcommerce.BuildingBlock.Application.DeadLetters;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Security.Jwt;
-using SmartEcommerce.BuildingBlock.Web;
-using SmartEcommerce.BuildingBlock.Web.Carter;
-using SmartEcommerce.BuildingBlock.Web.Cors;
-using SmartEcommerce.BuildingBlock.Web.CurrentUser;
-using SmartEcommerce.BuildingBlock.Web.HealthChecks;
-using SmartEcommerce.BuildingBlock.Web.Swagger;
+using NovaCore.BuildingBlock.Application.DeadLetters;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Security.Jwt;
+using NovaCore.BuildingBlock.Web;
+using NovaCore.BuildingBlock.Web.Carter;
+using NovaCore.BuildingBlock.Web.Cors;
+using NovaCore.BuildingBlock.Web.CurrentUser;
+using NovaCore.BuildingBlock.Web.HealthChecks;
+using NovaCore.BuildingBlock.Web.Swagger;
 
-namespace SmartEcommerce.Audit.API;
+namespace NovaCore.Audit.API;
 
 public static class DependencyInjection
 {
     internal static readonly BuildingBlockWebOptions WebOptions = new()
     {
-        ServiceTitle = "SimpleShop Audit Service",
+        ServiceTitle = "NovaCore Audit Service",
         ServiceDescription = "Cross-Service Audit Log Service API",
         SwaggerRoutePrefix = "/api/audit",
         ContactUrl = "http://localhost:5101",

@@ -1,7 +1,7 @@
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Domain.Enums;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Domain.Enums;
 
-namespace SmartEcommerce.Notification.Infrastructure.Delivery;
+namespace NovaCore.Notification.Infrastructure.Delivery;
 
 public sealed class ChannelSenderResolver(IEnumerable<IChannelSender> senders) : IChannelSenderResolver
 {

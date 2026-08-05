@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using SmartEcommerce.Product.Domain.Metadata;
+using NovaCore.Product.Domain.Metadata;
 
-namespace SmartEcommerce.Product.Persistence.Configs;
+namespace NovaCore.Product.Persistence.Configs;
 
 public sealed class ProductVariantConfig : IEntityTypeConfiguration<ProductVariant>
 {

@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.UnitOfWork;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Ef.UnitOfWork;
 
-namespace SmartEcommerce.Inventory.Persistence.Engine.UnitOfWork;
+namespace NovaCore.Inventory.Persistence.Engine.UnitOfWork;
 
 public sealed class UnitOfWork(InventoryDbContext context)
     : EfUnitOfWork<InventoryDbContext>(context), IUnitOfWork

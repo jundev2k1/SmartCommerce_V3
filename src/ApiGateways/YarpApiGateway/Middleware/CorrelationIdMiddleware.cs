@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.YarpApiGateway.Middleware;
+namespace NovaCore.YarpApiGateway.Middleware;
 
 /// <summary>
 /// The Gateway's only tracing responsibility: forward an incoming X-Correlation-Id unchanged, or

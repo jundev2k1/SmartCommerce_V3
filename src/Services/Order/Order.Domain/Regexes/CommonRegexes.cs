@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.Order.Domain.Regexes;
+namespace NovaCore.Order.Domain.Regexes;
 
 public static partial class CommonRegexes
 {

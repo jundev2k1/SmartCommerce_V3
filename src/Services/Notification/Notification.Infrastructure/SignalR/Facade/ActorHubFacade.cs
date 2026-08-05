@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.SignalR;
 
-using SmartEcommerce.Notification.Infrastructure.SignalR.Groups;
+using NovaCore.Notification.Infrastructure.SignalR.Groups;
 
-namespace SmartEcommerce.Notification.Infrastructure.SignalR.Facade;
+namespace NovaCore.Notification.Infrastructure.SignalR.Facade;
 
 public sealed class ActorHubFacade<THub, TRoot, TSite>(IHubContext<THub, TRoot> hub)
     where THub : Hub<TRoot>

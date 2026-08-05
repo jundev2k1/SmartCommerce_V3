@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Application.Features.Orders.DTOs;
 
-namespace SmartEcommerce.Order.Application.Abstractions.Services;
+namespace NovaCore.Order.Application.Abstractions.Services;
 
 /// <summary>
 /// Validates+resolves the items on a CreateOrder request into fully catalog-priced lines, before

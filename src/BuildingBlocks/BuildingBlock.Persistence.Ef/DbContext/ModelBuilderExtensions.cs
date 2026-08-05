@@ -1,11 +1,11 @@
 using System.Reflection;
 
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
+namespace NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 
 public static class ModelBuilderExtensions
 {

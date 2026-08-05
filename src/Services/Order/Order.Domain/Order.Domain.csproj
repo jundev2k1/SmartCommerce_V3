@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Order.Domain</RootNamespace>
-    <AssemblyName>SmartEcommerce.Order.Domain</AssemblyName>
+    <RootNamespace>NovaCore.Order.Domain</RootNamespace>
+    <AssemblyName>NovaCore.Order.Domain</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

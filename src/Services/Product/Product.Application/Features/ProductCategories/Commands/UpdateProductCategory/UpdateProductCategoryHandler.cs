@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Commands.UpdateProductCategory;
 
 public sealed class UpdateProductCategoryHandler(
     IProductCategoryReadService categoryReadService,

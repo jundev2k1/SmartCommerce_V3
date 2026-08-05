@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Audit.Application.Abstractions.Services;
+namespace NovaCore.Audit.Application.Abstractions.Services;
 
 public sealed record ActorProfile(Guid UserId, string DisplayName);
 

@@ -156,9 +156,9 @@ docker system prune -a --volumes          # prune everything unused (careful —
 | Services won't start | `docker ps` (Docker running?) → `docker-compose config` (valid compose?) → `docker-compose logs` |
 | Port already in use | `lsof -i :5000` to find the process, or change `GATEWAY_PORT` in `.env` |
 | Database not connecting | `docker-compose ps` (container healthy?) → `docker-compose exec pg pg_isready -U postgres` |
-| Out of disk space | `docker system prune -a --volumes`, or remove just this project's volumes: `docker volume ls \| grep simpleshop` |
+| Out of disk space | `docker system prune -a --volumes`, or remove just this project's volumes: `docker volume ls \| grep novacore` |
 | Container fails to start | `docker-compose logs <service>` → `docker inspect <container-id>` |
-| Network issues | `docker network inspect simpleshop-network`, then `docker-compose down && docker-compose up -d` |
+| Network issues | `docker network inspect novacore-network`, then `docker-compose down && docker-compose up -d` |
 | Memory issues | `docker stats` to see usage; add resource limits (above) or increase system RAM |
 
 ## Further Documentation

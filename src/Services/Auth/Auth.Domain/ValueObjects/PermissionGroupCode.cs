@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.Auth.Domain.ValueObjects;
+namespace NovaCore.Auth.Domain.ValueObjects;
 
 /// <summary>
 /// Lowercase snake_case internal identifier for a PermissionGroup (e.g. "product_management").

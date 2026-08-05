@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 
-The User Service handles user profile management in SimpleShop with:
+The User Service handles user profile management in NovaCore with:
 - ✅ Swagger UI with JWT authentication
 - ✅ CORS policies
 - ✅ User CRUD operations

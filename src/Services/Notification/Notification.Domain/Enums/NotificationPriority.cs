@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Enums;
+namespace NovaCore.Notification.Domain.Enums;
 
 public enum NotificationPriority
 {

@@ -28,4 +28,4 @@ Added `.Field(x => x.Id).Guid()` to `OrderCriteriaDefinition` (logical name `id`
 
 Nothing deferred — this was a single-field addition using existing infrastructure.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task13_order-id-search-filter-missing.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task13_order-id-search-filter-missing.md`.

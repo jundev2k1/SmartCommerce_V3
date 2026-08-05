@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
-using SmartEcommerce.Inventory.Application.Features.Inventories.Search;
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.BuildingBlock.Persistence.Ef.Criteria;
+using NovaCore.Inventory.Application.Features.Inventories.Search;
+using NovaCore.Inventory.Persistence.Engine;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Repositories;
+namespace NovaCore.Inventory.Persistence.Contexts.Inventories.Repositories;
 
 public sealed class InventoryRepository(InventoryDbContext dbContext)
     : InventoryBaseRepository<InventoryStock, Guid>(dbContext), IInventoryRepository

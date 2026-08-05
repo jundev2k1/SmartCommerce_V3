@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
 public sealed class CreateProductCategoryHandler(
     ICurrentLocaleService currentLocaleService,

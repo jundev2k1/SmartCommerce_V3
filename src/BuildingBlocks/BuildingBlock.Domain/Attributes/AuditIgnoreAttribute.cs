@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Domain.Attributes;
+namespace NovaCore.BuildingBlock.Domain.Attributes;
 
 /// <summary>
 /// Marks a property as excluded from audit comparison. The change-tracking pipeline never

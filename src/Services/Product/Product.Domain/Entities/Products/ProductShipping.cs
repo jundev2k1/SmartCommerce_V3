@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Owned child of Variant, referenced back via Variant.ProductShippingId - describes the physical

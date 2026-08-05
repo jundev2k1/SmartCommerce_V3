@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Application.Features.Products.DTOs;
+using NovaCore.Product.Application.Features.Products.DTOs;
 
-namespace SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+namespace NovaCore.Product.Application.Abstractions.Persistence.Products;
 
 public interface IProductWriteService
 {

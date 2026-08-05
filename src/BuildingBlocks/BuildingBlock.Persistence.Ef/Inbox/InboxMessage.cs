@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Persistence.Inbox;
+using NovaCore.BuildingBlock.Persistence.Inbox;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Dedup + retry marker: one row per (MessageId, ConsumerName) pair. Keyed per-consumer so

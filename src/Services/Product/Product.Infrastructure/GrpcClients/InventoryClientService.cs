@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Contract.Protos.Inventory;
+using NovaCore.BuildingBlock.Contract.Protos.Inventory;
 
-using SmartEcommerce.Product.Application.Abstractions.Services;
+using NovaCore.Product.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Product.Infrastructure.GrpcClients;
+namespace NovaCore.Product.Infrastructure.GrpcClients;
 
 /// <summary>Thin adapter over InventoryGrpcService - maps to/from the generated proto types, no business logic here (see docs/services/inventory-service.md).</summary>
 public sealed class InventoryClientService(InventoryGrpcService.InventoryGrpcServiceClient client) : IInventoryClientService

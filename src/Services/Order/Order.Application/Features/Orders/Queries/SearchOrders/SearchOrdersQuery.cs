@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Queries.SearchOrders;
+namespace NovaCore.Order.Application.Features.Orders.Queries.SearchOrders;
 
 public sealed record SearchOrdersQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<SearchOrdersItemResponse>>;
 

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Warranties;
+namespace NovaCore.Product.Domain.Entities.Warranties;
 
 /// <summary>
 /// Independent, reusable catalog lookup.

@@ -1,8 +1,8 @@
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
-using SmartEcommerce.Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using NovaCore.Inventory.Application.Features.Inventories.DTOs;
+using NovaCore.Inventory.Persistence.Contexts.InventoryTransactions.Repositories;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryTransactions.Write;
+namespace NovaCore.Inventory.Persistence.Contexts.InventoryTransactions.Write;
 
 public sealed class InventoryTransactionWriteService(
     IInventoryTransactionRepository repo) : IInventoryTransactionWriteService

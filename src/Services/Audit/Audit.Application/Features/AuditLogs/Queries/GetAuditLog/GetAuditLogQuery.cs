@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using NovaCore.BuildingBlock.Contract.Events.Audit;
 
-namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
+namespace NovaCore.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
 public sealed record GetAuditLogQuery(Guid AuditLogId) : IQuery<GetAuditLogResponse>;
 

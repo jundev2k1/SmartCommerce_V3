@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Order;
+namespace NovaCore.BuildingBlock.Contract.Events.Order;
 
 /// <summary>
 /// Fired whenever an order is hard-deleted via the manual DeleteOrder command. Only Pending or

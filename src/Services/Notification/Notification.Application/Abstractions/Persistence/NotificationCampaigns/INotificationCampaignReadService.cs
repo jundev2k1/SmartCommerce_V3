@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+namespace NovaCore.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
 public interface INotificationCampaignReadService
 {

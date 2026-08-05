@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
+namespace NovaCore.Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
 
 public record CreateNotificationDispatchCommand(
     DispatchReference Reference,

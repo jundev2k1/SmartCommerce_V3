@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.User;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.User;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
-using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
+using NovaCore.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
 
-namespace SmartEcommerce.User.Infrastructure.Messaging.Consumers;
+namespace NovaCore.User.Infrastructure.Messaging.Consumers;
 
 /// <summary>User self-consumes its own integration events to keep the Search index in sync - see docs/reference/search.md.</summary>
 public sealed class UserProfileCreatedSearchSyncConsumer(

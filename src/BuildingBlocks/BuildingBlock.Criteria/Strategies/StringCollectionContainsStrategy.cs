@@ -2,9 +2,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Strategies;
+namespace NovaCore.BuildingBlock.Criteria.Strategies;
 
 /// <summary>
 /// Filters a string-collection field (e.g. a Postgres <c>text[]</c> column like Roles) by containment

@@ -7,8 +7,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.YarpApiGateway</RootNamespace>
-    <AssemblyName>SmartEcommerce.YarpApiGateway</AssemblyName>
+    <RootNamespace>NovaCore.YarpApiGateway</RootNamespace>
+    <AssemblyName>NovaCore.YarpApiGateway</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

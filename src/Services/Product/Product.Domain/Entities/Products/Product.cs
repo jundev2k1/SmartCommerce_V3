@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.Product.Domain.Entities.Brands;
-using SmartEcommerce.Product.Domain.Entities.Options;
-using SmartEcommerce.Product.Domain.Entities.Products.Data;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Product.Domain.Entities.Brands;
+using NovaCore.Product.Domain.Entities.Options;
+using NovaCore.Product.Domain.Entities.Products.Data;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Aggregate root of the catalog. Holds identity, display copy, lifecycle/status, and ownership

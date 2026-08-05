@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Domain.ValueObjects;
+using NovaCore.Product.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Tests.ValueObjects;
+namespace NovaCore.Product.Domain.Tests.ValueObjects;
 
 public class CategoryCodeTests : UppercaseCodeValueObjectTests<CategoryCode>
 {

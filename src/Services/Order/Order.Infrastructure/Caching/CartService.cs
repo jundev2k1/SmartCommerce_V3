@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
-using SmartEcommerce.Order.Application.Abstractions.Services;
-using SmartEcommerce.Order.Domain.Entities.Catalogs;
+using NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using NovaCore.Order.Application.Abstractions.Services;
+using NovaCore.Order.Domain.Entities.Catalogs;
 
-namespace SmartEcommerce.Order.Infrastructure.Caching;
+namespace NovaCore.Order.Infrastructure.Caching;
 
 /// <summary>
 /// Redis-backed cart, keyed per user. Only {VariationId, Quantity} pairs are stored - name/price/

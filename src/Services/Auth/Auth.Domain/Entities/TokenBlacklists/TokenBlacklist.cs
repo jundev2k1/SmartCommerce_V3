@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Domain.Entities.TokenBlacklists;
+namespace NovaCore.Auth.Domain.Entities.TokenBlacklists;
 
 /// <summary>
 /// Access-token jti denylist entry, for revoking a short-lived access token before its natural

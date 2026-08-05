@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
+namespace NovaCore.BuildingBlock.Persistence.Audit;
 
 public sealed class AuditHierarchyBuilder : IAuditHierarchyBuilder
 {

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Notification.Infrastructure</RootNamespace>
-    <AssemblyName>SmartEcommerce.Notification.Infrastructure</AssemblyName>
+    <RootNamespace>NovaCore.Notification.Infrastructure</RootNamespace>
+    <AssemblyName>NovaCore.Notification.Infrastructure</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

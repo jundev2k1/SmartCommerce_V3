@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock;
+namespace NovaCore.Inventory.Application.Features.Inventories.Queries.GetProductStock;
 
 /// <summary>
 /// ProductId alone returns the total stock across every variation and warehouse for that

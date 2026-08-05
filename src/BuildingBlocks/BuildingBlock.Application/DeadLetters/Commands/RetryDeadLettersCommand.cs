@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
-using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters;
+using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+using NovaCore.BuildingBlock.Infrastructure.DeadLetters;
 
-namespace SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
+namespace NovaCore.BuildingBlock.Application.DeadLetters.Commands;
 
 /// <summary>Retry a caller-supplied set of dead-lettered rows. Never processes more than one retry
 /// implementation - every entry point (single/bulk/retry-all) funnels through IDeadLetterRetryService.</summary>

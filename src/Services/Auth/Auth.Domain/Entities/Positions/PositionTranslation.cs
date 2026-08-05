@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Positions;
+namespace NovaCore.Auth.Domain.Entities.Positions;
 
 /// <summary>
 /// Owned child of Position - a locale-specific override of the position's admin-facing

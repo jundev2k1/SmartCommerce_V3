@@ -12,7 +12,7 @@ Full rationale for these boundaries lives in `docs/02-architecture-rules.md`; th
 | `*.API` (endpoints) | Its own endpoint + the command/query it dispatches, `docs/04-coding-rules.md` (Endpoints section) | Other services' endpoints, unrelated Features |
 | `*.Infrastructure` (consumers/jobs) | Its own consumer/job + the command it dispatches, `docs/reference/events.md` or `docs/reference/saga.md` as applicable | Business logic — infrastructure adapters translate and dispatch, they never decide |
 | Cross-service `flow` work | Only the services actually named in the flow, `docs/01-architecture-map.md` | Any service not part of the named flow |
-| Frontend (`SimpleShopUI`) | Never, from any backend skill in this framework | N/A — out of scope entirely; see `simpleshopui_companion_project` memory for cross-repo contract changes |
+| Frontend (`NovaCoreUI`) | Never, from any backend skill in this framework | N/A — out of scope entirely; see `novacoreui_companion_project` memory for cross-repo contract changes |
 
 ## Rule of thumb
 If a skill's Context Loading section for a given invocation would require a row not covered above, that's a doc gap — report it, don't expand scope silently (see `shared-rules.md` §1).

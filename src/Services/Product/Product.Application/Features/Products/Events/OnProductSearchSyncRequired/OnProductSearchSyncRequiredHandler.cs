@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
-using SmartEcommerce.Product.Application.Abstractions.Search;
-using SmartEcommerce.Product.Application.Features.Products.Search;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Application.Abstractions.Search;
+using NovaCore.Product.Application.Features.Products.Search;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
+namespace NovaCore.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
 
 /// <summary>The Search Consumer's reaction: rebuild the document from current Postgres state and upsert it. See docs/reference/search.md.</summary>
 public sealed class OnProductSearchSyncRequiredHandler(

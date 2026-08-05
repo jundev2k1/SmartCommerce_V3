@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Contract.Events.Product;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Contract.Events.Product;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
-using SmartEcommerce.Product.Application.Features.Products.Mapping;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Application.Features.Products.Mapping;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
+namespace NovaCore.Product.Application.Features.Products.Commands.UpdateVariation;
 
 public sealed class UpdateVariationHandler(
     IProductReadService productReadService,

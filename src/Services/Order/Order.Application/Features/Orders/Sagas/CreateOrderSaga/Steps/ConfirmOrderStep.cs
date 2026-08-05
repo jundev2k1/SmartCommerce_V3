@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Saga.Abstractions;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+namespace NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
 /// <summary>
 /// Saga Step 2 - moves the order Pending -> Confirmed and enqueues OrderConfirmedIntegrationEvent

@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.BackgroundServices;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Configuration;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Consumers;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Publishers;
-using SmartEcommerce.BuildingBlock.Messaging.Services;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Messaging.Kafka.BackgroundServices;
+using NovaCore.BuildingBlock.Messaging.Kafka.Configuration;
+using NovaCore.BuildingBlock.Messaging.Kafka.Consumers;
+using NovaCore.BuildingBlock.Messaging.Kafka.Publishers;
+using NovaCore.BuildingBlock.Messaging.Services;
 
 using Confluent.Kafka;
 
@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
+namespace NovaCore.BuildingBlock.Messaging.Kafka.Extensions;
 
 public static class KafkaServiceExtensions
 {

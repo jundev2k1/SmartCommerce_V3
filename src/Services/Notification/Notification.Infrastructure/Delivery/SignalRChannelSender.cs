@@ -1,14 +1,14 @@
 using System.Text.Json;
 
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Application.Features.NotificationDispatches.DTOs;
-using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
-using SmartEcommerce.Notification.Domain.Entities;
-using SmartEcommerce.Notification.Domain.Enums;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Facade;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Application.Features.NotificationDispatches.DTOs;
+using NovaCore.Notification.Application.Features.UserNotifications.DTOs;
+using NovaCore.Notification.Domain.Entities;
+using NovaCore.Notification.Domain.Enums;
+using NovaCore.Notification.Infrastructure.SignalR.Facade;
+using NovaCore.Notification.Infrastructure.SignalR.Hubs.Global;
 
-namespace SmartEcommerce.Notification.Infrastructure.Delivery;
+namespace NovaCore.Notification.Infrastructure.Delivery;
 
 /// <summary>
 /// Pushes a dispatch to the recipient's live SignalR connection(s) via <see cref="GlobalHub"/>.

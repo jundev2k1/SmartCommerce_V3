@@ -25,4 +25,4 @@ The requirement lists Product and Variant as two distinct fields on Order Detail
 - `OrderItem` captures a variant identifier/name distinct from the product name (e.g. `VariantSku`/`VariantName`), snapshotted at order time.
 - `GetOrderItemResponse` exposes it.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task10_order-item-variant-display.md` (blocked on this task).
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task10_order-item-variant-display.md` (blocked on this task).

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Abstractions.Auth;
+namespace NovaCore.Auth.Application.Abstractions.Auth;
 
 public interface IAuthService
 {

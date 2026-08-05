@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>Result of one manually-triggered retry attempt, as recorded in the append-only history.</summary>
 public enum InboxRetryHistoryResult

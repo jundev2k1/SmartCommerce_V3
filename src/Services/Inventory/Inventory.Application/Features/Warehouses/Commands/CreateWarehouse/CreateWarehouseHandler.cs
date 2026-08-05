@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
-using SmartEcommerce.Inventory.Application.Features.Warehouses.DTOs;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
+using NovaCore.Inventory.Application.Features.Warehouses.DTOs;
 
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
+namespace NovaCore.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
 
 public sealed class CreateWarehouseHandler(
     IWarehouseReadService warehouseReadService,

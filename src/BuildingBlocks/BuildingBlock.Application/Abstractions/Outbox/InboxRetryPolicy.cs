@@ -1,7 +1,7 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
-/// Retry/backoff policy, passed in by the caller (owned by SmartEcommerce.BuildingBlock.Infrastructure's
+/// Retry/backoff policy, passed in by the caller (owned by NovaCore.BuildingBlock.Infrastructure's
 /// InboxRetryOptions) rather than read from configuration here - this project stays
 /// infrastructure-agnostic.
 /// </summary>

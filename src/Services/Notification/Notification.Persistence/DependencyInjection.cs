@@ -1,48 +1,48 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.DependencyInjection;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.Serialization;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Mongo.DependencyInjection;
+using NovaCore.BuildingBlock.Persistence.Mongo.Inbox;
+using NovaCore.BuildingBlock.Persistence.Mongo.Outbox;
+using NovaCore.BuildingBlock.Persistence.Mongo.Serialization;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationDispatches;
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationRules;
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
-using SmartEcommerce.Notification.Domain.ValueObjects;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Write;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationChannels.Write;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationDispatches.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationDispatches.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationDispatches.Write;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationGroups.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationGroups.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationGroups.Write;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationRules.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationRules.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationRules.Write;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationTemplates.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationTemplates.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationTemplates.Write;
-using SmartEcommerce.Notification.Persistence.Contexts.UserNotifications.Read;
-using SmartEcommerce.Notification.Persistence.Contexts.UserNotifications.Repositories;
-using SmartEcommerce.Notification.Persistence.Contexts.UserNotifications.Write;
-using SmartEcommerce.Notification.Persistence.Engine;
-using SmartEcommerce.Notification.Persistence.Engine.UnitOfWork;
-using SmartEcommerce.Notification.Persistence.Reliability.Inbox;
-using SmartEcommerce.Notification.Persistence.Reliability.Outbox;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationDispatches;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationGroups;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationRules;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationTemplates;
+using NovaCore.Notification.Application.Abstractions.Persistence.UserNotifications;
+using NovaCore.Notification.Domain.ValueObjects;
+using NovaCore.Notification.Persistence.Contexts.NotificationCampaigns.Read;
+using NovaCore.Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
+using NovaCore.Notification.Persistence.Contexts.NotificationCampaigns.Write;
+using NovaCore.Notification.Persistence.Contexts.NotificationChannels.Read;
+using NovaCore.Notification.Persistence.Contexts.NotificationChannels.Repositories;
+using NovaCore.Notification.Persistence.Contexts.NotificationChannels.Write;
+using NovaCore.Notification.Persistence.Contexts.NotificationDispatches.Read;
+using NovaCore.Notification.Persistence.Contexts.NotificationDispatches.Repositories;
+using NovaCore.Notification.Persistence.Contexts.NotificationDispatches.Write;
+using NovaCore.Notification.Persistence.Contexts.NotificationGroups.Read;
+using NovaCore.Notification.Persistence.Contexts.NotificationGroups.Repositories;
+using NovaCore.Notification.Persistence.Contexts.NotificationGroups.Write;
+using NovaCore.Notification.Persistence.Contexts.NotificationRules.Read;
+using NovaCore.Notification.Persistence.Contexts.NotificationRules.Repositories;
+using NovaCore.Notification.Persistence.Contexts.NotificationRules.Write;
+using NovaCore.Notification.Persistence.Contexts.NotificationTemplates.Read;
+using NovaCore.Notification.Persistence.Contexts.NotificationTemplates.Repositories;
+using NovaCore.Notification.Persistence.Contexts.NotificationTemplates.Write;
+using NovaCore.Notification.Persistence.Contexts.UserNotifications.Read;
+using NovaCore.Notification.Persistence.Contexts.UserNotifications.Repositories;
+using NovaCore.Notification.Persistence.Contexts.UserNotifications.Write;
+using NovaCore.Notification.Persistence.Engine;
+using NovaCore.Notification.Persistence.Engine.UnitOfWork;
+using NovaCore.Notification.Persistence.Reliability.Inbox;
+using NovaCore.Notification.Persistence.Reliability.Outbox;
 
-namespace SmartEcommerce.Notification.Persistence;
+namespace NovaCore.Notification.Persistence;
 
 public static class DependencyInjection
 {
@@ -62,7 +62,7 @@ public static class DependencyInjection
     }
 
     /// <summary>
-    /// Every get-only-property value object in SmartEcommerce.Notification.Domain needs an explicit BsonClassMap
+    /// Every get-only-property value object in NovaCore.Notification.Domain needs an explicit BsonClassMap
     /// or it silently round-trips as an empty subdocument - see BsonImmutableValueObjectRegistrar
     /// and docs/tasks/2026-07-22/Task2_notification-list-null-fields.md for why.
     /// </summary>

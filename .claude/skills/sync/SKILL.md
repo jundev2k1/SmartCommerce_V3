@@ -1,6 +1,6 @@
 ---
 name: sync
-description: Synchronize an existing SimpleShop implementation with the project's current patterns, templates, and architecture rules — updates only what's actually outdated
+description: Synchronize an existing NovaCore implementation with the project's current patterns, templates, and architecture rules — updates only what's actually outdated
 ---
 
 ## Purpose

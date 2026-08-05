@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SmartEcommerce.Product.Persistence.Storage.Migrations
+namespace NovaCore.Product.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddVariationName : Migration

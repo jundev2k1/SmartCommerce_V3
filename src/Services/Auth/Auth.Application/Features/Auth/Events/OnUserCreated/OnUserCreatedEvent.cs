@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserCreated;
+namespace NovaCore.Auth.Application.Features.Auth.Events.OnUserCreated;
 
 public sealed record OnUserCreatedEvent(
     string UserId,

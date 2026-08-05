@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Domain.Entities.Permissions;
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.Entities.Permissions;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Roles;
+namespace NovaCore.Auth.Domain.Entities.Roles;
 
 /// <summary>
 /// Named, reusable permission bundle - independent of User.Domain's UserRole (business-domain

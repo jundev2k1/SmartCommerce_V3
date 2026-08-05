@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Infrastructure.SignalR.Groups;
+namespace NovaCore.Notification.Infrastructure.SignalR.Groups;
 
 internal static class ActorGroups
 {

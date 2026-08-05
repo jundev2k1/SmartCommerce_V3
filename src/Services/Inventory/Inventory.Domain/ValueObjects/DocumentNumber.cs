@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Domain.ValueObjects;
+namespace NovaCore.Inventory.Domain.ValueObjects;
 
 /// <summary>
 /// Encapsulates document number generation and formatting.

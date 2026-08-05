@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
+namespace NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 
 /// <summary>
 /// Shared base for every non-Identity EF DbContext in the solution. Centralizes the model/options

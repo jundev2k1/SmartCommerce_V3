@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Domain.Seeders;
+using NovaCore.BuildingBlock.Domain.Seeders;
 
-using SmartEcommerce.User.Persistence.Engine;
+using NovaCore.User.Persistence.Engine;
 
-namespace SmartEcommerce.User.Persistence.Storage.Seeders;
+namespace NovaCore.User.Persistence.Storage.Seeders;
 
 public sealed class UserSeeder(UserDbContext context)
 {

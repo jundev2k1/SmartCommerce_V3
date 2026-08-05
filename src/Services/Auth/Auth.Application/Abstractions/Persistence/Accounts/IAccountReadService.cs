@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
+namespace NovaCore.Auth.Application.Abstractions.Persistence.Accounts;
 
 public interface IAccountReadService
 {

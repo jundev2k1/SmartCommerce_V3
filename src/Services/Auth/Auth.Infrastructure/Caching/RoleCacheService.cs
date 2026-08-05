@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace SmartEcommerce.Auth.Infrastructure.Caching;
+namespace NovaCore.Auth.Infrastructure.Caching;
 
 /// <summary>
 /// Service for managing user role cache operations.

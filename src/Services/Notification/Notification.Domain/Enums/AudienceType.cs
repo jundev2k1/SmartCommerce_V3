@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Enums;
+namespace NovaCore.Notification.Domain.Enums;
 
 /// <summary>How a <see cref="Entities.NotificationGroup"/> resolves its target audience.</summary>
 public enum AudienceType

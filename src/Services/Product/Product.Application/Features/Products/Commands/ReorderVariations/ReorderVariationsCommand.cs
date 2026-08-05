@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.ReorderVariations;
+namespace NovaCore.Product.Application.Features.Products.Commands.ReorderVariations;
 
 public sealed record ReorderVariationsCommand(
     Guid ProductId,

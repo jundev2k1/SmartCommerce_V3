@@ -1,6 +1,6 @@
 ---
 name: clean
-description: Production-grade layer-scoped refactor of a specific SimpleShop domain entity, persistence aggregate, API feature, or cross-service flow
+description: Production-grade layer-scoped refactor of a specific NovaCore domain entity, persistence aggregate, API feature, or cross-service flow
 ---
 
 ## Purpose

@@ -5,11 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 
 using Yarp.ReverseProxy.Configuration;
 
-using SmartEcommerce.YarpApiGateway.Caching;
-using SmartEcommerce.YarpApiGateway.Configuration;
-using SmartEcommerce.YarpApiGateway.Services;
+using NovaCore.YarpApiGateway.Caching;
+using NovaCore.YarpApiGateway.Configuration;
+using NovaCore.YarpApiGateway.Services;
 
-namespace SmartEcommerce.YarpApiGateway;
+namespace NovaCore.YarpApiGateway;
 
 public static class DependencyInjection
 {

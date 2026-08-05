@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
+namespace NovaCore.Audit.Application.Abstractions.Persistence.AuditLogs;
 
 public interface IAuditLogReadService
 {

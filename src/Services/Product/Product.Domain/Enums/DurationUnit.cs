@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Enums;
+namespace NovaCore.Product.Domain.Enums;
 
 public enum DurationUnit : short
 {

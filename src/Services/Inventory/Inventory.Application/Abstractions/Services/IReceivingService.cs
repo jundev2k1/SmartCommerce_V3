@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Inventory.Application.Abstractions.Services;
+namespace NovaCore.Inventory.Application.Abstractions.Services;
 
 /// <summary>
 /// Receiving workflow: multi-item receiving with lot tracking.

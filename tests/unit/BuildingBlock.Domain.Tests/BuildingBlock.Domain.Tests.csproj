@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Domain.Tests</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Domain.Tests</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Domain.Tests</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Domain.Tests</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../src/BuildingBlocks/BuildingBlock.Domain/BuildingBlock.Domain.csproj" />
-    <ProjectReference Include="../Common/SimpleShop.TestKit/SimpleShop.TestKit.csproj" />
+    <ProjectReference Include="../Common/NovaCore.TestKit/NovaCore.TestKit.csproj" />
   </ItemGroup>
 
 </Project>

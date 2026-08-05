@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Metadata;
+namespace NovaCore.BuildingBlock.Domain.Metadata;
 
 /// <summary>
 /// Reflection cache mapping a <see cref="MetadataBase"/> derivative's property names to their

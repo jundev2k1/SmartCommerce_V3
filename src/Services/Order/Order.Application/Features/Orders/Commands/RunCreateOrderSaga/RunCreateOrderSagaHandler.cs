@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
-using SmartEcommerce.BuildingBlock.Saga.Core;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Saga.Core;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga;
-using SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga;
+using NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
+namespace NovaCore.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
 
 /// <summary>
 /// Drives CreateOrderSaga for one order (PHASE 5/6 of the CreateOrder workflow - see

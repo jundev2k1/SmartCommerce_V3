@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Persistence.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Inbox;
 
 /// <summary>Result of one manually-triggered retry attempt, as recorded in the append-only history.</summary>
 public enum InboxRetryHistoryResult

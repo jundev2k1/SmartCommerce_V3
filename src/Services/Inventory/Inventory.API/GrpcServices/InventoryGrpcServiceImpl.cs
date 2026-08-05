@@ -1,15 +1,15 @@
-using SmartEcommerce.BuildingBlock.Contract.Protos.Inventory;
+using NovaCore.BuildingBlock.Contract.Protos.Inventory;
 
 using Grpc.Core;
 
-using SmartEcommerce.Inventory.Application.Features.Inventories.Commands.RestockStock;
+using NovaCore.Inventory.Application.Features.Inventories.Commands.RestockStock;
 
-using AppDeductStockItem = SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockItem;
-using DeductStockCommand = SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockCommand;
-using GetProductStockQuery = SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock.GetProductStockQuery;
-using GetProductsStockQuery = SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductsStock.GetProductsStockQuery;
+using AppDeductStockItem = NovaCore.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockItem;
+using DeductStockCommand = NovaCore.Inventory.Application.Features.Inventories.Commands.DeductStock.DeductStockCommand;
+using GetProductStockQuery = NovaCore.Inventory.Application.Features.Inventories.Queries.GetProductStock.GetProductStockQuery;
+using GetProductsStockQuery = NovaCore.Inventory.Application.Features.Inventories.Queries.GetProductsStock.GetProductsStockQuery;
 
-namespace SmartEcommerce.Inventory.API.GrpcServices;
+namespace NovaCore.Inventory.API.GrpcServices;
 
 /// <summary>Thin adapter for Order Service (or any other gRPC caller) - parses the request, dispatches the same query/commands the REST endpoints use, no business logic here.</summary>
 public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcService.InventoryGrpcServiceBase
@@ -67,7 +67,7 @@ public sealed class InventoryGrpcServiceImpl(ISender sender) : InventoryGrpcServ
             FailureCode = result.FailureCode ?? string.Empty,
         };
 
-        response.InsufficientItems.AddRange(result.InsufficientItems.Select(i => new SmartEcommerce.BuildingBlock.Contract.Protos.Inventory.InsufficientStockItem
+        response.InsufficientItems.AddRange(result.InsufficientItems.Select(i => new NovaCore.BuildingBlock.Contract.Protos.Inventory.InsufficientStockItem
         {
             VariantId = i.VariantId.ToString(),
             RequestedQuantity = i.RequestedQuantity,

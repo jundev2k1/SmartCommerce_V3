@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.InventoryReservations.DTOs;
+namespace NovaCore.Inventory.Application.Features.InventoryReservations.DTOs;
 
 public sealed record CreateInventoryReservationRequest(
     string Number,

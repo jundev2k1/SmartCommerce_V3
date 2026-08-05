@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Permissions;
+namespace NovaCore.Auth.Domain.Entities.Permissions;
 
 /// <summary>
 /// Owned child of PermissionDefinition - a locale-specific override of the permission's

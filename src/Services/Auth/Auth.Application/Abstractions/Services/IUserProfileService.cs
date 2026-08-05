@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-namespace SmartEcommerce.Auth.Application.Abstractions.Services;
+namespace NovaCore.Auth.Application.Abstractions.Services;
 
 public interface IUserProfileService
 {

@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.UnitOfWork;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Ef.UnitOfWork;
 
-namespace SmartEcommerce.Auth.Persistence.Engine.UnitOfWork;
+namespace NovaCore.Auth.Persistence.Engine.UnitOfWork;
 
 public sealed class AuthUnitOfWork(AuthDbContext context)
     : EfUnitOfWork<AuthDbContext>(context), IUnitOfWork

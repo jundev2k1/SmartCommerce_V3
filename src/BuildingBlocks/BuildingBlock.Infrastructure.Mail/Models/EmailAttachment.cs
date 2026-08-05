@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Models;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Models;
 
 public sealed record EmailAttachment
 {

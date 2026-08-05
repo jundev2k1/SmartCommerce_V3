@@ -1,16 +1,16 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
-using SmartEcommerce.Order.Domain.Entities.Orders.Data;
-using SmartEcommerce.Order.Domain.ValueObjects;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Domain.Entities.Orders.Data;
+using NovaCore.Order.Domain.ValueObjects;
 
-namespace SmartEcommerce.Order.Persistence.Mapping.Orders;
+namespace NovaCore.Order.Persistence.Mapping.Orders;
 
 /// <summary>
 /// Application/Persistence conversion boundary for Order.Create - explicit, not Mapster (see
 /// docs/04-coding-rules.md's mapping conventions): this is where Money/Quantity get constructed
-/// from the primitives CreateOrderRequest carries, so SmartEcommerce.Order.Domain's CreateOrderData always
+/// from the primitives CreateOrderRequest carries, so NovaCore.Order.Domain's CreateOrderData always
 /// arrives with fully-built Value Objects.
 /// </summary>
 public static class OrderMapper

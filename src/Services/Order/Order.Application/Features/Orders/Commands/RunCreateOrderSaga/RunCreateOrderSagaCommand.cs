@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Contract.Events.Order;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
+namespace NovaCore.Order.Application.Features.Orders.Commands.RunCreateOrderSaga;
 
 /// <summary>Dispatched by OrderCreatedSagaConsumer (a thin adapter - see docs/reference/create-order-saga.md) once per OrderCreatedIntegrationEvent delivery.</summary>
 public sealed record RunCreateOrderSagaCommand(

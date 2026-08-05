@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Roles;
+namespace NovaCore.User.Domain.Entities.Roles;
 
 /// <summary>
 /// Independent, reusable permission bundle assigned to users - a flexible, permission-based

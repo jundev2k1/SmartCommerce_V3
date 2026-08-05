@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
+namespace NovaCore.Product.Persistence.Contexts.Products.Repositories;
 
 public interface IProductRepository : IRepository<ProductEntity>
 {

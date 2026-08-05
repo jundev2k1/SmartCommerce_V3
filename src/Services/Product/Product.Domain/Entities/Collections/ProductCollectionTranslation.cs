@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Collections;
+namespace NovaCore.Product.Domain.Entities.Collections;
 
 /// <summary>
 /// Owned child of ProductCollection - a locale-specific override of the collection's display copy.

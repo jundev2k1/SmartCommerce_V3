@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Domain.Constants;
+namespace NovaCore.Auth.Domain.Constants;
 
 public static class InvitationDefaults
 {

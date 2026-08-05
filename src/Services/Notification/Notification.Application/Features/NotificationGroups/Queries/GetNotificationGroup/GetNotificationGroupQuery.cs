@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationGroups.Queries.GetNotificationGroup;
+namespace NovaCore.Notification.Application.Features.NotificationGroups.Queries.GetNotificationGroup;
 
 public sealed record GetNotificationGroupQuery(Guid GroupId) : IQuery<GetNotificationGroupResponse>;
 

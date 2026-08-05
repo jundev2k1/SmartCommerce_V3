@@ -1,11 +1,11 @@
-using SmartEcommerce.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Application.Abstractions.Services;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Contract.Protos.User;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Contract.Protos.User;
 
 using Grpc.Core;
 
-namespace SmartEcommerce.Auth.Infrastructure.GrpcClients;
+namespace NovaCore.Auth.Infrastructure.GrpcClients;
 
 public sealed class UserProfileServiceClient(UserGrpcService.UserGrpcServiceClient client) : IUserProfileService
 {

@@ -1,12 +1,12 @@
-using SmartEcommerce.Auth.Domain.Entities.Roles;
-using SmartEcommerce.Auth.Domain.ValueObjects;
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.Auth.Domain.ValueObjects;
+using NovaCore.Auth.Persistence.Engine;
 
-using SmartEcommerce.BuildingBlock.Domain.Seeders;
+using NovaCore.BuildingBlock.Domain.Seeders;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.Auth.Persistence.Storage.Seeders;
+namespace NovaCore.Auth.Persistence.Storage.Seeders;
 
 public class RoleSeeder(AuthDbContext context)
 {

@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Saga.Abstractions;
 
-namespace SmartEcommerce.BuildingBlock.Saga.Core;
+namespace NovaCore.BuildingBlock.Saga.Core;
 
 /// <summary>
 /// Orchestrates saga execution with automatic compensation on failure.

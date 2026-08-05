@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Owned child of Account - a recognized physical/browser device. Sessions optionally link

@@ -4,4 +4,4 @@ global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+global using NovaCore.BuildingBlock.SharedKernel.Constants;

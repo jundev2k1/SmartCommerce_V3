@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 
-namespace SmartEcommerce.BuildingBlock.Application.Authorization;
+namespace NovaCore.BuildingBlock.Application.Authorization;
 
 public static class PermissionEndpointExtensions
 {

@@ -1,9 +1,9 @@
-namespace SmartEcommerce.Notification.Domain.Entities;
+namespace NovaCore.Notification.Domain.Entities;
 
 /// <summary>
 /// One notification delivery request waiting to be processed - the "Delivery" half of this
 /// service (see UserNotification for the "Business"/in-app half). Behaves like an Outbox: a
-/// worker (not implemented yet - see SmartEcommerce.Notification.Infrastructure/Workers) polls Pending/due-for-
+/// worker (not implemented yet - see NovaCore.Notification.Infrastructure/Workers) polls Pending/due-for-
 /// retry rows and attempts delivery through whichever <see cref="Channel"/>-specific sender it
 /// resolves via <see cref="NotificationChannel"/>. InApp is rejected in <see cref="Create"/> since
 /// in-app entries are written directly to <see cref="UserNotification"/>, never queued here.

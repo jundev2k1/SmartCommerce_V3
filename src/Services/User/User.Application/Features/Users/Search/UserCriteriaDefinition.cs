@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Strategies;
+using NovaCore.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Strategies;
 
-namespace SmartEcommerce.User.Application.Features.Users.Search;
+namespace NovaCore.User.Application.Features.Users.Search;
 
 /// <summary>
 /// Admin search request-shape whitelist for <see cref="UserReadModel"/> - field names, allowed

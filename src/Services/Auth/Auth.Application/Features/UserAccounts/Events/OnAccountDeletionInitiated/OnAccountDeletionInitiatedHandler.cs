@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Features.UserAccounts.Events.OnAccountDeletionInitiated;
+namespace NovaCore.Auth.Application.Features.UserAccounts.Events.OnAccountDeletionInitiated;
 
 public sealed class OnAccountDeletionInitiatedHandler(
     IAccountWriteService accountWriteService,

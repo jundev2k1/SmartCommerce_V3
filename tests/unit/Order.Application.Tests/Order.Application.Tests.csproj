@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Order.Application.Tests</RootNamespace>
-    <AssemblyName>SmartEcommerce.Order.Application.Tests</AssemblyName>
+    <RootNamespace>NovaCore.Order.Application.Tests</RootNamespace>
+    <AssemblyName>NovaCore.Order.Application.Tests</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../src/Services/Order/Order.Application/Order.Application.csproj" />
-    <ProjectReference Include="../Common/SimpleShop.TestKit/SimpleShop.TestKit.csproj" />
+    <ProjectReference Include="../Common/NovaCore.TestKit/NovaCore.TestKit.csproj" />
   </ItemGroup>
 
 </Project>

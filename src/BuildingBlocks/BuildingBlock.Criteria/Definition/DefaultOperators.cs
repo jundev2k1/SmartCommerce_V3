@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
+namespace NovaCore.BuildingBlock.Criteria.Definition;
 
 /// <summary>Per-type default operator whitelist, per the framework's operator-validation table. `.AllowOperators(...)` narrows or overrides these on a specific field.</summary>
 internal static class DefaultOperators

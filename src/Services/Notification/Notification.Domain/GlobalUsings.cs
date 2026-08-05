@@ -4,8 +4,8 @@ global using System.Linq;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-global using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+global using NovaCore.BuildingBlock.Domain.Abstractions;
+global using NovaCore.BuildingBlock.Domain.Exceptions;
 
-global using SmartEcommerce.Notification.Domain.Enums;
-global using SmartEcommerce.Notification.Domain.ValueObjects;
+global using NovaCore.Notification.Domain.Enums;
+global using NovaCore.Notification.Domain.ValueObjects;

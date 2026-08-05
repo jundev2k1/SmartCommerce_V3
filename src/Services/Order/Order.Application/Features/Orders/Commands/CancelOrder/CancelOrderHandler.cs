@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Contract.Events.Order;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
-using SmartEcommerce.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CancelOrder;
+namespace NovaCore.Order.Application.Features.Orders.Commands.CancelOrder;
 
 public sealed class CancelOrderHandler(
     IOrderWriteService orderWriteService,

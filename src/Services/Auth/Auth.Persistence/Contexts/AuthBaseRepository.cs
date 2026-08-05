@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.Persistence.Engine;
 
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
+using NovaCore.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Persistence.Ef.Repository;
 
-namespace SmartEcommerce.Auth.Persistence.Contexts;
+namespace NovaCore.Auth.Persistence.Contexts;
 
 public abstract class AuthBaseRepository<TEntity>(AuthDbContext context)
     : GenericRepository<AuthDbContext, TEntity>(context)

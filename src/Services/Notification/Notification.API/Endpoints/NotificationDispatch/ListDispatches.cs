@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
+using NovaCore.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
 
-namespace SmartEcommerce.Notification.API.Endpoints.NotificationDispatch;
+namespace NovaCore.Notification.API.Endpoints.NotificationDispatch;
 
 public sealed class ListDispatches : ICarterModule
 {

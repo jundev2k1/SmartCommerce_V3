@@ -3,7 +3,7 @@ using Grpc.Core.Interceptors;
 
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.BuildingBlock.Grpc.Interceptors;
+namespace NovaCore.BuildingBlock.Grpc.Interceptors;
 
 /// <summary>
 /// Server-side interceptor for consistent error handling in gRPC.

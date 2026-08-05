@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Messaging</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Messaging</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Messaging</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Messaging</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

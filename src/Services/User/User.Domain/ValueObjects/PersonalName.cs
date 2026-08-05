@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>
 /// A person's given/middle/family name plus a display FullName. FullName defaults to the

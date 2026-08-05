@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using SmartEcommerce.Product.Domain.ValueObjects;
+using NovaCore.Product.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
 public sealed class CreateProductCategoryValidator : AbstractValidator<CreateProductCategoryCommand>
 {

@@ -25,7 +25,7 @@ By contrast, `CreateOrderAsync`'s initial items (created via `writeService.Creat
 
 ## Why this matters
 
-This is not an edge case — **every single call to `PUT /orders/{orderId}` (UpdateOrder) fails**, unconditionally, today. Any admin or customer flow that edits a Pending order's item list (e.g. SimpleShopUI's `EditOrderItemsForm`, built in an earlier session) is completely broken in practice, not just under concurrent load. This is a far more urgent bug than the race condition it was originally mistaken for — concurrency behavior is moot if the base single-request case never succeeds.
+This is not an edge case — **every single call to `PUT /orders/{orderId}` (UpdateOrder) fails**, unconditionally, today. Any admin or customer flow that edits a Pending order's item list (e.g. NovaCoreUI's `EditOrderItemsForm`, built in an earlier session) is completely broken in practice, not just under concurrent load. This is a far more urgent bug than the race condition it was originally mistaken for — concurrency behavior is moot if the base single-request case never succeeds.
 
 ## Suggested acceptance criteria
 

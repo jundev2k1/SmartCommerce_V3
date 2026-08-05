@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
+namespace NovaCore.BuildingBlock.Web.Swagger.EndpointHeader;
 
 public sealed record HeaderDefinition(
     string Name,

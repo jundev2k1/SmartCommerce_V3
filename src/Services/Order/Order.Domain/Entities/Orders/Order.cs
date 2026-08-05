@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Domain.Enums;
 
-using SmartEcommerce.Order.Domain.Entities.Orders.Data;
+using NovaCore.Order.Domain.Entities.Orders.Data;
 
-namespace SmartEcommerce.Order.Domain.Entities.Orders;
+namespace NovaCore.Order.Domain.Entities.Orders;
 
 public sealed class Order : AggregateRoot<Guid>, IAuditable
 {

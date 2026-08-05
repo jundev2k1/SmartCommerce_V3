@@ -1,6 +1,6 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationChannels;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationChannels;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationChannels.Queries.ListNotificationChannels;
+namespace NovaCore.Notification.Application.Features.NotificationChannels.Queries.ListNotificationChannels;
 
 public sealed class ListNotificationChannelsHandler(INotificationChannelReadService notificationChannelReadService)
     : IQueryHandler<ListNotificationChannelsQuery, IReadOnlyList<NotificationChannelSummaryResponse>>

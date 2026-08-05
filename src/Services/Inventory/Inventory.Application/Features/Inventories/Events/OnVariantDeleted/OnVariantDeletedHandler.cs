@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnVariantDeleted;
+namespace NovaCore.Inventory.Application.Features.Inventories.Events.OnVariantDeleted;
 
 /// <summary>A deleted variation no longer exists to hold stock against, so its inventory rows (across every warehouse) are removed with it.</summary>
 public sealed class OnVariantDeletedHandler(

@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Text;
+using NovaCore.BuildingBlock.SharedKernel.Text;
 
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 
-using SmartEcommerce.User.Application.Abstractions.Search;
+using NovaCore.User.Application.Abstractions.Search;
 
-namespace SmartEcommerce.User.Persistence.Contexts.Users.Search.Repositories;
+namespace NovaCore.User.Persistence.Contexts.Users.Search.Repositories;
 
 /// <summary>
 /// IUserSearchRepository impl - query-only against Elasticsearch, never Postgres. Composes
@@ -78,7 +78,7 @@ public sealed class UserSearchRepository(ElasticsearchClient client) : IUserSear
         }
 
         // Same "prefix on PhoneSearch / prefix on the reversed PhoneReverse" trick the Postgres
-        // path uses (SmartEcommerce.BuildingBlock.Criteria's PhoneSearchStrategy) - both index-backed, never a
+        // path uses (NovaCore.BuildingBlock.Criteria's PhoneSearchStrategy) - both index-backed, never a
         // full scan. PhoneNormalizer is reused here for parity: the same normalization the
         // domain entity uses to populate PhoneSearch/PhoneReverse in the first place.
         if (!string.IsNullOrWhiteSpace(criteria.PhonePrefix))

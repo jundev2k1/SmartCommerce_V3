@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
+namespace NovaCore.Notification.Application.Features.NotificationCampaigns.Queries.GetNotificationCampaign;
 
 public sealed record GetNotificationCampaignQuery(Guid CampaignId) : IQuery<GetNotificationCampaignResponse>;
 

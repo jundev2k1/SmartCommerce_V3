@@ -1,6 +1,6 @@
-using SmartEcommerce.Audit.Persistence.Engine;
+using NovaCore.Audit.Persistence.Engine;
 
-namespace SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Repositories;
+namespace NovaCore.Audit.Persistence.Contexts.AuditLogs.Repositories;
 
 public sealed class AuditLogRepo(AuditMongoContext context) : IAuditLogRepository
 {

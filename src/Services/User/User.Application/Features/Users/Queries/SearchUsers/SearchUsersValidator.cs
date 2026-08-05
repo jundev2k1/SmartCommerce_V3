@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Criteria.Validation;
+using NovaCore.BuildingBlock.Criteria.Validation;
 
 using FluentValidation;
 
-using SmartEcommerce.User.Application.Features.Users.Search;
+using NovaCore.User.Application.Features.Users.Search;
 
-namespace SmartEcommerce.User.Application.Features.Users.Queries.SearchUsers;
+namespace NovaCore.User.Application.Features.Users.Queries.SearchUsers;
 
 public sealed class SearchUsersValidator : AbstractValidator<SearchUsersQuery>
 {

@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Permissions;
+namespace NovaCore.Auth.Domain.Entities.Permissions;
 
 /// <summary>
 /// Admin-UI grouping for PermissionDefinitions (e.g. "Product Management", "Order Management").

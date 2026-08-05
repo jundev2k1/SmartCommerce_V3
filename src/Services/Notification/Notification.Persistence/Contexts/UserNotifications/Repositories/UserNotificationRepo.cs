@@ -1,6 +1,6 @@
-using SmartEcommerce.Notification.Persistence.Engine;
+using NovaCore.Notification.Persistence.Engine;
 
-namespace SmartEcommerce.Notification.Persistence.Contexts.UserNotifications.Repositories;
+namespace NovaCore.Notification.Persistence.Contexts.UserNotifications.Repositories;
 
 public sealed class UserNotificationRepo(NotificationMongoContext context) : IUserNotificationRepository
 {

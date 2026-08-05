@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.Products;
+namespace NovaCore.Product.Application.Features.Products;
 
 /// <summary>Shared response shape for a Variant, reused across every Products query/command that returns one.</summary>
 public sealed record VariantResponse(

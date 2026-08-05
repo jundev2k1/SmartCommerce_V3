@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Observability</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Observability</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Observability</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Observability</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

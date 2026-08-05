@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using SmartEcommerce.Product.Domain.ValueObjects;
+using NovaCore.Product.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.CreateProductTag;
+namespace NovaCore.Product.Application.Features.ProductTags.Commands.CreateProductTag;
 
 public sealed class CreateProductTagValidator : AbstractValidator<CreateProductTagCommand>
 {

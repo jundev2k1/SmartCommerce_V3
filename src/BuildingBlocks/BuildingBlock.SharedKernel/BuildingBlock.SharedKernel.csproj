@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.SharedKernel</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.SharedKernel</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.SharedKernel</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.SharedKernel</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

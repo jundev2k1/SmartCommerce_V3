@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Text;
+using NovaCore.BuildingBlock.SharedKernel.Text;
 
 using Shouldly;
 
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Tests.Text;
+namespace NovaCore.BuildingBlock.SharedKernel.Tests.Text;
 
 public class PhoneNormalizerTests
 {

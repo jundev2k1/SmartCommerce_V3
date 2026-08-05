@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
-using SmartEcommerce.Inventory.Application.Features.Warehouses.DTOs;
-using SmartEcommerce.Inventory.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Repository;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
+using NovaCore.Inventory.Application.Features.Warehouses.DTOs;
+using NovaCore.Inventory.Domain.ValueObjects;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.Warehouses.Write;
+namespace NovaCore.Inventory.Persistence.Contexts.Warehouses.Write;
 
 public sealed class WarehouseWriteService(
     IRepository<Warehouse> repo,

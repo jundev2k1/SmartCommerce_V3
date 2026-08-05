@@ -1,6 +1,6 @@
-using SmartEcommerce.Inventory.Domain.Metadata;
+using NovaCore.Inventory.Domain.Metadata;
 
-namespace SmartEcommerce.Inventory.Domain.Entities.Warehouses;
+namespace NovaCore.Inventory.Domain.Entities.Warehouses;
 
 public sealed class WarehouseZone : BaseEntity<Guid>, IAuditable
 {

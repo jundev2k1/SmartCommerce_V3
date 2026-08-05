@@ -1,6 +1,6 @@
-using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
 
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantDeleted;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnVariantDeleted;
 
 public sealed class OnVariantDeletedHandler(
     IUnitOfWork uow,

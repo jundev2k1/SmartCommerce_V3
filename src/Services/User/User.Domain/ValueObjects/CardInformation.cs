@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>
 /// Display-only card metadata for a UserPaymentMethod. Never holds a full PAN or CVV - only the

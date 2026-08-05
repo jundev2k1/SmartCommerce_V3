@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 
-using SmartEcommerce.Auth.Domain.Entities.Positions;
-using SmartEcommerce.Auth.Domain.Entities.Roles;
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Auth.Domain.Entities.Positions;
+using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Aggregate root of the Auth service - the JWT-claim authority for the platform. Holds identity

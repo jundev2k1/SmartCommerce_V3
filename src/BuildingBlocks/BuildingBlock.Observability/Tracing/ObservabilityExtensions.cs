@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-namespace SmartEcommerce.BuildingBlock.Observability.Tracing;
+namespace NovaCore.BuildingBlock.Observability.Tracing;
 
 public static class ObservabilityExtensions
 {

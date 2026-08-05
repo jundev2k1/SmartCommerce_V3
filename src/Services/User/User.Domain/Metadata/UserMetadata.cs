@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Metadata;
+using NovaCore.BuildingBlock.Domain.Metadata;
 
-namespace SmartEcommerce.User.Domain.Metadata;
+namespace NovaCore.User.Domain.Metadata;
 
 /// <summary>Extensible, strongly-typed metadata bag embedded directly on User (not a separate
 /// table) - a JSONB-backed dictionary for integration/analytics data that doesn't warrant its

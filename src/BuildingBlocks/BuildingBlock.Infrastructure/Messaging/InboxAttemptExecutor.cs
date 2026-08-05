@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
+namespace NovaCore.BuildingBlock.Infrastructure.Messaging;
 
 /// <summary>
 /// Owns the Inbox attempt lifecycle (begin -> invoke handler -> complete/fail) and its logging.

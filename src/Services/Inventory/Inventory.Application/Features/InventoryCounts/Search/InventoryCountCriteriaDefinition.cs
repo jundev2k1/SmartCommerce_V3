@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Definition;
 
-namespace SmartEcommerce.Inventory.Application.Features.InventoryCounts.Search;
+namespace NovaCore.Inventory.Application.Features.InventoryCounts.Search;
 
 public static class InventoryCountCriteriaDefinition
 {

@@ -1,4 +1,4 @@
-namespace SimpleShop.TestKit.Builders;
+namespace NovaCore.TestKit.Builders;
 
 /// <summary>
 /// Base for fluent Test Data Builders. A concrete builder holds sensible defaults for every

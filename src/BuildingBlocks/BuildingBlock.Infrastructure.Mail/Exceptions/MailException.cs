@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Exceptions;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Exceptions;
 
 public sealed class MailException : Exception
 {

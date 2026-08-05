@@ -1,4 +1,4 @@
-# SimpleShop Documentation Index
+# NovaCore Documentation Index
 
 This is the entry point. Docs are organized so a task only requires reading a **minimal, deterministic subset** of files — read [05-context-loading-map.md](05-context-loading-map.md) before anything else if you're about to implement something.
 
@@ -90,9 +90,9 @@ Dated, per-task bug/gap tracking (not architecture, not workflows) — see [task
 
 ## Testing
 
-- [testing/TestingArchitecture.md](testing/TestingArchitecture.md) — `/tests` project layout, central package management, `SimpleShop.TestKit` shared infrastructure, library choices (xUnit/Shouldly/NSubstitute)
+- [testing/TestingArchitecture.md](testing/TestingArchitecture.md) — `/tests` project layout, central package management, `NovaCore.TestKit` shared infrastructure, library choices (xUnit/Shouldly/NSubstitute)
 - [testing/TestingGuidelines.md](testing/TestingGuidelines.md) — how to write a test: AAA structure, naming, mocking rules, when to use a `TestDataBuilder`, what triggers a new test per workflow
-- [testing/TestingRoadmap.md](testing/TestingRoadmap.md) — the 6-phase long-term plan (SharedKernel → BuildingBlocks → Domain → Application → Infrastructure → API), mapped to SimpleShop's actual projects
+- [testing/TestingRoadmap.md](testing/TestingRoadmap.md) — the 6-phase long-term plan (SharedKernel → BuildingBlocks → Domain → Application → Infrastructure → API), mapped to NovaCore's actual projects
 - [testing/TestingProgress.md](testing/TestingProgress.md) — living checkpoint: what's done, what's next, technical debt, known limitations — read this first when resuming the testing initiative
 
 ## Setup & operations

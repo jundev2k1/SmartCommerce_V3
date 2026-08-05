@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Specifications;
+namespace NovaCore.Product.Domain.Entities.Specifications;
 
 /// <summary>
 /// Owned child of SpecificationGroup - a locale-specific display name/description for the group.

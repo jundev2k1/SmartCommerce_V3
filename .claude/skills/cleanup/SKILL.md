@@ -1,6 +1,6 @@
 ---
 name: cleanup
-description: Analyze SimpleShop's current workspace and organize pending changes into logical commit groups — analysis only, never commits or modifies files
+description: Analyze NovaCore's current workspace and organize pending changes into logical commit groups — analysis only, never commits or modifies files
 ---
 
 ## Purpose

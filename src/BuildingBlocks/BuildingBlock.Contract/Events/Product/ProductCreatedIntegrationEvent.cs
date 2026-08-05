@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
+namespace NovaCore.BuildingBlock.Contract.Events.Product;
 
 /// <summary>
 /// Product-level info only - Sku/Price live on Variant now, so stock/catalog

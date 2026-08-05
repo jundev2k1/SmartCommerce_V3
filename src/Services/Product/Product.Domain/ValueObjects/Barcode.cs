@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.RegexPatterns;
-using SmartEcommerce.BuildingBlock.SharedKernel.Utilities;
+using NovaCore.BuildingBlock.SharedKernel.RegexPatterns;
+using NovaCore.BuildingBlock.SharedKernel.Utilities;
 
-namespace SmartEcommerce.Product.Domain.ValueObjects;
+namespace NovaCore.Product.Domain.ValueObjects;
 
 /// <summary>EAN/UPC/GTIN barcode - 8 to 14 numeric digits.</summary>
 public sealed class Barcode : StringValueObject

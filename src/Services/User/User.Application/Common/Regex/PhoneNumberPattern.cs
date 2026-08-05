@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.User.Application.Common.Regex;
+namespace NovaCore.User.Application.Common.Regex;
 
 /// <summary>Shared phone-number format check, reused by CreateUserValidator/UpdateUserValidator so the rule can't silently diverge between them.</summary>
 internal static partial class PhoneNumberPattern

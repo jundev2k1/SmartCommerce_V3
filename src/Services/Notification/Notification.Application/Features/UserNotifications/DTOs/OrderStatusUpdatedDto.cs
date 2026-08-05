@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+namespace NovaCore.Notification.Application.Features.UserNotifications.DTOs;
 
 /// <summary>
 /// Pushed to the customer over SignalR (IClientSiteActions.OrderStatusUpdated) whenever an order

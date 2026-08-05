@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.YarpApiGateway.Configuration;
+using NovaCore.YarpApiGateway.Configuration;
 
-namespace SmartEcommerce.YarpApiGateway.Services;
+namespace NovaCore.YarpApiGateway.Services;
 
 public interface ISwaggerAggregator
 {
@@ -54,7 +54,7 @@ public sealed class SwaggerAggregator(GatewayOptions options, IHttpClientFactory
             <!DOCTYPE html>
             <html>
             <head>
-                <title>SimpleShop API Gateway - All APIs</title>
+                <title>NovaCore API Gateway - All APIs</title>
                 <meta charset='utf-8' />
                 <meta name='viewport' content='width=device-width, initial-scale=1' />
                 <link rel='stylesheet' href='https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css' />

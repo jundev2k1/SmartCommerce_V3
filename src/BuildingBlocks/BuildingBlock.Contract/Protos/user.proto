@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option csharp_namespace = "SmartEcommerce.BuildingBlock.Contract.Protos.User";
+option csharp_namespace = "NovaCore.BuildingBlock.Contract.Protos.User";
 
-package simpleshop.user;
+package novacore.user;
 
 service UserGrpcService {
   rpc CreateUserProfile (CreateUserProfileRequest) returns (CreateUserProfileResponse);

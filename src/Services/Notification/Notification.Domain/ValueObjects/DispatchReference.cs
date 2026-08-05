@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.ValueObjects;
+namespace NovaCore.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// What triggered a <see cref="Entities.NotificationDispatch"/> - an open (string, string) pair

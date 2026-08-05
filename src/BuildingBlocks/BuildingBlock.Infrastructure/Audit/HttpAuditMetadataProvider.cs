@@ -1,11 +1,11 @@
 using System.Diagnostics;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Audit;
 
 using Microsoft.AspNetCore.Http;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Audit;
+namespace NovaCore.BuildingBlock.Infrastructure.Audit;
 
 /// <summary>
 /// HTTP-request-aware <see cref="IAuditMetadataProvider"/> - reuses <see cref="ICurrentUserService"/>

@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Contract.Events;
+using NovaCore.BuildingBlock.Contract.Events;
 
-namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+namespace NovaCore.BuildingBlock.Messaging.Abstractions;
 
 public interface IEventDispatcher
 {

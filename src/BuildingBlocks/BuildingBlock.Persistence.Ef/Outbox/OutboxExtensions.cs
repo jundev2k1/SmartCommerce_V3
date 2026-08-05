@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Persistence.Outbox;
+using NovaCore.BuildingBlock.Persistence.Outbox;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
 public static class OutboxExtensions
 {

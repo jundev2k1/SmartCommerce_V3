@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Options;
+namespace NovaCore.Product.Domain.Entities.Options;
 
 /// <summary>
 /// Owned child of ProductOption - selects one of the OptionDefinition's ValueDefinitions (e.g.

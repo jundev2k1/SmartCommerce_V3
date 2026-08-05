@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Strategies;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Strategies;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
+namespace NovaCore.BuildingBlock.Criteria.Definition;
 
 public sealed record CriteriaFieldMetadata<TEntity>
 {

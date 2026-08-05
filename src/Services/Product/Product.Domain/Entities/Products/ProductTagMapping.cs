@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Domain.Entities.Tags;
+using NovaCore.Product.Domain.Entities.Tags;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Owned child of Product,

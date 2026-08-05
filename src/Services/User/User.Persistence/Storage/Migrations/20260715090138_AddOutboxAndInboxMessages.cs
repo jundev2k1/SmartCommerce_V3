@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SmartEcommerce.User.Persistence.Storage.Migrations
+namespace NovaCore.User.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddOutboxAndInboxMessages : Migration

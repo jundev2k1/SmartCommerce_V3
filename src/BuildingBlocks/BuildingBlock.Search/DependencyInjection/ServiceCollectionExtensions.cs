@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Search.Abstractions;
-using SmartEcommerce.BuildingBlock.Search.Configuration;
-using SmartEcommerce.BuildingBlock.Search.Indexing;
+using NovaCore.BuildingBlock.Search.Abstractions;
+using NovaCore.BuildingBlock.Search.Configuration;
+using NovaCore.BuildingBlock.Search.Indexing;
 
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
@@ -9,13 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace SmartEcommerce.BuildingBlock.Search.DependencyInjection;
+namespace NovaCore.BuildingBlock.Search.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Registers a singleton ElasticsearchClient (thread-safe/stateless, same registration
-    /// lifetime rationale as SmartEcommerce.BuildingBlock.Persistence.Mongo's IMongoClient) plus the generic
+    /// lifetime rationale as NovaCore.BuildingBlock.Persistence.Mongo's IMongoClient) plus the generic
     /// IElasticsearchIndexer&lt;&gt; - the only reusable piece; document shape, mapping, and
     /// query DSL stay in each service's own Persistence project.
     /// </summary>

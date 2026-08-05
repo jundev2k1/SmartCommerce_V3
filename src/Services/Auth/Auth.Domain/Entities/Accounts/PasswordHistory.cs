@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Owned child of Account - an append-only record of a previously used password hash,

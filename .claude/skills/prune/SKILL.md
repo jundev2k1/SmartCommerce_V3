@@ -1,6 +1,6 @@
 ---
 name: prune
-description: Detect and safely remove obsolete implementation leftovers from SimpleShop's current working changes before commit
+description: Detect and safely remove obsolete implementation leftovers from NovaCore's current working changes before commit
 ---
 
 ## Purpose

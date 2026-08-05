@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.TransferInventory;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
 public sealed class TransferInventoryValidator : AbstractValidator<TransferInventoryCommand>
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.GetUserNotification;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Queries.GetUserNotification;
 
 public sealed record GetUserNotificationQuery(Guid NotificationId) : IQuery<GetUserNotificationResponse>;
 

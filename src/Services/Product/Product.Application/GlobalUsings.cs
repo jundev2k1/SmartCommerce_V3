@@ -3,12 +3,12 @@ global using System.Collections.Generic;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+global using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+global using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
-global using SmartEcommerce.Product.Domain.Entities.Categories;
-global using SmartEcommerce.Product.Domain.Entities.Products;
-global using SmartEcommerce.Product.Domain.Entities.Tags;
-global using SmartEcommerce.Product.Domain.Enums;
-global using SmartEcommerce.Product.Domain.ValueObjects;
-global using ProductEntity = SmartEcommerce.Product.Domain.Entities.Products.Product;
+global using NovaCore.Product.Domain.Entities.Categories;
+global using NovaCore.Product.Domain.Entities.Products;
+global using NovaCore.Product.Domain.Entities.Tags;
+global using NovaCore.Product.Domain.Enums;
+global using NovaCore.Product.Domain.ValueObjects;
+global using ProductEntity = NovaCore.Product.Domain.Entities.Products.Product;

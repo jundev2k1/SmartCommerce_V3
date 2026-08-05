@@ -1,10 +1,10 @@
-using SmartEcommerce.User.Application.Abstractions.Persistence.Users;
-using SmartEcommerce.User.Application.Features.Users.DTOs;
-using SmartEcommerce.User.Persistence.Engine;
+using NovaCore.User.Application.Abstractions.Persistence.Users;
+using NovaCore.User.Application.Features.Users.DTOs;
+using NovaCore.User.Persistence.Engine;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.User.Persistence.Contexts.Users.Read;
+namespace NovaCore.User.Persistence.Contexts.Users.Read;
 
 public sealed class UserReadService(UserDbContext dbContext) : IUserReadService
 {

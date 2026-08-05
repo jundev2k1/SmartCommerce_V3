@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationDispatches;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationDispatches;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
+namespace NovaCore.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
 
 public sealed class ListNotificationDispatchesHandler(INotificationDispatchReadService notificationDispatchReadService)
     : IQueryHandler<ListNotificationDispatchesQuery, PaginatedResult<NotificationDispatchSummaryResponse>>

@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrderHistory;
+namespace NovaCore.Order.Application.Features.Orders.Queries.GetOrderHistory;
 
 public sealed class GetOrderHistoryHandler(
     ICurrentUserService currentUser,

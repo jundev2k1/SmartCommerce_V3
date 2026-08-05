@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Infrastructure.Caching.Roles;
+namespace NovaCore.User.Infrastructure.Caching.Roles;
 
 /// <summary>
 /// Reads roles from the shared Redis cache under the same key Auth's

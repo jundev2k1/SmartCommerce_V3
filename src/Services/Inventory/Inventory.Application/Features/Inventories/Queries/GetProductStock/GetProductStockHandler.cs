@@ -1,6 +1,6 @@
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.GetProductStock;
+namespace NovaCore.Inventory.Application.Features.Inventories.Queries.GetProductStock;
 
 public sealed class GetProductStockHandler(IInventoryReadService inventoryReadService)
     : IQueryHandler<GetProductStockQuery, GetProductStockResponse>

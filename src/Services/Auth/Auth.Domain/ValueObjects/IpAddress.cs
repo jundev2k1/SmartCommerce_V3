@@ -1,6 +1,6 @@
 using SystemIPAddress = System.Net.IPAddress;
 
-namespace SmartEcommerce.Auth.Domain.ValueObjects;
+namespace NovaCore.Auth.Domain.ValueObjects;
 
 /// <summary>
 /// Format-validated IPv4/IPv6 address string, recorded on Session and LoginHistory. Kept local

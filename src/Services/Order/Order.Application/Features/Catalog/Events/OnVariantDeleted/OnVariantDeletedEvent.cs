@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantDeleted;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnVariantDeleted;
 
 public sealed record OnVariantDeletedEvent(
     Guid ProductId,

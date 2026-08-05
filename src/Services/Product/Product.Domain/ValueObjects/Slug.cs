@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.Product.Domain.ValueObjects;
+namespace NovaCore.Product.Domain.ValueObjects;
 
 /// <summary>Lowercase kebab-case URL slug, shared across every variation of a Product.</summary>
 public sealed partial class Slug : StringValueObject

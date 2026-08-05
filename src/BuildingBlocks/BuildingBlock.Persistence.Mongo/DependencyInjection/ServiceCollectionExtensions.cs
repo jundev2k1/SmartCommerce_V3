@@ -1,4 +1,4 @@
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
+using NovaCore.BuildingBlock.Persistence.Mongo.MongoContext;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +9,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.DependencyInjection;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
@@ -60,7 +60,7 @@ public static class ServiceCollectionExtensions
             return;
 
         var pack = new ConventionPack { new CamelCaseElementNameConvention() };
-        ConventionRegistry.Register("SimpleShop Camel Case", pack, _ => true);
+        ConventionRegistry.Register("NovaCore Camel Case", pack, _ => true);
 
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
         BsonSerializer.RegisterSerializer(new NullableSerializer<Guid>(new GuidSerializer(GuidRepresentation.Standard)));

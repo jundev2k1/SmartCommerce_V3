@@ -42,4 +42,4 @@ Checklist requirement: on insufficient stock, the response should carry structur
 
 `detail` is an anonymous type (`object?` on the exception, matching the existing `ConflictException` convention elsewhere in the codebase of passing anonymous objects) rather than a named DTO - consistent with how `ErrorDetails` is used elsewhere, but means there's no compile-time-checked contract for consumers. Not introducing a named type since nothing else in the codebase's exception `detail` payloads does either.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task17_add-to-cart-checkout-stock-error-handling-missing.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task17_add-to-cart-checkout-stock-error-handling-missing.md`.

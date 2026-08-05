@@ -12,10 +12,10 @@ All six docs named in this file's own scope were updated, plus one extra found w
 - `docs/reference/caching.md` — new "User Detail cache" section, explaining the DTO-based deviation from the `Cached{X}ServiceDecorator` template (and why: `UserProfile`'s private setters) and pointing at the correct `CacheKeys.UserProfiles` group vs. the pre-existing dead `CacheKeys.Users`.
 - `docs/reference/grpc.md` — "two call chains" corrected to three (Audit → User added); new "Batch RPCs: never a loop of single calls" section documenting `GetUsers`'s never-omit convention and Audit's fail-open, display-only consumer.
 - `docs/reference/events.md` — one-sentence addition noting `UserProfileUpdatedIntegrationEvent` as a recent example of the "new event added purely for search sync" pattern.
-- `SimpleShopUI/docs/backend/user/README.md` — endpoints table (rebuild endpoint), a new "Locale" section (the `Accept-Language` header already flows, no frontend change needed), the `SearchUsers` field-support changes, and `middleName`/`displayName` on the DTOs.
-- **Extra, not originally listed**: `SimpleShopUI/docs/backend/auth/README.md`'s `RegisterRequest` DTO line — a one-line fix for the same `middleName` addition (Task 3), found while touching the sibling User doc.
+- `NovaCoreUI/docs/backend/user/README.md` — endpoints table (rebuild endpoint), a new "Locale" section (the `Accept-Language` header already flows, no frontend change needed), the `SearchUsers` field-support changes, and `middleName`/`displayName` on the DTOs.
+- **Extra, not originally listed**: `NovaCoreUI/docs/backend/auth/README.md`'s `RegisterRequest` DTO line — a one-line fix for the same `middleName` addition (Task 3), found while touching the sibling User doc.
 
-Not done, out of this task's scope: SimpleShopUI's own `docs/frontend/i18n.md`/ADR (Frontend Task 5's concern, not this one), and no team review cycle occurred (this was a solo session).
+Not done, out of this task's scope: NovaCoreUI's own `docs/frontend/i18n.md`/ADR (Frontend Task 5's concern, not this one), and no team review cycle occurred (this was a solo session).
 
 ## Objective
 
@@ -28,7 +28,7 @@ Keep `docs/` in sync as each piece of this epic lands — per this repo's docs-f
 - `docs/reference/caching.md` — currently documents only Auth's role cache and the Gateway's separate minimal path as concrete examples; needs a new "User Detail cache" example once Task 11/12 land, since this is the first time an *owning* service (not a cross-service read-only borrower) implements the full decorator pattern for its own entity outside of Auth.
 - `docs/reference/grpc.md` — currently states "Two call chains today: Auth → User `CreateUserProfile`, and Order → Inventory" — needs updating once Task 13-15 land (a third call chain, plus User gaining its first read-oriented RPCs).
 - `docs/reference/events.md` — if Task 8 adds `UserProfileUpdatedIntegrationEvent` (a genuinely new integration event, not present in the "Known gaps" or implementation-status lists today), it should be reflected wherever this doc enumerates integration events, consistent with how it already tracks additions like the Product Category/Tag events added for search sync.
-- `SimpleShopUI/docs/backend/user/README.md` (the frontend repo's mirror of the User contract) — per the frontend research agent's findings, this doc already lists known TODOs (GetUserDetail route mismatch, roles/tempPassword optionality) but mentions nothing about `MiddleName`, locale headers, or Elasticsearch — needs a new section once the backend contract is finalized (coordinate with Frontend Task F6).
+- `NovaCoreUI/docs/backend/user/README.md` (the frontend repo's mirror of the User contract) — per the frontend research agent's findings, this doc already lists known TODOs (GetUserDetail route mismatch, roles/tempPassword optionality) but mentions nothing about `MiddleName`, locale headers, or Elasticsearch — needs a new section once the backend contract is finalized (coordinate with Frontend Task F6).
 
 ## Scope
 
@@ -56,4 +56,4 @@ Small, spread across the epic — a paragraph or section per doc, per phase.
 - [x] `docs/reference/caching.md` gains a User Detail cache example
 - [x] `docs/reference/grpc.md` updated with the new call chain(s) and User's first read RPCs
 - [x] `docs/reference/events.md` updated for `UserProfileUpdatedIntegrationEvent`
-- [x] `SimpleShopUI/docs/backend/user/README.md` updated (backend contract already landed this session, no need to wait for Frontend Task F6)
+- [x] `NovaCoreUI/docs/backend/user/README.md` updated (backend contract already landed this session, no need to wait for Frontend Task F6)

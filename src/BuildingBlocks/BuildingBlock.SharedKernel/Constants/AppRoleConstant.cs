@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 
 public static class AppRoleConstant
 {

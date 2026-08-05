@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Domain.Entities.Collections;
+using NovaCore.Product.Domain.Entities.Collections;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Explicit many-to-many join entity between Product and ProductCollection - Product and

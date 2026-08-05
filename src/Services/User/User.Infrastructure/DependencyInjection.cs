@@ -1,23 +1,23 @@
-using SmartEcommerce.BuildingBlock.Contract.Protos.Auth;
-using SmartEcommerce.BuildingBlock.Grpc.Client;
-using SmartEcommerce.BuildingBlock.Infrastructure.Audit;
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
-using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
+using NovaCore.BuildingBlock.Contract.Protos.Auth;
+using NovaCore.BuildingBlock.Grpc.Client;
+using NovaCore.BuildingBlock.Infrastructure.Audit;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using NovaCore.BuildingBlock.Infrastructure.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.Messaging;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.User.Application.Abstractions.Services;
-using SmartEcommerce.User.Infrastructure.BackgroundJobs;
-using SmartEcommerce.User.Infrastructure.Caching.Roles;
-using SmartEcommerce.User.Infrastructure.Caching.Users;
-using SmartEcommerce.User.Infrastructure.GrpcClients;
-using SmartEcommerce.User.Infrastructure.Messaging.Consumers;
+using NovaCore.User.Application.Abstractions.Services;
+using NovaCore.User.Infrastructure.BackgroundJobs;
+using NovaCore.User.Infrastructure.Caching.Roles;
+using NovaCore.User.Infrastructure.Caching.Users;
+using NovaCore.User.Infrastructure.GrpcClients;
+using NovaCore.User.Infrastructure.Messaging.Consumers;
 
-namespace SmartEcommerce.User.Infrastructure;
+namespace NovaCore.User.Infrastructure;
 
 public static class DependencyInjection
 {

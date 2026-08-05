@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
+namespace NovaCore.BuildingBlock.Web.Swagger.EndpointHeader;
 
 public static class EndpointHeaderExtensions
 {

@@ -3,7 +3,7 @@ using System.Text;
 
 using KafkaFlow;
 
-namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
+namespace NovaCore.BuildingBlock.Messaging.Kafka.Tracing;
 
 /// <summary>
 /// Manual OTel instrumentation for Kafka produce/consume - there's no mature auto-instrumentation
@@ -13,7 +13,7 @@ namespace SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
 /// </summary>
 public static class KafkaTracing
 {
-    public const string ActivitySourceName = "SimpleShop.Messaging.Kafka";
+    public const string ActivitySourceName = "NovaCore.Messaging.Kafka";
     private const string TraceParentHeader = "traceparent";
 
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName, "1.0.0");

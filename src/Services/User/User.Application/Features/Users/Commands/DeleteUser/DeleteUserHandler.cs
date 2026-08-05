@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Application.Features.Users.Commands.DeleteUser;
+namespace NovaCore.User.Application.Features.Users.Commands.DeleteUser;
 
 public sealed class DeleteUserHandler(
     IUserReadService userReadService,

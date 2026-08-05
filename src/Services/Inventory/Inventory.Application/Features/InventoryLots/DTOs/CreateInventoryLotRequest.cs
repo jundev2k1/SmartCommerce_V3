@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.InventoryLots.DTOs;
+namespace NovaCore.Inventory.Application.Features.InventoryLots.DTOs;
 
 public sealed record CreateInventoryLotRequest(
     Guid InventoryId,

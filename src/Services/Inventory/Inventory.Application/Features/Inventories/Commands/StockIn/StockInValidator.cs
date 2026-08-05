@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.StockIn;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.StockIn;
 
 public sealed class StockInValidator : AbstractValidator<StockInCommand>
 {

@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
+using NovaCore.BuildingBlock.Web.Swagger.EndpointHeader;
 
 using Microsoft.AspNetCore.Http;
 
-namespace SmartEcommerce.BuildingBlock.Web.Middleware;
+namespace NovaCore.BuildingBlock.Web.Middleware;
 
 public sealed class RequiredHeadersMiddleware(RequestDelegate next)
 {

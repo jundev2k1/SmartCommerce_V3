@@ -1,8 +1,8 @@
 using System.Security.Claims;
 
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
+namespace NovaCore.BuildingBlock.Infrastructure.Authorization;
 
 public static class ClaimsPrincipalExtensions
 {

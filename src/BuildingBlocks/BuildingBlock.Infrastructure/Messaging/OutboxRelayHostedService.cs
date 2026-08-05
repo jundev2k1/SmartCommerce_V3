@@ -1,15 +1,15 @@
 using System.Diagnostics;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Infrastructure.Observability;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
+namespace NovaCore.BuildingBlock.Infrastructure.Messaging;
 
 /// <summary>
 /// Polls the Outbox for unprocessed messages and publishes them to Kafka.

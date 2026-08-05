@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Application.Extensions;
+namespace NovaCore.BuildingBlock.Application.Extensions;
 
 public static class ServiceScanningExtensions
 {

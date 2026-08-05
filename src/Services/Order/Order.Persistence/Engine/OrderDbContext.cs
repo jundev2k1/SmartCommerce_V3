@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
-using SmartEcommerce.Order.Persistence.Reliability.Saga;
+using NovaCore.Order.Persistence.Reliability.Saga;
 
-namespace SmartEcommerce.Order.Persistence.Engine;
+namespace NovaCore.Order.Persistence.Engine;
 
 public sealed class OrderDbContext(DbContextOptions<OrderDbContext> options)
     : DbContextBase(options),

@@ -1,6 +1,6 @@
-using SmartEcommerce.Inventory.Domain.Entities.Inventories;
+using NovaCore.Inventory.Domain.Entities.Inventories;
 
-namespace SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
+namespace NovaCore.Inventory.Domain.Entities.InventoryCounts;
 
 public sealed class InventoryCountItem : BaseEntity<long>, IAuditable
 {

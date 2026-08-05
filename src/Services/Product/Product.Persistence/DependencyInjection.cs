@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Extensions;
-using SmartEcommerce.BuildingBlock.Persistence.Audit;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
-using SmartEcommerce.BuildingBlock.Search.DependencyInjection;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Extensions;
+using NovaCore.BuildingBlock.Persistence.Audit;
+using NovaCore.BuildingBlock.Persistence.Ef.DependencyInjection;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Search.DependencyInjection;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,24 +16,24 @@ using Npgsql;
 
 using OpenTelemetry.Trace;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
-using SmartEcommerce.Product.Application.Abstractions.Search;
-using SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Read;
-using SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Write;
-using SmartEcommerce.Product.Persistence.Contexts.Products.Read;
-using SmartEcommerce.Product.Persistence.Contexts.Products.Search.Indexers;
-using SmartEcommerce.Product.Persistence.Contexts.Products.Search.Repositories;
-using SmartEcommerce.Product.Persistence.Contexts.Products.Write;
-using SmartEcommerce.Product.Persistence.Contexts.ProductTags.Read;
-using SmartEcommerce.Product.Persistence.Contexts.ProductTags.Write;
-using SmartEcommerce.Product.Persistence.Engine;
-using SmartEcommerce.Product.Persistence.Engine.UnitOfWork;
-using SmartEcommerce.Product.Persistence.Reliability.Inbox;
-using SmartEcommerce.Product.Persistence.Reliability.Outbox;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductTags;
+using NovaCore.Product.Application.Abstractions.Search;
+using NovaCore.Product.Persistence.Contexts.ProductCategories.Read;
+using NovaCore.Product.Persistence.Contexts.ProductCategories.Write;
+using NovaCore.Product.Persistence.Contexts.Products.Read;
+using NovaCore.Product.Persistence.Contexts.Products.Search.Indexers;
+using NovaCore.Product.Persistence.Contexts.Products.Search.Repositories;
+using NovaCore.Product.Persistence.Contexts.Products.Write;
+using NovaCore.Product.Persistence.Contexts.ProductTags.Read;
+using NovaCore.Product.Persistence.Contexts.ProductTags.Write;
+using NovaCore.Product.Persistence.Engine;
+using NovaCore.Product.Persistence.Engine.UnitOfWork;
+using NovaCore.Product.Persistence.Reliability.Inbox;
+using NovaCore.Product.Persistence.Reliability.Outbox;
 
-namespace SmartEcommerce.Product.Persistence;
+namespace NovaCore.Product.Persistence;
 
 public static class DependencyInjection
 {

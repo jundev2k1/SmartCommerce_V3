@@ -1,9 +1,9 @@
 using Mapster;
 
-using SmartEcommerce.Order.Application.Abstractions.Services;
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Features.Orders.DTOs;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Mapping;
+namespace NovaCore.Order.Application.Features.Orders.Mapping;
 
 public sealed class MapsterConfig : IRegister
 {

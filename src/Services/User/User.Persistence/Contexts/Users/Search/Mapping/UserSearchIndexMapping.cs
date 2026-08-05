@@ -1,9 +1,9 @@
 using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 
-using SmartEcommerce.User.Application.Abstractions.Search;
+using NovaCore.User.Application.Abstractions.Search;
 
-namespace SmartEcommerce.User.Persistence.Contexts.Users.Search.Mapping;
+namespace NovaCore.User.Persistence.Contexts.Users.Search.Mapping;
 
 /// <summary>
 /// The User Search index settings + field mapping - the only place UserSearchDocument's ES

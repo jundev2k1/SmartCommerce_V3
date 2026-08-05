@@ -1,8 +1,8 @@
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.Auth.Infrastructure.Caching;
+namespace NovaCore.Auth.Infrastructure.Caching;
 
 public sealed class RefreshTokenCacheService(ICacheService cacheService)
 {

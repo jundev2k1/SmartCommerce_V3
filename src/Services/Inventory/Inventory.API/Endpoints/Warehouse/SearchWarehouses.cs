@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
+using NovaCore.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
 
-namespace SmartEcommerce.Inventory.API.Endpoints.Warehouse;
+namespace NovaCore.Inventory.API.Endpoints.Warehouse;
 
 public sealed class SearchWarehousesEndpoint : ICarterModule
 {

@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Jobs;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+namespace NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
 
 public sealed class InboxCleanupOptions : IJobOptions
 {

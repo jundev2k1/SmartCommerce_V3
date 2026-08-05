@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Definition;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Search;
+namespace NovaCore.Order.Application.Features.Orders.Search;
 
 /// <summary>
 /// Customer-facing order-history whitelist for <see cref="OrderEntity"/> - deliberately narrower

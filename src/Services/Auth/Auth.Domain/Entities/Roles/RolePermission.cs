@@ -1,6 +1,6 @@
-using SmartEcommerce.Auth.Domain.Entities.Permissions;
+using NovaCore.Auth.Domain.Entities.Permissions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Roles;
+namespace NovaCore.Auth.Domain.Entities.Roles;
 
 /// <summary>
 /// Owned child of Role, referenced back via Role.Permissions - the many-to-many mapping of

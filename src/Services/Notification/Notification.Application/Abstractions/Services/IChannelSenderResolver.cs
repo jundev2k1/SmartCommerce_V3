@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Services;
+namespace NovaCore.Notification.Application.Abstractions.Services;
 
 /// <summary>Looks up the registered <see cref="IChannelSender"/> for a channel type.</summary>
 public interface IChannelSenderResolver

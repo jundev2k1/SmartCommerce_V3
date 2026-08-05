@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
+namespace NovaCore.Product.Application.Features.Products.Events.OnProductSearchSyncRequired;
 
 /// <summary>
 /// Raised by every Product Search consumer except the Deleted one (see

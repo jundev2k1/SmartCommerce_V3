@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryLots;
-using SmartEcommerce.Inventory.Persistence.Contexts.InventoryLots.Repositories;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventoryLots;
+using NovaCore.Inventory.Persistence.Contexts.InventoryLots.Repositories;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryLots.Read;
+namespace NovaCore.Inventory.Persistence.Contexts.InventoryLots.Read;
 
 public sealed class InventoryLotReadService(IInventoryLotRepository repo) : IInventoryLotReadService
 {

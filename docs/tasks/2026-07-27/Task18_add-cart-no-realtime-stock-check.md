@@ -40,4 +40,4 @@ Checklist requirement: Add Cart must call Inventory gRPC and check real-time sto
 
 Nothing deferred at the code level. Live end-to-end verification (actually calling the endpoint against a running Inventory service) wasn't done this session - no Docker stack was running and spinning the full stack up for this one check wasn't judged worth the resource cost; correctness was verified by reading the change against `IStockAvailabilityService`'s already-compiled contract instead.
 
-**Depends on:** Task 17 (shared stock service, done). **Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task17_add-to-cart-checkout-stock-error-handling-missing.md`.
+**Depends on:** Task 17 (shared stock service, done). **Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task17_add-to-cart-checkout-stock-error-handling-missing.md`.

@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
 
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
 
 public sealed class DeleteProductCategoryHandler(
     IProductCategoryReadService categoryReadService,

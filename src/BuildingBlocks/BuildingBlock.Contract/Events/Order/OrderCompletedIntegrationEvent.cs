@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Order;
+namespace NovaCore.BuildingBlock.Contract.Events.Order;
 
 /// <summary>
 /// Fired whenever an order transitions Confirmed -> Completed via the manual CompleteOrder

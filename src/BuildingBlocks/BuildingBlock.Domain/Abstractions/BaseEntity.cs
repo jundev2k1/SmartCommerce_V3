@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.Attributes;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Abstractions;
 
 public abstract class BaseEntity<T> : IEntity<T>
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>The person a shipment at a UserAddress is handed to, distinct from the account owner.</summary>
 public sealed class Receiver : ValueObject

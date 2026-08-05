@@ -1,21 +1,21 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Order;
-using SmartEcommerce.BuildingBlock.Contract.Events.User;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Order;
+using NovaCore.BuildingBlock.Contract.Events.User;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
 using MediatR;
 
-using SmartEcommerce.Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
-using SmartEcommerce.Notification.Application.Features.NotificationDispatches.DTOs;
-using SmartEcommerce.Notification.Application.Features.OrderRealtime.Commands.NotifyNewOrderToAdmins;
-using SmartEcommerce.Notification.Application.Features.OrderRealtime.Commands.NotifyOrderStatusUpdated;
-using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
-using SmartEcommerce.Notification.Domain.Enums;
-using SmartEcommerce.Notification.Domain.ValueObjects;
+using NovaCore.Notification.Application.Features.NotificationDispatches.Commands.CreateNotificationDispatch;
+using NovaCore.Notification.Application.Features.NotificationDispatches.DTOs;
+using NovaCore.Notification.Application.Features.OrderRealtime.Commands.NotifyNewOrderToAdmins;
+using NovaCore.Notification.Application.Features.OrderRealtime.Commands.NotifyOrderStatusUpdated;
+using NovaCore.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+using NovaCore.Notification.Domain.Enums;
+using NovaCore.Notification.Domain.ValueObjects;
 
-namespace SmartEcommerce.Notification.Infrastructure.Messaging.Consumers;
+namespace NovaCore.Notification.Infrastructure.Messaging.Consumers;
 
 /// <summary>
 /// Single fan-in consumer for every integration event that should trigger a notification, keyed
@@ -27,9 +27,9 @@ namespace SmartEcommerce.Notification.Infrastructure.Messaging.Consumers;
 /// dependency here - see docs/reference/create-order-saga.md. AddKafkaMessaging's
 /// DiscoverConsumerTopics eagerly constructs every registered consumer (in a synchronously-
 /// disposed temporary scope) purely to read its Topics, and everything this consumer's
-/// constructor needs must already be registered by that point in SmartEcommerce.Notification.Infrastructure's
+/// constructor needs must already be registered by that point in NovaCore.Notification.Infrastructure's
 /// DI setup - ActorHubFacade's own dependency (IHubContext, from AddSignalR()) isn't registered
-/// until SmartEcommerce.Notification.API's presentation-layer setup, which runs *after* AddInfrastructure() in
+/// until NovaCore.Notification.API's presentation-layer setup, which runs *after* AddInfrastructure() in
 /// Program.cs. Routing the actual hub push through NotifyNewOrderToAdminsHandler/
 /// NotifyOrderStatusUpdatedHandler/CreateUserNotificationHandler (resolved lazily by MediatR only
 /// when a message is really processed) avoids that entirely, the same way OrderCreatedSagaConsumer
@@ -95,7 +95,7 @@ public sealed class NotificationTriggerConsumer(
             data.UserId,
             Category: "Account",
             Type: "Welcome",
-            Title: "Welcome to SimpleShop",
+            Title: "Welcome to NovaCore",
             Content: $"Hi {data.FirstName}, your account has been created.");
 
         var command = new CreateNotificationDispatchCommand(

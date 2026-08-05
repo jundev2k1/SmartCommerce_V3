@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Owned child of Product, optionally scoped to a single Variant. Stores a raw Url today;

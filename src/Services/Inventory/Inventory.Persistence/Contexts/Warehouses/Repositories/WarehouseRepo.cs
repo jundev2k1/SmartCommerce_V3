@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Criteria;
-using SmartEcommerce.Inventory.Application.Features.Warehouses.Search;
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Persistence.Ef.Criteria;
+using NovaCore.Inventory.Application.Features.Warehouses.Search;
+using NovaCore.Inventory.Persistence.Engine;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.Warehouses.Repositories;
+namespace NovaCore.Inventory.Persistence.Contexts.Warehouses.Repositories;
 
 public sealed class WarehouseRepo(InventoryDbContext dbContext)
     : InventoryBaseRepository<Warehouse, Guid>(dbContext), IWarehouseRepository

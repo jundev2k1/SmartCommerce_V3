@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryCounts;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventoryCounts;
 
 public interface IInventoryCountReadService
 {

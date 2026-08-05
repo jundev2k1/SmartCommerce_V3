@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Security;
+namespace NovaCore.Auth.Application.Security;
 
 /// <summary>
 /// Resolves a JWT's permission claims from the account's roles at token-issuance time. Stands in

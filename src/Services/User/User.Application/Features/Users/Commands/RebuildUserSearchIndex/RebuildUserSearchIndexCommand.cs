@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.Commands.RebuildUserSearchIndex;
+namespace NovaCore.User.Application.Features.Users.Commands.RebuildUserSearchIndex;
 
 public sealed record RebuildUserSearchIndexCommand : ICommand<RebuildUserSearchIndexResponse>;
 

@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
 
-namespace SmartEcommerce.Audit.Domain.Entities;
+namespace NovaCore.Audit.Domain.Entities;
 
 /// <summary>
 /// One recorded Aggregate Root audit graph, consumed from the project's single

@@ -1,6 +1,6 @@
-using SmartEcommerce.Auth.Domain.Entities.Positions;
+using NovaCore.Auth.Domain.Entities.Positions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Accounts;
+namespace NovaCore.Auth.Domain.Entities.Accounts;
 
 /// <summary>
 /// Owned child of Account recording one grant of an organizational Position - the primary

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.RestockStock;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.RestockStock;
 
 /// <summary>
 /// Compensating action for a previously successful DeductStock call, looked up by the same

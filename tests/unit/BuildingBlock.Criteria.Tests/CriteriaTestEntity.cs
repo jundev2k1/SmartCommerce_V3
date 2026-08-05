@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Criteria.Tests;
+namespace NovaCore.BuildingBlock.Criteria.Tests;
 
 public sealed class CriteriaTestEntity
 {

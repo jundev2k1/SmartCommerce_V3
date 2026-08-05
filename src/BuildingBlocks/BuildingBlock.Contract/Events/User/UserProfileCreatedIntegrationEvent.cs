@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.User;
+namespace NovaCore.BuildingBlock.Contract.Events.User;
 
 public sealed record UserProfileCreatedIntegrationEvent(
     Guid UserId,

@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Services;
+using NovaCore.Inventory.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.TransferInventory;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.TransferInventory;
 
 public sealed class TransferInventoryHandler(
     ITransferService transferService,

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Inventory.Domain</RootNamespace>
-    <AssemblyName>SmartEcommerce.Inventory.Domain</AssemblyName>
+    <RootNamespace>NovaCore.Inventory.Domain</RootNamespace>
+    <AssemblyName>NovaCore.Inventory.Domain</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

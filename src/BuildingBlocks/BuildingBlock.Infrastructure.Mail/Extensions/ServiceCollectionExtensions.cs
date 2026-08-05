@@ -2,10 +2,10 @@ using MimeKit;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Mail.Abstractions;
-using SmartEcommerce.BuildingBlock.Infrastructure.Mail.Internal;
+using NovaCore.BuildingBlock.Infrastructure.Mail.Abstractions;
+using NovaCore.BuildingBlock.Infrastructure.Mail.Internal;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Extensions;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Extensions;
 
 public static class ServiceCollectionExtensions
 {

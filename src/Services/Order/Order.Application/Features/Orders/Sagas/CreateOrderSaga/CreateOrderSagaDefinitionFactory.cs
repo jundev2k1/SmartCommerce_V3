@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
-using SmartEcommerce.BuildingBlock.Saga.Core;
+using NovaCore.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Saga.Core;
 
-using SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+using NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga;
+namespace NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga;
 
 /// <summary>
 /// Builds the CreateOrderSaga workflow: DeductInventory -> ConfirmOrder. Kept as its own factory

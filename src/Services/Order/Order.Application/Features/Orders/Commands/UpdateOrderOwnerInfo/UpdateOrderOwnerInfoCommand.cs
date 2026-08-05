@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
+namespace NovaCore.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
 
 public sealed record UpdateOrderOwnerInfoCommand(
     Guid OrderId,

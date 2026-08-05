@@ -1,6 +1,6 @@
 # Testing Architecture
 
-**Scope:** the shape of `/tests` — project layout, central package management, the shared `SimpleShop.TestKit` library, and library choices. Read this once to understand how the test suite is put together; read [TestingGuidelines.md](TestingGuidelines.md) for how to write an individual test.
+**Scope:** the shape of `/tests` — project layout, central package management, the shared `NovaCore.TestKit` library, and library choices. Read this once to understand how the test suite is put together; read [TestingGuidelines.md](TestingGuidelines.md) for how to write an individual test.
 
 ## Layout
 
@@ -10,7 +10,7 @@ tests/
   Directory.Packages.props         pinned versions for every test package (see "Package management")
 
   Common/
-    SimpleShop.TestKit/            shared test infrastructure — Builders, Fakes, Random, ShouldlyExtensions
+    NovaCore.TestKit/            shared test infrastructure — Builders, Fakes, Random, ShouldlyExtensions
 
   BuildingBlock.SharedKernel.Tests/   Phase 1 — SharedKernel extensions
   BuildingBlock.Domain.Tests/         Phase 2 — ValueObject/StringValueObject/ExceptionFactory/BaseEntity
@@ -22,7 +22,7 @@ tests/
 
 One test project per production project (`Foo` → `Foo.Tests`), matching the repo's existing `BuildingBlock.Persistence.Ef` → `BuildingBlock.Persistence.Ef.Tests` naming — not the `*.UnitTests` suffix style, to stay consistent with what was already there.
 
-Every new test project is added to `SimpleShop.sln` under the `tests` solution folder (`SimpleShop.TestKit` goes under `tests/Common`) via `dotnet sln add <path> -s tests[/Common]`.
+Every new test project is added to `NovaCore.sln` under the `tests` solution folder (`NovaCore.TestKit` goes under `tests/Common`) via `dotnet sln add <path> -s tests[/Common]`.
 
 ## Central package management — scoped to `/tests` only
 
@@ -57,7 +57,7 @@ A test `.csproj` looks like this — no `<TargetFramework>`, no `<PackageReferen
 | Persistence component tests | `Microsoft.EntityFrameworkCore.InMemory` | Already used by `BuildingBlock.Persistence.Ef.Tests` for interceptor/graph-builder tests that don't need a real database |
 | Integration tests (future) | Testcontainers (not yet introduced) | For Phase 5 — real Postgres/MongoDB/Redis/Kafka/Elasticsearch, matching `docker-compose.yml` service names |
 
-## `SimpleShop.TestKit`
+## `NovaCore.TestKit`
 
 Shared library referenced by every unit test project. Grown by rule-of-three — add a helper here only once a second test project needs it, not speculatively.
 

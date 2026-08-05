@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+namespace NovaCore.Order.Application.Abstractions.Persistence.Orders;
 
 public interface IOrderReadService
 {

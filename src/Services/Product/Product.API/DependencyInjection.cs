@@ -1,22 +1,22 @@
-using SmartEcommerce.BuildingBlock.Application.DeadLetters;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Security.Jwt;
-using SmartEcommerce.BuildingBlock.Web;
-using SmartEcommerce.BuildingBlock.Web.Carter;
-using SmartEcommerce.BuildingBlock.Web.Cors;
-using SmartEcommerce.BuildingBlock.Web.CurrentUser;
-using SmartEcommerce.BuildingBlock.Web.HealthChecks;
-using SmartEcommerce.BuildingBlock.Web.Swagger;
+using NovaCore.BuildingBlock.Application.DeadLetters;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Security.Jwt;
+using NovaCore.BuildingBlock.Web;
+using NovaCore.BuildingBlock.Web.Carter;
+using NovaCore.BuildingBlock.Web.Cors;
+using NovaCore.BuildingBlock.Web.CurrentUser;
+using NovaCore.BuildingBlock.Web.HealthChecks;
+using NovaCore.BuildingBlock.Web.Swagger;
 
-using SmartEcommerce.Product.API.ExceptionHandling;
+using NovaCore.Product.API.ExceptionHandling;
 
-namespace SmartEcommerce.Product.API;
+namespace NovaCore.Product.API;
 
 public static class DependencyInjection
 {
     internal static readonly BuildingBlockWebOptions WebOptions = new()
     {
-        ServiceTitle = "SimpleShop Product Service",
+        ServiceTitle = "NovaCore Product Service",
         ServiceDescription = "Product Catalog Management Service API",
         SwaggerRoutePrefix = "/api/product",
         ContactUrl = "http://localhost:5101",

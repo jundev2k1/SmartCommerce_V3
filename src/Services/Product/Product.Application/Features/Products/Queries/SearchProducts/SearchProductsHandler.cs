@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.Product.Application.Abstractions.Search;
-using SmartEcommerce.Product.Application.Abstractions.Services;
+using NovaCore.Product.Application.Abstractions.Search;
+using NovaCore.Product.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Queries.SearchProducts;
+namespace NovaCore.Product.Application.Features.Products.Queries.SearchProducts;
 
 public sealed class SearchProductsHandler(
     IProductSearchRepository searchRepo,

@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Builders.HtmlComponents;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Builders.HtmlComponents;
 
 internal static class Button
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>Postal/administrative address, shared by every UserAddress regardless of AddressType.</summary>
 public sealed class Address : ValueObject

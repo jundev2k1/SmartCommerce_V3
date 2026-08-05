@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters;
+using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Infrastructure.DeadLetters;
 
-namespace SmartEcommerce.BuildingBlock.Application.DeadLetters.Commands;
+namespace NovaCore.BuildingBlock.Application.DeadLetters.Commands;
 
 /// <summary>
 /// Retry every DeadLetter row matching an optional filter (e.g. "retry all failed Product

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Orders.Commands.CompleteOrder;
+namespace NovaCore.Order.Application.Features.Orders.Commands.CompleteOrder;
 
 public sealed record CompleteOrderCommand(Guid OrderId) : ICommand<CompleteOrderResponse>;
 

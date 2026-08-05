@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.DeductStock;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.DeductStock;
 
 /// <summary>
 /// DeductionId is the idempotency key for this whole batch (Order Service passes its OrderId).

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Persistence.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Outbox;
 
 /// <summary>
 /// Read-only projection of an outbox row. Returned by <see cref="IOutboxStore"/> instead of

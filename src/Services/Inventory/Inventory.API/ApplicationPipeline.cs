@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Web.Cors;
-using SmartEcommerce.BuildingBlock.Web.Middleware;
-using SmartEcommerce.BuildingBlock.Web.Swagger;
+using NovaCore.BuildingBlock.Web.Cors;
+using NovaCore.BuildingBlock.Web.Middleware;
+using NovaCore.BuildingBlock.Web.Swagger;
 
-using SmartEcommerce.Inventory.API.ExceptionHandling;
-using SmartEcommerce.Inventory.API.GrpcServices;
-using SmartEcommerce.Inventory.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Inventory.Persistence.Engine;
-using SmartEcommerce.Inventory.Persistence.Storage.Seeders;
+using NovaCore.Inventory.API.ExceptionHandling;
+using NovaCore.Inventory.API.GrpcServices;
+using NovaCore.Inventory.Infrastructure.BackgroundJobs;
+using NovaCore.Inventory.Persistence.Engine;
+using NovaCore.Inventory.Persistence.Storage.Seeders;
 
-namespace SmartEcommerce.Inventory.API;
+namespace NovaCore.Inventory.API;
 
 public static class ApplicationPipeline
 {

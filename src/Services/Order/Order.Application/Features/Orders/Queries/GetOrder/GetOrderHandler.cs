@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Order.Application.Abstractions.Persistence.Orders;
+using NovaCore.Order.Application.Abstractions.Persistence.Orders;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrder;
+namespace NovaCore.Order.Application.Features.Orders.Queries.GetOrder;
 
 public sealed class GetOrderHandler(
     ICurrentUserService currentUser,

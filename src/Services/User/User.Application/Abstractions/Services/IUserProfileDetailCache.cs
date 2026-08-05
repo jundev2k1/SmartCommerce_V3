@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Abstractions.Services;
+namespace NovaCore.User.Application.Abstractions.Services;
 
 /// <summary>
 /// User Detail cache capability - explicit, single-purpose, called directly by handlers that want

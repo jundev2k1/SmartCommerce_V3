@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.Users;
-using SmartEcommerce.User.Application.Features.Users.DTOs;
+using NovaCore.User.Application.Abstractions.Persistence.Users;
+using NovaCore.User.Application.Features.Users.DTOs;
 
-namespace SmartEcommerce.User.Persistence.Contexts.Users.Write;
+namespace NovaCore.User.Persistence.Contexts.Users.Write;
 
 public sealed class UserWriteService(
     IRepository<UserEntity, Guid> repo,

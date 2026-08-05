@@ -5,8 +5,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Domain</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Domain</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Domain</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Domain</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

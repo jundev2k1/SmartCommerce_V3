@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+namespace NovaCore.Notification.Application.Features.UserNotifications.DTOs;
 
 public sealed record NotificationDto(
     Guid UserId,

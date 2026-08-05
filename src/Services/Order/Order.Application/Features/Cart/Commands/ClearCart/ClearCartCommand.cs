@@ -1,3 +1,3 @@
-namespace SmartEcommerce.Order.Application.Features.Cart.Commands.ClearCart;
+namespace NovaCore.Order.Application.Features.Cart.Commands.ClearCart;
 
 public sealed record ClearCartCommand : ICommand;

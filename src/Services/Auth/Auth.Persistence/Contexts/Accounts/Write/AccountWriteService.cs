@@ -1,7 +1,7 @@
-using SmartEcommerce.Auth.Application.Abstractions.Persistence.Accounts;
-using SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
+using NovaCore.Auth.Application.Abstractions.Persistence.Accounts;
+using NovaCore.Auth.Persistence.Contexts.Accounts.Repositories;
 
-namespace SmartEcommerce.Auth.Persistence.Contexts.Accounts.Write;
+namespace NovaCore.Auth.Persistence.Contexts.Accounts.Write;
 
 /// <summary>
 /// Non-committing - OnAccountDeletionInitiatedHandler owns IUnitOfWork.ExecuteTransactionAsync

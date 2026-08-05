@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
-using SmartEcommerce.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.Product.Application.Features.ProductCategories.Commands.CreateProductCategory;
 
-namespace SmartEcommerce.Product.API.Endpoints.ProductCategory;
+namespace NovaCore.Product.API.Endpoints.ProductCategory;
 
 public sealed record CreateProductCategoryRequest(
     string Code,

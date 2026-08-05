@@ -1,20 +1,20 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Contract.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Contract.Events;
 
-namespace SmartEcommerce.Auth.Persistence.Reliability.Outbox;
+namespace NovaCore.Auth.Persistence.Reliability.Outbox;
 
 /// <summary>
 /// Application-level adapter: translates typed integration events to primitive outbox rows.
-/// Delegates to the generic EF store (SmartEcommerce.BuildingBlock.Persistence.Ef.EfOutboxStore).
+/// Delegates to the generic EF store (NovaCore.BuildingBlock.Persistence.Ef.EfOutboxStore).
 /// serviceName mirrors the string passed to AddKafkaMessaging for topic naming.
 /// </summary>
 public sealed class OutboxStore(
-    SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore,
+    NovaCore.BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore,
     string serviceName) : IOutboxStore
 {
-    private readonly SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore _primitiveStore = primitiveStore;
+    private readonly NovaCore.BuildingBlock.Persistence.Outbox.IOutboxStore _primitiveStore = primitiveStore;
     private readonly string _serviceName = serviceName;
 
     public async Task EnqueueAsync<TEvent>(TEvent integrationEvent, CancellationToken ct = default)

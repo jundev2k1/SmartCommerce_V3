@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationTemplates;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
+namespace NovaCore.Notification.Application.Features.NotificationTemplates.Queries.ListNotificationTemplates;
 
 public sealed class ListNotificationTemplatesHandler(INotificationTemplateReadService notificationTemplateReadService)
     : IQueryHandler<ListNotificationTemplatesQuery, PaginatedResult<NotificationTemplateSummaryResponse>>

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.Enums;
+namespace NovaCore.Notification.Domain.Enums;
 
 /// <summary>
 /// Disabled is terminal but never deleted - campaigns are kept for reporting, audit, and

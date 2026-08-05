@@ -1,4 +1,4 @@
-namespace SmartEcommerce.YarpApiGateway.Configuration;
+namespace NovaCore.YarpApiGateway.Configuration;
 
 public sealed class GatewayOptions
 {

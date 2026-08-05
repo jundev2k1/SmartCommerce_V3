@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.Product.Domain.Entities.Options;
-using SmartEcommerce.Product.Domain.Entities.Products.Data;
-using SmartEcommerce.Product.Domain.Entities.Warranties;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Product.Domain.Entities.Options;
+using NovaCore.Product.Domain.Entities.Products.Data;
+using NovaCore.Product.Domain.Entities.Warranties;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Owned child of Product,

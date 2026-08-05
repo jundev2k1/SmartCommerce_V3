@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
+using NovaCore.Notification.Application.Features.UserNotifications.Commands.MarkUserNotificationAsRead;
 
-namespace SmartEcommerce.Notification.API.Endpoints.UserNotification;
+namespace NovaCore.Notification.API.Endpoints.UserNotification;
 
 /// <summary>Scoped to the calling user - enforced in the handler, callers may only mark their own as read.</summary>
 public sealed class MarkUserNotificationAsRead : ICarterModule

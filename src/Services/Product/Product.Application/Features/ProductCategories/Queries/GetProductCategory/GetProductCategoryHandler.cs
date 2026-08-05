@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
 using Mapster;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Queries.GetProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Queries.GetProductCategory;
 
 public sealed class GetProductCategoryHandler(IProductCategoryReadService categoryReadService)
     : IQueryHandler<GetProductCategoryQuery, GetProductCategoryResponse>

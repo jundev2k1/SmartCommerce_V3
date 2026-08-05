@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnProductDeleted;
+namespace NovaCore.Inventory.Application.Features.Inventories.Events.OnProductDeleted;
 
 /// <summary>
 /// Whole-product deletion is an EF cascade over the owned Variant rows (see

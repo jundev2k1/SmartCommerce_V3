@@ -1,25 +1,25 @@
-using SmartEcommerce.BuildingBlock.Contract.Protos.Inventory;
-using SmartEcommerce.BuildingBlock.Grpc.Client;
-using SmartEcommerce.BuildingBlock.Infrastructure.Audit;
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
-using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
-using SmartEcommerce.BuildingBlock.Saga.Core;
+using NovaCore.BuildingBlock.Contract.Protos.Inventory;
+using NovaCore.BuildingBlock.Grpc.Client;
+using NovaCore.BuildingBlock.Infrastructure.Audit;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using NovaCore.BuildingBlock.Infrastructure.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.Messaging;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Messaging.Kafka.Extensions;
+using NovaCore.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Saga.Core;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.Order.Application.Abstractions.Services;
-using SmartEcommerce.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
-using SmartEcommerce.Order.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Order.Infrastructure.Caching;
-using SmartEcommerce.Order.Infrastructure.GrpcClients;
-using SmartEcommerce.Order.Infrastructure.Messaging.Consumers;
+using NovaCore.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Features.Orders.Sagas.CreateOrderSaga.Steps;
+using NovaCore.Order.Infrastructure.BackgroundJobs;
+using NovaCore.Order.Infrastructure.Caching;
+using NovaCore.Order.Infrastructure.GrpcClients;
+using NovaCore.Order.Infrastructure.Messaging.Consumers;
 
-namespace SmartEcommerce.Order.Infrastructure;
+namespace NovaCore.Order.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -86,10 +86,10 @@ public static class DependencyInjection
 
     /// <summary>
     /// Steps are Scoped (they depend on Scoped repos/gRPC clients); the orchestrator itself is
-    /// Singleton to match SmartEcommerce.BuildingBlock.Saga.Extensions.SagaExtensions' own convention - it never
+    /// Singleton to match NovaCore.BuildingBlock.Saga.Extensions.SagaExtensions' own convention - it never
     /// caches steps/definitions between calls, so this is safe (see OrderCreatedSagaConsumer,
     /// which resolves the Scoped steps itself and passes them in per message). ISagaStore is
-    /// registered separately in SmartEcommerce.Order.Persistence (EfSagaStore).
+    /// registered separately in NovaCore.Order.Persistence (EfSagaStore).
     /// </summary>
     private static IServiceCollection AddCreateOrderSaga(this IServiceCollection services)
     {

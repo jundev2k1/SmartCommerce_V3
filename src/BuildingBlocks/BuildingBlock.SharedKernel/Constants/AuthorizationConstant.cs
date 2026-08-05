@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 
 /// <summary>
 /// Authorization policy names for use with [Authorize(Policy = "...")]

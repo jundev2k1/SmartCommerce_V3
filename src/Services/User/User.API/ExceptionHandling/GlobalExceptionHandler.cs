@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Infrastructure.ExceptionHandling;
+using NovaCore.BuildingBlock.Infrastructure.ExceptionHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace SmartEcommerce.User.API.ExceptionHandling;
+namespace NovaCore.User.API.ExceptionHandling;
 
 public class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger) : IExceptionHandler

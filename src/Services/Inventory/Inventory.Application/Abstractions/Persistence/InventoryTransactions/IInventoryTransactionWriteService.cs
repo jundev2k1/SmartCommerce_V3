@@ -1,6 +1,6 @@
-using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
+using NovaCore.Inventory.Application.Features.Inventories.DTOs;
 
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
 
 
 public interface IInventoryTransactionWriteService

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Observability;
+namespace NovaCore.BuildingBlock.Infrastructure.Observability;
 
 /// <summary>
 /// Manual instrumentation source for cross-cutting infrastructure that has no HTTP request to
@@ -9,7 +9,7 @@ namespace SmartEcommerce.BuildingBlock.Infrastructure.Observability;
 /// </summary>
 public static class InfrastructureActivitySource
 {
-    public const string Name = "SimpleShop.Infrastructure";
+    public const string Name = "NovaCore.Infrastructure";
 
     public static readonly ActivitySource Instance = new(Name, "1.0.0");
 }

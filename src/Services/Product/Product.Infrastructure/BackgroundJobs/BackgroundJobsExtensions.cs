@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Product.Infrastructure.BackgroundJobs;
+namespace NovaCore.Product.Infrastructure.BackgroundJobs;
 
 public static class BackgroundJobsExtensions
 {

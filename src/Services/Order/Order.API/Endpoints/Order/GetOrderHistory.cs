@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrderHistory;
+using NovaCore.Order.Application.Features.Orders.Queries.GetOrderHistory;
 
-namespace SmartEcommerce.Order.API.Endpoints.Order;
+namespace NovaCore.Order.API.Endpoints.Order;
 
 public sealed class GetOrderHistoryEndpoint : ICarterModule
 {

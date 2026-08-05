@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-COPY ["SimpleShop.sln", "./"]
+COPY ["NovaCore.sln", "./"]
 COPY ["src/BuildingBlocks/BuildingBlock.Domain/BuildingBlock.Domain.csproj", "src/BuildingBlocks/BuildingBlock.Domain/"]
 COPY ["src/BuildingBlocks/BuildingBlock.Infrastructure/BuildingBlock.Infrastructure.csproj", "src/BuildingBlocks/BuildingBlock.Infrastructure/"]
 COPY ["src/BuildingBlocks/BuildingBlock.Application/BuildingBlock.Application.csproj", "src/BuildingBlocks/BuildingBlock.Application/"]
@@ -12,7 +12,7 @@ COPY ["src/BuildingBlocks/BuildingBlock.SharedKernel/BuildingBlock.SharedKernel.
 # Update with actual Inventory service csproj files when created
 COPY ["src/Services/Inventory/", "src/Services/Inventory/"]
 
-RUN dotnet restore "SimpleShop.sln"
+RUN dotnet restore "NovaCore.sln"
 
 COPY . .
 

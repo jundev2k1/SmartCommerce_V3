@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.Commands.CreateUser;
+namespace NovaCore.User.Application.Features.Users.Commands.CreateUser;
 
 /// <summary>
 /// Roles stays a free-form string[] passed straight through to Auth via

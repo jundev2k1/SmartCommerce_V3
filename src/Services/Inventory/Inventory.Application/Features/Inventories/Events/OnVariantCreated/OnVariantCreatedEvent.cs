@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnVariantCreated;
+namespace NovaCore.Inventory.Application.Features.Inventories.Events.OnVariantCreated;
 
 public sealed record OnVariantCreatedEvent(
     Guid ProductId,

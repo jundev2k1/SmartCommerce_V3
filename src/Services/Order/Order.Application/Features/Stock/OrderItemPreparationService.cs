@@ -1,8 +1,8 @@
-using SmartEcommerce.Order.Application.Abstractions.Persistence.ProductCatalogs;
-using SmartEcommerce.Order.Application.Abstractions.Services;
-using SmartEcommerce.Order.Application.Features.Orders.DTOs;
+using NovaCore.Order.Application.Abstractions.Persistence.ProductCatalogs;
+using NovaCore.Order.Application.Abstractions.Services;
+using NovaCore.Order.Application.Features.Orders.DTOs;
 
-namespace SmartEcommerce.Order.Application.Features.Stock;
+namespace NovaCore.Order.Application.Features.Stock;
 
 public sealed class OrderItemPreparationService(
     IProductCatalogReadService catalogReadService,

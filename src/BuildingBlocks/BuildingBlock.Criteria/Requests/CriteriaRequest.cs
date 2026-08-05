@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Criteria.Requests;
+namespace NovaCore.BuildingBlock.Criteria.Requests;
 
 public sealed record CriteriaRequest
 {

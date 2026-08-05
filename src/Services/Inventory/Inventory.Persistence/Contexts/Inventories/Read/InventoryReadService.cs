@@ -1,7 +1,7 @@
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
-using SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Repositories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Persistence.Contexts.Inventories.Repositories;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Read;
+namespace NovaCore.Inventory.Persistence.Contexts.Inventories.Read;
 
 public sealed class InventoryReadService(IInventoryRepository inventoryRepo) : IInventoryReadService
 {

@@ -133,7 +133,7 @@ curl http://localhost:5000/health
 docker exec yarp-api-gateway curl http://auth-api:8080/health
 
 # Network inspection
-docker network inspect simpleshop-network
+docker network inspect novacore-network
 docker exec auth-api ping user-api
 ```
 

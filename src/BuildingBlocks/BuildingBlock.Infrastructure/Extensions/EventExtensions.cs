@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Infrastructure.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Infrastructure.Events;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
+namespace NovaCore.BuildingBlock.Infrastructure.Extensions;
 
 /// <summary>
 /// Extension methods for registering event-related services.
-/// Note: IEventDispatcher (for MessageQueue) is in SmartEcommerce.BuildingBlock.Messaging.Kafka - only add if service needs Kafka.
+/// Note: IEventDispatcher (for MessageQueue) is in NovaCore.BuildingBlock.Messaging.Kafka - only add if service needs Kafka.
 /// </summary>
 public static class EventExtensions
 {

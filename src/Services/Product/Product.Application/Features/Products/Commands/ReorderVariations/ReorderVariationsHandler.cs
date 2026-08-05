@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.ReorderVariations;
+namespace NovaCore.Product.Application.Features.Products.Commands.ReorderVariations;
 
 public sealed class ReorderVariationsHandler(IProductWriteService productWriteService)
     : ICommandHandler<ReorderVariationsCommand, ReorderVariationsResponse>

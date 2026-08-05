@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Abstractions.Services;
+namespace NovaCore.Auth.Application.Abstractions.Services;
 
 public interface IRefreshTokenService
 {

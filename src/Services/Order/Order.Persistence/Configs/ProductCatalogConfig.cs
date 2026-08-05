@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Order.Persistence.Configs;
+namespace NovaCore.Order.Persistence.Configs;
 
 public sealed class ProductCatalogConfig : IEntityTypeConfiguration<ProductCatalog>
 {

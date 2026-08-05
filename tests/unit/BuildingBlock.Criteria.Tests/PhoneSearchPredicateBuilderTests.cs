@@ -1,15 +1,15 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Building;
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Criteria.Strategies;
-using SmartEcommerce.BuildingBlock.SharedKernel.Text;
+using NovaCore.BuildingBlock.Criteria.Building;
+using NovaCore.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Criteria.Strategies;
+using NovaCore.BuildingBlock.SharedKernel.Text;
 
 using Shouldly;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Tests;
+namespace NovaCore.BuildingBlock.Criteria.Tests;
 
 /// <summary>Reproduces the task's own worked examples: `0901` (prefix) finds 0901234567/0901888888; `4567` (suffix) finds 0901234567/08124567 - both via PhoneSearch/PhoneReverse, never a `LIKE '%x%'` scan.</summary>
 public class PhoneSearchPredicateBuilderTests

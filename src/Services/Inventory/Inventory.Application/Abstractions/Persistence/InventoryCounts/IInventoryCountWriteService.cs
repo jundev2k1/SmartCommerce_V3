@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryCounts;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventoryCounts;
 
 public interface IInventoryCountWriteService
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
+namespace NovaCore.Notification.Application.Features.NotificationChannels.Queries.GetNotificationChannel;
 
 public sealed record GetNotificationChannelQuery(Guid ChannelId) : IQuery<GetNotificationChannelResponse>;
 

@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Definition;
 
-namespace SmartEcommerce.Inventory.Application.Features.InventoryLots.Search;
+namespace NovaCore.Inventory.Application.Features.InventoryLots.Search;
 
 public static class InventoryLotCriteriaDefinition
 {

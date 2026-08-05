@@ -1,4 +1,4 @@
-namespace SimpleShop.TestKit.Random;
+namespace NovaCore.TestKit.Random;
 
 /// <summary>
 /// Collision-free identifiers for test data, so two tests running in parallel (or two entities

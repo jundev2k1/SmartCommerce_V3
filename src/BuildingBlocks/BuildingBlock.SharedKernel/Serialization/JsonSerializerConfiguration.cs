@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Serialization;
+namespace NovaCore.BuildingBlock.SharedKernel.Serialization;
 
 /// <summary>
 /// Centralized JSON serialization configuration for all layers and services.

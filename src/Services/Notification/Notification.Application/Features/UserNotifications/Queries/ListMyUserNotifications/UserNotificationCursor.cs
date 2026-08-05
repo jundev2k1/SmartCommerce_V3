@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
 /// <summary>
 /// Opaque pagination cursor for <see cref="ListMyUserNotificationsQuery"/> - base64 of

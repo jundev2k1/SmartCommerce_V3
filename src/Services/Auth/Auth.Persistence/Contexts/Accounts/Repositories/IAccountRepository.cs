@@ -1,8 +1,8 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.Entities.Accounts;
 
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-namespace SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
+namespace NovaCore.Auth.Persistence.Contexts.Accounts.Repositories;
 
 public interface IAccountRepository : IRepository<Account>
 {

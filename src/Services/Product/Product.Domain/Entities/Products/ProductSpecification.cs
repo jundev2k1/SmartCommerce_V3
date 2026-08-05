@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Domain.Entities.Specifications;
+using NovaCore.Product.Domain.Entities.Specifications;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Owned child of Product - the value a product supplies for one system-managed

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SmartEcommerce.Order.Persistence.Storage.Migrations
+namespace NovaCore.Order.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddIndexOptimizations : Migration

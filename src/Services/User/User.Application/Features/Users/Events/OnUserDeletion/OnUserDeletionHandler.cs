@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-using SmartEcommerce.User.Application.Abstractions.Services;
-using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
+using NovaCore.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Features.Users.Events.OnUserSearchRemovalRequired;
 
-namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserDeletion;
+namespace NovaCore.User.Application.Features.Users.Events.OnUserDeletion;
 
 public sealed class OnUserDeletionHandler(
     IUserWriteService userWriteService,

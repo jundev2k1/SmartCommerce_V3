@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.User.Persistence.Configs;
+namespace NovaCore.User.Persistence.Configs;
 
 public sealed class UserContactConfig : IEntityTypeConfiguration<UserContact>
 {

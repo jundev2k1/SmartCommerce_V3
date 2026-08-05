@@ -1,10 +1,10 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using NovaCore.BuildingBlock.Contract.Events.Audit;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Tests;
 
 /// <summary>End-to-end through a real DbContext + AuditInterceptor + Outbox, InMemory-provider-backed.</summary>
 public sealed class AuditInterceptorTests

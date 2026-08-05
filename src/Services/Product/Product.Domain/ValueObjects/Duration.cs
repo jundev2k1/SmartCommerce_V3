@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.ValueObjects;
+namespace NovaCore.Product.Domain.ValueObjects;
 
 /// <summary>A length of time (e.g. warranty coverage) expressed as a value plus unit.</summary>
 public sealed class Duration : ValueObject

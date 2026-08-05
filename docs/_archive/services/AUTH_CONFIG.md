@@ -373,8 +373,8 @@ ASPNETCORE_HTTPS_PORT=5001
 
 # JWT (from Auth.Infrastructure)
 Jwt__SecretKey=your-secret-key
-Jwt__Issuer=SimpleShop.Auth
-Jwt__Audience=SimpleShop.API
+Jwt__Issuer=NovaCore.Auth
+Jwt__Audience=NovaCore.API
 
 # Database
 ConnectionStrings__DefaultConnection=Server=postgres;...

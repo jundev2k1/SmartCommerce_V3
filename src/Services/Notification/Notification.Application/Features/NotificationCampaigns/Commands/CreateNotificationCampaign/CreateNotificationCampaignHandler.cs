@@ -1,6 +1,6 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
+namespace NovaCore.Notification.Application.Features.NotificationCampaigns.Commands.CreateNotificationCampaign;
 
 public sealed class CreateNotificationCampaignHandler(
     INotificationCampaignWriteService notificationCampaignWriteService) : ICommandHandler<CreateNotificationCampaignCommand, CreateNotificationCampaignResponse>

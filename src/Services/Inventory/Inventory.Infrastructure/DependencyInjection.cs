@@ -1,17 +1,17 @@
-using SmartEcommerce.BuildingBlock.Infrastructure.Audit;
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
-using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.Audit;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using NovaCore.BuildingBlock.Infrastructure.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.Messaging;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.Inventory.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Inventory.Infrastructure.Messaging.Consumers;
+using NovaCore.Inventory.Infrastructure.BackgroundJobs;
+using NovaCore.Inventory.Infrastructure.Messaging.Consumers;
 
-namespace SmartEcommerce.Inventory.Infrastructure;
+namespace NovaCore.Inventory.Infrastructure;
 
 public static class DependencyInjection
 {

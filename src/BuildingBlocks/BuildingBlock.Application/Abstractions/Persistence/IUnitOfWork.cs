@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
 public interface IUnitOfWork : IAsyncDisposable
 {

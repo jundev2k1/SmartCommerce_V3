@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Roles;
+namespace NovaCore.Auth.Domain.Entities.Roles;
 
 /// <summary>
 /// Owned child of Role - a locale-specific override of the role's admin-facing display copy.

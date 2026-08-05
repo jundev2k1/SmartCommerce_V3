@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Domain.Entities.TokenBlacklists;
+using NovaCore.Auth.Domain.Entities.TokenBlacklists;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class TokenBlacklistConfig : IEntityTypeConfiguration<TokenBlacklist>
 {

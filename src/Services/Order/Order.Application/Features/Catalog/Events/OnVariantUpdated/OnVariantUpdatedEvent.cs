@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantUpdated;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnVariantUpdated;
 
 public sealed record OnVariantUpdatedEvent(
     Guid ProductId,

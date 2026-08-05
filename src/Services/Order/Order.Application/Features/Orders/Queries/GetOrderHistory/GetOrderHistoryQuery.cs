@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.Order.Application.Features.Orders.Queries.GetOrderHistory;
+namespace NovaCore.Order.Application.Features.Orders.Queries.GetOrderHistory;
 
 public sealed record GetOrderHistoryQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<OrderHistoryItemResponse>>;
 

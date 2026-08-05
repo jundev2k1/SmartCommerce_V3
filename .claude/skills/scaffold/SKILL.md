@@ -1,6 +1,6 @@
 ---
 name: scaffold
-description: Generate the boilerplate skeleton for a new SimpleShop feature (endpoint through persistence), business logic left as TODOs
+description: Generate the boilerplate skeleton for a new NovaCore feature (endpoint through persistence), business logic left as TODOs
 ---
 
 ## Purpose

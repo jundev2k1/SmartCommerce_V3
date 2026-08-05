@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Queries.ListMyUserNotifications;
 
 public sealed record ListMyUserNotificationsQuery(
     NotificationStatus? Status,

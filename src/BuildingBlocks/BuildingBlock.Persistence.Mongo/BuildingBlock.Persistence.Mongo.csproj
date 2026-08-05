@@ -6,8 +6,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Persistence.Mongo</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Persistence.Mongo</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Persistence.Mongo</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Persistence.Mongo</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

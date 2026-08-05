@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.Data;
+namespace NovaCore.Inventory.Domain.Entities.InventoryDocuments.Data;
 
 /// <summary>
 /// Everything InventoryDocument.Create needs to build itself plus its Items in one call - mirrors

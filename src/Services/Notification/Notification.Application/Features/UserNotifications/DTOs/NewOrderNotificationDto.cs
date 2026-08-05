@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+namespace NovaCore.Notification.Application.Features.UserNotifications.DTOs;
 
 /// <summary>
 /// Pushed to every connected admin over SignalR (IAdminSiteActions.OrderCreated) the instant a new

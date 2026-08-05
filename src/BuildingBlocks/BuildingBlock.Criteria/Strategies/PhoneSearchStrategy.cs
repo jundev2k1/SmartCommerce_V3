@@ -2,10 +2,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.SharedKernel.Text;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.SharedKernel.Text;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Strategies;
+namespace NovaCore.BuildingBlock.Criteria.Strategies;
 
 /// <summary>
 /// Indexed prefix/suffix phone search. Prefix (`sw`) queries the normalized <c>PhoneSearch</c> column; suffix (`ew`)

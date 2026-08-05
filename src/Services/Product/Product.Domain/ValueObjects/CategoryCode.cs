@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.Product.Domain.ValueObjects;
+namespace NovaCore.Product.Domain.ValueObjects;
 
 /// <summary>Unique business code identifying a ProductCategory.</summary>
 public sealed partial class CategoryCode : StringValueObject

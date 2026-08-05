@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserInitiated;
+namespace NovaCore.User.Application.Features.Users.Events.OnUserInitiated;
 
 public sealed record OnUserInitiatedEvent(
     Guid AccountId,

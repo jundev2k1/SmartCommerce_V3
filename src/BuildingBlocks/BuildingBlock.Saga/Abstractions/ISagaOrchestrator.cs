@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Saga.Abstractions;
+namespace NovaCore.BuildingBlock.Saga.Abstractions;
 
 /// <summary>
 /// Orchestrates the execution of a saga workflow.

@@ -1,6 +1,6 @@
 # Docker Configuration: 3-Layer Separation
 
-SimpleShop's Docker setup splits configuration into three layers with distinct responsibilities.
+NovaCore's Docker setup splits configuration into three layers with distinct responsibilities.
 
 ```
 Layer 1: docker-compose.yml (Service Definitions)

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+namespace NovaCore.BuildingBlock.Messaging.Abstractions;
 
 /// <summary>
 /// Marker interface for integration event consumers.

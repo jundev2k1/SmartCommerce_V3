@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Domain.Enums;
+namespace NovaCore.Order.Domain.Enums;
 
 public enum OrderStatus : short
 {

@@ -1,8 +1,8 @@
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
-using SmartEcommerce.Inventory.Application.Abstractions.Services;
-using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventoryTransactions;
+using NovaCore.Inventory.Application.Abstractions.Services;
+using NovaCore.Inventory.Application.Features.Inventories.DTOs;
 
-namespace SmartEcommerce.Inventory.Application.Services;
+namespace NovaCore.Inventory.Application.Services;
 
 /// <summary>
 /// Records inventory transactions alongside stock changes.

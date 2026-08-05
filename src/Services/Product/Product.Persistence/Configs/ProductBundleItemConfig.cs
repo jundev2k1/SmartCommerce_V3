@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Product.Persistence.Configs;
+namespace NovaCore.Product.Persistence.Configs;
 
 public sealed class ProductBundleItemConfig : IEntityTypeConfiguration<ProductBundleItem>
 {

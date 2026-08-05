@@ -1,7 +1,7 @@
 using Grpc.Net.Client;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Grpc.Client;
+namespace NovaCore.BuildingBlock.Grpc.Client;
 
 public static class GrpcClientExtensions
 {

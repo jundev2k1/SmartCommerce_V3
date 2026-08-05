@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Domain.Metadata;
+namespace NovaCore.BuildingBlock.Domain.Metadata;
 
 /// <summary>
 /// Declares that a property on a <see cref="MetadataBase"/> derivative is backed by the

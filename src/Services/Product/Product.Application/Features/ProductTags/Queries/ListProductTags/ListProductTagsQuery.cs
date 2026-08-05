@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.ProductTags.Queries.ListProductTags;
+namespace NovaCore.Product.Application.Features.ProductTags.Queries.ListProductTags;
 
 public sealed record ListProductTagsQuery : IQuery<ListProductTagsResponse>;
 

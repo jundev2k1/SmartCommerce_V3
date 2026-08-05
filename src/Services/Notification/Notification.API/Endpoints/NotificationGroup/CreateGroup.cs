@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Authorization;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Authorization;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-using SmartEcommerce.Notification.Application.Features.NotificationGroups.Commands.CreateNotificationGroup;
+using NovaCore.Notification.Application.Features.NotificationGroups.Commands.CreateNotificationGroup;
 
-namespace SmartEcommerce.Notification.API.Endpoints.NotificationGroup;
+namespace NovaCore.Notification.API.Endpoints.NotificationGroup;
 
 public sealed class CreateGroup : ICarterModule
 {

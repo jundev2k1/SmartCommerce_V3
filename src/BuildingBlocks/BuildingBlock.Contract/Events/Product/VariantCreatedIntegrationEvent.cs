@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Product;
+namespace NovaCore.BuildingBlock.Contract.Events.Product;
 
 /// <summary>
 /// Fired once per Variant - both for each initial variation at Product creation and

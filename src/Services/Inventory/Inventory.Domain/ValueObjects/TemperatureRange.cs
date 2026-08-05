@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Domain.ValueObjects;
+namespace NovaCore.Inventory.Domain.ValueObjects;
 
 public sealed class TemperatureRange : ValueObject
 {

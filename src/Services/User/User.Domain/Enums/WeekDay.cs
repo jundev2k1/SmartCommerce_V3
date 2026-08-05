@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Enums;
+namespace NovaCore.User.Domain.Enums;
 
 /// <summary>Named distinctly from System.DayOfWeek - a project-owned enum keeps its ordinal
 /// values (Monday-first) stable independently of the BCL's Sunday-first ordering.</summary>

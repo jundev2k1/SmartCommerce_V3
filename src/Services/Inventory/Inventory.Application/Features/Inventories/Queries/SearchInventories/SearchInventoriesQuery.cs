@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Queries.SearchInventories;
+namespace NovaCore.Inventory.Application.Features.Inventories.Queries.SearchInventories;
 
 public sealed record SearchInventoriesQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<SearchInventoriesItemResponse>>;
 

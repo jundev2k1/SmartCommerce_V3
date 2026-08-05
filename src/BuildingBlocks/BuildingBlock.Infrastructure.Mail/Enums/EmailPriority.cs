@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Enums;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Enums;
 
 public enum EmailPriority : byte
 {

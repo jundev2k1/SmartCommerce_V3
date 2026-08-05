@@ -1,7 +1,7 @@
-using SmartEcommerce.Inventory.Domain.ValueObjects;
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.Inventory.Domain.ValueObjects;
+using NovaCore.Inventory.Persistence.Engine;
 
-namespace SmartEcommerce.Inventory.Persistence.Storage.Seeders;
+namespace NovaCore.Inventory.Persistence.Storage.Seeders;
 
 public sealed class InventorySeeder(InventoryDbContext context)
 {

@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Application.Abstractions.Services;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Contract.Events.User;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Contract.Events.User;
 
-namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserRegistered;
+namespace NovaCore.Auth.Application.Features.Auth.Events.OnUserRegistered;
 
 public sealed class OnUserRegisteredHandler(
     IUserProfileService userProfileService,

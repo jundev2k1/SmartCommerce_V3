@@ -1,10 +1,10 @@
-using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using NovaCore.Auth.Application.Abstractions.Auth;
 
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace SmartEcommerce.Auth.Infrastructure.Services;
+namespace NovaCore.Auth.Infrastructure.Services;
 
 public sealed class AuthService(UserManager<Account> userManager) : IAppService, IAuthService
 {

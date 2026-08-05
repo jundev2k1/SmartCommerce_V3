@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
 public sealed class OutboxConfiguration : IEntityTypeConfiguration<OutboxMessage>
 {

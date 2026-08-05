@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+namespace NovaCore.BuildingBlock.SharedKernel.Constants;
 
 /// <summary>
 /// Centralized cache key patterns and configurations for all cached entities.
@@ -69,7 +69,7 @@ public static class CacheKeyConstant
 
     /// <summary>
     /// Refresh token cache key formats. Must stay in sync with
-    /// SmartEcommerce.Auth.Infrastructure.Caching.RefreshTokenCacheService, which owns the write side of these keys.
+    /// NovaCore.Auth.Infrastructure.Caching.RefreshTokenCacheService, which owns the write side of these keys.
     /// </summary>
     public static class RefreshTokens
     {
@@ -134,7 +134,7 @@ public static class CacheKeyConstant
 
     /// <summary>
     /// Notification channel runtime-config cache patterns. Keyed by channel type name (string,
-    /// not the enum itself - SharedKernel can't depend on SmartEcommerce.Notification.Domain).
+    /// not the enum itself - SharedKernel can't depend on NovaCore.Notification.Domain).
     /// </summary>
     public static class NotificationChannels
     {

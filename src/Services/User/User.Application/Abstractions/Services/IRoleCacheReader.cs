@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Abstractions.Services;
+namespace NovaCore.User.Application.Abstractions.Services;
 
 /// <summary>
 /// Read-only access to user roles cached by the Auth service. User service does not

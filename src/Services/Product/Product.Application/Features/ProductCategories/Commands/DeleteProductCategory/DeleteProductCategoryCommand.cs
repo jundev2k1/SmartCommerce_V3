@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
+namespace NovaCore.Product.Application.Features.ProductCategories.Commands.DeleteProductCategory;
 
 public sealed record DeleteProductCategoryCommand(Guid ProductCategoryId) : ICommand<DeleteProductCategoryResponse>;
 

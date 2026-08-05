@@ -3,9 +3,9 @@ using MailKit.Security;
 
 using Microsoft.Extensions.Logging;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Mail.Abstractions;
+using NovaCore.BuildingBlock.Infrastructure.Mail.Abstractions;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Internal;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Internal;
 
 internal sealed class MailKitEmailSender(
     MailOptions options,

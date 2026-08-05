@@ -1,6 +1,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Outbox;
 
 public sealed class OutboxDocument
 {

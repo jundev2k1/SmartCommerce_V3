@@ -1,6 +1,6 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationGroups;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationGroups.Commands.CreateNotificationGroup;
+namespace NovaCore.Notification.Application.Features.NotificationGroups.Commands.CreateNotificationGroup;
 
 public sealed class CreateNotificationGroupHandler(
     INotificationGroupWriteService notificationGroupWriteService) : ICommandHandler<CreateNotificationGroupCommand, CreateNotificationGroupResponse>

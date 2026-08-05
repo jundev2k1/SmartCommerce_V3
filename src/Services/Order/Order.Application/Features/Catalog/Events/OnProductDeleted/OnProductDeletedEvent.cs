@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnProductDeleted;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnProductDeleted;
 
 public sealed record OnProductDeletedEvent(Guid ProductId, string CorrelationId = "") : IInternalEvent
 {

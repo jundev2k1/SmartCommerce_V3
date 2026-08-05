@@ -1,6 +1,6 @@
-using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+using NovaCore.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace SmartEcommerce.Notification.Application.Abstractions.Services;
+namespace NovaCore.Notification.Application.Abstractions.Services;
 
 /// <summary>
 /// Port onto the realtime push side (SignalR today) - kept separate from IChannelSender/

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.CreateProduct;
+namespace NovaCore.Product.Application.Features.Products.Commands.CreateProduct;
 
 public sealed class CreateProductValidator : AbstractValidator<CreateProductCommand>
 {

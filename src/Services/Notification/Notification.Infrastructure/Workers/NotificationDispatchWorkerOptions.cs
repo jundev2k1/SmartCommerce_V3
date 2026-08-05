@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Jobs;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.Notification.Infrastructure.Workers;
+namespace NovaCore.Notification.Infrastructure.Workers;
 
 public sealed class NotificationDispatchWorkerOptions : IJobOptions
 {

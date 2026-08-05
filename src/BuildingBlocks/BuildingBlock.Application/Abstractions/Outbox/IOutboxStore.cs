@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Contract.Events;
+using NovaCore.BuildingBlock.Contract.Events;
 
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 
 /// <summary>
 /// Write and read sides of the transactional outbox. EnqueueAsync is called by command

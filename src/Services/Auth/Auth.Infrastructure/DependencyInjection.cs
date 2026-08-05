@@ -1,24 +1,24 @@
-using SmartEcommerce.Auth.Application.Abstractions.Auth;
-using SmartEcommerce.Auth.Application.Abstractions.Services;
-using SmartEcommerce.Auth.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Auth.Infrastructure.Caching;
-using SmartEcommerce.Auth.Infrastructure.GrpcClients;
-using SmartEcommerce.Auth.Infrastructure.Messaging.Consumers;
-using SmartEcommerce.Auth.Infrastructure.Security;
-using SmartEcommerce.Auth.Infrastructure.Services;
+using NovaCore.Auth.Application.Abstractions.Auth;
+using NovaCore.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Infrastructure.BackgroundJobs;
+using NovaCore.Auth.Infrastructure.Caching;
+using NovaCore.Auth.Infrastructure.GrpcClients;
+using NovaCore.Auth.Infrastructure.Messaging.Consumers;
+using NovaCore.Auth.Infrastructure.Security;
+using NovaCore.Auth.Infrastructure.Services;
 
-using SmartEcommerce.BuildingBlock.Contract.Protos.User;
-using SmartEcommerce.BuildingBlock.Grpc.Client;
-using SmartEcommerce.BuildingBlock.Infrastructure.Audit;
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
-using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
+using NovaCore.BuildingBlock.Contract.Protos.User;
+using NovaCore.BuildingBlock.Grpc.Client;
+using NovaCore.BuildingBlock.Infrastructure.Audit;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using NovaCore.BuildingBlock.Infrastructure.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.Messaging;
+using NovaCore.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Auth.Infrastructure;
+namespace NovaCore.Auth.Infrastructure;
 
 public static class DependencyInjection
 {

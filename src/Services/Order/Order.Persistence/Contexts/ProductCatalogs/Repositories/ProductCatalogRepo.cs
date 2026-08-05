@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Order.Persistence.Engine;
+using NovaCore.Order.Persistence.Engine;
 
-namespace SmartEcommerce.Order.Persistence.Contexts.ProductCatalogs.Repositories;
+namespace NovaCore.Order.Persistence.Contexts.ProductCatalogs.Repositories;
 
 public sealed class ProductCatalogRepo(OrderDbContext dbContext)
     : OrderBaseRepository<ProductCatalog>(dbContext), IProductCatalogRepository

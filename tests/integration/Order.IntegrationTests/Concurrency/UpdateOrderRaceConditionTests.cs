@@ -3,21 +3,21 @@ using System.Text;
 
 using MediatR;
 
-using SmartEcommerce.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
-using SmartEcommerce.Order.Domain.Entities.Orders;
-using SmartEcommerce.Order.Domain.ValueObjects;
-using SmartEcommerce.Order.IntegrationTests.Infrastructure;
+using NovaCore.Order.Application.Features.Orders.Commands.UpdateOrderOwnerInfo;
+using NovaCore.Order.Domain.Entities.Orders;
+using NovaCore.Order.Domain.ValueObjects;
+using NovaCore.Order.IntegrationTests.Infrastructure;
 
 using Shouldly;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using ApplicationException = SmartEcommerce.BuildingBlock.Application.Exceptions.ApplicationException;
-using DomainException = SmartEcommerce.BuildingBlock.Domain.Exceptions.DomainException;
-using EntityNotFoundException = SmartEcommerce.BuildingBlock.Domain.Exceptions.EntityNotFoundException;
+using ApplicationException = NovaCore.BuildingBlock.Application.Exceptions.ApplicationException;
+using DomainException = NovaCore.BuildingBlock.Domain.Exceptions.DomainException;
+using EntityNotFoundException = NovaCore.BuildingBlock.Domain.Exceptions.EntityNotFoundException;
 
-namespace SmartEcommerce.Order.IntegrationTests.Concurrency;
+namespace NovaCore.Order.IntegrationTests.Concurrency;
 
 /// <summary>
 /// Diagnostic test, NOT a correctness guardrail (yet): fires two conflicting
@@ -176,10 +176,10 @@ public sealed class UpdateOrderRaceConditionTests(ITestOutputHelper output) : Or
     }
 
     /// <summary>
-    /// Mirrors SmartEcommerce.BuildingBlock.Infrastructure.ExceptionHandling.ExceptionHandlerHelper's own
+    /// Mirrors NovaCore.BuildingBlock.Infrastructure.ExceptionHandling.ExceptionHandlerHelper's own
     /// exception->HTTP-status mapping (not reused directly, to keep this test project's
-    /// dependency graph limited to SmartEcommerce.Order.Application/SmartEcommerce.Order.Persistence) - so the "Status" printed
-    /// per task is exactly what a real client would have seen from SmartEcommerce.Order.API.
+    /// dependency graph limited to NovaCore.Order.Application/NovaCore.Order.Persistence) - so the "Status" printed
+    /// per task is exactly what a real client would have seen from NovaCore.Order.API.
     /// </summary>
     private static int MapToStatusCode(Exception ex) => ex switch
     {

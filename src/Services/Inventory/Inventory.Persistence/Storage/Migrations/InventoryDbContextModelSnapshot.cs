@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.Inventory.Persistence.Engine;
 
 #nullable disable
 
-namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
+namespace NovaCore.Inventory.Persistence.Storage.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
     partial class InventoryDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inbox_retry_histories", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +227,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("outbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,7 +332,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_stocks", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryCounts.InventoryCount", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryCounts.InventoryCount", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,7 +411,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_counts", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryCounts.InventoryCountItem", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryCounts.InventoryCountItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -473,7 +473,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_count_items", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -572,7 +572,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_documents", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocumentItem", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocumentItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -650,7 +650,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_document_items", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryLots.InventoryLot", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryLots.InventoryLot", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -740,7 +740,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_lots", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -857,7 +857,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_reservations", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventorySerials.InventorySerial", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventorySerials.InventorySerial", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -933,7 +933,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_serials", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryTransactions.InventoryTransaction", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryTransactions.InventoryTransaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1045,7 +1045,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("inventory_transactions", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1176,7 +1176,7 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("warehouses", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.Warehouses.WarehouseZone", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.Warehouses.WarehouseZone", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1271,9 +1271,9 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.ToTable("warehouse_zones", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1283,9 +1283,9 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryCounts.InventoryCount", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryCounts.InventoryCount", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1295,16 +1295,16 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryCounts.InventoryCountItem", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryCounts.InventoryCountItem", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.InventoryCounts.InventoryCount", "InventoryCount")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.InventoryCounts.InventoryCount", "InventoryCount")
                         .WithMany("Items")
                         .HasForeignKey("InventoryCountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_inventory_count_items_inventory_counts_inventory_count_id");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
                         .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1316,15 +1316,15 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("InventoryCount");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "DestinationWarehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "DestinationWarehouse")
                         .WithMany()
                         .HasForeignKey("DestinationWarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_inventory_documents_warehouses_destination_warehouse_id");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "SourceWarehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "SourceWarehouse")
                         .WithMany()
                         .HasForeignKey("SourceWarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1335,16 +1335,16 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("SourceWarehouse");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocumentItem", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocumentItem", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", "Document")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", "Document")
                         .WithMany("Items")
                         .HasForeignKey("InventoryDocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_inventory_document_items_inventory_documents_inventory_docu");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
                         .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1356,9 +1356,9 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Inventory");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryLots.InventoryLot", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryLots.InventoryLot", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
                         .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1368,16 +1368,16 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Inventory");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
                         .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_inventory_reservations_inventory_stocks_inventory_id");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1389,22 +1389,22 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventorySerials.InventorySerial", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventorySerials.InventorySerial", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", "Document")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", "Document")
                         .WithMany()
                         .HasForeignKey("InventoryDocumentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_inventory_serials_inventory_documents_inventory_document_id");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
                         .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_inventory_serials_inventory_stocks_inventory_id");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", "Reservation")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", "Reservation")
                         .WithMany()
                         .HasForeignKey("InventoryReservationId")
                         .OnDelete(DeleteBehavior.SetNull)
@@ -1417,28 +1417,28 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Reservation");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryTransactions.InventoryTransaction", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryTransactions.InventoryTransaction", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", "Document")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", "Document")
                         .WithMany()
                         .HasForeignKey("InventoryDocumentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_inventory_transactions_inventory_documents_inventory_docume");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Inventories.InventoryStock", "Inventory")
                         .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_inventory_transactions_inventory_stocks_inventory_id");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", "Reservation")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.InventoryReservations.InventoryReservation", "Reservation")
                         .WithMany()
                         .HasForeignKey("InventoryReservationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_inventory_transactions_inventory_reservations_inventory_res");
 
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1454,9 +1454,9 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.Warehouses.WarehouseZone", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.Warehouses.WarehouseZone", b =>
                 {
-                    b.HasOne("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
+                    b.HasOne("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", "Warehouse")
                         .WithMany("Zones")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1466,17 +1466,17 @@ namespace SmartEcommerce.Inventory.Persistence.Storage.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryCounts.InventoryCount", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryCounts.InventoryCount", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.InventoryDocuments.InventoryDocument", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Inventory.Domain.Entities.Warehouses.Warehouse", b =>
+            modelBuilder.Entity("NovaCore.Inventory.Domain.Entities.Warehouses.Warehouse", b =>
                 {
                     b.Navigation("Zones");
                 });

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.Queries.GetUserById;
+namespace NovaCore.User.Application.Features.Users.Queries.GetUserById;
 
 /// <summary>
 /// Backs the gRPC GetUsers batch RPC. Never falls back to a loop of single lookups - exactly

@@ -1,10 +1,10 @@
-using SmartEcommerce.Auth.Application.Features.Auth.Commands.Register;
+using NovaCore.Auth.Application.Features.Auth.Commands.Register;
 
-using SmartEcommerce.BuildingBlock.Domain.Enums;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
+using NovaCore.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Web.Swagger.EndpointHeader;
 
-namespace SmartEcommerce.Auth.API.Endpoints;
+namespace NovaCore.Auth.API.Endpoints;
 
 public record RegisterRequest(string Email, string Password, string FirstName, string LastName, string PhoneNumber, string MiddleName = "");
 

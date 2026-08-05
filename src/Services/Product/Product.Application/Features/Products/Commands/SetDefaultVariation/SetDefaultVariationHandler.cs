@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
 
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.SetDefaultVariation;
+namespace NovaCore.Product.Application.Features.Products.Commands.SetDefaultVariation;
 
 public sealed class SetDefaultVariationHandler(
     IProductWriteService productWriteService) : ICommandHandler<SetDefaultVariationCommand, SetDefaultVariationResponse>

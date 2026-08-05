@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Domain.Enums;
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.Domain.Exceptions;
 using Shouldly;
 
-namespace SimpleShop.TestKit.ShouldlyExtensions;
+namespace NovaCore.TestKit.ShouldlyExtensions;
 
 /// <summary>
 /// Asserts both the exception type and the <see cref="MessageCode"/> in one call, so a domain

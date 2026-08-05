@@ -1,5 +1,5 @@
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-global using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+global using NovaCore.BuildingBlock.Application.Abstractions.Common;
+global using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
 global using Carter;
 

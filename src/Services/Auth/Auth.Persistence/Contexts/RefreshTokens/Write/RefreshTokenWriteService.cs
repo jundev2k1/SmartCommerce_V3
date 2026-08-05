@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Application.Abstractions.Persistence.RefreshTokens;
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Application.Abstractions.Persistence.RefreshTokens;
+using NovaCore.Auth.Domain.Entities.Accounts;
 
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-namespace SmartEcommerce.Auth.Persistence.Contexts.RefreshTokens.Write;
+namespace NovaCore.Auth.Persistence.Contexts.RefreshTokens.Write;
 
 /// <summary>
 /// Both methods are non-committing - the one caller (RefreshTokenSyncService) batches many

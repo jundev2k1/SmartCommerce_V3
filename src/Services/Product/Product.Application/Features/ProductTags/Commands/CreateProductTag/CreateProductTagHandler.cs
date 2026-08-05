@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductTags;
-using SmartEcommerce.Product.Domain.ValueObjects;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductTags;
+using NovaCore.Product.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.CreateProductTag;
+namespace NovaCore.Product.Application.Features.ProductTags.Commands.CreateProductTag;
 
 public sealed class CreateProductTagHandler(
     IProductTagReadService tagReadService,

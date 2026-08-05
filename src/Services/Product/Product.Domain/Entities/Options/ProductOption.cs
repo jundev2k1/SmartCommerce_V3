@@ -1,6 +1,6 @@
-using ProductEntity = SmartEcommerce.Product.Domain.Entities.Products.Product;
+using ProductEntity = NovaCore.Product.Domain.Entities.Products.Product;
 
-namespace SmartEcommerce.Product.Domain.Entities.Options;
+namespace NovaCore.Product.Domain.Entities.Options;
 
 /// <summary>
 /// Owned child of Product - the usage of a shared <see cref="ProductOptionDefinition"/> (e.g.

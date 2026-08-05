@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Persistence.Inbox;
+using NovaCore.BuildingBlock.Persistence.Inbox;
 
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Inbox;
 
 /// <summary>
 /// Dedup + retry marker: one document per (MessageId, ConsumerName) pair. Keyed per-consumer so

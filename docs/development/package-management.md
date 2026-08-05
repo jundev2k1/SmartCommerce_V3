@@ -1,6 +1,6 @@
 # Centralized NuGet Package Management
 
-SimpleShop uses .NET's [Central Package Management (CPM)](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management) to control shared NuGet package versions from a single file instead of repeating `Version="..."` in every `.csproj`.
+NovaCore uses .NET's [Central Package Management (CPM)](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management) to control shared NuGet package versions from a single file instead of repeating `Version="..."` in every `.csproj`.
 
 ## Why
 

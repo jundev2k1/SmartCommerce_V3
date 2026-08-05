@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Commands.AdjustStock;
+namespace NovaCore.Inventory.Application.Features.Inventories.Commands.AdjustStock;
 
 public sealed record AdjustStockCommand(
     Guid InventoryId,

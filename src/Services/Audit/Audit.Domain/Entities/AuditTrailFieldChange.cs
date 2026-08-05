@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Audit.Domain.Entities;
+namespace NovaCore.Audit.Domain.Entities;
 
 /// <summary>One property's before/after value, embedded inside an <see cref="AuditTrailNode"/>.</summary>
 public sealed class AuditTrailFieldChange

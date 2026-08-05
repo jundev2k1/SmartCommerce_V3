@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
+namespace NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
 
 /// <summary>
 /// Read-only search/detail surface over dead-lettered Inbox rows, always implicitly scoped to

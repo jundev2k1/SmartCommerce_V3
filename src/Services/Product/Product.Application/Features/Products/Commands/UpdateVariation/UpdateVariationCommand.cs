@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.Products.Commands.UpdateVariation;
+namespace NovaCore.Product.Application.Features.Products.Commands.UpdateVariation;
 
 /// <summary>
 /// Covers every Variant attribute except DisplayOrder and IsDefault, which have their

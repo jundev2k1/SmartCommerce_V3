@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Idempotency;
 
 /// <summary>Configuration for the Idempotency + Distributed Lock framework. Bound from config section "Idempotency".</summary>
 public sealed class IdempotencyOptions

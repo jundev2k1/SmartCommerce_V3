@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Categories;
+namespace NovaCore.Product.Domain.Entities.Categories;
 
 public sealed class ProductCategoryTranslation : BaseEntity<Guid>, IAuditable
 {

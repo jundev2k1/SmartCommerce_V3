@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.Inventory.Persistence.Engine;
 
-namespace SmartEcommerce.Inventory.API;
+namespace NovaCore.Inventory.API;
 
 /// <summary>
 /// Lets `dotnet ef` build <see cref="InventoryDbContext"/> directly, without booting the full app
@@ -16,7 +16,7 @@ public sealed class InventoryDbContextFactory : IDesignTimeDbContextFactory<Inve
     public InventoryDbContext CreateDbContext(string[] args)
     {
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
-            ?? "Server=localhost;Port=5432;Database=inventory_db;User Id=postgres;Password=SimpleShop@Postgres2026;";
+            ?? "Server=localhost;Port=5432;Database=inventory_db;User Id=postgres;Password=NovaCore@Postgres2026;";
 
         var optionsBuilder = new DbContextOptionsBuilder<InventoryDbContext>();
         optionsBuilder.UseNpgsql(connectionString);

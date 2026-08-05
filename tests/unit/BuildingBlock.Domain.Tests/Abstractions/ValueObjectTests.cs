@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
 using Shouldly;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Tests.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Tests.Abstractions;
 
 file sealed class TestValueObject(string a, int b) : ValueObject
 {

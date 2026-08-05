@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.Extensions.Configuration;
 
-using SmartEcommerce.User.Application.Abstractions.Persistence.Users;
-using SmartEcommerce.User.Application.Abstractions.Services;
-using SmartEcommerce.User.Application.Features.Users.DTOs;
+using NovaCore.User.Application.Abstractions.Persistence.Users;
+using NovaCore.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Features.Users.DTOs;
 
-namespace SmartEcommerce.User.Infrastructure.Caching.Users;
+namespace NovaCore.User.Infrastructure.Caching.Users;
 
 /// <summary>
 /// Owns the complete User Detail cache lifecycle for one specific question - "what does this

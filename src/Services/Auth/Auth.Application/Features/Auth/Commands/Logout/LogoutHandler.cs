@@ -1,8 +1,8 @@
-using SmartEcommerce.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Application.Abstractions.Services;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Logout;
+namespace NovaCore.Auth.Application.Features.Auth.Commands.Logout;
 
 public sealed class LogoutHandler(
     ICurrentUserService currentUserService,

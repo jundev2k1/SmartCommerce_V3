@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserDeletion;
+namespace NovaCore.Auth.Application.Features.Auth.Events.OnUserDeletion;
 
 public sealed record OnUserDeletionEvent(
     string UserId,

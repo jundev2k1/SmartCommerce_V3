@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Caching;
+namespace NovaCore.BuildingBlock.Infrastructure.Caching;
 
 /// <summary>
 /// Cache options

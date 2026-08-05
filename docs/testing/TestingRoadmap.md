@@ -1,6 +1,6 @@
 # Testing Roadmap
 
-**Scope:** the 6-phase priority order for building out test coverage, mapped onto SimpleShop's actual project list. For "what's done so far," see [TestingProgress.md](TestingProgress.md) — this doc is the stable long-term plan; that one is the living checkpoint. Re-read this before picking the next batch of work in a new session.
+**Scope:** the 6-phase priority order for building out test coverage, mapped onto NovaCore's actual project list. For "what's done so far," see [TestingProgress.md](TestingProgress.md) — this doc is the stable long-term plan; that one is the living checkpoint. Re-read this before picking the next batch of work in a new session.
 
 Priority always runs simple/deterministic → complex/infrastructure-heavy, per the standing testing initiative. Don't skip ahead to Application/Infrastructure tests while a service's Domain layer is still uncovered unless there's a specific bug-fix reason to.
 

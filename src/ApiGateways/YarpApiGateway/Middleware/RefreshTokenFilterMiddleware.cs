@@ -1,13 +1,13 @@
 using StackExchange.Redis;
 
-using SmartEcommerce.YarpApiGateway.Caching;
-using SmartEcommerce.YarpApiGateway.Configuration;
+using NovaCore.YarpApiGateway.Caching;
+using NovaCore.YarpApiGateway.Configuration;
 
-namespace SmartEcommerce.YarpApiGateway.Middleware;
+namespace NovaCore.YarpApiGateway.Middleware;
 
 /// <summary>
 /// Rejects refresh-token requests early when the token isn't present in the distributed cache,
-/// so obviously invalid refresh attempts never reach SmartEcommerce.Auth.API. Mirrors SmartEcommerce.Auth.API's own design:
+/// so obviously invalid refresh attempts never reach NovaCore.Auth.API. Mirrors NovaCore.Auth.API's own design:
 /// the refresh token itself is the Redis key, and Redis is the source of truth for its validity.
 /// </summary>
 public sealed class RefreshTokenFilterMiddleware(RequestDelegate next, GatewayOptions options, IConnectionMultiplexer redis)

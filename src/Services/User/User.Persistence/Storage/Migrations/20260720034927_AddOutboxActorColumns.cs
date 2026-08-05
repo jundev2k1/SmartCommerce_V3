@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SmartEcommerce.User.Persistence.Storage.Migrations
+namespace NovaCore.User.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class AddOutboxActorColumns : Migration

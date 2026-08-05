@@ -1,7 +1,7 @@
-using SmartEcommerce.Auth.Domain.Entities.Roles;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Permissions;
+namespace NovaCore.Auth.Domain.Entities.Permissions;
 
 /// <summary>
 /// Catalog entry for a single permission key the platform recognizes (e.g. "product:create").

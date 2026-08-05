@@ -1,6 +1,6 @@
 # Task 4: `POST /users/search` already exists — frontend Task 8's premise was stale; the real gap is `Roles`
 
-**Scope:** SimpleShopUI's `docs/tasks/2026-07-22/Task8_users-page-role-tabs.md` asked to split the admin Users page into Admin/Normal-User tabs, and reported it as **blocked** because "User service has no list/search endpoint at all." That's no longer true — investigating this task found the endpoint already built, just undocumented (`docs/services/user-service.md`'s routes table only lists 4 routes and predates it). This task corrects the record and scopes what's actually still missing.
+**Scope:** NovaCoreUI's `docs/tasks/2026-07-22/Task8_users-page-role-tabs.md` asked to split the admin Users page into Admin/Normal-User tabs, and reported it as **blocked** because "User service has no list/search endpoint at all." That's no longer true — investigating this task found the endpoint already built, just undocumented (`docs/services/user-service.md`'s routes table only lists 4 routes and predates it). This task corrects the record and scopes what's actually still missing.
 
 ## What already exists
 
@@ -31,4 +31,4 @@ Recommend picking based on how "real" the pagination needs to be for the Admin/N
 
 Done — option 2 (denormalize) was picked. `UserProfile.Roles` (`string[]`, GIN-indexed, migration `AddUserProfileRoles`) is a write-once snapshot populated by both profile-creation paths (`CreateUserHandler` from its `Roles` input; `OnUserInitiatedHandler` hardcoded to `[AppRole.User]`, since Auth's self-registration flow never grants anything else). No new cross-service event was needed — both paths already know the roles at creation time, so this stayed a plain domain/persistence change, not the event-driven sync originally sketched in option 2. `UserCriteriaDefinition` gained a `role` field (`Eq`/`Ne`, via a new reusable `StringCollectionContainsStrategy<TEntity>` in `BuildingBlock.Criteria.Strategies`) and `SearchUsersItemResponse` gained a `Roles` field. `docs/services/user-service.md` updated (routes table + new "Denormalized Roles" section).
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-22/Task8_users-page-role-tabs.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-22/Task8_users-page-role-tabs.md`.

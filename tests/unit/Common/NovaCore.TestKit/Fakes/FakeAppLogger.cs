@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-namespace SimpleShop.TestKit.Fakes;
+namespace NovaCore.TestKit.Fakes;
 
 /// <summary>
 /// No-op <see cref="IAppLogger{T}"/> that records every call so a handler test can assert

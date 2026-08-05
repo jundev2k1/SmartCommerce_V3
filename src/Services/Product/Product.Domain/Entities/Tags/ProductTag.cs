@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Tags;
+namespace NovaCore.Product.Domain.Entities.Tags;
 
 /// <summary>
 /// Independent, reusable catalog lookup - flat, no hierarchy.

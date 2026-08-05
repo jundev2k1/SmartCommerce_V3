@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+namespace NovaCore.BuildingBlock.Messaging.Abstractions;
 
 /// <summary>
 /// Publishes outbox messages to the message broker with outbox-specific headers

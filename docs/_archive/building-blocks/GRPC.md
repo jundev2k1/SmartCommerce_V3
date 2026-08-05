@@ -1,6 +1,6 @@
 # BuildingBlock.gRpc
 
-Enterprise gRPC infrastructure for inter-service communication in SimpleShop microservices architecture.
+Enterprise gRPC infrastructure for inter-service communication in NovaCore microservices architecture.
 
 ## Overview
 
@@ -47,9 +47,9 @@ BuildingBlock.gRpc (Runtime)
 ```protobuf
 syntax = "proto3";
 
-package simpleshop.auth;
+package novacore.auth;
 
-option csharp_namespace = "SimpleShop.Contracts.Auth";
+option csharp_namespace = "NovaCore.Contracts.Auth";
 
 service AuthService {
   rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
@@ -82,7 +82,7 @@ message CreateUserResponse {
 ### 3. Implement Service (in Service)
 
 ```csharp
-using SimpleShop.Contracts.Auth;
+using NovaCore.Contracts.Auth;
 using Grpc.Core;
 
 public class AuthService : AuthService.AuthServiceBase
@@ -281,14 +281,14 @@ Enable exploration of gRPC services without proto files:
 grpcurl -plaintext localhost:5000 list
 
 # List methods
-grpcurl -plaintext localhost:5000 list simpleshop.auth.AuthService
+grpcurl -plaintext localhost:5000 list novacore.auth.AuthService
 
 # Describe message
-grpcurl -plaintext localhost:5000 describe simpleshop.auth.ValidateTokenRequest
+grpcurl -plaintext localhost:5000 describe novacore.auth.ValidateTokenRequest
 
 # Call service
 grpcurl -plaintext -d '{"token":"abc123"}' \
-  localhost:5000 simpleshop.auth.AuthService/ValidateToken
+  localhost:5000 novacore.auth.AuthService/ValidateToken
 ```
 
 ## Streaming
@@ -426,7 +426,7 @@ version: '3.8'
 
 services:
   auth-api:
-    image: simpleshop/auth-api:latest
+    image: novacore/auth-api:latest
     ports:
       - "5000:5000"  # gRPC port
       - "5001:5001"  # HTTP (REST/health)
@@ -440,7 +440,7 @@ services:
       retries: 3
 
   order-api:
-    image: simpleshop/order-api:latest
+    image: novacore/order-api:latest
     ports:
       - "5002:5002"
       - "5003:5003"

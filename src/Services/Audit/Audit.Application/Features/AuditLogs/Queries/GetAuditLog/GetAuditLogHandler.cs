@@ -1,11 +1,11 @@
-using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
-using SmartEcommerce.Audit.Application.Abstractions.Services;
+using NovaCore.Audit.Application.Abstractions.Persistence.AuditLogs;
+using NovaCore.Audit.Application.Abstractions.Services;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
-using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Contract.Events.Audit;
 
-namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
+namespace NovaCore.Audit.Application.Features.AuditLogs.Queries.GetAuditLog;
 
 public sealed class GetAuditLogHandler(
     IAuditLogReadService auditLogReadService,

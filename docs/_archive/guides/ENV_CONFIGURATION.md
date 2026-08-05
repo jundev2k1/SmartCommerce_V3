@@ -21,7 +21,7 @@ This pattern ensures:
 
 ### `.env` (Development/Production)
 ```env
-COMPOSE_PROJECT_NAME=simpleshop
+COMPOSE_PROJECT_NAME=novacore
 POSTGRES_PASSWORD=MySecurePassword123!
 JWT_SECRET=super-secret-key-12345678
 API_KEY=sk-12345678...
@@ -42,7 +42,7 @@ API_KEY=
 1. **Clone repository**
    ```bash
    git clone ...
-   cd SimpleShop
+   cd NovaCore
    ```
 
 2. **Copy template to .env**
@@ -124,7 +124,7 @@ git commit -m "add user service variables to template"
 USER_CONTAINER_NAME=user-api
 USER_SERVICE_URL=http://user-api:5100
 USER_PORT=5101
-USER_DB_CONNECTION=Server=pg;Port=5432;Database=user_db;User Id=postgres;Password=SimpleShop@Postgres2026;
+USER_DB_CONNECTION=Server=pg;Port=5432;Database=user_db;User Id=postgres;Password=NovaCore@Postgres2026;
 USER_REDIS_URL=redis:6379
 USER_KAFKA_BROKERS=kafka:9092
 USER_SEQ_URL=http://seq:5341
@@ -159,7 +159,7 @@ docker-compose up user-api
 ## 📊 File Structure
 
 ```
-SimpleShop/
+NovaCore/
 ├── .gitignore                    # ← Ignores .env
 ├── .env                          # ← Local config (not committed)
 ├── .env.template                 # ← Template (committed)

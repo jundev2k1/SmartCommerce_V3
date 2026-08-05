@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Persistence.Audit;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Interceptors;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Persistence.Audit;
+using NovaCore.BuildingBlock.Persistence.Ef.Interceptors;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Tests;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Tests;
 
 internal static class AuditTestFixture
 {

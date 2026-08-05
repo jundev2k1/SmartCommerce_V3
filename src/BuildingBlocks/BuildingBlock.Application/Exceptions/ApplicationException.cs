@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace SmartEcommerce.BuildingBlock.Application.Exceptions;
+namespace NovaCore.BuildingBlock.Application.Exceptions;
 
 public abstract class ApplicationException : Exception
 {

@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
+using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
+using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
-namespace SmartEcommerce.User.Persistence.Engine;
+namespace NovaCore.User.Persistence.Engine;
 
 public sealed class UserDbContext(DbContextOptions<UserDbContext> options)
     : DbContextBase(options),

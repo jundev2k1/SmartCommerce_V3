@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Features.ProductTags.Commands.UpdateProductTag;
+namespace NovaCore.Product.Application.Features.ProductTags.Commands.UpdateProductTag;
 
 public sealed record UpdateProductTagCommand(Guid ProductTagId, string Name) : ICommand<UpdateProductTagResponse>;
 

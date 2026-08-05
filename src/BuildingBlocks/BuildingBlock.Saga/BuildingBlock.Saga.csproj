@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.BuildingBlock.Saga</RootNamespace>
-    <AssemblyName>SmartEcommerce.BuildingBlock.Saga</AssemblyName>
+    <RootNamespace>NovaCore.BuildingBlock.Saga</RootNamespace>
+    <AssemblyName>NovaCore.BuildingBlock.Saga</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.ProductTags.Repositories;
+namespace NovaCore.Product.Persistence.Contexts.ProductTags.Repositories;
 
 public interface IProductTagRepository : IRepository<ProductTag>
 {

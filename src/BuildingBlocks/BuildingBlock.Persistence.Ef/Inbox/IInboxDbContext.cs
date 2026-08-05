@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 
 /// <summary>
 /// Marker interface for DbContext implementations that provide access to the Inbox table.

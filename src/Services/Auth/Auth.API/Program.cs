@@ -1,13 +1,13 @@
-using SmartEcommerce.Auth.API;
-using SmartEcommerce.Auth.Application;
-using SmartEcommerce.Auth.Infrastructure;
-using SmartEcommerce.Auth.Persistence;
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.API;
+using NovaCore.Auth.Application;
+using NovaCore.Auth.Infrastructure;
+using NovaCore.Auth.Persistence;
+using NovaCore.Auth.Persistence.Engine;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
-using SmartEcommerce.BuildingBlock.Observability.Logging;
-using SmartEcommerce.BuildingBlock.Observability.Tracing;
+using NovaCore.BuildingBlock.Infrastructure.Observability;
+using NovaCore.BuildingBlock.Messaging.Kafka.Tracing;
+using NovaCore.BuildingBlock.Observability.Logging;
+using NovaCore.BuildingBlock.Observability.Tracing;
 
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;

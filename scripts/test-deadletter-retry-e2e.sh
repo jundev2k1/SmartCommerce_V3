@@ -29,7 +29,7 @@ COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.yml}"
 NOTIFICATION_URL="${NOTIFICATION_URL:-http://localhost:5108}"
 USER_URL="${USER_URL:-http://localhost:5100}"
 ADMIN_TOKEN="${ADMIN_TOKEN:?Set ADMIN_TOKEN to a valid admin JWT before running this script}"
-MONGO_CONTAINER="${MONGO_CONTAINER:-simpleshop-mongo}"
+MONGO_CONTAINER="${MONGO_CONTAINER:-novacore-mongo}"
 MONGO_DB="${MONGO_DB:-notification_db}"
 
 auth_header=(-H "Authorization: Bearer ${ADMIN_TOKEN}")

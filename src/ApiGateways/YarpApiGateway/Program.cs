@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
-using SmartEcommerce.BuildingBlock.Observability.Logging;
-using SmartEcommerce.BuildingBlock.Observability.Tracing;
+using NovaCore.BuildingBlock.Infrastructure.Observability;
+using NovaCore.BuildingBlock.Observability.Logging;
+using NovaCore.BuildingBlock.Observability.Tracing;
 
 using Serilog;
 
-using SmartEcommerce.YarpApiGateway;
-using SmartEcommerce.YarpApiGateway.Middleware;
-using SmartEcommerce.YarpApiGateway.Services;
+using NovaCore.YarpApiGateway;
+using NovaCore.YarpApiGateway.Middleware;
+using NovaCore.YarpApiGateway.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "yarp-api-gateway"));

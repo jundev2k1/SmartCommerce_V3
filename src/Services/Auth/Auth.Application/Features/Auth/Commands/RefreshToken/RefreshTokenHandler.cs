@@ -1,12 +1,12 @@
-using SmartEcommerce.Auth.Application.Abstractions.Auth;
-using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
-using SmartEcommerce.Auth.Application.Abstractions.Services;
-using SmartEcommerce.Auth.Application.Security;
+using NovaCore.Auth.Application.Abstractions.Auth;
+using NovaCore.Auth.Application.Abstractions.Security.Jwt;
+using NovaCore.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Application.Security;
 
-using SmartEcommerce.BuildingBlock.Domain.Enums;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.RefreshToken;
+namespace NovaCore.Auth.Application.Features.Auth.Commands.RefreshToken;
 
 public sealed class RefreshTokenHandler(
     IJwtTokenGenerator tokenGenerator,

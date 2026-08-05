@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
-using SmartEcommerce.Inventory.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Domain.Exceptions;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Application.Abstractions.Services;
 
-namespace SmartEcommerce.Inventory.Application.Services;
+namespace NovaCore.Inventory.Application.Services;
 
 /// <summary>
 /// Owns inventory adjustment workflow: validates inventory, applies adjustment, records transaction, documents change.

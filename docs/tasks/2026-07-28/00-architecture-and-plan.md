@@ -7,12 +7,12 @@
 Six areas were independently audited end-to-end. The three most consequential findings that reshape the original request's assumptions:
 
 1. **gRPC "optimization" is greenfield, not a fix.** `user.proto` has exactly one RPC (`CreateUserProfile`, write-only), and grepping every service confirms **zero** current consumers of User via gRPC reads. Order and Audit both avoid the problem today by denormalizing a name/actor snapshot at write time (`OrderOwner.CustomerName`, `AuditTrailMetadata.Actor`) instead of calling User. There is no N+1 pattern to eliminate — Task 13/14/15 below are new capability, not a refactor.
-2. **The locale header already flows from the frontend.** `SimpleShopUI/src/shared/lib/api/client.ts:23` unconditionally sends `Accept-Language` on every request today, sourced from `useLocaleStore` (`locale.store.ts`). Nothing reads it on the backend (zero hits for `RequestLocalization`/`CultureInfo`/`Accept-Language` anywhere in `SimpleShop/src`). **This means Section 5 of the original ask needs zero frontend work to get a header sent** — only a backend `ICurrentLocaleService` (Task 4) is required. The value will always be `"en"` in practice until a locale switcher UI is separately built (Frontend Task 5, explicitly out of scope unless the business wants it).
+2. **The locale header already flows from the frontend.** `NovaCoreUI/src/shared/lib/api/client.ts:23` unconditionally sends `Accept-Language` on every request today, sourced from `useLocaleStore` (`locale.store.ts`). Nothing reads it on the backend (zero hits for `RequestLocalization`/`CultureInfo`/`Accept-Language` anywhere in `NovaCore/src`). **This means Section 5 of the original ask needs zero frontend work to get a header sent** — only a backend `ICurrentLocaleService` (Task 4) is required. The value will always be `"en"` in practice until a locale switcher UI is separately built (Frontend Task 5, explicitly out of scope unless the business wants it).
 3. **Product's Elasticsearch mapping has no accent-folding.** It relies solely on ES's default `standard` analyzer (case-insensitive, not accent-insensitive). The "search regardless of locale/accent" requirement (e.g. `café` ≈ `cafe`) cannot be satisfied by copying Product's mapping verbatim — Task 7 is genuinely new ground (a custom analyzer/normalizer with `asciifolding`), the one piece of this whole epic without an in-repo precedent to lift.
 
 ## Affected modules (complete list)
 
-**Backend — SimpleShop:**
+**Backend — NovaCore:**
 - `User.Domain` (`UserProfile.cs`), `User.Application` (Commands/Queries/Events/Search/Abstractions), `User.Persistence` (Configs, Contexts/UserProfiles, Migrations, Seeder), `User.API` (Endpoints, GrpcServices, ApplicationPipeline)
 - `BuildingBlock.Contract` (`user.proto`, `Events/User/UserProfileCreatedIntegrationEvent.cs`) — shared wire contracts
 - `Auth.Application`/`Auth.Infrastructure`/`Auth.API` — Register flow mirrors User's name fields end-to-end (`RegisterCommand`, `RegisterValidator`, `OnUserRegisteredEvent`, `OnUserCreatedEvent`, `UserProfileServiceClient`, `Register.cs`)
@@ -20,7 +20,7 @@ Six areas were independently audited end-to-end. The three most consequential fi
 - `BuildingBlock.SharedKernel` (`CacheKeys.cs`, new `HeaderKeys.Locale`), `BuildingBlock.Application` (new `ICurrentLocaleService`), `BuildingBlock.Infrastructure` (new `CurrentLocaleService`, User Detail cache decorator precedent), `BuildingBlock.Search` (reused as-is, no changes expected), `BuildingBlock.Grpc` (reused as-is)
 - Order/Audit — **not modified in this epic's core scope**, only candidates for Task 15's "first consumer" decision
 
-**Frontend — SimpleShopUI:**
+**Frontend — NovaCoreUI:**
 - `src/features/users/*` (UsersPage, CreateUserForm, EditUserForm, users.schema.ts), `src/features/auth/*` (RegisterForm, auth.schema.ts, auth.queries.ts's `toSessionUser`), `src/services/user/*.ts`, `src/services/auth/register.ts`, `src/i18n/messages/en/{users,auth}.json`
 
 ## Dependency graph
@@ -107,4 +107,4 @@ See `PROGRESS.md` in this folder for live status. Task files:
 | 17 | Testing (unit + integration, threaded through all phases) | Testing |
 | 18 | Documentation updates | Documentation |
 
-SimpleShopUI's paired folder (`docs/tasks/2026-07-28/` in that repo) has Frontend Tasks F1–F7, cross-referenced from the relevant backend tasks above.
+NovaCoreUI's paired folder (`docs/tasks/2026-07-28/` in that repo) has Frontend Tasks F1–F7, cross-referenced from the relevant backend tasks above.

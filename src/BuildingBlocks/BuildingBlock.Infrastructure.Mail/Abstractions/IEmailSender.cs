@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Infrastructure.Mail.Models;
+using NovaCore.BuildingBlock.Infrastructure.Mail.Models;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Abstractions;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Abstractions;
 
 public interface IEmailSender
 {

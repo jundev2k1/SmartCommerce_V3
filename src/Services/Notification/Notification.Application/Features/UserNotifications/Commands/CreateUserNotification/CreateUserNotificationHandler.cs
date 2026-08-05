@@ -1,8 +1,8 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.UserNotifications;
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+using NovaCore.Notification.Application.Abstractions.Persistence.UserNotifications;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace SmartEcommerce.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
+namespace NovaCore.Notification.Application.Features.UserNotifications.Commands.CreateUserNotification;
 
 public sealed class CreateUserNotificationHandler(
     IUserNotificationWriteService userNotificationWriteService,

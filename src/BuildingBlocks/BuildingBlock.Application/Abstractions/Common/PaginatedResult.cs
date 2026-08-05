@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Common;
 
 public class PaginatedResult<T>
 {

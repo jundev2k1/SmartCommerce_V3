@@ -1,6 +1,6 @@
-using SmartEcommerce.YarpApiGateway.Configuration;
+using NovaCore.YarpApiGateway.Configuration;
 
-namespace SmartEcommerce.YarpApiGateway.Middleware;
+namespace NovaCore.YarpApiGateway.Middleware;
 
 public sealed class AuthorizationMiddleware(RequestDelegate next, GatewayOptions options)
 {

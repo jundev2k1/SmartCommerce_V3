@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Abstractions;
 
 /// <summary>
 /// Opt-in marker for entities that should participate in audit tracking. The change-tracking

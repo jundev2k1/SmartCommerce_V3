@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Common;
 
 /// <summary>
 /// Generic result wrapper for gRPC service calls across microservices.

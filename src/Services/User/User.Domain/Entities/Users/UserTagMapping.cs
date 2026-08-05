@@ -1,6 +1,6 @@
-using SmartEcommerce.User.Domain.Entities.Tags;
+using NovaCore.User.Domain.Entities.Tags;
 
-namespace SmartEcommerce.User.Domain.Entities.Users;
+namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>
 /// Explicit many-to-many join entity between User and UserTag - User and UserTag are

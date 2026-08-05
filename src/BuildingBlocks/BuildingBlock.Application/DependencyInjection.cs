@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Behaviors;
+using NovaCore.BuildingBlock.Application.Behaviors;
 
 using MediatR;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.BuildingBlock.Application;
+namespace NovaCore.BuildingBlock.Application;
 
 public static class DependencyInjection
 {

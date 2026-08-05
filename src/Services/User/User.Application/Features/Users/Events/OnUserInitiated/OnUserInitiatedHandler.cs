@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-using SmartEcommerce.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
+using NovaCore.User.Application.Features.Users.Events.OnUserSearchSyncRequired;
 
-namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserInitiated;
+namespace NovaCore.User.Application.Features.Users.Events.OnUserInitiated;
 
 public sealed class OnUserInitiatedHandler(
     IUserWriteService userWriteService,

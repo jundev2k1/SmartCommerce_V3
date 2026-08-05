@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Persistence.Inbox;
+using NovaCore.BuildingBlock.Persistence.Inbox;
 
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Inbox;
 
 /// <summary>
 /// Append-only record of one manually-triggered retry attempt against a dead-lettered
-/// InboxDocument. Mongo equivalent of SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory.
+/// InboxDocument. Mongo equivalent of NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory.
 /// </summary>
 public sealed class InboxRetryHistoryDocument
 {

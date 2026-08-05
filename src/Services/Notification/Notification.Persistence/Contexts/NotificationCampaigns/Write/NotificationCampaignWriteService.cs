@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using NovaCore.Notification.Persistence.Contexts.NotificationCampaigns.Repositories;
 
-namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Write;
+namespace NovaCore.Notification.Persistence.Contexts.NotificationCampaigns.Write;
 
 public sealed class NotificationCampaignWriteService(
     INotificationCampaignRepository repo,

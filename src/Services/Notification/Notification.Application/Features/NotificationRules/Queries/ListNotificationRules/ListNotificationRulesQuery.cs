@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
+namespace NovaCore.Notification.Application.Features.NotificationRules.Queries.ListNotificationRules;
 
 public sealed record ListNotificationRulesQuery(
     string? EventType,

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Contract.Events.Order;
+namespace NovaCore.BuildingBlock.Contract.Events.Order;
 
 /// <summary>
 /// Fired whenever a Pending order's item list is replaced via the manual UpdateOrder command.

@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Infrastructure.Authorization;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Infrastructure.Authorization;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-using SmartEcommerce.User.Application.Features.Users.Queries.GetUserDetail;
+using NovaCore.User.Application.Features.Users.Queries.GetUserDetail;
 
-namespace SmartEcommerce.User.API.Endpoints;
+namespace NovaCore.User.API.Endpoints;
 
 public sealed class GetUserDetailEndpoint : ICarterModule
 {

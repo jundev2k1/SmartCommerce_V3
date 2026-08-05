@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Inventories;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
-using SmartEcommerce.Inventory.Application.Features.Inventories.DTOs;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Inventories;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
+using NovaCore.Inventory.Application.Features.Inventories.DTOs;
 
-namespace SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnVariantCreated;
+namespace NovaCore.Inventory.Application.Features.Inventories.Events.OnVariantCreated;
 
 /// <summary>
 /// Every new Variant needs a stock record before it can be tracked. Defaults new

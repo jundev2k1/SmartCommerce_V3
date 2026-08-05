@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
+using NovaCore.BuildingBlock.Application.Abstractions.Idempotency;
 
 using Microsoft.Extensions.Logging;
 
 using StackExchange.Redis;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
+namespace NovaCore.BuildingBlock.Infrastructure.Idempotency;
 
 /// <summary>Redis-backed <see cref="IDistributedLockProvider"/> using SET NX PX + poll, with a token-guarded release.</summary>
 internal sealed class RedisDistributedLockProvider(

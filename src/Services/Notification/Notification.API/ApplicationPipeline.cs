@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Web.Cors;
-using SmartEcommerce.BuildingBlock.Web.Middleware;
-using SmartEcommerce.BuildingBlock.Web.Swagger;
+using NovaCore.BuildingBlock.Web.Cors;
+using NovaCore.BuildingBlock.Web.Middleware;
+using NovaCore.BuildingBlock.Web.Swagger;
 
-using SmartEcommerce.Notification.API.ExceptionHandling;
-using SmartEcommerce.Notification.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
+using NovaCore.Notification.API.ExceptionHandling;
+using NovaCore.Notification.Infrastructure.BackgroundJobs;
+using NovaCore.Notification.Infrastructure.SignalR.Hubs.Global;
 
-namespace SmartEcommerce.Notification.API;
+namespace NovaCore.Notification.API;
 
 public static class ApplicationPipeline
 {

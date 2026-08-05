@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 
-namespace SimpleShop.TestKit.Fakes;
+namespace NovaCore.TestKit.Fakes;
 
 /// <summary>
 /// In-memory <see cref="ICurrentUserService"/> for handler tests that need a caller identity
@@ -10,7 +10,7 @@ namespace SimpleShop.TestKit.Fakes;
 public sealed class FakeCurrentUserService : ICurrentUserService
 {
     public Guid? UserId { get; set; } = Guid.CreateVersion7();
-    public string UserEmail { get; set; } = "test-user@simpleshop.local";
+    public string UserEmail { get; set; } = "test-user@novacore.local";
     public string UserName { get; set; } = "test-user";
     public List<string> Roles { get; set; } = [];
     public bool Authenticated { get; set; } = true;

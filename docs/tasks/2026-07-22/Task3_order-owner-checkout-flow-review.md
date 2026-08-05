@@ -1,6 +1,6 @@
 # Task 3: Backend readiness review for the redesigned buyer/order-owner checkout flow
 
-**Scope:** Frontend wants to redesign checkout (SimpleShopUI `docs/tasks/2026-07-22/Task6_checkout-flow-redesign.md`) into: **Cart** (review + total) → **Order Owner** (name, address, phone — prefilled from the buyer's own profile but editable, and *approved even if it doesn't match the logged-in account*) → **Confirm** (maybe payment method) → *(maybe an external "perform transfer" step)* → **Complete** (Order ID + message). This task checks what the backend already supports vs. what's missing, endpoint by endpoint.
+**Scope:** Frontend wants to redesign checkout (NovaCoreUI `docs/tasks/2026-07-22/Task6_checkout-flow-redesign.md`) into: **Cart** (review + total) → **Order Owner** (name, address, phone — prefilled from the buyer's own profile but editable, and *approved even if it doesn't match the logged-in account*) → **Confirm** (maybe payment method) → *(maybe an external "perform transfer" step)* → **Complete** (Order ID + message). This task checks what the backend already supports vs. what's missing, endpoint by endpoint.
 
 ## 1. Order owner name/phone independent of the account — ALREADY SUPPORTED
 
@@ -22,7 +22,7 @@ Confirmed persisted, not just accepted transiently: `Order.Domain/Entities/Order
 - Migration `20260722103729_AddOrderShippingAddress` (adds `shipping_address` column, `NOT NULL`, default `''` for any pre-existing rows) — not yet applied to a live DB, same as the day's earlier `AddOrderCustomerSnapshotAndDiscount` migration.
 - New `Order.API/OrderDbContextFactory.cs` (`IDesignTimeDbContextFactory<OrderDbContext>`) was added to unblock `dotnet ef migrations add` without booting the full app host (Kafka/Redis/APM) — Order didn't have one before, unlike User's `UserDbContextFactory`. Tooling-only, mirrors User's pattern exactly.
 
-**Frontend action needed:** SimpleShopUI's checkout redesign (Task 6) can now collect and submit `shippingAddress` on both `POST /orders` and `POST /orders/admin`, and `GET /orders/{orderId}` returns it. See that task's own update.
+**Frontend action needed:** NovaCoreUI's checkout redesign (Task 6) can now collect and submit `shippingAddress` on both `POST /orders` and `POST /orders/admin`, and `GET /orders/{orderId}` returns it. See that task's own update.
 
 ## 3. Payment method selection + "transfer then auto-complete" — NOT SUPPORTED
 
@@ -49,4 +49,4 @@ Was flagged in passing: `GetOrder` only required `RequireAuthenticated`, with no
 - [ ] Payment method + auto-complete-on-transfer — deferred by decision, needs its own follow-up task when picked up; biggest remaining lift.
 - [ ] Frontend contract drift on `GetOrderResponse` (customerName/Phone/cancellationReason/item discount+lineTotal/shippingAddress already exist server-side but aren't in the frontend's types yet) — flag to frontend, no backend action needed beyond keeping `docs/backend/order/README.md`'s mirror doc in mind next time it's touched.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-22/Task5_order-detail-missing-fields.md`, `docs/tasks/2026-07-22/Task6_checkout-flow-redesign.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-22/Task5_order-detail-missing-fields.md`, `docs/tasks/2026-07-22/Task6_checkout-flow-redesign.md`.

@@ -1,7 +1,7 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Requests;
+namespace NovaCore.BuildingBlock.Criteria.Requests;
 
 public sealed record CriteriaFilter(string Field, CriteriaOperator Operator, JsonElement? Value);

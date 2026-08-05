@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Auth.Domain.Enums;
+namespace NovaCore.Auth.Domain.Enums;
 
 public enum DeviceType : byte
 {

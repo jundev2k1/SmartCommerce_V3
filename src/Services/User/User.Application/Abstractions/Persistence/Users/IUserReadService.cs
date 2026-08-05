@@ -1,6 +1,6 @@
-using SmartEcommerce.User.Application.Features.Users.DTOs;
+using NovaCore.User.Application.Features.Users.DTOs;
 
-namespace SmartEcommerce.User.Application.Abstractions.Persistence.Users;
+namespace NovaCore.User.Application.Abstractions.Persistence.Users;
 
 public interface IUserReadService
 {

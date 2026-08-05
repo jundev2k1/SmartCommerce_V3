@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Infrastructure.DeadLetters;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Idempotency;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Infrastructure.DeadLetters;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +12,7 @@ using Shouldly;
 
 using Xunit;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Tests;
+namespace NovaCore.BuildingBlock.Infrastructure.Tests;
 
 public sealed class DeadLetterRetryServiceTests
 {

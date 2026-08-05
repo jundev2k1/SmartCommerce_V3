@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventorySerials;
-using SmartEcommerce.Inventory.Persistence.Contexts.InventorySerials.Repositories;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventorySerials;
+using NovaCore.Inventory.Persistence.Contexts.InventorySerials.Repositories;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventorySerials.Read;
+namespace NovaCore.Inventory.Persistence.Contexts.InventorySerials.Read;
 
 public sealed class InventorySerialReadService(IInventorySerialRepository repo) : IInventorySerialReadService
 {

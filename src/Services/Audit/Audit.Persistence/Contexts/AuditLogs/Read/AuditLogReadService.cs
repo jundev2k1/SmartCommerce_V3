@@ -1,7 +1,7 @@
-using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
-using SmartEcommerce.Audit.Persistence.Engine;
+using NovaCore.Audit.Application.Abstractions.Persistence.AuditLogs;
+using NovaCore.Audit.Persistence.Engine;
 
-namespace SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Read;
+namespace NovaCore.Audit.Persistence.Contexts.AuditLogs.Read;
 
 public sealed class AuditLogReadService(AuditMongoContext context) : IAuditLogReadService
 {

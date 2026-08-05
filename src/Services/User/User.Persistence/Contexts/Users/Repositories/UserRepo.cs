@@ -1,6 +1,6 @@
-using SmartEcommerce.User.Persistence.Engine;
+using NovaCore.User.Persistence.Engine;
 
-namespace SmartEcommerce.User.Persistence.Contexts.Users.Repositories;
+namespace NovaCore.User.Persistence.Contexts.Users.Repositories;
 
 public sealed class UserRepo(UserDbContext dbContext)
     : UserBaseRepository<UserEntity>(dbContext), IUserRepository

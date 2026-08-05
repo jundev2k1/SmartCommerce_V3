@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
+namespace NovaCore.Notification.Application.Features.NotificationTemplates.Queries.GetNotificationTemplate;
 
 public sealed record GetNotificationTemplateQuery(Guid TemplateId) : IQuery<GetNotificationTemplateResponse>;
 

@@ -13,7 +13,7 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Routing;
 
-global using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+global using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-global using SmartEcommerce.Order.Domain.Enums;
-global using SmartEcommerce.Order.Domain.ValueObjects;
+global using NovaCore.Order.Domain.Enums;
+global using NovaCore.Order.Domain.ValueObjects;

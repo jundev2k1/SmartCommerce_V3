@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Strategies;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Strategies;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Definition;
+namespace NovaCore.BuildingBlock.Criteria.Definition;
 
 /// <summary>The type-declaration half of the Fluent DSL: `.Field(x => x.Prop)` returns this, then exactly one of `.String()/.Number()/.../UseStrategy(...)` registers the field with its type-appropriate default operator whitelist.</summary>
 public sealed class CriteriaFieldBuilder<TEntity, TProp>

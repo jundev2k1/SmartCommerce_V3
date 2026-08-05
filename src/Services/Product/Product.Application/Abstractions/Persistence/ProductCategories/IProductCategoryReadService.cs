@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+namespace NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
 
 public interface IProductCategoryReadService
 {

@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Observability;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Tracing;
-using SmartEcommerce.BuildingBlock.Observability.Logging;
-using SmartEcommerce.BuildingBlock.Observability.Tracing;
+using NovaCore.BuildingBlock.Infrastructure.Observability;
+using NovaCore.BuildingBlock.Messaging.Kafka.Tracing;
+using NovaCore.BuildingBlock.Observability.Logging;
+using NovaCore.BuildingBlock.Observability.Tracing;
 
 using Serilog;
 
-using SmartEcommerce.Order.API;
-using SmartEcommerce.Order.Application;
-using SmartEcommerce.Order.Infrastructure;
-using SmartEcommerce.Order.Persistence;
-using SmartEcommerce.Order.Persistence.Engine;
+using NovaCore.Order.API;
+using NovaCore.Order.Application;
+using NovaCore.Order.Infrastructure;
+using NovaCore.Order.Persistence;
+using NovaCore.Order.Persistence.Engine;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, config) => config.ConfigureAppLogging(context.Configuration, "order-api"));

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SmartEcommerce.Order.Persistence.Engine;
+using NovaCore.Order.Persistence.Engine;
 
 #nullable disable
 
-namespace SmartEcommerce.Order.Persistence.Storage.Migrations
+namespace NovaCore.Order.Persistence.Storage.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
     partial class OrderDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("inbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("inbox_retry_histories", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +227,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("outbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.Order", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,7 +273,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("orders", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.OrderItem", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,7 +329,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("order_items", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.OrderOwner", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.OrderOwner", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid")
@@ -409,7 +409,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("order_owners", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.OrderProductCatalog", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.OrderProductCatalog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -463,7 +463,7 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("order_product_catalogs", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Persistence.Reliability.Saga.SagaExecutionRecordEntity", b =>
+            modelBuilder.Entity("NovaCore.Order.Persistence.Reliability.Saga.SagaExecutionRecordEntity", b =>
                 {
                     b.Property<string>("SagaId")
                         .HasMaxLength(200)
@@ -524,9 +524,9 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                     b.ToTable("saga_execution_records", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.OrderItem", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.OrderItem", b =>
                 {
-                    b.HasOne("SmartEcommerce.Order.Domain.Entities.Order", null)
+                    b.HasOne("NovaCore.Order.Domain.Entities.Order", null)
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -534,17 +534,17 @@ namespace SmartEcommerce.Order.Persistence.Storage.Migrations
                         .HasConstraintName("fk_order_items_orders_order_id");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.OrderOwner", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.OrderOwner", b =>
                 {
-                    b.HasOne("SmartEcommerce.Order.Domain.Entities.Order", null)
+                    b.HasOne("NovaCore.Order.Domain.Entities.Order", null)
                         .WithOne("Owner")
-                        .HasForeignKey("SmartEcommerce.Order.Domain.Entities.OrderOwner", "OrderId")
+                        .HasForeignKey("NovaCore.Order.Domain.Entities.OrderOwner", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_order_owners_orders_order_id");
                 });
 
-            modelBuilder.Entity("SmartEcommerce.Order.Domain.Entities.Order", b =>
+            modelBuilder.Entity("NovaCore.Order.Domain.Entities.Order", b =>
                 {
                     b.Navigation("Items");
 

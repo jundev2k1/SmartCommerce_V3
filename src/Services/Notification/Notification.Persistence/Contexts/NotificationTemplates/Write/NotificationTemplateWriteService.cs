@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationTemplates;
-using SmartEcommerce.Notification.Persistence.Contexts.NotificationTemplates.Repositories;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationTemplates;
+using NovaCore.Notification.Persistence.Contexts.NotificationTemplates.Repositories;
 
-namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationTemplates.Write;
+namespace NovaCore.Notification.Persistence.Contexts.NotificationTemplates.Write;
 
 public sealed class NotificationTemplateWriteService(
     INotificationTemplateRepository repo,

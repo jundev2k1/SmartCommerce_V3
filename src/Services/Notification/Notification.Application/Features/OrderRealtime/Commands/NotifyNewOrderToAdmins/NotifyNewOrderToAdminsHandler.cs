@@ -1,7 +1,7 @@
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Application.Features.UserNotifications.DTOs;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Application.Features.UserNotifications.DTOs;
 
-namespace SmartEcommerce.Notification.Application.Features.OrderRealtime.Commands.NotifyNewOrderToAdmins;
+namespace NovaCore.Notification.Application.Features.OrderRealtime.Commands.NotifyNewOrderToAdmins;
 
 public sealed class NotifyNewOrderToAdminsHandler(IRealtimeNotifier realtimeNotifier)
     : ICommandHandler<NotifyNewOrderToAdminsCommand>

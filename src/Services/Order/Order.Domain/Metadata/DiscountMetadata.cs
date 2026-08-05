@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Metadata;
+using NovaCore.BuildingBlock.Domain.Metadata;
 
-namespace SmartEcommerce.Order.Domain.Metadata;
+namespace NovaCore.Order.Domain.Metadata;
 
 public sealed class DiscountMetadata : MetadataBase
 {

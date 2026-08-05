@@ -1,6 +1,6 @@
-using SmartEcommerce.Product.Domain.Entities.Products;
+using NovaCore.Product.Domain.Entities.Products;
 
-namespace SmartEcommerce.Product.Domain.Entities.Options;
+namespace NovaCore.Product.Domain.Entities.Options;
 
 /// <summary>
 /// Explicit many-to-many join entity between Variant and ProductOptionValue - the combination of

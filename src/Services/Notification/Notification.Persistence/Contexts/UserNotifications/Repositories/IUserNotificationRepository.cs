@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Persistence.Contexts.UserNotifications.Repositories;
+namespace NovaCore.Notification.Persistence.Contexts.UserNotifications.Repositories;
 
 public interface IUserNotificationRepository
 {

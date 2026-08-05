@@ -137,7 +137,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.SharedKernel.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Domain.Tests", "tests\unit\BuildingBlock.Domain.Tests\BuildingBlock.Domain.Tests.csproj", "{756B722E-BB53-4BEF-870D-F286F8830B01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleShop.TestKit", "tests\unit\Common\SimpleShop.TestKit\SimpleShop.TestKit.csproj", "{D90C8C7C-1EA1-4B57-BD1B-F583C6DA4F34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovaCore.TestKit", "tests\unit\Common\NovaCore.TestKit\NovaCore.TestKit.csproj", "{D90C8C7C-1EA1-4B57-BD1B-F583C6DA4F34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Domain.Tests", "tests\unit\Product.Domain.Tests\Product.Domain.Tests.csproj", "{2D1D9B4B-4EBA-481B-87C0-A1C12AFE6B7F}"
 EndProject

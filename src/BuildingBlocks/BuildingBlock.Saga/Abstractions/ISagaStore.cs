@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Saga.Abstractions;
+namespace NovaCore.BuildingBlock.Saga.Abstractions;
 
 /// <summary>
 /// Persists saga execution state for reliability and auditability.

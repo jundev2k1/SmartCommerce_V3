@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
 /// <summary>
 /// Marker interface for DbContext implementations that provide access to the Outbox table.

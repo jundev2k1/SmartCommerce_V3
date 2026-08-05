@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationGroups;
+namespace NovaCore.Notification.Application.Abstractions.Persistence.NotificationGroups;
 
 public interface INotificationGroupWriteService
 {

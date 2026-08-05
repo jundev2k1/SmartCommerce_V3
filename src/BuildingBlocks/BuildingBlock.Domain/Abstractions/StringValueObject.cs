@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Domain.Abstractions;
+namespace NovaCore.BuildingBlock.Domain.Abstractions;
 
 /// <summary>
 /// Base for single-string Value Objects (codes, slugs, identifiers) that only need

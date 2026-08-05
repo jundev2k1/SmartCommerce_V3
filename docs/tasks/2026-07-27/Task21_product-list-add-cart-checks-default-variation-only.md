@@ -34,4 +34,4 @@ Resolved via direct gRPC (confirmed with the user over the alternative of an eve
 
 Requires a full reindex (`RebuildProductSearchIndex`) after deploy, same caveat as Task 15 - not run live this session. No caching layer was added for the Inventory round trip; flagged as a possible follow-up if Product Search's higher traffic volume (vs. Order/Cart) makes this the bottleneck the acceptance criteria worried about, but not built speculatively.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task15_product-list-add-cart-single-variation-only.md`.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task15_product-list-add-cart-single-variation-only.md`.

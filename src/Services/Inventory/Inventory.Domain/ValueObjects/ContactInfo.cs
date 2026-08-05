@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Inventory.Domain.ValueObjects;
+namespace NovaCore.Inventory.Domain.ValueObjects;
 
 public sealed class ContactInfo : ValueObject
 {

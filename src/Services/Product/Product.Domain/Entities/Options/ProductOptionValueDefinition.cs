@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Options;
+namespace NovaCore.Product.Domain.Entities.Options;
 
 /// <summary>
 /// Owned child of ProductOptionDefinition - a reusable selectable value (e.g. "Red" for the

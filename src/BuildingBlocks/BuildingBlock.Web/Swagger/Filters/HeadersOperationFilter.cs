@@ -1,11 +1,11 @@
-using SmartEcommerce.BuildingBlock.Web.Swagger.EndpointHeader;
+using NovaCore.BuildingBlock.Web.Swagger.EndpointHeader;
 
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SmartEcommerce.BuildingBlock.Web.Swagger.Filters;
+namespace NovaCore.BuildingBlock.Web.Swagger.Filters;
 
 public sealed class HeadersOperationFilter : IOperationFilter
 {

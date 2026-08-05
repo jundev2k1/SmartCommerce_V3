@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
+namespace NovaCore.Notification.Application.Features.NotificationDispatches.Queries.GetNotificationDispatch;
 
 public sealed record GetNotificationDispatchQuery(Guid DispatchId) : IQuery<GetNotificationDispatchResponse>;
 

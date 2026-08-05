@@ -1,8 +1,8 @@
-using SmartEcommerce.Auth.Domain.Entities.Roles;
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.Auth.Domain.Entities.Roles;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Positions;
+namespace NovaCore.Auth.Domain.Entities.Positions;
 
 /// <summary>
 /// Organizational responsibility (e.g. "Office Manager", "Accounting Staff") - the primary unit

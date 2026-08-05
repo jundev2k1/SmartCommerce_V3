@@ -1,9 +1,9 @@
 using System.Net;
 using System.Text;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.Mail.Builders.HtmlComponents;
+using NovaCore.BuildingBlock.Infrastructure.Mail.Builders.HtmlComponents;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Builders;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Builders;
 
 public sealed class EmailBodyBuilder
 {

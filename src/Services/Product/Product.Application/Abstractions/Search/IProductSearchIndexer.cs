@@ -1,8 +1,8 @@
-namespace SmartEcommerce.Product.Application.Abstractions.Search;
+namespace NovaCore.Product.Application.Abstractions.Search;
 
 /// <summary>
 /// Write-only access to the Product Search index - the only place Product's search sync/rebuild
-/// code is allowed to mutate Elasticsearch. Wraps SmartEcommerce.BuildingBlock.Search's generic indexer with the
+/// code is allowed to mutate Elasticsearch. Wraps NovaCore.BuildingBlock.Search's generic indexer with the
 /// Product index name/mapping. See docs/reference/search.md.
 /// </summary>
 public interface IProductSearchIndexer

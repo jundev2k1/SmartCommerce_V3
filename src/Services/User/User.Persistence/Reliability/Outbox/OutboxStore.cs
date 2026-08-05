@@ -1,14 +1,14 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox;
-using SmartEcommerce.BuildingBlock.Contract.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
+using NovaCore.BuildingBlock.Contract.Events;
 
-namespace SmartEcommerce.User.Persistence.Reliability.Outbox;
+namespace NovaCore.User.Persistence.Reliability.Outbox;
 
 public sealed class OutboxStore(
-    SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore) : SmartEcommerce.BuildingBlock.Application.Abstractions.Outbox.IOutboxStore
+    NovaCore.BuildingBlock.Persistence.Outbox.IOutboxStore primitiveStore) : NovaCore.BuildingBlock.Application.Abstractions.Outbox.IOutboxStore
 {
-    private readonly SmartEcommerce.BuildingBlock.Persistence.Outbox.IOutboxStore _primitiveStore = primitiveStore;
+    private readonly NovaCore.BuildingBlock.Persistence.Outbox.IOutboxStore _primitiveStore = primitiveStore;
 
     public async Task EnqueueAsync<TEvent>(TEvent integrationEvent, CancellationToken ct = default)
         where TEvent : class, IIntegrationEvent

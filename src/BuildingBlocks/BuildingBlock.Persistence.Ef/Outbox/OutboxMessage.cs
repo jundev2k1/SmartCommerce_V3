@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox;
+namespace NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 
 public sealed class OutboxMessage
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Abstractions.Services;
+namespace NovaCore.User.Application.Abstractions.Services;
 
 /// <summary>
 /// Validates email existence against the Auth service via gRPC.

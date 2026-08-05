@@ -1,8 +1,8 @@
-using SmartEcommerce.Audit.Application.Abstractions.Persistence.AuditLogs;
+using NovaCore.Audit.Application.Abstractions.Persistence.AuditLogs;
 
-using SmartEcommerce.BuildingBlock.Contract.Events.Audit;
+using NovaCore.BuildingBlock.Contract.Events.Audit;
 
-namespace SmartEcommerce.Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
+namespace NovaCore.Audit.Application.Features.AuditLogs.Commands.RecordAuditLog;
 
 public sealed class RecordAuditLogHandler(
     IAuditLogWriteService auditLogWriteService) : ICommandHandler<RecordAuditLogCommand, RecordAuditLogResponse>

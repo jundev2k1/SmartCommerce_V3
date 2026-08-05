@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Specifications;
+namespace NovaCore.Product.Domain.Entities.Specifications;
 
 /// <summary>
 /// Independent, reusable catalog lookup - a system-managed specification field (e.g. "Screen Size",

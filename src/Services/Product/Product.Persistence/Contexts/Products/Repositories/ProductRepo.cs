@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-using SmartEcommerce.Product.Persistence.Engine;
+using NovaCore.Product.Persistence.Engine;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
+namespace NovaCore.Product.Persistence.Contexts.Products.Repositories;
 
 public sealed class ProductRepo(ProductDbContext dbContext)
     : ProductBaseRepository<ProductEntity>(dbContext), IProductRepository

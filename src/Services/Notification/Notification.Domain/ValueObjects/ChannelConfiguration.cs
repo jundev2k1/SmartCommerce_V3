@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace SmartEcommerce.Notification.Domain.ValueObjects;
+namespace NovaCore.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// Raw JSON runtime configuration for one <see cref="Entities.NotificationChannel"/> (SMTP

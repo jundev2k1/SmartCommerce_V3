@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Orders.DTOs;
+namespace NovaCore.Order.Application.Features.Orders.DTOs;
 
 public sealed record PreparedOrderItem(
     Guid ProductId,

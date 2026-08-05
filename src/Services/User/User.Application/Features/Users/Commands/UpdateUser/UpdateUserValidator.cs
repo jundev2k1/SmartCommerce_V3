@@ -1,8 +1,8 @@
 using FluentValidation;
 
-using SmartEcommerce.User.Application.Common.Regex;
+using NovaCore.User.Application.Common.Regex;
 
-namespace SmartEcommerce.User.Application.Features.Users.Commands.UpdateUser;
+namespace NovaCore.User.Application.Features.Users.Commands.UpdateUser;
 
 public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Products;
+namespace NovaCore.Product.Domain.Entities.Products;
 
 /// <summary>
 /// Directed link from one Product to another (related, accessory, alternative, replacement,

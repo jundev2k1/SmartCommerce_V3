@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Text;
+using NovaCore.BuildingBlock.SharedKernel.Text;
 
-namespace SmartEcommerce.Order.Domain.Entities.Orders;
+namespace NovaCore.Order.Domain.Entities.Orders;
 
 /// <summary>
 /// Point-in-time snapshot of who placed an order and where it ships - captured once at Create

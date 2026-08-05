@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Domain.Enums;
+namespace NovaCore.Inventory.Domain.Enums;
 
 public enum InventoryStatus : byte
 {

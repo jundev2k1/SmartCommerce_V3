@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.Inventories.Repositories;
+namespace NovaCore.Inventory.Persistence.Contexts.Inventories.Repositories;
 
 public interface IInventoryRepository : IRepository<InventoryStock, Guid>
 {

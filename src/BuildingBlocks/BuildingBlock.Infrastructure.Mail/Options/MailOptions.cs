@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Mail.Options;
+namespace NovaCore.BuildingBlock.Infrastructure.Mail.Options;
 
 public sealed record MailOptions
 {

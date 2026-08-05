@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
 
-namespace SmartEcommerce.User.Application.Features.Users.Events.OnUserDeletion;
+namespace NovaCore.User.Application.Features.Users.Events.OnUserDeletion;
 
 public record OnUserDeletionEvent(Guid Id) : IInternalEvent
 {

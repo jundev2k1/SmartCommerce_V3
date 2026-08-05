@@ -1,13 +1,13 @@
-using SmartEcommerce.BuildingBlock.Search.Abstractions;
+using NovaCore.BuildingBlock.Search.Abstractions;
 
-using SmartEcommerce.User.Application.Abstractions.Search;
-using SmartEcommerce.User.Persistence.Contexts.Users.Search.Mapping;
+using NovaCore.User.Application.Abstractions.Search;
+using NovaCore.User.Persistence.Contexts.Users.Search.Mapping;
 
-namespace SmartEcommerce.User.Persistence.Contexts.Users.Search.Indexers;
+namespace NovaCore.User.Persistence.Contexts.Users.Search.Indexers;
 
 /// <summary>
 /// IUserSearchIndexer impl - fixes the User index name/mapping/settings on top of
-/// SmartEcommerce.BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;. The name passed
+/// NovaCore.BuildingBlock.Search's generic, reusable IElasticsearchIndexer&lt;&gt;. The name passed
 /// through here is an ES alias, not a concrete index - EnsureIndexAsync/RecreateIndexAsync
 /// manage the versioned index + alias swap underneath; this class stays unaware of that detail.
 /// </summary>

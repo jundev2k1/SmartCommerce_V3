@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventoryDocuments;
 
 public interface IInventoryDocumentWriteService
 {

@@ -1,10 +1,10 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Domain.ValueObjects;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Domain.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class SessionConfig : IEntityTypeConfiguration<Session>
 {

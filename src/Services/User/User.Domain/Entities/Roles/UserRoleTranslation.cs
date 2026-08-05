@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Domain.Entities.Roles;
+namespace NovaCore.User.Domain.Entities.Roles;
 
 /// <summary>
 /// Owned child of UserRole - a locale-specific override of the role's display text. UserRole.Key

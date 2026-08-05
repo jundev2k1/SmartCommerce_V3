@@ -30,4 +30,4 @@ This is the specific business scenario the requirement calls out, and it is not 
 - `UpdateOrder`/`CancelOrder`/`UpdateOrderOwnerInfo` requests require that value; the update is rejected with 409 if the current DB row's version doesn't match what the client sent (not just concurrent-instant races).
 - Manual test: open the same order in two sessions, save in session A, then save in session B using the version loaded before A's save → session B gets 409.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task4_order-concurrency-conflict-ui-missing.md` (blocked on this task).
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task4_order-concurrency-conflict-ui-missing.md` (blocked on this task).

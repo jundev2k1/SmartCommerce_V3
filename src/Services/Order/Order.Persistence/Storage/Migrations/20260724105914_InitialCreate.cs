@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SmartEcommerce.Order.Persistence.Storage.Migrations
+namespace NovaCore.Order.Persistence.Storage.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Notification.Domain.ValueObjects;
+namespace NovaCore.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// Encapsulates a <see cref="Entities.NotificationCampaign"/>'s execution timing so scheduling

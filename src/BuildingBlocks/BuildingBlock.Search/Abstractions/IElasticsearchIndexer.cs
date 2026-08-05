@@ -1,7 +1,7 @@
 using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 
-namespace SmartEcommerce.BuildingBlock.Search.Abstractions;
+namespace NovaCore.BuildingBlock.Search.Abstractions;
 
 /// <summary>
 /// The one reusable component allowed to write to Elasticsearch. Generic over the document

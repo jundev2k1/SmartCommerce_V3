@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Catalog.Events.OnVariantCreated;
+namespace NovaCore.Order.Application.Features.Catalog.Events.OnVariantCreated;
 
 public sealed record OnVariantCreatedEvent(
     Guid ProductId,

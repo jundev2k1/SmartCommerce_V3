@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryLots;
+namespace NovaCore.Inventory.Application.Abstractions.Persistence.InventoryLots;
 
 public interface IInventoryLotWriteService
 {

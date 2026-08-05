@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.Products;
-using SmartEcommerce.Product.Persistence.Contexts.Products.Repositories;
-using SmartEcommerce.Product.Persistence.Engine;
+using NovaCore.Product.Application.Abstractions.Persistence.Products;
+using NovaCore.Product.Persistence.Contexts.Products.Repositories;
+using NovaCore.Product.Persistence.Engine;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.Products.Read;
+namespace NovaCore.Product.Persistence.Contexts.Products.Read;
 
 public sealed class ProductReadService(
     ProductDbContext dbContext,

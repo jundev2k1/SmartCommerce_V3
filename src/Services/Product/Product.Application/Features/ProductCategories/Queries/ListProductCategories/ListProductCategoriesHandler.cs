@@ -1,8 +1,8 @@
 using Mapster;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace SmartEcommerce.Product.Application.Features.ProductCategories.Queries.ListProductCategories;
+namespace NovaCore.Product.Application.Features.ProductCategories.Queries.ListProductCategories;
 
 public sealed class ListProductCategoriesHandler(IProductCategoryReadService categoryReadService)
     : IQueryHandler<ListProductCategoriesQuery, ListProductCategoriesResponse>

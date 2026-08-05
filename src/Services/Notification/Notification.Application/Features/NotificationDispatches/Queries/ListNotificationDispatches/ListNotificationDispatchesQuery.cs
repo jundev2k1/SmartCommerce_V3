@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-namespace SmartEcommerce.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
+namespace NovaCore.Notification.Application.Features.NotificationDispatches.Queries.ListNotificationDispatches;
 
 public sealed record ListNotificationDispatchesQuery(
     DispatchStatus? Status,

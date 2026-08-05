@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
+namespace NovaCore.Inventory.Application.Features.Warehouses.Commands.CreateWarehouse;
 
 public sealed class CreateWarehouseValidator : AbstractValidator<CreateWarehouseCommand>
 {

@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using StackExchange.Redis;
 
-namespace SmartEcommerce.YarpApiGateway.Caching;
+namespace NovaCore.YarpApiGateway.Caching;
 
 /// <summary>
 /// Minimal, read-only Redis lookup for refresh token existence. Local to the Gateway since it's

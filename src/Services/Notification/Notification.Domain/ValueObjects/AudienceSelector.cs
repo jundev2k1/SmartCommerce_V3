@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace SmartEcommerce.Notification.Domain.ValueObjects;
+namespace NovaCore.Notification.Domain.ValueObjects;
 
 /// <summary>
 /// Describes a <see cref="Entities.NotificationGroup"/>'s target audience. ConfigJson is left

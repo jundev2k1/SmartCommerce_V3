@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Idempotency;
-using SmartEcommerce.BuildingBlock.Domain.Enums;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Idempotency;
+using NovaCore.BuildingBlock.Domain.Enums;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
-namespace SmartEcommerce.BuildingBlock.Infrastructure.Idempotency;
+namespace NovaCore.BuildingBlock.Infrastructure.Idempotency;
 
 /// <summary>
 /// Enforces idempotency for endpoints marked with <see cref="IdempotencyMetadata"/> (via

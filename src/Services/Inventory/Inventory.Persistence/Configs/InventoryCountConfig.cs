@@ -1,8 +1,8 @@
-using SmartEcommerce.Inventory.Domain.Metadata;
+using NovaCore.Inventory.Domain.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Inventory.Persistence.Configs;
+namespace NovaCore.Inventory.Persistence.Configs;
 
 public sealed class InventoryCountConfig : IEntityTypeConfiguration<InventoryCount>
 {

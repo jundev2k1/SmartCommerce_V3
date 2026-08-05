@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Audit.Persistence.Contexts.AuditLogs.Repositories;
+namespace NovaCore.Audit.Persistence.Contexts.AuditLogs.Repositories;
 
 public interface IAuditLogRepository
 {

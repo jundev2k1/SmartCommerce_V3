@@ -1,6 +1,6 @@
-using SmartEcommerce.Auth.Application.Abstractions.Auth;
+using NovaCore.Auth.Application.Abstractions.Auth;
 
-namespace SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserDeletion;
+namespace NovaCore.Auth.Application.Features.Auth.Events.OnUserDeletion;
 
 public sealed class OnUserDeletionHandler(
     IAuthService authService,

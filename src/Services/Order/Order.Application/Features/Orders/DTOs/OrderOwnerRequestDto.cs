@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Order.Application.Features.Orders.DTOs;
+namespace NovaCore.Order.Application.Features.Orders.DTOs;
 
 public sealed record OrderOwnerRequestDto(
     Guid OwnerId,

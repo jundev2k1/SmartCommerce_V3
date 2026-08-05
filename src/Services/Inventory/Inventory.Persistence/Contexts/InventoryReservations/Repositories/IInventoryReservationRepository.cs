@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
+namespace NovaCore.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
 
 public interface IInventoryReservationRepository : IRepository<InventoryReservation, Guid>
 {

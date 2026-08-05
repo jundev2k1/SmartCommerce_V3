@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <RootNamespace>SmartEcommerce.Product.API</RootNamespace>
-    <AssemblyName>SmartEcommerce.Product.API</AssemblyName>
+    <RootNamespace>NovaCore.Product.API</RootNamespace>
+    <AssemblyName>NovaCore.Product.API</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

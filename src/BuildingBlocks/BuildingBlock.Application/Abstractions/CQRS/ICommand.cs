@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
+namespace NovaCore.BuildingBlock.Application.Abstractions.CQRS;
 
 public interface ICommand : IRequest
 {

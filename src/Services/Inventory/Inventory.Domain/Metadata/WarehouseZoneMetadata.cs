@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Metadata;
+using NovaCore.BuildingBlock.Domain.Metadata;
 
-namespace SmartEcommerce.Inventory.Domain.Metadata;
+namespace NovaCore.Inventory.Domain.Metadata;
 
 public sealed class WarehouseZoneMetadata : MetadataBase
 {

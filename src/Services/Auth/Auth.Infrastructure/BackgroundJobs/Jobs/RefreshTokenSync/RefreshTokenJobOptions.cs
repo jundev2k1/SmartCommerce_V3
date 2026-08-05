@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Jobs;
+using NovaCore.BuildingBlock.Application.Abstractions.Jobs;
 
-namespace SmartEcommerce.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
+namespace NovaCore.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
 
 public sealed class RefreshTokenJobOptions : IJobOptions
 {

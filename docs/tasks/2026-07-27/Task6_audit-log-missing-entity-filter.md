@@ -21,4 +21,4 @@ Beyond 250 events for a given service, the client-side workaround silently trunc
 - `GET /audit-logs` accepts `rootEntityType` and `rootEntityId` (and ideally `actor`) as filters, executed server-side against MongoDB.
 - A single entity's complete history is retrievable in one paginated call regardless of total event volume for its service.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task8_audit-trail-dialog-client-side-pagination-risk.md` (blocked on this task).
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task8_audit-trail-dialog-client-side-pagination-risk.md` (blocked on this task).

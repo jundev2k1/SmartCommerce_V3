@@ -1,12 +1,12 @@
-using SmartEcommerce.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
+using NovaCore.Auth.Infrastructure.BackgroundJobs.Jobs.RefreshTokenSync;
 
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Auth.Infrastructure.BackgroundJobs;
+namespace NovaCore.Auth.Infrastructure.BackgroundJobs;
 
 public static class BackgroundJobsExtensions
 {

@@ -1,14 +1,14 @@
-using SmartEcommerce.BuildingBlock.Saga.Abstractions;
+using NovaCore.BuildingBlock.Saga.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.Order.Persistence.Engine;
+using NovaCore.Order.Persistence.Engine;
 
-namespace SmartEcommerce.Order.Persistence.Reliability.Saga;
+namespace NovaCore.Order.Persistence.Reliability.Saga;
 
 /// <summary>
 /// Persistent ISagaStore for CreateOrderSaga, registered as a singleton (matching
-/// SagaOrchestrator's own lifetime - see SmartEcommerce.BuildingBlock.Saga.Extensions.SagaExtensions) but
+/// SagaOrchestrator's own lifetime - see NovaCore.BuildingBlock.Saga.Extensions.SagaExtensions) but
 /// OrderDbContext is scoped, so every method opens its own DI scope rather than taking
 /// OrderDbContext as a constructor dependency. Purely observability/audit - see
 /// SagaExecutionRecordEntity's remarks for why correctness never depends on this table.

@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Domain.Entities.Accounts;
-using SmartEcommerce.Auth.Persistence.Engine;
+using NovaCore.Auth.Domain.Entities.Accounts;
+using NovaCore.Auth.Persistence.Engine;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartEcommerce.Auth.Persistence.Contexts.Accounts.Repositories;
+namespace NovaCore.Auth.Persistence.Contexts.Accounts.Repositories;
 
 public sealed class AccountRepo(AuthDbContext dbContext)
     : AuthBaseRepository<Account>(dbContext), IAccountRepository

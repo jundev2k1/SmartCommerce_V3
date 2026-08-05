@@ -1,10 +1,10 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
-using SmartEcommerce.BuildingBlock.SharedKernel.Serialization;
+using NovaCore.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.SharedKernel.Serialization;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Metadata;
+namespace NovaCore.BuildingBlock.Domain.Metadata;
 
 /// <summary>
 /// Base class for strongly-typed, extensible metadata bags backed by a single

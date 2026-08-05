@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using Microsoft.AspNetCore.Http;
 
-namespace SmartEcommerce.BuildingBlock.Web.CurrentUser;
+namespace NovaCore.BuildingBlock.Web.CurrentUser;
 
 public sealed class CurrentLocaleService(IHttpContextAccessor httpContextAccessor) : ICurrentLocaleService
 {

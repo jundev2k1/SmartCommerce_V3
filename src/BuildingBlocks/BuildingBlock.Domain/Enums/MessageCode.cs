@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.Attributes;
 
-namespace SmartEcommerce.BuildingBlock.Domain.Enums;
+namespace NovaCore.BuildingBlock.Domain.Enums;
 
 public enum MessageCode
 {

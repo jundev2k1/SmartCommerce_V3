@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
-using SmartEcommerce.Product.Application.Abstractions.Persistence.ProductCategories;
+using NovaCore.Product.Application.Abstractions.Persistence.ProductCategories;
 
-namespace SmartEcommerce.Product.Persistence.Contexts.ProductCategories.Write;
+namespace NovaCore.Product.Persistence.Contexts.ProductCategories.Write;
 
 /// <summary>
 /// CreateAsync/DeleteAsync commit via bare SaveChangesAsync themselves (matching the original

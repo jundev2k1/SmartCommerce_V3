@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Events;
 
 /// <summary>
 /// Handles application events synchronously via MediatR.

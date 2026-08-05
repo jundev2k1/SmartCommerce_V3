@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Application.Exceptions;
+using NovaCore.BuildingBlock.Application.Exceptions;
 
-namespace SmartEcommerce.Order.Domain.Entities.Orders;
+namespace NovaCore.Order.Domain.Entities.Orders;
 
 public sealed class OrderItem : BaseEntity<long>, IAuditable
 {

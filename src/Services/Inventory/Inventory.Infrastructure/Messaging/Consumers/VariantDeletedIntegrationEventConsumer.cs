@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Events;
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Contract.Events.Product;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Application.Abstractions.Events;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Contract.Events.Product;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
 
-using SmartEcommerce.Inventory.Application.Features.Inventories.Events.OnVariantDeleted;
+using NovaCore.Inventory.Application.Features.Inventories.Events.OnVariantDeleted;
 
-namespace SmartEcommerce.Inventory.Infrastructure.Messaging.Consumers;
+namespace NovaCore.Inventory.Infrastructure.Messaging.Consumers;
 
 public sealed class VariantDeletedIntegrationEventConsumer(
     IInternalEventDispatcher eventDispatcher,

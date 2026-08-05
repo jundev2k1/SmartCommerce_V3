@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.API.ExceptionHandling;
+namespace NovaCore.User.API.ExceptionHandling;
 
 public static class ExceptionHandlingExtensions
 {

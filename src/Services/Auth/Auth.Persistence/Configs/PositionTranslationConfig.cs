@@ -1,11 +1,11 @@
-using SmartEcommerce.Auth.Domain.Entities.Positions;
+using NovaCore.Auth.Domain.Entities.Positions;
 
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class PositionTranslationConfig : IEntityTypeConfiguration<PositionTranslation>
 {

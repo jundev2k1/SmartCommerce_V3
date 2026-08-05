@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application;
+using NovaCore.BuildingBlock.Application;
 using FluentValidation;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence;
-using SmartEcommerce.Inventory.Application.Abstractions.Services;
-using SmartEcommerce.Inventory.Application.Services;
+using NovaCore.Inventory.Application.Abstractions.Persistence;
+using NovaCore.Inventory.Application.Abstractions.Services;
+using NovaCore.Inventory.Application.Services;
 
 using Mapster;
 
@@ -11,7 +11,7 @@ using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Inventory.Application;
+namespace NovaCore.Inventory.Application;
 
 public static class DependencyInjection
 {

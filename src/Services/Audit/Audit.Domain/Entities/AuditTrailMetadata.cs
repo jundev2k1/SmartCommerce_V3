@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Audit.Domain.Entities;
+namespace NovaCore.Audit.Domain.Entities;
 
 /// <summary>Embedded, optional context captured alongside an audit graph. Every field is additive - a future field is a new nullable property here, never a breaking schema change.</summary>
 public sealed class AuditTrailMetadata

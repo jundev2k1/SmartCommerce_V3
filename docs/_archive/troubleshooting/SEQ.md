@@ -16,7 +16,7 @@ dependency failed to start: container seq is unhealthy
 **Problem:** Special characters in password (like `@`) can cause parsing errors
 ```env
 # ❌ DON'T USE:
-SEQ_FIRSTRUN_ADMINPASSWORD=SimpleShop@Seq2024
+SEQ_FIRSTRUN_ADMINPASSWORD=NovaCore@Seq2024
 
 # ✅ USE INSTEAD:
 SEQ_FIRSTRUN_NOAUTHENTICATION=true  # For development
@@ -28,7 +28,7 @@ SEQ_FIRSTRUN_NOAUTHENTICATION=true  # For development
 SEQ_FIRSTRUN_NOAUTHENTICATION=true
 
 # Or use plain password without special chars:
-SEQ_FIRSTRUN_ADMINPASSWORD=SimpleShopSeq2024
+SEQ_FIRSTRUN_ADMINPASSWORD=NovaCoreSeq2024
 ```
 
 ---
@@ -127,12 +127,12 @@ Container seq exited with code 1
 ```bash
 # Full reset
 docker-compose down
-docker volume rm simpleshop_seq_data
+docker volume rm novacore_seq_data
 docker-compose up -d
 
 # Or remove just Seq
 docker rm seq
-docker volume rm simpleshop_seq_data
+docker volume rm novacore_seq_data
 docker-compose up -d seq
 ```
 
@@ -235,7 +235,7 @@ docker-compose up -d seq
 ```bash
 # Remove everything Seq-related and restart
 docker-compose down
-docker volume rm simpleshop_seq_data 2>/dev/null || true
+docker volume rm novacore_seq_data 2>/dev/null || true
 docker rmi datalust/seq:latest 2>/dev/null || true
 docker-compose up -d seq
 

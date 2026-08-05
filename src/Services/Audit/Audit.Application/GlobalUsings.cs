@@ -3,7 +3,7 @@ global using System.Collections.Generic;
 global using System.Threading;
 global using System.Threading.Tasks;
 
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.CQRS;
-global using SmartEcommerce.BuildingBlock.Application.Abstractions.Persistence;
+global using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+global using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 
-global using SmartEcommerce.Audit.Domain.Entities;
+global using NovaCore.Audit.Domain.Entities;

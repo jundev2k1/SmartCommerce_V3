@@ -40,6 +40,6 @@ Checklist requirement: "Variation Name should become the source of truth instead
 
 ## What wasn't done
 
-`OrderProductCatalog`/`OnProductVariationCreatedHandler`/`OnProductVariationUpdatedHandler` (Order service) were deliberately left untouched - they still snapshot `ProductName` only. Making Order actually consume the new `VariationName` field (new column, migration, handler updates, and a decision on whether it replaces or supplements `ProductName` for cart/order-line display) is real additional scope belonging to whatever task acts on SimpleShopUI Task 14's blocked order-picker requirement, not this one.
+`OrderProductCatalog`/`OnProductVariationCreatedHandler`/`OnProductVariationUpdatedHandler` (Order service) were deliberately left untouched - they still snapshot `ProductName` only. Making Order actually consume the new `VariationName` field (new column, migration, handler updates, and a decision on whether it replaces or supplements `ProductName` for cart/order-line display) is real additional scope belonging to whatever task acts on NovaCoreUI Task 14's blocked order-picker requirement, not this one.
 
-**Cross-ref:** SimpleShopUI `docs/tasks/2026-07-27/Task14_variation-name-ui-missing.md`. Enables Task 15.
+**Cross-ref:** NovaCoreUI `docs/tasks/2026-07-27/Task14_variation-name-ui-missing.md`. Enables Task 15.

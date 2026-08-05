@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
 
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.Warehouses;
+using NovaCore.Inventory.Application.Abstractions.Persistence.Warehouses;
 
 using Mapster;
 
-namespace SmartEcommerce.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
+namespace NovaCore.Inventory.Application.Features.Warehouses.Queries.SearchWarehouses;
 
 public sealed class SearchWarehousesHandler(IWarehouseReadService warehouseReadService)
     : IQueryHandler<SearchWarehousesQuery, PaginatedResult<SearchWarehousesItemResponse>>

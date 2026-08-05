@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Safely create production-quality git commits for SimpleShop from staged changes only, with validated Conventional Commit messages
+description: Safely create production-quality git commits for NovaCore from staged changes only, with validated Conventional Commit messages
 ---
 
 ## Purpose

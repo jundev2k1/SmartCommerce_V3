@@ -1,7 +1,7 @@
-using SmartEcommerce.Inventory.Domain.Entities.Inventories;
-using SmartEcommerce.Inventory.Domain.Metadata;
+using NovaCore.Inventory.Domain.Entities.Inventories;
+using NovaCore.Inventory.Domain.Metadata;
 
-namespace SmartEcommerce.Inventory.Domain.Entities.InventoryDocuments;
+namespace NovaCore.Inventory.Domain.Entities.InventoryDocuments;
 
 public sealed class InventoryDocumentItem : BaseEntity<long>, IAuditable
 {

@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
-using SmartEcommerce.BuildingBlock.SharedKernel.Extensions;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-namespace SmartEcommerce.Auth.Domain.Entities.Invitations;
+namespace NovaCore.Auth.Domain.Entities.Invitations;
 
 /// <summary>
 /// Aggregate root - an admin-issued invitation for a new Account, pre-assigning the Role it

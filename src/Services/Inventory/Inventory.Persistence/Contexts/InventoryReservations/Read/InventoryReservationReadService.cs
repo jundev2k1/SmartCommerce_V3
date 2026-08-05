@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.Inventory.Application.Abstractions.Persistence.InventoryReservations;
-using SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
+using NovaCore.BuildingBlock.Application.Abstractions.Common;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.Inventory.Application.Abstractions.Persistence.InventoryReservations;
+using NovaCore.Inventory.Persistence.Contexts.InventoryReservations.Repositories;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts.InventoryReservations.Read;
+namespace NovaCore.Inventory.Persistence.Contexts.InventoryReservations.Read;
 
 public sealed class InventoryReservationReadService(IInventoryReservationRepository repo) : IInventoryReservationReadService
 {

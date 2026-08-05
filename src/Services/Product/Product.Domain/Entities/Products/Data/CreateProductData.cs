@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Domain.Entities.Products.Data;
+namespace NovaCore.Product.Domain.Entities.Products.Data;
 
 public sealed record CreateProductData(
     string Name,

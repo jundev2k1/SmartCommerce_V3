@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SmartEcommerce.User.Domain.ValueObjects;
+namespace NovaCore.User.Domain.ValueObjects;
 
 /// <summary>Uppercase snake_case internal key for a UserTag (e.g. "VIP_CUSTOMER"). Language-independent
 /// and never translated - the localized display text lives on UserTagTranslation.DisplayName.</summary>

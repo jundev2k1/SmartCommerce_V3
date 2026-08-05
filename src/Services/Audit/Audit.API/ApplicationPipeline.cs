@@ -1,10 +1,10 @@
-using SmartEcommerce.BuildingBlock.Web.Cors;
-using SmartEcommerce.BuildingBlock.Web.Swagger;
+using NovaCore.BuildingBlock.Web.Cors;
+using NovaCore.BuildingBlock.Web.Swagger;
 
-using SmartEcommerce.Audit.API.ExceptionHandling;
-using SmartEcommerce.Audit.Infrastructure.BackgroundJobs;
+using NovaCore.Audit.API.ExceptionHandling;
+using NovaCore.Audit.Infrastructure.BackgroundJobs;
 
-namespace SmartEcommerce.Audit.API;
+namespace NovaCore.Audit.API;
 
 public static class ApplicationPipeline
 {

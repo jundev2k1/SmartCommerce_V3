@@ -1,7 +1,7 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-using SmartEcommerce.BuildingBlock.Domain.Exceptions;
+using NovaCore.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Domain.Exceptions;
 
-namespace SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+namespace NovaCore.BuildingBlock.Domain.ValueObjects;
 
 public sealed class Money : ValueObject
 {

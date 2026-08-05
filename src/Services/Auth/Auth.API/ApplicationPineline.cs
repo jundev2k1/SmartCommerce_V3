@@ -1,14 +1,14 @@
-using SmartEcommerce.Auth.API.ExceptionHandling;
-using SmartEcommerce.Auth.API.GrpcServices;
-using SmartEcommerce.Auth.Application.Abstractions.Services;
-using SmartEcommerce.Auth.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Auth.Persistence.Storage.Seeders;
+using NovaCore.Auth.API.ExceptionHandling;
+using NovaCore.Auth.API.GrpcServices;
+using NovaCore.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Infrastructure.BackgroundJobs;
+using NovaCore.Auth.Persistence.Storage.Seeders;
 
-using SmartEcommerce.BuildingBlock.Web.Cors;
-using SmartEcommerce.BuildingBlock.Web.Middleware;
-using SmartEcommerce.BuildingBlock.Web.Swagger;
+using NovaCore.BuildingBlock.Web.Cors;
+using NovaCore.BuildingBlock.Web.Middleware;
+using NovaCore.BuildingBlock.Web.Swagger;
 
-namespace SmartEcommerce.Auth.API;
+namespace NovaCore.Auth.API;
 
 public static class ApplicationPipeline
 {

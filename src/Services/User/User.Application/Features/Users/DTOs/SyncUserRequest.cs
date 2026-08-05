@@ -1,4 +1,4 @@
-namespace SmartEcommerce.User.Application.Features.Users.DTOs;
+namespace NovaCore.User.Application.Features.Users.DTOs;
 
 /// <summary>Used by OnUserInitiated to mirror an Account already created in Auth - AccountId becomes this User's id.</summary>
 public sealed record SyncUserRequest(

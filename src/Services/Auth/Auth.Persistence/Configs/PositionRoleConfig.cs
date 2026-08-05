@@ -1,9 +1,9 @@
-using SmartEcommerce.Auth.Domain.Entities.Positions;
+using NovaCore.Auth.Domain.Entities.Positions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SmartEcommerce.Auth.Persistence.Configs;
+namespace NovaCore.Auth.Persistence.Configs;
 
 public sealed class PositionRoleConfig : IEntityTypeConfiguration<PositionRole>
 {

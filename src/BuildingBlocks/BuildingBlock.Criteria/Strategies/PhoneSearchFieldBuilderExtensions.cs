@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Enums;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Strategies;
+namespace NovaCore.BuildingBlock.Criteria.Strategies;
 
 public static class PhoneSearchFieldBuilderExtensions
 {

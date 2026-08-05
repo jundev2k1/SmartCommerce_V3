@@ -1,7 +1,7 @@
-using SmartEcommerce.User.Application.Abstractions.Search;
-using SmartEcommerce.User.Application.Abstractions.Services;
+using NovaCore.User.Application.Abstractions.Search;
+using NovaCore.User.Application.Abstractions.Services;
 
-namespace SmartEcommerce.User.Application.Features.Users.Search;
+namespace NovaCore.User.Application.Features.Users.Search;
 
 /// <summary>
 /// The Projection Builder: UserReadModel -&gt; UserSearchDocument. The only place a UserSearchDocument

@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.Metadata;
+using NovaCore.BuildingBlock.Domain.Metadata;
 
-namespace SmartEcommerce.Product.Domain.Metadata;
+namespace NovaCore.Product.Domain.Metadata;
 
 /// <summary>Extensible, strongly-typed metadata shared across every variation of a Product.</summary>
 public sealed class ProductMetadata : MetadataBase

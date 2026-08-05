@@ -1,4 +1,4 @@
-namespace SmartEcommerce.BuildingBlock.Persistence.Audit;
+namespace NovaCore.BuildingBlock.Persistence.Audit;
 
 /// <summary>
 /// Resolved hierarchy metadata for one entity type, produced by <see cref="AuditHierarchyBuilder"/>

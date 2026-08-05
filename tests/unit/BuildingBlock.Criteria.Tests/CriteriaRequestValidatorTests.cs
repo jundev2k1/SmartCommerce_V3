@@ -1,15 +1,15 @@
 using System.Text.Json;
 
-using SmartEcommerce.BuildingBlock.Criteria.Definition;
-using SmartEcommerce.BuildingBlock.Criteria.Enums;
-using SmartEcommerce.BuildingBlock.Criteria.Requests;
-using SmartEcommerce.BuildingBlock.Criteria.Validation;
+using NovaCore.BuildingBlock.Criteria.Definition;
+using NovaCore.BuildingBlock.Criteria.Enums;
+using NovaCore.BuildingBlock.Criteria.Requests;
+using NovaCore.BuildingBlock.Criteria.Validation;
 
 using Shouldly;
 
-using SortDirection = SmartEcommerce.BuildingBlock.Criteria.Requests.SortDirection;
+using SortDirection = NovaCore.BuildingBlock.Criteria.Requests.SortDirection;
 
-namespace SmartEcommerce.BuildingBlock.Criteria.Tests;
+namespace NovaCore.BuildingBlock.Criteria.Tests;
 
 public class CriteriaRequestValidatorTests
 {

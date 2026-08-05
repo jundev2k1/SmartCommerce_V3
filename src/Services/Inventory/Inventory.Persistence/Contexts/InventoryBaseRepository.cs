@@ -1,9 +1,9 @@
-using SmartEcommerce.BuildingBlock.Domain.Abstractions;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
+using NovaCore.BuildingBlock.Domain.Abstractions;
+using NovaCore.BuildingBlock.Persistence.Ef.Repository;
 
-using SmartEcommerce.Inventory.Persistence.Engine;
+using NovaCore.Inventory.Persistence.Engine;
 
-namespace SmartEcommerce.Inventory.Persistence.Contexts;
+namespace NovaCore.Inventory.Persistence.Contexts;
 
 public abstract class InventoryBaseRepository<TEntity>(InventoryDbContext context)
     : GenericRepository<InventoryDbContext, TEntity>(context)

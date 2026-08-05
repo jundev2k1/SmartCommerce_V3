@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Products.Data;
+namespace NovaCore.Product.Domain.Entities.Products.Data;
 
 public sealed record CreateBundleItemData(
     Guid BundleVariantId,

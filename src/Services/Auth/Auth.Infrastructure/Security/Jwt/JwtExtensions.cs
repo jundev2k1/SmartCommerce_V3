@@ -1,8 +1,8 @@
-using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
+using NovaCore.Auth.Application.Abstractions.Security.Jwt;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SmartEcommerce.Auth.Infrastructure.Security.Jwt;
+namespace NovaCore.Auth.Infrastructure.Security.Jwt;
 
 public static class JwtExtensions
 {

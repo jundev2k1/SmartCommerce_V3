@@ -1,10 +1,10 @@
-using SmartEcommerce.Auth.Application.Abstractions.Auth;
-using SmartEcommerce.Auth.Application.Abstractions.Security.Jwt;
-using SmartEcommerce.Auth.Application.Abstractions.Services;
-using SmartEcommerce.Auth.Application.Features.Auth.Events.OnUserRegistered;
-using SmartEcommerce.Auth.Application.Security;
+using NovaCore.Auth.Application.Abstractions.Auth;
+using NovaCore.Auth.Application.Abstractions.Security.Jwt;
+using NovaCore.Auth.Application.Abstractions.Services;
+using NovaCore.Auth.Application.Features.Auth.Events.OnUserRegistered;
+using NovaCore.Auth.Application.Security;
 
-namespace SmartEcommerce.Auth.Application.Features.Auth.Commands.Register;
+namespace NovaCore.Auth.Application.Features.Auth.Commands.Register;
 
 public sealed class RegisterHandler(
     IUnitOfWork unitOfWork,

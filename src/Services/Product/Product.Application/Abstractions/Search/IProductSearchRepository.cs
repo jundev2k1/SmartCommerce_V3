@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Product.Application.Abstractions.Search;
+namespace NovaCore.Product.Application.Abstractions.Search;
 
 /// <summary>
 /// Query-only access to the Product Search index. Deliberately exposes no Add/Update/Delete -

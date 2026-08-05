@@ -1,12 +1,12 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.DeadLetters;
-using SmartEcommerce.BuildingBlock.Persistence.Inbox;
-using SmartEcommerce.BuildingBlock.Persistence.Mongo.MongoContext;
+using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
+using NovaCore.BuildingBlock.Persistence.Inbox;
+using NovaCore.BuildingBlock.Persistence.Mongo.MongoContext;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Driver;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Mongo.Inbox;
+namespace NovaCore.BuildingBlock.Persistence.Mongo.Inbox;
 
 public static class InboxExtensions
 {

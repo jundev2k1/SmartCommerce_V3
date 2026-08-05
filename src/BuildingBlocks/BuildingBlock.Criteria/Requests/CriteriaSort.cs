@@ -1,3 +1,3 @@
-namespace SmartEcommerce.BuildingBlock.Criteria.Requests;
+namespace NovaCore.BuildingBlock.Criteria.Requests;
 
 public sealed record CriteriaSort(string Field, SortDirection Direction);

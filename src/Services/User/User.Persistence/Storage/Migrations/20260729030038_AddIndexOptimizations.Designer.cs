@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SmartEcommerce.User.Persistence.Engine;
+using NovaCore.User.Persistence.Engine;
 
 #nullable disable
 
-namespace SmartEcommerce.User.Persistence.Storage.Migrations
+namespace NovaCore.User.Persistence.Storage.Migrations
 {
     [DbContext(typeof(UserDbContext))]
     [Migration("20260729030038_AddIndexOptimizations")]
@@ -25,7 +25,7 @@ namespace SmartEcommerce.User.Persistence.Storage.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace SmartEcommerce.User.Persistence.Storage.Migrations
                     b.ToTable("inbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Inbox.InboxRetryHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,7 +163,7 @@ namespace SmartEcommerce.User.Persistence.Storage.Migrations
                     b.ToTable("inbox_retry_histories", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("NovaCore.BuildingBlock.Persistence.Ef.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -230,7 +230,7 @@ namespace SmartEcommerce.User.Persistence.Storage.Migrations
                     b.ToTable("outbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("SmartEcommerce.User.Domain.Entities.UserProfile", b =>
+            modelBuilder.Entity("NovaCore.User.Domain.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

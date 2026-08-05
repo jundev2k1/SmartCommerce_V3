@@ -1,16 +1,16 @@
-using SmartEcommerce.BuildingBlock.Application.Abstractions.Services;
-using SmartEcommerce.BuildingBlock.Persistence.Audit;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.DbContext;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Interceptors;
-using SmartEcommerce.BuildingBlock.Persistence.Ef.Repository;
-using SmartEcommerce.BuildingBlock.Persistence.Repository;
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
+using NovaCore.BuildingBlock.Persistence.Audit;
+using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
+using NovaCore.BuildingBlock.Persistence.Ef.Interceptors;
+using NovaCore.BuildingBlock.Persistence.Ef.Repository;
+using NovaCore.BuildingBlock.Persistence.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace SmartEcommerce.BuildingBlock.Persistence.Ef.DependencyInjection;
+namespace NovaCore.BuildingBlock.Persistence.Ef.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

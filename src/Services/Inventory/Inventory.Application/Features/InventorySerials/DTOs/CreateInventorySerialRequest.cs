@@ -1,4 +1,4 @@
-namespace SmartEcommerce.Inventory.Application.Features.InventorySerials.DTOs;
+namespace NovaCore.Inventory.Application.Features.InventorySerials.DTOs;
 
 public sealed record CreateInventorySerialRequest(
     Guid InventoryId,

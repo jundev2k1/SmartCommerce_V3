@@ -1,6 +1,6 @@
-using SmartEcommerce.Inventory.Domain.Entities.Warehouses;
+using NovaCore.Inventory.Domain.Entities.Warehouses;
 
-namespace SmartEcommerce.Inventory.Domain.Entities.InventoryCounts;
+namespace NovaCore.Inventory.Domain.Entities.InventoryCounts;
 
 public sealed class InventoryCount : AggregateRoot<Guid>, IAuditable
 {

@@ -1,22 +1,22 @@
-using SmartEcommerce.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
-using SmartEcommerce.BuildingBlock.Infrastructure.Extensions;
-using SmartEcommerce.BuildingBlock.Infrastructure.Messaging;
-using SmartEcommerce.BuildingBlock.Messaging.Abstractions;
-using SmartEcommerce.BuildingBlock.Messaging.Kafka.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.BackgroundJobs.Cleanup;
+using NovaCore.BuildingBlock.Infrastructure.Extensions;
+using NovaCore.BuildingBlock.Infrastructure.Messaging;
+using NovaCore.BuildingBlock.Messaging.Abstractions;
+using NovaCore.BuildingBlock.Messaging.Kafka.Extensions;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using SmartEcommerce.Notification.Application.Abstractions.Services;
-using SmartEcommerce.Notification.Infrastructure.BackgroundJobs;
-using SmartEcommerce.Notification.Infrastructure.Caching;
-using SmartEcommerce.Notification.Infrastructure.Delivery;
-using SmartEcommerce.Notification.Infrastructure.Messaging.Consumers;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Facade;
-using SmartEcommerce.Notification.Infrastructure.SignalR.Hubs.Global;
-using SmartEcommerce.Notification.Infrastructure.Workers;
+using NovaCore.Notification.Application.Abstractions.Services;
+using NovaCore.Notification.Infrastructure.BackgroundJobs;
+using NovaCore.Notification.Infrastructure.Caching;
+using NovaCore.Notification.Infrastructure.Delivery;
+using NovaCore.Notification.Infrastructure.Messaging.Consumers;
+using NovaCore.Notification.Infrastructure.SignalR.Facade;
+using NovaCore.Notification.Infrastructure.SignalR.Hubs.Global;
+using NovaCore.Notification.Infrastructure.Workers;
 
-namespace SmartEcommerce.Notification.Infrastructure;
+namespace NovaCore.Notification.Infrastructure;
 
 public static class DependencyInjection
 {

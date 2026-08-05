@@ -1,6 +1,6 @@
-using SmartEcommerce.BuildingBlock.Domain.ValueObjects;
+using NovaCore.BuildingBlock.Domain.ValueObjects;
 
-namespace SmartEcommerce.Product.Domain.Entities.Collections;
+namespace NovaCore.Product.Domain.Entities.Collections;
 
 /// <summary>
 /// Independent, reusable merchandising collection (e.g. "Summer Sale", "New Arrivals"). A Product

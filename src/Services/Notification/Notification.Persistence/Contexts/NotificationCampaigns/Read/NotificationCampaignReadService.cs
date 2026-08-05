@@ -1,7 +1,7 @@
-using SmartEcommerce.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
-using SmartEcommerce.Notification.Persistence.Engine;
+using NovaCore.Notification.Application.Abstractions.Persistence.NotificationCampaigns;
+using NovaCore.Notification.Persistence.Engine;
 
-namespace SmartEcommerce.Notification.Persistence.Contexts.NotificationCampaigns.Read;
+namespace NovaCore.Notification.Persistence.Contexts.NotificationCampaigns.Read;
 
 public sealed class NotificationCampaignReadService(NotificationMongoContext context) : INotificationCampaignReadService
 {

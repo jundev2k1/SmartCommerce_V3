@@ -1,8 +1,8 @@
-using SmartEcommerce.BuildingBlock.Domain.Attributes;
-using SmartEcommerce.BuildingBlock.Domain.Extensions;
-using MessageCodeEnum = SmartEcommerce.BuildingBlock.Domain.Enums.MessageCode;
+using NovaCore.BuildingBlock.Domain.Attributes;
+using NovaCore.BuildingBlock.Domain.Extensions;
+using MessageCodeEnum = NovaCore.BuildingBlock.Domain.Enums.MessageCode;
 
-namespace SmartEcommerce.BuildingBlock.Application.Abstractions.Common;
+namespace NovaCore.BuildingBlock.Application.Abstractions.Common;
 
 public class ApiResponse<T>
 {
