@@ -1,7 +1,7 @@
 using NovaCore.BuildingBlock.Web.Authorization;
 using NovaCore.BuildingBlock.Application.Abstractions.Common;
 using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
-using NovaCore.BuildingBlock.Infrastructure.DeadLetters.Queries;
+using NovaCore.BuildingBlock.Application.DeadLetters.Queries;
 using NovaCore.BuildingBlock.SharedKernel.Constants;
 
 using Carter;
