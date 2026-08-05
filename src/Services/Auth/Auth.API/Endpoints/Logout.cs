@@ -1,5 +1,7 @@
 using SmartEcommerce.Auth.Application.Features.Auth.Commands.Logout;
 
+using SmartEcommerce.BuildingBlock.SharedKernel.Constants;
+
 namespace SmartEcommerce.Auth.API.Endpoints;
 
 public sealed class Logout : ICarterModule
@@ -30,6 +32,7 @@ public sealed class Logout : ICarterModule
             return ApiResponse<object>.Ok();
         })
         .WithTags("Authentication")
+        .RequireAuthorization(AuthorizationPoliciesConstant.RequireAuthenticated)
         .WithSummary("Auth_Logout")
         .WithDisplayName("Logout API")
         .WithDescription(API_DESC.JoinToString("\n"))
