@@ -1,11 +1,10 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
 using NovaCore.BuildingBlock.Application.Abstractions.Idempotency;
 using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 using NovaCore.BuildingBlock.Application.Abstractions.Services;
-using NovaCore.BuildingBlock.Infrastructure.DeadLetters;
 using NovaCore.BuildingBlock.Messaging.Abstractions;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace NovaCore.BuildingBlock.Application.DeadLetters;
 

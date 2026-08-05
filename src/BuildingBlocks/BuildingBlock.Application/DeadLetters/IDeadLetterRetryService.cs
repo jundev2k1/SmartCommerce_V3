@@ -1,19 +1,11 @@
+using NovaCore.BuildingBlock.Application.DeadLetters.Enums;
+
 namespace NovaCore.BuildingBlock.Application.DeadLetters;
 
-public enum DeadLetterRetryOutcome
-{
-    Succeeded,
-    NotFound,
-    NotDeadLetter,
-
-    /// <summary>Another retry for the same row is already in flight (distributed lock not acquired).</summary>
-    Conflict,
-
-    /// <summary>Row was requeued but the republish to Kafka itself failed; reverted back to DeadLetter.</summary>
-    PublishFailed,
-}
-
-public sealed record DeadLetterRetryAttemptResult(Guid InboxMessageId, DeadLetterRetryOutcome Outcome, string? Error);
+public sealed record DeadLetterRetryAttemptResult(
+    Guid InboxMessageId,
+    DeadLetterRetryOutcome Outcome,
+    string? Error);
 
 /// <summary>
 /// Owns the full admin-retry sequence for one dead-lettered Inbox row: acquire a per-row
@@ -25,5 +17,7 @@ public sealed record DeadLetterRetryAttemptResult(Guid InboxMessageId, DeadLette
 /// </summary>
 public interface IDeadLetterRetryService
 {
-    Task<DeadLetterRetryAttemptResult> RetryAsync(Guid inboxMessageId, CancellationToken ct = default);
+    Task<DeadLetterRetryAttemptResult> RetryAsync(
+        Guid inboxMessageId,
+        CancellationToken ct = default);
 }

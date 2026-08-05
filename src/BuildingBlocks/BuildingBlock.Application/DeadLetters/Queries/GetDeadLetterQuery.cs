@@ -2,7 +2,7 @@ using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
 using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
 using NovaCore.BuildingBlock.Application.Exceptions;
 
-namespace NovaCore.BuildingBlock.Infrastructure.DeadLetters.Queries;
+namespace NovaCore.BuildingBlock.Application.DeadLetters.Queries;
 
 public sealed record GetDeadLetterQuery(Guid Id) : IQuery<DeadLetterDetailResponse>;
 

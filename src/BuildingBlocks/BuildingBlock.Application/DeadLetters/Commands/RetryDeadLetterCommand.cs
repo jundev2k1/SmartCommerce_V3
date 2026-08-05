@@ -1,6 +1,6 @@
 using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
+using NovaCore.BuildingBlock.Application.DeadLetters.Enums;
 using NovaCore.BuildingBlock.Application.Exceptions;
-using NovaCore.BuildingBlock.Infrastructure.DeadLetters;
 
 namespace NovaCore.BuildingBlock.Application.DeadLetters.Commands;
 
@@ -11,7 +11,9 @@ public sealed record RetryDeadLetterResponse(Guid Id, string Outcome);
 public sealed class RetryDeadLetterHandler(IDeadLetterRetryService retryService)
     : ICommandHandler<RetryDeadLetterCommand, RetryDeadLetterResponse>
 {
-    public async Task<RetryDeadLetterResponse> Handle(RetryDeadLetterCommand request, CancellationToken ct = default)
+    public async Task<RetryDeadLetterResponse> Handle(
+        RetryDeadLetterCommand request,
+        CancellationToken ct = default)
     {
         var result = await retryService.RetryAsync(request.Id, ct);
 

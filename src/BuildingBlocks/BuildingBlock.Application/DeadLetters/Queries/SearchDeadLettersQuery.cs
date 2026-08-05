@@ -3,9 +3,10 @@ using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
 using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
 using NovaCore.BuildingBlock.Criteria.Requests;
 
-namespace NovaCore.BuildingBlock.Infrastructure.DeadLetters.Queries;
+namespace NovaCore.BuildingBlock.Application.DeadLetters.Queries;
 
-public sealed record SearchDeadLettersQuery(CriteriaRequest Criteria) : IQuery<PaginatedResult<DeadLetterListItemResponse>>;
+public sealed record SearchDeadLettersQuery(CriteriaRequest Criteria)
+    : IQuery<PaginatedResult<DeadLetterListItemResponse>>;
 
 public sealed class SearchDeadLettersHandler(IDeadLetterQueryService queryService)
     : IQueryHandler<SearchDeadLettersQuery, PaginatedResult<DeadLetterListItemResponse>>

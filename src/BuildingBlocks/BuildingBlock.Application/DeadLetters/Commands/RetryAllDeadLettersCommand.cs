@@ -1,7 +1,7 @@
 using NovaCore.BuildingBlock.Application.Abstractions.CQRS;
 using NovaCore.BuildingBlock.Application.Abstractions.DeadLetters;
+using NovaCore.BuildingBlock.Application.DeadLetters.Enums;
 using NovaCore.BuildingBlock.Criteria.Requests;
-using NovaCore.BuildingBlock.Infrastructure.DeadLetters;
 
 namespace NovaCore.BuildingBlock.Application.DeadLetters.Commands;
 
@@ -12,16 +12,26 @@ namespace NovaCore.BuildingBlock.Application.DeadLetters.Commands;
 /// MaxBatchSize per call to avoid one request trying to republish an unbounded number of
 /// messages; callers needing more must call again.
 /// </summary>
-public sealed record RetryAllDeadLettersCommand(CriteriaRequest? Filter) : ICommand<RetryDeadLettersSummary>;
+public sealed record RetryAllDeadLettersCommand(
+    CriteriaRequest? Filter) : ICommand<RetryDeadLettersSummary>;
 
-public sealed class RetryAllDeadLettersHandler(IDeadLetterQueryService queryService, IDeadLetterRetryService retryService)
+public sealed class RetryAllDeadLettersHandler(
+    IDeadLetterQueryService queryService,
+    IDeadLetterRetryService retryService)
     : ICommandHandler<RetryAllDeadLettersCommand, RetryDeadLettersSummary>
 {
     private const int MaxBatchSize = 500;
 
-    public async Task<RetryDeadLettersSummary> Handle(RetryAllDeadLettersCommand request, CancellationToken ct = default)
+    public async Task<RetryDeadLettersSummary> Handle(
+        RetryAllDeadLettersCommand request,
+        CancellationToken ct = default)
     {
-        var criteria = (request.Filter ?? new CriteriaRequest()) with { Page = 1, PageSize = MaxBatchSize };
+        var criteria = (request.Filter ?? new CriteriaRequest()) with
+        {
+            Page = 1,
+            PageSize = MaxBatchSize
+        };
+
         var eligible = await queryService.SearchAsync(criteria, ct);
 
         var succeeded = 0;
@@ -38,10 +48,17 @@ public sealed class RetryAllDeadLettersHandler(IDeadLetterQueryService queryServ
             else
             {
                 failed++;
-                skipped.Add(new RetryDeadLettersSkip(item.Id, result.Outcome.ToString()));
+                var retryDeadLetterSkip = new RetryDeadLettersSkip(
+                    item.Id,
+                    result.Outcome.ToString());
+                skipped.Add(retryDeadLetterSkip);
             }
         }
 
-        return new RetryDeadLettersSummary(eligible.Items.Count(), succeeded, failed, skipped);
+        return new RetryDeadLettersSummary(
+            eligible.Items.Count(),
+            succeeded,
+            failed,
+            skipped);
     }
 }
