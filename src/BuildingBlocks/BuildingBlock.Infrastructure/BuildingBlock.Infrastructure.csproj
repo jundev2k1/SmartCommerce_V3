@@ -20,15 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Carter" Version="9.0.0" />
-    <PackageReference Include="MediatR" Version="12.5.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
-    <PackageReference Include="StackExchange.Redis" Version="3.0.11" />
-    <PackageReference Include="Hangfire.Core" Version="1.8.14" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
-    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.13" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.17.0-beta.1" />
+    <PackageReference Include="Carter" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Hangfire.Core" />
+    <PackageReference Include="Hangfire.AspNetCore" />
+    <PackageReference Include="Hangfire.PostgreSql" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis" />
   </ItemGroup>
 
 </Project>
