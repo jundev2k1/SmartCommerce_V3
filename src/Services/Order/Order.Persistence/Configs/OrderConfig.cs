@@ -21,15 +21,15 @@ public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
             .IsRequired();
 
         builder.Property(x => x.Status).HasConversion<int>();
-        builder.Property(x => x.CancellationReason).HasMaxLength(200);
 
-        // ShippingFee/Subtotal/GrandTotal are computed pass-throughs (Shipping.ShippingFee,
+        // ShippingFee/Subtotal/GrandTotal/CancellationReason are computed pass-throughs (Shipping.ShippingFee,
         // Price.Subtotal, Price.GrandTotal) - never persisted on Order itself. See OrderPriceConfig
         // for where Subtotal/GrandTotal actually live, and OrderTaxConfig for what used to be the
         // single owned Tax value object.
         builder.Ignore(x => x.ShippingFee);
         builder.Ignore(x => x.Subtotal);
         builder.Ignore(x => x.GrandTotal);
+        builder.Ignore(x => x.CancellationReason);
 
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
         builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");

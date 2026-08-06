@@ -17,7 +17,10 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
     public ICollection<OrderTax> Taxes { get; private set; } = [];
     public ICollection<OrderTag> Tags { get; private set; } = [];
     public OrderStatus Status { get; private set; }
-    public string? CancellationReason { get; private set; }
+    public OrderCancellation? Cancellation { get; private set; }
+
+    /// <summary>Computed pass-through to Cancellation - kept so existing read sites don't need to change to Order.Cancellation?.Reason.</summary>
+    public string? CancellationReason => Cancellation?.Reason;
     public Money ShippingFee => Shipping.ShippingFee;
 
     /// <summary>Computed pass-throughs to Price - kept so existing read sites (queries, DTOs) don't all need to change to Order.Price.X.</summary>
@@ -101,7 +104,11 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
         Status = OrderStatus.Completed;
     }
 
-    public void Cancel(string reason)
+    public void Cancel(
+        string reason,
+        Guid? cancelledByUserId = null,
+        string? cancelledByName = null,
+        string? comment = null)
     {
         if (string.IsNullOrWhiteSpace(reason))
             throw ExceptionFactory.RequiredField("A cancellation reason is required.");
@@ -114,7 +121,21 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
 
         Shipping.Cancel();
         Status = OrderStatus.Cancelled;
-        CancellationReason = reason;
+
+        // Refund/payment rollback is only meaningful once money has actually moved - Payment
+        // isn't wired to a real Payment Service yet, so PaymentStatus.Paid never happens today,
+        // but the logic already reflects the real rule for when it does. Inventory rollback is
+        // unconditional to match CancelOrderHandler's existing unconditional RestockAsync call.
+        var alreadyPaid = Payment.PaymentStatus == PaymentStatus.Paid;
+        Cancellation = OrderCancellation.Create(
+            Id,
+            reason,
+            cancelledByUserId,
+            cancelledByName,
+            refundRequired: alreadyPaid,
+            inventoryRollbackRequired: true,
+            paymentRollbackRequired: alreadyPaid,
+            comment);
     }
     #endregion
 

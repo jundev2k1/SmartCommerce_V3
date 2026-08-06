@@ -87,14 +87,17 @@ public sealed class OrderWriteService(
 
         await orderRepo.UpdateAsync(
             orderId,
-            includes: query => query.Include(o => o.Owner).Include(o => o.Shipping),
+            includes: query => query.Include(o => o.Owner).Include(o => o.Shipping).Include(o => o.Payment),
             updateAction: order =>
             {
                 if (order.Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
                     throw new BadRequestException(MessageCode.InvalidOrderStatus);
 
                 previousStatus = order.Status;
-                order.Cancel(reason);
+                order.Cancel(
+                    reason,
+                    currentUser.GetUserId(),
+                    currentUser.IsAuthenticated() ? currentUser.GetUserName() : null);
                 tenantId = order.TenantId;
                 customerId = order.Owner.OwnerId;
             },
