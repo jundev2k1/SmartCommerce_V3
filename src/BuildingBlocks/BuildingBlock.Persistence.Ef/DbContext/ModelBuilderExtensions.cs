@@ -55,13 +55,20 @@ public static class ModelBuilderExtensions
     /// per-service IEntityTypeConfiguration, ever configures these by hand. An entity opts in
     /// purely by implementing the interface; it may implement any combination of them.
     ///
-    /// TenantId/ScopeId are compared against NovaCore.BuildingBlock.SharedKernel.Context.
-    /// ExecutionContext.Current - the ambient, request-scoped identity initialized once by
-    /// ExecutionContextMiddleware - never a DI-resolved service and never the DbContext instance
-    /// itself. Falls back to Guid.Empty when no tenant/scope is present on the current request
-    /// (anonymous requests, background jobs, before token issuance emits these claims), which is
-    /// also what TenantAssignmentInterceptor assigns in that same situation - so the filter and
-    /// the assignment always agree.
+    /// TenantId is compared against NovaCore.BuildingBlock.SharedKernel.Context.RequestContext.
+    /// Current - the ambient, request-scoped identity initialized once by RequestContextMiddleware
+    /// - never a DI-resolved service and never the DbContext instance itself. Falls back to
+    /// Guid.Empty when no tenant is present on the current request (anonymous requests,
+    /// background jobs, before token issuance emits this claim), which is also what
+    /// TenantAssignmentInterceptor assigns in that same situation - so the filter and the
+    /// assignment always agree.
+    ///
+    /// ScopeId, by contrast, is checked for membership in RequestContext.Current.ScopeIds - a
+    /// *collection* of every Scope the current user can access, already expanded (descendants
+    /// included) by the token issuer - never a single "current scope" to compare equality
+    /// against. EF Core translates `ScopeIds.Contains(e.ScopeId)` into `WHERE ScopeId IN (...)`.
+    /// Because there is no single current Scope, there is no automatic ScopeId assignment for new
+    /// entities either - see TenantAssignmentInterceptor and IScopeEntity.AssignScope.
     ///
     /// EF Core only allows one HasQueryFilter per entity type, so filters from every applicable
     /// capability are ANDed together into a single predicate per entity rather than calling
@@ -84,7 +91,7 @@ public static class ModelBuilderExtensions
             if (typeof(IScopeEntity).IsAssignableFrom(clrType))
             {
                 modelBuilder.Entity(clrType).HasIndex(nameof(IScopeEntity.ScopeId));
-                filter = Combine(filter, EqualTo(parameter, nameof(IScopeEntity.ScopeId), ScopeComparand.Body));
+                filter = Combine(filter, ScopeIdsContains(parameter));
             }
 
             if (typeof(ISoftDeleteEntity).IsAssignableFrom(clrType))
@@ -104,11 +111,26 @@ public static class ModelBuilderExtensions
         return modelBuilder;
     }
 
-    private static readonly Expression<Func<Guid>> TenantComparand = () => ExecutionContext.Current.TenantId ?? Guid.Empty;
-    private static readonly Expression<Func<Guid>> ScopeComparand = () => ExecutionContext.Current.ScopeId ?? Guid.Empty;
+    private static readonly Expression<Func<Guid>> TenantComparand = () => RequestContext.Current.TenantId ?? Guid.Empty;
+    private static readonly Expression<Func<IReadOnlyCollection<Guid>>> ScopeIdsComparand = () => RequestContext.Current.ScopeIds;
+
+    private static readonly MethodInfo ScopeIdsContainsMethod = typeof(Enumerable)
+        .GetMethods()
+        .First(m => m.Name == nameof(Enumerable.Contains) && m.GetParameters().Length == 2)
+        .MakeGenericMethod(typeof(Guid));
 
     private static Expression EqualTo(ParameterExpression parameter, string propertyName, Expression comparand) =>
         Expression.Equal(Expression.Property(parameter, propertyName), comparand);
+
+    /// <summary>`RequestContext.Current.ScopeIds.Contains(e.ScopeId)` - built via
+    /// Enumerable.Contains rather than a instance-method call, since IReadOnlyCollection&lt;T&gt;
+    /// itself has no Contains member.</summary>
+    private static Expression ScopeIdsContains(ParameterExpression parameter)
+    {
+        var scopeId = Expression.Property(parameter, nameof(IScopeEntity.ScopeId));
+
+        return Expression.Call(ScopeIdsContainsMethod, ScopeIdsComparand.Body, scopeId);
+    }
 
     private static Expression Combine(Expression? left, Expression right) =>
         left is null ? right : Expression.AndAlso(left, right);

@@ -54,13 +54,16 @@ assigns `TenantId`/`ScopeId` directly. `IScopeEntity` mirrors this exactly for `
 
 ## Rare exceptions customize themselves
 
-The convention's default (implicit assignment from `ExecutionContext.Current`) fits the common
+The convention's default (implicit assignment from `RequestContext.Current`) fits the common
 HTTP-request-scoped case. A small number of aggregates have a genuine business reason to receive
 an *explicit* tenant at construction time instead - `Scope` (Auth) is the first: which `Tenant` a
 `Scope` belongs to is a deliberate administrative choice, not necessarily "whoever is currently
 logged in." `Scope.Create` keeps an explicit `Guid tenantId` parameter and calls
 `scope.AssignTenant(tenantId)` itself; `TenantAssignmentInterceptor` then no-ops for it (already
 assigned). `AssignTenant`'s idempotency is what makes both paths coexist safely.
+
+`IScopeEntity.AssignScope` goes further: it is *never* automatically assigned, for every entity,
+not just the rare exception - see Scope Convention below.
 
 ## The Entity Convention scan
 
@@ -69,8 +72,8 @@ loops every entity type in the model exactly once and, per type, checks each cap
 via a plain `IsAssignableFrom` - no registry, no caching, since this only runs at model-build time
 (once per process), not per request:
 
-- `ITenantEntity` → indexes `TenantId`, contributes `e.TenantId == (ExecutionContext.Current.TenantId ?? Guid.Empty)` to the entity's query filter.
-- `IScopeEntity` → indexes `ScopeId`, contributes `e.ScopeId == (ExecutionContext.Current.ScopeId ?? Guid.Empty)`.
+- `ITenantEntity` → indexes `TenantId`, contributes `e.TenantId == (RequestContext.Current.TenantId ?? Guid.Empty)` to the entity's query filter.
+- `IScopeEntity` → indexes `ScopeId`, contributes `RequestContext.Current.ScopeIds.Contains(e.ScopeId)` - see Scope Convention below for why this is a membership check, not equality.
 - `ISoftDeleteEntity` → indexes `IsDeleted`, contributes `!e.IsDeleted`.
 - `IIdempotentEntity` → indexes `IdempotencyKey`. No query filter (existence isn't a visibility
   rule); uniqueness scope varies per entity (globally unique, or unique within some other column)
@@ -84,27 +87,53 @@ expression before `HasQueryFilter` is called once. No entity's own `IEntityTypeC
 calls `.Property()`/`.HasIndex()`/`.HasQueryFilter()` for any of these four properties - that would
 duplicate, not extend, the convention.
 
-## Reading identity: `ExecutionContext`, not a DI service
+## Reading identity: `RequestContext`, not a DI service
 
-`TenantId`/`ScopeId` are compared against
-`NovaCore.BuildingBlock.SharedKernel.Context.ExecutionContext.Current` - see
-`docs/reference/execution-context.md` for the full picture. This is a static, ambient read, not a
+`TenantId` is compared against
+`NovaCore.BuildingBlock.SharedKernel.Context.RequestContext.Current` - see
+`docs/reference/request-context.md` for the full picture. This is a static, ambient read, not a
 DI-resolved service: the old `ICurrentTenantService`/`NullCurrentTenantService`/
 `ITenantConventionRegistry` abstractions are gone, and `DbContextBase` no longer calls
 `this.GetService<T>()` for anything request-related. Both the query filter and
 `TenantAssignmentInterceptor`'s assignment fall back to `Guid.Empty` when the current request
-carries no tenant/scope (no JWT tenant/scope claim yet - token issuance emitting `tenant_id`/
-`scope_id` claims is separate, later work), so filtering and assignment always agree: until real
-claims flow, every entity defaults to `Guid.Empty` and the filter matches every row consistently,
-exactly like the placeholder behavior before this refactor.
+carries no tenant (no JWT `tenant_id` claim yet - token issuance emitting it is separate, later
+work), so filtering and assignment always agree: until real claims flow, every entity defaults to
+`Guid.Empty` and the filter matches every row consistently, exactly like the placeholder behavior
+before this refactor.
 
-## Automatic tenant/scope assignment
+## Automatic tenant assignment
 
 `TenantAssignmentInterceptor` (`BuildingBlock.Persistence.Ef/Interceptors/`), registered alongside
 `AuditInterceptor`/`TimestampInterceptor`. On `SavingChanges`/`SavingChangesAsync`, for every
-`Added` entry, assigns `TenantId` if the entity implements `ITenantEntity` and `ScopeId` if it
-implements `IScopeEntity`. It is a plain, stateless class - no constructor dependencies at all -
-since it reads `ExecutionContext.Current` directly instead of a DI-resolved service.
+`Added` entry that implements `ITenantEntity`, assigns `TenantId`. It is a plain, stateless class -
+no constructor dependencies at all - since it reads `RequestContext.Current` directly instead of a
+DI-resolved service. It does **not** touch `IScopeEntity.ScopeId` - see Scope Convention below.
+
+## Scope Convention: a collection, not a single value
+
+`RequestContext.Current.ScopeIds` is `IReadOnlyCollection<Guid>`, not a single `Guid` - a JWT
+carries every Scope its holder can act under, **already expanded to include descendants** at
+token-issuance time (e.g. a Region-level manager's token lists that Region's Guid plus every
+Branch under it). This is a deliberate design choice with three consequences:
+
+1. **The query filter is membership, not equality.** `IScopeEntity`'s contribution to an entity's
+   query filter is `RequestContext.Current.ScopeIds.Contains(e.ScopeId)`, built via
+   `Enumerable.Contains` in `ModelBuilderExtensions.ScopeIdsContains` (`IReadOnlyCollection<Guid>`
+   has no `Contains` member of its own, hence `Enumerable.Contains` rather than an instance-method
+   call). EF Core translates this into `WHERE scope_id IN (...)`, not `WHERE scope_id = ...`.
+2. **There is no automatic assignment.** `TenantAssignmentInterceptor` can safely default a new
+   entity's `TenantId` to `RequestContext.Current.TenantId` because a request genuinely belongs to
+   exactly one Tenant. It cannot do the same for `ScopeId`: a request may carry several accessible
+   Scopes, and none of them is privileged as "the" one a new entity should be assigned to. Any
+   entity implementing `IScopeEntity` must have `AssignScope(Guid)` called explicitly by the
+   business code creating it - the caller (a command handler, typically) is the only place that
+   actually knows which specific Scope the operation is *for*, as opposed to which Scopes the
+   caller merely has visibility into.
+3. **Business services never compute the Scope hierarchy.** No service recursively walks
+   parent/child Scope relationships, and none calls back to Auth Service to expand "give me every
+   child of Region X" - that expansion already happened once, in the JWT, at issuance time. A
+   service only ever asks "is this specific Scope in my caller's accessible set," which is exactly
+   what the `Contains` filter answers.
 
 ## SoftDelete and Idempotent conventions
 

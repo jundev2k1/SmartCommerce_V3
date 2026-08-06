@@ -12,7 +12,7 @@ namespace NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 ///
 /// Deliberately has no request-identity dependency of any kind - no ICurrentTenantService, no
 /// HttpContext, no this.GetService() call for anything request-scoped. Request identity is read
-/// exclusively from NovaCore.BuildingBlock.SharedKernel.Context.ExecutionContext.Current inside
+/// exclusively from NovaCore.BuildingBlock.SharedKernel.Context.RequestContext.Current inside
 /// the Entity Convention's query filters and TenantAssignmentInterceptor - never here. A DbContext
 /// is a persistence component; it has no business knowing where TenantId or UserId come from.
 ///

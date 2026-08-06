@@ -33,7 +33,7 @@ public static class ApplicationPipeline
 
     private static WebApplication UseMiddlewares(this WebApplication app)
     {
-        app.UseMiddleware<ExecutionContextMiddleware>();
+        app.UseMiddleware<RequestContextMiddleware>();
         return app;
     }
 }

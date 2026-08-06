@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, AuditInterceptor>());
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TimestampInterceptor>());
 
-        // Entity Convention (Tenant/Scope) assignment - stateless, reads ExecutionContext.Current
+        // Entity Convention Tenant assignment - stateless, reads RequestContext.Current
         // directly (see TenantAssignmentInterceptor), so no DI-resolved request-identity service
         // is registered here at all.
         services.TryAddEnumerable(ServiceDescriptor.Scoped<ISaveChangesInterceptor, TenantAssignmentInterceptor>());

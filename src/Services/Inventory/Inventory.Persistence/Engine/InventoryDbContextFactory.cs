@@ -8,7 +8,7 @@ namespace NovaCore.Inventory.Persistence.Engine;
 /// activation doesn't resolve the full application DI container, so DbContextBase used to need an
 /// explicit application service provider supplying the Tenant Convention's DI dependencies. The
 /// Entity Convention (see docs/reference/tenant-convention.md) is now pure reflection plus
-/// NovaCore.BuildingBlock.SharedKernel.Context.ExecutionContext (a static ambient accessor, not a
+/// NovaCore.BuildingBlock.SharedKernel.Context.RequestContext (a static ambient accessor, not a
 /// DI-resolved service), so no application service provider is required here at all. Runtime
 /// resolution (Inventory.API via AddPersistence) is unaffected.
 /// </summary>

@@ -11,7 +11,7 @@ namespace NovaCore.Auth.Persistence.Engine;
 /// are generated against a bare DbContextOptions instead. Mirrors AddPersistenceDbContext's
 /// options (snake_case naming convention); no application service provider is needed since the
 /// Entity Convention (see docs/reference/tenant-convention.md) is pure reflection plus
-/// NovaCore.BuildingBlock.SharedKernel.Context.ExecutionContext, a static ambient accessor rather
+/// NovaCore.BuildingBlock.SharedKernel.Context.RequestContext, a static ambient accessor rather
 /// than a DI-resolved service. Runtime resolution (Auth.API via AddPersistence) is unaffected.
 /// </summary>
 public sealed class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
