@@ -1,6 +1,6 @@
 # Promotion Service — Planning
 
-**Scope:** Phase-by-phase implementation roadmap and internal documentation for `SmartEcommerce.PromotionService`, a brand-new microservice that will become the central Promotion Engine for the entire NovaCore platform (not an Order Service module). The architecture and domain model have already been designed by the system architect. As of Phase 1, the 5-project Clean Architecture skeleton exists at `src/Services/Promotion/` (registered in `NovaCore.sln`, wired into Docker/env/Gateway) — but **no entity, migration, repository, or endpoint exists yet.** See [planning/PROGRESS.md](planning/PROGRESS.md) for exactly what's done.
+**Scope:** Phase-by-phase implementation roadmap and internal documentation for `SmartEcommerce.PromotionService`, a brand-new microservice that will become the central Promotion Engine for the entire NovaCore platform (not an Order Service module). The architecture and domain model have already been designed by the system architect. As of Phase 2, the Domain layer is complete and frozen — 103 entities across 13 aggregate groups, `Promotion.Domain` builds clean — but **no migration, repository, or endpoint exists yet.** See [planning/PROGRESS.md](planning/PROGRESS.md) for exactly what's done.
 
 ## Implementation-mode rules (binding for every future phase)
 
@@ -20,7 +20,7 @@
 | [planning/roadmap.md](planning/roadmap.md) | The 7-phase roadmap overview + dependency order | Phase 0 (this freeze) |
 | [phases/](phases/) | One file per phase: Purpose / Expected Output / Build Verification / Completion Criteria / Blocked Items / Dependencies | Phase 0 (this freeze) |
 | [architecture/](architecture/) | Service-level architecture map, aggregate boundary diagram, integration topology | Phase 2+ |
-| [entities/](entities/) | Entity implementation strategy (frozen now) + per-entity docs | Strategy: Phase 0. Entities: Phase 2+ |
+| [entities/](entities/) | Entity implementation strategy (frozen) + [translation-workflow.md](entities/translation-workflow.md) (frozen Phase 2.5) | Phase 0-2.5, done |
 | [aggregates/](aggregates/) | Per-aggregate boundary docs | Phase 2+ |
 | [value-objects/](value-objects/) | Value Object docs | Phase 2+ |
 | [enums/](enums/) | Enum catalogue | Phase 2+ |
@@ -33,4 +33,4 @@
 
 ## Current status
 
-See [planning/PROGRESS.md](planning/PROGRESS.md). **Phase 0 and Phase 1 complete, 2/7, ready for Phase 2 (Domain Model).**
+See [planning/PROGRESS.md](planning/PROGRESS.md). **Phase 0, 1, and 2 (Domain Model) complete, 3/7. The Domain model is now frozen — future phases should no longer modify it unless a design defect is discovered. Ready for Phase 3 (Persistence).**

@@ -21,16 +21,17 @@
 | `PointRule` | `BaseEntity<Guid>` | ProgramId/RuleType (plain string, no enum requested)/Priority/IsEnabled |
 | `PointPolicy` | `BaseEntity<Guid>` | ProgramId/PolicyType/Configuration (opaque string blob) |
 | `PointHistory` | `BaseEntity<Guid>` | AccountId/Action/OperatorId — `CreatedAt` inherited, public `Create` |
+| `LoyaltyProgramTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = LoyaltyProgram.Id`, composite `(Id, LanguageCode)`. Exposed via `LoyaltyProgram.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
-- `LoyaltyProgramStatus` — Draft/Active/Paused/Expired/Archived (given explicitly).
+- `ProgramStatus` (shared, consolidated Phase 2.5) — Draft/Active/Paused/Expired/Archived. Was `LoyaltyProgramStatus` until merged with 3 identical siblings — see [../enums/README.md](../enums/README.md).
 - `PointTransactionType` — Earn/Spend/Refund/Expire/Adjust/Reward/Promotion (given explicitly; `Promotion` is an enum member, not a bare type reference, so it doesn't trigger the root-namespace collision).
 
 ## Value Objects
 
-- `LoyaltyProgramCode` — same shape as `CampaignCode`.
-- `LoyaltyPeriod` — same shape as `CampaignPeriod`, kept for shape-consistency even though `LoyaltyProgram` has no `TimeZone` field to pair it with; reserved, not yet consumed.
+- `EntityCode` (shared, consolidated Phase 2.5) — used by `LoyaltyProgram.Code`.
+- `Period` (shared, consolidated Phase 2.5, reserved) — `LoyaltyProgram` has no `TimeZone` field to pair it with.
 
 ## Indexes (design only — written in Phase 3)
 
@@ -40,4 +41,4 @@
 
 ## Reconciliation notes
 
-No `EntityData`/`UpdateData` wrapper types created (Domain Rule 2). `LoyaltyProgram` omits `TimeZone` entirely — respected literally rather than adding an unrequested field to match the other aggregates' shape.
+No `EntityData`/`UpdateData`/`LoyaltyProgramTranslationData` wrapper types created (Domain Rule 2). `LoyaltyProgram` omits `TimeZone` entirely — respected literally rather than adding an unrequested field to match the other aggregates' shape.

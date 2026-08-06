@@ -18,10 +18,12 @@
 |---|---|---|
 | `ProductSet` | `AggregateRoot<Guid>` | Code/Name/Description/Status/SetType |
 | `ProductSetItem` | `BaseEntity<Guid>` | ProductSetId/ProductId/VariantId/Quantity (shared VO) |
-| `ProductBundle` | `BaseEntity<Guid>` | ProductSetId/Name/DisplayOrder |
+| `ProductBundle` | `BaseEntity<Guid>` | ProductSetId/Name/DisplayOrder. Not an Aggregate Root, but translatable (Phase 2.5) — exposes its own `Translate(languageCode, name)` directly (Name-only, no Description field) |
 | `BundlePrice` | `BaseEntity<Guid>` | BundleId/Currency/Price (shared `Money` VO) — public `Create` |
 | `BundleRule` | `BaseEntity<Guid>` | BundleId/RuleType/Configuration (opaque string blob) — public `Create` |
 | `BundleGift` | `BaseEntity<Guid>` | BundleId/ProductId/Quantity (shared VO) — public `Create` |
+| `ProductSetTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = ProductSet.Id`, composite `(Id, LanguageCode)`. Exposed via `ProductSet.Translate(languageCode, name, description)` — upsert |
+| `ProductBundleTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = ProductBundle.Id`, composite `(Id, LanguageCode)`. Name-only, exposed via `ProductBundle.Translate(languageCode, name)` — see [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
@@ -30,7 +32,7 @@
 
 ## Value Objects
 
-- `ProductSetCode` — same shape as `CampaignCode`.
+- `EntityCode` (shared, consolidated Phase 2.5) — used by `ProductSet.Code`.
 - `Money` (shared, `BuildingBlock.Domain.ValueObjects`) — used by `BundlePrice.Price`, paired with a separate `Currency` scalar, same split Voucher/CampaignBudget already use.
 - `Quantity` (shared, `BuildingBlock.Domain.ValueObjects`) — used by `ProductSetItem.Quantity`/`BundleGift.Quantity`.
 
@@ -40,4 +42,4 @@
 
 ## Reconciliation notes
 
-No `EntityData`/`UpdateData` wrapper types created (Domain Rule 2).
+No `EntityData`/`UpdateData`/`TranslationData` wrapper types created (Domain Rule 2). `ProductBundle.Translate` deliberately takes only `name` (not `description`) since the entity itself has no `Description` field to translate.

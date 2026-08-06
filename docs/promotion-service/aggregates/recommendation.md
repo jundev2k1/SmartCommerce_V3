@@ -17,16 +17,17 @@
 | `RecommendationProduct` | `BaseEntity<Guid>` | ProgramId/ProductId/Score (plain decimal)/DisplayOrder |
 | `RecommendationScore` | `BaseEntity<Guid>` | ProductId/ScoreType/ScoreValue/CalculatedAt — public `Create`, not `ProgramId`-scoped |
 | `RecommendationHistory` | `BaseEntity<Guid>` | ProgramId/Action/OperatorId — `CreatedAt` inherited, public `Create` |
+| `RecommendationProgramTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = RecommendationProgram.Id`, composite `(Id, LanguageCode)`. Exposed via `RecommendationProgram.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
-- `RecommendationProgramStatus` — Draft/Active/Paused/Expired/Archived (given explicitly).
+- `ProgramStatus` (shared, consolidated Phase 2.5) — Draft/Active/Paused/Expired/Archived. Was `RecommendationProgramStatus` until merged with 3 identical siblings — see [../enums/README.md](../enums/README.md).
 - `RecommendationType` — CrossSell/UpSell/FrequentlyBoughtTogether/Trending/Manual/AI (given explicitly).
 
 ## Value Objects
 
-- `RecommendationCode` — same shape as `CampaignCode`.
-- `RecommendationPeriod` — same shape as `CampaignPeriod` minus `TimeZone` (matches `RecommendationProgram` having no `TimeZone` property) — reserved, not yet consumed.
+- `EntityCode` (shared, consolidated Phase 2.5) — used by `RecommendationProgram.Code`.
+- `Period` (shared, consolidated Phase 2.5, reserved) — `RecommendationProgram` has no `TimeZone` property.
 
 ## Indexes (design only — written in Phase 3)
 
@@ -34,4 +35,4 @@
 
 ## Reconciliation notes
 
-No `EntityData`/`UpdateData` wrapper types created (Domain Rule 2).
+No `EntityData`/`UpdateData`/`RecommendationProgramTranslationData` wrapper types created (Domain Rule 2).

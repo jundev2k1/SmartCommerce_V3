@@ -7,29 +7,31 @@
 **Completed Phases**
 - ✔ Phase 0 — Planning Freeze
 - ✔ Phase 1 — Bootstrap Service
+- ✔ Phase 2 — Domain Model
 
 **Current Phase**
-- ▶ Phase 2 — Domain Model
+- ▶ Phase 3 — Persistence
 
-**Current Prompt**
-- ✔ 2.1 — Domain Foundation + Campaign/Promotion aggregates (done)
-- ✔ 2.2 — Coupon + Voucher aggregates (done)
-- ✔ 2.3 — Loyalty + Reward + Distribution aggregates (done)
-- ✔ 2.4 — Recommendation + Product Set + Gift + Approval + Validation + Audit (done — renumbered by the issuing prompt to bundle all six into one sub-prompt, superseding the earlier 2.4/2.5 split)
-- ▶ 2.5 — Domain Review + single Domain build (next, not yet started — final Phase 2 prompt)
+**Current Prompt (Phase 2, all done)**
+- ✔ 2.1 — Domain Foundation + Campaign/Promotion aggregates
+- ✔ 2.2 — Coupon + Voucher aggregates
+- ✔ 2.3 — Loyalty + Reward + Distribution aggregates
+- ✔ 2.4 — Recommendation + Product Set + Gift + Approval + Validation + Audit
+- ✔ 2.5 — Domain Standardization Review + single Domain build (final Phase 2 prompt)
 
 **Overall Progress**
-2 / 7 Completed
+3 / 7 Completed
 
 **Status**
 In Progress
 
 **Remaining Phases**
-- □ Phase 3 — Persistence
 - □ Phase 4 — Search Integration
 - □ Phase 5 — CQRS Skeleton
 - □ Phase 6 — Infrastructure Integration
 - □ Phase 7 — Migration Preparation
+
+**The Domain model is now frozen.** Future phases should not modify it unless a design defect is discovered.
 
 ## Progress Management Policy
 
@@ -48,4 +50,5 @@ In Progress
 - **2026-08-06** — Workflow updated: commit granularity rule added (see Progress Management Policy above) — every aggregate root gets its own commit going forward. The four Phase 2.1 commits (foundation, Campaign, Promotion, docs) were made retroactively under this rule before Phase 2.2 started.
 - **2026-08-06** — Phase 2.2 (Coupon + Voucher aggregates) completed: implemented both aggregates in full — 8 Coupon entities (`Coupon`, `CouponBatch`, `CouponCode`, `CouponUsage`, `CouponReservation`, `CouponHistory`, `CouponVersion`, `CouponApproval`), 10 Voucher entities (`Voucher`, `VoucherWallet`, `VoucherIssue`, `VoucherBatch`, `VoucherReservation`, `VoucherRedemption`, `VoucherTransfer`, `VoucherHistory`, `VoucherExpiration`, `VoucherFreeze`), 5 enums (all values given explicitly this time, no invented taxonomy), 5 Value Objects (`Voucher` reuses the shared `Money` VO rather than duplicating it). Fixed one real defect found during this pass: `CouponCode` (entity) and `CouponCode` (Value Object) collide within the *same* namespace as `Coupon.cs`, which a plain global alias cannot resolve (C# same-namespace lookup wins over any `using`) — fixed with file-local aliases in both `Coupon.cs` and `CouponCode.cs`, plus a global `CouponCodeEntity` alias for external callers. Structural only, no business rule. No build performed. See [../../tasks/2026-08-06/Task7_promotion-service-phase2.2-coupon-voucher-aggregates.md](../../tasks/2026-08-06/Task7_promotion-service-phase2.2-coupon-voucher-aggregates.md).
 - **2026-08-07** — Phase 2.3 (Loyalty + Reward + Distribution aggregates) completed: implemented all three aggregates in full — 9 Loyalty entities (`LoyaltyProgram`, `PointAccount`, `PointTransaction`, `PointLedger`, `PointExpiration`, `PointAdjustment`, `PointRule`, `PointPolicy`, `PointHistory`), 7 Reward entities (`RewardProgram`, `RewardDefinition`, `RewardDistribution`, `RewardExecution`, `RewardReservation`, `RewardClaim`, `RewardHistory`), 6 Distribution entities (`DistributionJob`, `DistributionBatch`, `DistributionItem`, `DistributionExecution`, `DistributionRetry`, `DistributionHistory`), 6 enums, 2 Value Objects (Loyalty only — Reward/Distribution's briefs gave no `ValueObjects` section, so their `Code` fields stay plain strings, flagged as a reconciliation). `RewardDistribution.Status` reuses `DistributionStatus` and `DistributionItem.RewardType` reuses `RewardType` — cross-aggregate enum reuse within the same phase, not duplicated. Structural only, no business rule. No build performed. See [../../tasks/2026-08-07/Task1_promotion-service-phase2.3-loyalty-reward-distribution-aggregates.md](../../tasks/2026-08-07/Task1_promotion-service-phase2.3-loyalty-reward-distribution-aggregates.md).
-- **2026-08-07** — Phase 2.4 (Recommendation + Product Set + Gift + Approval + Validation + Audit — six groups bundled into one sub-prompt by the issuing prompt) completed: 5 Recommendation entities, 6 Product Set entities (`Quantity` VO reused from BuildingBlock, same as `Order.Domain`'s `OrderItem`), 6 Gift entities (`Quantity` VO reused again), 6 Approval entities (the structural foundation `CampaignApproval`/`CouponApproval` were deferring to — not wired together, since modifying prior aggregates was out of scope), 5 Validation entities + 4 Audit entities (both groups have **no aggregate root** — no Navigation/TenantId was given for any of their 9 entities combined, so all stayed plain `BaseEntity<Guid>` with no `ITenantEntity`, a first for this roadmap). 6 enums, 3 Value Objects (Reward/Distribution/Gift/Approval's pattern of "no ValueObjects section given" repeated for Gift and Approval this time). Every aggregate the original roadmap named is now implemented. No build performed. See [../../tasks/2026-08-07/Task2_promotion-service-phase2.4-recommendation-productset-gift-approval-validation-audit.md](../../tasks/2026-08-07/Task2_promotion-service-phase2.4-recommendation-productset-gift-approval-validation-audit.md). **Remaining in Phase 2 — next prompt (2.5, final) is Domain Review + single Domain build.**
+- **2026-08-07** — Phase 2.4 (Recommendation + Product Set + Gift + Approval + Validation + Audit — six groups bundled into one sub-prompt by the issuing prompt) completed: 5 Recommendation entities, 6 Product Set entities (`Quantity` VO reused from BuildingBlock, same as `Order.Domain`'s `OrderItem`), 6 Gift entities (`Quantity` VO reused again), 6 Approval entities (the structural foundation `CampaignApproval`/`CouponApproval` were deferring to — not wired together, since modifying prior aggregates was out of scope), 5 Validation entities + 4 Audit entities (both groups have **no aggregate root** — no Navigation/TenantId was given for any of their 9 entities combined, so all stayed plain `BaseEntity<Guid>` with no `ITenantEntity`, a first for this roadmap). 6 enums, 3 Value Objects (Reward/Distribution/Gift/Approval's pattern of "no ValueObjects section given" repeated for Gift and Approval this time). Every aggregate the original roadmap named is now implemented. No build performed. See [../../tasks/2026-08-07/Task2_promotion-service-phase2.4-recommendation-productset-gift-approval-validation-audit.md](../../tasks/2026-08-07/Task2_promotion-service-phase2.4-recommendation-productset-gift-approval-validation-audit.md).
+- **2026-08-07** — Phase 2.5 (Domain Standardization Review — the final Phase 2 prompt) completed: **Phase 2 (Domain Model) is now done, Phase 3 (Persistence) is current.** Consolidated 7 duplicate Code VOs → `EntityCode` (also removed the `CouponCode` entity/VO name collision at its root, deleting the Phase 2.2 alias workaround), 6 duplicate Period VOs → `Period`, 4 duplicate Program status enums (`LoyaltyProgramStatus`/`RewardProgramStatus`/`RecommendationProgramStatus`/`GiftProgramStatus`) → `ProgramStatus`. Renamed `CampaignLocalization` → `CampaignTranslation` for naming consistency. Added Translation support (`{Entity}Translation` + upsert `Translate(...)`) to 9 more aggregates (Promotion, Coupon, Voucher, LoyaltyProgram, RewardProgram, GiftProgram, RecommendationProgram, ProductSet, and `ProductBundle` — a non-root, given its own `Translate` since only Aggregate Roots get the "exactly one per root" rule). Wrote [../entities/translation-workflow.md](../entities/translation-workflow.md), the frozen 13-step order future Translation API features follow. **Ran the first real `Promotion.Domain` build — succeeded, 0 errors, 103 entities, 21 enums, 4 local Value Objects + 1 Metadata VO.** See [../../tasks/2026-08-07/Task3_promotion-service-phase2.5-domain-standardization-review.md](../../tasks/2026-08-07/Task3_promotion-service-phase2.5-domain-standardization-review.md). **The Domain model is now frozen.**

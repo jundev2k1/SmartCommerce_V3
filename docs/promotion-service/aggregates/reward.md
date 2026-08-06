@@ -27,10 +27,11 @@ Unlike every prior aggregate (Campaign, Promotion, Coupon, Voucher, Loyalty), th
 | `RewardReservation` | `BaseEntity<Guid>` | RewardId/UserId/ReservedAt/ExpiredAt — public `Create` |
 | `RewardClaim` | `BaseEntity<Guid>` | RewardId/UserId/ClaimedAt — public `Create` |
 | `RewardHistory` | `BaseEntity<Guid>` | RewardId/Action/OperatorId — `CreatedAt` inherited, public `Create` |
+| `RewardProgramTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = RewardProgram.Id`, composite `(Id, LanguageCode)`. Exposed via `RewardProgram.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
-- `RewardProgramStatus` — Draft/Active/Paused/Expired/Archived (given explicitly).
+- `ProgramStatus` (shared, consolidated Phase 2.5) — Draft/Active/Paused/Expired/Archived. Was `RewardProgramStatus` until merged with 3 identical siblings — see [../enums/README.md](../enums/README.md).
 - `RewardType` — Coupon/Voucher/Point/Gift/Cashback (given explicitly) — also reused by `DistributionItem.RewardType` in the Distribution aggregate.
 
 ## Indexes (design only — written in Phase 3)
@@ -40,4 +41,4 @@ Unlike every prior aggregate (Campaign, Promotion, Coupon, Voucher, Loyalty), th
 
 ## Reconciliation notes
 
-No `EntityData`/`UpdateData` wrapper types created (Domain Rule 2).
+No `EntityData`/`UpdateData`/`RewardProgramTranslationData` wrapper types created (Domain Rule 2). `RewardProgram.Code` remains a plain `string` (no VO section given) — the new `EntityCode` consolidation (Phase 2.5) did not change this since there was never a `RewardProgramCode` to merge.

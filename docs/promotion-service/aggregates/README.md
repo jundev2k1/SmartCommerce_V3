@@ -16,4 +16,6 @@
 - [validation.md](validation.md) — Validation entities, no aggregate root (Phase 2.4)
 - [audit.md](audit.md) — Audit entities, no aggregate root (Phase 2.4)
 
-Every aggregate the roadmap named is now implemented — see [../planning/PROGRESS.md](../planning/PROGRESS.md) for the current phase (2.5: Domain Review + Single Domain Build).
+Every aggregate the roadmap named is now implemented, and the Phase 2.5 Domain Standardization Review has run — every doc above reflects the final, frozen shape: `EntityCode`/`Period` Value Objects consolidated across aggregates, `ProgramStatus` enum consolidated across Loyalty/Reward/Recommendation/Gift, and Translation support (`{Entity}Translation` + `Translate(...)`) added to every customer-facing aggregate. See [../planning/PROGRESS.md](../planning/PROGRESS.md) — **the Domain model is now frozen; Phase 3 (Persistence) is current.**
+
+Translatable aggregates: Campaign, Promotion, Coupon, Voucher, LoyaltyProgram, RewardProgram, GiftProgram, RecommendationProgram, ProductSet, ProductBundle — see [../entities/translation-workflow.md](../entities/translation-workflow.md) for the frozen Translation implementation order future CQRS/API work follows.

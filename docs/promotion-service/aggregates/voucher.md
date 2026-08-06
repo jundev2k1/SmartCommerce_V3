@@ -34,6 +34,7 @@ The phase brief listed `VoucherBatch` under Voucher's Entities but — unlike ev
 | `VoucherHistory` | `BaseEntity<Guid>` | VoucherId/Action/OperatorId — `CreatedAt` inherited from `BaseEntity`, not redeclared |
 | `VoucherExpiration` | `BaseEntity<Guid>` | VoucherId/ExpiredAmount/ExpiredAt — public `Create` |
 | `VoucherFreeze` | `BaseEntity<Guid>` | VoucherId/Reason/FrozenAt/ReleasedAt — public `Create` |
+| `VoucherTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = Voucher.Id`, composite `(Id, LanguageCode)`. Exposed via `Voucher.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
@@ -42,8 +43,8 @@ The phase brief listed `VoucherBatch` under Voucher's Entities but — unlike ev
 
 ## Value Objects
 
-- `VoucherCode` — same shape as `CouponCode`/`CampaignCode`/`PromotionCode`.
-- `VoucherPeriod` — reserved (same reconciliation as `CouponPeriod`).
+- `EntityCode` (shared, consolidated Phase 2.5) — used by `Voucher.Code`.
+- `Period` (shared, consolidated Phase 2.5, reserved).
 - `Money` — reused from `BuildingBlock.Domain.ValueObjects`, not duplicated (see above).
 
 ## Indexes (design only — written in Phase 3)
@@ -52,4 +53,4 @@ The phase brief listed `VoucherBatch` under Voucher's Entities but — unlike ev
 
 ## Reconciliation notes
 
-Same as every aggregate so far — no `EntityData`/`UpdateData` wrapper types created; every `Create`/update method takes flat parameters (Domain Rule 2). Status-transition method names (`MarkIssued`, `MarkReserved`, `MarkRedeemed`) were chosen to avoid colliding with the collection-add methods (`AddIssue`, `AddReservation`, `AddRedemption`) that share the same underlying verb.
+Same as every aggregate so far — no `EntityData`/`UpdateData`/`VoucherTranslationData` wrapper types created; every `Create`/update/translate method takes flat parameters (Domain Rule 2). Status-transition method names (`MarkIssued`, `MarkReserved`, `MarkRedeemed`) were chosen to avoid colliding with the collection-add methods (`AddIssue`, `AddReservation`, `AddRedemption`) that share the same underlying verb.

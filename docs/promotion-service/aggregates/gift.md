@@ -26,10 +26,11 @@ Same as Reward/Distribution (Phase 2.3) — no `ValueObjects` section was given,
 | `GiftReservation` | `BaseEntity<Guid>` | GiftItemId/UserId/OrderId/ReservedQuantity (shared VO)/ReservedAt — public `Create` |
 | `GiftClaim` | `BaseEntity<Guid>` | ReservationId/ClaimedAt — public `Create` |
 | `GiftUsage` | `BaseEntity<Guid>` | GiftItemId/UserId/OrderId/UsedAt — public `Create` |
+| `GiftProgramTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = GiftProgram.Id`, composite `(Id, LanguageCode)`. Exposed via `GiftProgram.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
-- `GiftProgramStatus` — Draft/Active/Paused/Expired/Archived (given explicitly).
+- `ProgramStatus` (shared, consolidated Phase 2.5) — Draft/Active/Paused/Expired/Archived. Was `GiftProgramStatus` until merged with 3 identical siblings — see [../enums/README.md](../enums/README.md).
 
 ## Indexes (design only — written in Phase 3)
 
@@ -37,4 +38,4 @@ Same as Reward/Distribution (Phase 2.3) — no `ValueObjects` section was given,
 
 ## Reconciliation notes
 
-No `EntityData`/`UpdateData` wrapper types created (Domain Rule 2).
+No `EntityData`/`UpdateData`/`GiftProgramTranslationData` wrapper types created (Domain Rule 2).

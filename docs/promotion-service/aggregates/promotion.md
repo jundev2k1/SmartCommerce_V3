@@ -33,6 +33,7 @@ Despite being listed under "Entities," `PromotionMetadata` is implemented as a `
 | `PromotionStackingPolicy` | `BaseEntity` (shared PK) | `PromotionStackingMode` |
 | `PromotionUsageLimit` | `BaseEntity<Guid>` | Structural (Scope, MaxUsage) pair, no counting/enforcement |
 | `PromotionExclusion` | `BaseEntity` (pure mapping) | `PromotionId` ↔ `ExcludedPromotionId` |
+| `PromotionTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = Promotion.Id`, composite `(Id, LanguageCode)`. Exposed via `Promotion.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
@@ -44,9 +45,9 @@ Despite being listed under "Entities," `PromotionMetadata` is implemented as a `
 
 ## Value Objects
 
-- `PromotionCode` — same shape as `CampaignCode`.
-- `PromotionPeriod` — same shape as `CampaignPeriod`; `Promotion` itself keeps `StartTime`/`EndTime`/`TimeZone` as plain scalars per the phase brief's literal Properties list (same reconciliation as Campaign).
-- `PromotionPriorityValue` — validated `int` 0-100 (mirrors `BuildingBlock.Domain.ValueObjects.Percentage`'s shape), used only by `PromotionPriority`.
+- `EntityCode` (shared, consolidated Phase 2.5) — used by `Promotion.Code`.
+- `Period` (shared, consolidated Phase 2.5, reserved) — `Promotion` itself keeps `StartTime`/`EndTime`/`TimeZone` as plain scalars per the phase brief's literal Properties list (same reconciliation as Campaign).
+- `PromotionPriorityValue` — validated `int` 0-100 (mirrors `BuildingBlock.Domain.ValueObjects.Percentage`'s shape), used only by `PromotionPriority`. Not merged with anything — unique shape.
 
 ## Indexes (design only — written in Phase 3)
 
@@ -59,4 +60,4 @@ Despite being listed under "Entities," `PromotionMetadata` is implemented as a `
 
 ## Reconciliation notes
 
-Same as Campaign's — no `PromotionData`/`UpdateData` wrapper created; `Promotion.Create` takes flat scalar parameters, every child is added via a separate method, every update method takes flat parameters (`ProductBrand.UpdateDetails` precedent).
+Same as Campaign's — no `PromotionData`/`UpdateData`/`PromotionTranslationData` wrapper created; `Promotion.Create` takes flat scalar parameters, every child is added via a separate method, every update/translate method takes flat parameters (`ProductBrand.UpdateDetails` precedent).

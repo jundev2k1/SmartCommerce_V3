@@ -11,9 +11,9 @@
 - `CouponCode` — individually issued/redeemable codes under a coupon (e.g. from a batch import) — distinct from `Coupon.Code` (the coupon's own/template code). Public `Create`, related by `CouponId`/`BatchId` only.
 - `CouponApproval` — minimal structural placeholder, same deferral as `CampaignApproval` (real workflow is a later Phase 2.x — Approval + Validation + Audit).
 
-## `CouponCode` name collision (entity vs. Value Object)
+## `CouponCode` name collision — resolved in Phase 2.5, not just worked around
 
-`CouponCode` is both an entity (`Entities/Coupons/CouponCode.cs`) and a Value Object (`ValueObjects/CouponCode.cs`), and — unlike the `Promotion`/`PromotionEntity` collision — both live in namespaces where a **plain global alias was not enough**: `Coupon.cs` sits in the *same* namespace as the `CouponCode` entity (`Entities.Coupons`), and C# resolves a bare name against same-namespace declarations before any `using`/global-using import is even considered. Left unfixed, `Coupon.Code`'s declared type would have silently bound to the *entity*, not the Value Object. Fixed with a **file-local** alias (`using CouponCodeVo = NovaCore.Promotion.Domain.ValueObjects.CouponCode;`) in both `Coupon.cs` and `CouponCode.cs`, plus a **global** alias (`CouponCodeEntity`) in `GlobalUsings.cs` for any future file outside the `Entities.Coupons` namespace that needs the entity without ambiguity.
+`CouponCode` is both an entity (`Entities/Coupons/CouponCode.cs`) and (until Phase 2.5) a per-aggregate Value Object (`ValueObjects/CouponCode.cs`). Phase 2.2 worked around the collision with file-local (`CouponCodeVo`) and global (`CouponCodeEntity`) aliases, since `Coupon.cs` sits in the *same* namespace as the `CouponCode` entity and C# resolves a bare name against same-namespace declarations before any `using`/global-using import is even considered. The Phase 2.5 Domain Standardization Review **removed the collision at its root**: the per-aggregate Code VO was consolidated into the shared `EntityCode` (see [../value-objects/README.md](../value-objects/README.md)), so the VO no longer shares the entity's name — both alias workarounds were deleted.
 
 ## Entities
 
@@ -27,6 +27,7 @@
 | `CouponHistory` | `BaseEntity<Guid>` | CouponId/Action/OperatorId — `CreatedAt` inherited from `BaseEntity`, not redeclared |
 | `CouponVersion` | `BaseEntity<Guid>` | CouponId/Version/Snapshot/PublishedAt |
 | `CouponApproval` | `BaseEntity<Guid>` | Placeholder review fields only — real workflow is a later Phase 2.x |
+| `CouponTranslation` | `BaseEntity<Guid>` | Added Phase 2.5: `Id = Coupon.Id`, composite `(Id, LanguageCode)`. Exposed via `Coupon.Translate(languageCode, name, description)` — upsert, per [../entities/translation-workflow.md](../entities/translation-workflow.md) |
 
 ## Enums
 
@@ -36,9 +37,9 @@
 
 ## Value Objects
 
-- `CouponCode` — uppercase alphanumeric + `_`/`-`, max 50 chars (same shape as `CampaignCode`/`PromotionCode`). Shared by `Coupon.Code` and the `CouponCode` entity's own `Code` field.
-- `CouponPeriod` — reserved (same reconciliation as `CampaignPeriod`/`PromotionPeriod` — `Coupon` itself keeps flat `StartTime`/`EndTime`/`TimeZone` scalars per its literal Properties list).
-- `CouponUsageLimit` — bundled `MaxUsage`/`MaxUsagePerUser` pair, reserved (`Coupon` itself keeps them as flat scalars per its literal Properties list).
+- `EntityCode` (shared, consolidated Phase 2.5) — used by `Coupon.Code` and the `CouponCode` entity's own `Code` field.
+- `Period` (shared, consolidated Phase 2.5, reserved) — `Coupon` itself keeps flat `StartTime`/`EndTime`/`TimeZone` scalars per its literal Properties list.
+- `CouponUsageLimit` — bundled `MaxUsage`/`MaxUsagePerUser` pair, reserved (`Coupon` itself keeps them as flat scalars per its literal Properties list). Unique shape, not merged with anything.
 
 ## Indexes (design only — written in Phase 3)
 
@@ -47,4 +48,4 @@
 
 ## Reconciliation notes
 
-Same as Campaign/Promotion — no `EntityData`/`UpdateData`/`TranslationData` wrapper types created (no aggregate here is localizable, and no child collection is structurally mandatory at creation); every `Create`/update method takes flat parameters (Domain Rule 2).
+Same as Campaign/Promotion — no `EntityData`/`UpdateData`/`CouponTranslationData` wrapper types created; every `Create`/update/translate method takes flat parameters (Domain Rule 2).
