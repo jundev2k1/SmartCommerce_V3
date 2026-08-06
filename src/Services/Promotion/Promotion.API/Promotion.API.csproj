@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>NovaCore.Promotion.API</RootNamespace>
+    <AssemblyName>NovaCore.Promotion.API</AssemblyName>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Carter" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Promotion.Application/Promotion.Application.csproj" />
+    <ProjectReference Include="../Promotion.Infrastructure/Promotion.Infrastructure.csproj" />
+    <ProjectReference Include="../Promotion.Persistence/Promotion.Persistence.csproj" />
+    <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Web/BuildingBlock.Web.csproj" />
+    <ProjectReference Include="../../../BuildingBlocks/BuildingBlock.Observability/BuildingBlock.Observability.csproj" />
+  </ItemGroup>
+
+</Project>
