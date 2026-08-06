@@ -14,6 +14,10 @@
 | `CouponUsageLimit` | `ValueObject` | Bundled `MaxUsage`/`MaxUsagePerUser` pair | reserved — not yet consumed (`Coupon` keeps them as flat scalars per its literal Properties list) |
 | `VoucherCode` | `StringValueObject` | Same shape as `CampaignCode` | `Voucher.Code` |
 | `VoucherPeriod` | `ValueObject` | Same shape as `CampaignPeriod` | reserved — not yet consumed |
+| `LoyaltyProgramCode` | `StringValueObject` | Same shape as `CampaignCode` | `LoyaltyProgram.Code` |
+| `LoyaltyPeriod` | `ValueObject` | Same shape as `CampaignPeriod` | reserved — kept for shape-consistency even though `LoyaltyProgram` has no `TimeZone` field |
+
+**No Value Object was created for the Reward or Distribution aggregates** — unlike every aggregate above, their phase brief gave no `ValueObjects` section, so `RewardProgram.Code`/`DistributionJob.Code` stay plain `string`. See [../aggregates/reward.md](../aggregates/reward.md)/[distribution.md](../aggregates/distribution.md) for the reconciliation note.
 
 ## Reused shared Value Objects (not duplicated locally)
 

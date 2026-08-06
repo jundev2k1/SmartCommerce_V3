@@ -2,6 +2,10 @@
 
 One line per still-open task, most recent date first. Per-task detail lives in each date folder — see [README.md](./README.md) for the convention.
 
+## 2026-08-07
+
+- [x] Task 1 — Promotion Service Phase 2.3 Loyalty + Reward + Distribution aggregates (`2026-08-07/Task1_promotion-service-phase2.3-loyalty-reward-distribution-aggregates.md`) — done. 22 entities across 3 aggregates, 6 enums (2 reused cross-aggregate: `RewardDistribution.Status`/`DistributionStatus`, `DistributionItem.RewardType`/`RewardType`), 2 Value Objects (Reward/Distribution's briefs gave none — flagged). Structural only, no build. Still in Phase 2 — next prompt (2.4) implements Recommendation + Product Set + Gift.
+
 ## 2026-08-06
 
 Source: explicit task — "Establish the production-ready foundation of a new PaymentService for the NovaCore ecosystem" (architecture + domain model only, no business workflows). See [2026-08-06/Task1_paymentservice-foundation.md](./2026-08-06/Task1_paymentservice-foundation.md) for full detail.

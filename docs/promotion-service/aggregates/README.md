@@ -6,5 +6,8 @@
 - [promotion.md](promotion.md) — `Promotion` (Phase 2.1)
 - [coupon.md](coupon.md) — `Coupon` (Phase 2.2)
 - [voucher.md](voucher.md) — `Voucher` (Phase 2.2)
+- [loyalty.md](loyalty.md) — `LoyaltyProgram` (Phase 2.3)
+- [reward.md](reward.md) — `RewardProgram` (Phase 2.3)
+- [distribution.md](distribution.md) — `DistributionJob` (Phase 2.3)
 
-Remaining aggregates land here as their own Phase 2.x prompt completes: Loyalty + Reward + Distribution (2.3), Recommendation + Product Set + Gift (2.4), Approval + Validation + Audit (2.5) — see [../planning/PROGRESS.md](../planning/PROGRESS.md) for the authoritative current sequence.
+Remaining aggregates land here as their own Phase 2.x prompt completes: Recommendation + Product Set + Gift (2.4), Approval + Validation + Audit (2.5) — see [../planning/PROGRESS.md](../planning/PROGRESS.md) for the authoritative current sequence.
