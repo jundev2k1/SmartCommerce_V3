@@ -1,24 +1,20 @@
 namespace NovaCore.Order.Domain.Entities.Orders;
 
 /// <summary>
-/// Reference + snapshot of this order's payment - not the payment's system of record.
-/// Transactions/capturing/authorization/refund/webhook/retry/gateway-response handling belong to
-/// a future Payment Service; this row only ever holds whatever that service last reported, via
+/// Reference + snapshot of this order's payment - not the payment's system of record. Payment
+/// Service (src/Services/Payment) now owns the full payment lifecycle (gateway, payment method,
+/// account, attempts, tokens, ...); this row only ever holds a reference (PaymentId) plus the
+/// minimal snapshot Order's own workflow needs (PaymentStatus/PaidAmount/PaidAt), updated via
 /// RecordPayment (same "wholesale snapshot sync" shape as OrderShipping.UpdateSnapshot). 1:1 with
 /// Order, sharing its primary key (OrderId) - see OrderPaymentConfig, same pattern as OrderOwner/
-/// OrderPrice.
+/// OrderPrice. See docs/services/payment-service.md and docs/reference/payment-ownership-boundaries.md.
 /// </summary>
 public sealed class OrderPayment : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid OrderId { get; private set; }
 
-    /// <summary>Id of the payment record in the (future) Payment Service - null until that service exists and reports one.</summary>
-    public Guid? PaymentReferenceId { get; private set; }
-    public PaymentMethod? PaymentMethod { get; private set; }
-    public PaymentProvider? PaymentProvider { get; private set; }
-    public string? ProviderName { get; private set; }
-    public string? MaskedAccount { get; private set; }
-    public string? ReferenceNumber { get; private set; }
+    /// <summary>Id of the payment record in Payment Service - null until Payment Service reports one.</summary>
+    public Guid? PaymentId { get; private set; }
     public PaymentStatus PaymentStatus { get; private set; } = PaymentStatus.Pending;
     public Money PaidAmount { get; private set; } = default!;
     public string CurrencyCode { get; private set; } = "USD";
@@ -49,26 +45,17 @@ public sealed class OrderPayment : BaseEntity, IAuditable, ITenantEntity
     #region Snapshot sync
     /// <summary>
     /// Replaces the whole snapshot at once, mirroring OrderShipping.UpdateSnapshot - Order
-    /// Service does not own payment state transitions, it only records the Payment Service's
-    /// latest report. Not yet called from anywhere (no Payment Service exists to call it from).
+    /// Service does not own payment state transitions, it only records Payment Service's latest
+    /// report. Not yet called from anywhere (no consumer wired to Payment Service's integration
+    /// events yet - see docs/services/payment-service.md, Phase 7).
     /// </summary>
     internal void RecordPayment(
-        Guid? paymentReferenceId,
-        PaymentMethod? paymentMethod,
-        PaymentProvider? paymentProvider,
-        string? providerName,
-        string? maskedAccount,
-        string? referenceNumber,
+        Guid? paymentId,
         PaymentStatus paymentStatus,
         Money paidAmount,
         DateTime? paidAt)
     {
-        PaymentReferenceId = paymentReferenceId;
-        PaymentMethod = paymentMethod;
-        PaymentProvider = paymentProvider;
-        ProviderName = providerName;
-        MaskedAccount = maskedAccount;
-        ReferenceNumber = referenceNumber;
+        PaymentId = paymentId;
         PaymentStatus = paymentStatus;
         PaidAmount = paidAmount;
         PaidAt = paidAt;

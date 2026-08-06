@@ -15,11 +15,6 @@ public sealed class OrderPaymentConfig : IEntityTypeConfiguration<OrderPayment>
         // Shared primary key (1:1 with Order) - no surrogate Id, same style as OrderOwner/OrderPrice.
         builder.HasKey(x => x.OrderId);
 
-        builder.Property(x => x.PaymentMethod).HasConversion<short?>();
-        builder.Property(x => x.PaymentProvider).HasConversion<short?>();
-        builder.Property(x => x.ProviderName).HasMaxLength(100);
-        builder.Property(x => x.MaskedAccount).HasMaxLength(50);
-        builder.Property(x => x.ReferenceNumber).HasMaxLength(100);
         builder.Property(x => x.PaymentStatus).HasConversion<int>().IsRequired();
         builder.Property(x => x.CurrencyCode).HasMaxLength(3).IsRequired();
 
@@ -39,7 +34,6 @@ public sealed class OrderPaymentConfig : IEntityTypeConfiguration<OrderPayment>
             .OnDelete(DeleteBehavior.Cascade);
 
         // Indexes
-        builder.HasIndex(x => x.PaymentReferenceId);
-        builder.HasIndex(x => x.ReferenceNumber);
+        builder.HasIndex(x => x.PaymentId);
     }
 }
