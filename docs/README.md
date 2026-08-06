@@ -61,6 +61,10 @@ Every document below belongs to exactly one of four responsibilities. Don't mix 
 - [services/audit-service.md](services/audit-service.md) — Audit Service (MongoDB-backed)
 - [services/gateway.md](services/gateway.md) — YARP API Gateway
 
+### Promotion Service (planning)
+
+Not yet built — [promotion-service/README.md](promotion-service/README.md) is the Phase 0 planning freeze for a brand-new, platform-wide Promotion Engine (7-phase roadmap: Bootstrap → Domain Model → Persistence → Search → CQRS → Infrastructure → Migration Prep). Check [promotion-service/planning/PROGRESS.md](promotion-service/planning/PROGRESS.md) for current phase before starting any Promotion Service work. Once Phase 7 completes, this entry moves up into the list above as `services/promotion-service.md`.
+
 ## Workflows
 
 Step-by-step, minimal-context checklists for common tasks — see [workflows/](workflows/):

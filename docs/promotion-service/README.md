@@ -1,0 +1,35 @@
+# Promotion Service — Planning
+
+**Scope:** Phase-by-phase implementation roadmap and internal documentation for `SmartEcommerce.PromotionService`, a brand-new microservice that will become the central Promotion Engine for the entire NovaCore platform (not an Order Service module). The architecture and domain model have already been designed by the system architect. As of Phase 1, the 5-project Clean Architecture skeleton exists at `src/Services/Promotion/` (registered in `NovaCore.sln`, wired into Docker/env/Gateway) — but **no entity, migration, repository, or endpoint exists yet.** See [planning/PROGRESS.md](planning/PROGRESS.md) for exactly what's done.
+
+## Implementation-mode rules (binding for every future phase)
+
+- Never redesign existing architecture. Never optimize. Never extend beyond what a phase's prompt explicitly requests.
+- Never create additional entities unless explicitly requested. Never infer missing business logic.
+- Never merge multiple phases together. Never implement a future phase early.
+- If a dependency belongs to a future phase, add only a minimal placeholder or `TODO` comment.
+- Each phase gets its own prompt and must be followed exactly — see [phases/](phases/).
+- This service reuses NovaCore's existing platform conventions and BuildingBlocks as-is (5-layer Clean Architecture split, MediatR CQRS, Outbox/Inbox, Read/Write persistence services, FluentValidation, `BuildingBlock.Web`) — same precedent Payment Service's foundation phase set (see [../services/payment-service.md](../services/payment-service.md)). Nothing here invents a new platform pattern.
+
+## Structure
+
+| Path | Purpose | Populated |
+|---|---|---|
+| [planning/PROGRESS.md](planning/PROGRESS.md) | Current phase, completion percentage, status | Every phase |
+| [planning/roadmap.md](planning/roadmap.md) | The 7-phase roadmap overview + dependency order | Phase 0 (this freeze) |
+| [phases/](phases/) | One file per phase: Purpose / Expected Output / Build Verification / Completion Criteria / Blocked Items / Dependencies | Phase 0 (this freeze) |
+| [architecture/](architecture/) | Service-level architecture map, aggregate boundary diagram, integration topology | Phase 2+ |
+| [entities/](entities/) | Entity implementation strategy (frozen now) + per-entity docs | Strategy: Phase 0. Entities: Phase 2+ |
+| [aggregates/](aggregates/) | Per-aggregate boundary docs | Phase 2+ |
+| [value-objects/](value-objects/) | Value Object docs | Phase 2+ |
+| [enums/](enums/) | Enum catalogue | Phase 2+ |
+| [indexes/](indexes/) | Index / unique-constraint catalogue | Phase 3+ |
+| [search/search-strategy.md](search/search-strategy.md) | Elasticsearch integration strategy (frozen now) | Strategy: Phase 0. Implementation: Phase 4 |
+| [cqrs/cqrs-strategy.md](cqrs/cqrs-strategy.md) | CQRS strategy (frozen now) | Strategy: Phase 0. Implementation: Phase 5 |
+| [persistence/persistence-strategy.md](persistence/persistence-strategy.md) | Repository / persistence-service strategy (frozen now) | Strategy: Phase 0. Implementation: Phase 3/5 |
+| [integration/](integration/) | Cross-service integration event docs | Phase 6+ |
+| [tasks/](tasks/) | Pointer only — actual dated task tracking uses the repo-wide [../tasks/](../tasks/) convention | N/A |
+
+## Current status
+
+See [planning/PROGRESS.md](planning/PROGRESS.md). **Phase 0 and Phase 1 complete, 2/7, ready for Phase 2 (Domain Model).**

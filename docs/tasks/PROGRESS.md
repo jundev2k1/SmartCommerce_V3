@@ -8,6 +8,8 @@ Source: explicit task — "Establish the production-ready foundation of a new Pa
 
 - [x] Task 1 — PaymentService production-ready foundation (`2026-08-06/Task1_paymentservice-foundation.md`) — done. 30 aggregates, full EF schema, CQRS+API slice for Payment/PaymentIntent/Refund. Phases 2-8 (accounts/billing CQRS, gateway integration, webhooks, settlement, recurring payments, cross-service integration, notifications) intentionally not started.
 - [x] Task 2 — Sync OrderService/UserService with the PaymentService boundary (`2026-08-06/Task2_order-user-payment-architecture-sync.md`) — done. Slimmed `OrderPayment`/`UserPaymentMethod` to lightweight references, removed duplicated payment fields/enums/VOs, new `docs/reference/payment-ownership-boundaries.md`. No PaymentService change; live cross-service integration still not started (Phase 7).
+- [x] Task 3 — Promotion Service Phase 0 planning freeze (`2026-08-06/Task3_promotion-service-phase0-planning-freeze.md`) — done. Froze the 7-phase roadmap + `docs/promotion-service/` doc tree for a brand-new, platform-wide Promotion Engine. Documentation only, no code/project created — ready for Phase 1 (Bootstrap Service).
+- [x] Task 4 — Promotion Service Phase 1 bootstrap service (`2026-08-06/Task4_promotion-service-phase1-bootstrap-service.md`) — done. Cloned the 5-project Clean Architecture skeleton (`src/Services/Promotion/`) from Payment Service's precedent, registered in `NovaCore.sln`, wired into `docker-compose`/`.env.template`/`init.sql`/YARP Gateway. No entities/migrations/endpoints yet — one verification build passed. Ready for Phase 2 (Domain Model).
 
 ## 2026-07-28
 
