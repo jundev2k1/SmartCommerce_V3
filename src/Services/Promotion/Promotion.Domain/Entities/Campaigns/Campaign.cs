@@ -7,7 +7,7 @@ namespace NovaCore.Promotion.Domain.Entities.Campaigns;
 /// </summary>
 public sealed class Campaign : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
-    public CampaignCode Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public CampaignStatus Status { get; private set; }
@@ -25,7 +25,7 @@ public sealed class Campaign : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public ICollection<CampaignChannel> Channels { get; private set; } = [];
     public ICollection<CampaignTag> Tags { get; private set; } = [];
     public ICollection<CampaignAttachment> Attachments { get; private set; } = [];
-    public ICollection<CampaignLocalization> Localizations { get; private set; } = [];
+    public ICollection<CampaignTranslation> Translations { get; private set; } = [];
 
     /// <summary>Inverse navigation only - Promotion is its own aggregate root and owns its own lifecycle; Campaign never constructs or removes a Promotion.</summary>
     public ICollection<PromotionEntity> Promotions { get; private set; } = [];
@@ -42,7 +42,7 @@ public sealed class Campaign : AggregateRoot<Guid>, IAuditable, ITenantEntity
     private Campaign() { }
 
     public static Campaign Create(
-        CampaignCode code,
+        EntityCode code,
         string name,
         CampaignType type,
         DateTime startTime,
@@ -164,7 +164,7 @@ public sealed class Campaign : AggregateRoot<Guid>, IAuditable, ITenantEntity
     #endregion
 
     #region Schedule
-    public void AddSchedule(CampaignPeriod period, string? label = null)
+    public void AddSchedule(Period period, string? label = null)
     {
         Schedules.Add(CampaignSchedule.Create(Id, period, label, Schedules.Count));
     }
@@ -249,14 +249,14 @@ public sealed class Campaign : AggregateRoot<Guid>, IAuditable, ITenantEntity
     {
         ValidateName(name);
 
-        var existing = Localizations.FirstOrDefault(l => l.LanguageCode == languageCode);
+        var existing = Translations.FirstOrDefault(l => l.LanguageCode == languageCode);
         if (existing is not null)
         {
             existing.UpdateDetails(name, description);
             return;
         }
 
-        Localizations.Add(CampaignLocalization.Create(Id, languageCode, name, description));
+        Translations.Add(CampaignTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

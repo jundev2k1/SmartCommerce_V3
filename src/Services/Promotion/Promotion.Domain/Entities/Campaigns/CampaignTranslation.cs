@@ -1,7 +1,7 @@
 namespace NovaCore.Promotion.Domain.Entities.Campaigns;
 
-/// <summary>Per-language override of a Campaign's Name/Description - Translation pattern, reuses the parent's Id (Rule 5), composite key (Id, LanguageCode) configured in Persistence.</summary>
-public sealed class CampaignLocalization : BaseEntity<Guid>, IAuditable, ITenantEntity
+/// <summary>Per-language override of a Campaign's Name/Description - Translation pattern, reuses the parent's Id (Rule 5), composite key (Id, LanguageCode) configured in Persistence. Renamed from CampaignLocalization during the Phase 2.5 Domain Standardization Review for naming consistency with every other Translation entity in the platform (ProductBrandTranslation, RoleTranslation, ...).</summary>
+public sealed class CampaignTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
@@ -15,14 +15,14 @@ public sealed class CampaignLocalization : BaseEntity<Guid>, IAuditable, ITenant
             TenantId = tenantId;
     }
 
-    private CampaignLocalization() { }
+    private CampaignTranslation() { }
 
-    /// <summary>Only Campaign may construct a CampaignLocalization - see Campaign.Translate.</summary>
-    internal static CampaignLocalization Create(Guid campaignId, LanguageCode languageCode, string name, string? description)
+    /// <summary>Only Campaign may construct a CampaignTranslation - see Campaign.Translate.</summary>
+    internal static CampaignTranslation Create(Guid campaignId, LanguageCode languageCode, string name, string? description)
     {
         ValidateName(name);
 
-        return new CampaignLocalization
+        return new CampaignTranslation
         {
             Id = campaignId,
             LanguageCode = languageCode,
@@ -42,6 +42,6 @@ public sealed class CampaignLocalization : BaseEntity<Guid>, IAuditable, ITenant
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw ExceptionFactory.RequiredField("Localized campaign name cannot be empty.");
+            throw ExceptionFactory.RequiredField("Translated campaign name cannot be empty.");
     }
 }
