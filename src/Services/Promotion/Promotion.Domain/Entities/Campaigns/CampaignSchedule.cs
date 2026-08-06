@@ -4,14 +4,14 @@ namespace NovaCore.Promotion.Domain.Entities.Campaigns;
 public sealed class CampaignSchedule : BaseEntity<Guid>, IAuditable
 {
     public Guid CampaignId { get; private set; }
-    public CampaignPeriod Period { get; private set; } = default!;
+    public Period Period { get; private set; } = default!;
     public string? Label { get; private set; }
     public int DisplayOrder { get; private set; }
 
     private CampaignSchedule() { }
 
     /// <summary>Only Campaign may construct a CampaignSchedule - see Campaign.AddSchedule.</summary>
-    internal static CampaignSchedule Create(Guid campaignId, CampaignPeriod period, string? label, int displayOrder)
+    internal static CampaignSchedule Create(Guid campaignId, Period period, string? label, int displayOrder)
     {
         return new CampaignSchedule
         {
@@ -23,7 +23,7 @@ public sealed class CampaignSchedule : BaseEntity<Guid>, IAuditable
         };
     }
 
-    internal void UpdateDetails(CampaignPeriod period, string? label)
+    internal void UpdateDetails(Period period, string? label)
     {
         Period = period;
         Label = label;

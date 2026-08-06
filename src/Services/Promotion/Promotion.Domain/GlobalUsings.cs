@@ -17,8 +17,6 @@ global using NovaCore.Promotion.Domain.ValueObjects;
 // entity).
 global using PromotionEntity = NovaCore.Promotion.Domain.Entities.Promotions.Promotion;
 
-// "CouponCode" collides between the CouponCode Value Object (NovaCore.Promotion.Domain.ValueObjects,
-// globally used above) and the CouponCode entity (individually issued codes under a Coupon) - same
-// root-namespace-style collision pattern, aliasing the entity side (the VO keeps the bare name,
-// same precedent as PromotionEntity above).
-global using CouponCodeEntity = NovaCore.Promotion.Domain.Entities.Coupons.CouponCode;
+// The former CouponCode entity/Value Object collision (Phase 2.2) no longer exists - the
+// per-aggregate Code Value Object was consolidated into the shared EntityCode during the Phase
+// 2.5 Domain Standardization Review, so no CouponCodeEntity alias is needed anymore.
