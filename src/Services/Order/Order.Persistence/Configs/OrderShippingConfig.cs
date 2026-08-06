@@ -23,18 +23,15 @@ public sealed class OrderShippingConfig : IEntityTypeConfiguration<OrderShipping
             .IsRequired();
         builder.Property(x => x.Address).HasMaxLength(500).IsRequired();
 
-        builder.Property(x => x.OriginalFee)
-            .HasConversion(x => x.Value, x => Money.Create(x))
-            .HasColumnType("numeric(18,2)");
-        builder.Property(x => x.DiscountAmount)
-            .HasConversion(x => x.Value, x => Money.Create(x))
-            .HasColumnType("numeric(18,2)");
-        builder.Property(x => x.FinalFee)
+        builder.Property(x => x.ShippingMethod).HasConversion<int>().IsRequired();
+        builder.Property(x => x.Carrier).HasMaxLength(100);
+        builder.Property(x => x.TrackingNumber).HasMaxLength(100);
+        builder.Property(x => x.Status).HasConversion<int>().IsRequired();
+
+        builder.Property(x => x.ShippingFee)
             .HasConversion(x => x.Value, x => Money.Create(x))
             .HasColumnType("numeric(18,2)");
 
-        builder.Property(x => x.ShippingMethod).HasConversion<int>().IsRequired();
-        builder.Property(x => x.Status).HasConversion<int>().IsRequired();
         builder.Property(x => x.Note).HasMaxLength(1000);
         builder.Property(x => x.IdempotencyKey).HasMaxLength(200);
 
@@ -52,5 +49,6 @@ public sealed class OrderShippingConfig : IEntityTypeConfiguration<OrderShipping
 
         // Indexes
         builder.HasIndex(x => x.OrderId).IsUnique();
+        builder.HasIndex(x => x.TrackingNumber);
     }
 }

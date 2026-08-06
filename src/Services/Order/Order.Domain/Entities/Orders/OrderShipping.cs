@@ -1,21 +1,30 @@
 namespace NovaCore.Order.Domain.Entities.Orders;
 
+/// <summary>
+/// Reference + snapshot of this order's shipment - not the shipment's system of record. Shipment
+/// lifecycle (routing, driver, packages, tracking events, warehouse routing) belongs to a future
+/// Shipping Service; this row only ever holds whatever that service last reported, via
+/// UpdateSnapshot (same "wholesale snapshot sync" shape as ProductCatalog). Order Service does not
+/// enforce a shipping state machine - Status is just the last known value. Split out from Order
+/// itself so the core order/status/items data isn't coupled to shipping columns, same reasoning
+/// as OrderOwner/OrderPrice.
+/// </summary>
 public sealed class OrderShipping : BaseEntity<Guid>, IAuditable, ITenantEntity, IIdempotentEntity
 {
     public Guid OrderId { get; private set; }
     public string ReceiverName { get; private set; } = string.Empty;
     public PhoneNumber ReceiverPhone { get; private set; } = default!;
     public string Address { get; private set; } = string.Empty;
-    public Money OriginalFee { get; private set; } = default!;
-    public Money DiscountAmount { get; private set; } = default!;
-    public Money FinalFee { get; private set; } = default!;
     public ShippingMethod ShippingMethod { get; private set; } = ShippingMethod.Standard;
+
+    /// <summary>Id of the shipment record in the (future) Shipping Service - null until that service exists and reports one.</summary>
+    public Guid? ShippingReferenceId { get; private set; }
+    public string? Carrier { get; private set; }
+    public string? TrackingNumber { get; private set; }
     public ShippingStatus Status { get; private set; } = ShippingStatus.Pending;
+    public DateTime? EstimatedDelivery { get; private set; }
+    public Money ShippingFee { get; private set; } = default!;
     public string Note { get; private set; } = string.Empty;
-    public DateTime? ShippedAt { get; private set; }
-    public DateTime? ArrivedAtWarehouseAt { get; private set; }
-    public DateTime? InTransitAt { get; private set; }
-    public DateTime? DeliveredAt { get; private set; }
     public string? IdempotencyKey { get; private set; }
 
     public Guid TenantId { get; private set; }
@@ -38,25 +47,20 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable, ITenantEntity,
         string note,
         string? idempotencyKey = null)
     {
-        var shipping = new OrderShipping
+        return new OrderShipping
         {
             Id = Guid.CreateVersion7(),
             OrderId = orderId,
             ReceiverName = receiverName,
             ReceiverPhone = receiverPhone,
             Address = address,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
             ShippingMethod = shippingMethod,
             Note = note,
             IdempotencyKey = idempotencyKey,
+            // No fee calculation happens in Order Service anymore - the Shipping Service will
+            // report the real fee via UpdateSnapshot once it exists.
+            ShippingFee = Money.Create(0),
         };
-
-        // Populates OriginalFee/DiscountAmount/FinalFee - without this they stay null (default!)
-        // until something else calls Calculate(), which nothing currently does.
-        shipping.Calculate();
-
-        return shipping;
     }
     #endregion
 
@@ -85,61 +89,35 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable, ITenantEntity,
     }
     #endregion
 
-    #region Shipping progress
-    public void MarkShipped()
+    #region Snapshot sync
+    /// <summary>
+    /// Replaces the whole snapshot at once, mirroring how ProductCatalog gets refreshed from
+    /// Product's integration events - there is no incremental Mark* transition here because Order
+    /// Service does not own the shipment's state machine, it only records the Shipping Service's
+    /// latest report. Not yet called from anywhere (no Shipping Service exists to call it from).
+    /// </summary>
+    internal void UpdateSnapshot(
+        Guid? shippingReferenceId,
+        string? carrier,
+        string? trackingNumber,
+        ShippingStatus status,
+        DateTime? estimatedDelivery,
+        Money shippingFee)
     {
-        if (Status != ShippingStatus.Pending)
-            throw new InvalidOperationException($"Cannot mark shipping as shipped when status is {Status}.");
-
-        Status = ShippingStatus.Shipped;
-        ShippedAt = DateTime.UtcNow;
-    }
-
-    public void MarkArrivedAtWarehouse()
-    {
-        if (Status != ShippingStatus.Shipped)
-            throw new InvalidOperationException($"Cannot mark shipping as arrived at warehouse when status is {Status}.");
-
-        Status = ShippingStatus.Arrived;
-        ArrivedAtWarehouseAt = DateTime.UtcNow;
-    }
-
-    public void MarkInTransit()
-    {
-        if (Status != ShippingStatus.Arrived)
-            throw new InvalidOperationException($"Cannot mark shipping as in transit when status is {Status}.");
-
-        Status = ShippingStatus.InTransit;
-        InTransitAt = DateTime.UtcNow;
-    }
-
-    public void MarkDelivered()
-    {
-        if (Status != ShippingStatus.InTransit)
-            throw new InvalidOperationException($"Cannot mark shipping as delivered when status is {Status}.");
-
-        Status = ShippingStatus.Delivered;
-
-        DeliveredAt = DateTime.UtcNow;
+        ShippingReferenceId = shippingReferenceId;
+        Carrier = carrier;
+        TrackingNumber = trackingNumber;
+        Status = status;
+        EstimatedDelivery = estimatedDelivery;
+        ShippingFee = shippingFee;
     }
 
     public void Cancel()
     {
         if (Status == ShippingStatus.Delivered)
-            throw new InvalidOperationException($"Cannot cancel shipping when status is {Status}.");
+            throw ExceptionFactory.InvalidStatus($"Cannot cancel shipping when status is {Status}.");
 
         Status = ShippingStatus.Canceled;
-    }
-    #endregion
-
-    #region Pricing
-    internal void Calculate()
-    {
-        OriginalFee = Money.Create(0);
-        DiscountAmount = Money.Create(0);
-
-        var shippingFee = OriginalFee.Value + DiscountAmount.Value;
-        FinalFee = Money.Create(shippingFee);
     }
     #endregion
 }

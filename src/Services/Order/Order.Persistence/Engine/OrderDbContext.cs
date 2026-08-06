@@ -14,6 +14,7 @@ public sealed class OrderDbContext(DbContextOptions<OrderDbContext> options)
     public DbSet<OrderEntity> Orders { get; set; } = null!;
     public DbSet<OrderItem> OrderItems { get; set; } = null!;
     public DbSet<OrderOwner> OrderOwners { get; set; } = null!;
+    public DbSet<OrderPayment> OrderPayments { get; set; } = null!;
     public DbSet<OrderPrice> OrderPrices { get; set; } = null!;
     public DbSet<OrderTax> OrderTaxes { get; set; } = null!;
     public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; } = null!;

@@ -10,6 +10,7 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
     public OrderNumber OrderNumber { get; private set; } = default!;
     public OrderOwner Owner { get; private set; } = default!;
     public OrderShipping Shipping { get; private set; } = default!;
+    public OrderPayment Payment { get; private set; } = default!;
     public OrderPrice Price { get; private set; } = default!;
     public ICollection<OrderItem> Items { get; private set; } = [];
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
@@ -17,7 +18,7 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
     public ICollection<OrderTag> Tags { get; private set; } = [];
     public OrderStatus Status { get; private set; }
     public string? CancellationReason { get; private set; }
-    public Money ShippingFee => Shipping.FinalFee;
+    public Money ShippingFee => Shipping.ShippingFee;
 
     /// <summary>Computed pass-throughs to Price - kept so existing read sites (queries, DTOs) don't all need to change to Order.Price.X.</summary>
     public Money Subtotal => Price.Subtotal;
@@ -57,6 +58,7 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
 
         order.CreateOwner(data.Owner);
         order.CreateShipping(data.Shipping);
+        order.CreatePayment();
         order.CreateItems(data.Items);
         order.CreateTaxes();
         order.CreatePrice();
@@ -192,37 +194,13 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
 
         Shipping.UpdateContact(receiverName, receiverPhone, address, idempotencyKey);
     }
+    #endregion
 
-    public void MarkShipped()
+    #region Payment
+    /// <summary>Builds this order's Payment - only Order may construct an OrderPayment (see OrderPayment.Create being internal).</summary>
+    internal void CreatePayment()
     {
-        if (Status != OrderStatus.Confirmed)
-            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as shipped when status is {Status}.");
-
-        Shipping.MarkShipped();
-    }
-
-    public void MarkArrivedAtWarehouse()
-    {
-        if (Status != OrderStatus.Confirmed)
-            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as arrived at warehouse when status is {Status}.");
-
-        Shipping.MarkArrivedAtWarehouse();
-    }
-
-    public void MarkInTransit()
-    {
-        if (Status != OrderStatus.Confirmed)
-            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as in transit when status is {Status}.");
-
-        Shipping.MarkInTransit();
-    }
-
-    public void MarkDelivered()
-    {
-        if (Status != OrderStatus.Confirmed)
-            throw ExceptionFactory.InvalidStatus($"Cannot mark an order as delivered when status is {Status}.");
-
-        Shipping.MarkDelivered();
+        Payment = OrderPayment.Create(Id);
     }
     #endregion
 
@@ -267,7 +245,7 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
             promotionDiscount: zero,
             couponDiscount: zero,
             taxAmount: taxAmount,
-            shippingFee: Shipping.FinalFee);
+            shippingFee: Shipping.ShippingFee);
     }
     #endregion
 

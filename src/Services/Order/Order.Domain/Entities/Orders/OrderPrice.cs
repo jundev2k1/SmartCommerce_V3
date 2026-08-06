@@ -4,7 +4,7 @@ namespace NovaCore.Order.Domain.Entities.Orders;
 /// Pricing breakdown split out from Order itself so the core order/status/items data isn't
 /// coupled to every pricing column - same reasoning as OrderOwner. 1:1 with Order, sharing its
 /// primary key (OrderId) - see OrderPriceConfig. ShippingFee is intentionally not a column here;
-/// it stays a computed pass-through on Order to OrderShipping.FinalFee (see Order.ShippingFee) so
+/// it stays a computed pass-through on Order to OrderShipping.ShippingFee (see Order.ShippingFee) so
 /// it is never stored twice. Only Subtotal is currently derived from real data (sum of
 /// OrderItem.Subtotal) - PromotionDiscount/CouponDiscount/ServiceFee/PlatformFee/
 /// RoundingAdjustment are scaffolded at zero until the Promotion/Coupon/Fee calculation logic

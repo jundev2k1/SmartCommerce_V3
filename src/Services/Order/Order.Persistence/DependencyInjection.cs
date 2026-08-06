@@ -85,6 +85,8 @@ public static class DependencyInjection
                 .BelongsTo<OrderEntity>(x => x.OrderId);
             builder.Entity<OrderPrice>()
                 .BelongsTo<OrderEntity>(x => x.OrderId);
+            builder.Entity<OrderPayment>()
+                .BelongsTo<OrderEntity>(x => x.OrderId);
             builder.Entity<OrderTax>()
                 .BelongsTo<OrderEntity>(x => x.OrderId);
             builder.Entity<OrderTagDefinition>().IsRoot(x => x.Id);
