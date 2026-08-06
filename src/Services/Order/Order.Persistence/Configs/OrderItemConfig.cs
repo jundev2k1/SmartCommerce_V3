@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+
 namespace NovaCore.Order.Persistence.Configs;
 
 public sealed class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
@@ -19,9 +21,34 @@ public sealed class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
         builder.Property(x => x.ProductName)
             .HasMaxLength(200)
             .IsRequired();
+
         builder.Property(x => x.UnitPrice)
+            .HasConversion(x => x.Value, x => Money.Create(x))
             .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.Subtotal)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.ProductPromotionDiscount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.BundleDiscount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.GiftDiscount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.CouponDiscount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.ManualDiscount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.FinalAmount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+
         builder.Property(x => x.Quantity)
+            .HasConversion(x => x.Value, x => Quantity.Create(x))
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)

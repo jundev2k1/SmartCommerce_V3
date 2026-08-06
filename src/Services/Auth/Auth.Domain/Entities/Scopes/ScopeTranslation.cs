@@ -8,20 +8,12 @@ namespace NovaCore.Auth.Domain.Entities.Scopes;
 /// shape exactly: Id doubles as the owning Scope's Id, one row per language, composite
 /// (Id, LanguageCode) primary key (see ScopeTranslationConfig).
 /// </summary>
-public sealed class ScopeTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
+public sealed class ScopeTranslation : BaseEntity<Guid>, IAuditable
 {
     public Scope Scope { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
-
-    public Guid TenantId { get; private set; }
-
-    public void AssignTenant(Guid tenantId)
-    {
-        if (TenantId == Guid.Empty)
-            TenantId = tenantId;
-    }
 
     private ScopeTranslation() { }
 

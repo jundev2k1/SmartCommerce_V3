@@ -1,3 +1,4 @@
+using NovaCore.BuildingBlock.Application.Abstractions.Services;
 using NovaCore.BuildingBlock.Persistence.Audit;
 using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 using NovaCore.BuildingBlock.Persistence.Ef.Interceptors;

@@ -1,3 +1,4 @@
+using NovaCore.Auth.Domain.Entities.Tenants;
 using NovaCore.Auth.Domain.Metadata;
 using NovaCore.BuildingBlock.Domain.ValueObjects;
 using NovaCore.BuildingBlock.SharedKernel.Extensions;
@@ -28,6 +29,7 @@ public sealed class Scope : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public ICollection<ScopeTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
+    public Tenant Tenant { get; private set; } = default!;
 
     public void AssignTenant(Guid tenantId)
     {

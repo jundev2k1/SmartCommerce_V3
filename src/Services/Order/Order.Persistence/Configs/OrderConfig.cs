@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+using NovaCore.Order.Domain.ValueObjects;
+
 namespace NovaCore.Order.Persistence.Configs;
 
 public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
@@ -12,8 +15,51 @@ public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
         // Properties
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.OrderNumber)
+            .HasConversion(x => x.Value, x => OrderNumber.Create(x))
+            .HasMaxLength(20)
+            .IsRequired();
+
         builder.Property(x => x.Status).HasConversion<int>();
         builder.Property(x => x.CancellationReason).HasMaxLength(200);
+
+        builder.Property(x => x.Subtotal)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.DiscountTotal)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.ShippingDiscount)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+        builder.Property(x => x.GrandTotal)
+            .HasConversion(x => x.Value, x => Money.Create(x))
+            .HasColumnType("numeric(18,2)");
+
+        // ShippingFee is a computed pass-through (Shipping.FinalFee) - never persisted.
+        builder.Ignore(x => x.ShippingFee);
+
+        // Tax is a 3-field composite VO (Method/Value/AppliedAmount, itself wrapping Money) -
+        // owned rather than HasConversion'd, since HasConversion only maps to a single column.
+        builder.OwnsOne(x => x.Tax, tax =>
+        {
+            tax.Property(t => t.Method)
+                .HasConversion<int>()
+                .HasColumnName("tax_method")
+                .IsRequired();
+
+            tax.Property(t => t.Value)
+                .HasColumnName("tax_value")
+                .HasColumnType("numeric(18,2)")
+                .IsRequired();
+
+            tax.Property(t => t.AppliedAmount)
+                .HasConversion(x => x.Value, x => Money.Create(x))
+                .HasColumnName("tax_applied_amount")
+                .HasColumnType("numeric(18,2)")
+                .IsRequired();
+        });
+        builder.Navigation(x => x.Tax).IsRequired();
 
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
         builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");

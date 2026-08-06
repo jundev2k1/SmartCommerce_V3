@@ -1738,10 +1738,6 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("tenant_id");
-
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -1757,15 +1753,12 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                     b.HasKey("Id", "LanguageCode")
                         .HasName("pk_scope_translations");
 
-                    b.HasIndex("TenantId")
-                        .HasDatabaseName("ix_scope_translations_tenant_id");
-
                     b.ToTable("scope_translations", (string)null);
                 });
 
             modelBuilder.Entity("NovaCore.Auth.Domain.Entities.Tenants.Tenant", b =>
                 {
-                    b.Property<Guid>("TenantId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -1827,7 +1820,7 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasColumnType("xid")
                         .HasColumnName("xmin");
 
-                    b.HasKey("TenantId")
+                    b.HasKey("Id")
                         .HasName("pk_tenants");
 
                     b.HasIndex("Code")
@@ -1888,7 +1881,13 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .HasName("pk_tenant_locales");
 
                     b.HasIndex("TenantId")
-                        .HasDatabaseName("ix_tenant_locales_tenant_id");
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenant_locales_tenant_id_fallback")
+                        .HasFilter("language_code IS NULL");
+
+                    b.HasIndex("TenantId", "LanguageCode")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tenant_locales_tenant_id_language_code");
 
                     b.ToTable("tenant_locales", (string)null);
                 });
@@ -2493,12 +2492,14 @@ namespace NovaCore.Auth.Persistence.Storage.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_scopes_scopes_parent_scope_id");
 
-                    b.HasOne("NovaCore.Auth.Domain.Entities.Tenants.Tenant", null)
+                    b.HasOne("NovaCore.Auth.Domain.Entities.Tenants.Tenant", "Tenant")
                         .WithMany()
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_scopes_tenants_tenant_id");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("NovaCore.Auth.Domain.Entities.Scopes.ScopeTranslation", b =>

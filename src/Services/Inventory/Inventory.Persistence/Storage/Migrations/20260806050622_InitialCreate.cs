@@ -98,8 +98,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     supports_returns = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     allow_negative_stock = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -120,8 +120,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     approved_by = table.Column<Guid>(type: "uuid", nullable: true),
                     approved_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, defaultValue: ""),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -152,8 +152,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     approved_by = table.Column<Guid>(type: "uuid", nullable: true),
                     completed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -193,8 +193,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     reorder_point = table.Column<int>(type: "integer", nullable: false),
                     maximum_stock = table.Column<int>(type: "integer", nullable: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -224,8 +224,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     picking_strategy = table.Column<short>(type: "smallint", nullable: false),
                     allow_mixed_lot = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -325,8 +325,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     status = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)1),
                     quantity = table.Column<int>(type: "integer", nullable: false),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -360,8 +360,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     expired_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     reason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true, defaultValue: ""),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
@@ -393,8 +393,8 @@ namespace NovaCore.Inventory.Persistence.Storage.Migrations
                     inventory_reservation_id = table.Column<Guid>(type: "uuid", nullable: true),
                     inventory_document_id = table.Column<Guid>(type: "uuid", nullable: true),
                     metadata = table.Column<string>(type: "jsonb", nullable: false),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },

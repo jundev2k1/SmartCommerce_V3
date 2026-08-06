@@ -491,11 +491,19 @@ namespace NovaCore.User.Persistence.Storage.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
                         .HasColumnName("display_name");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("LastSeenAt")
                         .HasColumnType("timestamp with time zone")
@@ -540,6 +548,9 @@ namespace NovaCore.User.Persistence.Storage.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_users");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_users_is_deleted");
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_users_status");

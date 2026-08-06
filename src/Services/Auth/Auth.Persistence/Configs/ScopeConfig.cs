@@ -1,11 +1,8 @@
-using NovaCore.Auth.Domain.Entities.Scopes;
-using NovaCore.Auth.Domain.Entities.Tenants;
-using NovaCore.Auth.Domain.Metadata;
-using NovaCore.Auth.Domain.ValueObjects;
-
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using NovaCore.Auth.Domain.Entities.Scopes;
+using NovaCore.Auth.Domain.Metadata;
+using NovaCore.Auth.Domain.ValueObjects;
 using NovaCore.BuildingBlock.Domain.Metadata;
 
 namespace NovaCore.Auth.Persistence.Configs;
@@ -20,8 +17,8 @@ public sealed class ScopeConfig : IEntityTypeConfiguration<Scope>
         // Properties
         builder.HasKey(x => x.Id);
 
-        // TenantId itself is mapped/indexed/query-filtered automatically by the Tenant
-        // Convention (see ModelBuilderExtensions.ApplyTenantConvention) - only the FK
+        // TenantId itself is mapped/indexed/query-filtered automatically by the Entity
+        // Convention (see ModelBuilderExtensions.ApplyEntityConventions) - only the FK
         // relationship to Tenant and the (TenantId, Code) uniqueness are Scope-specific.
         builder.Property(x => x.Code)
             .HasConversion(x => x.Value, x => ScopeCode.Create(x))
@@ -59,7 +56,7 @@ public sealed class ScopeConfig : IEntityTypeConfiguration<Scope>
             .HasDefaultValue(true);
 
         // Relationships
-        builder.HasOne<Tenant>()
+        builder.HasOne(x => x.Tenant)
             .WithMany()
             .HasForeignKey(x => x.TenantId)
             .OnDelete(DeleteBehavior.Cascade);

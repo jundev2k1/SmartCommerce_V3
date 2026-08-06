@@ -7,7 +7,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// UserRole and UserTag are independent aggregate roots referenced via join entities
 /// (UserRoleAssignment/UserTagMapping), not owned - many users share the same role/tag.
 /// </summary>
-public sealed class User : AggregateRoot<Guid>, IAuditable, ITenantEntity
+public sealed class User : AggregateRoot<Guid>, IAuditable, ITenantEntity, ISoftDeleteEntity
 {
     public string Username { get; private set; } = string.Empty;
     public string DisplayName { get; private set; } = string.Empty;
@@ -37,6 +37,21 @@ public sealed class User : AggregateRoot<Guid>, IAuditable, ITenantEntity
     {
         if (TenantId == Guid.Empty)
             TenantId = tenantId;
+    }
+
+    public bool IsDeleted { get; private set; }
+    public DateTime? DeletedAt { get; private set; }
+
+    /// <summary>Framework-facing assignment point for ISoftDeleteEntity - idempotent, same
+    /// reasoning as AssignTenant. Called by MarkAsDeleted below rather than directly by callers,
+    /// so Status and IsDeleted/DeletedAt never drift out of sync.</summary>
+    public void MarkDeleted()
+    {
+        if (IsDeleted)
+            return;
+
+        IsDeleted = true;
+        DeletedAt = DateTime.UtcNow;
     }
 
     private User() { }
@@ -785,6 +800,7 @@ public sealed class User : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public void MarkAsDeleted()
     {
         Status = UserStatus.Deleted;
+        MarkDeleted();
     }
 
     public static bool IsValidUsername(string? username) => !string.IsNullOrWhiteSpace(username);

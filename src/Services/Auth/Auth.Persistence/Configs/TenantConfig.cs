@@ -15,10 +15,9 @@ public sealed class TenantConfig : IEntityTypeConfiguration<Tenant>
         builder.ToTable("tenants");
 
         // Properties
-        builder.HasKey(x => x.TenantId);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.TenantId)
-            .HasColumnName("id")
+        builder.Property(x => x.Id)
             .IsRequired();
 
         builder.Property(x => x.Code)

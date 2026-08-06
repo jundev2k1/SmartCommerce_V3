@@ -15,6 +15,14 @@ public sealed class OrderDiscount : BaseEntity<long>, IAuditable, ITenantEntity
     public Money AppliedAmount { get; private set; } = default!;
     public DiscountMetadata? Metadata { get; private set; }
 
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
+
     private OrderDiscount() { }
 
     internal static OrderDiscount Create(

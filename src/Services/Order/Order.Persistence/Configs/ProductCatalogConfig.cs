@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+
 namespace NovaCore.Order.Persistence.Configs;
 
 public sealed class ProductCatalogConfig : IEntityTypeConfiguration<ProductCatalog>
@@ -23,14 +25,15 @@ public sealed class ProductCatalogConfig : IEntityTypeConfiguration<ProductCatal
             .IsRequired();
 
         builder.Property(x => x.Sku)
+            .HasConversion(x => x.Value, x => Sku.Create(x))
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(x => x.Price)
+            .HasConversion(x => x.Value, x => Money.Create(x))
             .HasColumnType("numeric(18,2)");
 
         builder.Property(x => x.Status)
-            .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");

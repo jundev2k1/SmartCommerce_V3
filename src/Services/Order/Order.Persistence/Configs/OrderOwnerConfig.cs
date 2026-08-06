@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using NovaCore.BuildingBlock.Domain.ValueObjects;
+
 namespace NovaCore.Order.Persistence.Configs;
 
 public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
@@ -15,10 +17,16 @@ public sealed class OrderOwnerConfig : IEntityTypeConfiguration<OrderOwner>
 
         builder.Property(x => x.OwnerId).IsRequired();
         builder.Property(x => x.OwnerName).HasMaxLength(200).IsRequired();
-        builder.Property(x => x.OwnerPhone).HasMaxLength(30).IsRequired();
+        builder.Property(x => x.OwnerPhone)
+            .HasConversion(x => x.Value, x => PhoneNumber.Create(x))
+            .HasMaxLength(30)
+            .IsRequired();
         builder.Property(x => x.OwnerPhoneSearch).HasMaxLength(20).IsRequired();
         builder.Property(x => x.OwnerPhoneReverse).HasMaxLength(20).IsRequired();
-        builder.Property(x => x.OwnerEmail).HasMaxLength(256).IsRequired();
+        builder.Property(x => x.OwnerEmail)
+            .HasConversion(x => x.Value, x => Email.Create(x))
+            .HasMaxLength(256)
+            .IsRequired();
         builder.Property(x => x.IdempotencyKey).HasMaxLength(200);
 
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");

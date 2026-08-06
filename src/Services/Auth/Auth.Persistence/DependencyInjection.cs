@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 using NovaCore.Auth.Application.Abstractions.Persistence.Accounts;
 using NovaCore.Auth.Application.Abstractions.Persistence.RefreshTokens;
 using NovaCore.Auth.Application.Abstractions.Persistence.Scopes;
@@ -15,17 +18,14 @@ using NovaCore.Auth.Persistence.Contexts.Accounts.Write;
 using NovaCore.Auth.Persistence.Contexts.RefreshTokens.Read;
 using NovaCore.Auth.Persistence.Contexts.RefreshTokens.Write;
 using NovaCore.Auth.Persistence.Contexts.Scopes.Read;
-using NovaCore.Auth.Persistence.Contexts.Scopes.Repositories;
 using NovaCore.Auth.Persistence.Contexts.Scopes.Write;
 using NovaCore.Auth.Persistence.Contexts.Tenants.Read;
-using NovaCore.Auth.Persistence.Contexts.Tenants.Repositories;
 using NovaCore.Auth.Persistence.Contexts.Tenants.Write;
 using NovaCore.Auth.Persistence.Engine;
 using NovaCore.Auth.Persistence.Engine.UnitOfWork;
 using NovaCore.Auth.Persistence.Reliability.Inbox;
 using NovaCore.Auth.Persistence.Reliability.Outbox;
 using NovaCore.Auth.Persistence.Storage.Seeders;
-
 using NovaCore.BuildingBlock.Application.Abstractions.Outbox;
 using NovaCore.BuildingBlock.Application.Abstractions.Persistence;
 using NovaCore.BuildingBlock.Application.Abstractions.Services;
@@ -35,10 +35,6 @@ using NovaCore.BuildingBlock.Persistence.Ef.DependencyInjection;
 using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
 using NovaCore.BuildingBlock.Persistence.Repository;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 using Npgsql;
 
@@ -53,7 +49,9 @@ public static class DependencyInjection
         return builder.AddNpgsql();
     }
 
-    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistence(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services
             .AddDatabaseContext(configuration)
@@ -110,7 +108,7 @@ public static class DependencyInjection
 
             builder.Entity<Invitation>().IsRoot(x => x.Id);
 
-            builder.Entity<Tenant>().IsRoot(x => x.TenantId);
+            builder.Entity<Tenant>().IsRoot(x => x.Id);
             builder.Entity<TenantLocale>()
                 .BelongsTo<Tenant>(x => x.TenantId);
 
@@ -122,7 +120,9 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddDatabaseContext(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new ArgumentException("ConnectionString was not configured.");
