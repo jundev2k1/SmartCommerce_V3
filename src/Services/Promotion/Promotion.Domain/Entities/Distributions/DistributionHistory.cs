@@ -1,0 +1,25 @@
+namespace NovaCore.Promotion.Domain.Entities.Distributions;
+
+/// <summary>An append-only audit trail row for a DistributionJob - CreatedAt is inherited from BaseEntity, not redeclared. Not navigated from DistributionJob, so construction is public.</summary>
+public sealed class DistributionHistory : BaseEntity<Guid>, IAuditable
+{
+    public Guid JobId { get; private set; }
+    public string Action { get; private set; } = string.Empty;
+    public Guid? OperatorId { get; private set; }
+
+    private DistributionHistory() { }
+
+    public static DistributionHistory Create(Guid jobId, string action, Guid? operatorId)
+    {
+        if (string.IsNullOrWhiteSpace(action))
+            throw ExceptionFactory.RequiredField("History action cannot be empty.");
+
+        return new DistributionHistory
+        {
+            Id = Guid.CreateVersion7(),
+            JobId = jobId,
+            Action = action,
+            OperatorId = operatorId,
+        };
+    }
+}
