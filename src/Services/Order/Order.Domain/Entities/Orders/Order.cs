@@ -14,6 +14,7 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
     public ICollection<OrderItem> Items { get; private set; } = [];
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
     public ICollection<OrderTax> Taxes { get; private set; } = [];
+    public ICollection<OrderTag> Tags { get; private set; } = [];
     public OrderStatus Status { get; private set; }
     public string? CancellationReason { get; private set; }
     public Money ShippingFee => Shipping.FinalFee;
@@ -267,6 +268,24 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
             couponDiscount: zero,
             taxAmount: taxAmount,
             shippingFee: Shipping.FinalFee);
+    }
+    #endregion
+
+    #region Tag
+    public void AddTag(Guid tagId)
+    {
+        if (Tags.Any(t => t.TagId == tagId))
+            throw ExceptionFactory.Duplicate("This tag is already assigned to the order.");
+
+        Tags.Add(OrderTag.Create(Id, tagId));
+    }
+
+    public void RemoveTag(Guid tagId)
+    {
+        var tag = Tags.FirstOrDefault(t => t.TagId == tagId)
+            ?? throw ExceptionFactory.EntityNotFound<OrderTag>(tagId);
+
+        Tags.Remove(tag);
     }
     #endregion
 
