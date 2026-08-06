@@ -4,8 +4,15 @@ global using System.Linq;
 
 global using NovaCore.BuildingBlock.Domain.Abstractions;
 global using NovaCore.BuildingBlock.Domain.Exceptions;
+global using NovaCore.BuildingBlock.Domain.ValueObjects;
 global using NovaCore.BuildingBlock.SharedKernel.Extensions;
 
-// No NovaCore.Promotion.Domain.Enums / .ValueObjects global usings yet - no entities exist
-// until Phase 2 (Domain Model). Add them here the same way Payment.Domain does once the first
-// entity/enum/Value Object lands - see docs/promotion-service/entities/entity-implementation-strategy.md.
+global using NovaCore.Promotion.Domain.Enums;
+global using NovaCore.Promotion.Domain.Metadata;
+global using NovaCore.Promotion.Domain.ValueObjects;
+
+// "Promotion" collides with this project's own root namespace (NovaCore.Promotion.Domain, ...) -
+// C# resolves the bare identifier to the namespace before the imported type, so the entity needs
+// an alias (same issue Payment/Order/Product/User already document for their own root-namespaced
+// entity).
+global using PromotionEntity = NovaCore.Promotion.Domain.Entities.Promotions.Promotion;

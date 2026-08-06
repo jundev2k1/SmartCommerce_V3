@@ -1,0 +1,29 @@
+namespace NovaCore.Promotion.Domain.Entities.Promotions;
+
+/// <summary>What a Promotion applies to (e.g. a Product/Category/Cart reference) - structural (type, key) pair, no eligibility resolution lives here.</summary>
+public sealed class PromotionTarget : BaseEntity<Guid>, IAuditable
+{
+    public Guid PromotionId { get; private set; }
+    public string TargetType { get; private set; } = string.Empty;
+    public string TargetKey { get; private set; } = string.Empty;
+
+    private PromotionTarget() { }
+
+    /// <summary>Only Promotion may construct a PromotionTarget - see Promotion.AddTarget.</summary>
+    internal static PromotionTarget Create(Guid promotionId, string targetType, string targetKey)
+    {
+        if (string.IsNullOrWhiteSpace(targetType))
+            throw ExceptionFactory.RequiredField("Target type cannot be empty.");
+
+        if (string.IsNullOrWhiteSpace(targetKey))
+            throw ExceptionFactory.RequiredField("Target key cannot be empty.");
+
+        return new PromotionTarget
+        {
+            Id = Guid.CreateVersion7(),
+            PromotionId = promotionId,
+            TargetType = targetType,
+            TargetKey = targetKey,
+        };
+    }
+}

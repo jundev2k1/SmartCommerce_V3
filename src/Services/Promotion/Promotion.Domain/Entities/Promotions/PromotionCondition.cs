@@ -1,0 +1,31 @@
+namespace NovaCore.Promotion.Domain.Entities.Promotions;
+
+/// <summary>A single structural (field, operator, value) condition triple belonging to a PromotionRule. No evaluation/comparison logic lives here - purely a stored condition row.</summary>
+public sealed class PromotionCondition : BaseEntity<Guid>, IAuditable
+{
+    public Guid RuleId { get; private set; }
+    public string Field { get; private set; } = string.Empty;
+    public string Operator { get; private set; } = string.Empty;
+    public string Value { get; private set; } = string.Empty;
+
+    private PromotionCondition() { }
+
+    /// <summary>Only PromotionRule (via the owning Promotion) constructs a PromotionCondition.</summary>
+    internal static PromotionCondition Create(Guid ruleId, string field, string operatorSymbol, string value)
+    {
+        if (string.IsNullOrWhiteSpace(field))
+            throw ExceptionFactory.RequiredField("Condition field cannot be empty.");
+
+        if (string.IsNullOrWhiteSpace(operatorSymbol))
+            throw ExceptionFactory.RequiredField("Condition operator cannot be empty.");
+
+        return new PromotionCondition
+        {
+            Id = Guid.CreateVersion7(),
+            RuleId = ruleId,
+            Field = field,
+            Operator = operatorSymbol,
+            Value = value,
+        };
+    }
+}
