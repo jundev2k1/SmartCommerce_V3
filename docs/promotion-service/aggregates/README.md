@@ -9,5 +9,11 @@
 - [loyalty.md](loyalty.md) — `LoyaltyProgram` (Phase 2.3)
 - [reward.md](reward.md) — `RewardProgram` (Phase 2.3)
 - [distribution.md](distribution.md) — `DistributionJob` (Phase 2.3)
+- [recommendation.md](recommendation.md) — `RecommendationProgram` (Phase 2.4)
+- [product-set.md](product-set.md) — `ProductSet` (Phase 2.4)
+- [gift.md](gift.md) — `GiftProgram` (Phase 2.4)
+- [approval.md](approval.md) — `ApprovalWorkflow` (Phase 2.4)
+- [validation.md](validation.md) — Validation entities, no aggregate root (Phase 2.4)
+- [audit.md](audit.md) — Audit entities, no aggregate root (Phase 2.4)
 
-Remaining aggregates land here as their own Phase 2.x prompt completes: Recommendation + Product Set + Gift (2.4), Approval + Validation + Audit (2.5) — see [../planning/PROGRESS.md](../planning/PROGRESS.md) for the authoritative current sequence.
+Every aggregate the roadmap named is now implemented — see [../planning/PROGRESS.md](../planning/PROGRESS.md) for the current phase (2.5: Domain Review + Single Domain Build).

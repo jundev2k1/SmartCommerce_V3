@@ -5,6 +5,7 @@ One line per still-open task, most recent date first. Per-task detail lives in e
 ## 2026-08-07
 
 - [x] Task 1 — Promotion Service Phase 2.3 Loyalty + Reward + Distribution aggregates (`2026-08-07/Task1_promotion-service-phase2.3-loyalty-reward-distribution-aggregates.md`) — done. 22 entities across 3 aggregates, 6 enums (2 reused cross-aggregate: `RewardDistribution.Status`/`DistributionStatus`, `DistributionItem.RewardType`/`RewardType`), 2 Value Objects (Reward/Distribution's briefs gave none — flagged). Structural only, no build. Still in Phase 2 — next prompt (2.4) implements Recommendation + Product Set + Gift.
+- [x] Task 2 — Promotion Service Phase 2.4 Recommendation + Product Set + Gift + Approval + Validation + Audit (`2026-08-07/Task2_promotion-service-phase2.4-recommendation-productset-gift-approval-validation-audit.md`) — done. 32 entities across 6 groups, 6 enums, 3 Value Objects. Validation and Audit have no aggregate root/TenantId — a first for this roadmap, flagged for architect confirmation. Every aggregate the roadmap named is now implemented. Structural only, no build. Still in Phase 2 — next prompt (2.5, final) is Domain Review + single Domain build.
 
 ## 2026-08-06
 

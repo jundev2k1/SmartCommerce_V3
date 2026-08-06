@@ -22,3 +22,9 @@
 | `RewardType` | Coupon, Voucher, Point, Gift, Cashback | `RewardDefinition.RewardType` | Given explicitly; also reused by `DistributionItem.RewardType` |
 | `DistributionStatus` | Draft, Scheduled, Running, Paused, Completed, Cancelled, Failed | `DistributionJob.Status` | Given explicitly; also reused by `RewardDistribution.Status` |
 | `DistributionStrategy` | Broadcast, Segment, Import, Manual | `DistributionJob.Strategy` | Given explicitly |
+| `RecommendationProgramStatus` | Draft, Active, Paused, Expired, Archived | `RecommendationProgram.Status` | Given explicitly |
+| `RecommendationType` | CrossSell, UpSell, FrequentlyBoughtTogether, Trending, Manual, AI | `RecommendationProgram.RecommendationType` | Given explicitly |
+| `ProductSetStatus` | Draft, Active, Archived | `ProductSet.Status` | Given explicitly |
+| `ProductSetType` | Bundle, Combo, Kit, Collection | `ProductSet.SetType` | Given explicitly |
+| `GiftProgramStatus` | Draft, Active, Paused, Expired, Archived | `GiftProgram.Status` | Given explicitly |
+| `ApprovalWorkflowStatus` | Draft, Pending, Approved, Rejected, Cancelled | `ApprovalWorkflow.Status` | Given explicitly |

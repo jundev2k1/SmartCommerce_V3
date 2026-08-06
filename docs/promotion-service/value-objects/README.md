@@ -16,13 +16,17 @@
 | `VoucherPeriod` | `ValueObject` | Same shape as `CampaignPeriod` | reserved — not yet consumed |
 | `LoyaltyProgramCode` | `StringValueObject` | Same shape as `CampaignCode` | `LoyaltyProgram.Code` |
 | `LoyaltyPeriod` | `ValueObject` | Same shape as `CampaignPeriod` | reserved — kept for shape-consistency even though `LoyaltyProgram` has no `TimeZone` field |
+| `RecommendationCode` | `StringValueObject` | Same shape as `CampaignCode` | `RecommendationProgram.Code` |
+| `RecommendationPeriod` | `ValueObject` | Same shape as `LoyaltyPeriod` (no `TimeZone`) | reserved — not yet consumed |
+| `ProductSetCode` | `StringValueObject` | Same shape as `CampaignCode` | `ProductSet.Code` |
 
-**No Value Object was created for the Reward or Distribution aggregates** — unlike every aggregate above, their phase brief gave no `ValueObjects` section, so `RewardProgram.Code`/`DistributionJob.Code` stay plain `string`. See [../aggregates/reward.md](../aggregates/reward.md)/[distribution.md](../aggregates/distribution.md) for the reconciliation note.
+**No Value Object was created for the Reward, Distribution, Gift, or Approval aggregates** — their phase briefs gave no `ValueObjects` section, so `RewardProgram.Code`/`DistributionJob.Code`/`GiftProgram.Code` stay plain `string` (`ApprovalWorkflow` has no `Code` field at all). See each aggregate's own doc for the reconciliation note.
 
 ## Reused shared Value Objects (not duplicated locally)
 
 - `LanguageCode` (`BuildingBlock.Domain.ValueObjects`) — used by `CampaignLocalization`.
-- `Money` (`BuildingBlock.Domain.ValueObjects`) — used by `Voucher.Amount`/`Balance`, `VoucherWallet`'s three balances, `VoucherReservation.ReservedAmount`, `VoucherRedemption.RedeemedAmount`, `VoucherTransfer.Amount`, `VoucherExpiration.ExpiredAmount`, `CampaignBudget.AllocatedAmount`/`SpentAmount`. No PromotionService-local Money VO was created — the shared one (deliberately currency-less, per Payment Service's own precedent) fits exactly; `Currency`/`CurrencyCode` stays a separate scalar wherever Money is used.
+- `Money` (`BuildingBlock.Domain.ValueObjects`) — used by `Voucher.Amount`/`Balance`, `VoucherWallet`'s three balances, `VoucherReservation.ReservedAmount`, `VoucherRedemption.RedeemedAmount`, `VoucherTransfer.Amount`, `VoucherExpiration.ExpiredAmount`, `CampaignBudget.AllocatedAmount`/`SpentAmount`, `BundlePrice.Price`. No PromotionService-local Money VO was created — the shared one (deliberately currency-less, per Payment Service's own precedent) fits exactly; `Currency`/`CurrencyCode` stays a separate scalar wherever Money is used.
+- `Quantity` (`BuildingBlock.Domain.ValueObjects`) — used by `ProductSetItem.Quantity`, `BundleGift.Quantity`, `GiftItem.Quantity`, `GiftInventory.AvailableQuantity`, `GiftReservation.ReservedQuantity` — same Value Object `Order.Domain`'s `OrderItem` already uses.
 
 ## Reconciliation: root entities keep flat scalar period/limit fields
 
