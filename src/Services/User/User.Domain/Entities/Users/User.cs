@@ -407,27 +407,22 @@ public sealed class User : AggregateRoot<Guid>, IAuditable, ITenantEntity, ISoft
     // ============================================================================
     // Payment methods
     // Manages the owned UserPaymentMethod collection: add/remove and the
-    // IsDefault flag, with at most one default across the collection. Only
-    // tokenized data ever passes through here - see CardInformation.
+    // IsDefault flag, with at most one default across the collection. Each row is
+    // just a reference into Payment Service's own PaymentAccount - see
+    // UserPaymentMethod's remarks and docs/reference/payment-ownership-boundaries.md.
     // ============================================================================
 
     #region Payment methods
 
     public UserPaymentMethod AddPaymentMethod(
-        PaymentProvider provider,
-        PaymentType paymentType,
-        string externalPaymentMethodId,
-        string token,
+        Guid paymentAccountId,
         string displayName,
-        string? externalCustomerId = null,
-        CardInformation? cardInformation = null,
         bool isDefault = false)
     {
         if (isDefault)
             ClearDefaultPaymentMethod();
 
-        var paymentMethod = UserPaymentMethod.Create(
-            Id, provider, paymentType, externalPaymentMethodId, token, displayName, externalCustomerId, cardInformation, isDefault);
+        var paymentMethod = UserPaymentMethod.Create(Id, paymentAccountId, displayName, isDefault);
         PaymentMethods.Add(paymentMethod);
 
         return paymentMethod;
