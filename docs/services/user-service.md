@@ -6,6 +6,10 @@
 
 `User.Domain`, `User.Application`, `User.Infrastructure`, `User.Persistence`, `User.API` — same 5-layer split as Auth.
 
+## Entities
+
+- **UserPaymentMethod** (`User.Domain/Entities/Users/UserPaymentMethod.cs`) — owned child of `User`, a **lightweight reference only**: `PaymentAccountId` (Payment Service's own `PaymentAccount.Id`, unique per row), `DisplayName`, `IsDefault`. UserService never stores a token, masked card number, provider, or any other account/card detail — those are exclusively Payment Service's concern (`src/Services/Payment`, `PaymentAccount`/`PaymentToken`/`CardInformation`). No Application/API surface exists for this entity yet (domain+persistence only). See [payment-service.md](payment-service.md) and [reference/payment-ownership-boundaries.md](../reference/payment-ownership-boundaries.md) for the full responsibility split.
+
 ## Ports & routing
 
 Internal `8080` (REST) / `5002` (gRPC server — User is the gRPC *server* here, Auth is the client). Gateway path prefix `/api/user/` (`RequireAuth: false`).

@@ -11,10 +11,13 @@
 | **Product** | `Product.Domain`, `Product.Application`, `Product.Infrastructure`, `Product.Persistence`, `Product.API` | Implemented — see [services/product-service.md](services/product-service.md) |
 | **Inventory** | `Inventory.Domain`, `Inventory.Application`, `Inventory.Infrastructure`, `Inventory.Persistence`, `Inventory.API` | Implemented — see [services/inventory-service.md](services/inventory-service.md) |
 | **Order** | `Order.Domain`, `Order.Application`, `Order.Infrastructure`, `Order.Persistence`, `Order.API` | Implemented — see [services/order-service.md](services/order-service.md) |
+| **Payment** | `Payment.Domain`, `Payment.Application`, `Payment.Infrastructure`, `Payment.Persistence`, `Payment.API` | Foundation only — see [services/payment-service.md](services/payment-service.md) |
 | **Audit** | `Audit.Domain`, `Audit.Application`, `Audit.Infrastructure`, `Audit.Persistence`, `Audit.API` | Implemented — see [services/audit-service.md](services/audit-service.md). MongoDB-backed, not EF/Postgres |
 | **YarpApiGateway** | single project | Implemented — the only service exposed to the host network |
 
 Each service follows the same 5-project Clean Architecture split: `Domain` → `Application` → `Infrastructure` → `Persistence` → `API`. See [02-architecture-rules.md](02-architecture-rules.md) for the dependency direction rule and [services/auth-service.md](services/auth-service.md) for the concrete folder layout.
+
+Payment concerns (gateways, accounts, methods, refunds, billing, ...) are exclusively owned by **Payment** — see [reference/payment-ownership-boundaries.md](reference/payment-ownership-boundaries.md) for the full responsibility matrix and why `Order`/`User` only ever hold a lightweight payment *reference*, never payment data itself.
 
 ## BuildingBlocks
 

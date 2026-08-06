@@ -57,6 +57,7 @@ Every document below belongs to exactly one of four responsibilities. Don't mix 
 - [services/product-service.md](services/product-service.md) — Product Service
 - [services/inventory-service.md](services/inventory-service.md) — Inventory Service
 - [services/order-service.md](services/order-service.md) — Order Service
+- [services/payment-service.md](services/payment-service.md) — Payment Service (foundation phase)
 - [services/audit-service.md](services/audit-service.md) — Audit Service (MongoDB-backed)
 - [services/gateway.md](services/gateway.md) — YARP API Gateway
 
@@ -77,6 +78,7 @@ project-initialization, add-new-api, add-new-domain-entity, add-new-repository, 
 - [reference/serialization.md](reference/serialization.md) — shared JSON settings
 - [reference/authorization.md](reference/authorization.md) — role/claims-based authorization
 - [reference/audit-trail.md](reference/audit-trail.md) — opt-in audit tracking: `IAuditable`, `[AuditIgnore]`, `AuditInterceptor`
+- [reference/payment-ownership-boundaries.md](reference/payment-ownership-boundaries.md) — Payment/Order/User responsibility matrix, `ReferenceType`/`ReferenceId` convention, payment integration strategy
 
 ## Refactoring
 

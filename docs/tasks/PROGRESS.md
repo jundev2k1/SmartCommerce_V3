@@ -2,6 +2,13 @@
 
 One line per still-open task, most recent date first. Per-task detail lives in each date folder — see [README.md](./README.md) for the convention.
 
+## 2026-08-06
+
+Source: explicit task — "Establish the production-ready foundation of a new PaymentService for the NovaCore ecosystem" (architecture + domain model only, no business workflows). See [2026-08-06/Task1_paymentservice-foundation.md](./2026-08-06/Task1_paymentservice-foundation.md) for full detail.
+
+- [x] Task 1 — PaymentService production-ready foundation (`2026-08-06/Task1_paymentservice-foundation.md`) — done. 30 aggregates, full EF schema, CQRS+API slice for Payment/PaymentIntent/Refund. Phases 2-8 (accounts/billing CQRS, gateway integration, webhooks, settlement, recurring payments, cross-service integration, notifications) intentionally not started.
+- [x] Task 2 — Sync OrderService/UserService with the PaymentService boundary (`2026-08-06/Task2_order-user-payment-architecture-sync.md`) — done. Slimmed `OrderPayment`/`UserPaymentMethod` to lightweight references, removed duplicated payment fields/enums/VOs, new `docs/reference/payment-ownership-boundaries.md`. No PaymentService change; live cross-service integration still not started (Phase 7).
+
 ## 2026-07-28
 
 Source: planning-only request — "User Service Search, Elasticsearch, Localization & Cache Layer" (MiddleName name-model refactor, locale-aware DisplayName, Elasticsearch-backed search mirroring Product's architecture, User Detail cache layer, gRPC single/batch retrieval). Full read-only impact analysis across 6 research areas (Product's ES implementation, User's current state, cache infra, gRPC consumers, frontend screens, locale/pipeline conventions). See [2026-07-28/00-architecture-and-plan.md](./2026-07-28/00-architecture-and-plan.md) for architecture notes, dependency graph, implementation order, and risks. Tasks 1-16 and 18 implemented same day (name model, locale/DisplayName, Elasticsearch search, cache, gRPC incl. Audit as first consumer, migration review, docs); Task 17 (testing) remains not started. Paired with 7 frontend tasks in `NovaCoreUI/docs/tasks/2026-07-28/` (still blocked on these backend tasks reaching a stable contract for frontend consumption).
