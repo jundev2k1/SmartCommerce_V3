@@ -1,7 +1,8 @@
 # Promotion Service — Aggregates
 
-**Status:** Placeholder — empty until Phase 2 (Domain Model).
+**Scope:** One doc per aggregate, written as each is implemented following step 12 ("Aggregate Boundaries") of [../entities/entity-implementation-strategy.md](../entities/entity-implementation-strategy.md).
 
-**Purpose:** Will hold one doc per aggregate, written as each is implemented following step 10 ("Aggregate Boundaries") of [../entities/entity-implementation-strategy.md](../entities/entity-implementation-strategy.md) — Aggregate Root, child entities reachable only through it, and cross-aggregate references.
+- [campaign.md](campaign.md) — `Campaign` (Phase 2.1)
+- [promotion.md](promotion.md) — `Promotion` (Phase 2.1)
 
-Do not write content here before Phase 2 produces the aggregates it would describe.
+Remaining aggregates land here as their own Phase 2.x prompt completes: Coupon + Voucher (2.2), Loyalty + Reward + Distribution (2.3), Recommendation + Product Set + Gift (2.4), Approval + Validation + Audit (2.5) — see [../planning/PROGRESS.md](../planning/PROGRESS.md) for the authoritative current sequence.

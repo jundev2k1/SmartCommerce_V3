@@ -10,6 +10,7 @@
 - If a dependency belongs to a future phase, add only a minimal placeholder or `TODO` comment.
 - Each phase gets its own prompt and must be followed exactly — see [phases/](phases/).
 - This service reuses NovaCore's existing platform conventions and BuildingBlocks as-is (5-layer Clean Architecture split, MediatR CQRS, Outbox/Inbox, Read/Write persistence services, FluentValidation, `BuildingBlock.Web`) — same precedent Payment Service's foundation phase set (see [../services/payment-service.md](../services/payment-service.md)). Nothing here invents a new platform pattern.
+- **Commit granularity for Domain-implementation prompts (added 2026-08-06):** when a prompt implements one or more aggregate roots, each aggregate root's entities/enums/Value Objects/aggregate doc land in their own commit — never one commit spanning multiple aggregate roots. Cross-cutting structure (folder scaffolding, GlobalUsings, the entity-implementation-strategy doc) and cross-cutting documentation (catalogues, progress trackers, task records) each get their own commit too, separate from any aggregate's commit. This keeps `git log` readable per aggregate as the ~100+-entity roadmap plays out.
 
 ## Structure
 
