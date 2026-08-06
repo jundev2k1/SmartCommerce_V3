@@ -51,6 +51,12 @@ public sealed class OrderItem : BaseEntity<long>, IAuditable, ITenantEntity
         Quantity quantity,
         OrderItemType type = OrderItemType.Normal)
     {
+        // No discount source (promotion/bundle/gift/coupon/manual) is wired up yet, so every
+        // bucket starts at zero and FinalAmount == Subtotal until that logic exists - this is
+        // still real data (not left null/default!), just not discounted yet.
+        var subtotal = Money.Create(unitPrice.Value * quantity.Value);
+        var zero = Money.Create(0);
+
         return new OrderItem
         {
             OrderId = orderId,
@@ -62,6 +68,13 @@ public sealed class OrderItem : BaseEntity<long>, IAuditable, ITenantEntity
             Type = type,
             UnitPrice = unitPrice,
             Quantity = quantity,
+            Subtotal = subtotal,
+            ProductPromotionDiscount = zero,
+            BundleDiscount = zero,
+            GiftDiscount = zero,
+            CouponDiscount = zero,
+            ManualDiscount = zero,
+            FinalAmount = subtotal,
         };
     }
 

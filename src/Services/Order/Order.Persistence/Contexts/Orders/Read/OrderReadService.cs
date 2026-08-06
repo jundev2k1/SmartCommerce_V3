@@ -19,7 +19,8 @@ public sealed class OrderReadService(
             id,
             query => query
                 .Include(q => q.Items)
-                .Include(q => q.Owner),
+                .Include(q => q.Owner)
+                .Include(q => q.Price),
             ct);
     }
 
@@ -29,6 +30,7 @@ public sealed class OrderReadService(
             .AsNoTracking()
             .Include(o => o.Items)
             .Include(o => o.Owner)
+            .Include(o => o.Price)
             .ApplyCriteria(OrderCriteriaDefinition.Instance, request)
             .ToCriteriaPagedResultAsync(request, ct);
     }
@@ -39,6 +41,7 @@ public sealed class OrderReadService(
             .AsNoTracking()
             .Include(o => o.Items)
             .Include(o => o.Owner)
+            .Include(o => o.Price)
             .Where(o => o.Owner.OwnerId == customerId)
             .ApplyCriteria(OrderHistoryCriteriaDefinition.Instance, request)
             .ToCriteriaPagedResultAsync(request, ct);

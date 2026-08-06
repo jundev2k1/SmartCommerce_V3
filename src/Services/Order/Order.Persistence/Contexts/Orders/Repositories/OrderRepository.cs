@@ -13,6 +13,7 @@ public sealed class OrderRepo(OrderDbContext dbContext)
             .AsNoTracking()
             .Include(o => o.Items)
             .Include(o => o.Owner)
+            .Include(o => o.Price)
             .FirstOrDefaultAsync(o => o.IdempotencyKey == idempotencyKey, ct);
     }
 }

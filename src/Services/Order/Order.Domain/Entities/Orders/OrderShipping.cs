@@ -38,7 +38,7 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable, ITenantEntity,
         string note,
         string? idempotencyKey = null)
     {
-        return new OrderShipping
+        var shipping = new OrderShipping
         {
             Id = Guid.CreateVersion7(),
             OrderId = orderId,
@@ -51,6 +51,12 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable, ITenantEntity,
             Note = note,
             IdempotencyKey = idempotencyKey,
         };
+
+        // Populates OriginalFee/DiscountAmount/FinalFee - without this they stay null (default!)
+        // until something else calls Calculate(), which nothing currently does.
+        shipping.Calculate();
+
+        return shipping;
     }
     #endregion
 

@@ -10,16 +10,17 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
     public OrderNumber OrderNumber { get; private set; } = default!;
     public OrderOwner Owner { get; private set; } = default!;
     public OrderShipping Shipping { get; private set; } = default!;
+    public OrderPrice Price { get; private set; } = default!;
     public ICollection<OrderItem> Items { get; private set; } = [];
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
+    public ICollection<OrderTax> Taxes { get; private set; } = [];
     public OrderStatus Status { get; private set; }
     public string? CancellationReason { get; private set; }
-    public Money Subtotal { get; private set; } = default!;
-    public Money DiscountTotal { get; private set; } = default!;
     public Money ShippingFee => Shipping.FinalFee;
-    public Money ShippingDiscount { get; private set; } = default!;
-    public Tax Tax { get; private set; } = default!;
-    public Money GrandTotal { get; private set; } = default!;
+
+    /// <summary>Computed pass-throughs to Price - kept so existing read sites (queries, DTOs) don't all need to change to Order.Price.X.</summary>
+    public Money Subtotal => Price.Subtotal;
+    public Money GrandTotal => Price.GrandTotal;
     public string IdempotencyKey { get; private set; } = string.Empty;
     public Guid? CreatedById { get; private set; }
 
@@ -56,6 +57,8 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
         order.CreateOwner(data.Owner);
         order.CreateShipping(data.Shipping);
         order.CreateItems(data.Items);
+        order.CreateTaxes();
+        order.CreatePrice();
 
         return order;
     }
@@ -219,6 +222,51 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIde
             throw ExceptionFactory.InvalidStatus($"Cannot mark an order as delivered when status is {Status}.");
 
         Shipping.MarkDelivered();
+    }
+    #endregion
+
+    #region Tax
+    /// <summary>
+    /// Seeds this order's OrderTax rows. No tax calculation logic exists yet (the business
+    /// currently supports a single country), so this seeds one zero-rate placeholder row -
+    /// architecture supports multiple rows per order, wiring real rates is a later phase.
+    /// </summary>
+    internal void CreateTaxes()
+    {
+        Taxes =
+        [
+            OrderTax.Create(
+                Id,
+                TaxType.SalesTax,
+                taxRate: 0m,
+                taxAmount: Money.Create(0),
+                taxName: "Sales Tax",
+                countryCode: "US"),
+        ];
+    }
+    #endregion
+
+    #region Price
+    /// <summary>
+    /// Derives this order's Price from its Items/Shipping/Taxes - must run after CreateItems,
+    /// CreateShipping and CreateTaxes. Only Subtotal/TaxAmount/ShippingFee reflect real data
+    /// today; the remaining discount/fee buckets are zero until Promotion/Coupon/Fee logic exists
+    /// (see OrderPrice's remarks).
+    /// </summary>
+    internal void CreatePrice()
+    {
+        var subtotal = Money.Create(Items.Sum(i => i.Subtotal.Value));
+        var taxAmount = Money.Create(Taxes.Sum(t => t.TaxAmount.Value));
+        var zero = Money.Create(0);
+
+        Price = OrderPrice.Create(
+            Id,
+            subtotal,
+            itemDiscount: zero,
+            promotionDiscount: zero,
+            couponDiscount: zero,
+            taxAmount: taxAmount,
+            shippingFee: Shipping.FinalFee);
     }
     #endregion
 

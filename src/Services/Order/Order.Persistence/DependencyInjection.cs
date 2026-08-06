@@ -83,6 +83,10 @@ public static class DependencyInjection
                 .BelongsTo<OrderEntity>(x => x.OrderId);
             builder.Entity<OrderOwner>()
                 .BelongsTo<OrderEntity>(x => x.OrderId);
+            builder.Entity<OrderPrice>()
+                .BelongsTo<OrderEntity>(x => x.OrderId);
+            builder.Entity<OrderTax>()
+                .BelongsTo<OrderEntity>(x => x.OrderId);
         });
 
         return services;

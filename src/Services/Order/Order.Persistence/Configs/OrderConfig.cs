@@ -23,43 +23,13 @@ public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
         builder.Property(x => x.Status).HasConversion<int>();
         builder.Property(x => x.CancellationReason).HasMaxLength(200);
 
-        builder.Property(x => x.Subtotal)
-            .HasConversion(x => x.Value, x => Money.Create(x))
-            .HasColumnType("numeric(18,2)");
-        builder.Property(x => x.DiscountTotal)
-            .HasConversion(x => x.Value, x => Money.Create(x))
-            .HasColumnType("numeric(18,2)");
-        builder.Property(x => x.ShippingDiscount)
-            .HasConversion(x => x.Value, x => Money.Create(x))
-            .HasColumnType("numeric(18,2)");
-        builder.Property(x => x.GrandTotal)
-            .HasConversion(x => x.Value, x => Money.Create(x))
-            .HasColumnType("numeric(18,2)");
-
-        // ShippingFee is a computed pass-through (Shipping.FinalFee) - never persisted.
+        // ShippingFee/Subtotal/GrandTotal are computed pass-throughs (Shipping.FinalFee,
+        // Price.Subtotal, Price.GrandTotal) - never persisted on Order itself. See OrderPriceConfig
+        // for where Subtotal/GrandTotal actually live, and OrderTaxConfig for what used to be the
+        // single owned Tax value object.
         builder.Ignore(x => x.ShippingFee);
-
-        // Tax is a 3-field composite VO (Method/Value/AppliedAmount, itself wrapping Money) -
-        // owned rather than HasConversion'd, since HasConversion only maps to a single column.
-        builder.OwnsOne(x => x.Tax, tax =>
-        {
-            tax.Property(t => t.Method)
-                .HasConversion<int>()
-                .HasColumnName("tax_method")
-                .IsRequired();
-
-            tax.Property(t => t.Value)
-                .HasColumnName("tax_value")
-                .HasColumnType("numeric(18,2)")
-                .IsRequired();
-
-            tax.Property(t => t.AppliedAmount)
-                .HasConversion(x => x.Value, x => Money.Create(x))
-                .HasColumnName("tax_applied_amount")
-                .HasColumnType("numeric(18,2)")
-                .IsRequired();
-        });
-        builder.Navigation(x => x.Tax).IsRequired();
+        builder.Ignore(x => x.Subtotal);
+        builder.Ignore(x => x.GrandTotal);
 
         builder.Property(x => x.CreatedAt).HasDefaultValueSql("now()");
         builder.Property(x => x.UpdatedAt).HasDefaultValueSql("now()");
@@ -83,6 +53,9 @@ public sealed class OrderConfig : IEntityTypeConfiguration<OrderEntity>
             .WithOne()
             .HasForeignKey(i => i.OrderId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Taxes relationship is configured from the child side - see OrderTaxConfig, same
+        // pattern OrderDiscountConfig already uses for Order.Discounts.
 
         // Indexes
         // CreatedAt is the sort key for both admin search (OrderCriteriaDefinition) and customer
