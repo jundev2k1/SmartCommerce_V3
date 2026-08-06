@@ -12,12 +12,13 @@ public sealed class RewardProgram : AggregateRoot<Guid>, IAuditable, ITenantEnti
     public string Code { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
-    public RewardProgramStatus Status { get; private set; }
+    public ProgramStatus Status { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
 
     public ICollection<RewardDefinition> Definitions { get; private set; } = [];
     public ICollection<RewardDistribution> Distributions { get; private set; } = [];
+    public ICollection<RewardProgramTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -47,7 +48,7 @@ public sealed class RewardProgram : AggregateRoot<Guid>, IAuditable, ITenantEnti
             Code = code,
             Name = name,
             Description = description,
-            Status = RewardProgramStatus.Draft,
+            Status = ProgramStatus.Draft,
             StartTime = startTime,
             EndTime = endTime,
         };
@@ -95,34 +96,34 @@ public sealed class RewardProgram : AggregateRoot<Guid>, IAuditable, ITenantEnti
     #region Status
     public void Activate()
     {
-        if (Status is not (RewardProgramStatus.Draft or RewardProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Draft or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot activate a reward program in {Status} status.");
 
-        Status = RewardProgramStatus.Active;
+        Status = ProgramStatus.Active;
     }
 
     public void Pause()
     {
-        if (Status != RewardProgramStatus.Active)
+        if (Status != ProgramStatus.Active)
             throw ExceptionFactory.InvalidStatus($"Cannot pause a reward program in {Status} status.");
 
-        Status = RewardProgramStatus.Paused;
+        Status = ProgramStatus.Paused;
     }
 
     public void Expire()
     {
-        if (Status is not (RewardProgramStatus.Active or RewardProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Active or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot expire a reward program in {Status} status.");
 
-        Status = RewardProgramStatus.Expired;
+        Status = ProgramStatus.Expired;
     }
 
     public void Archive()
     {
-        if (Status != RewardProgramStatus.Expired)
+        if (Status != ProgramStatus.Expired)
             throw ExceptionFactory.InvalidStatus($"Cannot archive a reward program in {Status} status.");
 
-        Status = RewardProgramStatus.Archived;
+        Status = ProgramStatus.Archived;
     }
     #endregion
 
@@ -153,6 +154,22 @@ public sealed class RewardProgram : AggregateRoot<Guid>, IAuditable, ITenantEnti
             ?? throw ExceptionFactory.EntityNotFound<RewardDistribution>(distributionId);
 
         Distributions.Remove(distribution);
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(RewardProgramTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

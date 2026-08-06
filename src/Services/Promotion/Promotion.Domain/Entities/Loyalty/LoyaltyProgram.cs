@@ -8,10 +8,10 @@ namespace NovaCore.Promotion.Domain.Entities.Loyalty;
 /// </summary>
 public sealed class LoyaltyProgram : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
-    public LoyaltyProgramCode Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
-    public LoyaltyProgramStatus Status { get; private set; }
+    public ProgramStatus Status { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public bool IsDefault { get; private set; }
@@ -20,6 +20,7 @@ public sealed class LoyaltyProgram : AggregateRoot<Guid>, IAuditable, ITenantEnt
     public ICollection<PointRule> PointRules { get; private set; } = [];
     public ICollection<PointPolicy> PointPolicies { get; private set; } = [];
     public ICollection<PointAccount> Accounts { get; private set; } = [];
+    public ICollection<LoyaltyProgramTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -33,7 +34,7 @@ public sealed class LoyaltyProgram : AggregateRoot<Guid>, IAuditable, ITenantEnt
     private LoyaltyProgram() { }
 
     public static LoyaltyProgram Create(
-        LoyaltyProgramCode code,
+        EntityCode code,
         string name,
         DateTime startTime,
         DateTime endTime,
@@ -49,7 +50,7 @@ public sealed class LoyaltyProgram : AggregateRoot<Guid>, IAuditable, ITenantEnt
             Code = code,
             Name = name,
             Description = description,
-            Status = LoyaltyProgramStatus.Draft,
+            Status = ProgramStatus.Draft,
             StartTime = startTime,
             EndTime = endTime,
             IsDefault = isDefault,
@@ -101,34 +102,34 @@ public sealed class LoyaltyProgram : AggregateRoot<Guid>, IAuditable, ITenantEnt
     #region Status
     public void Activate()
     {
-        if (Status is not (LoyaltyProgramStatus.Draft or LoyaltyProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Draft or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot activate a loyalty program in {Status} status.");
 
-        Status = LoyaltyProgramStatus.Active;
+        Status = ProgramStatus.Active;
     }
 
     public void Pause()
     {
-        if (Status != LoyaltyProgramStatus.Active)
+        if (Status != ProgramStatus.Active)
             throw ExceptionFactory.InvalidStatus($"Cannot pause a loyalty program in {Status} status.");
 
-        Status = LoyaltyProgramStatus.Paused;
+        Status = ProgramStatus.Paused;
     }
 
     public void Expire()
     {
-        if (Status is not (LoyaltyProgramStatus.Active or LoyaltyProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Active or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot expire a loyalty program in {Status} status.");
 
-        Status = LoyaltyProgramStatus.Expired;
+        Status = ProgramStatus.Expired;
     }
 
     public void Archive()
     {
-        if (Status != LoyaltyProgramStatus.Expired)
+        if (Status != ProgramStatus.Expired)
             throw ExceptionFactory.InvalidStatus($"Cannot archive a loyalty program in {Status} status.");
 
-        Status = LoyaltyProgramStatus.Archived;
+        Status = ProgramStatus.Archived;
     }
     #endregion
 
@@ -169,6 +170,22 @@ public sealed class LoyaltyProgram : AggregateRoot<Guid>, IAuditable, ITenantEnt
             throw ExceptionFactory.Duplicate("This user already has a point account under this loyalty program.");
 
         Accounts.Add(PointAccount.Create(Id, userId));
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(LoyaltyProgramTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

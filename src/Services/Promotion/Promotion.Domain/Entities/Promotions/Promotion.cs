@@ -8,7 +8,7 @@ namespace NovaCore.Promotion.Domain.Entities.Promotions;
 public sealed class Promotion : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid? CampaignId { get; private set; }
-    public PromotionCode Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public PromotionStatus Status { get; private set; }
@@ -30,6 +30,7 @@ public sealed class Promotion : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public PromotionExecutionPolicy? ExecutionPolicy { get; private set; }
     public PromotionStackingPolicy? StackingPolicy { get; private set; }
     public PromotionMetadata? Metadata { get; private set; }
+    public ICollection<PromotionTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -43,7 +44,7 @@ public sealed class Promotion : AggregateRoot<Guid>, IAuditable, ITenantEntity
     private Promotion() { }
 
     public static Promotion Create(
-        PromotionCode code,
+        EntityCode code,
         string name,
         PromotionType type,
         DateTime startTime,
@@ -286,6 +287,22 @@ public sealed class Promotion : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public void SetMetadata(PromotionMetadata metadata)
     {
         Metadata = metadata;
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(PromotionTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

@@ -11,7 +11,7 @@ public sealed class Voucher : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid PromotionId { get; private set; }
     public Guid? CampaignId { get; private set; }
-    public VoucherCode Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public VoucherType VoucherType { get; private set; }
@@ -31,6 +31,7 @@ public sealed class Voucher : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public ICollection<VoucherRedemption> Redemptions { get; private set; } = [];
     public ICollection<VoucherTransfer> Transfers { get; private set; } = [];
     public ICollection<VoucherHistory> History { get; private set; } = [];
+    public ICollection<VoucherTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -45,7 +46,7 @@ public sealed class Voucher : AggregateRoot<Guid>, IAuditable, ITenantEntity
 
     public static Voucher Create(
         Guid promotionId,
-        VoucherCode code,
+        EntityCode code,
         string name,
         VoucherType voucherType,
         Money amount,
@@ -257,6 +258,22 @@ public sealed class Voucher : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public void RecordHistory(string action, Guid? operatorId)
     {
         History.Add(VoucherHistory.Create(Id, action, operatorId));
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(VoucherTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

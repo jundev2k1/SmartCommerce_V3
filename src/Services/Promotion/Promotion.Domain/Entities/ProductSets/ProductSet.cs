@@ -8,7 +8,7 @@ namespace NovaCore.Promotion.Domain.Entities.ProductSets;
 /// </summary>
 public sealed class ProductSet : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
-    public ProductSetCode Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public ProductSetStatus Status { get; private set; }
@@ -16,6 +16,7 @@ public sealed class ProductSet : AggregateRoot<Guid>, IAuditable, ITenantEntity
 
     public ICollection<ProductSetItem> Items { get; private set; } = [];
     public ICollection<ProductBundle> Bundles { get; private set; } = [];
+    public ICollection<ProductSetTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -29,7 +30,7 @@ public sealed class ProductSet : AggregateRoot<Guid>, IAuditable, ITenantEntity
     private ProductSet() { }
 
     public static ProductSet Create(
-        ProductSetCode code,
+        EntityCode code,
         string name,
         ProductSetType setType,
         string? description = null)
@@ -111,6 +112,22 @@ public sealed class ProductSet : AggregateRoot<Guid>, IAuditable, ITenantEntity
             ?? throw ExceptionFactory.EntityNotFound<ProductBundle>(bundleId);
 
         Bundles.Remove(bundle);
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(ProductSetTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

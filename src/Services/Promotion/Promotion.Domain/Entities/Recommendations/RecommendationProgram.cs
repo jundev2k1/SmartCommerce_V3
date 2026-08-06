@@ -8,10 +8,10 @@ namespace NovaCore.Promotion.Domain.Entities.Recommendations;
 /// </summary>
 public sealed class RecommendationProgram : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
-    public RecommendationCode Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
-    public RecommendationProgramStatus Status { get; private set; }
+    public ProgramStatus Status { get; private set; }
     public RecommendationType RecommendationType { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
@@ -19,6 +19,7 @@ public sealed class RecommendationProgram : AggregateRoot<Guid>, IAuditable, ITe
 
     public ICollection<RecommendationRule> Rules { get; private set; } = [];
     public ICollection<RecommendationProduct> Products { get; private set; } = [];
+    public ICollection<RecommendationProgramTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -32,7 +33,7 @@ public sealed class RecommendationProgram : AggregateRoot<Guid>, IAuditable, ITe
     private RecommendationProgram() { }
 
     public static RecommendationProgram Create(
-        RecommendationCode code,
+        EntityCode code,
         string name,
         RecommendationType recommendationType,
         DateTime startTime,
@@ -49,7 +50,7 @@ public sealed class RecommendationProgram : AggregateRoot<Guid>, IAuditable, ITe
             Code = code,
             Name = name,
             Description = description,
-            Status = RecommendationProgramStatus.Draft,
+            Status = ProgramStatus.Draft,
             RecommendationType = recommendationType,
             StartTime = startTime,
             EndTime = endTime,
@@ -98,34 +99,34 @@ public sealed class RecommendationProgram : AggregateRoot<Guid>, IAuditable, ITe
     #region Status
     public void Activate()
     {
-        if (Status is not (RecommendationProgramStatus.Draft or RecommendationProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Draft or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot activate a recommendation program in {Status} status.");
 
-        Status = RecommendationProgramStatus.Active;
+        Status = ProgramStatus.Active;
     }
 
     public void Pause()
     {
-        if (Status != RecommendationProgramStatus.Active)
+        if (Status != ProgramStatus.Active)
             throw ExceptionFactory.InvalidStatus($"Cannot pause a recommendation program in {Status} status.");
 
-        Status = RecommendationProgramStatus.Paused;
+        Status = ProgramStatus.Paused;
     }
 
     public void Expire()
     {
-        if (Status is not (RecommendationProgramStatus.Active or RecommendationProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Active or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot expire a recommendation program in {Status} status.");
 
-        Status = RecommendationProgramStatus.Expired;
+        Status = ProgramStatus.Expired;
     }
 
     public void Archive()
     {
-        if (Status != RecommendationProgramStatus.Expired)
+        if (Status != ProgramStatus.Expired)
             throw ExceptionFactory.InvalidStatus($"Cannot archive a recommendation program in {Status} status.");
 
-        Status = RecommendationProgramStatus.Archived;
+        Status = ProgramStatus.Archived;
     }
     #endregion
 
@@ -159,6 +160,22 @@ public sealed class RecommendationProgram : AggregateRoot<Guid>, IAuditable, ITe
             ?? throw ExceptionFactory.EntityNotFound<RecommendationProduct>(recommendationProductId);
 
         Products.Remove(product);
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(RecommendationProgramTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

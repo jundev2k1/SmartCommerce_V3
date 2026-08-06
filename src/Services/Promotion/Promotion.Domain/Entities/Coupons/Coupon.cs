@@ -1,23 +1,21 @@
 using NovaCore.Promotion.Domain.Entities.Campaigns;
 
-using CouponCodeVo = NovaCore.Promotion.Domain.ValueObjects.CouponCode;
-
 namespace NovaCore.Promotion.Domain.Entities.Coupons;
 
 /// <summary>
 /// Aggregate root for a Coupon - always belongs to a Promotion, optionally to a Campaign and to a
 /// CouponBatch. CouponCode (individual issued codes) and CouponApproval are related by CouponId
-/// only (not a navigation collection here) - see docs/promotion-service/aggregates/coupon.md.
-/// "CouponCode" bare would resolve to the sibling entity in this same namespace (C# same-namespace
-/// resolution beats using-imports), so the Value Object is referenced via the CouponCodeVo alias
-/// throughout this file - see CouponCode.cs (the entity) for the mirror-image alias.
+/// only (not a navigation collection here) - see docs/promotion-service/aggregates/coupon.md. The
+/// former CouponCode entity/Value Object name collision (Phase 2.2) no longer applies - the
+/// per-aggregate Code Value Object was consolidated into the shared EntityCode during the Phase
+/// 2.5 Domain Standardization Review, so no alias is needed here anymore.
 /// </summary>
 public sealed class Coupon : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid PromotionId { get; private set; }
     public Guid? CampaignId { get; private set; }
     public Guid? BatchId { get; private set; }
-    public CouponCodeVo Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public CouponStatus Status { get; private set; }
@@ -38,6 +36,7 @@ public sealed class Coupon : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public ICollection<CouponUsage> Usages { get; private set; } = [];
     public ICollection<CouponHistory> History { get; private set; } = [];
     public ICollection<CouponVersion> Versions { get; private set; } = [];
+    public ICollection<CouponTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -52,7 +51,7 @@ public sealed class Coupon : AggregateRoot<Guid>, IAuditable, ITenantEntity
 
     public static Coupon Create(
         Guid promotionId,
-        CouponCodeVo code,
+        EntityCode code,
         string name,
         CouponType couponType,
         DateTime startTime,
@@ -253,6 +252,22 @@ public sealed class Coupon : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public void AddVersion(int version, string? snapshot = null)
     {
         Versions.Add(CouponVersion.Create(Id, version, snapshot));
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(CouponTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

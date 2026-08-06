@@ -11,11 +11,12 @@ public sealed class GiftProgram : AggregateRoot<Guid>, IAuditable, ITenantEntity
     public string Code { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
-    public GiftProgramStatus Status { get; private set; }
+    public ProgramStatus Status { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
 
     public ICollection<GiftItem> Items { get; private set; } = [];
+    public ICollection<GiftProgramTranslation> Translations { get; private set; } = [];
 
     public Guid TenantId { get; private set; }
 
@@ -45,7 +46,7 @@ public sealed class GiftProgram : AggregateRoot<Guid>, IAuditable, ITenantEntity
             Code = code,
             Name = name,
             Description = description,
-            Status = GiftProgramStatus.Draft,
+            Status = ProgramStatus.Draft,
             StartTime = startTime,
             EndTime = endTime,
         };
@@ -93,34 +94,34 @@ public sealed class GiftProgram : AggregateRoot<Guid>, IAuditable, ITenantEntity
     #region Status
     public void Activate()
     {
-        if (Status is not (GiftProgramStatus.Draft or GiftProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Draft or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot activate a gift program in {Status} status.");
 
-        Status = GiftProgramStatus.Active;
+        Status = ProgramStatus.Active;
     }
 
     public void Pause()
     {
-        if (Status != GiftProgramStatus.Active)
+        if (Status != ProgramStatus.Active)
             throw ExceptionFactory.InvalidStatus($"Cannot pause a gift program in {Status} status.");
 
-        Status = GiftProgramStatus.Paused;
+        Status = ProgramStatus.Paused;
     }
 
     public void Expire()
     {
-        if (Status is not (GiftProgramStatus.Active or GiftProgramStatus.Paused))
+        if (Status is not (ProgramStatus.Active or ProgramStatus.Paused))
             throw ExceptionFactory.InvalidStatus($"Cannot expire a gift program in {Status} status.");
 
-        Status = GiftProgramStatus.Expired;
+        Status = ProgramStatus.Expired;
     }
 
     public void Archive()
     {
-        if (Status != GiftProgramStatus.Expired)
+        if (Status != ProgramStatus.Expired)
             throw ExceptionFactory.InvalidStatus($"Cannot archive a gift program in {Status} status.");
 
-        Status = GiftProgramStatus.Archived;
+        Status = ProgramStatus.Archived;
     }
     #endregion
 
@@ -136,6 +137,22 @@ public sealed class GiftProgram : AggregateRoot<Guid>, IAuditable, ITenantEntity
             ?? throw ExceptionFactory.EntityNotFound<GiftItem>(itemId);
 
         Items.Remove(item);
+    }
+    #endregion
+
+    #region Translations
+    public void Translate(LanguageCode languageCode, string name, string? description)
+    {
+        ValidateName(name);
+
+        var existing = Translations.FirstOrDefault(t => t.LanguageCode == languageCode);
+        if (existing is not null)
+        {
+            existing.UpdateDetails(name, description);
+            return;
+        }
+
+        Translations.Add(GiftProgramTranslation.Create(Id, languageCode, name, description));
     }
     #endregion
 }

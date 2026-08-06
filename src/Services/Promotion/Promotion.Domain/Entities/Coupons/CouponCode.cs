@@ -1,24 +1,22 @@
-using CouponCodeVo = NovaCore.Promotion.Domain.ValueObjects.CouponCode;
-
 namespace NovaCore.Promotion.Domain.Entities.Coupons;
 
 /// <summary>
 /// An individually issued, redeemable code under a Coupon (e.g. one of many unique codes
 /// generated in a CouponBatch import) - distinct from Coupon.Code (the coupon's own/template
-/// code). Not a Coupon navigation collection (not listed in the requested Navigation set), so
-/// construction is public, not internal. "CouponCode" the type name collides with the
-/// CouponCode Value Object in the same project, so the VO is aliased here.
+/// code, though both now share the EntityCode Value Object after the Phase 2.5 consolidation).
+/// Not a Coupon navigation collection (not listed in the requested Navigation set), so
+/// construction is public, not internal.
 /// </summary>
 public sealed class CouponCode : BaseEntity<Guid>, IAuditable
 {
     public Guid CouponId { get; private set; }
     public Guid? BatchId { get; private set; }
-    public CouponCodeVo Code { get; private set; } = default!;
+    public EntityCode Code { get; private set; } = default!;
     public bool IsUsed { get; private set; }
 
     private CouponCode() { }
 
-    public static CouponCode Create(Guid couponId, CouponCodeVo code, Guid? batchId = null)
+    public static CouponCode Create(Guid couponId, EntityCode code, Guid? batchId = null)
     {
         return new CouponCode
         {
