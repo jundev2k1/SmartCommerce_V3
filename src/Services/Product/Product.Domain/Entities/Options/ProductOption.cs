@@ -8,7 +8,7 @@ namespace NovaCore.Product.Domain.Entities.Options;
 /// translations live entirely on the definition. Its <see cref="Values"/> collection selects
 /// which of the definition's ValueDefinitions this Product makes available.
 /// </summary>
-public sealed class ProductOption : BaseEntity<Guid>
+public sealed class ProductOption : BaseEntity<Guid>, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public ProductEntity Product { get; private set; } = default!;
@@ -18,6 +18,14 @@ public sealed class ProductOption : BaseEntity<Guid>
     public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
 
     public ICollection<ProductOptionValue> Values { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductOption() { }
 

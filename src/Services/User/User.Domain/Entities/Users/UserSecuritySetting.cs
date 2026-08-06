@@ -1,7 +1,7 @@
 namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>Owned 1:1 extension of User holding account-security policy and recovery contacts.</summary>
-public sealed class UserSecuritySetting : BaseEntity, IAuditable
+public sealed class UserSecuritySetting : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -11,6 +11,14 @@ public sealed class UserSecuritySetting : BaseEntity, IAuditable
     public bool TrustedDevicesOnly { get; private set; }
     public string? RecoveryEmail { get; private set; }
     public string? RecoveryPhone { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserSecuritySetting() { }
 

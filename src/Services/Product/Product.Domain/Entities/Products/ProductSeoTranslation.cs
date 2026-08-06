@@ -5,13 +5,21 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// <summary>
 /// Owned child of Product - a locale-specific override of the product's SEO metadata.
 /// </summary>
-public sealed class ProductSeoTranslation : BaseEntity<Guid>
+public sealed class ProductSeoTranslation : BaseEntity<Guid>, ITenantEntity
 {
     public Product Product { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string? MetaTitle { get; private set; }
     public string? MetaDescription { get; private set; }
     public string? MetaKeywords { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductSeoTranslation() { }
 

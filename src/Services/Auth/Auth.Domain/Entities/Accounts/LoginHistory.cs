@@ -5,7 +5,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// methods; each attempt is recorded once and never changes afterward. Retention-ready via
 /// AttemptedAt for a future cleanup job.
 /// </summary>
-public sealed class LoginHistory : BaseEntity<Guid>
+public sealed class LoginHistory : BaseEntity<Guid>, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
@@ -14,6 +14,14 @@ public sealed class LoginHistory : BaseEntity<Guid>
     public string? UserAgent { get; private set; }
     public LoginResult Result { get; private set; }
     public DateTime AttemptedAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private LoginHistory() { }
 

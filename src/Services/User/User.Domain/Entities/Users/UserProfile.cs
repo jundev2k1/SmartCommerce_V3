@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// itself so the aggregate root stays lean (identity/status/type) while richer, rarely-queried
 /// profile data lives separately.
 /// </summary>
-public sealed class UserProfile : BaseEntity, IAuditable
+public sealed class UserProfile : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -19,6 +19,14 @@ public sealed class UserProfile : BaseEntity, IAuditable
     public LanguageCode? Language { get; private set; }
     public string? TimeZone { get; private set; }
     public string? CountryCode { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserProfile() { }
 

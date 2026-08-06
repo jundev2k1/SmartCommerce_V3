@@ -9,13 +9,21 @@ public sealed record CampaignTargetCreateModel(NotificationChannelType Channel, 
 /// which template, what priority, is it enabled"), kept as a separate type because a campaign's
 /// targets and a rule's targets are owned by, and evolve with, different aggregates.
 /// </summary>
-public sealed class NotificationCampaignTarget : BaseEntity<Guid>
+public sealed class NotificationCampaignTarget : BaseEntity<Guid>, ITenantEntity
 {
     public Guid CampaignId { get; private set; }
     public NotificationChannelType Channel { get; private set; }
     public Guid TemplateId { get; private set; }
     public NotificationPriority Priority { get; private set; }
     public bool Enabled { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private NotificationCampaignTarget() { }
 

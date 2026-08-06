@@ -3,7 +3,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.InventoryLots;
 
-public sealed class InventoryLot : AggregateRoot<Guid>, IAuditable
+public sealed class InventoryLot : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid InventoryId { get; private set; }
     public InventoryStock Inventory { get; private set; } = default!;
@@ -15,6 +15,14 @@ public sealed class InventoryLot : AggregateRoot<Guid>, IAuditable
     public InventoryLotStatus Status { get; private set; }
     public Quantity Quantity { get; private set; } = default!;
     public InventoryLotMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private InventoryLot() { }

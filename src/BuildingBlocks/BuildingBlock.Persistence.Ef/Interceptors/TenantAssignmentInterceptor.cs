@@ -1,6 +1,5 @@
-using NovaCore.BuildingBlock.Application.Abstractions.Services;
 using NovaCore.BuildingBlock.Domain.Abstractions;
-using NovaCore.BuildingBlock.Persistence.Tenancy;
+using NovaCore.BuildingBlock.SharedKernel.Context;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -8,13 +7,17 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace NovaCore.BuildingBlock.Persistence.Ef.Interceptors;
 
 /// <summary>
-/// Automatic Tenant Convention assignment - the only place TenantId is ever set. Business code
-/// never assigns it directly (see BaseEntity.AssignTenant, which this is the sole caller of).
-/// Mirrors TimestampInterceptor's shape exactly.
+/// Automatic Entity Convention assignment for every Added entity that implements ITenantEntity
+/// and/or IScopeEntity - the only place TenantId/ScopeId are ever set (see
+/// ITenantEntity.AssignTenant / IScopeEntity.AssignScope, which this is the sole caller of).
+/// Reads NovaCore.BuildingBlock.SharedKernel.Context.ExecutionContext.Current directly - no DI
+/// dependency, no ICurrentTenantService - so it stays a plain, stateless interceptor. Falls back
+/// to Guid.Empty when the current request carries no tenant/scope (matches the Entity Convention's
+/// query filter default in ModelBuilderExtensions, so assignment and filtering never disagree).
+/// Both assignment methods are idempotent by construction, so an entity that needs an explicit
+/// tenant/scope at construction time (e.g. Scope itself) is never overwritten here.
 /// </summary>
-public sealed class TenantAssignmentInterceptor(
-    ITenantConventionRegistry registry,
-    ICurrentTenantService currentTenant) : ISaveChangesInterceptor
+public sealed class TenantAssignmentInterceptor : ISaveChangesInterceptor
 {
     public InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -33,15 +36,20 @@ public sealed class TenantAssignmentInterceptor(
         return ValueTask.FromResult(result);
     }
 
-    private void Assign(Microsoft.EntityFrameworkCore.DbContext? context)
+    private static void Assign(Microsoft.EntityFrameworkCore.DbContext? context)
     {
         if (context is null)
             return;
 
-        var entries = context.ChangeTracker.Entries<BaseEntity>()
-            .Where(entry => entry.State == EntityState.Added && registry.IsTenantScoped(entry.Entity.GetType()));
+        var current = ExecutionContext.Current;
 
-        foreach (var entry in entries)
-            entry.Entity.AssignTenant(currentTenant.TenantId);
+        foreach (var entry in context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
+        {
+            if (entry.Entity is ITenantEntity tenantEntity)
+                tenantEntity.AssignTenant(current.TenantId ?? Guid.Empty);
+
+            if (entry.Entity is IScopeEntity scopeEntity)
+                scopeEntity.AssignScope(current.ScopeId ?? Guid.Empty);
+        }
     }
 }

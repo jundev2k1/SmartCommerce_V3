@@ -13,7 +13,7 @@ namespace NovaCore.Auth.Domain.Entities.Scopes;
 /// Domain-level Parent/Children navigation, since detecting a deeper ancestor cycle requires
 /// querying the full scope tree, an Application-layer concern.
 /// </summary>
-public sealed class Scope : AggregateRoot<Guid>, IAuditable
+public sealed class Scope : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid? ParentScopeId { get; private set; }
     public ScopeCode Code { get; private set; } = null!;
@@ -26,6 +26,14 @@ public sealed class Scope : AggregateRoot<Guid>, IAuditable
     public bool IsActive { get; private set; } = true;
 
     public ICollection<ScopeTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private Scope() { }
 

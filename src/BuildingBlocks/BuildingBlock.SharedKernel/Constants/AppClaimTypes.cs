@@ -9,4 +9,12 @@ public static class AppClaimTypes
 {
     /// <summary>Claim type carrying one permission key per claim - see Permissions.</summary>
     public const string Permission = "permission";
+
+    /// <summary>Which Tenant the current user belongs to. Not emitted by the token issuer yet -
+    /// reading this claim is wired end-to-end so it starts flowing the moment issuance catches up.</summary>
+    public const string TenantId = "tenant_id";
+
+    /// <summary>Which Scope (within a Tenant) the current user is acting under. Not emitted by
+    /// the token issuer yet - see TenantId.</summary>
+    public const string ScopeId = "scope_id";
 }

@@ -12,7 +12,7 @@ namespace NovaCore.Auth.Domain.Entities.Positions;
 /// never grants PermissionDefinitions directly - only through the Roles it aggregates, keeping
 /// Role as the single reusable permission-bundle concept shared across many Positions.
 /// </summary>
-public sealed class Position : AggregateRoot<Guid>, IAuditable
+public sealed class Position : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public PositionCode Code { get; private set; } = null!;
     public string Name { get; private set; } = string.Empty;
@@ -21,6 +21,14 @@ public sealed class Position : AggregateRoot<Guid>, IAuditable
 
     public ICollection<PositionRole> Roles { get; private set; } = [];
     public ICollection<PositionTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private Position() { }
 

@@ -2,7 +2,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.Warehouses;
 
-public sealed class Warehouse : AggregateRoot<Guid>, IAuditable
+public sealed class Warehouse : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Code { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
@@ -25,6 +25,14 @@ public sealed class Warehouse : AggregateRoot<Guid>, IAuditable
     public WarehouseMetadata Metadata { get; private set; } = default!;
 
     public ICollection<WarehouseZone> Zones { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private Warehouse() { }

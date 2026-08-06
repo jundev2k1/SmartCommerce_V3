@@ -69,6 +69,7 @@ public static class ApplicationPipeline
 
     private static WebApplication UseMiddlewares(this WebApplication app)
     {
+        app.UseMiddleware<ExecutionContextMiddleware>();
         app.UseMiddleware<CorrelationIdMiddleware>();
         app.UseMiddleware<RequiredHeadersMiddleware>();
         return app;

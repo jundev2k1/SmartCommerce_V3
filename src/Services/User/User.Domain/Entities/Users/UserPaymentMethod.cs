@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// are opaque references issued by the Provider's gateway - the real PAN/CVV never enters this
 /// service, only what the gateway already considers safe to display (see CardInformation).
 /// </summary>
-public sealed class UserPaymentMethod : BaseEntity<Guid>, IAuditable
+public sealed class UserPaymentMethod : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -18,6 +18,14 @@ public sealed class UserPaymentMethod : BaseEntity<Guid>, IAuditable
     public CardInformation? CardInformation { get; private set; }
     public bool IsDefault { get; private set; }
     public bool IsVerified { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserPaymentMethod() { }
 

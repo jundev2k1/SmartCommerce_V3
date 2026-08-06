@@ -9,7 +9,7 @@ namespace NovaCore.Notification.Domain.Entities;
 /// rejected in <see cref="Create"/> since the Notification Center has no runtime delivery
 /// configuration to seed.
 /// </summary>
-public sealed class NotificationChannel : AggregateRoot<Guid>, IAuditable, IGlobalEntity
+public sealed class NotificationChannel : AggregateRoot<Guid>, IAuditable
 {
     public NotificationChannelType ChannelType { get; private set; }
     public string DisplayName { get; private set; } = string.Empty;

@@ -8,7 +8,7 @@ namespace NovaCore.Auth.Domain.Entities.Permissions;
 /// Roles grant these via RolePermission; the Key is the literal string that ends up in JWT claims
 /// and is checked by every service's [Authorize(Policy = ...)].
 /// </summary>
-public sealed class PermissionDefinition : AggregateRoot<Guid>, IAuditable, IGlobalEntity
+public sealed class PermissionDefinition : AggregateRoot<Guid>, IAuditable
 {
     public PermissionKey Key { get; private set; } = null!;
     public Guid PermissionGroupId { get; private set; }

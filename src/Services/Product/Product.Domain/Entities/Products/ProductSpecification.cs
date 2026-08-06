@@ -8,7 +8,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// field's name, data type, and unit are owned entirely by the definition; sellers only provide
 /// the value here, never a custom name.
 /// </summary>
-public sealed class ProductSpecification : BaseEntity<Guid>
+public sealed class ProductSpecification : BaseEntity<Guid>, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
@@ -16,6 +16,14 @@ public sealed class ProductSpecification : BaseEntity<Guid>
     public SpecificationDefinition SpecificationDefinition { get; private set; } = default!;
     public string Value { get; private set; } = string.Empty;
     public int DisplayOrder { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductSpecification() { }
 

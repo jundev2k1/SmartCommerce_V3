@@ -4,13 +4,21 @@ namespace NovaCore.Product.Domain.Entities.Warranties;
 /// Independent, reusable catalog lookup.
 /// Variants reference a policy via Variant.WarrantyPolicyId instead of duplicating warranty terms.
 /// </summary>
-public sealed class WarrantyPolicy : AggregateRoot<Guid>, IAuditable
+public sealed class WarrantyPolicy : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public WarrantyType WarrantyType { get; private set; }
     public Duration Duration { get; private set; } = null!;
     public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private WarrantyPolicy() { }
 

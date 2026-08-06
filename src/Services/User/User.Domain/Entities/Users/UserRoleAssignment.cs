@@ -9,7 +9,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// access to what, and when" remains reconstructable. Carries no Role data (name/permissions) -
 /// that would duplicate the Role aggregate.
 /// </summary>
-public sealed class UserRoleAssignment : BaseEntity<Guid>, IAuditable
+public sealed class UserRoleAssignment : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -19,6 +19,14 @@ public sealed class UserRoleAssignment : BaseEntity<Guid>, IAuditable
     public Guid? AssignedBy { get; private set; }
     public DateTime? ExpiredAt { get; private set; }
     public UserRoleAssignmentStatus Status { get; private set; } = UserRoleAssignmentStatus.Active;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserRoleAssignment() { }
 

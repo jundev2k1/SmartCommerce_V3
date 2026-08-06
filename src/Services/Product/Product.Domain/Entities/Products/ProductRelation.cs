@@ -5,7 +5,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// cross-sell, upsell, frequently-bought-together). Neither side owns the other; this is a
 /// standalone linking entity between two independent aggregate roots.
 /// </summary>
-public sealed class ProductRelation : BaseEntity<long>
+public sealed class ProductRelation : BaseEntity<long>, ITenantEntity
 {
     public Guid SourceProductId { get; private set; }
     public Product SourceProduct { get; private set; } = default!;
@@ -13,6 +13,14 @@ public sealed class ProductRelation : BaseEntity<long>
     public Product TargetProduct { get; private set; } = default!;
     public RelationType RelationType { get; private set; }
     public int Priority { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductRelation() { }
 

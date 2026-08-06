@@ -7,7 +7,7 @@ namespace NovaCore.Product.Domain.Entities.Options;
 /// value. Composite-keyed by (ProductOptionValueDefinitionId, LanguageCode): one entry per
 /// language, no independent identity.
 /// </summary>
-public sealed class ProductOptionValueDefinitionTranslation : BaseEntity, IAuditable, IGlobalEntity
+public sealed class ProductOptionValueDefinitionTranslation : BaseEntity, IAuditable
 {
     public Guid ProductOptionValueDefinitionId { get; private set; }
     public ProductOptionValueDefinition ProductOptionValueDefinition { get; private set; } = default!;

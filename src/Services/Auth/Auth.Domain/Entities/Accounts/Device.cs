@@ -7,7 +7,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// back to the Device they were opened from, and trust status feeds MFA-skip / suspicious-login
 /// decisions at the Application layer.
 /// </summary>
-public sealed class Device : BaseEntity<Guid>
+public sealed class Device : BaseEntity<Guid>, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class Device : BaseEntity<Guid>
     public string? Platform { get; private set; }
     public bool IsTrusted { get; private set; }
     public DateTime LastSeenAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private Device() { }
 

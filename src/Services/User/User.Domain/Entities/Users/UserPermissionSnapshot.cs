@@ -10,12 +10,20 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// cache, not user-authored business data. UpdatedAt is the inherited BaseEntity property,
 /// touched on every Rebuild rather than duplicated as a separate field.
 /// </summary>
-public sealed class UserPermissionSnapshot : BaseEntity
+public sealed class UserPermissionSnapshot : BaseEntity, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
     public PermissionCollection Permissions { get; private set; } = PermissionCollection.Empty;
     public int Version { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserPermissionSnapshot() { }
 

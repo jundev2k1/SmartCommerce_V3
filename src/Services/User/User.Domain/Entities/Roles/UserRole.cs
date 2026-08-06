@@ -7,13 +7,21 @@ namespace NovaCore.User.Domain.Entities.Roles;
 /// so it supports localized display text via Translations - Key itself is the internal,
 /// language-independent identifier and is never translated.
 /// </summary>
-public sealed class UserRole : AggregateRoot<Guid>, IAuditable
+public sealed class UserRole : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public RoleKey Key { get; private set; } = null!;
     public string Description { get; private set; } = string.Empty;
     public RoleStatus Status { get; private set; } = RoleStatus.Active;
     public PermissionCollection Permissions { get; private set; } = PermissionCollection.Empty;
     public ICollection<UserRoleTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserRole() { }
 

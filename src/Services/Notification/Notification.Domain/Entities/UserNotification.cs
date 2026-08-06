@@ -7,7 +7,7 @@ namespace NovaCore.Notification.Domain.Entities;
 /// <see cref="NotificationCampaign"/> execution rather than a <see cref="NotificationRule"/> or a
 /// direct call.
 /// </summary>
-public sealed class UserNotification : AggregateRoot<Guid>, IAuditable
+public sealed class UserNotification : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public NotificationCategory Category { get; private set; } = null!;
@@ -19,6 +19,14 @@ public sealed class UserNotification : AggregateRoot<Guid>, IAuditable
     public DateTime? ReadAt { get; private set; }
     public DateTime? ExpiredAt { get; private set; }
     public Guid? CampaignId { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserNotification() { }
 

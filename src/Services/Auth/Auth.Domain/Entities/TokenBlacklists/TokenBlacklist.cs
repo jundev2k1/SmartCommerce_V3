@@ -6,13 +6,21 @@ namespace NovaCore.Auth.Domain.Entities.TokenBlacklists;
 /// stops future refreshes. ExpiresAt mirrors the token's original expiry; retention-ready since an
 /// entry is irrelevant once the token would have expired anyway.
 /// </summary>
-public sealed class TokenBlacklist : BaseEntity<Guid>
+public sealed class TokenBlacklist : BaseEntity<Guid>, ITenantEntity
 {
     public Guid Jti { get; private set; }
     public Guid AccountId { get; private set; }
     public RevocationReason Reason { get; private set; }
     public DateTime ExpiresAt { get; private set; }
     public DateTime BlacklistedAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private TokenBlacklist() { }
 

@@ -7,13 +7,21 @@ namespace NovaCore.Product.Domain.Entities.Options;
 /// option values that identifies a specific Variant (e.g. "Red" + "Large"). Composite key,
 /// no independent identity, owned by Variant.
 /// </summary>
-public sealed class VariantOptionValue : BaseEntity
+public sealed class VariantOptionValue : BaseEntity, ITenantEntity
 {
     public Guid VariantId { get; private set; }
     public ProductVariant Variant { get; private set; } = default!;
     public Guid ProductOptionValueId { get; private set; }
     public ProductOptionValue ProductOptionValue { get; private set; } = default!;
     public int DisplayOrder { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private VariantOptionValue() { }
 

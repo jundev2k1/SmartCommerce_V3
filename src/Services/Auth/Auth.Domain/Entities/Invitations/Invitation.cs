@@ -7,7 +7,7 @@ namespace NovaCore.Auth.Domain.Entities.Invitations;
 /// Aggregate root - an admin-issued invitation for a new Account, pre-assigning the Role it
 /// will receive on acceptance. Not owned by Account since the invitee has no Account yet.
 /// </summary>
-public sealed class Invitation : AggregateRoot<Guid>, IAuditable
+public sealed class Invitation : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Email Email { get; private set; } = null!;
     public Guid InvitedByAccountId { get; private set; }
@@ -16,6 +16,14 @@ public sealed class Invitation : AggregateRoot<Guid>, IAuditable
     public InvitationStatus Status { get; private set; }
     public DateTime ExpiresAt { get; private set; }
     public DateTime? AcceptedAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private Invitation() { }
 

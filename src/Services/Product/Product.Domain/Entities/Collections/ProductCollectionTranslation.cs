@@ -5,12 +5,20 @@ namespace NovaCore.Product.Domain.Entities.Collections;
 /// <summary>
 /// Owned child of ProductCollection - a locale-specific override of the collection's display copy.
 /// </summary>
-public sealed class ProductCollectionTranslation : BaseEntity<Guid>, IAuditable
+public sealed class ProductCollectionTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public ProductCollection Collection { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductCollectionTranslation() { }
 

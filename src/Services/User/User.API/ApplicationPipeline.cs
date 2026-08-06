@@ -56,6 +56,7 @@ public static class ApplicationPipeline
 
     private static WebApplication UseMiddlewares(this WebApplication app)
     {
+        app.UseMiddleware<ExecutionContextMiddleware>();
         app.UseMiddleware<RequiredHeadersMiddleware>();
         app.UseIdempotency();
         return app;

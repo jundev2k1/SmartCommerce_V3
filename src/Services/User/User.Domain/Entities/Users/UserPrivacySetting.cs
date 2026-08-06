@@ -4,7 +4,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// Owned 1:1 extension of User holding profile-visibility and data-usage consent flags. All
 /// default to disabled - visibility and data usage require explicit opt-in, not opt-out.
 /// </summary>
-public sealed class UserPrivacySetting : BaseEntity, IAuditable
+public sealed class UserPrivacySetting : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -14,6 +14,14 @@ public sealed class UserPrivacySetting : BaseEntity, IAuditable
     public bool AllowTracking { get; private set; }
     public bool AllowRecommendation { get; private set; }
     public bool AllowPersonalizedAds { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserPrivacySetting() { }
 

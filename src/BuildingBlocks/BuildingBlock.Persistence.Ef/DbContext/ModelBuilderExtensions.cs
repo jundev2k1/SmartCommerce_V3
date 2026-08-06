@@ -4,7 +4,7 @@ using System.Reflection;
 using NovaCore.BuildingBlock.Domain.Abstractions;
 using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
-using NovaCore.BuildingBlock.Persistence.Tenancy;
+using NovaCore.BuildingBlock.SharedKernel.Context;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -13,16 +13,15 @@ namespace NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 public static class ModelBuilderExtensions
 {
     /// <summary>
-    /// Applies all IEntityTypeConfiguration implementations
-    /// and shared EF conventions.
+    /// Applies all IEntityTypeConfiguration implementations found in the given assembly. Entity
+    /// Conventions (Tenant/Scope/SoftDelete/Idempotent - see ApplyEntityConventions) are applied
+    /// separately, since they operate on the whole model rather than one assembly's configs.
     /// </summary>
     public static ModelBuilder ApplyPersistenceConfigurations(
         this ModelBuilder modelBuilder,
         Assembly assembly)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(assembly);
-
-        ConfigureGlobalConventions(modelBuilder);
 
         return modelBuilder;
     }
@@ -49,77 +48,68 @@ public static class ModelBuilderExtensions
         return modelBuilder;
     }
 
-    private static void ConfigureGlobalConventions(ModelBuilder modelBuilder)
-    {
-        // Future shared conventions:
-        //
-        // - Default schema
-        // - DeleteBehavior
-        // - Decimal precision
-        // - Strongly Typed Id
-        //
-        // Keep empty until actually needed. Naming convention (snake_case) is already handled at
-        // the DbContextOptionsBuilder level (see DbContextOptionsBuilderExtensions.UsePersistenceDefaults),
-        // not here. Tenant Convention (TenantId mapping/index/query-filter) is ApplyTenantConvention
-        // below, kept separate since it needs the executing DbContext instance, not just the ModelBuilder.
-    }
-
     /// <summary>
-    /// Automatic Tenant Convention: every entity type extending BaseEntity gets TenantId indexed
-    /// and query-filtered against the executing DbContext's CurrentTenantId; IGlobalEntity types
-    /// have TenantId ignored entirely (no column, no filter). No per-entity configuration is ever
-    /// required - see docs/reference/tenant-convention.md.
+    /// The Entity Convention: scans every entity type in the model exactly once and applies the
+    /// matching EF mapping/indexing/query-filtering for each capability interface it implements
+    /// (ITenantEntity, IScopeEntity, ISoftDeleteEntity, IIdempotentEntity) - no entity, and no
+    /// per-service IEntityTypeConfiguration, ever configures these by hand. An entity opts in
+    /// purely by implementing the interface; it may implement any combination of them.
+    ///
+    /// TenantId/ScopeId are compared against NovaCore.BuildingBlock.SharedKernel.Context.
+    /// ExecutionContext.Current - the ambient, request-scoped identity initialized once by
+    /// ExecutionContextMiddleware - never a DI-resolved service and never the DbContext instance
+    /// itself. Falls back to Guid.Empty when no tenant/scope is present on the current request
+    /// (anonymous requests, background jobs, before token issuance emits these claims), which is
+    /// also what TenantAssignmentInterceptor assigns in that same situation - so the filter and
+    /// the assignment always agree.
+    ///
+    /// EF Core only allows one HasQueryFilter per entity type, so filters from every applicable
+    /// capability are ANDed together into a single predicate per entity rather than calling
+    /// HasQueryFilter once per capability (which would silently overwrite, not combine).
     /// </summary>
-    public static ModelBuilder ApplyTenantConvention(
-        this ModelBuilder modelBuilder,
-        ITenantAwareDbContext context,
-        ITenantConventionRegistry registry)
+    public static ModelBuilder ApplyEntityConventions(this ModelBuilder modelBuilder)
     {
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             var clrType = entityType.ClrType;
-            if (!typeof(BaseEntity).IsAssignableFrom(clrType))
-                continue;
+            var parameter = Expression.Parameter(clrType, "e");
+            Expression? filter = null;
 
-            if (!registry.IsTenantScoped(clrType))
+            if (typeof(ITenantEntity).IsAssignableFrom(clrType))
             {
-                // A rare IGlobalEntity (e.g. Tenant itself) may deliberately repurpose the
-                // inherited TenantId as its own explicit key/identity via its own
-                // IEntityTypeConfiguration - respect that instead of blindly ignoring a property
-                // already wired into the primary key.
-                var alreadyKeyed = entityType.FindPrimaryKey()?.Properties
-                    .Any(p => p.Name == nameof(BaseEntity.TenantId)) == true;
-
-                if (!alreadyKeyed)
-                    modelBuilder.Entity(clrType).Ignore(nameof(BaseEntity.TenantId));
-
-                continue;
+                modelBuilder.Entity(clrType).HasIndex(nameof(ITenantEntity.TenantId));
+                filter = Combine(filter, EqualTo(parameter, nameof(ITenantEntity.TenantId), TenantComparand.Body));
             }
 
-            modelBuilder.Entity(clrType).HasIndex(nameof(BaseEntity.TenantId));
-            modelBuilder.Entity(clrType).HasQueryFilter(BuildTenantFilter(clrType, context));
+            if (typeof(IScopeEntity).IsAssignableFrom(clrType))
+            {
+                modelBuilder.Entity(clrType).HasIndex(nameof(IScopeEntity.ScopeId));
+                filter = Combine(filter, EqualTo(parameter, nameof(IScopeEntity.ScopeId), ScopeComparand.Body));
+            }
+
+            if (typeof(ISoftDeleteEntity).IsAssignableFrom(clrType))
+            {
+                modelBuilder.Entity(clrType).HasIndex(nameof(ISoftDeleteEntity.IsDeleted));
+                var isDeleted = Expression.Property(parameter, nameof(ISoftDeleteEntity.IsDeleted));
+                filter = Combine(filter, Expression.Not(isDeleted));
+            }
+
+            if (typeof(IIdempotentEntity).IsAssignableFrom(clrType))
+                modelBuilder.Entity(clrType).HasIndex(nameof(IIdempotentEntity.IdempotencyKey));
+
+            if (filter is not null)
+                modelBuilder.Entity(clrType).HasQueryFilter(Expression.Lambda(filter, parameter));
         }
 
         return modelBuilder;
     }
 
-    /// <summary>
-    /// Builds `e => e.TenantId == context.CurrentTenantId` for the given CLR type. The right-hand
-    /// side deliberately closes over `context` (an instance member access), not a captured value -
-    /// EF Core re-evaluates instance-member references in a query filter against whichever
-    /// DbContext instance is actually executing the query, so this stays correct per-request
-    /// despite the compiled model being built once and cached across instances.
-    /// </summary>
-    private static LambdaExpression BuildTenantFilter(Type clrType, ITenantAwareDbContext context)
-    {
-        var parameter = Expression.Parameter(clrType, "e");
-        var tenantIdProperty = Expression.Property(parameter, nameof(BaseEntity.TenantId));
+    private static readonly Expression<Func<Guid>> TenantComparand = () => ExecutionContext.Current.TenantId ?? Guid.Empty;
+    private static readonly Expression<Func<Guid>> ScopeComparand = () => ExecutionContext.Current.ScopeId ?? Guid.Empty;
 
-        var contextConstant = Expression.Constant(context, typeof(ITenantAwareDbContext));
-        var currentTenantIdProperty = Expression.Property(contextConstant, nameof(ITenantAwareDbContext.CurrentTenantId));
+    private static Expression EqualTo(ParameterExpression parameter, string propertyName, Expression comparand) =>
+        Expression.Equal(Expression.Property(parameter, propertyName), comparand);
 
-        var body = Expression.Equal(tenantIdProperty, currentTenantIdProperty);
-
-        return Expression.Lambda(body, parameter);
-    }
+    private static Expression Combine(Expression? left, Expression right) =>
+        left is null ? right : Expression.AndAlso(left, right);
 }

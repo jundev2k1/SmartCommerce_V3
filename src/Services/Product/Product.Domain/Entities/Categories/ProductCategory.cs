@@ -2,7 +2,7 @@ using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 namespace NovaCore.Product.Domain.Entities.Categories;
 
-public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
+public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public CategoryCode Code { get; private set; } = null!;
     public string Name { get; private set; } = string.Empty;
@@ -12,6 +12,14 @@ public sealed class ProductCategory : AggregateRoot<Guid>, IAuditable
     public string Note { get; private set; } = string.Empty;
 
     public IEnumerable<ProductCategoryTranslation> Translation { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductCategory() { }
 

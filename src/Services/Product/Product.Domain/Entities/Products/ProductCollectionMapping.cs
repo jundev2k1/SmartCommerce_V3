@@ -8,7 +8,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// how Product references a collection without holding an object reference to another root.
 /// Owned by Product (no independent identity, no repository of its own).
 /// </summary>
-public sealed class ProductCollectionMapping : BaseEntity
+public sealed class ProductCollectionMapping : BaseEntity, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
@@ -16,6 +16,14 @@ public sealed class ProductCollectionMapping : BaseEntity
     public ProductCollection Collection { get; private set; } = default!;
 
     public int DisplayOrder { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductCollectionMapping() { }
 

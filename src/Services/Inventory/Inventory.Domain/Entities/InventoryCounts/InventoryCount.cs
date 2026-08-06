@@ -2,7 +2,7 @@ using NovaCore.Inventory.Domain.Entities.Warehouses;
 
 namespace NovaCore.Inventory.Domain.Entities.InventoryCounts;
 
-public sealed class InventoryCount : AggregateRoot<Guid>, IAuditable
+public sealed class InventoryCount : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Number { get; private set; } = string.Empty;
     public Guid WarehouseId { get; private set; }
@@ -13,6 +13,14 @@ public sealed class InventoryCount : AggregateRoot<Guid>, IAuditable
     public DateTime? ApprovedAt { get; private set; }
     public string Description { get; private set; } = string.Empty;
     public ICollection<InventoryCountItem> Items { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private InventoryCount() { }

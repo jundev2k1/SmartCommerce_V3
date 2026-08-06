@@ -4,7 +4,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// Owned child of Product, optionally scoped to a single Variant. Stores a raw Url today;
 /// migrating to a dedicated Media service later only requires swapping Url for a MediaId.
 /// </summary>
-public sealed class ProductMedia : BaseEntity<Guid>
+public sealed class ProductMedia : BaseEntity<Guid>, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
@@ -18,6 +18,14 @@ public sealed class ProductMedia : BaseEntity<Guid>
     public int DisplayOrder { get; private set; }
     public bool IsPrimary { get; private set; }
     public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductMedia() { }
 

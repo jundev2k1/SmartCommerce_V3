@@ -6,7 +6,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// Owned child of Account - one enrolled second factor (TOTP app, SMS, email, or a backup-code
 /// set). An Account may hold several; IsPrimary marks the one offered first at login.
 /// </summary>
-public sealed class MfaMethod : BaseEntity<Guid>, IAuditable
+public sealed class MfaMethod : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class MfaMethod : BaseEntity<Guid>, IAuditable
     public DateTime? LastUsedAt { get; private set; }
 
     public ICollection<MfaBackupCode> BackupCodes { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private MfaMethod() { }
 

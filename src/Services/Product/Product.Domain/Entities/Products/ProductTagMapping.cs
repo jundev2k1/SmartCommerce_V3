@@ -6,13 +6,21 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// Owned child of Product,
 /// referenced back via Product.TagMappings - the many-to-many mapping of products to tags.
 /// </summary>
-public sealed class ProductTagMapping : BaseEntity
+public sealed class ProductTagMapping : BaseEntity, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
     public Guid TagId { get; private set; }
     public ProductTag Tag { get; private set; } = default!;
     public int DisplayOrder { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductTagMapping() { }
 

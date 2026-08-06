@@ -4,7 +4,7 @@ using NovaCore.Inventory.Domain.Metadata;
 namespace NovaCore.Inventory.Domain.Entities.Inventories;
 
 /// <summary>Per-warehouse stock level for a single product variant.</summary>
-public sealed class InventoryStock : AggregateRoot<Guid>, IAuditable
+public sealed class InventoryStock : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid WarehouseId { get; private set; }
     public Warehouse Warehouse { get; private set; } = default!;
@@ -23,6 +23,14 @@ public sealed class InventoryStock : AggregateRoot<Guid>, IAuditable
     /// <summary>Sellable stock - derived, never stored directly (OnHand minus what's already promised).</summary>
     public int AvailableQuantity => OnHandQuantity.Value - ReservedQuantity.Value;
     public InventoryMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private InventoryStock() { }

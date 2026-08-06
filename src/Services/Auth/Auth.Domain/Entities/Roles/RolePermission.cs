@@ -6,12 +6,20 @@ namespace NovaCore.Auth.Domain.Entities.Roles;
 /// Owned child of Role, referenced back via Role.Permissions - the many-to-many mapping of
 /// roles to the permission definitions they grant.
 /// </summary>
-public sealed class RolePermission : BaseEntity
+public sealed class RolePermission : BaseEntity, ITenantEntity
 {
     public Guid RoleId { get; init; }
     public Role Role { get; init; } = default!;
     public Guid PermissionDefinitionId { get; init; }
     public PermissionDefinition PermissionDefinition { get; init; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private RolePermission() { }
 

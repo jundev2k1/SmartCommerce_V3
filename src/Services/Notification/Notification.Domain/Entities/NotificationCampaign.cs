@@ -8,7 +8,7 @@ namespace NovaCore.Notification.Domain.Entities;
 /// Application-layer/worker concern - this aggregate only tracks what to send, to whom, on what
 /// schedule, and records when it last ran via <see cref="RecordExecution"/>.
 /// </summary>
-public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
+public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
@@ -18,6 +18,14 @@ public sealed class NotificationCampaign : AggregateRoot<Guid>, IAuditable
     public DateTime? LastExecutedAt { get; private set; }
     public DateTime? NextExecutionAt { get; private set; }
     public ICollection<NotificationCampaignTarget> Targets { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private NotificationCampaign() { }
 

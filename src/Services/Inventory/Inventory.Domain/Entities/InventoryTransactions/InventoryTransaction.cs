@@ -10,7 +10,7 @@ namespace NovaCore.Inventory.Domain.Entities.InventoryTransactions;
 /// Immutable ledger entry recording a single stock movement - never mutated after creation, only
 /// ever appended to (same idea as OrderDiscount's applied amounts being append-only history).
 /// </summary>
-public sealed class InventoryTransaction : AggregateRoot<Guid>
+public sealed class InventoryTransaction : AggregateRoot<Guid>, ITenantEntity
 {
     public Guid InventoryId { get; private set; }
     public InventoryStock Inventory { get; private set; } = default!;
@@ -30,6 +30,14 @@ public sealed class InventoryTransaction : AggregateRoot<Guid>
     public int AfterReservedQuantity { get; private set; }
     public string Description { get; private set; } = string.Empty;
     public InventoryTransactionMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private InventoryTransaction() { }
 

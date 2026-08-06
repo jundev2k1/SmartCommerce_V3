@@ -2,7 +2,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.Warehouses;
 
-public sealed class WarehouseZone : BaseEntity<Guid>, IAuditable
+public sealed class WarehouseZone : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid WarehouseId { get; private set; }
     public Warehouse Warehouse { get; private set; } = default!;
@@ -18,6 +18,14 @@ public sealed class WarehouseZone : BaseEntity<Guid>, IAuditable
     public PickingStrategy PickingStrategy { get; private set; }
     public bool AllowMixedLot { get; private set; }
     public WarehouseZoneMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private WarehouseZone() { }
 

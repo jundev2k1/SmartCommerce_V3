@@ -11,7 +11,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// A Variant is identified only by its selected ProductOptionValues (via
 /// <see cref="SelectedOptionValues"/>); it never owns or duplicates option data itself.
 /// </summary>
-public sealed class ProductVariant : BaseEntity<Guid>, IAuditable
+public sealed class ProductVariant : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public Product Product { get; private set; } = default!;
@@ -31,6 +31,14 @@ public sealed class ProductVariant : BaseEntity<Guid>, IAuditable
     public ICollection<VariantOptionValue> SelectedOptionValues { get; private set; } = [];
     public ICollection<ProductBundleItem> BundleItems { get; private set; } = [];
     public ICollection<ProductVariantTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductVariant() { }
 

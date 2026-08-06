@@ -8,12 +8,20 @@ namespace NovaCore.Auth.Domain.Entities.Positions;
 /// display copy. Id doubles as the owning Position's Id (one row per language, see
 /// PositionTranslationConfig for the composite (Id, LanguageCode) key).
 /// </summary>
-public sealed class PositionTranslation : BaseEntity<Guid>, IAuditable
+public sealed class PositionTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Position Position { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string DisplayName { get; private set; } = string.Empty;
     public string? Description { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private PositionTranslation() { }
 

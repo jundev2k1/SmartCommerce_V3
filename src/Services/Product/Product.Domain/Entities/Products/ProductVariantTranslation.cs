@@ -5,7 +5,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// <summary>
 /// Owned child of Product - a locale-specific override of the product's display copy.
 /// </summary>
-public sealed class ProductVariantTranslation : BaseEntity<Guid>
+public sealed class ProductVariantTranslation : BaseEntity<Guid>, ITenantEntity
 {
     public ProductVariant Variant { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
@@ -14,6 +14,14 @@ public sealed class ProductVariantTranslation : BaseEntity<Guid>
     public string Description { get; private set; } = string.Empty;
     public string? SeoTitle { get; private set; }
     public string? SeoDescription { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductVariantTranslation() { }
 

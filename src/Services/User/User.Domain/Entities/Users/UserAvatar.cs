@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// replacement so downstream consumers (CDN/cache) can bust cached copies without a MediaId
 /// change forcing a full re-upload.
 /// </summary>
-public sealed class UserAvatar : BaseEntity, IAuditable
+public sealed class UserAvatar : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -13,6 +13,14 @@ public sealed class UserAvatar : BaseEntity, IAuditable
     public Guid? ThumbnailMediaId { get; private set; }
     public AvatarDisplayMode DisplayMode { get; private set; }
     public int Version { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserAvatar() { }
 

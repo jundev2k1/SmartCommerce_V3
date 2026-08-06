@@ -7,7 +7,7 @@ namespace NovaCore.User.Domain.Entities.Tags;
 /// Translations - Name itself is the internal, language-independent code and is never
 /// translated. Users reference tags via UserTagMapping.
 /// </summary>
-public sealed class UserTag : AggregateRoot<Guid>, IAuditable
+public sealed class UserTag : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public TagCode Name { get; private set; } = null!;
     public string Description { get; private set; } = string.Empty;
@@ -15,6 +15,14 @@ public sealed class UserTag : AggregateRoot<Guid>, IAuditable
     public TagScope Scope { get; private set; }
     public bool IsSystem { get; private set; }
     public ICollection<UserTagTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserTag() { }
 

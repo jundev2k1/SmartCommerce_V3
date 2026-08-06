@@ -7,7 +7,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// several providers, each with its own lifecycle (link/unlink), so this is a full entity rather
 /// than a value object.
 /// </summary>
-public sealed class ExternalIdentity : BaseEntity<Guid>, IAuditable
+public sealed class ExternalIdentity : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
@@ -15,6 +15,14 @@ public sealed class ExternalIdentity : BaseEntity<Guid>, IAuditable
     public string ProviderUserId { get; private set; } = string.Empty;
     public DateTime LinkedAt { get; private set; }
     public DateTime? LastLoginAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ExternalIdentity() { }
 

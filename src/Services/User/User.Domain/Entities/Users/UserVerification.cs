@@ -8,7 +8,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// confirmation on one Email/Phone row), while a VerificationType.Identity/Business/Address
 /// record here has no corresponding UserContact at all - this is the broader KYC-style workflow.
 /// </summary>
-public sealed class UserVerification : BaseEntity<Guid>, IAuditable
+public sealed class UserVerification : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class UserVerification : BaseEntity<Guid>, IAuditable
     public DateTime? VerifiedAt { get; private set; }
     public DateTime? ExpiredAt { get; private set; }
     public string? Note { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserVerification() { }
 

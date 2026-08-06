@@ -4,7 +4,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.InventoryReservations;
 
-public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable
+public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Number { get; private set; } = string.Empty;
     public InventoryReservationType Type { get; private set; }
@@ -22,6 +22,14 @@ public sealed class InventoryReservation : AggregateRoot<Guid>, IAuditable
     public DateTime? ExpiredAt { get; private set; }
     public string Reason { get; private set; } = string.Empty;
     public InventoryReservationMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private InventoryReservation() { }

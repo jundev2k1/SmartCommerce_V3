@@ -7,7 +7,7 @@ namespace NovaCore.Product.Domain.Entities.Options;
 /// shared option dimension. Composite-keyed by (ProductOptionDefinitionId, LanguageCode): one
 /// entry per language, no independent identity.
 /// </summary>
-public sealed class ProductOptionDefinitionTranslation : BaseEntity, IAuditable, IGlobalEntity
+public sealed class ProductOptionDefinitionTranslation : BaseEntity, IAuditable
 {
     public Guid ProductOptionDefinitionId { get; private set; }
     public ProductOptionDefinition ProductOptionDefinition { get; private set; } = default!;

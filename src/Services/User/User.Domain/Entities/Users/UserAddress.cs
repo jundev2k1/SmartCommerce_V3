@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// "default shipping" and "default billing" are independent single-winner flags enforced by the
 /// User aggregate root.
 /// </summary>
-public sealed class UserAddress : BaseEntity<Guid>, IAuditable
+public sealed class UserAddress : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -21,6 +21,14 @@ public sealed class UserAddress : BaseEntity<Guid>, IAuditable
     public bool IsDefaultShipping { get; private set; }
     public bool IsDefaultBilling { get; private set; }
     public bool IsVerified { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserAddress() { }
 

@@ -5,7 +5,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.InventorySerials;
 
-public sealed class InventorySerial : AggregateRoot<Guid>, IAuditable
+public sealed class InventorySerial : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public Guid InventoryId { get; private set; }
     public InventoryStock Inventory { get; private set; } = default!;
@@ -16,6 +16,14 @@ public sealed class InventorySerial : AggregateRoot<Guid>, IAuditable
     public Guid? InventoryDocumentId { get; private set; }
     public InventoryDocument? Document { get; private set; }
     public InventorySerialMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private InventorySerial() { }

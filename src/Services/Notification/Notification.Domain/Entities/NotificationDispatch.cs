@@ -8,7 +8,7 @@ namespace NovaCore.Notification.Domain.Entities;
 /// resolves via <see cref="NotificationChannel"/>. InApp is rejected in <see cref="Create"/> since
 /// in-app entries are written directly to <see cref="UserNotification"/>, never queued here.
 /// </summary>
-public sealed class NotificationDispatch : AggregateRoot<Guid>, IAuditable
+public sealed class NotificationDispatch : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public DispatchReference Reference { get; private set; } = null!;
     public NotificationChannelType Channel { get; private set; }
@@ -19,6 +19,14 @@ public sealed class NotificationDispatch : AggregateRoot<Guid>, IAuditable
     public DateTime? NextRetryAt { get; private set; }
     public string? LastError { get; private set; }
     public DateTime? DispatchedAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private NotificationDispatch() { }
 

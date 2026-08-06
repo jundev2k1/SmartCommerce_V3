@@ -7,7 +7,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// UserRole and UserTag are independent aggregate roots referenced via join entities
 /// (UserRoleAssignment/UserTagMapping), not owned - many users share the same role/tag.
 /// </summary>
-public sealed class User : AggregateRoot<Guid>, IAuditable
+public sealed class User : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Username { get; private set; } = string.Empty;
     public string DisplayName { get; private set; } = string.Empty;
@@ -30,6 +30,14 @@ public sealed class User : AggregateRoot<Guid>, IAuditable
     public ICollection<UserRoleAssignment> RoleAssignments { get; private set; } = [];
     public UserPermissionSnapshot? PermissionSnapshot { get; private set; }
     public ICollection<UserTagMapping> TagMappings { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private User() { }
 

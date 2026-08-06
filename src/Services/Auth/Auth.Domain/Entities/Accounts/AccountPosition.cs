@@ -10,7 +10,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// RolePermission, this mapping has its own lifecycle (AssignedAt/RevokedAt/Status) and therefore
 /// keeps a surrogate Id, per the many-to-many exception in domain-coding-conventions.md Rule 4.
 /// </summary>
-public sealed class AccountPosition : BaseEntity<Guid>, IAuditable
+public sealed class AccountPosition : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
@@ -21,6 +21,14 @@ public sealed class AccountPosition : BaseEntity<Guid>, IAuditable
     public DateTime? ExpiredAt { get; private set; }
     public DateTime? RevokedAt { get; private set; }
     public AccountPositionStatus Status { get; private set; } = AccountPositionStatus.Active;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private AccountPosition() { }
 

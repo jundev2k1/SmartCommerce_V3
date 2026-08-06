@@ -2,12 +2,20 @@ using NovaCore.BuildingBlock.Domain.ValueObjects;
 
 namespace NovaCore.Product.Domain.Entities.Categories;
 
-public sealed class ProductCategoryTranslation : BaseEntity<Guid>, IAuditable
+public sealed class ProductCategoryTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public ProductCategory Category { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductCategoryTranslation() { }
 

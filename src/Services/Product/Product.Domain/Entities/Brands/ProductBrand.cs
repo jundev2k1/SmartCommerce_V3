@@ -6,7 +6,7 @@ namespace NovaCore.Product.Domain.Entities.Brands;
 /// Independent, reusable catalog lookup.
 /// Products reference a brand via Product.BrandId.
 /// </summary>
-public sealed class ProductBrand : AggregateRoot<Guid>, IAuditable
+public sealed class ProductBrand : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
@@ -19,6 +19,14 @@ public sealed class ProductBrand : AggregateRoot<Guid>, IAuditable
     public string Note { get; private set; } = string.Empty;
     public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
     public ICollection<ProductBrandTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductBrand() { }
 

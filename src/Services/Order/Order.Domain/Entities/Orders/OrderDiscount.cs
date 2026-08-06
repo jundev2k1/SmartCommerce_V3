@@ -2,7 +2,7 @@ using NovaCore.Order.Domain.Metadata;
 
 namespace NovaCore.Order.Domain.Entities.Orders;
 
-public sealed class OrderDiscount : BaseEntity<long>, IAuditable
+public sealed class OrderDiscount : BaseEntity<long>, IAuditable, ITenantEntity
 {
     public Guid OrderId { get; private set; }
     public long? OrderItemId { get; private set; }

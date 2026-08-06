@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// Order/Security default to enabled since those are transactional, not marketing; the rest
 /// default to disabled, requiring explicit opt-in.
 /// </summary>
-public sealed class UserNotificationSetting : BaseEntity, IAuditable
+public sealed class UserNotificationSetting : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class UserNotificationSetting : BaseEntity, IAuditable
     public bool OrderEnabled { get; private set; } = true;
     public bool PromotionEnabled { get; private set; }
     public bool SecurityEnabled { get; private set; } = true;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserNotificationSetting() { }
 

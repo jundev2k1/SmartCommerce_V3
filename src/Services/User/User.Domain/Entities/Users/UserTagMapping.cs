@@ -8,12 +8,20 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// tag without holding an object reference to another root. Owned by User (no independent
 /// identity, no repository of its own).
 /// </summary>
-public sealed class UserTagMapping : BaseEntity
+public sealed class UserTagMapping : BaseEntity, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
     public Guid TagId { get; private set; }
     public UserTag Tag { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserTagMapping() { }
 

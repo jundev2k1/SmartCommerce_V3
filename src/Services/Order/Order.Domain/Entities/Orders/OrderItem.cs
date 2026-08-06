@@ -2,7 +2,7 @@ using NovaCore.BuildingBlock.Application.Exceptions;
 
 namespace NovaCore.Order.Domain.Entities.Orders;
 
-public sealed class OrderItem : BaseEntity<long>, IAuditable
+public sealed class OrderItem : BaseEntity<long>, IAuditable, ITenantEntity
 {
     public Guid OrderId { get; private set; }
     public int OrderItemNo { get; private set; }
@@ -29,6 +29,14 @@ public sealed class OrderItem : BaseEntity<long>, IAuditable
     public Money FinalAmount { get; private set; } = default!;
 
     public ICollection<OrderDiscount> Discounts { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private OrderItem() { }
 

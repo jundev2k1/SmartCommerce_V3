@@ -7,7 +7,7 @@ namespace NovaCore.Order.Domain.Entities.Catalogs;
 /// surrogate key) - keyed at variation level, not product level, since that's the actual
 /// priced/orderable unit now that a Product can have many variations.
 /// </summary>
-public sealed class ProductCatalog : BaseEntity<Guid>
+public sealed class ProductCatalog : BaseEntity<Guid>, ITenantEntity
 {
     public Guid ProductId { get; private set; }
     public Guid VariationId { get; private set; }
@@ -18,6 +18,14 @@ public sealed class ProductCatalog : BaseEntity<Guid>
     public ProductCatalogStatus Status { get; private set; } = ProductCatalogStatus.Active;
 
     public bool IsOrderable => Status == ProductCatalogStatus.Active;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductCatalog() { }
 

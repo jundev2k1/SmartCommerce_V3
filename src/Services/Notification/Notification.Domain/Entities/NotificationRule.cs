@@ -8,13 +8,21 @@ namespace NovaCore.Notification.Domain.Entities;
 /// Operations enables or disables one notification channel for an event without a code change or
 /// redeploy - the whole point of normalizing targets instead of hardcoding them in a consumer.
 /// </summary>
-public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable
+public sealed class NotificationRule : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public string EventType { get; private set; } = string.Empty;
     public NotificationRuleStatus Status { get; private set; }
     public ICollection<NotificationRuleTarget> Targets { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private NotificationRule() { }
 

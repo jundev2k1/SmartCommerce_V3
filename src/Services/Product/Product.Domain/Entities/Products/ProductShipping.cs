@@ -5,7 +5,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// shipping characteristics of a variant. Never calculates shipping fees; that is a Shipping
 /// service concern.
 /// </summary>
-public sealed class ProductShipping : BaseEntity<Guid>
+public sealed class ProductShipping : BaseEntity<Guid>, ITenantEntity
 {
     public ShippingClass ShippingClass { get; private set; }
     public Weight? Weight { get; private set; }
@@ -14,6 +14,14 @@ public sealed class ProductShipping : BaseEntity<Guid>
     public bool IsFragile { get; private set; }
     public bool IsHazardous { get; private set; }
     public bool AllowBackOrder { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductShipping() { }
 

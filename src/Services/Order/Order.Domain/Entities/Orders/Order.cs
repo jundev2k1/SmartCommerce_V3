@@ -5,7 +5,7 @@ using NovaCore.Order.Domain.Entities.Orders.Data;
 
 namespace NovaCore.Order.Domain.Entities.Orders;
 
-public sealed class Order : AggregateRoot<Guid>, IAuditable
+public sealed class Order : AggregateRoot<Guid>, IAuditable, ITenantEntity, IIdempotentEntity
 {
     public OrderNumber OrderNumber { get; private set; } = default!;
     public OrderOwner Owner { get; private set; } = default!;
@@ -22,6 +22,14 @@ public sealed class Order : AggregateRoot<Guid>, IAuditable
     public Money GrandTotal { get; private set; } = default!;
     public string IdempotencyKey { get; private set; } = string.Empty;
     public Guid? CreatedById { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private Order() { }

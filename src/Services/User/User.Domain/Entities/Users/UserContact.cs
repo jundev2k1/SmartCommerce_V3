@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// "Primary" is scoped per ContactType - a user can have one primary Email and, independently,
 /// one primary Phone - enforced by the User aggregate root.
 /// </summary>
-public sealed class UserContact : BaseEntity<Guid>, IAuditable
+public sealed class UserContact : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -15,6 +15,14 @@ public sealed class UserContact : BaseEntity<Guid>, IAuditable
     public bool IsPrimary { get; private set; }
     public bool IsVerified { get; private set; }
     public DateTime? VerifiedAt { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserContact() { }
 

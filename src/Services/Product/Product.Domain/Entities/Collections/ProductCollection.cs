@@ -6,7 +6,7 @@ namespace NovaCore.Product.Domain.Entities.Collections;
 /// Independent, reusable merchandising collection (e.g. "Summer Sale", "New Arrivals"). A Product
 /// can belong to multiple collections via <see cref="Products.ProductCollectionMapping"/>.
 /// </summary>
-public sealed class ProductCollection : AggregateRoot<Guid>, IAuditable
+public sealed class ProductCollection : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
@@ -19,6 +19,14 @@ public sealed class ProductCollection : AggregateRoot<Guid>, IAuditable
     public CatalogStatus Status { get; private set; } = CatalogStatus.Active;
 
     public ICollection<ProductCollectionTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductCollection() { }
 

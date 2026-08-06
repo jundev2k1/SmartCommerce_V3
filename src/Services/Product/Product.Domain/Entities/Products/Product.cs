@@ -11,7 +11,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// lookup memberships). Pricing, stock, promotions, and shipping-fee calculation are
 /// intentionally absent - those belong to their own services.
 /// </summary>
-public sealed class Product : AggregateRoot<Guid>, IAuditable
+public sealed class Product : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public Slug Slug { get; private set; } = null!;
@@ -37,6 +37,14 @@ public sealed class Product : AggregateRoot<Guid>, IAuditable
     public ICollection<ProductCategoryMapping> CategoryMappings { get; private set; } = [];
     public ICollection<ProductTagMapping> TagMappings { get; private set; } = [];
     public ICollection<ProductCollectionMapping> CollectionMappings { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private Product() { }
 

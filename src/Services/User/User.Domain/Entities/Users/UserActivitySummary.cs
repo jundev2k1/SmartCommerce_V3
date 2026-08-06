@@ -6,7 +6,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// (the category the user buys from most) - distinct from UserPreference.FavoriteCategories,
 /// which is the user's own explicit, self-curated list.
 /// </summary>
-public sealed class UserActivitySummary : BaseEntity, IAuditable
+public sealed class UserActivitySummary : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class UserActivitySummary : BaseEntity, IAuditable
     public int TotalOrderCount { get; private set; }
     public decimal TotalSpentAmount { get; private set; }
     public Guid? FavoriteCategory { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserActivitySummary() { }
 

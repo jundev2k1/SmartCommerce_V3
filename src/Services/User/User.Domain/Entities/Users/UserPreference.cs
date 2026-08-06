@@ -5,7 +5,7 @@ namespace NovaCore.User.Domain.Entities.Users;
 /// and SearchHistory are capped, most-recent-first lists - unbounded growth would turn this row
 /// into an ever-growing log rather than a personalization signal.
 /// </summary>
-public sealed class UserPreference : BaseEntity, IAuditable
+public sealed class UserPreference : BaseEntity, IAuditable, ITenantEntity
 {
     private const int MaxRecentlyViewedProducts = 50;
     private const int MaxSearchHistoryEntries = 50;
@@ -22,6 +22,14 @@ public sealed class UserPreference : BaseEntity, IAuditable
     public string? PreferredWarehouseCode { get; private set; }
     public IReadOnlyCollection<Guid> RecentlyViewedProducts => _recentlyViewedProducts;
     public IReadOnlyCollection<string> SearchHistory => _searchHistory;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserPreference() { }
 

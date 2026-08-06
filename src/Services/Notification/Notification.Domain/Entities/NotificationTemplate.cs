@@ -7,12 +7,20 @@ namespace NovaCore.Notification.Domain.Entities;
 /// a Telegram template's) - a multi-channel notification is expressed as multiple targets, each
 /// pointing at its own channel-appropriate template, not one template spanning channels.
 /// </summary>
-public sealed class NotificationTemplate : AggregateRoot<Guid>, IAuditable
+public sealed class NotificationTemplate : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public NotificationChannelType Channel { get; private set; }
     public TemplateContent Content { get; private set; } = null!;
     public NotificationTemplateStatus Status { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private NotificationTemplate() { }
 

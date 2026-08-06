@@ -7,11 +7,9 @@ using NovaCore.Auth.Domain.Entities.Scopes;
 using NovaCore.Auth.Domain.Entities.Tenants;
 using NovaCore.Auth.Domain.Entities.TokenBlacklists;
 
-using NovaCore.BuildingBlock.Application.Abstractions.Services;
 using NovaCore.BuildingBlock.Persistence.Ef.DbContext;
 using NovaCore.BuildingBlock.Persistence.Ef.Inbox;
 using NovaCore.BuildingBlock.Persistence.Ef.Outbox;
-using NovaCore.BuildingBlock.Persistence.Tenancy;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -31,8 +29,7 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
         IdentityRoleClaim<Guid>,
         IdentityUserToken<Guid>>(options),
     IOutboxDbContext,
-    IInboxDbContext,
-    ITenantAwareDbContext
+    IInboxDbContext
 {
     // Custom Entities
     public override DbSet<Account> Users { get; set; } = null!;
@@ -97,9 +94,6 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options)
 
         builder.ApplyPersistenceConfigurations(typeof(AuthDbContext).Assembly);
         builder.ApplyOutboxInboxConfiguration(this);
-        builder.ApplyTenantConvention(this, this.GetService<ITenantConventionRegistry>());
+        builder.ApplyEntityConventions();
     }
-
-    /// <summary>Resolved fresh on every access (never cached) - see ITenantAwareDbContext for why this must stay a live instance member.</summary>
-    public Guid CurrentTenantId => this.GetService<ICurrentTenantService>().TenantId;
 }

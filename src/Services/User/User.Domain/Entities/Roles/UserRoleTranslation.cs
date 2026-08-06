@@ -5,12 +5,20 @@ namespace NovaCore.User.Domain.Entities.Roles;
 /// is the internal, language-independent identifier and must remain unchanged; DisplayName here
 /// is what's shown on client applications and admin portals.
 /// </summary>
-public sealed class UserRoleTranslation : BaseEntity<Guid>, IAuditable
+public sealed class UserRoleTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public UserRole Role { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string DisplayName { get; private set; } = string.Empty;
     public string? Description { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserRoleTranslation() { }
 

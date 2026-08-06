@@ -7,7 +7,7 @@ namespace NovaCore.Product.Domain.Entities.Specifications;
 /// that groups related <see cref="SpecificationDefinition"/> fields for display on the product page.
 /// Sellers never create groups or definitions; they only supply values via ProductSpecification.
 /// </summary>
-public sealed class SpecificationGroup : AggregateRoot<Guid>, IAuditable, IGlobalEntity
+public sealed class SpecificationGroup : AggregateRoot<Guid>, IAuditable
 {
     public string Code { get; private set; } = string.Empty;
     public int DisplayOrder { get; private set; }

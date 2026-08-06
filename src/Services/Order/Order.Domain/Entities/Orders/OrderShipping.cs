@@ -1,6 +1,6 @@
 namespace NovaCore.Order.Domain.Entities.Orders;
 
-public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
+public sealed class OrderShipping : BaseEntity<Guid>, IAuditable, ITenantEntity, IIdempotentEntity
 {
     public Guid OrderId { get; private set; }
     public string ReceiverName { get; private set; } = string.Empty;
@@ -17,6 +17,14 @@ public sealed class OrderShipping : BaseEntity<Guid>, IAuditable
     public DateTime? InTransitAt { get; private set; }
     public DateTime? DeliveredAt { get; private set; }
     public string? IdempotencyKey { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private OrderShipping() { }

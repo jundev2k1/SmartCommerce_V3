@@ -6,7 +6,7 @@ namespace NovaCore.Product.Domain.Entities.Tags;
 /// Independent, reusable catalog lookup - flat, no hierarchy.
 /// Products reference tags via ProductTagMapping.
 /// </summary>
-public sealed class ProductTag : AggregateRoot<Guid>, IAuditable
+public sealed class ProductTag : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
@@ -17,6 +17,14 @@ public sealed class ProductTag : AggregateRoot<Guid>, IAuditable
     public string Note { get; private set; } = string.Empty;
 
     public ICollection<ProductTagTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductTag() { }
 

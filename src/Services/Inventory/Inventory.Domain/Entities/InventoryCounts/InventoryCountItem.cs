@@ -2,7 +2,7 @@ using NovaCore.Inventory.Domain.Entities.Inventories;
 
 namespace NovaCore.Inventory.Domain.Entities.InventoryCounts;
 
-public sealed class InventoryCountItem : BaseEntity<long>, IAuditable
+public sealed class InventoryCountItem : BaseEntity<long>, IAuditable, ITenantEntity
 {
     public Guid InventoryCountId { get; private set; }
     public InventoryCount InventoryCount { get; private set; } = default!;
@@ -13,6 +13,14 @@ public sealed class InventoryCountItem : BaseEntity<long>, IAuditable
     public Quantity? ActualQuantity { get; private set; }
     public int DifferenceQuantity { get; private set; }
     public string Note { get; private set; } = string.Empty;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private InventoryCountItem() { }
 

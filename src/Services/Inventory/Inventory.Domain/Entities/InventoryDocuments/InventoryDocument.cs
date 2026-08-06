@@ -4,7 +4,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.InventoryDocuments;
 
-public sealed class InventoryDocument : AggregateRoot<Guid>, IAuditable
+public sealed class InventoryDocument : AggregateRoot<Guid>, IAuditable, ITenantEntity
 {
     public string Number { get; private set; } = string.Empty;
     public InventoryDocumentType Type { get; private set; }
@@ -20,6 +20,14 @@ public sealed class InventoryDocument : AggregateRoot<Guid>, IAuditable
     public DateTime? CompletedAt { get; private set; }
     public InventoryDocumentMetadata Metadata { get; private set; } = default!;
     public ICollection<InventoryDocumentItem> Items { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     #region Constructor
     private InventoryDocument() { }

@@ -3,7 +3,7 @@ using NovaCore.Inventory.Domain.Metadata;
 
 namespace NovaCore.Inventory.Domain.Entities.InventoryDocuments;
 
-public sealed class InventoryDocumentItem : BaseEntity<long>, IAuditable
+public sealed class InventoryDocumentItem : BaseEntity<long>, IAuditable, ITenantEntity
 {
     public Guid InventoryDocumentId { get; private set; }
     public InventoryDocument Document { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class InventoryDocumentItem : BaseEntity<long>, IAuditable
     public Guid? InventorySerialId { get; private set; }
     public string Description { get; private set; } = string.Empty;
     public InventoryDocumentItemMetadata Metadata { get; private set; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private InventoryDocumentItem() { }
 

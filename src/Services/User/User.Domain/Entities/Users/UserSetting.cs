@@ -1,7 +1,7 @@
 namespace NovaCore.User.Domain.Entities.Users;
 
 /// <summary>Owned 1:1 extension of User holding display/locale/UI preferences.</summary>
-public sealed class UserSetting : BaseEntity, IAuditable
+public sealed class UserSetting : BaseEntity, IAuditable, ITenantEntity
 {
     public Guid UserId { get; private set; }
     public User User { get; private set; } = default!;
@@ -15,6 +15,14 @@ public sealed class UserSetting : BaseEntity, IAuditable
     public string? DashboardLayout { get; private set; }
     public bool SidebarCollapsed { get; private set; }
     public int ItemsPerPage { get; private set; } = 20;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserSetting() { }
 

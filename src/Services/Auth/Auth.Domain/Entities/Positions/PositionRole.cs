@@ -7,12 +7,20 @@ namespace NovaCore.Auth.Domain.Entities.Positions;
 /// of positions to the reusable Role bundles they carry. No independent lifecycle of its own (pure
 /// existence mapping), so - like RolePermission - it has no surrogate Id.
 /// </summary>
-public sealed class PositionRole : BaseEntity
+public sealed class PositionRole : BaseEntity, ITenantEntity
 {
     public Guid PositionId { get; init; }
     public Position Position { get; init; } = default!;
     public Guid RoleId { get; init; }
     public Role Role { get; init; } = default!;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private PositionRole() { }
 

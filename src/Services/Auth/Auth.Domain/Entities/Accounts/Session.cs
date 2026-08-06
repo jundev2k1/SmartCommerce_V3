@@ -5,7 +5,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// Retention-ready: ExpiresAt/Status are queryable by a future cleanup job without any
 /// implementation here.
 /// </summary>
-public sealed class Session : BaseEntity<Guid>
+public sealed class Session : BaseEntity<Guid>, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = default!;
@@ -19,6 +19,14 @@ public sealed class Session : BaseEntity<Guid>
     public DateTime ExpiresAt { get; private set; }
     public DateTime? RevokedAt { get; private set; }
     public RevocationReason? RevokedReason { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private Session() { }
 

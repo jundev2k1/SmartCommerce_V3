@@ -5,12 +5,20 @@ namespace NovaCore.Product.Domain.Entities.Tags;
 /// <summary>
 /// Owned child of ProductTag - a locale-specific override of the tag's metadata.
 /// </summary>
-public sealed class ProductTagTranslation : BaseEntity<Guid>, IAuditable
+public sealed class ProductTagTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public ProductTag ProductTag { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductTagTranslation() { }
 

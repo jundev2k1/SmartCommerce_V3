@@ -15,13 +15,21 @@ public sealed record RuleTargetCreateModel(NotificationChannelType Channel, Guid
 /// Application-layer concern when the rule actually executes, not something this entity decides.
 /// Operations can disable a single target without touching business code (Enabled).
 /// </summary>
-public sealed class NotificationRuleTarget : BaseEntity<Guid>
+public sealed class NotificationRuleTarget : BaseEntity<Guid>, ITenantEntity
 {
     public Guid RuleId { get; private set; }
     public NotificationChannelType Channel { get; private set; }
     public Guid TemplateId { get; private set; }
     public NotificationPriority Priority { get; private set; }
     public bool Enabled { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private NotificationRuleTarget() { }
 

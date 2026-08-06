@@ -6,7 +6,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// Owned child of Variant,
 /// referenced back via Variant.ProductIdentifierId - the full set of trade identifiers for a variant.
 /// </summary>
-public sealed class ProductIdentifier : BaseEntity<Guid>
+public sealed class ProductIdentifier : BaseEntity<Guid>, ITenantEntity
 {
     public Guid VariantId { get; private set; }
     public ProductVariant Variant { get; private set; } = default!;
@@ -17,6 +17,14 @@ public sealed class ProductIdentifier : BaseEntity<Guid>
     public string? Isbn { get; private set; }
     public string? Gtin { get; private set; }
     public string? Mpn { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductIdentifier() { }
 

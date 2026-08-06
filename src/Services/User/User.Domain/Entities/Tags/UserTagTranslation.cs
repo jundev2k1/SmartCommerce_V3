@@ -4,12 +4,20 @@ namespace NovaCore.User.Domain.Entities.Tags;
 /// Owned child of UserTag - a locale-specific override of the tag's display text. UserTag.Name
 /// is the internal, language-independent code; DisplayName here is what's shown to users/admins.
 /// </summary>
-public sealed class UserTagTranslation : BaseEntity<Guid>, IAuditable
+public sealed class UserTagTranslation : BaseEntity<Guid>, IAuditable, ITenantEntity
 {
     public UserTag UserTag { get; private set; } = default!;
     public LanguageCode LanguageCode { get; private set; } = default!;
     public string DisplayName { get; private set; } = string.Empty;
     public string? Description { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private UserTagTranslation() { }
 

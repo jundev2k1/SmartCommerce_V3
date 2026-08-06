@@ -6,7 +6,7 @@ namespace NovaCore.Product.Domain.Entities.Products;
 /// Owned child of Product, referenced back via Product.SeoId.
 /// Split out of Product so SEO fields don't clutter the aggregate root when unused.
 /// </summary>
-public sealed class ProductSeo : BaseEntity<Guid>
+public sealed class ProductSeo : BaseEntity<Guid>, ITenantEntity
 {
     public Product Product { get; private set; } = default!;
     public string? MetaTitle { get; private set; }
@@ -17,6 +17,14 @@ public sealed class ProductSeo : BaseEntity<Guid>
     public string? OgDescription { get; private set; }
     public string? OgImage { get; private set; }
     public ICollection<ProductSeoTranslation> Translations { get; private set; } = [];
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private ProductSeo() { }
 

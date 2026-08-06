@@ -3,7 +3,7 @@ namespace NovaCore.Auth.Domain.Entities.Accounts;
 /// <summary>
 /// Owned child of Account - a refresh token used to obtain new access tokens.
 /// </summary>
-public sealed class RefreshToken : BaseEntity<Guid>
+public sealed class RefreshToken : BaseEntity<Guid>, ITenantEntity
 {
     public Guid AccountId { get; private set; }
     public Account Account { get; private set; } = null!;
@@ -15,6 +15,14 @@ public sealed class RefreshToken : BaseEntity<Guid>
     public bool IsRevoked { get; private set; }
     public DateTime? RevokedAt { get; private set; }
     public RevocationReason? RevokedReason { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private RefreshToken() { }
 

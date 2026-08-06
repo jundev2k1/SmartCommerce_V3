@@ -9,7 +9,7 @@ namespace NovaCore.Order.Domain.Entities.Orders;
 /// isn't coupled to this snapshot's columns. 1:1 with Order, sharing its primary key (OrderId) -
 /// see OrderOwnerConfig.
 /// </summary>
-public sealed class OrderOwner : BaseEntity
+public sealed class OrderOwner : BaseEntity, ITenantEntity, IIdempotentEntity
 {
     public Guid OrderId { get; private set; }
     public Guid OwnerId { get; private set; }
@@ -20,6 +20,14 @@ public sealed class OrderOwner : BaseEntity
     public string OwnerPhoneReverse { get; private set; } = string.Empty;
 
     public string? IdempotencyKey { get; private set; }
+
+    public Guid TenantId { get; private set; }
+
+    public void AssignTenant(Guid tenantId)
+    {
+        if (TenantId == Guid.Empty)
+            TenantId = tenantId;
+    }
 
     private OrderOwner() { }
 
