@@ -9,6 +9,7 @@ CREATE DATABASE inventory_db;
 CREATE DATABASE order_db;
 CREATE DATABASE product_db;
 CREATE DATABASE payment_db;
+CREATE DATABASE promotion_db;
 
 -- Create Hangfire databases for background job processing
 CREATE DATABASE auth_hangfire_db;
